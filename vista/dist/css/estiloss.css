@@ -1,0 +1,125 @@
+.main-footer{
+    display: none;
+}
+.login-page{
+    background-image: url(../img/portada1.png);
+    background-position: center center;
+    background-size: cover;
+    height: 100vh;
+    display:flex;
+    justify-content: flex-start;
+    background-color: rgba(0,0,0,.8);
+    background-blend-mode: hard-light;
+}
+
+.container-login .logo-imag{ 
+    height: 50px; 
+}
+
+.container-login .logo-imag img{
+    width: 150px;
+    position: relative;
+    top: -120px;
+    right:35%;
+    left:35%;
+    margin:0 auto;
+}
+
+ .text-white{
+     color: white;
+ }
+ .login-box-msg{
+     font-size: 3rem;
+ }
+.btn{
+    color:black;
+    font-weight: 700;
+}
+.login-utiles-links a{
+  color: white;
+  line-height: 20px;
+  font-size: 1.5rem;
+}
+.form-login input{
+    background:transparent;
+    border: none;
+    border-bottom: solid 1px white;
+    color:white;
+    padding: 2rem 0;
+
+}
+.container-login{
+    width: 400px;
+    height: 380px;
+    margin:0 8rem;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    background-color: rgba(0, 0, 0, .9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .7);
+    position:relative;    
+}
+
+/* recuperar*/
+.container-recuperar{
+    width: 575px;
+    height: 480px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-self: center;
+    background-color: rgba(0, 0, 0, .9);
+    margin-left: 10rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .7);
+      
+}
+h2{
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+.form-group{
+    margin: 1rem auto;
+    padding: 0;
+
+    
+}
+
+.form-group input{
+    background:transparent;
+    border: none;
+    border-bottom: solid 2px white;
+    color:white;
+    padding: 2rem 0;
+}
+
+.form-group select{
+    background-color: rgba(0, 0, 0, .7);
+    border: none;
+    border-bottom: solid 2px white;
+}
+
+
+.botones{
+    width: 35rem;
+    margin: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (min-width:768px){
+    .login-utiles-links{
+        font-size: 2rem;
+    }
+}
+
+.btn-container{
+    display: flex;
+    justify-content: center;
+} 
