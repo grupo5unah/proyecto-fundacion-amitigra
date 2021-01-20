@@ -24,6 +24,18 @@ body {
 .layout-boxed body {
   height: 100%;
 }
+.contenedor-producto{
+  width: 900px;
+}
+ .form-control {
+  width: 800px;
+} 
+.modal-roles{
+  width:350px ;
+}
+.modal-content{
+  width: 400px;
+}
 body {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;

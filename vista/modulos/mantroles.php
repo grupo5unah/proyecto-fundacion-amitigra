@@ -20,22 +20,21 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol </a>
-
+									<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol  
+									</button> -->
+									<button class="btn btn-default btnCrearRol glyphicon glyphicon-plus-sign" >Agregar Rol</button>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
 									<thead>
 										<tr>
-
 											<th>Rol</th>
 											<th>descripcion</th>
 											<th>creado por</th>
-                      <th>Fecha creacion</th>
-                      <th>Modificado por</th>
+                      						<th>Fecha creacion</th>
+                      						<th>Modificado por</th>
 											<th>Fecha modificacion</th>
 											<th>Acciones</th>
-
 										</tr>
 									</thead>
 									<tbody>
@@ -44,7 +43,7 @@
 
 
 											$sql = "SELECT id_rol,rol,descripcion,creado_por,fecha_creacion,modificado_por,fecha_modificacion
-                              FROM tbl_roles";
+                                            FROM tbl_roles where estado=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -104,7 +103,7 @@
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarRol" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -120,17 +119,17 @@
 									<div class="ingreso-producto form-group">
 										<div class="campos" type="hidden">
 											<label for=""> </label>
-											<input autocomplete="off" class="form-control secundary" type="hidden" name="idInventario" value="0" disabled>
+											<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
 										</div>
 
 										<div class="campos">
 											<label for="">Nombre rol </label>
-											<input id="nombreRol" class="form-control secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="nombreRol" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
-											<input id="descripcionRol" class="form-control secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+											<input id="descripcionRol" class="form-control modal-roles secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
 
 										</div>
 										
@@ -147,11 +146,56 @@
 						</div>
 					</div>
 				</div>
+				<!-- modal registrar rol -->
+				<div class="modal fade" id="modalRegistrarRol" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+                					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Registrar Rol</h3>
+								</div>
+							</div>
+							<div class="modal-body">
+								<form name="" id="formRol">
+									<div class=" form-group">
+										<div class="campos" type="hidden">
+											<label for=""> </label>
+											<input autocomplete="on" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+										</div>
 
+										<div class="campos">
+											<label for="">Nombre rol </label>
+											<input autocomplete="on" id="nombre" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+
+										</div>
+										<div class="campos form-group">
+											<label for="">Descripcion </label>
+											<input id="descripcion" class="form-control modal-roles secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+
+										</div>
+										
+										
+										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+									</div>
+									
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-primary">Registrar rol</button>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				
 			<!-- /.box-footer-->
 		</div>
 		<!-- /.box -->
-
 	</section>
 	<!-- /.content -->
 </div>

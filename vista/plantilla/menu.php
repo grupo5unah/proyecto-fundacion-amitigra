@@ -171,18 +171,19 @@ $columna = $stmt->fetch_assoc();
         <li class="treeview">
           <a href="#">
             <i class="fa fa-copy"></i>
-            <span>Reportes</span>
+            <span>Mantenimientos</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="reporteBitacora"><i class="fa fa-circle-o"></i> Reporte Bitácora</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Reporte Bitacora</a></li>
+            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Pantallas del sistema</a></li>
+            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
+            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
+            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
           </ul>
         </li>
         <!--Fin REPORTES-->
