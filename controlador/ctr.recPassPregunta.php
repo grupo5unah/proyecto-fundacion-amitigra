@@ -8,7 +8,8 @@
         if (isset($_POST['tipo_pregunta']) == 'recuperarPregunta'){
             $correo = $_POST['email'];
 
-            include("../../modelo/conexion.php");
+            global $conn;
+            include("../../modelo/conexionbd.php");
             $consultarPregunta = $conn->prepare("SELECT correo FROM tbl_usuarios WHERE correo=?");
             $consultarPregunta->bind_Param("s",$correo);
             $consultarPregunta->execute();
@@ -22,9 +23,14 @@
                 }
 
                 if($existePregunta){
-                    echo "<div class='alert alert-success' role ='alert'>
-                    Bien hecho, en un momento te redirigimos al cambio de contrasena.
+                    // echo "<div class='alert alert-success' role ='alert'>
+                    // Bien hecho, en un momento te redirigimos al cambio de contrasena.
+                    // </div>";
+
+                    echo "<div class='text-center alert alert-danger' role ='alert'>
+                    <i class='fa fa-ban icon'></i> Función deshabilitada temporalmente.
                     </div>";
+                    exit;
 
                     sleep(3);
 

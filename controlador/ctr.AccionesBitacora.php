@@ -6,7 +6,8 @@ class AccionesBitacora{
         if (isset($_POST['tipo_pregunta']) == 'recuperarPregunta'){
             $correo = $_POST['email'];
 
-            include_once("../../modelo/conexion.php");
+            global $conn;
+            include_once("../../modelo/conexionbd.php");
             $verificarUsuario = $conn->prepare("SELECT id_usuario FROM tbl_usuarios WHERE correo = ?;");
             $verificarUsuario->bind_Param("s",$correo);
             $verificarUsuario->execute();
@@ -29,8 +30,8 @@ class AccionesBitacora{
                     //$id_usuario1 = 55;
 
                     include_once("../../modelo/conexion.php");
-                    $PassCorreo = $conn->prepare("CALL CONTROL_BITACORA (?, ?, ?, ?, ?);");
-                    $PassCorreo->bind_Param("sssss",$fecha, $id_usuario, $objeto, $acciones, $descp);
+                    $PassCorreo = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $PassCorreo->bind_Param("sssii",$acciones, $descp,$fecha,$id, $objeto);
                     $PassCorreo->execute();
 
                     if($PassCorreo->error){
@@ -47,12 +48,16 @@ class AccionesBitacora{
     }
 
     public function ctrPassCorreo(){
+        
         if (isset($_POST['tipo_correo']) == 'recuperarCorreo'){
             $correo = $_POST['email'];
 
-            include_once("../../modelo/conexion2.php");
-            $verificarUsuario = $conn->prepare("SELECT id_usuario FROM tbl_usuarios WHERE correo = ?;");
-            $verificarUsuario->bind_Param("s",$correo);
+            include_once '../../modelo/conexionbd.php';
+            global $conn;
+            $verificarUsuario = $conn->prepare("SELECT id_usuario
+                                                FROM tbl_usuarios
+                                                WHERE correo = ?;");
+            $verificarUsuario->bind_Param("s", $correo);
             $verificarUsuario->execute();
             $verificarUsuario->bind_Result($id_usuario);
 
@@ -60,21 +65,23 @@ class AccionesBitacora{
                 $existe = $verificarUsuario->fetch();
 
                 while($verificarUsuario->fetch()){
-                    $id =$id_usuario;
+                    $id_us = $id_usuario;
                 }
 
                 if($existe){
 
+                    echo $id_us;
+                    exit;
                     date_default_timezone_set("America/Tegucigalpa");
                     $fecha = date('Y-m-d H:i:s',time());
-                    $acciones = "Pass x correo";
-                    $descp = "Recuperar contrasena por correo";
-                    $objeto = 1;
+                    $accion = "Pass x correo";
+                    $desc = "Recuperar contrasena por correo";
+                    $object = 1;
                     //$id_usuario1 = 55;
 
-                    include_once("../../modelo/conexion.php");
-                    $PassCorreo = $conn->prepare("CALL CONTROL_BITACORA (?, ?, ?, ?, ?);");
-                    $PassCorreo->bind_Param("sssss",$fecha, $id_usuario, $objeto, $acciones, $descp);
+                    include_once '../../modelo/conexionbd.php';
+                    $PassCorreo = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $PassCorreo->bind_Param("sssii", $accion, $desc, $fecha, $id_us, $object);
                     $PassCorreo->execute();
 
                     if($PassCorreo->error){

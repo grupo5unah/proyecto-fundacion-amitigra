@@ -1,6 +1,6 @@
 <?php
-include_once("./modelo/conexion.php");
-$id_objeto = 4;
+include_once("./modelo/conexionbd.php");
+$id_objeto = 3;
 $rol_id = 2;
 
 /*$stmt = $conn->prepare("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,id_rol,id_objeto FROM tbl_permisos

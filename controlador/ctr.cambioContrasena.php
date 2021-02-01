@@ -10,7 +10,7 @@ class CambioContrasena{
             $usuario = $_SESSION['usuario'];
 
             //Verificar si el usuario existe
-            include_once("../../modelo/conexion.php");
+            include_once("../../modelo/conexionbd.php");
             $verificarUsuario = $conn->prepare("SELECT contrasena FROM tbl_usuarios WHERE nombre_usuario = ?");
             $verificarUsuario->bind_Param("s",$usuario);
             $verificarUsuario->execute();

@@ -25,12 +25,12 @@
 
   <?php
   //Como saber si se esta conectado a la base de datos
-  include_once('../../modelo/conexion.php');
-if($conn->ping()){
+  include_once('../../modelo/conexionbd.php');
+/*if($conn->ping()){
     echo "conectado";
 } else {
     echo "error de conexion";
-}
+}*/
   ?>
   <div class="register-box-body">
     <form method="post">
@@ -95,7 +95,7 @@ if($conn->ping()){
                       <select name = "id_pregunta1" class="form-control">
                         <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
@@ -127,7 +127,7 @@ if($conn->ping()){
                       <select name = "id_pregunta2" class="form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
@@ -159,7 +159,7 @@ if($conn->ping()){
                       <select name = "id_pregunta3" class="form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);

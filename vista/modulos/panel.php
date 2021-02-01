@@ -9,7 +9,7 @@
           <!-- small box -->
 
           <?php
-          include_once("./modelo/conexion.php");
+          include_once("./modelo/conexionbd.php");
             //TOTAL DE USUARIOS
             $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
             $result = mysqli_query($conn, $registros);
@@ -22,12 +22,12 @@
             
             //TOTAL ROLES
             $rol_admin = "SELECT COUNT(*) admon FROM tbl_usuarios
-                      WHERE rol_id = 1";
+                      WHERE rol_id = 2";
             $verificar = mysqli_query($conn, $rol_admin);
             $total_roles = mysqli_fetch_assoc($verificar);
 
             $rol_sec = "SELECT COUNT(*) sec FROM tbl_usuarios
-                      WHERE rol_id = 2";
+                      WHERE rol_id = 3";
             $verificar_sec = mysqli_query($conn, $rol_sec);
             $total_sec = mysqli_fetch_assoc($verificar_sec);
           ?>     
@@ -104,7 +104,7 @@
           <!-- small box -->
 
           <?php
-          include_once("./modelo/conexion.php");
+          include_once("./modelo/conexionbd.php");
             //TOTAL DE USUARIOS
             $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
             $result = mysqli_query($conn, $registros);
@@ -203,20 +203,19 @@
 
               <?php
 
-              include_once("./modelo/conexion.php");
+              include_once("./modelo/conexionbd.php");
                   //try {
-                    $stmt = $conn->prepare("SELECT nombre, apellido, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
+                    $stmt = $conn->prepare("SELECT nombre_completo, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
                     $stmt->bind_Param("s",$usuario);
                     $stmt->execute();
-                    $stmt->bind_Result($nombre, $apellido, $correo, $telefono, $ingreso, $vencimiento);
+                    $stmt->bind_Result($nombre, $correo, $telefono, $ingreso, $vencimiento);
                  
                   if($stmt->affected_rows){
 
                     $existe = $stmt->fetch();
 
                     if($existe){
-                      $_SESSION['nombre'] = $nombre;
-                      $_SESSION['apellido'] = $apellido;
+                      $_SESSION['nombre_completo'] = $nombre;
                       $_SESSION['correo'] = $correo;
                       $_SESSION['telefono'] = $telefono;
                       $_SESSION['fecha_vencimiento'] = $vencimiento;
@@ -232,10 +231,7 @@
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Nombre organización: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre']));?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>apellido: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['apellido']));?></a>
+                  <b>Nombre organización: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Nombre de usuario: </b> <a class="pull-right"><?php echo strtoupper($usuario);?></a>

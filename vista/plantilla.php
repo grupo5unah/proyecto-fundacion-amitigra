@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
-include_once('funciones/sesiones.php');
+include_once 'funciones/sesiones.php';
 $usuario = $_SESSION['usuario'];
 $rol_id = $_SESSION['rol'];
 $ingreso = $_SESSION['primer_ingreso'];

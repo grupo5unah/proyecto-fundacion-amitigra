@@ -54,7 +54,7 @@ $correo = $_SESSION['correo'];
                       <select name = "pregunta_id" class="form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);

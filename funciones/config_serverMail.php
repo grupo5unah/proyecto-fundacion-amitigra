@@ -24,12 +24,12 @@
             $mail->isSMTP();
             $mail->Host       = "smtp.gmail.com";
             $mail->SMTPAuth   = true;
-            $mail->Username   = "sujemartinez26@gmail.com";
-            $mail->Password   = "Diosesamor.26";
+            $mail->Username   = "soporte.fundacionamitigra@gmail.com";
+            $mail->Password   = "root_amitigra";
             $mail->SMTPSecure = "tls";
             $mail->Port       = 587;   
 
-            $mail->setFrom("sujemartinez26@gmail.com", "Soporte tecnico");
+            $mail->setFrom("soporte.fundacionamitigra@gmail.com", "Soporte tecnico");
             $mail->isHTML(true);
             //$mail->addReplyTo("no-reply@dfaguilarr.com");
 
