@@ -1,12 +1,11 @@
 <?php
-include_once("./modelo/conexion.php");
-$id_objeto = 5;
+include_once "./modelo/conexionbd.php";
+$id_objeto = 4;
 //$rol = $_SESSION['mi_rol'];
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT tbl_roles.rol FROM tbl_usuarios
                         INNER JOIN tbl_roles
-                        ON
-                        tbl_usuarios.rol_id = tbl_roles.id_rol 
+                        ON tbl_usuarios.rol_id = tbl_roles.id_rol
                         WHERE tbl_roles.rol = ?");
 $stmt->bind_Param("s",$rol_id);
 $stmt->execute();
@@ -21,9 +20,8 @@ while($stmt->fetch()){
 
 if($existe){
 
-
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,id_rol,id_objeto FROM tbl_permisos
-WHERE id_rol = '$mi_rol' AND id_objeto = '$id_objeto'");
+$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta, rol_id, objeto_id FROM tbl_permisos
+WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 
 ?>
@@ -43,20 +41,20 @@ $columna = $stmt->fetch_assoc();
 <?php }}?>
               <?php
 
-              include_once("./modelo/conexion.php");
+              include_once("./modelo/conexionbd.php");
                   //try {
-                    $stmt = $conn->prepare("SELECT nombre, apellido, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
+                    $stmt = $conn->prepare("SELECT nombre_completo, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
                     $stmt->bind_Param("s",$usuario);
                     $stmt->execute();
-                    $stmt->bind_Result($nombre, $apellido, $correo, $telefono, $ingreso, $vencimiento);
+                    $stmt->bind_Result($nombre, $correo, $telefono, $ingreso, $vencimiento);
                  
                   if($stmt->affected_rows){
 
                     $existe = $stmt->fetch();
 
                     if($existe){
-                      $_SESSION['nombre'] = $nombre;
-                      $_SESSION['apellido'] = $apellido;
+                      $_SESSION['nombre_completo'] = $nombre;
+                      // $_SESSION['apellido'] = $apellido;
                       $_SESSION['correo'] = $correo;
                       $_SESSION['telefono'] = $telefono;
                       $_SESSION['fecha_vencimiento'] = $vencimiento;
@@ -71,10 +69,7 @@ $columna = $stmt->fetch_assoc();
               ?>       
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Nombre: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre']));?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Apellido: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['apellido']));?></a>
+                  <b>Nombre completo: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Nombre de usuario: </b> <a class="pull-right"><?php echo strtoupper($usuario);?></a>
@@ -110,17 +105,10 @@ $columna = $stmt->fetch_assoc();
               <div class="" id="settings">
                 <form method="POST" class="form-horizontal">
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Nombre</label>
+                    <label for="inputName" class="col-sm-3 control-label">Nombre completo</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre']));?>" placeholder="Nombre">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Apellido</label>
-
-                    <div class="input-group col-sm-8">
-                      <input type="text" name="apellido" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['apellido']));?>" placeholder="Apellido">
+                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre_completo']));?>" placeholder="Nombre">
                     </div>
                   </div>
                   <div class="form-group">
@@ -179,7 +167,7 @@ $columna = $stmt->fetch_assoc();
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden"  name="cambio" value="act">
-                    <?php if ($columna["permiso_actualizacion"] == 1) {?><button type="submit" class="btn btn-danger">Guardar cambios</button><?php }?>
+                    <?php if ($columna["permiso_actualizacion"] == 0) {?><button type="submit" class="btn btn-danger">Guardar cambios</button><?php }?>
                     </div>
                   </div>
 

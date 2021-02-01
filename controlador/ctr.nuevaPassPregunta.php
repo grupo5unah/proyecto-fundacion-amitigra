@@ -13,7 +13,7 @@ class NuevaPassPregunta{
             $password2 = $_POST['password2'];
 
             //Traer la informacion del usuario
-            include_once("../../modelo/conexion2.php");
+            include_once("../../modelo/conexionbd.php");
             $verificarUsuario = $conn->prepare("SELECT id_usuario FROM tbl_usuarios WHERE correo = ?");
             $verificarUsuario->bind_Param("s",$correo);
             $verificarUsuario->execute();
@@ -29,7 +29,7 @@ class NuevaPassPregunta{
                 if($existeUsuario){
 
                     //VERIFICAR RESPUESTA
-                    include_once("../../modelo/conexion2.php");
+                    include_once("../../modelo/conexionbd.php");
                     $VerificarPreg = $conn->prepare("SELECT usuario_id, pregunta_id, respuesta FROM tbl_preguntas_usuario
                                                     WHERE usuario_id = ? AND pregunta_id = ?;");
                     $VerificarPreg->bind_Param("ii",$id, $idPregunta);
@@ -44,12 +44,11 @@ class NuevaPassPregunta{
                             //ACTUALIZAR CONTRASENA
                             if($respuesta == $respuestaCorrecta){
 
-                                $opciones = array('cost' => 12);
-                                $hashed_password = password_hash($password, PASSWORD_BCRYPT, $opciones);
+                                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
                                 if($password == $password2){
 
-                                    include_once("../../modelo/conexion.php");
+                                    include_once("../../modelo/conexionbd.php");
 
                                     $actualizacion = $conn->prepare("UPDATE tbl_usuarios
                                                                     SET contrasena = ?

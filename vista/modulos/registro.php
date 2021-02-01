@@ -23,6 +23,15 @@
 <body class="hold-transition register-page">
 <div class="register-box">
 
+  <?php
+  //Como saber si se esta conectado a la base de datos
+  include_once('../../modelo/conexionbd.php');
+/*if($conn->ping()){
+    echo "conectado";
+} else {
+    echo "error de conexion";
+}*/
+  ?>
   <div class="register-box-body">
     <form method="post">
       <p class="register-box-msg">Registro de usuario</p>
@@ -43,11 +52,7 @@
                 <div class="active tab-pane" id="activity">
                     <div class="columna">
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="nombre" name="nombre" class="form-control" placeholder="Nombre" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this); verificar(this.value)">
-                        <span class="fa fa-user form-control-feedback"></span>
-                      </div>
-                      <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="apellido" name="apellido" class="form-control" placeholder="Apellido" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this); verificar2(this.value)">
+                        <input type="text" maxlength="50" id="nombre" name="nombre" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this); verificar(this.value)">
                         <span class="fa fa-user form-control-feedback"></span>
                       </div>
                         <div class="form-group has-feedback">
@@ -69,6 +74,7 @@
                           <input type="text" maxlength="8" class="form-control" name="telefono" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
                           <span class="fa fa-phone-square form-control-feedback"></span>
                         </div>
+                        <br>
                         <div class="text-center form-group has-feedback">
                           <a href="login.php" class="btn btn-danger">Cancelar</a>
                         </div>
@@ -89,7 +95,7 @@
                       <select name = "id_pregunta1" class="form-control">
                         <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
@@ -121,7 +127,7 @@
                       <select name = "id_pregunta2" class="form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
@@ -153,7 +159,7 @@
                       <select name = "id_pregunta3" class="form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexion.php');
+                             include_once ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
@@ -218,31 +224,31 @@
 </div>
 
 <script type="text/javascript">
-    function mostrarPassword(){
+  function mostrarPassword(){
 
-      var nueva = document.getElementById("PassNuevo");
-      if(nueva.type == "password"){
-        nueva.type = "text";
-        $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-      }else{
-        nueva.type = "password";
-        $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-      }
+    var nueva = document.getElementById("PassNuevo");
+    if(nueva.type == "password"){
+      nueva.type = "text";
+      $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    }else{
+      nueva.type = "password";
+      $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
 
-      var conf = document.getElementById("ConfPass");
-      if(conf.type == "password"){
-        conf.type = "text";
-        $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-      }else{
-        conf.type = "password";
-        $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-      }
-    } 
-  </script>
+    var conf = document.getElementById("ConfPass");
+    if(conf.type == "password"){
+      conf.type = "text";
+      $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    }else{
+      conf.type = "password";
+      $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
+  } 
+</script>
 
 <script>
 //Botones
-var btnEnviar = document.getElementById("enviar");
+/*var btnEnviar = document.getElementById("enviar");
 var btnpreg1 = document.getElementById("preg1");
 var btnpreg2 = document.getElementById("preg2");
 var btnpreg3 = document.getElementById("preg3");
@@ -250,24 +256,23 @@ var btnpass = document.getElementById("pass");
 
 //Inputs
 var nombre = document.getElementById("nombre");
-var apellido = document.getElementById("apellido");
 var preg1 = document.getElementById("pregunta1");
 var preg2 = document.getElementById("pregunta2");
-var preg3 = document.getElementById("pregunta3");
+var preg3 = document.getElementById("pregunta3");*/
 
 btnEnviar.disabled = true;
-apellido.disabled = true;
+//apellido.disabled = true;
 
-function verificar2(valor) {
+/*function verificar2(valor) {
   if (apellido.value.length>=4){
     btnEnviar.disabled = false;
     btnEnviar.classList.remove("disabled");
   } else {
       btnEnviar.disabled = true;
   }
-}
+}*/
 
-function verificar(valor) {
+/*function verificar(valor) {
   if (valor.length>=4){
   	apellido.style.background = "#FFFFFF";
     apellido.disabled = false
@@ -278,7 +283,7 @@ function verificar(valor) {
     btnEnviar.disabled = true;
   }
    
-}
+}*/
   </script>
 
   <script>

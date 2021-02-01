@@ -1,6 +1,6 @@
 <?php
-include_once("./modelo/conexion.php");
-$id_objeto = 7;
+include_once("./modelo/conexionbd.php");
+$id_objeto = 6;
 //$rol = $_SESSION['mi_rol'];
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
@@ -8,7 +8,7 @@ $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         ON
                         tbl_usuarios.rol_id = tbl_roles.id_rol 
                         WHERE tbl_roles.rol = ?");
-$stmt->bind_Param("s",$rol_id);
+$stmt->bind_Param("i",$rol_id);
 $stmt->execute();
 $stmt->bind_Result($id_rol);
 
@@ -21,8 +21,10 @@ while($stmt->fetch()){
 
 if($existe){
 
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,id_rol,id_objeto FROM tbl_permisos
-WHERE id_rol = '$mi_rol' AND id_objeto = '$id_objeto'");
+global $columna;
+
+$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 
 ?>

@@ -3,10 +3,9 @@
     class Registro{
 
         public function ctrRegistro(){
-            
+
             if(isset($_POST["tipo"]) == "registro") {
                 $nombre = $_POST['nombre'];
-                $apellido = $_POST['apellido'];
                 $usuario = $_POST['usuario'];
                 $correo = $_POST['correo'];
                 $genero = $_POST['genero'];
@@ -21,23 +20,25 @@
                 $id_preg3 = $_POST['id_pregunta3'];
 
                 try {
+                    include_once("../../modelo/conexionbd.php");
 
-                    require_once('../../modelo/conexion2.php');
-                    $consultar_usuario = $conn->prepare("SELECT id_usuario, nombre_usuario, correo FROM tbl_usuarios WHERE nombre_usuario = ? OR correo = ?; ");
-                    $consultar_usuario->bind_Param("ss", $usuario, $correo);
-                    $consultar_usuario->execute();
-                    $consultar_usuario->bind_Result($id_usuario, $nombre_usuario, $correo_usuario);
+                    global $conn;
+
+                    $cons_usuario = $conn->prepare('SELECT id_usuario, nombre_usuario, correo FROM tbl_usuarios WHERE nombre_usuario = ? OR correo = ?;');
+                    $cons_usuario->bind_Param("ss", $usuario, $correo);
+                    $cons_usuario->execute();
+                    $cons_usuario->bind_Result($id_usuario, $nombre_usuario, $correo_usuario);
                
-                    if($consultar_usuario->affected_rows) {
-                        $existe = $consultar_usuario->fetch();
+                    if($cons_usuario->affected_rows) {
+                        $existe = $cons_usuario->fetch();
 
-                        while ($consultar_usuario->fetch()){
-                            $id = $id_usuario;
-                        }
+                        // while ($consultar_usuario->fetch()){
+                            // $id = $id_usuario;
+                        // }
                         
                         if($existe) {
                             echo "<div class='text-center alert alert-danger' role = 'alert'>
-                            El nombre de usuario y/o correo electronico ya estan registrados.
+                            El nombre de usuario y/o correo electronico ya estan en uso.
                             </div>";
                         } else {
                             //Validacion contrasenas iguales
@@ -53,7 +54,6 @@
                                 } else {
                                     if(isset($_POST["tipo"]) == "registro"){
                                         $nombre = $_POST['nombre'];
-                                        $apellido = $_POST['apellido'];
                                         $usuario = $_POST['usuario'];
                                         $correo = $_POST['correo'];
                                         $genero = $_POST['genero'];
@@ -61,30 +61,44 @@
                                         $password = $_POST['password'];
                                         $confpassword = $_POST['password2'];
                                         $nom_mayuscula = strtoupper($nombre);
-                                        $ape_mayuscula = strtoupper($apellido);
                                         $user_mayuscula = strtoupper($usuario);
                                         
                                         if($usuario =="" || strlen($usuario) < 5){
                                             $campo = array();
-                                            echo "<p class='mensaje'>";
-                                            echo "Lo sentimos, no se permiten nombres de usuario con menos de cinco caracteres";
-                                            echo "</p>";
+                                            
+                                            echo "<div class='alert alert-danger' role='alert'>
+                                                    Lo sentimos, no se permiten nombres de usuario con menos de cinco caracteres
+                                                    </div>";
                                             //echo "Debe de agregar un nombre de usuario con un mayor de 5 letras";
                                         }else{
-                                            $opciones = array('cost' => 12);
-                                            $hashed_password = password_hash($password, PASSWORD_BCRYPT, $opciones);
+                                            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
                                             
                                             try {
                                                 //REGISTRO DEL USUARIO
-                                                require_once('../../modelo/conexion.php');
+                                                require_once('../../modelo/conexionbd.php');
 
-                                                //Valor por DEFAULT
-                                                $rol = 3;
+                                                //Valor por Defecto
+                                                $rol = 2;
                                                 $token = "";
-                                                $estado = "NUEVO";
+                                                $estado = 2;
                                                 $preguntas = 0;
                                                 $intentos = 0;
-                                                $user = $usuario;
+                                                $foto = "foto";
+
+                                                //Carpeta para las imágenes
+                                                /*$carpetaFotoPerfil = 'vista/foto-perfil';
+
+                                                if(!is_dir($carpetaFotoPerfil)){ //Verifica la carpeta existe, de no ser así la crea
+                                                    mkdir($carpetaFotoPerfil);
+                                                }*/
+
+                                                //Generar nombre de la foto
+                                                // $nombre_foto = md5(uniqid(rand(), true));
+
+                                                //subir la imagen
+                                                // $move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil.$nombre_foto);
+
+                                                 $user = $usuario;
 
                                                 //Fecha ACTUAL del sistema
                                                 date_default_timezone_set("America/Tegucigalpa");
@@ -95,15 +109,14 @@
                                                 $fecha_actual->modify('next month');
                                                 $vencimiento = $fecha_actual->format('Y-m-d H:i:s');                                  
 
-                                                $insertar = $conn->prepare("INSERT INTO tbl_usuarios (nombre, apellido, nombre_usuario, correo,
-                                                                                                    validacion_token, contrasena, genero, telefono, rol_id,
-                                                                                                    estado_usuario, intentos, fecha_ult_conexion, pgts_contestadas,
-                                                                                                    primer_ingreso, fecha_vencimiento, creado_por, fecha_creacion,
-                                                                                                    modificado_por, fecha_modificacion) VALUES (?, ?, ?, ?, ?, ?,
-                                                                                                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                                                $insertar->bind_Param("sssssssiisisissssss", $nom_mayuscula, $ape_mayuscula, $user_mayuscula, $correo,
-                                                                                            $token, $hashed_password, $genero, $telefono, $rol, $estado, $intentos,
-                                                                                            $fecha, $preguntas, $fecha, $vencimiento, $user,
+                                                $insertar = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario, foto, genero, telefono,
+                                                                                                    correo, contrasena, token, intentos, rol_id, estado_id,
+                                                                                                    fecha_ult_conexion, preguntas_contestadas, primer_ingreso,
+                                                                                                    fecha_vencimiento, creado_por, fecha_creacion,
+                                                                                                    modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                                $insertar->bind_Param("ssssisssiississssss", $nom_mayuscula, $user_mayuscula, $foto,
+                                                                                            $genero, $telefono, $correo, $hashed_password, $token, $intentos,
+                                                                                            $rol, $estado, $fecha, $preguntas, $fecha, $vencimiento, $user,
                                                                                             $fecha, $user, $fecha);
                                                 $insertar->execute();
 
@@ -117,13 +130,13 @@
                                                     $acciones = "registro de usuario";
                                                     $descp = "se registro nuevo usuario";
 
-                                                    $registro = $conn->prepare('CALL CONTROL_BITACORA (?,?,?,?,?)');
-                                                    $registro->bind_Param("sssss",$fecha, $id_usuario, $objeto, $acciones, $descp);
+                                                    $registro = $conn->prepare('CALL control_bitacora (?,?,?,?,?)');
+                                                    $registro->bind_Param("sssii",$acciones, $descp,$fecha, $id_usuario, $objeto);
                                                     $registro->execute();
                                                     $registro->close();
 
                                                     echo "<p class='mensaje'>";
-                                                    echo "<div class='alert alert-success' role = 'alert'>
+                                                    echo "<div class='text-center alert alert-success' role = 'alert'>
                                                         El usuario se creo correctamente.
                                                         </div>";
                                                     echo '<script>window.location.href:login.php;</script>';
@@ -136,7 +149,7 @@
                                                 if(isset($_POST["tipo"]) == "registro"){
                                                     $usuario1 = $_POST['usuario']; 
 
-                                                    include("../../modelo/conexion.php");
+                                                    include("../../modelo/conexionbd.php");
 
                                                     $verificarUsuario = $conn->prepare ("SELECT id_usuario, nombre_usuario FROM tbl_usuarios
                                                                                         WHERE nombre_usuario = ?");
@@ -162,18 +175,18 @@
                                                             date_default_timezone_set("America/Tegucigalpa");
                                                             $fecha_hoy = date("Y-m-d H:s:i",time());
             
-                                                            include("../../modelo/conexion.php");
-                                                            $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (respuesta, id_usuario, id_pregunta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
+                                                            include("../../modelo/conexionbd.php");
+                                                            $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                                                                                                 VALUES (?,?,?,?,?,?,?)");
-                                                            $insertarRespuesta->bind_Param("siissss",$pregunta1,$user_registro,$id_preg1,$user_registro,$fecha_hoy,$usuario,$fecha_hoy);
+                                                            $insertarRespuesta->bind_Param("iisssss",$id_preg1,$user_registro,$pregunta1,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
                                                             $insertarRespuesta->execute();
-                                                            $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (respuesta, id_usuario, id_pregunta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
+                                                            $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                                                                                                 VALUES (?,?,?,?,?,?,?)");
-                                                            $insertarRespuesta->bind_Param("siissss",$pregunta2,$user_registro,$id_preg2,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
+                                                            $insertarRespuesta->bind_Param("iisssss",$id_preg2,$user_registro,$pregunta2,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
                                                             $insertarRespuesta->execute();
-                                                            $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (respuesta, id_usuario, id_pregunta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
+                                                            $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                                                                                                 VALUES (?,?,?,?,?,?,?)");
-                                                            $insertarRespuesta->bind_Param("siissss",$pregunta3,$user_registro,$id_preg3,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
+                                                            $insertarRespuesta->bind_Param("iisssss",$id_preg3,$user_registro,$pregunta3,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
                                                             $insertarRespuesta->execute();
 
                                                             if($insertarRespuesta->error){
@@ -191,7 +204,7 @@
                                                 }
                                                
                                                 //REGISTRO DE LA CONTRASENA EN EL HISTORIAL DE CONTRASENAS
-                                                $hist_contrasena = $conn->prepare("INSERT INTO tbl_hist_contrasena (contrasena, usuario_id, creado_por, fecha_creacion, modificado_por, fecha_modificacion)
+                                                /*$hist_contrasena = $conn->prepare("INSERT INTO tbl_hist_contrasena (contrasena, usuario_id, creado_por, fecha_creacion, modificado_por, fecha_modificacion)
                                                 VALUES (?,?,?,?,?,?);");
                                                 $hist_contrasena->bind_Param("sissss",$hashed_password,$id,$user,$fecha,$user,$fecha);
                                                 $hist_contrasena->execute();
@@ -200,7 +213,7 @@
 
                                                 }else{
 
-                                                }
+                                                }*/
 
                                                                 
                                             } catch(Exception $e){
@@ -226,15 +239,13 @@
                         $respuesta->$stmt;
                         echo $fecha;
                     }
-                    $consultar_usuario->close();
-                    $consultar_usuario = null;
+                    $cons_usuario->close();
+                    $cons_usuario = null;
                 } catch(Exception $e) {
                     $respuesta = array('resultado' => 'Error');
                 }
   
             }
-                //public function comprobar_email($email) {
-                    //return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? 1 : 0;
-                //}
+                
         }//Fin FUNCION
     }//Fin CLASE

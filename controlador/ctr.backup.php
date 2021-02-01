@@ -5,7 +5,7 @@
         public function ctrCopiaSeguridad(){
 
             //Se incluye la conexion a la base de datos
-            include("./modelo/conexion.php");
+            include("./modelo/conexionbd.php");
 
             if(isset($_POST['password'])){
                 $password = $_POST['password'];
@@ -26,7 +26,7 @@
                                 //Nombre como se guardara la copia de seguridad
                                 $db_name = "fundacion_amitigra";
 
-                                include("./modelo/conexion.php");
+                                include("./modelo/conexionbd.php");
                                 
                                 $tables=array();
                                 $sql="SHOW TABLES";

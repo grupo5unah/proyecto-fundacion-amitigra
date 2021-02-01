@@ -1,12 +1,10 @@
 <?php
-include_once("./modelo/conexion.php");
-$id_objeto = 6;
-//$rol = $_SESSION['mi_rol'];
+include_once("./modelo/conexionbd.php");
+$id_objeto = 5;
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
-                        ON
-                        tbl_usuarios.rol_id = tbl_roles.id_rol 
+                        ON tbl_usuarios.rol_id = tbl_roles.id_rol 
                         WHERE tbl_roles.rol = ?");
 $stmt->bind_Param("s",$rol_id);
 $stmt->execute();
@@ -21,8 +19,8 @@ while($stmt->fetch()){
 
 if($existe){
 
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,id_rol,id_objeto FROM tbl_permisos
-WHERE id_rol = '$mi_rol' AND id_objeto = '$id_objeto'");
+$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 
 ?>
@@ -48,9 +46,9 @@ $columna = $stmt->fetch_assoc();
         <!--Pendiente-->
         
         <!--ROL DE ADMINISTRACION-->
-        <?php if($_SESSION['rol'] == "administrador"){?>
+        <?php if($_SESSION['rol'] == 'administrador'){?>
           <!--Inicio SOLICITUDES-->
-          <?php if ($columna["permiso_consulta"] == 1) {?><li class="">
+          <?php if ($columna["permiso_consulta"] == 0) {?><li class="">
           <a href="solicitudes">
             <i class="fa fa-files-o"></i>
             <span>Solicitudes</span>
@@ -101,7 +99,7 @@ $columna = $stmt->fetch_assoc();
         <!--Final ADMINISTRACION-->
 
           <!--ROL DE SECRETARIO(A)-->
-        <?php } elseif ($_SESSION['rol'] == "secretaria"){?>
+        <?php } elseif ($_SESSION['rol'] == 'asistente'){?>
           <!--Inicio SOLICITUDES-->
         <li class="">
           <a href="solicitudes">
@@ -132,7 +130,7 @@ $columna = $stmt->fetch_assoc();
         <!--Fin REPORTES-->
 
           <!--ROL DE USUARIO-->
-        <?php } elseif ($_SESSION['rol'] == "usuario") {?>
+        <?php } elseif ($_SESSION['rol'] == 'usuario') {?>
 
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">

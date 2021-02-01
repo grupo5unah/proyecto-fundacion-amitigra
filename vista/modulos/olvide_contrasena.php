@@ -61,10 +61,10 @@
 	$olvideContrasena->ctrOlvideContrasena();
 
 	//REGISTRA EN LA BITACORA LA ACCION DE CORREO
-	include_once('../../controlador/ctr.AccionesBitacora.php');
+	/*include_once('../../controlador/ctr.AccionesBitacora.php');
 
 	$AccionesBitacoraCorreo = new AccionesBitacora();
-	$AccionesBitacoraCorreo->ctrPassCorreo();
+	$AccionesBitacoraCorreo->ctrPassCorreo();*/
 	}elseif(isset($_POST['submit_pregunta'])) {
 	include_once('../../controlador/ctr.recPassPregunta.php');
 
@@ -72,10 +72,10 @@
 	$olvideContrasenaPregunta->ctrRecuPregunta();
 
 	//REGISTRA EN LA BITACORA LA ACCION DE PREGUNTA
-	include_once('../../controlador/ctr.AccionesBitacora.php');
+	/*include_once('../../controlador/ctr.AccionesBitacora.php');
 
 	$AccionesBitacoraPregunta = new AccionesBitacora();
-	$AccionesBitacoraPregunta->ctrPassPregunta();
+	$AccionesBitacoraPregunta->ctrPassPregunta();*/
 	}
 	?>
 
