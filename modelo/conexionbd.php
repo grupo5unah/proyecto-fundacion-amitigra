@@ -4,7 +4,7 @@
 $user_name = 'root';
 $pass = 'Unah_fernando';
 $data_base = 'bd_fundacion_amitigra';
-$puerto = '3308';*/
+//$puerto = '3308';*/
 
 /*try {
 $conn = new mysqli($server, $user_name, $pass, $data_base, $puerto);
