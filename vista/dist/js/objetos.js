@@ -101,7 +101,7 @@ $(document).ready(function(){
                 }).then(() => {
                     // Se limpia el formulario
                     console.log('Ya se cerro el alert');
-                    $("#nombreRol").val('');
+                    $("#nombreObjeto").val('');
                     $("#descripcion").val('');
                     location.reload(); 
                 })
@@ -139,32 +139,38 @@ $(document).ready(function(){
     //mantenimientos de la tabla permisos
     $('.btnEditarPermisos').on('click', function() {
         // info previa
-        const idpermiso = $(this).data('id_permisos'); 
-        const PInsercion = $(this).data('PInsercion');
-        const PEliminacion = $(this).data('Peliminacion'); 
+        const idpermiso = $(this).data('idpermisos'); 
+        const Insercion = $(this).data('insertar');
+        const Eliminacion = $(this).data('eliminar');
+        const Actualizacion = $(this).data('AActualizar');
+        const Consulta = $(this).data('PConsulta'); 
         //llena los campos
+        console.log(idpermiso);
         //$("#id").val(idObjeto),
-        $("#PInsercion").val(PInsercion),
-        $("#PEliminacion").val(PEliminacion)
+        $("#Insertar").val(Insercion),
+        $("#Eliminar").val(Eliminacion),
+        $("#Actualizar").val(Actualizacion),
+        $("#Cosulta").val(Consulta)
         
-        //console.log(idrol,nombrerol,descripcion);
+        console.log(idpermiso,Eliminacion,Insercion);
         //mostrar el modal
         $('#modalEditarPermisos').modal('show');
         
+        
         $('.btnEditarBD').on('click', async function() {
-            var IdPermisos = Number(idpermisos); 
-            //console.log(IdRol);
+            var IdPermisos = Number(idpermiso); 
+            console.log(IdPermisos);
             const formData = new FormData();
             formData.append('id_permisos', IdPermisos);
-            formData.append('permiso_insercion',$("#PInsercion").val());
-            formData.append('permiso_eliminacion',$("#PEliminacion").val());
-            formData.append('permiso_actualizacion',$("#PActualizacion").val());
-            formData.append('permiso_consulta',$("#PConsulta").val());
-            console.log(formData);
+            formData.append('permiso_insercion',$("#Insertar").val());
+            formData.append('permiso_eliminacion',$("#Eliminar").val());
+            formData.append('permiso_actualizacion',$("#Actualizar").val());
+            formData.append('permiso_consulta',$("#Consulta").val());
+           // console.log(formData);
             
-           const resp = await axios.post('./controlador/apiObjetos.php?action=actualizarPermisos', formData);
+           const resp = await axios.post('./controlador/apiObjetos.php?action=actualizarPermiso', formData);
            const data = resp.data;
-            console.log(data);
+           // console.log(data);
             if(data.error){
                 return swal("Error", data.msj, "error", {
                     timer:3000,
@@ -178,10 +184,10 @@ $(document).ready(function(){
                 }).then(() => {
                     // Se limpia el formulario
                     console.log('Ya se cerro el alert');
-                    $("#PInsercion").val('');
-                    $("#PEliminacion").val('');
-                    $("#PActualizacion").val('');
-                    $("#PConsulta").val('');
+                    $("#Insertar").val('');
+                    $("#Eliminar").val('');
+                    $("#Actualizar").val('');
+                    $("#Consulta").val('');
                     location.reload(); 
                 })
             }

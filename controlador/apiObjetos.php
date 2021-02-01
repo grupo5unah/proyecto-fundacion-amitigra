@@ -105,7 +105,7 @@ switch ($action) {
                 $PActualizacion = $_POST['permiso_actualizacion'];
                 $PConsulta = $_POST['permiso_consulta'];
                
-                $sql = "UPDATE tbl_permisos SET permiso_insercion= '$PInsertar', permiso_eliminacion= '$PEliminar', permiso_actualizacion= '$PActualizacion', permiso_consulta= '$PConsulta' WHERE id_permisos=" .$id_permisos;          
+                $sql = "UPDATE tbl_permisos SET permiso_insercion = '$PInsertar', permiso_eliminacion= '$PEliminar', permiso_actualizacion= '$PActualizacion', permiso_consulta= '$PConsulta' WHERE id_permisos=" .$id_permiso;          
                 $resultado = $conn->query($sql);
               
                 if ($resultado == 1) {

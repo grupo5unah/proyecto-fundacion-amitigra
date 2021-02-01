@@ -97,7 +97,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "menuSolicitudes" ||
         $_GET["ruta"] == "panel" ||
         $_GET["ruta"] == "configuracion" ||
-        $_GET["ruta"] == "reporteBitacora" ||
+        $_GET["ruta"] == "reportes" ||
         $_GET["ruta"] == "reporteProducto"){
         include("modulos/".$_GET["ruta"].".php");
       } else{
@@ -160,6 +160,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/product.js"></script>
 <script src="vista/dist/js/roles.js"></script>
 <script src="vista/dist/js/objetos.js"></script>
+<script src="vista/dist/js/reportes.js"></script>
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>

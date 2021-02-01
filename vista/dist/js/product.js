@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //console.log('hola mundo');
     
     $('#manageProductTable').DataTable({
         "language": {
@@ -16,7 +17,7 @@ $(document).ready(function(){
         var tipoProducto = $("#tipoProducto option:selected").val();
         var usuario_actual = $("#usuario_actual").val();
 
-        // console.log(nombre, cantidad, precio, tipoProducto, usuario_actual);
+        //console.log(nombre, cantidad, precio, tipoProducto, usuario_actual);
         if(nombre != undefined && cantidad != undefined && precio != undefined && 
         tipoProducto != 0 && usuario_actual != undefined){
             const formData = new FormData();

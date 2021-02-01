@@ -17,23 +17,23 @@ include("./modelo/conexion.php");
               <div class="ingreso-producto form-group">
                 <div class="campos" type="hidden">
                   <label for=""> </label>
-                  <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled>
+                  <input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idProducto" value="0" disabled>
 
                 </div>
 
                 <div class="campos">
                   <label for="">Nombre del Producto </label>
-                  <input id="nombreP" class="form-control secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+                  <input id="nombreP" class="form-control campos-pro  secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
 
                 </div>
                 <div class="campos form-group">
                   <label for="">Cantidad </label>
-                  <input id="cantProducto" class="form-control secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required  />
+                  <input id="cantProducto" class="form-control  campos-pro  secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required  />
 
                 </div>
                 <div class="campos form-group">
                   <label for="">Precio de Compra </label>
-                  <input id="precioProducto" class="form-control secundary" type="tel" name="precio" placeholde="Escriba el producto" required  />
+                  <input id="precioProducto" class="form-control campos-pro secundary" type="tel" name="precio" placeholde="Escriba el producto" required  />
 
                 </div>
                 <div class="campos form-group">

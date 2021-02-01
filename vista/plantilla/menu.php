@@ -167,7 +167,7 @@ $columna = $stmt->fetch_assoc();
         </li>
         <!--Final INVENTARIO-->
 
-        <!--Inico REPORTES-->
+        <!--Inico mantenimientos-->
         <li class="treeview">
           <a href="#">
             <i class="fa fa-copy"></i>
@@ -186,6 +186,26 @@ $columna = $stmt->fetch_assoc();
             <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
           </ul>
         </li>
+        <!-- Reportes -->
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-copy"></i>
+            <span>Reportes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="reportes"><i class="fa fa-circle-o"></i> Reportes</a></li>
+            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
+            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
+            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
+          </ul>
+        </li>
+
         <!--Fin REPORTES-->
         <?php }else{
           echo "El rol no existe";

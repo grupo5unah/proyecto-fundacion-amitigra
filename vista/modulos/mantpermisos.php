@@ -19,11 +19,7 @@
 							</div> <!-- /panel-heading -->
 							<div class="panel-body">
 								<div class="remove-messages"></div>
-								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar permiso </a>
-
-								</div> <!-- /div-action -->
-
+								
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
 									<thead>
 										<tr>
@@ -43,7 +39,7 @@
 										try {
 
 
-											$sql = "SELECT id_permisos, rol, permiso_insercion,permiso_eliminacion, permiso_actualizacion, permiso_consulta
+											$sql = "SELECT id_permisos, rol, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
                                                     FROM tbl_permisos inner join tbl_roles where tbl_permisos.id_rol = tbl_roles.id_rol";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
@@ -56,10 +52,11 @@
 											$traer = $eventos['permiso_insercion'];
 											$evento = array(
 												'rol' => $eventos['rol'],
-												'permiso_insercion' => $eventos['permiso_insercion'],
-                                                'permiso_eliminacion' => $eventos['permiso_eliminacion'],
-                                                'permiso_actualizacion' => $eventos['permiso_actualizacion'],
-												'permiso_consulta' => $eventos['permiso_consulta']
+												'insercion' => $eventos['permiso_insercion'],
+                                                'eliminacion' => $eventos['permiso_eliminacion'],
+                                                'actualizacion' => $eventos['permiso_actualizacion'],
+												'consulta' => $eventos['permiso_consulta'],
+												'id_permisos' =>$eventos['id_permisos']
 										
 											);
 											$vertbl[$traer][] =  $evento;
@@ -72,15 +69,14 @@
 												?>
 												<tr>
 												    <td> <?php echo $evento['rol']; ?></td>
-													<td> <?php echo $evento['permiso_insercion']; ?></td>
-                                                    <td> <?php echo $evento['permiso_eliminacion']; ?></td>
-                                                    <td> <?php echo $evento['permiso_actualizacion']; ?></td>
-													<td> <?php echo $evento['permiso_consulta']; ?></td>
+													<td> <?php echo $evento['insercion']; ?></td>
+                                                    <td> <?php echo $evento['eliminacion']; ?></td>
+                                                    <td> <?php echo $evento['actualizacion']; ?></td>
+													<td> <?php echo $evento['consulta']; ?></td>
 													
 													<td>
-														<button class="btn btn-warning btnEditarPermiso glyphicon glyphicon-pencil"  data-id_permisos="<?= $evento['id_permisos'] ?>" data-PInsertar="<?= $evento['permiso_insercion'] ?>" data-PEliminar="<?= $evento['permiso_eliminar'] ?>"  data-PActualizacion="<?= $evento['permiso_actualizacion'] ?>"data-PConsulta="<?= $evento['permiso_consulta'] ?>"   ></button>
-
-														<button class="btn btn-danger btnEliminarPermisos glyphicon glyphicon-remove" data-id_permisos="<?php echo $evento['id_permisos'] ?>"></button>
+													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['permiso_insercion']?>" data-eliminar="<?= $evento['permiso_eliminacion'] ?>"></button>
+											
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -115,7 +111,7 @@
 								</div>
 							</div>
 							<div class="modal-body">
-								<form name="formEditarProducto">
+								<form name="">
 									<div class="ingreso-producto form-group">
 										<div class="campos" type="hidden">
 											<label for=""> </label>
@@ -124,22 +120,22 @@
 
 										<div class="campos">
 											<label for="">Permiso Insertar</label>
-											<input id="PInsertar" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required />
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Eliminar</label>
-											<input id="PEliminar" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required />
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Actualizar</label>
-											<input id="PActualizar" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required />
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="PConsulta" class="form-control modal-roles secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared />
 
 										</div>
 										
@@ -151,7 +147,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar rol</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Permiso</button>
 							</div>
 						</div>
 					</div>
