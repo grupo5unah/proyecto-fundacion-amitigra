@@ -25,7 +25,7 @@
           </form>
 
           <?php
-        require_once('./modelo/conexion.php');
+        require_once('./modelo/conexionbd.php');
         ?>
           <!-- /.box-header -->
           <div class="box-body">

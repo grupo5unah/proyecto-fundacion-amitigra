@@ -70,9 +70,22 @@
   </div>
 
   	<?php
-	include_once('../../controlador/ctr.login.php');
-	$login = new Login();
-	$login->ctrLogin();		
+
+    /*use app\Login;
+
+    function mi_autoload($clase){
+      $partes = explode('\\', $clase);
+      require __DIR__.'/controlador/ctr.' . $partes[1] . '.php';
+    }
+
+    spl_autoload_register('mi_autoload');
+
+    $login = new Login();
+    $login->ctrLogin();*/
+
+    include_once('../../controlador/ctr.login.php');
+    $login = new Login();
+    $login->ctrLogin();
 	?>
   <!-- /.login-box-body -->
 </div>

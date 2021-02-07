@@ -1,5 +1,6 @@
 <?php
-include_once("./modelo/conexionbd.php");
+require "./modelo/conexionbd.php";
+global $mi_rol;
 $id_objeto = 5;
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
