@@ -20,7 +20,8 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar nueva pregunta </a>
+									<!-- <a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar nueva pregunta </a> -->
+									<button class="btn btn-default btnCrearPregunta glyphicon glyphicon-plus-sign" >Agregar Nueva Pregunta</button>
 
 								</div> <!-- /div-action -->
 
@@ -97,12 +98,12 @@
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarPregunta" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               		 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
 									<h3 class="modal-title" id="exampleModalLabel">Actualizar pregunta</h3>
@@ -136,6 +137,55 @@
 				</div>
 
 			<!-- /.box-footer-->
+			<!-- modal para agregar Preguntas -->
+			<div class="modal fade" id="modalRegistrarPregunta" tabindex="-1"
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+               		 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Registrar pregunta</h3>
+								</div>
+							</div>
+							<div class="modal-body">
+							<form method="POST" id="formPreguntas">
+                              <div class="ingreso-producto form-group">
+                               <div class="campos" type="hidden">
+                               <label for=""> </label>
+                               <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled>
+                            </div>
+
+                          <div class="campos">
+                          <label for="">Nombre de la Pregunta </label>
+                          <input id="pregunta" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba la pregunta" required />
+
+                          </div>
+                                
+                          <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                          </div>
+						  </div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+								<button id=""type="submit" class="btn btn-primary">Registrar Pregunta</button>
+							</div>
+                        </form>
+                        <?php 
+                            if(isset($_GET['msg'])){
+                            $mensaje = $_GET['msg'];
+                            print_r($mensaje);
+                           //echo "<script>alert(".$mensaje.");</script>";  
+                           }
+
+            ?>
+							
+						</div>
+					</div>
+				</div>
+			
+
 		</div>
 		<!-- /.box -->
 

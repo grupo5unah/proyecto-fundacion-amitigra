@@ -1,15 +1,15 @@
 <?php
     //Conexion a la base de datos
 
-    $server = 'localhost';
-    $user_name = 'root';
-    $pass = '';
-    $data_base = 'bd_fundacion_amitigra';*/
+$server = 'localhost';
+$user_name = 'root';
+$pass = '';
+$data_base = 'bd_fundacion_amitigra';
 
-    try{
-        $conn = new mysqli($server, $user_name, $pass, $data_base);
-        $conn->set_charset('utf8');
+try{
+    $conn = new mysqli($server, $user_name, $pass, $data_base);
+    $conn->set_charset('utf8');
 
-    } catch (Exception $e){
-        die('Se produjó un error en la conexión'. $e->getMessage());
-    }
+} catch (mysqlException $e){
+    die('Se produjó un error en la conexión'. $e->getMessage());
+}

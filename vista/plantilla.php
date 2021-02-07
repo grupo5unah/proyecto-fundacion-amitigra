@@ -56,6 +56,7 @@ $_SESSION["timeout"] = time();
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="vista/css/sweetalert2.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
@@ -73,7 +74,9 @@ $_SESSION["timeout"] = time();
     if(isset($_GET["ruta"])){
       if($_GET["ruta"] == "inicio"||
         $_GET["ruta"] == "camping"||
+        $_GET["ruta"] == "reservacamping"||
         $_GET["ruta"] == "hotel" ||
+        $_GET["ruta"] == "reservahotel" ||
         $_GET["ruta"] == "senderos" ||
         $_GET["ruta"] == "solicitudes" ||
         $_GET["ruta"] == "producto" ||
@@ -89,6 +92,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "carrusel" ||
         $_GET["ruta"] == "mantLocalidad" ||
         $_GET["ruta"] == "mantroles" ||
+        $_GET["ruta"] == "rol" ||
         $_GET["ruta"] == "mantObjetos" ||
         $_GET["ruta"] == "mantparametros" ||
         $_GET["ruta"] == "mantpermisos" ||
@@ -96,7 +100,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "menuSolicitudes" ||
         $_GET["ruta"] == "panel" ||
         $_GET["ruta"] == "configuracion" ||
-        $_GET["ruta"] == "reporteBitacora" ||
+        $_GET["ruta"] == "reportes" ||
         $_GET["ruta"] == "reporteProducto"){
         include("modulos/".$_GET["ruta"].".php");
       } else{
@@ -151,14 +155,22 @@ $_SESSION["timeout"] = time();
 <script src="vista/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="vista/dist/js/dataTables.responsive.min.js"></script>
 <script src="vista/dist/js/tablas.js"></script>
+<script src="vista/dist/js/app_reservaciones.js"></script>
 <script src="vista/dist/js/funciones.js"></script>
 <script src="vista/dist/js/mapa.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" 
+integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
 <script src="vista/dist/js/product.js"></script>
+<script src="vista/dist/js/roles.js"></script>
+<script src="vista/dist/js/objetos.js"></script>
+<script src="vista/dist/js/reportes.js"></script>
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="vista/dist/js/demo.js"></script>
+<script src="vista/dist/js/sweetalert2.all.min.js"></script>
 <!--JS PARA LA TABLA-->
 </body>
 </html>

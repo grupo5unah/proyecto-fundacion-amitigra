@@ -19,8 +19,7 @@
 							</div> <!-- /panel-heading -->
 							<div class="panel-body">
 								<div class="remove-messages"></div>
-								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar parametro </a>
+								<button class="btn btn-default btnCrearParam glyphicon glyphicon-plus-sign" >Agregar Parametro</button>
 
 								</div> <!-- /div-action -->
 
@@ -42,7 +41,7 @@
 
 
 											$sql = "SELECT id_parametro,parametro,valor,fecha_creacion,fecha_modificacion
-                                                            FROM tbl_parametros";
+                                                            FROM tbl_parametros  where estado=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -76,7 +75,7 @@
 													<td>
 														<button class="btn btn-warning btnEditarParam glyphicon glyphicon-pencil"  data-idparametro="<?= $evento['id_parametro'] ?>" data-nombreparametro="<?= $evento['nombre_parametro']?>" data-valor="<?= $evento['valor'] ?>"></button>
 
-														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idparam="<?php echo $evento['id_rol'] ?>"></button>
+														<button class="btn btn-danger btnEliminarParam glyphicon glyphicon-remove" data-idparametro="<?php echo $evento['id_parametro'] ?>"></button>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -99,7 +98,7 @@
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarParam" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -120,12 +119,12 @@
 
 										<div class="campos">
 											<label for="">Parametro: </label>
-											<input id="nombreParam" class="form-control secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="nombreParam" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
 
 										</div>
 										<div class="campos form-group">
 											<label for="">valor parametro: </label>
-											<input id="valorParam" class="form-control secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+											<input id="valorParam" class="form-control  modal-roles  secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
 
 										</div>
 										
@@ -139,6 +138,62 @@
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar parametro</button>
 							</div>
+						</div>
+					</div>
+				</div>
+				<!-- modal para crear un prametro -->
+				<div class="modal fade" id="modalRegistrarParam" tabindex="-1"
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Registrar Parametros</h3>
+								</div>
+							</div>
+							<div class="modal-body">
+							<section class="">
+                          <form method="POST" id="formParametros">
+                             <div class="ingreso-producto form-group">
+                              <div class="campos" type="hidden">
+                                <label for=""> </label>
+                                  <input autocomplete="off" class="form-control secundary" type="hidden" name="idParametro" value="0" disabled>
+
+                              </div>
+   
+                              <div class="campos">
+                                <label for="">Nombre del Parametro </label>
+                                  <input id="nombrePara" class="form-control modal-roles secundary" type="text" name="nombreParametro" placeholde="Escriba el parametro" required />
+
+                                  </div>
+                              <div class="campos form-group">
+                                <label for="">Descripcion </label>
+                                   <input id="valor" class="form-control  modal-roles secundary" type="tel" placeholde="Describa el parametro" required  />
+
+                                 </div>
+                
+                                <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                                </div>
+								<!-- <input type="submit" name="ingresarProducto" class="btn" value="Ingresar Parametro" />
+								</div> -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+								<button id="btnEditarBD"type="submit" class=" btn btn-primary">Registrar Parametro</button>
+							</div>
+                           </form>
+                       <?php 
+                       if(isset($_GET['msg'])){
+                         $mensaje = $_GET['msg'];
+                        print_r($mensaje);
+                 
+                     }
+
+                          ?>
+                          </section>
+							
 						</div>
 					</div>
 				</div>
