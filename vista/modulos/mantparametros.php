@@ -1,4 +1,4 @@
-<?php include("./modelo/conexion.php"); ?>
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -41,7 +41,7 @@
 
 
 											$sql = "SELECT id_parametro,parametro,valor,fecha_creacion,fecha_modificacion
-                                                            FROM tbl_parametros  where estado=1";
+                                                            FROM tbl_parametros  where estado_eliminado=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();

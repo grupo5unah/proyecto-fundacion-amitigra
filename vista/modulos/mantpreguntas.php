@@ -1,4 +1,4 @@
-<?php include("./modelo/conexion.php"); ?>
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -75,7 +75,7 @@
 													<td>
 														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil"  data-idpregunta="<?= $evento['id_pregunta'] ?>" data-nompregunta="<?= $evento['pregunta'] ?>"></button>
 
-														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_rol'] ?>"></button>
+														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta'] ?>"></button>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -119,7 +119,7 @@
 
 										<div class="campos">
 											<label for="">Pregunta: </label>
-											<input id="nombrePregunta" class="form-control secundary" type="text" name="" placeholder="Escriba el producto" required />
+											<input id="pregunta" class="form-control secundary" type="text" name="" placeholder="Escriba la pregunta" required />
 
 										</div>
 					
@@ -144,7 +144,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
-               		 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               	             	 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
 									<h3 class="modal-title" id="exampleModalLabel">Registrar pregunta</h3>

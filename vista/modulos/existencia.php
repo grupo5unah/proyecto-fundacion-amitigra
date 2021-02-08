@@ -1,4 +1,4 @@
-<?php include("./modelo/conexion.php"); ?>
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -42,7 +42,7 @@
 										try {
 
 
-											$sql = "SELECT id_inventario, nombre_articulo,existencia, costo, fecha_entrada FROM tbl_inventario WHERE estado=1";
+											$sql = "SELECT id_inventario, nombre_articulo,existencias, costo, fecha_entrada FROM tbl_inventario WHERE estado_eliminar=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -51,10 +51,10 @@
 										$vertbl = array();
 										while ($eventos = $resultado->fetch_assoc()) {
 
-											$traer = $eventos['existencia'];
+											$traer = $eventos['existencias'];
 											$evento = array(
 												'nombre_arti' => $eventos['nombre_articulo'],
-												'existencia_inve' => $eventos['existencia'],
+												'existencia_inve' => $eventos['existencias'],
 												'costo_art' => $eventos['costo'],
 												'fecha_art' => $eventos['fecha_entrada'],
 												'id_inventario' => $eventos['id_inventario'],

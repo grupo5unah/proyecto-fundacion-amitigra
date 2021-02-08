@@ -1,6 +1,6 @@
 <?php
 
-include "../modelo/conexion.php";
+include "../modelo/conexionbd.php";
 
 $res = array('error' => false);
 $action = '';
@@ -13,18 +13,19 @@ switch ($action) {
     case 'obtenerObjeto': // OBTIENE UN Objeto POR NOMBRE
         $objeto = $_GET['objeto'];
         $sql = "SELECT 
-        objeto, id_objeto
-        FROM tbl_objetos WHERE objeto = '" . $objeto . "'";
+         id_objeto, objeto
+        FROM tbl_objeto WHERE objeto = '" . $objeto . "'";
         $result = $conn->query($sql);
         $objeto_db = array();
         while ($row = $result->fetch_assoc()) {
             array_push($objeto_db, $row);
         }
         $res['objeto'] = $objeto_db;
-        break;
+    break;
 
      case 'registrarObjeto': // REGISTRA UN ROL
         $nombreObjetos = $_POST['objeto'];
+        $tipoObjeto = $_POST['tipo_objeto'];
         $descripcion = $_POST['descripcion'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
@@ -35,8 +36,8 @@ switch ($action) {
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_objeto (objeto, descripcion, estado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?)");
-                $sql->bind_param("ssissss", $nombreObjetos, $descripcion, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                $sql = $conn->prepare("INSERT INTO tbl_objeto (objeto, tipo_objeto, descripcion, estado_eliminado, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?)");
+                $sql->bind_param("sssissss", $nombreObjetos, $tipoObjeto, $descripcion, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                 $sql->execute();
 
                 if ($sql->error) {
@@ -56,12 +57,13 @@ switch ($action) {
 
         if (
             isset(($_POST['id_objeto']))
-            && isset($_POST['objeto']) && isset($_POST['descripcion'])) {
+            && isset($_POST['objeto']) && isset($_POST['tipo_objeto'])&& isset($_POST['descripcion'])) {
             $id_objetos = (int)$_POST['id_objeto'];
             $nombreO = $_POST['objeto'];
+            $tipoObjeto = $_POST['tipo_objeto'];
             $descripcion = $_POST['descripcion'];
            
-            $sql = "UPDATE tbl_objeto SET objeto = '$nombreO', descripcion= '$descripcion' WHERE id_objeto=" .$id_objetos;          
+            $sql = "UPDATE tbl_objeto SET objeto = '$nombreO', tipo_objeto  = '$tipoObjeto', descripcion= '$descripcion' WHERE id_objeto=" .$id_objetos;          
             $resultado = $conn->query($sql);
           
             if ($resultado == 1) {
@@ -81,7 +83,7 @@ switch ($action) {
     case 'eliminarObjetos':
         if (isset($_POST['id_objeto'])) {
             $id_objetos = $_POST['id_objeto'];
-            $sql = "UPDATE tbl_objeto SET estado = 0 WHERE id_objeto = " . $id_objetos;
+            $sql = "UPDATE tbl_objeto SET estado_eliminados = 0 WHERE id_objeto = " . $id_objetos;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Objeto Eliminado  Correctamente";

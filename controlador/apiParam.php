@@ -1,6 +1,6 @@
 <?php
 
-include "../modelo/conexion.php";
+include "../modelo/conexionbd.php";
 
 $res = array('error' => false);
 $action = '';
@@ -36,7 +36,7 @@ case 'registrarParametro': // REGISTRA UN parametro
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_parametros (parametro, valor, estado, id_usuario, fecha_creacion,  fecha_modificacion) VALUES (?,?,?,?,?,?)");
+                $sql = $conn->prepare("INSERT INTO tbl_parametros (parametro, valor, estado_eliminado, id_usuario, fecha_creacion,  fecha_modificacion) VALUES (?,?,?,?,?,?)");
                 $sql->bind_param("ssiiss", $nombreParametro, $valor, $estado, $id_usuario, $fecha, $fecha);
                 $sql->execute();
 
@@ -82,7 +82,7 @@ case 'actualizarParametro':
 case 'eliminarParametro':
         if (isset($_POST['id_parametro'])) {
             $id_param = (int)$_POST['id_parametro'];
-            $sql = "UPDATE tbl_parametros SET estado = 0 WHERE id_parametro = " . $id_param;
+            $sql = "UPDATE tbl_parametros SET estado_eliminado = 0 WHERE id_parametro = " . $id_param;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Parametro Eliminado  Correctamente";

@@ -1,6 +1,6 @@
 <?php
 
-include "../modelo/conexion.php";
+include "../modelo/conexionbd.php";
 
 $res = array('error' => false);
 $action = '';
@@ -35,7 +35,7 @@ switch ($action) {
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_roles (rol, descripcion, estado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?)");
+                $sql = $conn->prepare("INSERT INTO tbl_roles (rol, descripcion, estado_eliminado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?)");
                 $sql->bind_param("ssissss", $nombreRol, $descripcion, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                 $sql->execute();
 
@@ -81,7 +81,7 @@ switch ($action) {
     case 'eliminarRol':
         if (isset($_POST['id_rol'])) {
             $id_rol = $_POST['id_rol'];
-            $sql = "UPDATE tbl_roles SET estado = 0 WHERE id_rol = " . $id_rol;
+            $sql = "UPDATE tbl_roles SET estado_eliminado = 0 WHERE id_rol = " . $id_rol;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Producto Eliminado  Correctamente";

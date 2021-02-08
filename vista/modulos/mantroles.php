@@ -1,4 +1,4 @@
-<?php include("./modelo/conexion.php"); ?>
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -43,7 +43,7 @@
 
 
 											$sql = "SELECT id_rol,rol,descripcion,creado_por,fecha_creacion,modificado_por,fecha_modificacion
-                                            FROM tbl_roles where estado=1";
+                                            FROM tbl_roles where estado_eliminado=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();

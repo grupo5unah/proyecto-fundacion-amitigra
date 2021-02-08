@@ -1,6 +1,7 @@
 <?php
 include_once("./modelo/conexionbd.php");
 $id_objeto = 6;
+global $columna;
 //$rol = $_SESSION['mi_rol'];
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
@@ -21,7 +22,7 @@ while($stmt->fetch()){
 
 if($existe){
 
-global $columna;
+
 
 $stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
 WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");

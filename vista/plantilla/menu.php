@@ -1,6 +1,8 @@
 <?php
 include_once("./modelo/conexionbd.php");
 $id_objeto = 5;
+global $columna;
+global $mi_rol;
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
@@ -181,7 +183,7 @@ $columna = $stmt->fetch_assoc();
             <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
             <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
             <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
+            
           </ul>
         </li>
         <!-- Reportes -->
@@ -196,7 +198,7 @@ $columna = $stmt->fetch_assoc();
           <ul class="treeview-menu">
             <li><a href="reportes"><i class="fa fa-circle-o"></i> Reportes</a></li>
             <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
+            <!-- <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li> -->
             <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
             <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
             <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
