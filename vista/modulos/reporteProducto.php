@@ -8,8 +8,8 @@ $rol_id = 2;
 $stmt->bind_Param("ii",$rol_id, $id_objeto);
 $stmt->execute();*/
 
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,id_rol,id_objeto FROM tbl_permisos
-WHERE id_rol = '$rol_id' AND id_objeto = '$id_objeto'");
+$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta, rol_id, objeto_id FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 //$stmt->bind_result($insercion,$eliminacion,$actualizacion,$consulta,$objeto, $rol);
 ?>

@@ -1,5 +1,6 @@
 <?php
-include_once("./modelo/conexionbd.php");
+require "./modelo/conexionbd.php";
+global $mi_rol;
 $id_objeto = 5;
 global $columna;
 global $mi_rol;

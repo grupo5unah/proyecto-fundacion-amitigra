@@ -54,7 +54,7 @@ $correo = $_SESSION['correo'];
                       <select name = "pregunta_id" class="form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexionbd.php');
+                             include_once '../../modelo/conexionbd.php';
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
@@ -93,7 +93,7 @@ $correo = $_SESSION['correo'];
                       <br>
                       <div class="columna">
                         <button class="btn btn-primary" href="#activity" data-toggle="tab">Anterior</button>
-                        <input type="hidden" name="tipo" value="registro">
+                        <input type="hidden" name="tipo" value="newpassword">
                         <button type="submit" name="submit" class="btn btn-success">Actualizar</button>
                       </div>
                       
@@ -108,11 +108,11 @@ $correo = $_SESSION['correo'];
         </div>   
       </div>
       <?php
-                      include("../../controlador/ctr.nuevaPassPregunta.php");
+        include("../../controlador/ctr.nuevaPassPregunta.php");
 
-                      $AtualizarPassword = new NuevaPassPregunta();
-                      $AtualizarPassword->ctrNuevaPassPregunta();
-                      ?>
+        $AtualizarPassword = new NuevaPassPregunta();
+        $AtualizarPassword->ctrNuevaPassPregunta();
+      ?>
     </form>
   </div>
   <!-- /.form-box -->
@@ -150,7 +150,7 @@ var btnpass = document.getElementById("pass");
 
 //Inputs
 var nombre = document.getElementById("nombre");
-var apellido = document.getElementById("apellido");
+//var apellido = document.getElementById("apellido");
 var preg1 = document.getElementById("pregunta1");
 var preg2 = document.getElementById("pregunta2");
 var preg3 = document.getElementById("pregunta3");
