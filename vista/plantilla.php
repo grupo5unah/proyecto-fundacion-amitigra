@@ -165,6 +165,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/objetos.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/gUsuarios.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
