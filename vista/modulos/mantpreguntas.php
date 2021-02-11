@@ -1,4 +1,5 @@
-<?php include("./modelo/conexion.php"); ?>
+<?php require "./modelo/conexionbd.php"; ?>
+
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -40,7 +41,7 @@
 										<?php
 										try {
 											$sql = "SELECT id_pregunta,pregunta,creado_por,fecha_creacion,modificado_por,fecha_modificacion
-                                                            FROM tbl_preguntas";
+                                                            FROM tbl_preguntas;";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -73,9 +74,8 @@
                                                     <td> <?php echo $evento['modificado_por']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil"  data-idpregunta="<?= $evento['id_pregunta'] ?>" data-nompregunta="<?= $evento['pregunta'] ?>"></button>
-
-														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_rol'] ?>"></button>
+														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil" data-idpregunta="<?php $evento['id_pregunta']; ?>" data-nompregunta="<?php $evento['pregunta']; ?>"></button>
+														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta']; ?>"></button>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -119,7 +119,7 @@
 
 										<div class="campos">
 											<label for="">Pregunta: </label>
-											<input id="nombrePregunta" class="form-control secundary" type="text" name="" placeholder="Escriba el producto" required />
+											<input id="pregunta" class="form-control secundary" type="text" name="" placeholder="Escriba la pregunta" required />
 
 										</div>
 					
@@ -144,7 +144,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
-               		 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               	             	 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
 									<h3 class="modal-title" id="exampleModalLabel">Registrar pregunta</h3>

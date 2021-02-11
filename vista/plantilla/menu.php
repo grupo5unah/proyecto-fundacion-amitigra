@@ -1,6 +1,9 @@
 <?php
-include_once("./modelo/conexionbd.php");
+require "./modelo/conexionbd.php";
+global $mi_rol;
 $id_objeto = 5;
+global $columna;
+global $mi_rol;
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
@@ -20,7 +23,7 @@ while($stmt->fetch()){
 if($existe){
 
 $stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
-WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");
+WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 ?>
@@ -40,24 +43,26 @@ $columna = $stmt->fetch_assoc();
       </div>
     </div>
     <!-- sidebar menu: : style can be found in sidebar.less -->
-<?php }}?>   
+<?php //}}?>   
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Menú de Navegación</li>
         <!--Pendiente-->
         
         <!--ROL DE ADMINISTRACION-->
-        <?php if($_SESSION['rol'] == 'administrador'){?>
+        <?php if($_SESSION['rol'] === 'administrador' OR $_SESSION['rol'] === 'asistente'){?>
           <!--Inicio SOLICITUDES-->
-          <?php if ($columna["permiso_consulta"] == 0) {?><li class="">
+          <?php if ($columna["permiso_consulta"] == 1) {?><li class="">
           <a href="solicitudes">
             <i class="fa fa-files-o"></i>
             <span>Solicitudes</span>
           </a>
-        </li><?php }?>
+        </li>
+        <?php }?>
         <!--Fin SOLICITUDES-->
 
         <!--Inico REPORTES-->
         <li class="treeview">
+        <?php if($columna['permiso_consulta'] == 1 && $columna['permiso_consulta'] == 0) {?>
           <a href="#">
             <i class="fa fa-laptop"></i>
             <span>Reportes</span>
@@ -75,10 +80,95 @@ $columna = $stmt->fetch_assoc();
             <li><a href="bitacora"><i class=""></i> Bitacora</a></li>
           </ul>
         </li>
+        <?php }?>
         <!--Fin REPORTES-->
 
-          <!--Inicio panel de ADMINISTRACION-->
+          <!--ROL DE USUARIO-->
+          <!--Inicio RESERVACIONES-->
+          <li class="treeview" name="admin">
+          <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
+          <a href="#">
+            <i class="fa fa-calendar-check-o"></i>
+            <span>Reservaciones</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <li class="active"><a href="camping"><i class="fa fa-circle-o"></i> Camping</a></li>
+            <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
+            <li><a href="senderos"><i class="fa fa-circle-o"></i> Senderos</a></li>
+          </ul>
+        </li>
+        <?php }?>
+        <!--Fin RESERVACIONES-->
+
+        <!--Inicio INVENTARIO-->
+        <li class="treeview">
+        <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
+          <a href="#">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>Inventario</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="producto"><i class="fa fa-circle-o"></i> Producto</a></li>
+            <li><a href="existencia"><i class="fa fa-circle-o"></i> Existencia</a></li>
+          </ul>
+        </li>
+        <?php }?>
+        <!--Final INVENTARIO-->
+
+        <!--Inico mantenimientos-->
+        <li class="treeview">
+        <?php if ($_SESSION['rol'] == 'administrador' AND $columna["permiso_consulta"] == 1) {?>
+          <a href="#">
+            <i class="fa fa-wrench"></i>
+            <span>Mantenimientos</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Pantallas del sistema</a></li>
+            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
+            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
+            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
+            
+          </ul>
+        </li>
+        <?php }?>
+
+          <!-- Reportes -->
+        <li class="treeview">
+        <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
+          <a href="#">
+            <i class="fa fa-pencil"></i>
+            <span>Reportes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="reportes"><i class="fa fa-circle-o"></i> Reportes</a></li>
+            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
+            <!-- <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li> -->
+            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
+          </ul>
+        </li>
+        <!--Fin REPORTES-->
+        <?php }?>
+
+        <!--Inicio panel de ADMINISTRACION-->
         <li name="admin" id= "admin" class="treeview">
+        <?php if ($_SESSION['rol'] == 'administrador' and $columna['permiso_consulta'] == 1) {?>
           <a href="#">
             <i class="fa fa-gear"></i> <span>Panel de control</span>
             <span class="pull-right-container">
@@ -98,116 +188,10 @@ $columna = $stmt->fetch_assoc();
         </li>
         <!--Final ADMINISTRACION-->
 
-          <!--ROL DE SECRETARIO(A)-->
-        <?php } elseif ($_SESSION['rol'] == 'asistente'){?>
-          <!--Inicio SOLICITUDES-->
-        <li class="">
-          <a href="solicitudes">
-            <i class="fa fa-files-o"></i>
-            <span>Solicitudes</span>
-          </a>
-        </li>
-        <!--Fin SOLICITUDES-->
+        <?php }}
+        }}?>
 
-          <!--Inico REPORTES-->
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-laptop"></i>
-            <span>Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="reporteBitacora"><i class="fa fa-circle-o"></i> Reporte Bitácora</a></li>
-            <li><a href="reporteProducto"><i class="fa fa-circle-o"></i> Reporte Producto</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Senderos</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Reporte Bitacora</a></li>
-          </ul>
-        </li>
-        <!--Fin REPORTES-->
 
-          <!--ROL DE USUARIO-->
-        <?php } elseif ($_SESSION['rol'] == 'usuario') {?>
-
-          <!--Inicio RESERVACIONES-->
-          <li class="treeview" name="admin">
-          <a href="#">
-            <i class="fa fa-calendar-check-o"></i><span>Reservaciones</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-          <?php if ($columna["permiso_consulta"] == 1) {?><li class="active"><a href="camping"><i class="fa fa-circle-o"></i> Camping</a></li><?php }?>
-            <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
-            <li><a href="senderos"><i class="fa fa-circle-o"></i> Senderos</a></li>
-          </ul>
-        </li>
-        <!--Fin RESERVACIONES-->
-
-        <!--Inicio INVENTARIO-->
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pencil-square-o"></i>
-            <span>Inventario</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="producto"><i class="fa fa-circle-o"></i> Producto</a></li>
-            <li><a href="existencia"><i class="fa fa-circle-o"></i> Existencia</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Item Inventario</a></li>
-          </ul>
-        </li>
-        <!--Final INVENTARIO-->
-
-        <!--Inico mantenimientos-->
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-copy"></i>
-            <span>Mantenimientos</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Pantallas del sistema</a></li>
-            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
-            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
-          </ul>
-        </li>
-        <!-- Reportes -->
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-copy"></i>
-            <span>Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="reportes"><i class="fa fa-circle-o"></i> Reportes</a></li>
-            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
-            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
-          </ul>
-        </li>
-
-        <!--Fin REPORTES-->
-        <?php }else{
-          echo "El rol no existe";
-        }?>
   </section>
   <!-- /.sidebar -->
 </aside>

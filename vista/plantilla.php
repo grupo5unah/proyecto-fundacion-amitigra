@@ -56,6 +56,7 @@ $_SESSION["timeout"] = time();
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="vista/css/sweetalert2.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
@@ -73,10 +74,12 @@ $_SESSION["timeout"] = time();
     if(isset($_GET["ruta"])){
       if($_GET["ruta"] == "inicio"||
         $_GET["ruta"] == "camping"||
+        $_GET["ruta"] == "reservacamping"||
         $_GET["ruta"] == "hotel" ||
         $_GET["ruta"] == "senderos" ||        
         $_GET["ruta"] == "senderosN" ||
         $_GET["ruta"] == "senderosE" ||
+        $_GET["ruta"] == "reservahotel" ||
         $_GET["ruta"] == "solicitudes" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
@@ -163,11 +166,13 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/roles.js"></script>
 <script src="vista/dist/js/objetos.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
-
+<script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/gUsuarios.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="vista/dist/js/demo.js"></script>
+<script src="vista/dist/js/sweetalert2.all.min.js"></script>
 <!--JS PARA LA TABLA-->
 </body>
 </html>

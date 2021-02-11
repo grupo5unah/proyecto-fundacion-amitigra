@@ -81,57 +81,7 @@
 
 </div>
 
-	<script type="text/javascript">
-	function mostrarPassword(){
-			var cambio = document.getElementById("PPassword");
-			if(cambio.type == "password"){
-				cambio.type = "text";
-				$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				cambio.type = "password";
-				$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-<script type="text/javascript">
-	function mostrarPassword(){
-			var cambio = document.getElementById("PPassword");
-			if(cambio.type == "password"){
-				cambio.type = "text";
-				$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				cambio.type = "password";
-				$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-	<script>
-		SinEspacio=function(input){
-		input.value=input.value.replace(' ','');}
-	</script>
-
-	<script>
-	function soloLetras(e) {
-		var key = e.keyCode || e.which,
-		tecla = String.fromCharCode(key).toLowerCase(),
-		letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-		especiales = [8, 37, 39, 46],
-		tecla_especial = false;
-
-		for (var i in especiales) {
-		if (key == especiales[i]) {
-			tecla_especial = true;
-			break;
-		}
-		}
-
-		if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-		return false;
-		}
-	}
-	</script>
+<script src="../dist/js/app.login.js"></script>
 
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>

@@ -1,6 +1,6 @@
 <?php
 
-include "../modelo/conexion.php";
+include "../modelo/conexionbd.php";
 
 $res = array('error' => false);
 $action = '';

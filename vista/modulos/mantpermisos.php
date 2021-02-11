@@ -1,4 +1,5 @@
-<?php include("./modelo/conexion.php"); ?>
+<?php require "./modelo/conexionbd.php"; ?>
+
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -23,13 +24,13 @@
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
 									<thead>
 										<tr>
-
 										    <th>Rol</th>
+											<th>Objeto</th>
 											<th>Permiso insertar</th>
                                             <th>Permiso eliminar</th>
                                             <th>Permiso actualizar</th>
                                             <th>Permiso consulta</th>
-											
+											<th>Rol</th>
 											<th>Acciones</th>
 
 										</tr>
@@ -38,9 +39,11 @@
 										<?php
 										try {
 
-
-											$sql = "SELECT id_permisos, rol, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
-                                                    FROM tbl_permisos inner join tbl_roles where tbl_permisos.id_rol = tbl_roles.id_rol";
+											$sql = "SELECT id_permiso, rol_id, objeto_id, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta FROM tbl_permisos
+													INNER JOIN tbl_roles
+													ON tbl_permisos.rol_id = tbl_roles.id_rol
+													INNER JOIN tbl_objeto
+													ON tbl_permisos.objeto_id = tbl_objeto.id_objeto";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -51,12 +54,13 @@
 
 											$traer = $eventos['permiso_insercion'];
 											$evento = array(
-												'rol' => $eventos['rol'],
+												'rol' => $eventos['rol_id'],
+												'objeto' => $eventos['objeto_id'],
 												'insercion' => $eventos['permiso_insercion'],
                                                 'eliminacion' => $eventos['permiso_eliminacion'],
                                                 'actualizacion' => $eventos['permiso_actualizacion'],
 												'consulta' => $eventos['permiso_consulta'],
-												'id_permisos' =>$eventos['id_permisos']
+												'id_permisos' =>$eventos['id_permiso']
 										
 											);
 											$vertbl[$traer][] =  $evento;
@@ -69,13 +73,16 @@
 												?>
 												<tr>
 												    <td> <?php echo $evento['rol']; ?></td>
+													<td> <?php echo $evento['objeto']; ?></td>
 													<td> <?php echo $evento['insercion']; ?></td>
                                                     <td> <?php echo $evento['eliminacion']; ?></td>
                                                     <td> <?php echo $evento['actualizacion']; ?></td>
 													<td> <?php echo $evento['consulta']; ?></td>
-													
+													<td> <?php echo $evento['rol']; ?></td>
+
 													<td>
-													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['permiso_insercion']?>" data-eliminar="<?= $evento['permiso_eliminacion'] ?>"></button>
+													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
+													data-actualizacion="<?= $evento['actualizacion'] ?>" data-consulta="<?= $evento['consulta'] ?>"></button>
 											
 													</td>
 												<?php  } ?>

@@ -1,5 +1,5 @@
 <?php
-include_once("./modelo/conexion.php");
+include_once("./modelo/conexionbd.php");
 
   $PuertoCorreo = "puerto_correo";
 
@@ -102,7 +102,7 @@ $columna = $stmt->fetch_assoc();*/
                             <label for="inputName" class="col-sm-3 control-label">Puerto correo electrónico:</label>
 
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" value="<?php echo $Pcorreo;?>" id="inputName" placeholder="Puerto">
+                            <input type="text" class="form-control" value="<?php //echo $Pcorreo;?>" id="inputName" placeholder="Puerto">
                             </div>
                         </div>
                         <div class="form-group">
@@ -137,7 +137,7 @@ $columna = $stmt->fetch_assoc();*/
                             <label for="inputName" class="col-sm-3 control-label">Puerto base de datos:</label>
 
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" value="<?php echo $bdPuerto;?>" id="puerto" placeholder="Puerto base de datos">
+                            <input type="text" class="form-control" value="<?php //echo $bdPuerto;?>" id="puerto" placeholder="Puerto base de datos">
                             </div>
                         </div>
                         <div class="form-group">

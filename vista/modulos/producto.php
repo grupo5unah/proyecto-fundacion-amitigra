@@ -1,5 +1,5 @@
 <?php
-include("./modelo/conexion.php");
+include("./modelo/conexionbd.php");
 //include("./controlador/ctr.producto.php");
 ?>
 <div class="content-wrapper">

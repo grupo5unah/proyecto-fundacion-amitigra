@@ -27,10 +27,10 @@
                     // Bien hecho, en un momento te redirigimos al cambio de contrasena.
                     // </div>";
 
-                    echo "<div class='text-center alert alert-danger' role ='alert'>
+                    /*echo "<div class='text-center alert alert-danger' role ='alert'>
                     <i class='fa fa-ban icon'></i> Función deshabilitada temporalmente.
                     </div>";
-                    exit;
+                    exit;*/
 
                     sleep(3);
 
@@ -38,14 +38,14 @@
                         session_start();
                         $_SESSION['correo'] = $correo_electronico;
                         echo '<script type="text/javascript">
-                                location.href="recupregunta.php";
-                                </script>';
+                               location.href="recupregunta.php";
+                              </script>';
                     }
 
                 } else {
                     echo "<div class='text-center alert alert-danger' role='alert'>
-                            No existe el usuario con correo.
-                            </div>";
+                           No existe usuario registrado con ese correo.
+                          </div>";
                 }
             }
 

@@ -75,69 +75,42 @@ $(document).ready(function(){
     })
   
     // Elimina un producto del inventario
-//     $("#formRoles").submit(async function(e){
-//         e.preventDefault();
+    //     $("#formRoles").submit(async function(e){
+    //         e.preventDefault();
         
-//         var nombre = $("#nombreRol").val();
-//         var descripcion = $("#descripcion").val();
-//         var usuario_actual = $("#usuario_actual").val();
+    //         var nombre = $("#nombreRol").val();
+    //         var descripcion = $("#descripcion").val();
+    //         var usuario_actual = $("#usuario_actual").val();
 
-//         console.log(nombre, descripcion, usuario_actual);
-//         if(nombre != undefined && descripcion != undefined && usuario_actual != undefined){
-//             const formData = new FormData();
-//             formData.append('rol',nombre);
-//             formData.append('descripcion',descripcion);
-//             formData.append('usuario_actual', usuario_actual);
+    //         console.log(nombre, descripcion, usuario_actual);
+    //         if(nombre != undefined && descripcion != undefined && usuario_actual != undefined){
+    //             const formData = new FormData();
 
-//             const resp = await axios.post(`./controlador/apiRol.php?action=registrarRol`, formData);
+    //             formData.append('rol',nombre);
+    //             formData.append('descripcion',descripcion);
+    //             formData.append('usuario_actual', usuario_actual);
 
-//             const data = resp.data;
+    //             const resp = await axios.post(`./controlador/apiRol.php?action=registrarRol`, formData);
 
-//             if(data.error){
-//                 return swal("Error", data.msj, "error");
-//             }
+    //             const data = resp.data;
 
-//             return swal("Exito!", data.msj, "success").then((value) => {
-//                     if (value){
-//                         // Se limpia el formulario
-//                         $("#nombreRol").val('');
-//                         $("#descripcion").val('');
+    //             if(data.error){
+    //                 return swal("Error", data.msj, "error");
+    //             }
+
+    //             return swal("Exito!", data.msj, "success").then((value) => {
+    //                     if (value){
+    //                         // Se limpia el formulario
+    //                         $("#nombreRol").val('');
+    //                         $("#descripcion").val('');
                         
-//                     }
-//                 })
-//         }else{
-//             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-//         } 
-//   });    
-
-
-
-
-    
-    
-//     $('#nombreRol').blur(async function () {
-//         console.log(this.value);
-//         if(this.value.length > 0 ){
-//             try{
-//                 const resp = await axios(`./controlador/apiRol.php?action=obtenerRol&rol=${this.value}`);
-//                 const data = resp.data;
-//                 if(data.rol.length > 0){
-//                     console.log(data.rol[0]);
-//                     $('#nombreRol')
-//                     $('#descripcion')
-                    
-//                     return swal('Este rol ya existe ');
-//                 }else{
-//                     //return swal('NO existe este producto');
-//                 }
-                
-//             }catch(err){
-//                 console.log('Error - ', err);
-//             }
-//         }
-//     });
-
-  
+    //                     }
+    //                 })
+    //         }else{
+    //             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+    //         } 
+    //   });    
+ 
     //console.log($('.btnEliminar'));<
     $('.btnEliminar').on('click', function (){
         console.log("Hola mundo");
@@ -507,7 +480,7 @@ $(document).ready(function(){
     $('.btnEditarPreg ').on('click', function() {
         // info previa
         const idpregunta = $(this).data('idpregunta'); 
-        const pregunta = $(this).data('pregunta');
+        const pregunta = $(this).data('nompregunta');
         
         //llena los campos
         $("#idpregunta").val(idpregunta),
@@ -579,189 +552,7 @@ $('.btnEliminarPregunta').on('click', function (){
     });
 })
      //mantenimiento Usuario
- $(".btnEditarUsuario").on("click", function () {
-    // info previa
-    const idusuario = $(this).data("idusuario");
-    const nombre = $(this).data("nombre");
-    const apellido = $(this).data("apellido");
-    const nombre_usuario = $(this).data("nombre_usuario");
-    const correo = $(this).data("correo");
-    const telefono = $(this).data("telefono");
-    const rol = $(this).data("rol");
-    const estado_usuario = $(this).data("estado_usuario");
-    // const rol = $(this).data('rol');
-    //llena los campos
-    $("#idusuario").val(idusuario),
-      $("#nombre").val(nombre),
-      $("#apellido").val(apellido),
-      $("#nombre_usuario").val(nombre_usuario),
-      $("#correo").val(correo),
-      $("#telefono").val(telefono),
-      (name = $("[name=rol]").val(rol)),
-      $("#estado_usuario").val(estado_usuario),
-
-      //mostrar el modal
-      $("#modalEditarUsuario").modal("show");
-    $(".btnEditarBD").on("click", async function () {
-      var Iduser = Number(idusuario);
-      const formData = new FormData();
-      formData.append("id_usuario", Iduser);
-      formData.append("nombre", $("#nombre").val());
-      formData.append("apellido", $("#apellido").val());
-      formData.append("nombre_usuario", $("#nombre_usuario").val());
-      formData.append("correo", $("#correo").val());
-      formData.append("telefono", $("#telefono").val());
-      formData.append("rol", $("#rol").val());
-      formData.append("estado_usuario", $("#estado_usuario").val());
-      //formData.append('rol',$("#rol").val())
-      const resp = await axios.post(
-        "controlador/api.php?action=actualizarUsuario",
-        formData
-      );
-      const data = resp.data;
-      if (data.error) {
-        return swal("Error", data.msj, "error", {
-          timer: 3000,
-          buttons: false,
-        });
-      } else {
-        $("#modalEditarUsuario").modal("hide");
-        return swal("Exito!", data.msj, "success", {
-          timer: 3000,
-          buttons: false,
-        }).then(() => {
-          // Se limpia el formulario
-          console.log("Ya se cerro el alert");
-          $("#nombre").val("");
-          $("#apellido").val("");
-          $("#nombre_usuario").val("");
-          $("#correo").val("");
-          $("#telefono").val("");
-          $("#rol").val("");
-          $("#estado_usuario").val("");
-          location.reload();
-        });
-      }
-    });
-  });
-  
-  // Elimina un usuario
-  
-  $(".btnEliminarUsuario").on("click", function () {
-    const idusuario = $(this).data("idusuario");
-    swal(
-      "Eliminar Usuario",
-      "Esta seguro de eliminar este usuario?",
-      "warning",
-      { buttons: [true, "OK"] }
-    ).then(async (value) => {
-      if (value) {
-        console.log("Estoy dentro del if");
-        const formData = new FormData();
-        formData.append("id_usuario", idusuario);
-        const resp = await axios.post(
-          "controlador/api.php?action=eliminarUsuario",
-          formData
-        );
-        const data = resp.data;
-        //console.log(data);
-        if (data.error) {
-          return swal("Error", data.msj, "error", {
-            buttons: false,
-            timer: 2000,
-          });
-        }
-        return swal("Exito!", data.msj, "success", {
-          buttons: false,
-          timer: 2000,
-        }).then(() => {
-          location.reload();
-        });
-      }
-    });
-  });
- //mantenimiento Solicitudes
- //eliminar una solicitud
-  $(".btnEliminarSolicitud").on("click", function () {
-    const idsolicitud = $(this).data("idsolicitud");
-    swal(
-      "Eliminar Solicitud",
-      "Esta seguro de eliminar esta solicitud",
-      "warning",
-      { buttons: [true, "OK"] }
-    ).then(async (value) => {
-      if (value) {
-        console.log("Estoy dentro del if");
-        const formData = new FormData();
-        formData.append("id_solicitud", idsolicitud);
-        const resp = await axios.post(
-          "controlador/api.php?action=eliminarSolicitud",
-          formData
-        );
-        const data = resp.data;
-        //console.log(data);
-        if (data.error) {
-          return swal("Error", data.msj, "error", {
-            buttons: false,
-            timer: 2000,
-          });
-        }
-        return swal("Exito!", data.msj, "success", {
-          buttons: false,
-          timer: 2000,
-        }).then(() => {
-          location.reload();
-        });
-      }
-    });
-  });
-  
- //actualiza una solicitud
-  $(".btnEditarSolicitud").on("click", function () {
-    // info previa
-    const idsolicitud = $(this).data("idsolicitud");
-    const idcliente = $(this).data("idcliente");
-    const tipo = $(this).data("tipo");
-    const estatus_solicitud = $(this).data("estatus_solicitud");
-    //llena los campos
-    $("#idsolicitud").val(idsolicitud),
-      $("#idcliente").val(idcliente),
-      $("#tipo_solicitud").val(tipo),
-      $("#estatus_solicitud").val(estatus_solicitud),
-      //mostrar el modal
-      $("#modalEditarSolicitud").modal("show");
-    $(".btnEditarBD").on("click", async function () {
-      var Idsol = Number(idsolicitud);
-      const formData = new FormData();
-      formData.append("id_solicitud", Idsol);
-      formData.append("estatus_solicitud", $("#estatus_solicitud").val());
-      formData.append("tipo", $("#tipo").val());
-      //formData.append('rol',$("#rol").val())
-      const resp = await axios.post(
-        "controlador/api.php?action=actualizarSolicitud",
-        formData
-      );
-      const data = resp.data;
-      if (data.error) {
-        return swal("Error", data.msj, "error", {
-          timer: 3000,
-          buttons: false,
-        });
-      } else {
-        $("#modalEditarSolicitud").modal("hide");
-        return swal("Exito!", data.msj, "success", {
-          timer: 3000,
-          buttons: false,
-        }).then(() => {
-          // Se limpia el formulario
-          console.log("Ya se cerro el alert");
-          $("#estatus_solicitud").val("");
-          $("#tipo").val("");
-          location.reload();
-        });
-      }
-    });
-  });
+ 
 
 
 

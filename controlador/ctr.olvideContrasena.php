@@ -4,9 +4,9 @@
 
         public function ctrOlvideContrasena(){
 
-            require_once('../../funciones/config_serverMail.php');
-            require_once('../../funciones/gen-tkn.php');
-            require_once('../../modelo/conexionbd.php');
+            require '../../funciones/config_serverMail.php';
+            require '../../funciones/gen-tkn.php';
+            require '../../modelo/conexionbd.php';
 
             if(isset($_POST['tipo_correo']) == 'recuperarCorreo') {
                 $correo = $_POST['email'];
@@ -43,7 +43,7 @@
                             //Se incluye la CONEXION
                             require_once('../../modelo/conexionbd.php');
                             $stmt1 = $conn->prepare("UPDATE tbl_usuarios SET token = '$tkn' WHERE id_usuario = ?;");
-                            $stmt1->bind_Param('i', $id);
+                            $stmt1->bind_Param('i', $id_usuario);
                             $stmt1->execute();
 
                             if($stmt1->error) {

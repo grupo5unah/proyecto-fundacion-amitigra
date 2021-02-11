@@ -2,15 +2,17 @@ $(document).ready(function(){
    
     $("#formObjeto").submit(async function(e){
         e.preventDefault();
-        nombreObjeto
+        
         var nombre = $("#nombreObjeto").val();
-        var descripcion = $("#descripcionObjeto").val();
+        var tipo_objeto = $("#tObjeto").val();
+        var descripcion = $("#descripcion").val();
         var usuario_actual = $("#usuario_actual").val();
 
-        console.log(nombre, descripcion, usuario_actual);
-        if(nombre != undefined && descripcion != undefined && usuario_actual != undefined){
+        console.log(nombre, tipo_objeto, descripcion, usuario_actual);
+        if(nombre != undefined && tipo_objeto != undefined && descripcion != undefined && usuario_actual != undefined){
             const formData = new FormData();
             formData.append('objeto',nombre);
+            formData.append('tipo_objeto',tipo_objeto);
             formData.append('descripcion',descripcion);
             formData.append('usuario_actual', usuario_actual);
 
@@ -26,7 +28,9 @@ $(document).ready(function(){
                     if (value){
                         // Se limpia el formulario
                         $("#nombreObjeto").val('');
-                        $("#descripcionObjeto").val('');
+                        $("#tObjeto").val('');
+                        $("#descripcion").val('');
+                        
                         
                     }
                 })
@@ -34,30 +38,26 @@ $(document).ready(function(){
             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
         } 
     });    
-   
-  
     $('#nombreObjeto').blur(async function () {
-        //console.log('jhjsfjsh');
+        console.log(this.value);
         if(this.value.length > 0 ){
             try{
                 const resp = await axios(`./controlador/apiObjetos.php?action=obtenerObjeto&objeto=${this.value}`);
                 const data = resp.data;
                 if(data.objeto.length > 0){
-                    console.log(data.objeto[0]);
+                //    console.log(data.objeto[0]);
                     $('#nombreObjeto')
                     $('#descripcionObjeto')
-                    
-                    return swal('Este Objeto ya existe ');
-                }else{
-                    //return swal('NO existe este producto');
-                    console.log('hola');
+                   
+                    return swal('Este objeto ya existe ');
                 }
-                
             }catch(err){
                 console.log('Error - ', err);
             }
         }
-    });
+    })
+  
+    
     $('.btnCrearObjeto').on('click',function(){
         $('#modalCrearObjeto').modal('show');
     } );
@@ -66,10 +66,12 @@ $(document).ready(function(){
         // info previa
         const idobjeto = $(this).data('idobjeto'); 
         const nombre = $(this).data('nombreobjeto');
+        const tipo_Objeto = $(this).data('tipo_objeto');
         const descripcion = $(this).data('descripcion'); 
         //llena los campos
         //$("#id").val(idObjeto),
-        $("#nombreObjeto").val(nombre),
+        $("#nombre_Objeto").val(nombre),
+        $("#tipo_Objeto").val(tipo_Objeto),
         $("#descripcionObjeto").val(descripcion)
         
         //console.log(idrol,nombrerol,descripcion);
@@ -81,13 +83,14 @@ $(document).ready(function(){
             //console.log(IdRol);
             const formData = new FormData();
             formData.append('id_objeto', IdObjeto);
-            formData.append('objeto',$("#nombreObjeto").val());
+            formData.append('objeto',$("#nombre_Objeto").val());
+            formData.append('tipo_objeto',$("#tipo_Objeto").val());
             formData.append('descripcion',$("#descripcionObjeto").val());
             console.log(formData);
             
            const resp = await axios.post('./controlador/apiObjetos.php?action=actualizarObjeto', formData);
            const data = resp.data;
-            console.log(data);
+           // console.log(data);
             if(data.error){
                 return swal("Error", data.msj, "error", {
                     timer:3000,
@@ -101,7 +104,8 @@ $(document).ready(function(){
                 }).then(() => {
                     // Se limpia el formulario
                     console.log('Ya se cerro el alert');
-                    $("#nombreObjeto").val('');
+                    $("#nombre_Objeto").val('');
+                    $("#tipo_Objeto").val('');
                     $("#descripcion").val('');
                     location.reload(); 
                 })
@@ -140,10 +144,10 @@ $(document).ready(function(){
     $('.btnEditarPermisos').on('click', function() {
         // info previa
         const idpermiso = $(this).data('idpermisos'); 
-        const Insercion = $(this).data('insertar');
+        const Insercion = $(this).data('insercion');
         const Eliminacion = $(this).data('eliminar');
-        const Actualizacion = $(this).data('AActualizar');
-        const Consulta = $(this).data('PConsulta'); 
+        const Actualizacion = $(this).data('actualizacion');
+        const Consulta = $(this).data('consulta'); 
         //llena los campos
         console.log(idpermiso);
         //$("#id").val(idObjeto),

@@ -4,17 +4,20 @@ class NuevaPassPregunta{
 
     //VERIFICA SI LA RESPUESTA ES CORRECTA
     public function ctrNuevaPassPregunta(){
+
+        global $conn;
         
-        if(isset($_POST['tipo_pregunta']) == 'valRespuesta'){
-            $respuesta = $_POST['RespuestaValidar'];
+        if(isset($_POST['tipo']) == 'newpassword'){
+            // $respuesta = $_POST['RespuestaValidar'];
             $idPregunta = $_POST['pregunta_id'];
             $correo = $_SESSION['correo'];
             $password = $_POST['password'];
             $password2 = $_POST['password2'];
 
+
             //Traer la informacion del usuario
-            include_once("../../modelo/conexionbd.php");
-            $verificarUsuario = $conn->prepare("SELECT id_usuario FROM tbl_usuarios WHERE correo = ?");
+            require "../../modelo/conexionbd.php";
+            $verificarUsuario = $conn->prepare("SELECT id_usuario FROM tbl_usuarios WHERE correo = ?;");
             $verificarUsuario->bind_Param("s",$correo);
             $verificarUsuario->execute();
             $verificarUsuario->bind_Result($id_usuario);
@@ -23,16 +26,18 @@ class NuevaPassPregunta{
                 $existeUsuario = $verificarUsuario->fetch();
 
                 while($verificarUsuario->fetch()){
+                    global $id;
                     $id = $id_usuario;
                 }
                 
                 if($existeUsuario){
-
+                    
                     //VERIFICAR RESPUESTA
-                    include_once("../../modelo/conexionbd.php");
-                    $VerificarPreg = $conn->prepare("SELECT usuario_id, pregunta_id, respuesta FROM tbl_preguntas_usuario
+                    require "../../modelo/conexionbd.php";
+                    $VerificarPreg = $conn->prepare("SELECT usuario_id, pregunta_id, respuesta
+                                                    FROM tbl_preguntas_usuario
                                                     WHERE usuario_id = ? AND pregunta_id = ?;");
-                    $VerificarPreg->bind_Param("ii",$id, $idPregunta);
+                    $VerificarPreg->bind_Param("ii",$id_usuario, $idPregunta);
                     $VerificarPreg->execute();
                     $VerificarPreg->bind_Result($usuario_id, $preguntas, $respuestaCorrecta);
 
@@ -42,18 +47,17 @@ class NuevaPassPregunta{
                         if($existeRespuesta){
                             $respuesta = $_POST['RespuestaValidar'];
                             //ACTUALIZAR CONTRASENA
-                            if($respuesta == $respuestaCorrecta){
+                            
+                            if($respuesta === $respuestaCorrecta){
 
                                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
                                 if($password == $password2){
 
-                                    include_once("../../modelo/conexionbd.php");
+                                    require "../../modelo/conexionbd.php";
 
-                                    $actualizacion = $conn->prepare("UPDATE tbl_usuarios
-                                                                    SET contrasena = ?
-                                                                    WHERE id_usuario = ?");
-                                    $actualizacion->bind_Param("si",$hashed_password, $id);
+                                    $actualizacion = $conn->prepare("UPDATE tbl_usuarios SET contrasena = ? WHERE id_usuario = ?;");
+                                    $actualizacion->bind_Param("si", $hashed_password, $id_usuario);
                                     $actualizacion->execute();
 
                                     if($actualizacion->error){
@@ -75,6 +79,8 @@ class NuevaPassPregunta{
                             echo "<div class='alert alert-danger' role='alert'>
                             Respuesta incorrecta
                             </div>";
+                            echo 'Id usuario: '. $id_usuario;
+                            echo 'Id pregunta:'. $idPregunta;
                         }
                     }
                 }

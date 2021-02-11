@@ -1,6 +1,6 @@
 <?php
 
-include "../modelo/conexion.php";
+include "../modelo/conexionbd.php";
 
 $res = array('error' => false);
 $action = '';
@@ -34,7 +34,7 @@ switch ($action) {
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_preguntas (pregunta, estado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?)");
+                $sql = $conn->prepare("INSERT INTO tbl_preguntas (pregunta, estado_eliminado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?)");
                 $sql->bind_param("sissss", $pregunta, $estado,$usuario_actual, $fecha, $usuario_actual, $fecha);
                 $sql->execute();
 
@@ -80,7 +80,7 @@ switch ($action) {
     case 'eliminarPregunta':
         if (isset($_POST['id_pregunta'])) {
             $id_pregunta = (int)$_POST['id_pregunta'];
-            $sql = "UPDATE tbl_preguntas SET estado = 0 WHERE id_pregunta = " . $id_pregunta;
+            $sql = "UPDATE tbl_preguntas SET estado_eliminado = 0 WHERE id_pregunta = " . $id_pregunta;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Pregunta Eliminada  Correctamente";

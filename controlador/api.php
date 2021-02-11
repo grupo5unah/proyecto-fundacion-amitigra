@@ -1,6 +1,6 @@
 <?php
 
-include "../modelo/conexion.php";
+include "../modelo/conexionbd.php";
 
 $res = array('error' => false);
 $action = '';
@@ -38,8 +38,8 @@ switch ($action) {
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_producto (nombre_producto, cant_producto, precio, id_tipo_producto, estado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
-                $sql->bind_param("sidiissss", $nombreProducto, $cantidad, $precio, $tipoProducto, $estado,$usuario_actual, $fecha, $usuario_actual, $fecha);
+                $sql = $conn->prepare("INSERT INTO tbl_producto (nombre_producto, cantidad_producto, precio, tipo_producto_id,  estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                $sql->bind_param("sidiissss", $nombreProducto, $cantidad, $precio, $tipoProducto,$estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                 $sql->execute();
 
                 if ($sql->error) {
@@ -60,7 +60,7 @@ switch ($action) {
 
     case 'obtenerProductos':
         try {
-            $sql = "SELECT id_articulo, nombre_articulo FROM tbl_inventario WHERE estado = 1";
+            $sql = "SELECT id_articulo, nombre_articulo FROM tbl_inventario WHERE estado_eliminado = 1";
             $resultado = $conn->query($sql);
             if($resultado == 1){
                 //$res['productos'] = 
@@ -73,7 +73,7 @@ switch ($action) {
     case 'eliminarProducto':
         if (isset($_POST['id_inventario'])) {
             $id_inventario = $_POST['id_inventario'];
-            $sql = "UPDATE tbl_inventario SET estado = 0 WHERE id_inventario = " . $id_inventario;
+            $sql = "UPDATE tbl_inventario SET estado_eliminar = 0 WHERE id_inventario = " . $id_inventario;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Producto Eliminado  Correctamente";
@@ -98,7 +98,7 @@ switch ($action) {
 
             //echo ($id_inventario);
             $sql = "UPDATE tbl_inventario 
-                        SET nombre_articulo='$nombreP', existencia=$existenciaP, costo=$costoP
+                        SET nombre_articulo='$nombreP', existencias=$existenciaP, costo=$costoP
                         WHERE id_inventario=" . $id_inventario;
             $resultado = $conn->query($sql);
 
@@ -120,7 +120,7 @@ switch ($action) {
 
     case 'traer_productosOrden':
 
-        $sql = "SELECT id_inventario, nombre_articulo FROM tbl_inventario WHERE estado = 1   AND existencia != 0";
+        $sql = "SELECT id_inventario, nombre_articulo FROM tbl_inventario WHERE estado_eliminar = 1   AND existencia != 0";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -167,139 +167,7 @@ switch ($action) {
         }
         break;
 
-    
-    case 'actualizarUsuario':
-
-        if (
-            isset(($_POST['id_usuario']))
-            && isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombre_usuario']) && isset($_POST['correo'])
-            && isset($_POST['telefono'])
-        ) {
-
-            $id_usuario = (int)$_POST['id_usuario'];
-            $nombreUsuario = $_POST['nombre'];
-            $apellidoUsuario = $_POST['apellido'];
-            $Usuario = $_POST['nombre_usuario'];
-            $correo = $_POST['correo'];
-            $tel = $_POST['telefono'];
-            $roluser = $_POST['rol'];
-            $estadouser = $_POST['estado'];
-
-            $sql = "UPDATE tbl_usuarios SET nombre = '$nombreUsuario',apellido= '$apellidoUsuario', nombre_usuario = '$Usuario', 
-            correo = '$correo', telefono='$tel' 
-            WHERE id_usuario=" . $id_usuario;
-            $resultado = $conn->query($sql);
-
-            if ($resultado == 1) {
-                //print_r($resultado);
-                $res['msj'] = "Usuario actualizado Correctamente";
-            } else {
-                $res['msj'] = "Se produjo un error al momento de Editar el Usuario ";
-                $res['error'] = true;
-            }
-        } else {
-            //print_r($id_inventario);
-            $res['msj'] = "Las variables no estan definidas";
-            $res['error'] = true;
-        }
-
-        break;
-//eliminar usuario
-    case 'eliminarUsuario':
-        if (isset($_POST['id_usuario'])) {
-
-            $id_user = (int)$_POST['id_usuario'];
-
-
-                $sql = "DELETE FROM tbl_usuarios
-                WHERE id_usuario = " .$id_user ;
-
-                $resultado = $conn->query($sql);
-                if ($resultado == 1) {
-                    $res['msj'] = "Usuario Eliminado  Correctamente";
-                } else {
-                    $res['msj'] = "Se produjo un error al momento de eliminar el Usuario";
-                    $res['error'] = true;
-                }
-            
-        } else {
-            $res['msj'] = "No se envió el id del Parametro a eliminar";
-            $res['error'] = true;
-        }
-        break;
-
-    case 'actualizarSolicitud':
-        if (
-            isset(($_POST['id_solicitud']))
-            && isset($_POST['estatus_solicitud']) && isset($_POST['tipo'])
-
-        ) {
-            $id_solicitud = (int)$_POST['id_solicitud'];
-            $estadosolicitud = $_POST['estatus_solicitud'];
-            $tiposolicitud = $_POST['tipo'];
-
-
-            // capturar el idestado de la solicitud         
-            $sqlconsulta = mysqli_query($conn, "SELECT id_estatus_solicitud
-                                                FROM tbl_estatus_solicitud
-                                                WHERE estatus_solicitud='$estadosolicitud'");
-            $result_consulta = mysqli_num_rows($sqlconsulta);
-
-            if ($result_consulta > 0) {
-                $id_seleccionado = $result_consulta['id_estatus_solicitud'];
-
-                if ($id_seleccionado == 0) {
-                    $sql = "UPDATE tbl_solicitud SET id_estatus_solicitud='1'
-                    WHERE id_solicitud=" . $id_solicitud;
-
-                    $resultado = $conn->query($sql);
-                    if ($resultado == 1) {
-                        //print_r($resultado);
-                        $res['msj'] = "Solicitud actualizada Correctamente";
-                    } else {
-                        $res['msj'] = "Se produjo un error al momento de Editar la solicitud ";
-                        $res['error'] = true;
-                    }
-                } else {
-                    $sql = "UPDATE tbl_solicitud SET id_estatus_solicitud='0'
-                    WHERE id_solicitud=" . $id_solicitud;
-                    $resultado = $conn->query($sql);
-                    if ($resultado == 1) {
-                        //print_r($resultado);
-                        $res['msj'] = "Solicitud actualizada Correctamente";
-                    } else {
-                        $res['msj'] = "Se produjo un error al momento de Editar la solicitud ";
-                        $res['error'] = true;
-                    }
-                }
-            }
-        } else {
-            //print_r($id_inventario);
-            $res['msj'] = "Las variables no estan definidas";
-            $res['error'] = true;
-        }
-        break;
-
-        case 'eliminarSolicitud':
-            if (isset($_POST['id_solicitud'])) {
-                $id_sol = (int)$_POST['id_solicitud'];
-                    $sql = "DELETE FROM tbl_solicitud
-                    WHERE id_solicitud = " .$id_sol ;
-                    $resultado = $conn->query($sql);
-                    
-                    if ($resultado == 1) {
-                        $res['msj'] = "Solicitud Eliminada  Correctamente";
-                    } else {
-                        $res['msj'] = "Se produjo un error al momento de eliminar la solicitud";
-                        $res['error'] = true;
-                    }
-                
-            } else {
-                $res['msj'] = "No se envió el id del Parametro a eliminar";
-                $res['error'] = true;
-            }
-            break;
-
+   
 
     
     case 'registrarDetalleOrden':
@@ -324,36 +192,7 @@ switch ($action) {
         
         //preguntas
         
-        case 'actualizarUsuario':
         
-            if (
-                isset(($_POST['id_usuario']))
-                && isset($_POST['nombre']) && isset($_POST['apellido'])&& isset($_POST['nombre_usuario'])&& isset($_POST['correo'])) {
-                $id_usuario = (int)$_POST['id_usuario'];
-                $nombreUsuario = $_POST['nombre'];
-                $apellidoUsuario = $_POST['apellido'];
-                $Usuario = $_POST['nombre_usuario'];
-                $correo = $_POST['correo'];
-                
-               
-                $sql = "UPDATE tbl_usuarios SET nombre = '$nombreUsuario',apellido= '$apellidoUsuario',nombre_usuario = '$Usuario', correo = '$correo' WHERE id_usuario=" . $id_usuario;          
-                $resultado = $conn->query($sql);
-              
-                if ($resultado == 1) {
-                    //print_r($resultado);
-                    $res['msj'] = "Usuario se  Edito  Correctamente";
-                } else {
-                    $res['msj'] = "Se produjo un error al momento de Editar el Usuario ";
-                    $res['error'] = true;
-                }
-            } else {
-                //print_r($id_inventario);
-                $res['msj'] = "Las variables no estan definidas";
-                $res['error'] = true;
-            }
-    
-        break;          
-
     
         default:
 

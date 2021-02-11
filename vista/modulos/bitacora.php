@@ -25,7 +25,7 @@
           </form>
 
           <?php
-        require_once('./modelo/conexion.php');
+        require_once('./modelo/conexionbd.php');
         ?>
           <!-- /.box-header -->
           <div class="box-body">
@@ -45,13 +45,11 @@
 
                 <?php
                   try {
-                    $stmt = "SELECT tbl_usuarios.nombre_usuario AS nombre_usuario, tbl_objeto.objeto AS objeto, fecha, accion, tbl_bitacora.descripcion AS descripcion from tbl_bitacora
+                    $stmt = "SELECT accion, tbl_bitacora.descripcion AS descripcion, fecha, tbl_usuarios.nombre_usuario AS nombre_usuario, tbl_objeto.objeto AS objeto from tbl_bitacora
                     INNER JOIN tbl_usuarios
-                    ON
-                    tbl_bitacora.usuario_id = tbl_usuarios.id_usuario
+                    ON tbl_bitacora.usuario_id = tbl_usuarios.id_usuario
                     INNER JOIN tbl_objeto
-                    ON
-                    tbl_bitacora.objeto_id = tbl_objeto.id_objeto
+                    ON tbl_bitacora.objeto_id = tbl_objeto.id_objeto
                     ORDER BY id_bitacora DESC;
                     ";
                     $resultado = $conn->query($stmt);
@@ -60,11 +58,11 @@
                   }
                  while( $registrado = $resultado->fetch_assoc() ) { ?>
                     <tr>    
-                    <td><?php echo $registrado['nombre_usuario']; ?></td>
-                    <td><?php echo $registrado['objeto']; ?></td>
-                    <td><?php echo $registrado['fecha']; ?></td>
                     <td><?php echo $registrado['accion']; ?></td>
                     <td><?php echo $registrado['descripcion']; ?></td>
+                    <td><?php echo $registrado['fecha']; ?></td>
+                    <td><?php echo $registrado['usuario']; ?></td>
+                    <td><?php echo $registrado['objeto']; ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
