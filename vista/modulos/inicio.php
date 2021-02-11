@@ -1,15 +1,18 @@
 <?php
 include_once("./modelo/conexionbd.php");
 $id_objeto = 6;
+<<<<<<< Updated upstream
 global $columna;
 //$rol = $_SESSION['mi_rol'];
+=======
+
+>>>>>>> Stashed changes
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
-                        ON
-                        tbl_usuarios.rol_id = tbl_roles.id_rol 
+                        ON tbl_usuarios.rol_id = tbl_roles.id_rol 
                         WHERE tbl_roles.rol = ?");
-$stmt->bind_Param("i",$rol_id);
+$stmt->bind_Param("s",$rol_id);
 $stmt->execute();
 $stmt->bind_Result($id_rol);
 
@@ -24,8 +27,8 @@ if($existe){
 
 
 
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
-WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");
+$stmt = $conn->query("SELECT permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 
 ?>
@@ -89,7 +92,7 @@ $columna = $stmt->fetch_assoc();
                             </div>
                         </div><?php }?>
 
-                        <?php if($columna["permiso_consulta"] == 1) {?><div class="col-lg-16">
+                        <?php if($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
                             <div class="small-box bg-orange">
                                 <div class="inner">
 
@@ -135,7 +138,7 @@ $columna = $stmt->fetch_assoc();
                             }
                             </script>
 
-                        <?php if($columna["permiso_consulta"] == 1) {?><div class="col-lg-16">
+                        <?php if($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
                             <div class="small-box bg-aqua">
                                 <div class="inner">
 

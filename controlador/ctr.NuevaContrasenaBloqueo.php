@@ -8,7 +8,7 @@
         if (isset($_POST['tipo']) == 'contra_bloqueo'){
             $usuario = $_SESSION['usuario'];
 
-            include("../../modelo/conexion.php");
+            include("../../modelo/conexionbd.php");
             $consultarPregunta = $conn->prepare("SELECT correo FROM tbl_usuarios WHERE nombre_usuario=?");
             $consultarPregunta->bind_Param("s",$usuario);
             $consultarPregunta->execute();

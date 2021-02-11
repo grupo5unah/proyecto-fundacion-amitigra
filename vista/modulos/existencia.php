@@ -42,7 +42,11 @@
 										try {
 
 
+<<<<<<< Updated upstream
 											$sql = "SELECT id_inventario, nombre_articulo,existencias, costo, fecha_entrada FROM tbl_inventario WHERE estado_eliminar=1";
+=======
+											$sql = "SELECT id_inventario, nombre_articulo,existencia, costo, fecha_entrada FROM tbl_inventario;";
+>>>>>>> Stashed changes
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -74,7 +78,7 @@
 													<td> <?php echo $evento['existencia_inve']; ?></td>
 													<td> <?php echo $evento['fecha_art']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditar glyphicon glyphicon-pencil"  data-idproducto="<?= $evento['id_inventario'] ?>" data-nombreArti="<?= $evento['nombre_arti'] ?>" data-existencia="<?= $evento['existencia_inve'] ?>" data-costo="<?= $evento['costo_art'] ?>"></button>
+														<button class="btn btn-warning btnEditar glyphicon glyphicon-pencil"  data-idproducto="<?php $evento['id_inventario'] ?>" data-nombreArti="<?php $evento['nombre_arti'] ?>" data-existencia="<?php $evento['existencia_inve'] ?>" data-costo="<?php $evento['costo_art'] ?>"></button>
 
 														<button class="btn btn-danger btnEliminar glyphicon glyphicon-remove" data-idproductodel="<?php echo $evento['id_inventario'] ?>"></button>
 													</td>

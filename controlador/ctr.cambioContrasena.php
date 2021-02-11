@@ -25,13 +25,12 @@ class CambioContrasena{
 
                         if($NuevaContrasena == $contrasenaConfirmar){
                             //Generar la contrasena HASHADA
-                            $opciones = array('costo' => 12);
-                            $hashed_password = password_hash($contrasenaNueva,PASSWORD_BCRYPT,$opciones);
+                            $hashed_password = password_hash($contrasenaNueva,PASSWORD_BCRYPT);
 
                             $NuevaContrasena = $conn->prepare("UPDATE tbl_usuarios
                                                                 SET contrasena = ?
                                                                 WHERE nombre_usuario = ?");
-                            $NuevaContrasena->bind_Param("",);
+                            $NuevaContrasena->bind_Param("s",$usuario);
                             $NuevaContrasena->execute();
 
                             if($NuevaContrasena->error){

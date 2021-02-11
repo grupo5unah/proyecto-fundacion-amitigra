@@ -10,7 +10,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SAAT | Login</title>
+  <title>SAAT | Inicio Sesión</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -42,8 +42,8 @@
         <span class="glyphicon glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="input-group has-feedback">
-        <input id="PPassword" type="password" class="form-control" name="password" placeholder="Ingrese su contraseña">
-        <span class="input-group-btn" onclick="mostrarPassword()">
+        <input id="P_Password" type="password" class="form-control" name="password" placeholder="Ingrese su contraseña">
+        <span class="input-group-btn" onclick="PasswordMostrar()">
           <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon"></i></button>
         </span>
       </div>
@@ -64,12 +64,15 @@
     <a href="registro.php" class="color-enlaces">Registrarse</a>
   </div>
 
-  </div>
+  <!-- </div>
   <div class="text-center">
   <a class="color-enlaces fa fa-plus-circle" href="masinformacion.php"> mas informacion</a>
-  </div>
+  </div> -->
 
-  	<?php
+  	
+  <!-- /.login-box-body -->
+</div>
+<?php
 
     /*use app\Login;
 
@@ -87,62 +90,10 @@
     $login = new Login();
     $login->ctrLogin();
 	?>
-  <!-- /.login-box-body -->
-</div>
+  
 <!-- /.login-box -->
 
-<script type="text/javascript">
-	function mostrarPassword(){
-			var cambio = document.getElementById("PPassword");
-			if(cambio.type == "password"){
-				cambio.type = "text";
-				$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				cambio.type = "password";
-				$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-<script type="text/javascript">
-	function mostrarPassword(){
-			var cambio = document.getElementById("PPassword");
-			if(cambio.type == "password"){
-				cambio.type = "text";
-				$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				cambio.type = "password";
-				$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-	<script>
-		SinEspacio=function(input){
-		input.value=input.value.replace(' ','');}
-	</script>
-
-	<script>
-	function soloLetras(e) {
-		var key = e.keyCode || e.which,
-		tecla = String.fromCharCode(key).toLowerCase(),
-		letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-		especiales = [8, 37, 39, 46],
-		tecla_especial = false;
-
-		for (var i in especiales) {
-		if (key == especiales[i]) {
-			tecla_especial = true;
-			break;
-		}
-		}
-
-		if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-		return false;
-		}
-	}
-  </script>
-
+<script src="../dist/js/app.login.js"></script>
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->

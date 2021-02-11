@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 <?php include("./modelo/conexionbd.php"); ?>
+=======
+<?php require "./modelo/conexionbd.php"; ?>
+>>>>>>> Stashed changes
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -23,14 +27,18 @@
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
 									<thead>
 										<tr>
+<<<<<<< Updated upstream
 
 										    <th>Rol</th>
 											<th>Objeto</th>
+=======
+										    
+>>>>>>> Stashed changes
 											<th>Permiso insertar</th>
                                             <th>Permiso eliminar</th>
                                             <th>Permiso actualizar</th>
                                             <th>Permiso consulta</th>
-											
+											<th>Rol</th>
 											<th>Acciones</th>
 
 										</tr>
@@ -40,7 +48,14 @@
 										try {
 
 
+<<<<<<< Updated upstream
 											$sql = "SELECT id_permiso, rol, objeto, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta FROM tbl_permisos inner join tbl_roles INNER JOIN tbl_objeto where tbl_permisos.rol_id = tbl_roles.id_rol and tbl_permisos.objeto_id = tbl_objeto.id_objeto";
+=======
+											$sql = "SELECT id_permiso, rol_id, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+                                                    FROM tbl_permisos
+													INNER JOIN tbl_roles
+													ON tbl_permisos.rol_id = tbl_roles.id_rol";
+>>>>>>> Stashed changes
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -51,13 +66,21 @@
 
 											$traer = $eventos['permiso_insercion'];
 											$evento = array(
+<<<<<<< Updated upstream
 												'rol' => $eventos['rol'],
 												'objeto' => $eventos['objeto'],
+=======
+												'rol' => $eventos['rol_id'],
+>>>>>>> Stashed changes
 												'insercion' => $eventos['permiso_insercion'],
                                                 'eliminacion' => $eventos['permiso_eliminacion'],
                                                 'actualizacion' => $eventos['permiso_actualizacion'],
 												'consulta' => $eventos['permiso_consulta'],
+<<<<<<< Updated upstream
 												'id_permiso' =>$eventos['id_permiso']
+=======
+												'id_permisos' =>$eventos['id_permiso']
+>>>>>>> Stashed changes
 										
 											);
 											$vertbl[$traer][] =  $evento;
@@ -69,16 +92,25 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
+<<<<<<< Updated upstream
 												    <td> <?php echo $evento['rol']; ?></td>
 													<td> <?php echo $evento['objeto']; ?></td>
+=======
+												    
+>>>>>>> Stashed changes
 													<td> <?php echo $evento['insercion']; ?></td>
                                                     <td> <?php echo $evento['eliminacion']; ?></td>
                                                     <td> <?php echo $evento['actualizacion']; ?></td>
 													<td> <?php echo $evento['consulta']; ?></td>
-													
+													<td> <?php echo $evento['rol']; ?></td>
+
 													<td>
+<<<<<<< Updated upstream
 													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permiso'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
 													data-actualizacion="<?= $evento['actualizacion'] ?>" data-consulta="<?= $evento['consulta'] ?>"></button>
+=======
+													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?php $evento['id_permisos']; ?>" data-insercion="<?php $evento['insercion'];?>" data-eliminar="<?php $evento['eliminacion'];?>"></button>
+>>>>>>> Stashed changes
 											
 													</td>
 												<?php  } ?>

@@ -13,20 +13,19 @@
 
               <?php
 
-              include_once("./modelo/conexion.php");
+              include_once("./modelo/conexionbd.php");
                   //try {
-                    $stmt = $conn->prepare("SELECT nombre, apellido, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
+                    $stmt = $conn->prepare("SELECT nombre_completo, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
                     $stmt->bind_Param("s",$usuario);
                     $stmt->execute();
-                    $stmt->bind_Result($nombre, $apellido, $correo, $telefono, $ingreso, $vencimiento);
+                    $stmt->bind_Result($nombre, $correo, $telefono, $ingreso, $vencimiento);
                  
                   if($stmt->affected_rows){
 
                     $existe = $stmt->fetch();
 
                     if($existe){
-                      $_SESSION['nombre'] = $nombre;
-                      $_SESSION['apellido'] = $apellido;
+                      $_SESSION['nombre_completo'] = $nombre;
                       $_SESSION['correo'] = $correo;
                       $_SESSION['telefono'] = $telefono;
                       $_SESSION['fecha_vencimiento'] = $vencimiento;
@@ -101,7 +100,6 @@
                 <thead>
                         <tr>
                         <th>Nombre</th>
-                        <th>apellido</th>
                         <th>Nombre usuario</th>
                         <th>Correo</th>
                         <th>Genero</th>
@@ -116,10 +114,11 @@
 
                 <?php
                   try {
-                    $stmt = "SELECT id_usuario, nombre, apellido, nombre_usuario, correo, genero, telefono, tbl_roles.rol AS rol, estado_usuario FROM tbl_usuarios
+                    $stmt = "SELECT id_usuario, nombre_completo, nombre_usuario, correo, genero, telefono, tbl_roles.rol AS rol, tbl_estado.id_estado as estado_usuario FROM tbl_usuarios
                     INNER JOIN tbl_roles
-                    ON
-                    tbl_usuarios.rol_id = tbl_roles.id_rol
+                    ON tbl_usuarios.rol_id = tbl_roles.id_rol
+                    INNER JOIN tbl_estado
+                    ON tbl_usuarios.estado_id = tbl_estado.id_estado
                     ORDER BY id_usuario DESC;
                     ";
                     $resultado = $conn->query($stmt);
@@ -128,8 +127,7 @@
                   }
                  while( $registrado = $resultado->fetch_assoc() ) { ?>
                     <tr>
-                    <td><?php echo $registrado['nombre']; ?></td>
-                    <td><?php echo $registrado['apellido']; ?></td>    
+                    <td><?php echo $registrado['nombre_completo']; ?></td>  
                     <td><?php echo $registrado['nombre_usuario']; ?></td>
                     <td><?php echo $registrado['correo']; ?></td>
                     <td><?php echo $registrado['genero']; ?></td>
@@ -156,7 +154,6 @@
                 <tfoot>
                     <tr>
                     <th>Nombre</th>
-                    <th>apellido</th>
                     <th>Nombre usuario</th>
                     <th>Correo</th>
                     <th>Genero</th>

@@ -6,14 +6,13 @@
             if(isset($_POST['cambio']) == 'act'){
                 $nombre = $_POST['nombre'];
                 $usuario = $_POST['usuario'];
-                $apellido = $_POST['apellido'];
                 $telefono = $_POST['telefono'];
                 $correo = $_POST['correo'];
                 $actual = $_POST['actualPass'];
                 $password = $_POST['nuevaPass'];
                 $confiPassword = $_POST['confPass'];
 
-                require("./modelo/conexion.php");
+                require("./modelo/conexionbd.php");
 
                 try {
 
@@ -38,7 +37,7 @@
                         
                     } else {
 
-                        require("./modelo/conexion.php");
+                        require("./modelo/conexionbd.php");
                         $stmt = $conn->prepare("SELECT id_usuario ,contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
                         $stmt->bind_Param("s", $usuario);
                         $stmt->execute();
@@ -53,21 +52,24 @@
                                 if(password_verify($actual, $contrasena)){
 
                                     if($password == $confiPassword){
-                                        $opciones = array('cost' => 12);
-                                        $hashed_password = password_hash($password, PASSWORD_BCRYPT, $opciones);
+                                        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-                                        require("./modelo/conexion.php");
+                                        require("./modelo/conexionbd.php");
                                         $actualizar = $conn->prepare("UPDATE tbl_usuarios
-                                                                SET nombre = ?, apellido = ?, telefono =?, correo =?, contrasena = ?
-                                                                WHERE nombre_usuario = ?;
-                                                                ");
-                                        $actualizar->bind_Param("ssisss",$nombre, $apellido, $telefono, $correo, $hashed_password, $usuario);
+                                                                SET nombre_completo = ?, telefono =?, correo =?, contrasena = ?
+                                                                WHERE nombre_usuario = ?;");
+                                        $actualizar->bind_Param("sssss",$nombre, $telefono, $correo, $hashed_password, $usuario);
                                         $actualizar->execute();
                                         
                                         if($actualizar->error){
                                             echo "no se pudo realizar la actualizacion";
                                         }else{                                     
-                                            echo "Se actualizo con exito";
+                                            echo "<div class='text-center alert alert-success' role = 'alert'>
+                                                Se actualizo con exito
+                                                </div>";
+
+                                                session_destroy();
+                                                
                                         }
                                     }else{                                      
                                         echo "La nueva contrasena no coincide";

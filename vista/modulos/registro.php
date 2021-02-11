@@ -33,7 +33,7 @@
 }*/
   ?>
   <div class="register-box-body">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       <p class="register-box-msg">Registro de usuario</p>
       <div class="row">
         <div class="col-md-18">
@@ -52,7 +52,7 @@
                 <div class="active tab-pane" id="activity">
                     <div class="columna">
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="50" id="nombre" name="nombre" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this); verificar(this.value)">
+                        <input type="text" maxlength="50" id="nombre" name="nombre" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)">
                         <span class="fa fa-user form-control-feedback"></span>
                       </div>
                         <div class="form-group has-feedback">
@@ -223,128 +223,7 @@
   <!-- /.form-box -->
 </div>
 
-<script type="text/javascript">
-  function mostrarPassword(){
-
-    var nueva = document.getElementById("PassNuevo");
-    if(nueva.type == "password"){
-      nueva.type = "text";
-      $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    }else{
-      nueva.type = "password";
-      $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-
-    var conf = document.getElementById("ConfPass");
-    if(conf.type == "password"){
-      conf.type = "text";
-      $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    }else{
-      conf.type = "password";
-      $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  } 
-</script>
-
-<script>
-//Botones
-/*var btnEnviar = document.getElementById("enviar");
-var btnpreg1 = document.getElementById("preg1");
-var btnpreg2 = document.getElementById("preg2");
-var btnpreg3 = document.getElementById("preg3");
-var btnpass = document.getElementById("pass");
-
-//Inputs
-var nombre = document.getElementById("nombre");
-var preg1 = document.getElementById("pregunta1");
-var preg2 = document.getElementById("pregunta2");
-var preg3 = document.getElementById("pregunta3");*/
-
-btnEnviar.disabled = true;
-//apellido.disabled = true;
-
-/*function verificar2(valor) {
-  if (apellido.value.length>=4){
-    btnEnviar.disabled = false;
-    btnEnviar.classList.remove("disabled");
-  } else {
-      btnEnviar.disabled = true;
-  }
-}*/
-
-/*function verificar(valor) {
-  if (valor.length>=4){
-  	apellido.style.background = "#FFFFFF";
-    apellido.disabled = false
-  } else {
-    //caja2.style.background = "grey";
-    apellido.disabled = true;
-    apellido.value = "";
-    btnEnviar.disabled = true;
-  }
-   
-}*/
-  </script>
-
-  <script>
-  var $tabs = $('.nav-tabs li');
-
-$('#prevtab').on('click', function() {
-       $tabs.filter('.active').prev('li').find('a[data-toggle="tab"]').tab('show');
-});
-
-$('#nexttab').on('click', function() {
-       $tabs.filter('.active').next('li').find('a[data-toggle="tab"]').tab('show');
-});
-  </script>
-
-  <!--Solo numero para TELEFONO-->
-	<script>
-		window.addEventListener("load", function() {
-		formulario.telefono.addEventListener("keypress", soloNumeros, false);
-		});
-
-		//Solo permite introducir numeros.
-		function soloNumeros(e){
-		var key = window.event ? e.which : e.keyCode;
-		if (key < 48 || key > 57) {
-			e.preventDefault();
-		}
-		}
-	</script>
-
-	<!--Solo letras CAMPOS DE NOMBRE, APELLIDO y NOMBRE_USUARIO-->
-	<script>
-	function soloLetras(e) {
-		var key = e.keyCode || e.which,
-		tecla = String.fromCharCode(key).toLowerCase(),
-		letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-		especiales = [8, 37, 39, 46],
-		tecla_especial = false;
-
-		for (var i in especiales) {
-		if (key == especiales[i]) {
-			tecla_especial = true;
-			break;
-		}
-		}
-
-		if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-		return false;
-		}
-	}
-	</script>
-
-	<!--Permitir solo un ESPACIO-->
-	<script>
-		espacioLetras=function(input){
-		input.value=input.value.replace('  ',' ');}
-	</script>
-
-	<script>
-		SinEspacio=function(input){
-		input.value=input.value.replace(' ','');}
-	</script>
+<script src="../dist/js/app.login.js"></script>
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
