@@ -42,11 +42,7 @@
 										try {
 
 
-<<<<<<< Updated upstream
-											$sql = "SELECT id_inventario, nombre_articulo,existencias, costo, fecha_entrada FROM tbl_inventario WHERE estado_eliminar=1";
-=======
-											$sql = "SELECT id_inventario, nombre_articulo,existencia, costo, fecha_entrada FROM tbl_inventario;";
->>>>>>> Stashed changes
+											$sql = "SELECT id_inventario, nombre_articulo,existencias, costo, fecha_entrada FROM tbl_inventario WHERE estado_eliminar=1;";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();

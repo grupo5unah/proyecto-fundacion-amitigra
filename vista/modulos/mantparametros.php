@@ -41,11 +41,7 @@
 
 
 											$sql = "SELECT id_parametro,parametro,valor,fecha_creacion,fecha_modificacion
-<<<<<<< Updated upstream
                                                             FROM tbl_parametros  where estado_eliminado=1";
-=======
-                                                            FROM tbl_parametros;";
->>>>>>> Stashed changes
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();

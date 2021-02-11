@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-<?php include("./modelo/conexionbd.php"); ?>
-=======
 <?php require "./modelo/conexionbd.php"; ?>
->>>>>>> Stashed changes
+
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -78,12 +75,7 @@
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
 														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil" data-idpregunta="<?php $evento['id_pregunta']; ?>" data-nompregunta="<?php $evento['pregunta']; ?>"></button>
-
-<<<<<<< Updated upstream
-														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta'] ?>"></button>
-=======
 														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta']; ?>"></button>
->>>>>>> Stashed changes
 													</td>
 												<?php  } ?>
 											<?php  } ?>

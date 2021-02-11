@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-<?php include("./modelo/conexionbd.php"); ?>
-=======
 <?php require './modelo/conexionbd.php'; ?>
->>>>>>> Stashed changes
+
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -45,14 +42,9 @@
 										<?php
 										try {
 
-
-<<<<<<< Updated upstream
 											$sql = "SELECT id_rol,rol,descripcion,creado_por,fecha_creacion,modificado_por,fecha_modificacion
                                             FROM tbl_roles where estado_eliminado=1";
-=======
-											$sql = "SELECT id_rol,rol,descripcion,estado_eliminado,creado_por,fecha_creacion,modificado_por,fecha_modificacion
-                                            FROM tbl_roles where estado_id=2";
->>>>>>> Stashed changes
+
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();

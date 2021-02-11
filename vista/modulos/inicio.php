@@ -1,12 +1,8 @@
 <?php
 include_once("./modelo/conexionbd.php");
 $id_objeto = 6;
-<<<<<<< Updated upstream
 global $columna;
 //$rol = $_SESSION['mi_rol'];
-=======
-
->>>>>>> Stashed changes
 $rol_id = $_SESSION['rol'];
 $stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
