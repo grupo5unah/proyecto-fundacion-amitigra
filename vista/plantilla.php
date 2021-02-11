@@ -74,7 +74,9 @@ $_SESSION["timeout"] = time();
       if($_GET["ruta"] == "inicio"||
         $_GET["ruta"] == "camping"||
         $_GET["ruta"] == "hotel" ||
-        $_GET["ruta"] == "senderos" ||
+        $_GET["ruta"] == "senderos" ||        
+        $_GET["ruta"] == "senderosN" ||
+        $_GET["ruta"] == "senderosE" ||
         $_GET["ruta"] == "solicitudes" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
