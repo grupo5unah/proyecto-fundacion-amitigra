@@ -73,51 +73,7 @@
 </div>
 <!-- /.login-box -->
 
-	<script>
-		function validar() {
-		if ($('#PassActual').val().length == "") {
-			alert('Ingrese rut');
-			document.body.innerHTML = "<div class='alert alert-danger'>Error</div>";
-			return false;
-		}
-		}
-	</script>
-
-	<script type="text/javascript">
-		function mostrarPassword(){
-			var cambio = document.getElementById("PassActual");
-			if(cambio.type == "password"){
-				cambio.type = "text";
-				$('.icon_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				cambio.type = "password";
-				$('.icon_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		
-			var nueva = document.getElementById("PassNueva");
-			if(nueva.type == "password"){
-				nueva.type = "text";
-				$('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				nueva.type = "password";
-				$('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-
-			var conf = document.getElementById("ConfPass");
-			if(conf.type == "password"){
-				conf.type = "text";
-				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				conf.type = "password";
-				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-	<script>
-		SinEspacio=function(input){
-		input.value=input.value.replace(' ','');}
-	</script>
+<script src="../dist/js/app.login.js"></script>
 
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>

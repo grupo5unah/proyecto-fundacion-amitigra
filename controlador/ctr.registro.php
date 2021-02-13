@@ -85,12 +85,24 @@
                                                 $intentos = 0;
                                                 $foto = "foto";
 
+                                                echo "<pre>";
+
+                                                var_dump($_FILES);
+                                                // $cargar = $_FILES['imagen'];
+                                            
+                                                // var_dump($cargar['name']);
+                                                echo "</pre>";
+                                                exit;
+                                                $imagen = $_FILES['name'];
+
                                                 //Carpeta para las imágenes
-                                                /*$carpetaFotoPerfil = 'vista/foto-perfil';
+                                                $carpetaFotoPerfil = '..\fotoPerfil';
 
                                                 if(!is_dir($carpetaFotoPerfil)){ //Verifica la carpeta existe, de no ser así la crea
-                                                    mkdir($carpetaFotoPerfil);
-                                                }*/
+                                                    mkdir($carpetaFotoPerfil,0777,true);
+                                                }
+
+                                                exit;
 
                                                 //Generar nombre de la foto
                                                 // $nombre_foto = md5(uniqid(rand(), true));
@@ -236,7 +248,7 @@
                     } else {
                         $respuesta = array();
                         array_push($respuesta,"usuario no existe");
-                        $respuesta->$stmt;
+                        //$respuesta->$stmt;
                         echo $fecha;
                     }
                     $cons_usuario->close();

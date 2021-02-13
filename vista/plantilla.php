@@ -76,8 +76,10 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "camping"||
         $_GET["ruta"] == "reservacamping"||
         $_GET["ruta"] == "hotel" ||
+        $_GET["ruta"] == "senderos" ||        
+        $_GET["ruta"] == "senderosN" ||
+        $_GET["ruta"] == "senderosE" ||
         $_GET["ruta"] == "reservahotel" ||
-        $_GET["ruta"] == "senderos" ||
         $_GET["ruta"] == "solicitudes" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
@@ -155,7 +157,6 @@ $_SESSION["timeout"] = time();
 <script src="vista/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="vista/dist/js/dataTables.responsive.min.js"></script>
 <script src="vista/dist/js/tablas.js"></script>
-<script src="vista/dist/js/app_reservaciones.js"></script>
 <script src="vista/dist/js/funciones.js"></script>
 <script src="vista/dist/js/mapa.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -165,7 +166,8 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/roles.js"></script>
 <script src="vista/dist/js/objetos.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
-
+<script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/gUsuarios.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->

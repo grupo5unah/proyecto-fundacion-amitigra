@@ -2,8 +2,11 @@
 
 class AccionesUsuario{
 
+
     public function ctrPerfilBitacora(){
         $usuario = $_SESSION['usuario'];
+        
+        global $conn;
         
         //REGISTRO CLICK PARA VER EL PERFIL
         if(isset($_POST['cambio']) == 'act'){

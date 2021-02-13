@@ -1,9 +1,9 @@
 <?php
 include_once "./modelo/conexionbd.php";
 $id_objeto = 4;
-//$rol = $_SESSION['mi_rol'];
+global $mi_rol;
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT tbl_roles.rol FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol
                         WHERE tbl_roles.rol = ?");
@@ -20,8 +20,8 @@ while($stmt->fetch()){
 
 if($existe){
 
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta, rol_id, objeto_id FROM tbl_permisos
-WHERE rol_id = '$mi_rol' AND objeto_id = '$id_objeto'");
+$stmt = $conn->query("SELECT permiso_actualizacion, rol_id, objeto_id FROM tbl_permisos
+WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 ?>
@@ -30,7 +30,7 @@ $columna = $stmt->fetch_assoc();
     <section class="content">
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
 
           <!-- INICIO DE LA INFORMACION DEL USUARIO-->
           <div class="box box-primary">
@@ -96,7 +96,7 @@ $columna = $stmt->fetch_assoc();
         </div>    
         
         <!--INICIO DE LA TABLA-->
-        <div class="col-md-9">
+        <div class="col-md-8">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li><a href="#settings" data-toggle="tab">Configuración Cuenta</a></li>
@@ -167,7 +167,7 @@ $columna = $stmt->fetch_assoc();
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden"  name="cambio" value="act">
-                    <?php if ($columna["permiso_actualizacion"] == 0) {?><button type="submit" class="btn btn-danger">Guardar cambios</button><?php }?>
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-danger">Guardar cambios</button><?php }?>
                     </div>
                   </div>
 
@@ -218,8 +218,8 @@ $columna = $stmt->fetch_assoc();
 
                     include("./controlador/ctr.Acciones.php");
 
-              $perfilBitacora = new AccionesUsuario();
-              $perfilBitacora->ctrPerfilBitacora();
+              // $perfilBitacora = new AccionesUsuario();
+              // $perfilBitacora->ctrPerfilBitacora();
 
                     ?>
 

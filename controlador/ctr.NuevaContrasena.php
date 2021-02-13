@@ -6,6 +6,7 @@
 
             if(isset($_GET['eid']) && isset($_GET['tkn']) && isset($_GET['exd'])){
 
+                global $id_usuario;
                 //$correo = urldecode(base64_decode($_GET['eid']));
                 $validacion = urldecode(base64_decode($_GET['tkn']));
                 $expire_date = urldecode(base64_decode($_GET['exd']));
@@ -15,7 +16,7 @@
 
                 if($expire_date <= $current_date) {
                     echo "<div class='text-center alert alert-danger' role='alert'>
-                            Lo sentimos, el enlace ya no es válido
+                            Lo sentimos, el enlace ha caducado.
                             </div>";
                 } else {
                     if(isset($_POST['tipo']) == 'nuevaContrasena') {
@@ -41,53 +42,84 @@
                                     if(!preg_match($pattern_up, $password)) {
                                         echo "Debe tener al menos 8 caracteres de largo, 1 mayúscula, 1 letra minúscula, 1 caracter espececial y 1 número.";
                                     } else {
-                                        //Estado del usuario
-                                        $estado_del_usuario = 2;
-                                        //Se extrae la fecha actual
-                                        date_default_timezone_set("America/Tegucigalpa");
-                                        $fecha_hoy = date('Y-m-d H:i:s', time());
-                                        //Calcula el proximo mes
-                                        $fecha_actual = new DateTime($fecha_hoy);
-                                        $fecha_actual->modify('next month');
-                                        $nueva_fecha_vencimiento = $fecha_actual->format('Y-m-d H:i:s');
-
-                                        //Contrasena HASHADA
-                                        $hash_password = password_hash($password, PASSWORD_BCRYPT);
-                                        $vacio = "";
-
                                         
-                                        exit;
-                                        
-                                        require_once('../../modelo/conexionbd.php');
-                                        $Actualizacion = $conn->prepare("UPDATE tbl_usuarios
-                                        SET contrasena = ?, token = ?, primer_ingreso = ?, estado_id = ?, fecha_vencimiento = ?
-                                        WHERE id_usuario = ?;");
-                                        $Actualizacion->bind_Param("sssisi", $hash_password, $vacio, $fecha_hoy, $estado_del_usuario, $nueva_fecha_vencimiento, $id_usuario);
-                                        $Actualizacion->execute();
+                                        //Pediente MODIFICACION
 
-                                        if($Actualizacion->error) {
-                                            echo "<div class='alert alert-danger' role='alert'>
-                                                No se pudo registrar su contraseña
-                                                </div>";
-                                        } else {
-                                            echo "<div class='alert alert-success' role='alert'>
-                                                Nueva contraseña creada correctamente
-                                                </div>";
+                                        $contrasena = $conn->prepare("SELECT contrasena, usuario_id FROM tbl_hist_contrasena
+                                                                        
+                                                                        WHERE usuario_id = ?;");
+                                        $contrasena->bind_Param("i",$id_usuario);
+                                        $contrasena->execute();
+                                        $contrasena->bind_Result($hist_contrasena, $usuario_id);
 
-                                                //REGISTRO A BITACORA POR CAMBIO DE CONTRASENA
-                                                require_once("../../modelo/conexionbd.php");
-                                                date_default_timezone_set("America/Tegucigalpa");
-                                                $fecha_actualizacion = date('Y-m-d H:i:s',time());
-                                                $id_objeto = 1;
-                                                $acciones = "Cambio de contraseña";
-                                                $descripcion = "Cambio de contraseña, por motivos de olvido o bloqueo";
+                                        if ($contrasena->affected_rows){
 
-                                                $actualizarPassword = $conn->prepare("CALL control_bitacora (?,?,?,?,?)");
-                                                $actualizarPassword->bind_Param("sssii", $acciones, $descripcion, $fecha_actualizacion,$id_usuario, $id_objeto);
-                                                $actualizarPassword->execute();
-                                                
-                                        }//Cierre octavo IF
+                                            $si_existe = $contrasena->fetch();
 
+                                            if($si_existe){
+                                                if (password_verify($password, $hist_contrasena)) {
+                                                    echo '<div class = "text-center alert alert-danger" role = "alert">
+                                                            Lo sentimos, la contraseña ya estuvo en uso.
+                                                            </div>';
+                                                            
+                                                } else {
+                                            
+                                                    //Estado del usuario
+                                                    $estado_del_usuario = 2;
+                                                    //Se extrae la fecha actual
+                                                    date_default_timezone_set("America/Tegucigalpa");
+                                                    $fecha_hoy = date('Y-m-d H:i:s', time());
+                                                    //Calcula el proximo mes
+                                                    $fecha_actual = new DateTime($fecha_hoy);
+                                                    $fecha_actual->modify('next month');
+                                                    $nueva_fecha_vencimiento = $fecha_actual->format('Y-m-d H:i:s');
+
+                                                    //Contrasena HASHADA
+                                                    $hash_password = password_hash($password, PASSWORD_BCRYPT);
+                                                    $vacio = " ";
+                                                    
+                                                    require '../../modelo/conexionbd.php';
+                                                    $Actualizacion = $conn->prepare("UPDATE tbl_usuarios
+                                                                                    SET contrasena = ?, token = ?,
+                                                                                    primer_ingreso = ?, estado_id = ?, fecha_vencimiento = ?
+                                                                                    WHERE id_usuario = ?;");
+                                                    $Actualizacion->bind_Param("sssisi", $hash_password, $vacio, $fecha_hoy, $estado_del_usuario, $nueva_fecha_vencimiento, $id_usuario);
+                                                    $Actualizacion->execute();
+
+                                                    if($Actualizacion->error) {
+                                                        echo "<div class='text-center alert alert-danger' role='alert'>
+                                                            No se pudo registrar su contraseña
+                                                            </div>";
+                                                    } else {
+                                                        echo "<div class='alert alert-success' role='alert'>
+                                                            Nueva contraseña creada correctamente
+                                                            </div>";
+
+                                                            require_once("../../modelo/conexionbd.php");
+                                                            date_default_timezone_set("America/Tegucigalpa");
+                                                            $fecha_actualizacion = date('Y-m-d H:i:s',time());
+
+                                                            //REGISTRO A HISTORIAL CONTRASEÑA LA NUEVA CONTRASENA
+                                                            $cambio_contrasena = $conn->prepare("CALL control_historial_contrasena (?,?,?,?,?,?);");
+                                                            $cambio_contrasena->bind_Param("isssss",$id_usuario, $hash_password, $nombre_usuario, $fecha_actualizacion,$nombre_usuario,$fecha_actualizacion);
+                                                            $cambio_contrasena->execute();
+
+                                                            //REGISTRO A BITACORA POR CAMBIO DE CONTRASENA
+                                                            $id_objeto = 1;
+                                                            $acciones = "Cambio de contraseña";
+                                                            $descripcion = "Cambio de contraseña, por motivos de olvido o bloqueo";
+
+                                                            $actualizarPassword = $conn->prepare("CALL control_bitacora (?,?,?,?,?)");
+                                                            $actualizarPassword->bind_Param("sssii", $acciones, $descripcion, $fecha_actualizacion,$id_usuario, $id_objeto);
+                                                            $actualizarPassword->execute();
+                                                            
+                                                    }//Cierre octavo IF
+
+                                                }
+                                            }
+                                        }
+
+                                        //exit;
                                         
                                     }//Cierre septimo IF    
                                 } else {
@@ -96,7 +128,7 @@
                             }//Cierre quinto IF
                         }else {
                             echo "<div class='alert alert-danger' role='alert'>
-                                    Las contraseñas no coinciden
+                                    Las contraseñas no coinciden.
                                     </div>";
                         }//Cierre cuarto IF
                     }//Cierre tercer IF

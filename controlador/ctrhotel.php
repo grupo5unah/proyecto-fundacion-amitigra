@@ -12,7 +12,8 @@ if (isset($_GET['action'])) {
 
 switch ($action){ 
 
-    /*case 'obtenerCliente':
+
+    case 'obtenerCliente':
         $cliente = $_GET['cliente'];
         $sql = "SELECT id_cliente, nombre_completo
         FROM tbl_clientes WHERE nombre_completo = '" . $cliente . "'";
@@ -22,14 +23,6 @@ switch ($action){
             array_push($cliente_db, $row);
         }
         $res['nombre_completo'] = $cliente_db;
-    break;*/
-    case 'buscarCliente':
-        $identidad = $_POST['identidad'];
-        $verificar = $conn->prepare("SELECT id_cliente,identidad FROM tbl_clientes
-                                                WHERE identidad=?;");
-        $verificar->bind_Param("s", $identidad);
-        $verificar->execute();
-        $verificar->bind_result($id, $ident);
     break;
     case 'registrarCliente':
         $identidad= $_POST['identidad'];
@@ -64,7 +57,6 @@ switch ($action){
                 echo $e->getMessage();
             }
             
-        }
         
     break;
     case 'registrarHotel': //realizar una reservacion

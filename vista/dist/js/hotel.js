@@ -1,60 +1,3 @@
-//VALIDACION PARA QUE SOLO ACPETE NUMEROS
-function soloNumeros(e) {
-  var key = window.event ? e.which : e.keyCode;
-  if (key < 48 || key > 57) {
-    e.preventDefault();
-  }
-}
-//VALIDACION PARA QUE SOLO ACEPTE LETRAS
-function soloLetras(e) {
-  var key = e.keyCode || e.which,
-    tecla = String.fromCharCode(key).toLowerCase(),
-    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-    especiales = [8, 37, 39, 46],
-    tecla_especial = false;
-  for (var i in especiales) {
-    if (key == especiales[i]) {
-      tecla_especial = true;
-      break;
-    }
-  }
-  if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-    return false;
-  }
-}
-//VALIDACION PARA QUE SOLO ACEPTE UN ESPACIO
-espacioLetras = function(input) {
-  input.value = input.value.replace('  ', ' ');
-}
-//FUNCION PARA CALCULAR EL TOTAL
-
-function calcular(){
-  try {
-    var cant_adultos=parseFloat(document.getElementById("personas").value)|| 0, 
-        cant_niños=parseFloat(document.getElementById("niños").value)|| 0,
-        precio_adulto=parseFloat(document.getElementById("precioAdulto").value)|| 0,
-        precio_niños=parseFloat(document.getElementById("precioNiños").value)|| 0;
-    var sub_adultos, sub_niños;
-        //document.getElementById("TboletosE").value= e+f;
-        //console.log(document.getElementById("TboletosE").value); 
-        sub_adultos=cant_adultos*precio_adulto;
-        sub_niños=cant_niños*precio_niños;                
-        document.getElementById("pago").value= sub_niños+sub_adultos;
-  }catch(e){
-
-  }
-}
-
-$(document).ready(function () {
-
-  //FUNCION PARA BUSCAR CLIENTE
-  $('#submitBuscar').click(function(event) {
-    event.preventDefault();
-    //console.log('presionaste el boton buscar')
-    
-    
-  });
-  
   //FUNCION PARA REGISTRAR UN CLIENTE
   $("#formCliente").submit(async function(e){
     e.preventDefault();
@@ -267,5 +210,4 @@ $(document).ready(function () {
     });
   })
 
-  
 });

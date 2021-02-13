@@ -1,4 +1,5 @@
 
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
@@ -10,9 +11,11 @@
         <div class="box-body"> 
             <div class="col-xs-3">
               <div class="input-group input-group-sm">
-                <input type="text" class="form-control" id="identi" name="identi" onkeypress="return soloNumeros(event)" placeholder="Identidad">
+
+                <input type="text" class="form-control" id="identi" name="identi" placeholder="Identidad">
                     <span class="input-group-btn">
-                      <button type="submit" id="submitBuscar"class="btn btn-default btnbuscarCliente">Buscar Cliente</button>
+                      <button type="submit" class="btn btn-default btnbuscarCliente">Buscar Cliente</button>
+
                     </span>
               </div><br>
               <button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
@@ -32,103 +35,106 @@
                       <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente">
                     </div>
                     <div class="form-group">
-                      <label>Nombre Cliente:</label>
-                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre Cliente" value="<?php
-                      if(isset($_POST['nombre'])){echo $_POST['nombre'];} ?>">
+                      <label>Fecha Reservación:</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="date" class="form-control pull-right" id="reservacion" name="reservacion">
+                      </div>
                     </div>
+                  </div>
+                  <div class="col-md-6">
                     <div class="form-group">
-                      <label>Nacionalidad:</label>
-                      <select class="form-control" name="nacionalidad" id="nacionalidad">
+                      <label for="">localidad</label><br>
+                      <select class="form-control" name="localidad" id="localidad">
                         <option value="" disabled selected>Selecione...</option>
                         <?php 
-                        include_once ('./modelo/conexionbd.php');
+                        //include_once ('./modelo/conexionbd.php');
 
-                        $stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
+                        $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
                         $resultado = mysqli_query($conn,$stmt);
                         ?>
                         <?php foreach($resultado as $opciones):?>
-                        <option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
+                        <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
                         <?php endforeach;?>
                       </select>
                     </div>
                   </div>
-                  <!-- /.col -->
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Identidad:</label>
-                      <input type="text" class="form-control" name="identidad" id="identidad" placeholder="Identidad" value="<?php if(isset($_POST['identidad']))
-                      {echo $_POST['identidad'];} ?>">
-                    </div>
-                    <div class="form-group">
-                      <label>Telefono:</label>
-                      <input type="text" class="form-control" name="telefono" id="telefono" placeholder="Telefono"
-                            value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];} ?>">
+                      <label>Fecha Entrada:</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="date" class="form-control pull-right" id="entrada" name="entrada">
+                      </div>
                     </div>
                   </div>
-                  <!-- /.col -->
-                </div>
-                <!-- /.row -->
-              </div>
-            </div>
-            <div class="box box-default">
-              <div class="box-header with-border">
-                <h3 class="box-title">Datos Reservación</h3>
-              </div>
-              <div class="box-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="">localidad</label><br>
-                    <select class="form-control" name="localidad" id="localidad">
-                      <option value="" disabled selected>Selecione...</option>
-                      <?php 
-                      include_once ('./modelo/conexion.php');
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Fecha Salida:</label>
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="date" class="form-control pull-right" id="salida" name="salida">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="area">Habitación:</label><br>
+                      <select class="form-control" name="habitacion" id="habitacion">
+                        <option value="" disabled selected>Selecione...</option>
+                        <?php 
+                          //include_once ('./modelo/conexionbd.php');
 
-                      $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
-                      $resultado = mysqli_query($conn,$stmt);
-                      ?>
-                      <?php foreach($resultado as $opciones):?>
-                      <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
-                      <?php endforeach;?>
-                    </select>
+                          $stmt = "SELECT id_habitacion_servicio, habitacion_area FROM tbl_habitacion_servicio";
+                          $resultado = mysqli_query($conn,$stmt);
+                          ?>
+                          <?php foreach($resultado as $opciones):?>
+                          <option value="<?php echo $opciones['id_habitacion_servicio']?>"><?php echo $opciones['habitacion_area']?></option>
+                        <?php endforeach;?>
+                      </select>
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="area">Cantidad de Adultos:</label><br>
-                      <input type="text" class="form-control" name="personas" id="personas"  placeholder="cantidad personas"
+
+                      <label for="area">Cantidad de Peronas:</label><br>
+                      <input type="text" class="form-control" name="personas" id="personas" placeholder="cantidad personas"
+
                      value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>" >
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="area">Cantidad de Niños:</label><br>
-                      <input type="text" class="form-control" name="niños" id="niños"  placeholder="cantidad personas"
-                     value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>" >
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
+
                       <label for="cant_habi">Cantidad de Habitaciones:</label><br>
                       <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones"
                       value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" >
+
                     </div>
                   </div>
                    <div class="col-md-6">
                     <div class="form-group">
+
                       <label>Precio Adulto:</label>
-                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" oninput="calcular()" placeholder="Precio habitacion"
+                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion"
                       value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" >
                     </div>
-                    <input type="date" class="form-control pull-right" id="entrada" name="entrada">
                   </div>
                    <div class="col-md-6">
                     <div class="form-group">
                       <label>Precio Niños:</label>
-                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" oninput="calcular()"  placeholder="Precio habitacion"
+                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" placeholder="Precio habitacion"
+
                       value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" >
                     </div>
-                    <input type="date" class="form-control pull-right" id="salida" name="salida">
                   </div>
+
                 </div>
               </div>
             </div>
@@ -136,29 +142,29 @@
               <div class="form-group">
                 <label for="pago" class="col-sm-2 control-label" >Total:</label>
                 <div class="col-sm-10">
-                  <input type="Text" class="form-control" id="pago" name="pago" disabled="true" placeholder="Total">
+                  <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total">
                 </div>
               </div>
-            </div><br>
-            <div class="form-group">
-              <label for="pago" class="col-xs-3 control-label">Total a Pagar:</label>
-              <div class="col-xs-4">
-                <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total">
-              </div>
-            </div><br><br>
+            </div>
+            <br><br><br>
             <div class="text-center"">
               <div class="col-md-6">
-                <button type="button" name="" id="cancelar" class="text-center btn btn-danger btn-lg" onclick="location='hotel'">Cancelar</button>
+
+                <button type="button" name="" id="cancelar" class="text-center btn btn-danger btn-lg">Cancelar</button>
+
               </div>
-              <input type="hidden"  name="agregar-hotel" value="1">
-              <button type="submit" name="submit" id="registrar" class=" text-center btn btn-success btn-lg ">Registrar</button>
-            </div><br><br>
+              <div class="col-md-4">
+                <input type="hidden"  name="agregar-hotel" value="1">
+                <button type="submit" name="registrarhotel" id="registrar" class=" text-center btn btn-success btn-lg ">Registrar</button>
+              </div>
+            </div><br><br><br><br>
            <!-- <?php 
               /*include_once('./controlador/ctr.hotel.php');
               $hotel = new ControladorHotel();
               $hotel->ctrHotel();*/
             ?>!-->
           </form>
+          
         </div>
         <?php 
             if(isset($_GET['msg'])){
@@ -187,12 +193,15 @@
 											
 											<div class="campos">
 												<label for="">Identidad Cliente: </label>
-												<input id="ideCliente" class="form-control modal-roles secundary" type="text" name="idecliente" onkeypress="return soloNumeros(event)"  placeholder="Identidad Cliente" required />
+
+												<input id="ideCliente" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" required />
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Nombre Cliente: </label>
-												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);"  placeholder="Nombre Cliente" required />
+
+												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" required />
+
 
 											</div>
 											<div class="campos form-group">
@@ -212,7 +221,9 @@
 											</div>
                       <div class="campos form-group">
 												<label for="">Telefeno: </label>
-												<input id="tel" name="tel" class="form-control  modal-roles secundary" type="tex" onkeypress="return soloNumeros(event)"  placeholder="Telefono" required />
+
+												<input id="tel" name="tel" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" required />
+
 
 											</div>
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">

@@ -130,7 +130,7 @@
             <div class="inner">
             <h2><?php echo $fila['total'];?></h2>
 
-              <p>Usuarios registrados</p>
+              <p>Preguntas registradas</p>
             </div>
             <div class="icon">
               <i class="fa fa-file-powerpoint-o"></i>
@@ -194,7 +194,7 @@
 
       <!--INICIO DE OTRA INFORMACION-->
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="box box-primary">
             <div class="box-body box-profile">
               <img class="profile-user-img img-responsive img-circle" src="vista/dist/img/logo.png" alt="Foto perfil de usuario">
@@ -231,10 +231,10 @@
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Nombre organización: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></a>
+                  <b>Organización: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Nombre de usuario: </b> <a class="pull-right"><?php echo strtoupper($usuario);?></a>
+                  <b>Usuario admin: </b> <a class="pull-right"><?php echo strtoupper($usuario);?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Correo: </b> <a class="pull-right"><?php echo $_SESSION['correo'];?></a>
@@ -250,7 +250,7 @@
         <!--FIN DE OTRA INFORMACION-->  
         
         <!--INICIO DE LA TABLA-->
-        <div class="col-md-9">
+        <div class="col-md-8">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li><a>Configuración Información <?php echo "Fundacion AMITIGRA";?></a></li>
@@ -262,16 +262,10 @@
                     <label for="inputName" class="col-sm-3 control-label">Nombre</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre']));?>" placeholder="Nombre">
+                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre_completo']));?>" placeholder="Nombre">
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Apellido</label>
-
-                    <div class="input-group col-sm-8">
-                      <input type="text" name="apellido" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['apellido']));?>" placeholder="Apellido">
-                    </div>
-                  </div>
+                  
                   <div class="form-group">
                     <label for="inputName" class="col-sm-3 control-label">Nombre de usuario</label>
 

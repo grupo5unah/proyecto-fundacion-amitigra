@@ -38,7 +38,7 @@
 		<br>
       <div class="input-group has-feedback">
         <input id="ConfPass" type="password" class="form-control" name="password2" placeholder="Ingrese su contrasena">
-        <span class="input-group-btn" onclick="mostrarPassword()">
+        <span class="input-group-btn" onclick="m_Password()">
           <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_conf"></i></button>
         </span>
       </div>
@@ -65,33 +65,7 @@
 </div>
 <!-- /.login-box -->
 
-	<script type="text/javascript">
-		function mostrarPassword(){
-			
-			var nueva = document.getElementById("PassNueva");
-			if(nueva.type == "password"){
-				nueva.type = "text";
-				$('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				nueva.type = "password";
-				$('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-
-			var conf = document.getElementById("ConfPass");
-			if(conf.type == "password"){
-				conf.type = "text";
-				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				conf.type = "password";
-				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-	<script>
-		SinEspacio=function(input){
-		input.value=input.value.replace(' ','');}
-	</script>
+<script src="../dist/js/app.login.js"></script>
 
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
