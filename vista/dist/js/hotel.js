@@ -1,4 +1,3 @@
-$(document).ready(function () { 
   //FUNCION PARA REGISTRAR UN CLIENTE
   $("#formCliente").submit(async function(e){
     e.preventDefault();
@@ -211,5 +210,4 @@ $(document).ready(function () {
     });
   })
 
-  
 });

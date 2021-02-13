@@ -11,9 +11,11 @@
         <div class="box-body"> 
             <div class="col-xs-3">
               <div class="input-group input-group-sm">
+
                 <input type="text" class="form-control" id="identi" name="identi" placeholder="Identidad">
                     <span class="input-group-btn">
                       <button type="submit" class="btn btn-default btnbuscarCliente">Buscar Cliente</button>
+
                     </span>
               </div><br>
               <button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
@@ -100,20 +102,25 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+
                       <label for="area">Cantidad de Peronas:</label><br>
                       <input type="text" class="form-control" name="personas" id="personas" placeholder="cantidad personas"
+
                      value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>" >
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+
                       <label for="cant_habi">Cantidad de Habitaciones:</label><br>
                       <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones"
                       value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" >
+
                     </div>
                   </div>
                    <div class="col-md-6">
                     <div class="form-group">
+
                       <label>Precio Adulto:</label>
                       <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion"
                       value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" >
@@ -123,9 +130,11 @@
                     <div class="form-group">
                       <label>Precio Niños:</label>
                       <input type="text" class="form-control" name="precioNiños" id="precioNiños" placeholder="Precio habitacion"
+
                       value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" >
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -140,7 +149,9 @@
             <br><br><br>
             <div class="text-center"">
               <div class="col-md-6">
+
                 <button type="button" name="" id="cancelar" class="text-center btn btn-danger btn-lg">Cancelar</button>
+
               </div>
               <div class="col-md-4">
                 <input type="hidden"  name="agregar-hotel" value="1">
@@ -182,12 +193,15 @@
 											
 											<div class="campos">
 												<label for="">Identidad Cliente: </label>
+
 												<input id="ideCliente" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" required />
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Nombre Cliente: </label>
+
 												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" required />
+
 
 											</div>
 											<div class="campos form-group">
@@ -207,7 +221,9 @@
 											</div>
                       <div class="campos form-group">
 												<label for="">Telefeno: </label>
+
 												<input id="tel" name="tel" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" required />
+
 
 											</div>
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">

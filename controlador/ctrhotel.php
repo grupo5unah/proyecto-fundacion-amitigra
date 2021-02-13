@@ -12,6 +12,7 @@ if (isset($_GET['action'])) {
 
 switch ($action){ 
 
+
     case 'obtenerCliente':
         $cliente = $_GET['cliente'];
         $sql = "SELECT id_cliente, nombre_completo
@@ -56,7 +57,7 @@ switch ($action){
                 echo $e->getMessage();
             }
             
-        }
+        
     break;
     case 'registrarHotel': //realizar una reservacion
         $cliente = $_POST['cliente'];
