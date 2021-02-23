@@ -48,9 +48,9 @@
 
                                 $validar_correo = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i";
                                 if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,11}$/', $password)){
-                                    echo 'la contraseña no cumple con los requisitos.';
-                                    "<br>";
-                                    echo 'debe contener letra mayuscula, minuscula y caracteres especiales comprendidos en !@#$%';
+                                    echo '<div class="text-center alert alert-danger" role = "alert">
+                                    la contraseña no cumple con los requisitos.
+                                    debe contener letra mayuscula, minuscula y caracteres especiales comprendidos en !@#$% </div>';
                                 } else {
                                     if(isset($_POST["tipo"]) == "registro"){
                                         $nombre = $_POST['nombre'];
@@ -66,7 +66,7 @@
                                         if($usuario =="" || strlen($usuario) < 5){
                                             $campo = array();
                                             
-                                            echo "<div class='alert alert-danger' role='alert'>
+                                            echo "<div class='text-center alert alert-danger' role='alert'>
                                                     Lo sentimos, no se permiten nombres de usuario con menos de cinco caracteres
                                                     </div>";
                                             //echo "Debe de agregar un nombre de usuario con un mayor de 5 letras";
@@ -85,30 +85,18 @@
                                                 $intentos = 0;
                                                 $foto = "foto";
 
-                                                echo "<pre>";
-
-                                                var_dump($_FILES);
-                                                // $cargar = $_FILES['imagen'];
-                                            
-                                                // var_dump($cargar['name']);
-                                                echo "</pre>";
-                                                exit;
-                                                $imagen = $_FILES['name'];
-
                                                 //Carpeta para las imágenes
-                                                $carpetaFotoPerfil = '..\fotoPerfil';
+                                                /*$carpetaFotoPerfil = 'fotoPerfil/';
 
                                                 if(!is_dir($carpetaFotoPerfil)){ //Verifica la carpeta existe, de no ser así la crea
                                                     mkdir($carpetaFotoPerfil,0777,true);
-                                                }
-
-                                                exit;
+                                                }*/
 
                                                 //Generar nombre de la foto
-                                                // $nombre_foto = md5(uniqid(rand(), true));
+                                                //$nombre_foto = md5(uniqid(rand(), true)).'.png';
 
                                                 //subir la imagen
-                                                // $move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil.$nombre_foto);
+                                                //move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil . $nombre_foto);
 
                                                  $user = $usuario;
 
@@ -145,7 +133,11 @@
                                                     $registro = $conn->prepare('CALL control_bitacora (?,?,?,?,?)');
                                                     $registro->bind_Param("sssii",$acciones, $descp,$fecha, $id_usuario, $objeto);
                                                     $registro->execute();
-                                                    $registro->close();
+                                                    //$registro->close();
+
+                                                    $cambio_contrasena = $conn->prepare("CALL control_historial_contrasena (?,?,?,?,?,?);");
+                                                    $cambio_contrasena->bind_Param("isssss",$id_usuario, $hashed_password, $user, $fecha, $user, $fecha);
+                                                    $cambio_contrasena->execute();
 
                                                     echo "<p class='mensaje'>";
                                                     echo "<div class='text-center alert alert-success' role = 'alert'>

@@ -12,6 +12,15 @@ $stmt =*/
 ?>
 <main>
 <div class="content-wrapper">
+
+<section class="content-header">
+<h1>Copia de seguridad <small> Base de datos</small></h1>     
+<ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active"><i class="fa fa-database"></i> Copia de seguridad</li>
+      </ol>
+      <br>
+    </section>
     <!-- Content Header (Page header) -->
     <!-- Main content -->
     <section class="content container-fluid">
