@@ -102,6 +102,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "senderosE" ||
         $_GET["ruta"] == "reservahotel" ||
         $_GET["ruta"] == "solicitudes" ||
+        $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "perfil" ||
