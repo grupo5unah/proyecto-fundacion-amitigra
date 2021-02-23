@@ -1,4 +1,13 @@
 <script>
+	//Solo permite introducir numeros.
+	function soloNumeros(e) {
+		var key = window.event ? e.which : e.keyCode;
+		if (key < 48 || key > 57) {
+			e.preventDefault();
+		}
+	}
+
+
 	function soloLetras(e) {
 		var key = e.keyCode || e.which,
 			tecla = String.fromCharCode(key).toLowerCase(),
@@ -15,48 +24,24 @@
 			return false;
 		}
 	}
-
 	SinEspacio = function(input) {
 		input.value = input.value.replace(' ', '');
 	}
 
-	//Solo permite introducir numeros.
-	function soloNumeros(e) {
-		var key = window.event ? e.which : e.keyCode;
-		if (key < 48 || key > 57) {
-			e.preventDefault();
-		}
-	}
-
-
-	//Permitir solo un ESPACIO //
-
-	espacioLetras = function(input) {
+	//Permitir solo un ESPACIO
+	espacio_Letras = function(input) {
 		input.value = input.value.replace('  ', ' ');
 	}
 
-	//mostrar la contrasena
-	cript type = "text/javascript" >
-		function mostrarPassword() {
-			var nueva = document.getElementById("PassNuevo");
-			if (nueva.type == "password") {
-				nueva.type = "text";
-				$('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			} else {
-				nueva.type = "password";
-				$('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-			var conf = document.getElementById("ConfPass");
-			if (conf.type == "password") {
-				conf.type = "text";
-				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			} else {
-				conf.type = "password";
-				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		}
-</script>
 
+	function validaemail(valor) {
+		re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+		if (!re.exec(valor)) {
+			$res['msj'] = "Email no valido";
+		}
+
+	}
+</script>
 
 <?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
@@ -144,6 +129,9 @@
 													<td><?php echo $evento['nombre_estado']; ?></td>
 													<td>
 
+
+														<button class="btn btn-resetear btnResetearClaves fa fa-key" data-idusuario="<?= $evento['id_usuario'] ?>" data-contrasena="<?= $evento['contrasena'] ?>"> Resetear</button>
+
 														<button class="btn btn-warning btnEditarUsuario glyphicon glyphicon-pencil" data-idusuario="<?= $evento['id_usuario'] ?>" data-nombrecompleto="<?= $evento['nombre_completo'] ?>" data-nombreusuario="<?= $evento['nombre_usuario'] ?>" data-genero="<?= $evento['genero'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-correo="<?= $evento['correo'] ?>" data-contrasena="<?= $evento['contrasena'] ?>" data-rol="<?= $evento['rol'] ?>" data-id_rol="<?= $evento['id_rol'] ?>" data-nombre_estado="<?= $evento['nombre_estado'] ?>" data-id_estado="<?= $evento['id_estado'] ?>"></button>
 
 														<button class="btn btn-danger btnEliminarUsuario glyphicon glyphicon-remove" data-idusuario="<?php echo $evento['id_usuario'] ?>"></button>
@@ -185,26 +173,22 @@
 
 
 									<div class="campos form-group">
-										<input id="nombrecompct" class="form-control modal-roles secundary" type="text" name="nombrecompct" placeholder="Nombre Completo" required />
+										<input id="nombrecompct" class="form-control modal-roles secundary" type="text" name="nombrecompct" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)" required />
 									</div>
 
 									<div class="campos form-group">
-										<input id="nombreusuarioact" class="form-control modal-roles secundary" type="text" name="nombreusuarioact" placeholder="Nombre de usuario" required />
+										<input id="nombreusuarioact" class="form-control modal-roles secundary" type="text" name="nombreusuarioact" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this);" required />
 
 									</div>
 									<div class="campos form-group">
-										<input id="telefonoact" class="form-control modal-roles secundary" type="text" name="telefonooact" placeholder="Telefono" required />
+										<input id="telefonoact" maxlength="8" minlength="8" class="form-control modal-roles secundary" type="text" name="telefonooact" placeholder="Telefono" onkeypress="return soloNumeros(event)" required />
 									</div>
 
 									<div class="campos form-group">
 										<input id="correoact" class="form-control modal-roles secundary" type="text" name="correoact" placeholder="Correo" required />
 									</div>
 
-									<div class="campos form-group">
-										<input id="contrasenaact" class="form-control modal-roles secundary" type="password" name="contrasenaact" placeholder="Contraseña" required />
-										
-											
-									</div>
+
 
 									<?php
 									include('./modelo/conexionbd.php');
@@ -255,14 +239,14 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary">Actualizar Usuario</button>
+							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" onclick="validaemail(correoact.value);">Actualizar Usuario</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- modal registrar usuario -->
-			<div class="modal fade" id="modalCrearUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			//Modal para Resetear la contraseña
+			<div class="modal fade" id="modalResetearClave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -270,86 +254,130 @@
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Registrar Usuario</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Resetear Contraseña</h3>
 							</div>
 						</div>
 						<div class="modal-body">
-							<form name="" id="formGusuarios">
-								<div class=" form-group">
-									<div class="campos form-group" type="hidden">
+							<form name="formEditarProducto">
+								<div class="ingreso-producto form-group">
+									<div class="campos" type="hidden">
 										<label for=""> </label>
-										<input autocomplete="on" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+										<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
 									</div>
-
+									
 									<div class="campos form-group">
-										<center><input autocomplete="on" id="nombreCompleto" style="width: 338px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);" required /></center>
-									</div>
-
-									<div class="campos form-group">
-										<center><input id="nombreusuario" style="width: 338px" class="form-control modal-roles secundary" type="text" name="nombreusuario" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this);" required /></center>
-									</div>
-
-									<div class="campos form-group">
-										<center><input id="telefono" style="width: 338px" maxlength="8" minlength="8" class="form-control modal-roles secundary" type="tel" name="telefono" placeholder="Telefono" onkeypress="return soloNumeros(event)" required /></center>
+									<label for="">Nueva Contraseña</label>
+										<input id="nuevacontra" class="form-control modal-roles secundary" type="text" name="nuevacontra" placeholder="Introduzca la Nueva Contraseña" required /></center>
 									</div>
 									<div class="campos form-group">
-
-										<center><input id="correo" style="width: 338px" class="form-control modal-roles secundary" type="email" name="cantidad" placeholder="Correo" required /></center>
+									<label for="">Repetir Nueva Contraseña</label>
+										<input id="rep_nuevacontra" class="form-control modal-roles secundary" type="text" name="rep_nuevacontra" placeholder="Repita la Nueva Contraseña" required /></center>
 									</div>
 
-									<div class="campos form-group">
-										<center><input id="Contraseña" style="width: 338px" class="form-control modal-roles secundary" type="text" name="cantidad" placeholder="Contraseña" required /></center>
-									</div>
+									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+								</div>
 
-									<div class="campos form-group">
-										<center><input id="ConfirmarContraseña" style="width: 338px" class="form-control modal-roles secundary" type="text" name="ConfirmarContraseña" placeholder="Confirmar Contraseña" required /></center>
-									</div>
-
-
-									<div class="campos form-group">
-										<center><select class="form-control" id="genero" name="genero" style="width: 338px" required></center>
-										<option value="">Seleccione un Genero</option>
-										<option value="masculino">Masculino</option>
-										<option value="femenino">Femenino</option>
-
-										</select>
-									</div>
-									<?php
-									include('./modelo/conexionbd.php');
-									$consulta_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles`");
-									$resultados = mysqli_num_rows($consulta_rol);
-									?>
-									<div class="campos form-group">
-										<center><select class="form-control" name="rol" id="rol" style="width: 338px" required></center>
-										<option value="Seleccione un Rol">Seleccione un Rol</option>
-										<?php
-										if ($resultados > 0) {
-											while ($rol = mysqli_fetch_array($consulta_rol)) {
-										?>
-												<option value="<?php echo $rol["id_rol"]; ?>"><?php echo $rol["rol"] ?></option>
-										<?php
-											}
-										}
-										?>
-									</div>
-
-									</select>
-									<div class="campos form-group">
-										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-									</div>
-
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-										<button id="" type="submit" name="ingresarProducto" class=" btn btn-primary">Registrar Usuario</button>
-									</div>
 							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button id="btnResetClave" type="button" class="btnResetClave btn btn-primary">Resetear Contraseña</div>
 						</div>
 					</div>
 				</div>
 
-				<!-- /.box-footer-->
-			</div>
-			<!-- /.box -->
+				<!-- modal registrar usuario -->
+				<div class="modal fade" id="modalCrearUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Registrar Usuario</h3>
+								</div>
+							</div>
+							<div class="modal-body">
+								<form name="" id="formGusuarios">
+									<div class=" form-group">
+										<div class="campos form-group" type="hidden">
+											<label for=""> </label>
+											<input autocomplete="on" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+										</div>
+
+										<div class="campos form-group">
+											<center><input id="nombreCompleto" style="width: 338px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)" required /></center>
+										</div>
+
+										<div class="campos form-group">
+											<center><input id="nombreusuario" style="width: 338px" class="form-control modal-roles secundary" type="text" name="nombreusuario" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)" required /></center>
+										</div>
+
+										<div class="campos form-group">
+											<center><input id="telefono" style="width: 338px" maxlength="8" minlength="8" class="form-control modal-roles secundary" type="tel" name="telefono" placeholder="Telefono" onkeypress="return soloNumeros(event)" required /></center>
+										</div>
+										<div class="campos form-group">
+
+											<center><input id="correo" style="width: 338px" class="form-control modal-roles secundary" type="email" name="cantidad" placeholder="Correo" onkeyup="validarEmail(this)" required /></center>
+										</div>
+
+										<div class="campos form-group">
+											<center><input id="Contraseña" style="width: 338px" class="form-control modal-roles secundary" type="text" name="cantidad" placeholder="Contraseña" required /></center>
+										</div>
+
+										<div class="campos form-group">
+											<center><input id="ConfirmarContraseña" style="width: 338px" class="form-control modal-roles secundary" type="text" name="ConfirmarContraseña" placeholder="Confirmar Contraseña" required /></center>
+										</div>
+
+
+										<div class="campos form-group">
+											<center><select class="form-control" id="genero" name="genero" style="width: 338px" required></center>
+											<option value="">Seleccione un Genero</option>
+											<option value="masculino">Masculino</option>
+											<option value="femenino">Femenino</option>
+
+											</select>
+										</div>
+										<?php
+										include('./modelo/conexionbd.php');
+										$consulta_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles`");
+										$resultados = mysqli_num_rows($consulta_rol);
+										?>
+										<div class="campos form-group">
+											<center><select class="form-control" name="rol" id="rol" style="width: 338px" required></center>
+											<option value="">Seleccione un Rol</option>
+											<?php
+											if ($resultados > 0) {
+												while ($rol = mysqli_fetch_array($consulta_rol)) {
+											?>
+													<option value="<?php echo $rol["id_rol"]; ?>"><?php echo $rol["rol"] ?></option>
+											<?php
+												}
+											}
+											?>
+										</div>
+
+										</select>
+										<div class="campos form-group">
+											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+										</div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+
+											<button id="" type="submit" name="ingresarProducto" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Usuario</button>
+										</div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<!-- /.box-footer-->
+				</div>
+				<!-- /.box -->
 	</section>
 	<!-- /.content -->
 </div>
