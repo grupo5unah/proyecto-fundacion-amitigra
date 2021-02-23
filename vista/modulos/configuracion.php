@@ -1,55 +1,26 @@
 <?php
-include_once("./modelo/conexionbd.php");
+require "./modelo/conexionbd.php";
 
-  $PuertoCorreo = "puerto_correo";
+  $arreglo = ['NOMBRE_DATABASE', 'PUERTO_DATABASE','NOMBRE_SISTEMA','NOMBRE_ORGANIZACION', 'PUERTO_CORREO',
+              'CORREO_SISTEMA','FOTO_ORGANIZACION','USUARIO_ADMIN','USUARIO_CONTRASENA','HOST_HOSPEDADOR'];
 
-  //$MensajeCorreo = "mensaje_correo";
-  //$id = 5;
-  $ExtraerInformacionCorreo = $conn->prepare("SELECT valor FROM tbl_parametros WHERE parametro = ?;");
-  $ExtraerInformacionCorreo->bind_Param("s",$PuertoCorreo);
-  $ExtraerInformacionCorreo->execute();
-  $ExtraerInformacionCorreo->bind_Result($correoPuerto);
+    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[5]';";
+    $resultado = mysqli_query($conn, $extraer);
 
-  while($ExtraerInformacionCorreo->fetch()){
-    $Pcorreo = $correoPuerto;
-  }
-
-  $PuertoBD = "puerto_bd";
-  $ExtraerInformacionBD = $conn->prepare("SELECT valor FROM tbl_parametros WHERE parametro = ?");
-  $ExtraerInformacionBD->bind_Param("s",$PuertoBD);
-  $ExtraerInformacionBD->execute();
-  $ExtraerInformacionBD->bind_Result($bd);
-
-  while($ExtraerInformacionBD->fetch()){
-    $bdPuerto = $bd;
-  }
-//$id_objeto = 8;
-//$rol = $_SESSION['mi_rol'];
-/*$rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
-                        INNER JOIN tbl_roles
-                        ON
-                        tbl_usuarios.rol_id = tbl_roles.id_rol 
-                        WHERE tbl_roles.rol = ?");
-$stmt->bind_Param("s",$rol_id);
-$stmt->execute();
-$stmt->bind_Result($id_rol);
-
-if($stmt->affected_rows){
-
-  $existe = $stmt->fetch();
-while($stmt->fetch()){
-  $mi_rol = $id_rol;
-}
-
-if($existe){
-
-
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,id_rol,id_objeto FROM tbl_permisos
-WHERE id_rol = '$mi_rol' AND id_objeto = '$id_objeto'");
-$columna = $stmt->fetch_assoc();*/
+    while($parametro = mysqli_fetch_assoc($resultado)):
+  
 ?>
 <div class="content-wrapper">
+
+<section class="content-header">
+<h1>
+  Configuracion <small>Sistema</small>
+</h1>      
+<ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active"><i class="fa fa-cog"></i> Otra configuración</li>
+      </ol>
+    </section>
     <!-- Main content -->
     <section class="content">
 
@@ -75,15 +46,14 @@ $columna = $stmt->fetch_assoc();*/
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-
-         
         </div>
         <!-- /.col -->
         <div class="col-md-9">
           <div class="nav-tabs-custom-menu">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#activity" data-toggle="tab">Configuracion correo</a></li>
-              <li><a href="#timeline" data-toggle="tab">Configuracion Base de datos</a></li>
+              <li class="active"><a href="#activity" data-toggle="tab">Ajustes correo</a></li>
+              <li><a href="#conf" data-toggle="tab">Ajustes Base de datos</a></li>
+              <li><a href="#timeline" data-toggle="tab">Ajustes del sistema</a></li>
               <!--<li><a href="#settings" data-toggle="tab">Settings</a></li>-->
             </ul>
             <div class="tab-content">
@@ -93,23 +63,27 @@ $columna = $stmt->fetch_assoc();*/
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label for="inputName" class="col-sm-3 control-label">Correo electrónico:</label>
-
                             <div class="col-sm-8">
-                            <input type="email" class="form-control" id="inputName" placeholder="Correo electrónico">
+                            <input type="email" class="form-control" id="inputName" value="<?php echo $parametro['valor']; endwhile;?>" placeholder="Correo electrónico">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputName" class="col-sm-3 control-label">Puerto correo electrónico:</label>
 
+                            <?php
+                            $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[4]';";
+                            $resultado = mysqli_query($conn, $extraer);
+
+                            while($parametro = mysqli_fetch_assoc($resultado)):?>
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" value="<?php //echo $Pcorreo;?>" id="inputName" placeholder="Puerto">
+                            <input type="text" class="form-control" value="<?php echo $parametro['valor']; endwhile;?>" id="inputName" placeholder="Puerto">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputName" class="col-sm-3 control-label">Mensaje envío de correo:</label>
 
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" value="<?php //echo $mensaje;?>" id="mensaje" placeholder="Mensaje">
+                            <input type="text" class="form-control" value="<?php ?>" id="mensaje" placeholder="Mensaje">
                             </div>
                         </div>
                         <div class="form-group">
@@ -124,39 +98,144 @@ $columna = $stmt->fetch_assoc();*/
 
               </div>
               <!-- /.tab-pane -->
-              <div class="tab-pane" id="timeline">
+              <div class="tab-pane" id="conf">
               <form class="form-horizontal">
-                        <div class="form-group">
-                            <label for="inputName" class="col-sm-3 control-label">Host hospedador:</label>
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Host hospedador:</label>
+                    <?php
+                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';";
+                    $resultado = mysqli_query($conn, $extraer);
 
-                            <div class="col-sm-8">
-                            <input type="email" class="form-control" id="inputName" placeholder="Nombre del host">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputName" class="col-sm-3 control-label">Puerto base de datos:</label>
+                    while($parametro = mysqli_fetch_assoc($resultado)):?>
+                    <div class="col-sm-8">
+                    <input type="email" class="form-control" value="<?php echo $parametro['valor']; endwhile;?>" id="inputName" placeholder="Nombre del host">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Puerto base de datos:</label>
+                    <?php
+                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';";
+                    $resultado = mysqli_query($conn, $extraer);
 
-                            <div class="col-sm-8">
-                            <input type="text" class="form-control" value="<?php //echo $bdPuerto;?>" id="puerto" placeholder="Puerto base de datos">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputName" class="col-sm-3 control-label">Nombre base de datos:</label>
+                    while($parametro = mysqli_fetch_assoc($resultado)):?>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" value="<?php echo $parametro['valor']; endwhile;?>" id="puerto" placeholder="Puerto base de datos">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Nombre base de datos:</label>
+                    <?php
+                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';";
+                    $resultado = mysqli_query($conn, $extraer);
 
-                            <div class="col-sm-8">
-                            <input type="email" class="form-control" id="inputName" placeholder="Nombre base de datos">
-                            </div>
+                    while($parametro = mysqli_fetch_assoc($resultado)):?>
+                    <div class="col-sm-8">
+                    <input type="email" class="form-control" id="inputName" value="<?php echo $parametro['valor']; endwhile;?>" placeholder="Nombre base de datos">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Estado de la conexion:</label>
+
+                    <div class="col-sm-8">
+                    <input type="text" class="text-center form-control btn btn-success" value="<?php if($conn->ping()){ echo "conectado"; } else { echo "error de conexion";}?>" id="inputName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-success">Actualizar información</button>
                         </div>
-                        <div class="form-group">
-                            <div class="text-center">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button class="btn btn-success">Actualizar información</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+                </div>
+                </form>
               </div>
               <!-- /.tab-pane -->
+
+              <div class="tab-pane" id="timeline">
+                <form method="POST" class="form-horizontal">
+                  <div class="form-group">
+                  <label for="inputName" class="col-sm-3 control-label">Logo</label>
+                  
+                  <div class="input-group col-sm-8">
+                    <img class="profile-user-img img-responsive img-circle" src="vista/dist/img/logo.png" alt="Foto perfil de usuario">
+
+                    <p class="text-muted text-center">INFORMACIÓN</br>sobre la fundacion</p>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Nombre organizacion:</label>
+
+                    <?php
+                    $extraer = "SELECT parametro, valor FROM tbl_parametros WHERE parametro = '$arreglo[3]';";
+                    $resultado = mysqli_query($conn, $extraer);
+
+                    while($parametro = mysqli_fetch_assoc($resultado)):?>
+                    <div class="input-group col-sm-8">
+                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo $parametro['valor']; endwhile;?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Usuario  administrador:</label>
+
+                    <div class="input-group col-sm-8">
+                      <input type="text" name="usuario" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-3 control-label">Correo organizacion:</label>
+                    <?php
+                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';";
+                    $resultado = mysqli_query($conn, $extraer);
+
+                    while($parametro = mysqli_fetch_assoc($resultado)):?>
+                    <div class="input-group col-sm-8">
+                      <input type="email" name="correo" class="form-control" id="inputEmail" value="<?php echo $parametro['valor'];  endwhile;?>" placeholder="Correo electronico">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+
+                    <div class="input-group col-sm-8">
+                      <input id="ConfPass" type="password" class="form-control" name="password" placeholder="Ingrese su contrasena">
+                      <span class="input-group-btn" onclick="mostrarPassword()">
+                        <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_conf"></i></button>
+                      </span>
+                    </div>
+                    <p class="text-center-msg">Ingrese su contraseña para confirmar los cambios</p>
+                  </div>
+          
+                  <div class="text-center form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" name="cambio" value="act" class="btn btn-danger">Guardar cambios</button>
+                    </div>
+                  </div>
+
+                  <script type="text/javascript">
+	function mostrarPassword(){
+			var cambio = document.getElementById("ConfPass");
+			if(cambio.type == "password"){
+				cambio.type = "text";
+				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+			}else{
+				cambio.type = "password";
+				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+			}
+		} 
+	</script>
+
+                  <?php
+        
+                    include("./controlador/ctr.actualizarInformacion.php");
+
+                    $actualizar = new ActualizarInfo();
+                    $actualizar->ctrActualizarInfo();
+
+                    ?>
+                </form>
+              </div>
+             <!-- /.tab-pane -->
 
               <!--<div class="tab-pane" id="settings">
                 <form class="form-horizontal">
@@ -166,13 +245,16 @@ $columna = $stmt->fetch_assoc();*/
               <!-- /.tab-pane -->
             </div>
             <!-- /.tab-content -->
+            
           </div>
           <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->
+
       </div>
       <!-- /.row -->
 
     </section>
     <!-- /.content -->
+    
   </div>

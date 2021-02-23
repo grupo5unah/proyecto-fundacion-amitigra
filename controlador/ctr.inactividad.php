@@ -14,14 +14,16 @@
 
             try{
 
-                require_once("../../modelo/conexion.php");
+                require_once("../../modelo/conexionbd.php");
 
-                $stmt = $conn->prepare("SELECT id_usuario, contrasena, rol_id, tbl_roles.rol FROM tbl_usuarios
-                                        INNER JOIN tbl_roles ON tbl_usuarios.rol_id = tbl_roles.id_rol WHERE nombre_usuario = ?");
+                $stmt = $conn->prepare("SELECT id_usuario, contrasena, rol_id, primer_ingreso, tbl_roles.rol FROM tbl_usuarios
+                                        INNER JOIN tbl_roles
+                                        ON tbl_usuarios.rol_id = tbl_roles.id_rol
+                                        WHERE nombre_usuario = ?");
                 //$stmt = $conn->prepare("SELECT id_usuario, contrasena FROM tbl_usuarios WHERE nombre_usuario = ?; ");
                 $stmt->bind_Param("s", $usuario);
                 $stmt->execute();
-                $stmt->bind_result($id, $password_usuario, $rol_id, $rol);
+                $stmt->bind_result($id, $password_usuario, $rol_id, $rol, $primer_ingreso);
 
                 if($stmt->affected_rows){
                     $existe = $stmt->fetch();
@@ -35,10 +37,12 @@
                         if(password_verify($password, $password_usuario)){
                             
                             //session_create_id();
+                            session_cache_expire();
                             session_start();
                             session_regenerate_id();
                             $_SESSION['usuario'] = strtolower($usuario);
                             $_SESSION['rol'] = $rol;
+                            $_SESSION['primer_ingreso'] = $primer_ingreso;
                             //header('location:../../index.php');
                             echo "<script>
                             window.location='../../index.php';

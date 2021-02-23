@@ -10,12 +10,7 @@
         </div>
         <div class="box-body">
             <div class="col-xs-3">
-              <div class="input-group input-group-sm">
-                <input type="text" class="form-control" id="identidad" name="identidad" placeholder="Identidad">
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default btnbuscarCliente">Buscar Cliente</button>
-                    </span>
-              </div><br>
+              <button type="submit" id="buscar" class="btn btn-default btnbuscarCliente glyphicon glyphicon-search"> Buscar Cliente</button><br><br>  
               <button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
             </div><br>
           <form  id="camping" method="post">
@@ -45,7 +40,8 @@
                         <?php
                         //include_once ('./modelo/conexionbd.php');
 
-                        $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
+                        $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad
+                        WHERE nombre_localidad LIKE '%ju%'";
                         $resultado = mysqli_query($conn,$stmt);
                         ?>
                         <?php foreach($resultado as $opciones):?>
@@ -79,12 +75,13 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="area">Area Camping:</label><br>
-                      <select class="form-control" name="habitacion" id="habitacion">
+                      <select class="form-control" name="area" id="area">
                         <option value="" disabled selected>Selecione...</option>
                         <?php
                           //include_once ('./modelo/conexionbd.php');
 
-                          $stmt = "SELECT id_habitacion_servicio, habitacion_area FROM tbl_habitacion_servicio";
+                          $stmt = "SELECT id_habitacion_servicio, habitacion_area FROM tbl_habitacion_servicio
+                          WHERE habitacion_area LIKE '%ar%'";
                           $resultado = mysqli_query($conn,$stmt);
                           ?>
                           <?php foreach($resultado as $opciones):?>
@@ -95,8 +92,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="area">Cantidad de Peronas:</label><br>
-                      <input type="text" class="form-control" name="personas" id="personas" placeholder="cantidad personas"
+                      <label for="area">Cantidad de Adultos:</label><br>
+                      <input type="number" min="0"  class="form-control" name="personas" id="personas" placeholder="cantidad personas"
                      value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>" >
                     </div>
                   </div>
@@ -104,42 +101,85 @@
                     <div class="form-group">
                       <label>Precio Adulto:</label>
                       <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio Adulto"
-                      value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" >
+                      maxlength="4" minlength="2" onkeypress="return soloNumeros(event)" value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" >
                     </div>
                   </div>
-                   <div class="col-md-6">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="area">Cantidad de Niños:</label><br>
+                      <input type="number" min="0"  class="form-control" name="ninos" id="ninos" placeholder="cantidad personas"
+                     value="<?php if(isset($_POST['ninos'])){echo $_POST['ninos'];} ?>" >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
                     <div class="form-group">
                       <label>Precio Niños:</label>
                       <input type="text" class="form-control" name="precioNiños" id="precioNiños" placeholder="Precio Niño"
-                      value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" >
+                      maxlength="4" minlength="2" onkeypress="return soloNumeros(event)" value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" >
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
-                        <label for="cant_habi">Cantidad de Tiendas:</label><br>
-                        <input type="text" class="form-control" name="cant_tienda" id="cant_tienda" placeholder="Cantidad Tiendas"
+                      <label for="">Tipo de Tiendas:</label><br>
+                      <select class="form-control" name="tipoT" id="tipoT">
+                        <option value="" disabled selected>Selecione...</option>
+                        <?php
+                          //include_once ('./modelo/conexionbd.php');
+
+                          $stmt = "SELECT id_inventario, nombre_articulo FROM tbl_inventario
+                          WHERE nombre_articulo LIKE '%Ti%'";
+                          $resultado = mysqli_query($conn,$stmt);
+                          ?>
+                          <?php foreach($resultado as $opciones):?>
+                          <option value="<?php echo $opciones['id_inventario']?>"><?php echo $opciones['nombre_articulo']?></option>
+                        <?php endforeach;?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Cantidad de Tiendas:</label><br>
+                        <input type="number" min="0"  class="form-control" name="cant_tienda" id="cant_tienda" placeholder="Cantidad Tiendas"
                             value="<?php if(isset($_POST['cant_tienda'])){echo $_POST['cant_tienda'];} ?>" >
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                         <label>Precio de Tienda:</label>
-                        <input type="text" class="form-control" name="precio_tienda" id="precio_tienda" placeholder="Precio tienda"
-                        value="<?php if(isset($_POST['precio_tienda'])){echo $_POST['precio_tienda'];} ?>" >
+                        <input type="text" class="form-control" name="precioTienda" id="precioTienda" placeholder="Precio tienda"
+                        maxlength="4" minlength="3" onkeypress="return soloNumeros(event)" value="<?php if(isset($_POST['precio_tienda'])){echo $_POST['precio_tienda'];} ?>" >
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="">Sleeping Bag:</label><br>
+                      <select class="form-control" name="sleeping" id="sleeping">
+                      <option value="" disabled selected>Selecione...</option>
+                      <?php
+                        //include_once ('./modelo/conexionbd.php');
+
+                        $stmt = "SELECT id_inventario, nombre_articulo FROM tbl_inventario
+                        WHERE nombre_articulo LIKE '%Sl%'";
+                        $resultado = mysqli_query($conn,$stmt);
+                        ?>
+                        <?php foreach($resultado as $opciones):?>
+                        <option value="<?php echo $opciones['id_inventario']?>"><?php echo $opciones['nombre_articulo']?></option>
+                      <?php endforeach;?>
+                    </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
                     <div class="form-group">
                         <label for="cant_habi">Cantidad de Sleeping Bag:</label><br>
-                        <input type="text" class="form-control" name="cant_sleeping" id="cant_tienda" placeholder="Cantidad Sleeping Bag"
+                        <input type="number" min="0"  class="form-control" name="cant_sleeping" id="cant_sleeping" placeholder="Cantidad Sleeping Bag"
                         value="<?php if(isset($_POST['cant_sleeping'])){echo $_POST['cant_sleeping'];} ?>" >
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label>Precio de Sleeping Bag:</label>
-                      <input type="text" class="form-control" name="precio_sleeping" id="precio_sleeping" placeholder="Precio Sleeping Bag"
-                      value="<?php if(isset($_POST['precio_sleeping'])){echo $_POST['precio_sleeping'];} ?>" >
+                      <input type="text" class="form-control" name="precioSleeping" id="precioSleeping" placeholder="Precio Sleeping Bag"
+                      maxlength="4" minlength="3" onkeypress="return soloNumeros(event)" value="<?php if(isset($_POST['precio_sleeping'])){echo $_POST['precio_sleeping'];} ?>" >
                     </div>
                   </div>
                 </div>
@@ -149,7 +189,7 @@
               <div class="form-group">
                 <label for="pago" class="col-sm-2 control-label" >Total:</label>
                 <div class="col-sm-10">
-                  <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total">
+                  <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total" disabled>
                 </div>
               </div>
             </div>
@@ -198,12 +238,12 @@
 
 											<div class="campos">
 												<label for="">Identidad Cliente: </label>
-												<input id="ideCliente" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" required />
+												<input id="ideCliente"  maxlength="13" minlength="13" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" onkeypress="return soloNumeros(event)" required />
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Nombre Cliente: </label>
-												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" required />
+												<input id="nCliente"  maxlength="50" minlength="50" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);" required />
 
 											</div>
 											<div class="campos form-group">
@@ -223,7 +263,7 @@
 											</div>
                       <div class="campos form-group">
 												<label for="">Telefeno: </label>
-												<input id="tel" name="tel" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" required />
+												<input id="tel" name="tel" maxlength="15" minlength="8" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" onkeypress="return soloNumeros(event)"required />
 
 											</div>
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">

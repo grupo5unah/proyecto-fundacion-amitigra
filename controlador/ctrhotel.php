@@ -1,8 +1,5 @@
 <?php
 include "../modelo/conexionbd.php";
-
-if()
-
 $res = array('error' => false);
 $action = '';
 
@@ -11,18 +8,42 @@ if (isset($_GET['action'])) {
 }
 
 switch ($action){ 
+    /*case 'BuscarCliente':
+        $ident=$_POST['identidad'];
+        
+        try{
 
-    case 'obtenerCliente':
-        $cliente = $_GET['cliente'];
-        $sql = "SELECT id_cliente, nombre_completo
-        FROM tbl_clientes WHERE nombre_completo = '" . $cliente . "'";
-        $result = $conn->query($sql);
-        $cliente_db = array();
-        while ($row = $result->fetch_assoc()) {
-            array_push($cliente_db, $row);
+            $verificar = $conn->prepare("SELECT id_cliente,nombre_completo, identidad FROM tbl_clientes
+                                        WHERE nombre_completo=?;");
+            $verificar->bind_Param("s", $ident);
+            $verificar->execute();
+            $verificar->bind_result($id, $nombre, $identi);
+
+            if($verificar->affected_rows){
+            $existe = $verificar->fetch();
+
+            while ($verificar->fetch()) {
+                $id_cliente = $id;
+                $identidadC= $identi;
+            }
+            if($existe){
+                echo "el cliente existe";
+            }
+            /*$sql = "SELECT id_cliente, identidad FROM tbl_clientes WHERE identidad = .$ident";
+            $resultado = $conn->query($sql);
+            if ($resultado->error) {
+                $res['msj'] = "El Cliente no existe";
+                $res['error'] = true;
+            } else {
+                $res['msj'] = "El Cliente Existe";
+            }*/
+        
+        /*}catch(exception $e){
+            echo $e->getMessage();
         }
-        $res['nombre_completo'] = $cliente_db;
-    break;
+        
+
+    break;*/
     case 'registrarCliente':
         $identidad= $_POST['identidad'];
         $nombre=$_POST['nombre_cliente'];
@@ -55,40 +76,46 @@ switch ($action){
             }catch(exception $e){
                 echo $e->getMessage();
             }
-            
         }
+            
+        
     break;
-    case 'registrarHotel': //realizar una reservacion
+    case 'registrarHotel': //realizar una reservacion para hotel
         $cliente = $_POST['cliente'];
         $reservacion = $_POST['reservacion']; //fecha de reservacion
-        $entrada = $_POST['entrada'];
+        $entrada = $_POST['entrada'];//fecha de entrada
         $habitacion = $_POST['habitacion'];
         $localidad = $_POST['localidad'];
         $precioA = $_POST['precioAdulto'];
         $precioN = $_POST['precioNiños'];
-        $salida = $_POST['salida'];
+        $salida = $_POST['salida'];//fecha salida
         $personas = $_POST['personas'];
+        $niños = $_POST['niños'];
         $cant_habitacion = $_POST['cant_habitacion'];
         $total = $_POST['pago'];
         $usuario_actual = $_POST['usuario_actual'];
-        $user=4;
+        $id_usuario = 4;
+        $estado_eliminado =1;
+        //$estado_habitacion = 'DISPONIBLE';
         date_default_timezone_set("America/Tegucigalpa");
         $fecha=date('Y-m-d H:i:s',time());
         
 
         if(empty($_POST['cliente'])|| empty($_POST['reservacion']) || empty($_POST['entrada']) || empty($_POST['habitacion'])
             || empty($_POST['localidad']) ||empty($_POST['precioAdulto']) ||empty($_POST['precioNiños'])
-            || empty($_POST['salida']) || empty($_POST['personas']) || empty($_POST['cant_habitacion'])){
+            || empty($_POST['salida']) || empty($_POST['personas']) || empty($_POST['niños']) || empty($_POST['cant_habitacion'])){
                 $res['msj'] = 'Todos los campos son obligatorios';
                 $res['error'] = true;
         }else{
             try{
                 
+                //insercion en la tabla reservaciones
                 $inserta=$conn->prepare("INSERT INTO tbl_reservaciones (fecha_reservacion,fecha_entrada, fecha_salida,cliente_id, usuario_id,
-                                        localidad_id,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-                                        VALUES (?,?,?,?,?,?,?,?,?,?);");
-                $inserta->bind_param('sssiiissss', $reservacion, $entrada,$salida,$cliente,$user,$localidad,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                                localidad_id,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
+                                VALUES (?,?,?,?,?,?,?,?,?,?);");
+                $inserta->bind_param('sssiiissss', $reservacion, $entrada,$salida,$cliente,$id_usuario,$localidad,$usuario_actual,$fecha,$usuario_actual,$fecha);
                 $inserta->execute();
+
                 //se captura el id de la tabla de reservaciones
                 $capturar_reserva = $conn->prepare("SELECT id_reservacion FROM tbl_reservaciones
                                 WHERE fecha_reservacion= ?;");
@@ -103,22 +130,30 @@ switch ($action){
                     $id_reserva = $idr;
                     }
                     if($existe_reservacion){
+
+                       
                         //inserta en la tabla detalle de reservacion
-                        $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona,inventario_id,
-                                                cantidad_articulo,precio_articulo,total_pago,
+                        $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
+                                                total_pago,estado_eliminar,
                                                 creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-                                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
-                        $insert->bind_param('iiiiiiiiissss', $idr,$habitacion,$personas,$inventario,$cantiA,$precioArti,$precioA,$precioN,$total,
-                                                            $usuario_actual,$fecha,$usuario_actual,$fecha);
+                                                VALUES (?,?,?,?,?,?,?,?,?,?);");
+                        $insert->bind_param('iiiiiissss', $idr,$habitacion,$personas, $niños,$total,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
                         $insert->execute();
+                        //actualizar estado de habitacion
+                        /*$actualizarH ="UPDATE tbl_habitacion_servicio SET estado_id = 2
+                        WHERE id_habitacion_servicio = .$habitacion";
+                        $actualizarH=$conn->query($actualizarH);*/
+                        if ($insert->error) {
+                            $res['msj'] = "Se produjo un error al momento de registrar la reservación";
+                            $res['error'] = true;
+                        } else {
+                            $res['msj'] = "la Reservación se Registro Correctamente";
+                        }
+                            
                     }
                 }
-                if ($insert->error) {
-                    $res['msj'] = "Se produjo un error al momento de registrar la reservación";
-                    $res['error'] = true;
-                } else {
-                    $res['msj'] = "la Reservación se Registro Correctamente";
-                }
+                
+                
             }catch(Exception $e){
                 echo $e->getMessage();
             }
@@ -126,15 +161,31 @@ switch ($action){
     break;
     case 'actualizarHotel':
         if(isset($_POST['id_reservacion']) && isset($_POST['reservacion']) &&
-            isset($_POST['entrada']) && isset($_POST['salida'])){
+            isset($_POST['entrada']) && isset($_POST['salida'])&& isset($_POST['adultos'])
+            && isset($_POST['ninos'])&& isset($_POST['pago'])){
 
                 $id_reservacion=$_POST['id_reservacion'];
                 $reservacion=$_POST['reservacion'];
                 $entrada=$_POST['entrada'];
                 $salida = $_POST['salida'];
+                $cant_adultos = $_POST['adultos'];
+                $cant_ninos = $_POST['ninos'];
+                $totalPagar = $_POST['pago'];
+                
 
-                $actualizarhotel = "UPDATE tbl_reservaciones SET fecha_reservacion='$reservacion',
-                                    fecha_entrada='$entrada', fecha_salida='$salida'
+                $actualizarhotel = "UPDATE tbl_detalle_reservacion dr
+                                    inner join tbl_reservaciones r
+                                    on dr.reservacion_id = r.id_reservacion
+                                    inner join tbl_clientes c
+                                    on r.cliente_id = c.id_cliente
+                                    inner join tbl_habitacion_servicio hs
+                                    on dr.habitacion_id = hs.id_habitacion_servicio
+                                    inner join tbl_estado e
+                                    on hs.estado_id = e.id_estado
+                                    set  r.fecha_reservacion='$reservacion', 
+                                    r.fecha_entrada='$entrada', r.fecha_salida='$salida',
+                                    dr.cantidad_persona='$cant_adultos', 
+                                    dr.cantidad_ninos='$cant_ninos',dr.total_pago='$totalPagar'
                                     WHERE id_reservacion=".$id_reservacion;
                 
                 $resultado=$conn->query($actualizarhotel);
