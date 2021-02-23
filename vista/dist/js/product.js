@@ -7,72 +7,178 @@ $(document).ready(function(){
         }
 
      } );
-
-    $("#formProducto").submit(async function(e){
+     const btnsEliminar = document.querySelectorAll('.btnEliminarP');
+     const contenedorProducto= $('#productTable  .tbody');
+     const vaciarTablaBtn = document.querySelector('#vaciarTabla');
+     const btnRegistrarInventario = $("#registrarInventario");
+     const listaProduct = $('#btnAddList');
+     let articulosProducto = [];
+         
+     
+     // funciones de producto
+    function agregarProducto(e){
         e.preventDefault();
-
-        var nombre = $("#nombreP").val();
-        var cantidad = $("#cantProducto").val();
-        var precio = $("#precioProducto").val();
-        var tipoProducto = $("#tipoProducto option:selected").val();
-        var usuario_actual = $("#usuario_actual").val();
-
-        //console.log(nombre, cantidad, precio, tipoProducto, usuario_actual);
-        if(nombre != undefined && cantidad != undefined && precio != undefined && 
-        tipoProducto != 0 && usuario_actual != undefined){
-            const formData = new FormData();
-            formData.append('nombreProducto',nombre);
-            formData.append('cantidad',cantidad);
-            formData.append('precio',precio);
-            formData.append('tipo_producto', tipoProducto);
-            formData.append('usuario_actual', usuario_actual);
-
-            const resp = await axios.post(`./controlador/api.php?action=registrarProducto`, formData);
-
-            const data = resp.data;
-
-            if(data.error){
-                return swal("Error", data.msj, "error");
+        const infoProducto = {
+            //crea un objeto con el contenido del formulario
+            nombreProducto : $('#nombreP').val(),
+            precioP : $('#precioProducto').val(),
+            cantidadP : $('#cantProducto').val(),
+            tipoProducto : {
+                id: $("#tipoProducto").val(),
+                nombre: $("#tipoProducto option:selected").text()
             }
-
-            return swal("Exito!", data.msj, "success").then((value) => {
-                    if (value){
-                        // Se limpia el formulario
-                        $("#nombreP").val('');
-                        $("#cantProducto").val('');
-                        $("#precioProducto").val('');
-                        $("#tipoProducto").val('0');
-                    }
-                })
-        }else{
-            swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-        } 
-    });
-
-    
-    
-    $('#nombreP').blur(async function () {
-        //console.log(this.value);
-        if(this.value.length > 0 ){
-            try{
-                const resp = await axios(`./controlador/api.php?action=obtenerProducto&nombreProducto=${this.value}`);
-                const data = resp.data;
-                if(data.producto.length > 0){
-                    console.log(data.producto[0]);
-                    $('#cantProducto')
-                    $('#precioProducto')
-                    $('#tipoProducto')
-                    $('#cantProducto')
-                    return swal('Este producto ya existe en el inventario');
-                }else{
-                    //return swal('NO existe este producto');
-                }
-                
-            }catch(err){
-                console.log('Error - ', err);
-            }
+            // id : producto.querySelector('button').getAttribute('data-nombre')
         }
-    })
+        console.log(infoProducto);
+        // agrergo el producto al arreglo
+        articulosProducto = [...articulosProducto, infoProducto];
+        if(articulosProducto.length > 0) sincronizarStorage(articulosProducto)
+        //agrega  art a la tabla
+        llenarTabla();
+    }
+
+    //elimina un producto dela  tabla
+    const eliminarProducto = (index = -1) => {
+        console.log('Indice a eliminar: ',index);
+        //articulosProducto.splice(index, 1);
+        
+    }
+
+    function llenarTabla(){
+        $('.tbody tr').remove();
+        articulosProducto.forEach((producto, index) => agregarFila(producto, index));
+    }
+
+    // muestra el carrito de compras en el html
+    function agregarFila(producto = {}, index = -1){
+        //limpia el html
+
+        const{nombreProducto, precioP, cantidadP, tipoProducto} = producto;
+        contenedorProducto.append(`
+        <tr>
+            <td>${nombreProducto}</td>
+            <td>${precioP}</td>
+            <td>${cantidadP}</td>
+            <td>${tipoProducto.nombre}</td>
+            <td>
+                <button class="btn btn-warning btnEditar Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
+                <button class="btn btn-danger btnEliminarP glyphicon glyphicon-remove" data-id="${index}"></button>
+            </td>  
+        </tr>
+        `);
+        $('.btnEliminarP').on('click', ()=>{
+            console.log('hiciste click');
+        });
+        // agregar el producto  a local storage
+        //sincronizarStorage();
+    }
+
+    function cargarStorage(){
+        const productsStorage = localStorage.getItem('productos');
+        if(!productsStorage){
+            localStorage.setItem('productos',JSON.stringify([]));
+        }else{
+            articulosProducto = JSON.parse(productsStorage);
+            console.log(articulosProducto);
+            llenarTabla();
+        }
+    };
+    
+    function sincronizarStorage(data=[]){
+        if(data.length > 0) localStorage.setItem('productos',JSON.stringify(data));
+    }
+
+    // btnsEliminar.forEach( btn => {
+    //     btn.addEventListener('click', e => {
+    //         console.log(e);
+    //     })
+    // })
+    
+    
+
+    cargarStorage();
+
+   // cuando agregas un curso presionando agragar a table
+   listaProduct.on('click', agregarProducto);
+   
+   btnRegistrarInventario.on('click', function(){
+    	// limpiar storage
+        localStorage.removeItem('productos');
+        llenarTabla();
+        swal('Cache limpia');
+   });
+
+
+   //vaciar la tabla
+   vaciarTablaBtn.addEventListener('click', ()=>{
+       articulosProducto = []//reseteando el arreglo
+       console.log('hice click');
+   })
+    // $("#formProducto").submit(async function(e){
+    //     e.preventDefault();
+
+    //     var nombre = $("#nombreP").val();
+    //     var cantidad = $("#cantProducto").val();
+    //     var precio = $("#precioProducto").val();
+    //     var tipoProducto = $("#tipoProducto option:selected").val();
+    //     var usuario_actual = $("#usuario_actual").val();
+
+    //     //console.log(nombre, cantidad, precio, tipoProducto, usuario_actual);
+    //     if(nombre != undefined && cantidad != undefined && precio != undefined && 
+    //     tipoProducto != 0 && usuario_actual != undefined){
+    //         const formData = new FormData();
+    //         formData.append('nombreProducto',nombre);
+    //         formData.append('cantidad',cantidad);
+    //         formData.append('precio',precio);
+    //         formData.append('tipo_producto', tipoProducto);
+    //         formData.append('usuario_actual', usuario_actual);
+
+    //         const resp = await axios.post(`./controlador/api.php?action=registrarProducto`, formData);
+
+    //         const data = resp.data;
+
+    //         if(data.error){
+    //             return swal("Error", data.msj, "error");
+    //         }
+
+    //         return swal("Exito!", data.msj, "success").then((value) => {
+    //                 if (value){
+    //                     // Se limpia el formulario
+    //                     $("#nombreP").val('');
+    //                     $("#cantProducto").val('');
+    //                     $("#precioProducto").val('');
+    //                     $("#tipoProducto").val('0');
+    //                 }
+    //             })
+    //     }else{
+    //         swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+    //     } 
+    // });
+
+    
+    
+    // $('#nombreP').blur(async function () {
+    //     //console.log(this.value);
+    //     if(this.value.length > 0 ){
+    //         try{
+    //             const resp = await axios(`./controlador/api.php?action=obtenerProducto&nombreProducto=${this.value}`);
+    //             const data = resp.data;
+    //             if(data.producto.length > 0){
+    //                 console.log(data.producto[0]);
+    //                 $('#cantProducto')
+    //                 $('#precioProducto')
+    //                 $('#tipoProducto')
+    //                 $('#cantProducto')
+    //                 return swal('Este producto ya existe en el inventario');
+    //             }else{
+    //                 //return swal('NO existe este producto');
+    //             }
+                
+    //         }catch(err){
+    //             console.log('Error - ', err);
+    //         }
+    //     }
+    // })
   
     // Elimina un producto del inventario
     //     $("#formRoles").submit(async function(e){
