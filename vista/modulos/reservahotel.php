@@ -10,14 +10,8 @@
         </div>
         <div class="box-body"> 
             <div class="col-xs-3">
-              <div class="input-group input-group-sm">
 
-                <input type="text" class="form-control" id="identi" name="identi" placeholder="Identidad">
-                    <span class="input-group-btn">
-                      <button type="submit" class="btn btn-default btnbuscarCliente">Buscar Cliente</button>
-
-                    </span>
-              </div><br>
+              <button type="submit" id="buscar" class="btn btn-default btnbuscarCliente glyphicon glyphicon-search"> Buscar Cliente</button><br><br>
               <button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
             </div><br>
           <form  id="hotel" method="post">
@@ -36,11 +30,11 @@
                     </div>
                     <div class="form-group">
                       <label>Fecha Reservación:</label>
-                      <div class="input-group date">
+                      <div class="input-group ">
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="date" class="form-control pull-right" id="reservacion" name="reservacion">
+                        <input type="date" class="form-control pull-right" id="reserva" name="reserva" requiered>
                       </div>
                     </div>
                   </div>
@@ -68,7 +62,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="date" class="form-control pull-right" id="entrada" name="entrada">
+                        <input type="date" class="form-control pull-right" id="entrada" name="entrada" requiered>
                       </div>
                     </div>
                   </div>
@@ -79,7 +73,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="date" class="form-control pull-right" id="salida" name="salida">
+                        <input type="date" class="form-control pull-right" id="salida" name="salida" requiered>
                       </div>
                     </div>
                   </div>
@@ -91,11 +85,12 @@
                         <?php 
                           //include_once ('./modelo/conexionbd.php');
 
-                          $stmt = "SELECT id_habitacion_servicio, habitacion_area FROM tbl_habitacion_servicio";
+                          $stmt = "SELECT id_habitacion_servicio, habitacion_area,estado_id FROM tbl_habitacion_servicio
+                                    WHERE habitacion_area LIKE '%h%'";
                           $resultado = mysqli_query($conn,$stmt);
                           ?>
                           <?php foreach($resultado as $opciones):?>
-                          <option value="<?php echo $opciones['id_habitacion_servicio']?>"><?php echo $opciones['habitacion_area']?></option>
+                          <option value="<?php echo $opciones['id_habitacion_servicio']?> <?php echo $opciones['estado_id']?>"><?php echo $opciones['habitacion_area']?></option>
                         <?php endforeach;?>
                       </select>
                     </div>
@@ -103,38 +98,44 @@
                   <div class="col-md-6">
                     <div class="form-group">
 
-                      <label for="area">Cantidad de Peronas:</label><br>
-                      <input type="text" class="form-control" name="personas" id="personas" placeholder="cantidad personas"
-
-                     value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>" >
+                      <label for="cant_habi">Cantidad de Habitaciones:</label><br>
+                      <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones" onkeypress="return soloNumeros(event)"
+                       value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" requiered >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="area">Cantidad Adultos:</label><br>
+                      <input type="number" min="0"  class="form-control" name="personas" id="personas" placeholder="Cantidad de Adultos" oninput="calcular()" onkeypress="return soloNumeros(event)"
+                     value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>"  requiered>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
 
-                      <label for="cant_habi">Cantidad de Habitaciones:</label><br>
-                      <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones"
-                      value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" >
-
-                    </div>
-                  </div>
-                   <div class="col-md-6">
-                    <div class="form-group">
-
                       <label>Precio Adulto:</label>
-                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion"
-                      value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" >
+                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion" oninput="calcular()" onkeypress="return soloNumeros(event)"
+                      maxlength="4" minlength="4" value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" requiered >
                     </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="area">Cantidad Niños:</label><br>
+                      <input type="number" min="0"  class="form-control" name="niños" id="niños" placeholder="Cantidad de Niños" oninput="calcular()" onkeypress="return soloNumeros(event)"
+
+                     value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>"  requiered>
+                    </div>
+                  </div>
+                   
                    <div class="col-md-6">
                     <div class="form-group">
                       <label>Precio Niños:</label>
-                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" placeholder="Precio habitacion"
-
-                      value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" >
+                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" onkeypress="return soloNumeros(event)" oninput="calcular()" placeholder="Precio habitacion"
+                      maxlength="4" minlength="3"
+                      value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" requiered >
                     </div>
                   </div>
-
+                  
                 </div>
               </div>
             </div>
@@ -142,7 +143,7 @@
               <div class="form-group">
                 <label for="pago" class="col-sm-2 control-label" >Total:</label>
                 <div class="col-sm-10">
-                  <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total">
+                  <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total" disabled>
                 </div>
               </div>
             </div>
@@ -155,14 +156,10 @@
               </div>
               <div class="col-md-4">
                 <input type="hidden"  name="agregar-hotel" value="1">
-                <button type="submit" name="registrarhotel" id="registrar" class=" text-center btn btn-success btn-lg ">Registrar</button>
+                <button type="submit"  class=" text-center btn btn-success btn-lg ">Registrar</button>
               </div>
             </div><br><br><br><br>
-           <!-- <?php 
-              /*include_once('./controlador/ctr.hotel.php');
-              $hotel = new ControladorHotel();
-              $hotel->ctrHotel();*/
-            ?>!-->
+            <?php $conn->close(); ?>
           </form>
           
         </div>
@@ -189,18 +186,18 @@
 								</div>
 								<div class="modal-body">
 									<form id="formCliente">
-										<div class="ingreso-producto form-group">
+										<div class="form-group">
 											
 											<div class="campos">
 												<label for="">Identidad Cliente: </label>
 
-												<input id="ideCliente" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" required />
+												<input id="ideCliente" maxlength="13" minlength="13" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" onkeypress="return soloNumeros(event)" required />
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Nombre Cliente: </label>
 
-												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" required />
+												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);" required />
 
 
 											</div>
@@ -209,7 +206,7 @@
                         <select class="form-control modal-roles secundary " name="nacionalidad" id="nacionalidad">
                           <option value="" disabled selected>Selecione...</option>
                           <?php 
-                          include_once ('./modelo/conexionbd.php');
+                          include ('./modelo/conexionbd.php');
 
                           $stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
                           $resultado = mysqli_query($conn,$stmt);
@@ -222,7 +219,7 @@
                       <div class="campos form-group">
 												<label for="">Telefeno: </label>
 
-												<input id="tel" name="tel" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" required />
+												<input id="tel" maxlength="15" minlength="8"name="tel" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" onkeypress="return soloNumeros(event)"  required />
 
 
 											</div>
@@ -239,10 +236,46 @@
 						</div>
 					</div>
 				</div>
+
+        <!-- MODAL PARA BUSCAR CLIENTE -->
+        <div class="modal fade" id="modalBuscarCliente" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<div class="d-flex justify-content-between">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+										</button>
+										<h3 class="modal-title" id="exampleModalLabel">Buscar Cliente</h3>
+									</div>
+								</div>
+								<div class="modal-body">
+									<form id="formBuscarCliente">
+										<div class="ingreso-producto form-group">
+											
+											<div class="campos">
+												<label for="">Identidad Cliente: </label>
+
+												<input id="identidadC" class="form-control modal-roles secundary" type="text" name="identidadC" placeholder="Ingrese el numero de identidad" onkeypress="return soloNumeros(event)" required />
+
+											</div>
+											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+										</div>
+										<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"     data-dismiss="modal">Cerrar</button>
+										<button id=""type="submit" class=" btn btn-primary">Buscar  Cliente</button>
+										</div>
+									</form> 
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
         
       </div>
       <!-- /.box -->
     </section>
     <!-- /.content -->
 </div>
-
