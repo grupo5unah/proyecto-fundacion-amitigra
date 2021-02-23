@@ -75,6 +75,7 @@
                           <span class="fa fa-phone-square form-control-feedback"></span>
                         </div>
                         <br>
+
                         <div class="text-center form-group has-feedback">
                           <a href="login.php" class="btn btn-danger">Cancelar</a>
                         </div>
@@ -211,14 +212,18 @@
           
           <!--FIN FORM-->
         </div>   
+
+
+        
       </div>
-      <?php
+      
+    </form>
+    <?php
                       include("../../controlador/ctr.registro.php");
 
                       $registrarse = new Registro();
                       $registrarse->ctrRegistro();
                       ?>
-    </form>
   </div>
   <!-- /.form-box -->
 </div>

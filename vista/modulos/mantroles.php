@@ -1,6 +1,18 @@
 <?php require './modelo/conexionbd.php'; ?>
 
 <div class="content-wrapper">
+
+
+	<section class="content-header">
+	<h1>
+	Mantenimiento Roles
+	</h1>      
+	<ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li><a href="panel"><i class="fa fa-user-plus"></i> Panel de control</a></li>
+		<li class="active"><i class="fa fa-users"></i> Roles</li>
+      </ol>
+    </section>
 	<!-- Main content -->
 	<section class="content">
 
