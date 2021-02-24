@@ -60,5 +60,81 @@ $(document).ready(function(){
     $('.btnCrearRol').on('click',function(){
         $('#modalRegistrarRol').modal('show');
        } );
+       //FUNCION EDITAR ROLES
+    $('.btnEditarRol').on('click', function() {
+        // info previa
+        const idrol = $(this).data('idrol'); 
+        const nombrerol = $(this).data('nombrerol');
+        const descripcion = $(this).data('descripcion'); 
+        //llena los campos
+        $("#idrol").val(idrol),
+        $("#nombreRol").val(nombrerol),
+        $("#descripcionRol").val(descripcion)
+        
+        //console.log(idrol,nombrerol,descripcion);
+        //mostrar el modal
+        $('#modalEditarRol').modal('show');
+        
+        $('.btnEditarBD').on('click', async function() {
+            var IdRol = Number(idrol); 
+            console.log(IdRol);
+            const formData = new FormData();
+            formData.append('id_rol', IdRol);
+            formData.append('rol',$("#nombreRol").val());
+            formData.append('descripcion',$("#descripcionRol").val());
+            console.log(formData);
+            
+           const resp = await axios.post('./controlador/apiRol.php?action=actualizarRol', formData);
+           const data = resp.data;
+            console.log(data);
+            if(data.error){
+                return swal("Error", data.msj, "error", {
+                    timer:3000,
+                    buttons:false
+                });
+            } else{
+                $('#modalEditarProducto').modal('hide');
+                return swal("Exito!", data.msj, "success", {
+                    timer:3000,
+                    buttons:false
+                }).then(() => {
+                    // Se limpia el formulario
+                    console.log('Ya se cerro el alert');
+                    $("#nombreRol").val('');
+                    $("#descripcion").val('');
+                    location.reload(); 
+                })
+            }
+                
+        });
+        
+    })
+    //eliminar roles
+    $('.btnEliminarRol').on('click', function (){
+        const idRol = $(this).data('idrol');
+        swal("Eliminar Rol", "Esta seguro de eliminar este Rol?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+            if (value){
+                console.log('Estoy dentro del if');
+                const formData = new FormData();
+                formData.append('id_rol', idRol);
+                const resp = await axios.post('./controlador/apiRol.php?action=eliminarRol', formData);
+                const data = resp.data;
+                //console.log(data);
+                if(data.error){
+                    return swal("Error", data.msj, "error",{
+                        buttons: false,
+                        timer: 3000
+                    });
+                }
+                return swal("Exito!", data.msj, "success",{
+                    buttons: false,
+                    timer: 3000
+                }).then(() =>{ 
+                    location.reload();
+                });
+            }
+        });
+    })
 
 }); 
+
