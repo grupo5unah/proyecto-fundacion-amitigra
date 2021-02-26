@@ -74,6 +74,7 @@ class Login{
                                         $_SESSION['usuario'] = strtolower($usuario);
                                         $_SESSION['rol'] = $rol;
                                         $_SESSION['primer_ingreso'] = $primer_ingreso;
+                                        $_SESSION['id'] = $id_usuario_bitacora;
     
                                         //Registra en la BITACORA la accion realizada
                                         $objeto = 1;
