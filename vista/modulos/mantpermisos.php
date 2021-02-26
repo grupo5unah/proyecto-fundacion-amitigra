@@ -118,29 +118,25 @@
 							<div class="modal-body">
 								<form name="">
 									<div class="ingreso-producto form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
-
+										
 										<div class="campos">
 											<label for="">Permiso Insertar</label>
-											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required />
+											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumeros(event)"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Eliminar</label>
-											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required />
+											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Actualizar</label>
-											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required />
+											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" />
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared />
+											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
 
 										</div>
 										

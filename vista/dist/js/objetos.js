@@ -1,5 +1,8 @@
 $(document).ready(function(){
    
+    function mayusculas(e) {
+        e.value = e.value.toUpperCase();
+    }
     $("#formObjeto").submit(async function(e){
         e.preventDefault();
         
@@ -8,7 +11,6 @@ $(document).ready(function(){
         var descripcion = $("#descripcion").val();
         var usuario_actual = $("#usuario_actual").val();
 
-        console.log(nombre, tipo_objeto, descripcion, usuario_actual);
         if(nombre != undefined && tipo_objeto != undefined && descripcion != undefined && usuario_actual != undefined){
             const formData = new FormData();
             formData.append('objeto',nombre);
@@ -30,9 +32,9 @@ $(document).ready(function(){
                         $("#nombreObjeto").val('');
                         $("#tObjeto").val('');
                         $("#descripcion").val('');
-                        
-                        
+                        location.reload()
                     }
+                   
                 })
         }else{
             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");

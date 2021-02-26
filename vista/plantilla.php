@@ -62,7 +62,8 @@ $_SESSION["timeout"] = time();
   <link rel="stylesheet" href="vista/dist/css/AdminLTE.css">
 
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="vista/dist/css/responsible.dataTables.min.css">
+  <link rel="stylesheet" href="vista/dist/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="vista/dist/css/dataTables.bootstrap4.min.css">
 
   <link rel="stylesheet" href="vista/dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
@@ -177,14 +178,21 @@ $_SESSION["timeout"] = time();
 
 <script src="vista/dist/js/jquery-3.5.1.js"></script>
 <script src="vista/dist/js/jquery.dataTables.min.js"></script>
+ <script src="vista/dist/js/jquery.dataTables.js"></script> 
 <script src="vista/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="vista/dist/js/dataTables.responsive.min.js"></script>
-<script src="vista/dist/js/tablas.js"></script>
+<script src="vista/dist/js/dataTables.responsive.min.js"></script> 
+<script src="vista/dist/js/dataTables.buttons.min.js"></script>
+<script src="vista/dist/js/jszip.min.js"></script>
+<script src="vista/dist/js/pdfmake.min.js"></script>
+<script src="vista/dist/js/vfs_fonts.js"></script>
+<script src="vista/dist/js/buttons.html5.min.js"></script>
+
 <script src="vista/dist/js/funciones.js"></script>
 <script src="vista/dist/js/mapa.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" 
 integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
+<script src="vista/dist/js/tablas.js"></script>
 <script src="vista/dist/js/product.js"></script>
 <script src="vista/dist/js/roles.js"></script>
 <script src="vista/dist/js/objetos.js"></script>

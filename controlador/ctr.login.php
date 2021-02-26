@@ -92,7 +92,6 @@ class Login{
                                         $_SESSION['primer_ingreso'] = $primer_ingreso;
                                         $_SESSION['id'] = $id_usuario_bitacora;
 
-
                                         //Ultima conexion
                                         $upd_conexion = $conn->prepare('UPDATE tbl_usuarios
                                                                         SET fecha_ult_conexion = ?
