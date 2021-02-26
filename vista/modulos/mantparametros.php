@@ -18,10 +18,11 @@
 								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Mantenimiento parámetros</div>
 							</div> <!-- /panel-heading -->
 							<div class="panel-body">
-								<div class="remove-messages"></div>
-								<button class="btn btn-default btnCrearParam glyphicon glyphicon-plus-sign" >Agregar Parametro</button>
-
-								</div> <!-- /div-action -->
+								 <!-- /div-action -->
+								 <div class="div-action pull pull-right" style="padding-bottom:20px;">
+								
+								 <button class="btn btn-default btnCrearParam glyphicon glyphicon-plus-sign" >Agregar Parametro</button>
+								 </div>
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
 									<thead>
@@ -112,23 +113,17 @@
 							<div class="modal-body">
 								<form name="formEditarParametro">
 									<div class="ingreso-producto form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="off" class="form-control secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
-
 										<div class="campos">
 											<label for="">Parametro: </label>
-											<input id="nombreParam" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="Param" class="form-control modal-roles secundary text-uppercase" type="text" name="" placeholde="Escriba el Paramenttro" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
 										</div>
 										<div class="campos form-group">
 											<label for="">valor parametro: </label>
-											<input id="valorParam" class="form-control  modal-roles  secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+											<input id="valor" class="form-control  modal-roles  secundary text-uppercase" type="tel" name="" placeholde="Escriba el producto" required />
 
 										</div>
-										
-										
+										<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 									</div>
 									
@@ -166,15 +161,15 @@
    
                               <div class="campos">
                                 <label for="">Nombre del Parametro </label>
-                                  <input id="nombrePara" class="form-control modal-roles secundary" type="text" name="nombreParametro" placeholde="Escriba el parametro" required />
+                                  <input id="nombrePara" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreParametro" placeholde="Escriba el parametro" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
                                   </div>
-                              <div class="campos form-group">
-                                <label for="">Descripcion </label>
-                                   <input id="valor" class="form-control  modal-roles secundary" type="tel" placeholde="Describa el parametro" required  />
+                              <div class="campos ">
+                                <label for=""> Valor </label>
+                                   <input id="valorParam" class="form-control  modal-roles secundary text-uppercase" type="tel" placeholde="Describa el parametro" required onkeypress="return soloLetras(event)"onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
                                  </div>
-                
+								 <input type="hidden" name="usuario_actual" id="id_usuario" value="<?= $_SESSION['id'] ?>">
                                 <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                                 </div>
 								<!-- <input type="submit" name="ingresarProducto" class="btn" value="Ingresar Parametro" />

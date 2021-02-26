@@ -14,20 +14,20 @@
                 
                 <div class="col-sm-6 form-group">
                   <label for="">Nombre del Producto </label>
-                  <input id="nombreP" class="form-control   secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+                  <input id="nombreP" class="form-control   secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
                 </div>
                
                 <div class="col-sm-6 m-auto form-group">
                   <label for="">Precio de Compra </label>
-                  <input id="precioProducto" class="form-control  secundary" type="tel" name="precio" placeholde="Escriba el producto" required />
+                  <input id="precioProducto" class="form-control  secundary " type="number" name="precio" placeholde="Escriba el producto" required onkeypress="return soloNumeros(event)" />
 
                 </div>
               </div>
               <div class="row d-flex ">
                 <div class="col-sm-6 form-group">
                   <label for="">Cantidad </label>
-                  <input id="cantProducto" class="form-control   secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+                  <input id="cantProducto" class="form-control   secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloNumeros(event)"/>
 
                 </div>
                 <div class="col-sm-3 form-group">

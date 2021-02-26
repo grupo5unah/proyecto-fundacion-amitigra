@@ -1,100 +1,152 @@
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
-
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          
-
+          <h3 class="box-title fa fa-tree"> SENDEROS</h3>
         </div>
-        <div class="box-body">
-          <!--LLamar al formulario aqui-->
-         
-          <form action="" method="post">
-            <?php
-              include_once('./controlador/ctr.senderosE.php');
-              $sendero= new ControladorSenderosE();
-              $sendero->ctrSenderosE();
-            ?>
-            <h1 class="tamano">SENDEROS</h1>
-            <br> <h3 class="alineo-texto">VISITAS EXTRANJEROS</h3>
-            <fieldse>
-              <legend class="contenido-sendero">ADULTO(S)</legend>
-                        
-              <div class="contenido-sendero">               
-                <br><label for="boletosE">Cantidad Boletos:</label>
-                <input class="alinear_input" type="number" min="0" id="boletosE" name="boletosE"oninput="sumarBoletosB()" value="0" onclick="quitar(this.id)">
+        <div class="box-body">             
+          <form  id="senderoE" method="post">         
+            <h4 class="alineo-texto">VISITAS EXTRANJERAS</h4> 
+           
               </div>
-              <div class="contenido-sendero">               
-                <br><label for="precioE">Precio Dolares:</label>
-                <input class="alinear_input" type="number" id="precioE" name="precioE" value="10" disabled="true"required>
+              <div class="box-body contenido-sendero">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="">localidad</label><br>
+                      <select class="form-control" name="localidad" id="localidad">
+                        <option value="" disabled selected>Selecione...</option>
+                        <?php 
+                        //include_once ('./modelo/conexionbd.php');
+
+                        $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
+                        $resultado = mysqli_query($conn,$stmt);
+                        ?>
+                        <?php foreach($resultado as $opciones):?>
+                        <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
+                        <?php endforeach;?>
+                      </select>
+                    </div>
+                  </div><br><br><br> 
+                  <legend >ADULTO(S)</legend>             
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="boletosE">Cantidad de Adultos:</label><br>
+                      <input type="number" min="0" class="form-control" name="boletosE" id="boletosE" oninput="sumarBoletosE()" placeholder="cantidad personas" onclick="quitar(this.id)"
+                     value="<?php if(isset($_POST['boletosE'])){echo $_POST['boletosE'];} ?>" >
+                    </div>
+                  </div>
+                  
+                   <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="precioE">Precio Adulto Dolares:</label>
+                        <input type="number" class="form-control" name="precioE" id="precioE" placeholder="Precio Adulto" disabled="true"
+                        <?php
+                        $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=3";
+                        $resultado1 = mysqli_query($conn,$stmt);
+                        ?>
+                        <?php foreach($resultado1 as $opcion):?>
+                        value="<?php echo $opcion['precio_venta']?>"> 
+                        <?php endforeach;?>
+                      </div>
+                    </div>
+                  <div class="col-md-6"><legend>NIÑO(S)</legend>                                       
+                    <div class="form-group">
+                      <label for="boletosNE">Cantidad de Niños:</label><br>
+                      <input type="number" min="0" class="form-control" name="boletosNE" id="boletosNE" oninput="sumarBoletosE()" placeholder="cantidad personas" onclick="quitar(this.id)"
+                      value="<?php if(isset($_POST['boletosNE'])){echo $_POST['boletosNE'];} ?>" >
+                    </div>
+                  </div>
+                  <div class="col-md-6"><br>
+                    <div class="form-group"><br>
+                      <label for="precioNE">Precio Niños Dolares:</label>
+                      <input type="number" class="form-control" name="precioNE" id="precioNE" placeholder="Precio Niños" disabled="true"
+                        <?php
+                        $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=4";
+                        $resultado1 = mysqli_query($conn,$stmt);
+                        ?>
+                        <?php foreach($resultado1 as $opcion):?>
+                        value="<?php echo $opcion['precio_venta']?>"> 
+                        <?php endforeach;?>
+                    </div>
+                  </div>
+                </div>
               </div>
-                <br>
-            </fieldset>                       
-            <fieldset>
-            <legend class="contenido-sendero">NIÑO(S)</legend>                     
-              <div class="contenido-sendero">                
-                <br><label for="boletosNE">Cantidad Boletos:</label>
-                <input class="alinear_input" type="number" min="0" id="boletosNE" name="boletosNE" oninput="sumarBoletosB()" value="0" onclick="quitar(this.id)">
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="TpagarE" class="col-sm-2 control-label" >Total a Pagar en Dolares:</label>
+                <div class="col-sm-10">
+                  <input type="Text" class="form-control" id="TpagarE" name="TpagarE" placeholder="Total a Pagar" disabled="true">
+                </div>
               </div>
-              <div class="contenido-sendero">               
-                <br><label for="precioNE">Precio Dolares:</label>
-                <input class="alinear_input alinear-text-input" type="number" id="precioNE" name="precioNE" value="5" disabled="true" required>
-              </div><br>
-              <div class="alinear-tasa">
-              <label for="Tasacambio">Tasa de Cambio de Dolar:</label>
-              <input type="text" id="Tasacambio" name="Tasacambio" oninput="sumarBoletosB()"  required>  
-              </div> 
-              <br>
-            </fieldset>
-            <fieldset class="alineo-texto contenido-sendero">   
-              <label for="TboletosE">Total de Boletos Extranjeros:</label>
-              <input class="alinear_input" type="text" id="TboletosE" name="TboletosE" disabled="true">                         
-            </fieldset> 
-            <br>
-            <fieldset class="alineo-texto contenido-sendero">                            
-              <label for="Tpagar">Total a Pagar en Lempiras:</label>
-              <input class="alinear_input" type="text" id="Tpagar" name="Tpagar" disabled="true">        
-            </fieldset>
-            <div class="contenido-sendero">            
-            <br><button type="submit" id="generarB" name="tipo_generar" value="generarB" class="formulario__btn boton">Generar Boleto(s)</button><br>
-            <br><button type="submit" id="cancelar" name="cancelar" value="cancelar" onclick="location='senderos'" class="formulario__btn boton">Cancelar</button><br>
-            </div>  
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="TboletosE" class="col-sm-2 control-label" >Total Boletos Vendidos:</label>
+                <div class="col-sm-10">
+                  <input type="Text" class="form-control" id="TboletosE" name="TboletosE" placeholder="Total Boletos Vendidos" disabled="true">
+                </div>
+              </div>
+            </div>
+            <br><br><br>
+            <div class="text-center">
+              <div class="col-md-6">
+                <button type="button" name="" id="cancelar" onclick="location='senderos'" class="text-center btn btn-danger btn-lg">Cancelar</button>
+              </div>              
+              <div class="col-md-4">
+                <input type="hidden"  name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">   
+                <input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">         
+                <button type="submit" name="registrarsendero" id="registrar" class=" text-center btn btn-success btn-lg ">Generar Boleto(s)</button>
+              </div>
+             
+            </div><br><br><br><br>
+           
           </form>
-          <script type="text/javascript">          
-                   
-          function quitar(id){          
-            if (document.getElementById(id).value=="0"){
-              document.getElementById(id).value="";
-            }          
-          }       
-        </script>      
-        <script type="text/javascript">        
-          function sumarBoletosB()
-          {
-            try {
-              var e=parseFloat(document.getElementById("boletosE").value)|| 0, 
-                  f=parseFloat(document.getElementById("boletosNE").value)|| 0,
-                  g=parseFloat(document.getElementById("precioE").value)|| 0,
-                  h=parseFloat(document.getElementById("precioNE").value)|| 0,
-                  i=parseFloat(document.getElementById("Tasacambio").value)|| 0;
-                  document.getElementById("TboletosE").value= e+f;
-                  //console.log(document.getElementById("TboletosE").value);                 
-                  document.getElementById("Tpagar").value= (e*g*i)+(f*h*i);
-            }catch(e){}
-          }
-         
-        </script>       
+          
+            <script type="text/javascript">  
+              function quitar(id){          
+                if (document.getElementById(id).value=="0"){
+                  document.getElementById(id).value="";
+                }          
+              }       
+            </script>      
+            <script type="text/javascript">        
+              function sumarBoletosE()
+              {
+                try {
+                  var a=parseFloat(document.getElementById("boletosE").value)|| 0, 
+                      b=parseFloat(document.getElementById("boletosNE").value)|| 0,
+                      c=parseFloat(document.getElementById("precioE").value)|| 0,
+                      d=parseFloat(document.getElementById("precioNE").value)|| 0;
+                      document.getElementById("TboletosE").value= a+b;                 
+                      //console.log(document.getElementById("TboletosE").value);
+                      document.getElementById("TpagarE").value= a*c+b*d;
+                }catch(e){}
+              }          
+            </script>       
         </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
+        <div class="form-group">
+          
         </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
+        <?php 
+            if(isset($_GET['msg'])){
+            $mensaje = $_GET['msg'];
+            print_r($mensaje);
+            //echo "<script>alert(".$mensaje.");</script>";  
+            }
 
+          ?>    
+
+        
+      </div>
+      
+      <!-- /.box -->
     </section>
     <!-- /.content -->
-  </div>
+</div>
+

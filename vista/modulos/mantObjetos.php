@@ -123,24 +123,20 @@
 							<div class="modal-body">
 								<form name="formEditarProducto">
 									<div class="ingreso-producto form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="off" class="form-control secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
-
+										
 										<div class="campos">
 											<label for="">Nombre objeto: </label>
-											<input id="nombre_Objeto" class="form-control  modal-roles secundary" type="text" name="objeto" placeholde="Escriba el producto" required />
+											<input id="nombre_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="objeto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Tipo objeto: </label>
-											<input id="tipo_Objeto" class="form-control  modal-roles secundary" type="text" name="tipo_objeto"placeholde="Escriba el tipo obj" required />
+											<input id="tipo_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="tipo_objeto"placeholde="Escriba el tipo obj" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion objeto: </label>
-											<input id="descripcionObjeto" class="form-control  modal-roles secundary" type="tel" name="descripcion" placeholde="Escriba el producto" required />
+											<input id="descripcionObjeto" class="form-control  modal-roles secundary text-uppercase" type="tel" name="descripcion" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										
@@ -178,17 +174,17 @@
 											
 											<div class="campos">
 												<label for="">Nombre objeto: </label>
-												<input id="nombreObjeto" class="form-control modal-roles secundary" type="text" name="Objeto" placeholder="Escriba el objeto" required />
+												<input id="nombreObjeto" class="form-control modal-roles secundary text-uppercase" type="text" name="Objeto" placeholder="Escriba el objeto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Tipo objeto: </label>
-												<input id="tObjeto" class="form-control  modal-roles secundary" type="tex"  placeholder="tipo del objeto" required />
+												<input id="tObjeto" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="tipo del objeto" required  onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Descripcion objeto: </label>
-												<input id="descripcion" class="form-control  modal-roles secundary" type="text"  placeholder="Describa el objeto" required />
+												<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											

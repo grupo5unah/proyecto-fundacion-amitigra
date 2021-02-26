@@ -94,10 +94,7 @@
 													data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" data-adultos="<?= $mostrar['adultos'] ?>" 
 													data-ninos="<?= $mostrar['ninos'] ?>" data-total="<?= $mostrar['total'] ?>"></button>
 
-													<button class="btn btn-danger btnEliminarHotel glyphicon glyphicon-remove" data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
-													data-nombre="<?= $mostrar['cliente'] ?>" data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" 
-													data-cantAdultos="<?= $mostrar['adultos'] ?>" 
-													data-cantiNinos="<?= $mostrar['ninos'] ?>" data-total="<?= $mostrar['total'] ?>"></button>
+													<button class="btn btn-danger btnEliminarHotel glyphicon glyphicon-remove" data-idreservacion="<?= $mostrar['id_detalle_reservacion'] ?>"></button>
 													
 												</td>
 											<?php  } ?>

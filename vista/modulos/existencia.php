@@ -25,7 +25,7 @@
 
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+								<table data-page-length='10' class=" display table resoinsive table-hover table-condensed table-bordered" style="width:100%" id="manageProductTable">
 									<thead>
 										<tr>
 

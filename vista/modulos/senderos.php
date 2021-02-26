@@ -66,11 +66,12 @@
                           <td><?php echo $mostrar['fecha_creacion'];?></td>
 
                         <td>                          
-                          <button class="btn btn-warning btnEditarHotel glyphicon glyphicon-pencil"  data-idreservacion="<?= $mostrar['id_boletos_detalle'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
-                              data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>"></button>
+                          <!--button class="btn btn-warning btnEditarBoleto glyphicon glyphicon-pencil"  data-idboleto="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"
+                              data-sub_total="<?= $mostrar['sub_total']?>" data-fecha_modificada="<?= $mostrar['fecha_cracion'] ?>"></button-->
 
-                          <button class="btn btn-danger btnEliminarHotel glyphicon glyphicon-remove" data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
-                              data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>""></button>
+                          <button class="btn btn-danger btnEliminarBoleto glyphicon glyphicon-remove" data-idboletodetalle="<?= $mostrar['id_boletos_detalle'] ?>"data-idboletoVendido="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"
+                              data-subtotal="<?= $mostrar['sub_total'] ?>" data-nacionalidad="<?= $mostrar['nacionalidad'] ?>" data-nombretipoboleto="<?= $mostrar['nombre_tipo_boleto'] ?>"
+                              data-fecha="<?= $mostrar['fecha_cracion'] ?>"></button>
                         </td>                  
                       </tr>
                     <?php } ?>
@@ -91,8 +92,8 @@
 			</div>
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
-			<!-- MODAL EDITAR RESERVACION HOTEL -->
-			<div class="modal fade" id="modalEditarHotel" tabindex="-1"
+			<!-- MODAL EDITAR VENTA BOLETO -->
+			<div class="modal fade" id="modalEditarBoleto" tabindex="-1"
 				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -101,11 +102,11 @@
 				                	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Registrar reservaión</h3>
+									<h3 class="modal-title" id="exampleModalLabel">Editar Cantidad de Boletos</h3>
 								</div>
 							</div>
 							<div class="modal-body">
-							<form method="POST" id="formHotel">
+							<form method="POST" id="formSendero">
                               <div class="ingreso-producto form-group">
                                <div class="campos" type="hidden">
                                <label for=""> </label>
@@ -113,16 +114,16 @@
                             </div>
 
                           <div class="campos">
-                          <label for="">Fecha de reservación </label>
-                          <input id="fReservacion" class="form-control modal-roles secundary" type="date" name="fReservacion" required />
+                          <label for="">Cantidad de boletos</label>
+                          <input id="CantBoletos" class="form-control modal-roles secundary" type="date" name="CantBoletos" required />
                           </div>
 						  <div class="campos">
-                          <label for="">Fecha de entrada  </label>
-                          <input id="fEntrada" class="form-control modal-roles secundary" type="date" name="fEntrada"required />
+                          <label for="">Sub-Total </label>
+                          <input id="SubTotal" class="form-control modal-roles secundary" type="date" name="SubTotal"required />
                           </div>
 						  <div class="campos">
-                          <label for="">Fecha de salida  </label>
-                          <input id="fSalida" class="form-control modal-roles secundary" type="date" name="fSalida"required />
+                          <label for="">Fecha Modificada  </label>
+                          <input id="fmodificada" class="form-control modal-roles secundary" type="date" name="fmodificada"required />
                           </div>
                                 
                           <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -130,7 +131,7 @@
 						  </div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-								<button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button>
+								<button id=""type="submit" class="btn btn-primary btnEditarBD">Actualizar Boletos</button>
 							</div>
                         </form>
                         <?php 
