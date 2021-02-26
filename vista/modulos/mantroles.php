@@ -137,12 +137,12 @@
 
 										<div class="campos">
 											<label for="">Nombre rol </label>
-											<input id="nombreRol" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input id="nombreRol" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
-											<input id="descripcionRol" class="form-control modal-roles secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+											<input id="descripcionRol" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
 										</div>
 										
@@ -175,19 +175,16 @@
 							<div class="modal-body">
 								<form name="" id="formRol">
 									<div class=" form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="on" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
+										
 
 										<div class="campos">
 											<label for="">Nombre rol </label>
-											<input autocomplete="on" id="nombre" class="form-control modal-roles secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
+											<input autocomplete="on" id="nombre" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
-											<input id="descripcion" class="form-control modal-roles secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
+											<input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										

@@ -9,6 +9,7 @@ if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
 
+
 switch ($action) {
     case 'obtenerParametro': // OBTIENE UN Parametro POR NOMBRE
         $parametro = $_GET['parametro'];
@@ -27,21 +28,32 @@ case 'registrarParametro': // REGISTRA UN parametro
         $nombreParametro = $_POST['parametro'];
         $valor= $_POST['valor'];
         $estado= 1;
-        $id_usuario=7;
-        //$usuario_actual = $_POST['usuario_actual'];
+        $id_usuario= $_POST['id_usuario'];
+        $usuario_actual = $_POST['usuario_actual'];
         $fecha = date('Y-m-d H:i:s', time());
+        //echo $usuario_db;
 
-        if (empty($_POST['parametro']) || empty($_POST['valor'])) {
+        if (empty($_POST['parametro']) || empty($_POST['valor'])||empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
+            
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_parametros (parametro, valor, estado_eliminado, id_usuario, fecha_creacion,  fecha_modificacion) VALUES (?,?,?,?,?,?)");
-                $sql->bind_param("ssiiss", $nombreParametro, $valor, $estado, $id_usuario, $fecha, $fecha);
+                $sql = $conn->prepare("INSERT INTO tbl_parametros (parametro, valor, estado_eliminado, usuario_id, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?)");
+                $sql->bind_param("ssiissss", $nombreParametro, $valor, $estado, $id_usuario, $usuario_actual, $fecha, $usuario_actual, $fecha);
                 $sql->execute();
 
+                $data = [
+                    "nombreParametro" => $nombreParametro, 
+                    "valor" => $valor, 
+                    "estado" => $estado, 
+                    "id_usuario" => $id_usuario, 
+                    "usuario_actual" => $usuario_actual, 
+                    "fecha" => $fecha
+                ];
                 if ($sql->error) {
                     $res['msj'] = "Se produjo un error al momento de registrar el Parametro";
+                    $res['prueba'] = $data;
                     $res['error'] = true;
                 } else {
                     $res['msj'] = "Parametro Registrado Correctamente";
