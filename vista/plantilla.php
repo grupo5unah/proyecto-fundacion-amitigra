@@ -106,6 +106,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "mantenimientoopciones" ||
+        $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "bitacora" ||
         $_GET["ruta"] == "backup" ||
         $_GET["ruta"] == "cerrarSesion" ||
