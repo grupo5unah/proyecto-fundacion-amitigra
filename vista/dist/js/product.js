@@ -7,72 +7,183 @@ $(document).ready(function(){
         }
 
      } );
+<<<<<<< HEAD
 
     $("#formProducto").submit(async function(e){ 
+=======
+     //const btnsEliminar = document.querySelectorAll('.btnEliminarP');
+     const contenedorProducto= $('#productTable  .tbody');
+     const vaciarTablaBtn = document.querySelector('#vaciarTabla');
+     const btnRegistrarInventario = $("#registrarInventario");
+     const listaProduct = $('#btnAddList');
+     let articulosProducto = [];
+         
+     
+     // funciones de producto
+    function agregarProducto(e){
+>>>>>>> 93c854bf6443ef9b8c9c4cf17a7ee323f54cf677
         e.preventDefault();
-
-        var nombre = $("#nombreP").val();
-        var cantidad = $("#cantProducto").val();
-        var precio = $("#precioProducto").val();
-        var tipoProducto = $("#tipoProducto option:selected").val();
-        var usuario_actual = $("#usuario_actual").val();
-
-        //console.log(nombre, cantidad, precio, tipoProducto, usuario_actual);
-        if(nombre != undefined && cantidad != undefined && precio != undefined && 
-        tipoProducto != 0 && usuario_actual != undefined){
-            const formData = new FormData();
-            formData.append('nombreProducto',nombre);
-            formData.append('cantidad',cantidad);
-            formData.append('precio',precio);
-            formData.append('tipo_producto', tipoProducto);
-            formData.append('usuario_actual', usuario_actual);
-
-            const resp = await axios.post(`./controlador/api.php?action=registrarProducto`, formData);
-
-            const data = resp.data;
-
-            if(data.error){
-                return swal("Error", data.msj, "error");
+        const infoProducto = {
+            //crea un objeto con el contenido del formulario
+            nombreProducto : $('#nombreP').val(),
+            precioP : $('#precioProducto').val(),
+            cantidadP : $('#cantProducto').val(),
+            tipoProducto : {
+                id: $("#tipoProducto").val(),
+                nombre: $("#tipoProducto option:selected").text()
             }
-
-            return swal("Exito!", data.msj, "success").then((value) => {
-                    if (value){
-                        // Se limpia el formulario
-                        $("#nombreP").val('');
-                        $("#cantProducto").val('');
-                        $("#precioProducto").val('');
-                        $("#tipoProducto").val('0');
-                    }
-                })
-        }else{
-            swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-        } 
-    });
-
-    
-    
-    $('#nombreP').blur(async function () {
-        //console.log(this.value);
-        if(this.value.length > 0 ){
-            try{
-                const resp = await axios(`./controlador/api.php?action=obtenerProducto&nombreProducto=${this.value}`);
-                const data = resp.data;
-                if(data.producto.length > 0){
-                    console.log(data.producto[0]);
-                    $('#cantProducto')
-                    $('#precioProducto')
-                    $('#tipoProducto')
-                    $('#cantProducto')
-                    return swal('Este producto ya existe en el inventario');
-                }else{
-                    //return swal('NO existe este producto');
-                }
-                
-            }catch(err){
-                console.log('Error - ', err);
-            }
+            // id : producto.querySelector('button').getAttribute('data-nombre')
         }
-    })
+        console.log(infoProducto);
+        // agrergo el producto al arreglo
+        articulosProducto = [...articulosProducto, infoProducto];
+        if(articulosProducto.length > 0) sincronizarStorage(articulosProducto)
+        //agrega  art a la tabla
+        llenarTabla();
+    }
+
+    //elimina un producto dela  tabla
+    const eliminarProducto = (index = -1) => {
+        console.log('Indice a eliminar: ',index);
+        //articulosProducto.splice(index, 1);
+        
+    }
+
+    function llenarTabla(){
+        $('.tbody tr').remove();
+        articulosProducto.forEach((producto, index) => agregarFila(producto, index));
+    }
+
+    // muestra el carrito de compras en el html
+    function agregarFila(producto = {}, index = -1){
+        //limpia el html
+
+        const{nombreProducto, precioP, cantidadP, tipoProducto} = producto;
+        contenedorProducto.append(`
+        <tr>
+            <td>${nombreProducto}</td>
+            <td>${precioP}</td>
+            <td>${cantidadP}</td>
+            <td>${tipoProducto.nombre}</td>
+            <td>
+                <button class="btn btn-warning btnEditar Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
+                <button class="btn btn-danger btnEliminarP glyphicon glyphicon-remove" data-id="${index}"></button>
+            </td>  
+        </tr>
+        `);
+        $('.btnEliminarP').on('click', ()=>{
+            console.log('hiciste click');
+        });
+        // agregar el producto  a local storage
+        //sincronizarStorage();
+    }
+
+    function cargarStorage(){
+        const productsStorage = localStorage.getItem('productos');
+        if(!productsStorage){
+            localStorage.setItem('productos',JSON.stringify([]));
+        }else{
+            articulosProducto = JSON.parse(productsStorage);
+            console.log(articulosProducto);
+            llenarTabla();
+        }
+    };
+    
+    function sincronizarStorage(data=[]){
+        if(data.length > 0) localStorage.setItem('productos',JSON.stringify(data));
+    }
+
+    // btnsEliminar.forEach( btn => {
+    //     btn.addEventListener('click', e => {
+    //         console.log(e);
+    //     })
+    // })
+    
+    
+
+    cargarStorage();
+
+   // cuando agregas un curso presionando agragar a table
+   listaProduct.on('click', agregarProducto);
+   
+   btnRegistrarInventario.on('click', function(){
+    	// limpiar storage
+        localStorage.removeItem('productos');
+        llenarTabla();
+        swal('Cache limpia');
+   });
+
+
+   //vaciar la tabla
+   vaciarTablaBtn.addEventListener('click', ()=>{
+       articulosProducto = []//reseteando el arreglo
+       console.log('hice click');
+   })
+    // $("#formProducto").submit(async function(e){
+    //     e.preventDefault();
+
+    //     var nombre = $("#nombreP").val();
+    //     var cantidad = $("#cantProducto").val();
+    //     var precio = $("#precioProducto").val();
+    //     var tipoProducto = $("#tipoProducto option:selected").val();
+    //     var usuario_actual = $("#usuario_actual").val();
+
+    //     //console.log(nombre, cantidad, precio, tipoProducto, usuario_actual);
+    //     if(nombre != undefined && cantidad != undefined && precio != undefined && 
+    //     tipoProducto != 0 && usuario_actual != undefined){
+    //         const formData = new FormData();
+    //         formData.append('nombreProducto',nombre);
+    //         formData.append('cantidad',cantidad);
+    //         formData.append('precio',precio);
+    //         formData.append('tipo_producto', tipoProducto);
+    //         formData.append('usuario_actual', usuario_actual);
+
+    //         const resp = await axios.post(`./controlador/api.php?action=registrarProducto`, formData);
+
+    //         const data = resp.data;
+
+    //         if(data.error){
+    //             return swal("Error", data.msj, "error");
+    //         }
+
+    //         return swal("Exito!", data.msj, "success").then((value) => {
+    //                 if (value){
+    //                     // Se limpia el formulario
+    //                     $("#nombreP").val('');
+    //                     $("#cantProducto").val('');
+    //                     $("#precioProducto").val('');
+    //                     $("#tipoProducto").val('0');
+    //                 }
+    //             })
+    //     }else{
+    //         swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+    //     } 
+    // });
+
+    
+    
+    // $('#nombreP').blur(async function () {
+    //     //console.log(this.value);
+    //     if(this.value.length > 0 ){
+    //         try{
+    //             const resp = await axios(`./controlador/api.php?action=obtenerProducto&nombreProducto=${this.value}`);
+    //             const data = resp.data;
+    //             if(data.producto.length > 0){
+    //                 console.log(data.producto[0]);
+    //                 $('#cantProducto')
+    //                 $('#precioProducto')
+    //                 $('#tipoProducto')
+    //                 $('#cantProducto')
+    //                 return swal('Este producto ya existe en el inventario');
+    //             }else{
+    //                 //return swal('NO existe este producto');
+    //             }
+                
+    //         }catch(err){
+    //             console.log('Error - ', err);
+    //         }
+    //     }
+    // })
   
     // Elimina un producto del inventario
 //     $("#formRoles").submit(async function(e){
@@ -224,81 +335,7 @@ $(document).ready(function(){
     //crear roles
     
 
-    //FUNCION EDITAR ROLES
-    $('.btnEditarRol').on('click', function() {
-        // info previa
-        const idrol = $(this).data('idrol'); 
-        const nombrerol = $(this).data('nombrerol');
-        const descripcion = $(this).data('descripcion'); 
-        //llena los campos
-        $("#idrol").val(idrol),
-        $("#nombreRol").val(nombrerol),
-        $("#descripcionRol").val(descripcion)
-        
-        //console.log(idrol,nombrerol,descripcion);
-        //mostrar el modal
-        $('#modalEditarRol').modal('show');
-        
-        $('.btnEditarBD').on('click', async function() {
-            var IdRol = Number(idrol); 
-            console.log(IdRol);
-            const formData = new FormData();
-            formData.append('id_rol', IdRol);
-            formData.append('rol',$("#nombreRol").val());
-            formData.append('descripcion',$("#descripcionRol").val());
-            console.log(formData);
-            
-           const resp = await axios.post('./controlador/apiRol.php?action=actualizarRol', formData);
-           const data = resp.data;
-            console.log(data);
-            if(data.error){
-                return swal("Error", data.msj, "error", {
-                    timer:3000,
-                    buttons:false
-                });
-            } else{
-                $('#modalEditarProducto').modal('hide');
-                return swal("Exito!", data.msj, "success", {
-                    timer:3000,
-                    buttons:false
-                }).then(() => {
-                    // Se limpia el formulario
-                    console.log('Ya se cerro el alert');
-                    $("#nombreRol").val('');
-                    $("#descripcion").val('');
-                    location.reload(); 
-                })
-            }
-                
-        });
-        
-    })
-    //eliminar roles
-    $('.btnEliminarRol').on('click', function (){
-        const idRol = $(this).data('idrol');
-        swal("Eliminar Rol", "Esta seguro de eliminar este Rol?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
-            if (value){
-                console.log('Estoy dentro del if');
-                const formData = new FormData();
-                formData.append('id_rol', idRol);
-                const resp = await axios.post('./controlador/apiRol.php?action=eliminarRol', formData);
-                const data = resp.data;
-                //console.log(data);
-                if(data.error){
-                    return swal("Error", data.msj, "error",{
-                        buttons: false,
-                        timer: 3000
-                    });
-                }
-                return swal("Exito!", data.msj, "success",{
-                    buttons: false,
-                    timer: 3000
-                }).then(() =>{ 
-                    location.reload();
-                });
-            }
-        });
-    })
+    
     //MANTENIMIENTO PARÁMETROS
     $("#formParametros").submit(async function(e){
         e.preventDefault();
@@ -578,6 +615,7 @@ $('.btnEliminarPregunta').on('click', function (){
         }
     });
 })
+<<<<<<< HEAD
      //mantenimiento Usuario
  $(".btnEditarUsuario").on("click", function () {
     // info previa
@@ -766,4 +804,7 @@ $('.btnEliminarPregunta').on('click', function (){
 
 
     
+=======
+      
+>>>>>>> 93c854bf6443ef9b8c9c4cf17a7ee323f54cf677
 });

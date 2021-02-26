@@ -8,7 +8,6 @@ class NuevaPassPregunta{
         global $conn;
         
         if(isset($_POST['tipo']) == 'newpassword'){
-            // $respuesta = $_POST['RespuestaValidar'];
             $idPregunta = $_POST['pregunta_id'];
             $correo = $_SESSION['correo'];
             $password = $_POST['password'];
@@ -60,24 +59,20 @@ class NuevaPassPregunta{
                                     $actualizacion->bind_Param("si", $hashed_password, $id_usuario);
                                     $actualizacion->execute();
 
-                                    if($actualizacion->error){
-                                        echo "<div class='alert alert-danger' role='alert'>
-                                                No se pudo actualizar
-                                                </div>";
-                                    }else{
+                                    if(!$actualizacion->error){
                                         echo "<div class='alert alert-success' role='alert'>
-                                                Su contraseña se actualizó correctamente
+                                                Su contraseña se actualizó correctamente.
                                                 </div>";
                                     }
                                 }else{
                                     echo "<div class='alert alert-danger' role='alert'>
-                                            Las contraseña no coinciden
+                                            Las contraseña no coinciden.
                                             </div>";
                                 }
                             }
                         }else{
                             echo "<div class='alert alert-danger' role='alert'>
-                            Respuesta incorrecta
+                            Respuesta incorrecta.
                             </div>";
                             echo 'Id usuario: '. $id_usuario;
                             echo 'Id pregunta:'. $idPregunta;

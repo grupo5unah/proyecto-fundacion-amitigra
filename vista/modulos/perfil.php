@@ -3,13 +3,13 @@ include_once "./modelo/conexionbd.php";
 $id_objeto = 4;
 global $mi_rol;
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT rol_id, foto FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol
                         WHERE tbl_roles.rol = ?");
 $stmt->bind_Param("s",$rol_id);
 $stmt->execute();
-$stmt->bind_Result($id_rol);
+$stmt->bind_Result($id_rol, $foto);
 
 if($stmt->affected_rows){
 
@@ -26,17 +26,32 @@ $columna = $stmt->fetch_assoc();
 
 ?>
 <div class="content-wrapper">
+
+    <section class="content-header">
+    <h1>Perfil <small> ajustes</small></h1>      
+    <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active"><i class="fa fa-user"></i> Perfil de usuario</li>
+      </ol>
+    </section>
     <!-- Main content -->
     <section class="content">
 
+    <?php
+    include_once "./modelo/conexionbd.php";
+    
+    $query = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
+
+    $resultado = mysqli_query($conn,$query);
+
+    while($imagen = mysqli_fetch_assoc($resultado)):?>
       <div class="row">
         <div class="col-md-4">
 
           <!-- INICIO DE LA INFORMACION DEL USUARIO-->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="vista/dist/img/avatar5.png" alt="Foto perfil de usuario">
-
+              <img class="profile-user-img img-responsive img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="Foto perfil de usuario">
               <p class="text-muted text-center">Cargo: <br> <?php echo ucwords($rol_id);?> </p>
 <?php }}?>
               <?php
@@ -97,44 +112,115 @@ $columna = $stmt->fetch_assoc();
         
         <!--INICIO DE LA TABLA-->
         <div class="col-md-8">
-          <div class="nav-tabs-custom">
+          <div class="nav-tabs-custom2">
             <ul class="nav nav-tabs">
-              <li><a href="#settings" data-toggle="tab">Configuración Cuenta</a></li>
+              <li><a href="#settings" data-toggle="tab">Informacion general</a></li>
+              <li><a href="#settings2" data-toggle="tab">Seguridad</a></li>
             </ul>
             <div class="tab-content">
-              <div class="" id="settings">
-                <form method="POST" class="form-horizontal">
+              <div class="active tab-pane" id="settings">
+                <form method="POST" class="form-horizontal" enctype="multipart/form-data">
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Nombre completo</label>
+                    <label for="inputName" class="col-sm-3 control-label">Nombre completo:</label>
 
                     <div class="input-group col-sm-8">
                       <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre_completo']));?>" placeholder="Nombre">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Nombre de usuario</label>
+                    <label for="inputName" class="col-sm-3 control-label">Nombre de usuario:</label>
 
                     <div class="input-group col-sm-8">
                       <input type="text" name="usuario" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
                     </div>
                   </div>
+
                   <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Tel./Celular</label>
+                    <label for="inputName" class="col-sm-3 control-label">Foto de perfil:</label>
+
+                    <div class="input-group col-sm-8">
+                      <input type="file" id="imagen" name="imagen" accept="image/jpg, image/png" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">Tel./Celular:</label>
 
                     <div class="input-group col-sm-8">
                       <input type="text" name="telefono" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['telefono']));?>" placeholder="Numero telefono fijo o celular">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail" class="col-sm-3 control-label">Correo Electrónico</label>
+                    <label for="inputEmail" class="col-sm-3 control-label">Correo Electrónico:</label>
 
                     <div class="input-group col-sm-8">
                       <input type="email" name="correo" class="form-control" id="inputEmail" value="<?php echo $_SESSION['correo'];?>" placeholder="Correo electronico">
                     </div>
                   </div>
+
                   <!--INPUT INGRESAR LA CONTRASENA ACTUAL-->
                   <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Contraseña actual</label>
+                    <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+
+                    <div class="input-group col-sm-8">
+                      <input id="passConf" type="password" class="form-control" name="passConf" placeholder="Confirmar su contraseña">
+                      <span class="input-group-btn" onclick="a_mostrarPassword()">
+                        <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                      </span>
+                    </div>
+                    <p class="text-center-msg">Ingrese su contraseña para confirmar los cambios</p>
+                  </div>
+                  
+                  <div class="text-center form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                    <input type="hidden"  name="cambio_info" value="act_info">
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" onclick="location.reload()" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
+                    </div>
+                  </div>
+
+                  <!--FUNCION PARA MOSTRAR CONTRASENA-->
+                  <script type="text/javascript">
+                    function a_mostrarPassword(){
+                      
+                      var actual = document.getElementById("passConf");
+                      if(actual.type == "password"){
+                        actual.type = "text";
+                        $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                      }else{
+                        actual.type = "password";
+                        $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                      }
+                    } 
+                  </script>
+
+                </form>
+                <?php
+        
+                    
+
+                    //nclude("./controlador/ctr.Acciones.php");
+
+              // $perfilBitacora = new AccionesUsuario();
+              // $perfilBitacora->ctrPerfilBitacora();
+
+                    ?>
+
+              </div>
+
+              <!-- INICIO SEGUNDO TAB -->
+              <div class="tab-pane" id="settings2">
+                <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="input-group col-sm-8">
+                      <input type="hidden" class="form-control" name="usuario" value="<?php echo $usuario;?>" placeholder="Ingrese su contraseña actual">
+                      <span class="input-group-btn">
+                      </span>
+                    </div>
+                  </div>
+
+                  <!--INPUT INGRESAR LA CONTRASENA ACTUAL-->
+                  <div class="form-group">
+                    <label for="inputSkills" class="col-sm-3 control-label">Contraseña actual:</label>
 
                     <div class="input-group col-sm-8">
                       <input id="PassActual" type="password" class="form-control" name="actualPass" placeholder="Ingrese su contraseña actual">
@@ -144,7 +230,7 @@ $columna = $stmt->fetch_assoc();
                   </div>
                   <!--INPUT CONFIRMAR NUEVA CONTRASENA-->
                   <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Nueva contraseña</label>
+                    <label for="inputSkills" class="col-sm-3 control-label">Nueva contraseña:</label>
 
                     <div class="input-group col-sm-8">
                       <input id="PassNuevo" type="password" class="form-control" name="nuevaPass" placeholder="Ingrese su nueva contraseña">
@@ -154,7 +240,7 @@ $columna = $stmt->fetch_assoc();
                   </div>
                   <!--INPUT CONFIRMAR NUEVA CONTRASENA-->
                   <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Confirmar contraseña</label>
+                    <label for="inputSkills" class="col-sm-3 control-label">Confirmar contraseña:</label>
 
                     <div class="input-group col-sm-8">
                       <input id="ConfPass" type="password" class="form-control" name="confPass" placeholder="Confirmar su contraseña">
@@ -166,8 +252,8 @@ $columna = $stmt->fetch_assoc();
                   
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                    <input type="hidden"  name="cambio" value="act">
-                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-danger">Guardar cambios</button><?php }?>
+                    <input type="hidden" name="cambio" value="act">
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success">Guardar cambios</button><?php }?>
                     </div>
                   </div>
 
@@ -210,6 +296,10 @@ $columna = $stmt->fetch_assoc();
               <!-- /.tab-pane -->
             </div>
             <?php
+              include("./controlador/ctr.passwordperfil.php");
+
+              $actualizar = new PasswordPHP();
+              $actualizar->ctrPasswordInfo();
         
                     include("./controlador/ctr.actualizarInformacion.php");
 

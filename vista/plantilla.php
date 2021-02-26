@@ -25,10 +25,30 @@ if(isset($_SESSION["timeout"])){
 $_SESSION["timeout"] = time();
 ?>
 
+<?php
+
+  $usuario_id = 2;
+  require './modelo/conexionbd.php';
+
+  $nombre_sistema = 'NOMBRE_SISTEMA';
+
+  $nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE usuario_id = ? AND parametro = ?;");
+  $nombre->bind_Param("is",$usuario_id,$nombre_sistema);
+  $nombre->execute();
+  $nombre->bind_Result($parametro,$valor);
+
+  if($nombre->affected_rows){
+    $existe = $nombre->fetch();
+
+    if($existe){
+      $extraer = substr($valor,0,4); 
+
+
+?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SAAT</title>
+  <title><?php echo $extraer;}}?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -38,6 +58,7 @@ $_SESSION["timeout"] = time();
   <!-- Ionicons -->
   <link rel="stylesheet" href="vista/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
+  <link rel="preload" href="vista/dist/css/AdminLTE.css" as="style">
   <link rel="stylesheet" href="vista/dist/css/AdminLTE.css">
 
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
@@ -81,9 +102,11 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "senderosE" ||
         $_GET["ruta"] == "reservahotel" ||
         $_GET["ruta"] == "solicitudes" ||
+        $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "perfil" ||
+        $_GET["ruta"] == "mantenimientoopciones" ||
         $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "bitacora" ||
         $_GET["ruta"] == "backup" ||

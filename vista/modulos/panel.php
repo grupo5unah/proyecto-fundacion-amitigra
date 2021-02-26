@@ -1,4 +1,13 @@
 <div class="content-wrapper">
+
+<section class="content-header">
+<h1>Panel <small>administración</small></h1>      
+<ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active"> <i class="fa fa-cogs"></i> Panel de administración</li>
+      </ol>
+    </section>
+
     <!-- Main content -->
     <section class="content">
 
@@ -193,150 +202,13 @@
     <!--CAJAS FINAL SEGUNDA LINEA-->
 
       <!--INICIO DE OTRA INFORMACION-->
-      <div class="row">
-        <div class="col-md-4">
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="vista/dist/img/logo.png" alt="Foto perfil de usuario">
-
-              <p class="text-muted text-center">INFORMACIÓN</br>sobre la fundacion</p>
-
-              <?php
-
-              include_once("./modelo/conexionbd.php");
-                  //try {
-                    $stmt = $conn->prepare("SELECT nombre_completo, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
-                    $stmt->bind_Param("s",$usuario);
-                    $stmt->execute();
-                    $stmt->bind_Result($nombre, $correo, $telefono, $ingreso, $vencimiento);
-                 
-                  if($stmt->affected_rows){
-
-                    $existe = $stmt->fetch();
-
-                    if($existe){
-                      $_SESSION['nombre_completo'] = $nombre;
-                      $_SESSION['correo'] = $correo;
-                      $_SESSION['telefono'] = $telefono;
-                      $_SESSION['fecha_vencimiento'] = $vencimiento;
-
-                      $fecha_registro = new DateTime($ingreso);
-                      date_default_timezone_set("America/Tegucigalpa");
-                      $fecha_hoy = date('Y-m-d H:i:s', time());
-                      $fecha_actual = new DateTime($fecha_hoy);
-                      $diff = $fecha_registro->diff($fecha_actual);
-                      $dias_transcurridos = $diff->days;
-
-              ?>
-
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Organización: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Usuario admin: </b> <a class="pull-right"><?php echo strtoupper($usuario);?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Correo: </b> <a class="pull-right"><?php echo $_SESSION['correo'];?></a>
-                  <br>
-                </li>
-                <li class="list-group-item">
-                  <b>Teléfono: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['telefono']));?></a>
-                </li>
-              </ul>           
-            </div>
-          </div>
-        </div>  
+      
         <!--FIN DE OTRA INFORMACION-->  
         
         <!--INICIO DE LA TABLA-->
-        <div class="col-md-8">
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li><a>Configuración Información <?php echo "Fundacion AMITIGRA";?></a></li>
-            </ul>
-            <div class="tab-content">
-              <div class="" id="settings">
-                <form method="POST" class="form-horizontal">
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Nombre</label>
-
-                    <div class="input-group col-sm-8">
-                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre_completo']));?>" placeholder="Nombre">
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Nombre de usuario</label>
-
-                    <div class="input-group col-sm-8">
-                      <input type="text" name="usuario" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-3 control-label">Tel./Celular</label>
-
-                    <div class="input-group col-sm-8">
-                      <input type="text" name="telefono" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['telefono']));?>" placeholder="Numero telefono fijo o celular">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-3 control-label">Correo Electrónico</label>
-
-                    <div class="input-group col-sm-8">
-                      <input type="email" name="correo" class="form-control" id="inputEmail" value="<?php echo $_SESSION['correo'];?>" placeholder="Correo electronico">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Contraseña actual</label>
-
-                    <div class="input-group col-sm-8">
-                      <input id="ConfPass" type="password" class="form-control" name="password" placeholder="Ingrese su contrasena">
-                      <span class="input-group-btn" onclick="mostrarPassword()">
-                        <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_conf"></i></button>
-                      </span>
-                    </div>
-                    <p class="text-center-msg">Ingrese su contraseña para confirmar los cambios</p>
-                  </div>
-          
-                  <div class="text-center form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" name="cambio" value="act" class="btn btn-danger">Guardar cambios</button>
-                    </div>
-                  </div>
-
-                  <script type="text/javascript">
-	function mostrarPassword(){
-			var cambio = document.getElementById("ConfPass");
-			if(cambio.type == "password"){
-				cambio.type = "text";
-				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-			}else{
-				cambio.type = "password";
-				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-			}
-		} 
-	</script>
-
-                  <?php
         
-                    include("./controlador/ctr.actualizarInformacion.php");
-
-                    $actualizar = new ActualizarInfo();
-                    $actualizar->ctrActualizarInfo();
-
-                    ?>
-                </form>
-              </div>
-              <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
-          </div>
-          <?php }}?>
-          <!-- /.nav-tabs-custom -->
-        </div>
         <!--FIN DE LA TABLA-->
-      </div>
+
       <!-- /.box -->
 
     </section>

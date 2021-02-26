@@ -24,9 +24,9 @@
                 if($VerificarUsuario->affected_rows) {
                     $existe = $VerificarUsuario->fetch();
                     //Capturar el ID del usuario al que se le enviara el correo
-                while ($VerificarUsuario->fetch()) {
-                    $id = $id_usuario;
-               }
+                    while ($VerificarUsuario->fetch()) {
+                        $id = $id_usuario;
+                    }
                     if($existe){
                         if(!isset($_COOKIE['_unp_'])) {
                             $correo = $_POST['email'];

@@ -33,7 +33,13 @@ $columna = $stmt->fetch_assoc();
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="vista/dist/img/avatar5.png" class="img-circle" alt="User Image">
+      <?php
+      $query = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
+
+      $resultado = mysqli_query($conn,$query);
+      
+      while($imagen = mysqli_fetch_assoc($resultado)):?>
+        <img src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p><?php echo ucwords($usuario);?></p>
@@ -49,7 +55,7 @@ $columna = $stmt->fetch_assoc();
         <!--Pendiente-->
         
         <!--ROL DE ADMINISTRACION-->
-        <?php if($_SESSION['rol'] === 'administrador' OR $_SESSION['rol'] === 'asistente'){?>
+        <?php if($_SESSION['rol'] === 'administrador' OR $_SESSION['rol'] === 'asistente' OR $_SESSION['rol'] === 'usuario'){?>
           <!--Inicio SOLICITUDES-->
           <?php if ($columna["permiso_consulta"] == 1) {?><li class="">
           <a href="solicitudes">
@@ -59,29 +65,6 @@ $columna = $stmt->fetch_assoc();
         </li>
         <?php }?>
         <!--Fin SOLICITUDES-->
-
-        <!--Inico REPORTES-->
-        <li class="treeview">
-        <?php if($columna['permiso_consulta'] == 1 && $columna['permiso_consulta'] == 0) {?>
-          <a href="#">
-            <i class="fa fa-laptop"></i>
-            <span>Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="reporteBitacora"><i class=""></i> Reporte Bitácora</a></li>
-            <li><a href="reporteProducto"><i class=""></i> Reporte Producto</a></li>
-            <li><a href="pruebaTab"><i class=""></i> Prueba TAB</a></li>
-            <li><a href="senderos"><i class=""></i> Senderos</a></li>
-            <li><a href="#"><i class=""></i> Timeline</a></li>
-            <li><a href="#"><i class=""></i> Reporte Bitacora</a></li>
-            <li><a href="bitacora"><i class=""></i> Bitacora</a></li>
-          </ul>
-        </li>
-        <?php }?>
-        <!--Fin REPORTES-->
 
           <!--ROL DE USUARIO-->
           <!--Inicio RESERVACIONES-->
@@ -177,7 +160,7 @@ $columna = $stmt->fetch_assoc();
           </a>
           <ul class="treeview-menu">
             <li><a href="panel"><i class=""></i>Administración sistema</a></li>
-            <li><a href="configuracion"><i class=""></i>Otra configuracion</a></li>
+            <li><a href="configuracion"><i class=""></i>Configuración sistema</a></li>
             <!--<li><a href="mantroles"><i class=""></i>Mantenimiento Roles</a></li>
             <li><a href="mantObjetos"><i class=""></i>Mantenimiento Objetos</a></li>
             <li><a href="#"><i class=""></i>A</a></li>

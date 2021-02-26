@@ -5,7 +5,7 @@
               if(isset($_POST['envio']) == 'pdf'){
 
                 include("./controlador/ctr.ClasePdf.php");
-                include("./modelo/conexion.php");
+                include("./modelo/conexionbd.php");
     
                 // Creación del objeto de la clase heredada
                 $pdf = new PDF('L','mm','Letter');
@@ -82,7 +82,7 @@
           <br>
 
           <?php
-        require_once('./modelo/conexion.php');
+        require_once('./modelo/conexionbd.php');
         ?>
           <!-- /.box-header -->
           <div class="box-body">
@@ -92,7 +92,6 @@
                 <thead>
                         <tr>
                         <th>Nombre</th>
-                        <th>apellido</th>
                         <th>Nombre usuario</th>
                         <th>Correo</th>
                         <th>Genero</th>
@@ -107,10 +106,11 @@
 
                 <?php
                   try {
-                    $stmt = "SELECT id_usuario, nombre, apellido, nombre_usuario, correo, genero, telefono, tbl_roles.rol AS rol, estado_usuario FROM tbl_usuarios
+                    $stmt = "SELECT id_usuario, nombre_completo, nombre_usuario, correo, genero, telefono, tbl_roles.rol AS rol, tbl_estado.nombre_estado estado FROM tbl_usuarios
                     INNER JOIN tbl_roles
-                    ON
-                    tbl_usuarios.rol_id = tbl_roles.id_rol
+                    ON tbl_usuarios.rol_id = tbl_roles.id_rol
+                    INNER JOIN tbl_estado
+                    ON tbl_usuarios.estado_id = tbl_estado.id_estado
                     ORDER BY id_usuario DESC;
                     ";
                     $resultado = $conn->query($stmt);
@@ -119,14 +119,13 @@
                   }
                  while( $registrado = $resultado->fetch_assoc() ) { ?>
                     <tr>
-                    <td><?php echo $registrado['nombre']; ?></td>
-                    <td><?php echo $registrado['apellido']; ?></td>    
+                    <td><?php echo $registrado['nombre_completo']; ?></td>    
                     <td><?php echo $registrado['nombre_usuario']; ?></td>
                     <td><?php echo $registrado['correo']; ?></td>
                     <td><?php echo $registrado['genero']; ?></td>
                     <td><?php echo $registrado['telefono']; ?></td>
                     <td><?php echo $registrado['rol']; ?></td>
-                    <td><?php echo $registrado['estado_usuario']; ?></td>
+                    <td><?php echo $registrado['estado']; ?></td>
                     <td>
                     <!--<a type="button" data-toggle="modal" data-target="#modal-default" class="btn bg-orange btn-flat"> <i class="fa fa-pencil"></i></a>-->
                    
@@ -148,7 +147,6 @@
                 <tfoot>
                     <tr>
                     <th>Nombre</th>
-                    <th>apellido</th>
                     <th>Nombre usuario</th>
                     <th>Correo</th>
                     <th>Genero</th>
