@@ -37,16 +37,19 @@
                         if(password_verify($password, $password_usuario)){
                             
                             //session_create_id();
-                            session_cache_expire();
+                            //session_cache_expire();
                             session_start();
-                            session_regenerate_id();
+                            session_id();
                             $_SESSION['usuario'] = strtolower($usuario);
                             $_SESSION['rol'] = $rol;
                             $_SESSION['primer_ingreso'] = $primer_ingreso;
                             //header('location:../../index.php');
-                            echo "<script>
+                            
+                            header('location:../../index.php');
+
+                            /*echo "<script>
                             window.location='../../index.php';
-                            </script>";
+                            </script>";*/
                         } else {
                             session_unset();
                             session_regenerate_id();

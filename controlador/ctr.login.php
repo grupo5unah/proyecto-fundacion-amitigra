@@ -6,6 +6,8 @@ global $cambio_estado_bloqueo;
 global $reiniciar_intentos;
 global $estado_bloqueo;
 global $valor;
+global $conn;
+//require '../../modelo/conexionbd.php';
 
 class Login{
 
@@ -80,21 +82,17 @@ class Login{
 
                                     if($dias_transcurridos <= 30){
                                         session_start();
-                                        if($_POST['usuario'] == $usuario && $_POST['password']== $password){
-                                            $_SESSION['usuario'] = true;
-                                            session_regenerate_id();
-    
-                                        }
                                         session_encode();
     
                                         $_SESSION['usuario'] = strtolower($usuario);
                                         $_SESSION['rol'] = $rol;
                                         $_SESSION['primer_ingreso'] = $primer_ingreso;
+                                        $_SESSION['id'] = $id_usuario_bitacora;
 
                                         //Ultima conexion
                                         $upd_conexion = $conn->prepare('UPDATE tbl_usuarios
                                                                         SET fecha_ult_conexion = ?
-                                                                        WHERE id_usuario = ?');
+                                                                        WHERE id_usuario = ?;');
                                         $upd_conexion->bind_Param('si',$fecha_hoy, $id_usuario_bitacora);
                                         $upd_conexion->execute();
 

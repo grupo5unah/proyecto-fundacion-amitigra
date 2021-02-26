@@ -78,9 +78,9 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-          <li class="active"><a href="camping"><i class="fa fa-circle-o"></i> Camping</a></li>
-            <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
-            <li><a href="senderos"><i class="fa fa-circle-o"></i> Senderos</a></li>
+          <li class="active"><a href="camping"><i class=""></i> Camping</a></li>
+            <li><a href="hotel"><i class=""></i> Hotel</a></li>
+            <li><a href="senderos"><i class=""></i> Senderos</a></li>
           </ul>
         </li>
         <?php }?>
@@ -97,8 +97,8 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="producto"><i class="fa fa-circle-o"></i> Producto</a></li>
-            <li><a href="existencia"><i class="fa fa-circle-o"></i> Existencia</a></li>
+            <li><a href="producto"><i class=""></i> Producto</a></li>
+            <li><a href="existencia"><i class=""></i> Existencia</a></li>
           </ul>
         </li>
         <?php }?>
@@ -115,12 +115,12 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Pantallas del sistema</a></li>
-            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
-            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class=""></i> Pantallas del sistema</a></li>
+            <li><a href="mantroles"><i class=""></i> Roles de Usuario</a></li>
+            <li><a href="mantlocalidad"><i class=""></i> Localidad</a></li>
+            <li><a href="mantparametros"><i class=""></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class=""></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class=""></i> Preguntas de Usuario</a></li>
             
           </ul>
         </li>
@@ -137,13 +137,13 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="reportes"><i class="fa fa-circle-o"></i> Reportes</a></li>
-            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <!-- <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li> -->
-            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
+            <li><a href="reportes"><i class=""></i> Reportes</a></li>
+            <li><a href="mantroles"><i class=""></i> Roles de Usuario</a></li>
+            <!-- <li><a href="mantlocalidad"><i class=""></i> Localidad</a></li> -->
+            <li><a href="mantparametros"><i class=""></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class=""></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class=""></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class=""></i> Objetos del sistema</a></li>
           </ul>
         </li>
         <!--Fin REPORTES-->
@@ -161,11 +161,23 @@ $columna = $stmt->fetch_assoc();
           <ul class="treeview-menu">
             <li><a href="panel"><i class=""></i>Administración sistema</a></li>
             <li><a href="configuracion"><i class=""></i>Configuración sistema</a></li>
-            <!--<li><a href="mantroles"><i class=""></i>Mantenimiento Roles</a></li>
-            <li><a href="mantObjetos"><i class=""></i>Mantenimiento Objetos</a></li>
-            <li><a href="#"><i class=""></i>A</a></li>
-            <li><a href="#"><i class=""></i>B</a></li>
-            <li><a href="#"><i class=""></i>C</a></li>-->
+            <li class="treeview">
+              <a href="#"><i class=""></i> Mantenimiento
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#"><i class=""></i> Bitácora</a></li>
+                <li><a href="#"><i class=""></i> Productos</a></li>
+                <li><a href="#"><i class=""></i> Localidad</a></li>
+                <li><a href="mantroles"><i class=""></i> Roles</a></li>
+                <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
+                <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
+                <li><a href="mantparametros"><i class=""></i> Parametros</a></li>
+                <li><a href="mantObjetos"><i class=""></i> Objetos</a></li>
+              </ul>
+            </li>
             <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>
           </ul>
         </li>

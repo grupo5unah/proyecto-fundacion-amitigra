@@ -1,12 +1,11 @@
 <?php
 
-  $usuario_id = 2;
   require './modelo/conexionbd.php';
 
   $nombre_sistema = 'NOMBRE_SISTEMA';
 
-  $nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE usuario_id = ? AND parametro = ?;");
-  $nombre->bind_Param("is",$usuario_id,$nombre_sistema);
+  $nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE parametro = ?;");
+  $nombre->bind_Param("s",$nombre_sistema);
   $nombre->execute();
   $nombre->bind_Result($parametro,$valor);
 

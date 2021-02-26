@@ -235,24 +235,24 @@ $('#nexttab').on('click', function() {
 
         
         //Scripts de recupregunta
-    function mostrarPassword(){
+    function mostPassword(){
 
-      var nueva = document.getElementById("PassNuevo");
-      if(nueva.type == "password"){
-        nueva.type = "text";
-        $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-      }else{
-        nueva.type = "password";
-        $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-      }
-
-      var conf = document.getElementById("ConfPass");
+      var conf = document.getElementById("ConfPass3");
       if(conf.type == "password"){
         conf.type = "text";
-        $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+        $('.icon_confi').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
       }else{
         conf.type = "password";
-        $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+        $('.icon_confi').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+      }
+
+	  var conf = document.getElementById("ConfPass3");
+      if(conf.type == "password"){
+        conf.type = "text";
+        $('.icon_confi').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+      }else{
+        conf.type = "password";
+        $('.icon_confi').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
       }
     }
 

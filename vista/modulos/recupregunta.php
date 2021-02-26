@@ -72,7 +72,7 @@ $correo = $_SESSION['correo'];
                       <div class="columna">
                       <button class="btn btn-primary" href="olvide_contrasena.php" id="prevtab" data-toggle="tab">Anterior</button>
                       <button class="btn btn-success" href="#timeline" id="nexttab" data-toggle="tab">Siguiente</button>
-                      
+                    
                     </div>
                   </div>
                 </div>
@@ -80,14 +80,14 @@ $correo = $_SESSION['correo'];
                 <div class="tab-pane" id="timeline">
                   <div class="post text-center">
                         <div class="input-group col-sm-11 has-feedback">
-                        <input id="PassNuevo" type="password" class="form-control" name="password" placeholder="Contraseña">
+                        <input id="PassNuevo3" type="password" class="form-control" name="password" placeholder="Contraseña">
                         </span>
                       </div>
                       <br>
                       <div class="input-group has-feedback">
-                        <input id="ConfPass" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
-                        <span class="input-group-btn" onclick="mostrarPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon"></i></button>
+                        <input id="ConfPass3" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
+                        <span class="input-group-btn" onclick="mostPassword()">
+                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_confi"></i></button>
                         </span>
                       </div>
                       <br>
@@ -96,7 +96,7 @@ $correo = $_SESSION['correo'];
                         <input type="hidden" name="tipo" value="newpassword">
                         <button type="submit" name="submit" class="btn btn-success">Actualizar</button>
                       </div>
-                      
+                    
                   </div>
                 </div>
                 </div>

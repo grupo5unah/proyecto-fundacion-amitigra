@@ -27,7 +27,7 @@ $_SESSION["timeout"] = time();
 
 <?php
 
-  $usuario_id = 2;
+  $usuario_id = $_SESSION['id'];
   require './modelo/conexionbd.php';
 
   $nombre_sistema = 'NOMBRE_SISTEMA';
@@ -105,7 +105,8 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "perfil" ||
-        $_GET["ruta"] == "mantenimientoopciones" ||
+        $_GET["ruta"] == "mantenimientoOpciones" ||
+        $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "bitacora" ||
         $_GET["ruta"] == "backup" ||
         $_GET["ruta"] == "cerrarSesion" ||
@@ -189,6 +190,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>
+<script src="vista/dist/js/recargar.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->

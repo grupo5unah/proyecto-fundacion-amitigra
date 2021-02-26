@@ -12,7 +12,7 @@
                 $correo = $_POST['email'];
 
                 date_default_timezone_set("America/Tegucigalpa");
-                //require_once('config/config.php');
+                
                 $VerificarUsuario = $conn->prepare("SELECT id_usuario
                                                     FROM tbl_usuarios
                                                     WHERE correo = ?; ");

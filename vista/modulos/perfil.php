@@ -174,7 +174,7 @@ $columna = $stmt->fetch_assoc();
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden"  name="cambio_info" value="act_info">
-                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" onclick="location.reload()" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
                     </div>
                   </div>
 
@@ -194,16 +194,6 @@ $columna = $stmt->fetch_assoc();
                   </script>
 
                 </form>
-                <?php
-        
-                    
-
-                    //nclude("./controlador/ctr.Acciones.php");
-
-              // $perfilBitacora = new AccionesUsuario();
-              // $perfilBitacora->ctrPerfilBitacora();
-
-                    ?>
 
               </div>
 
@@ -253,7 +243,7 @@ $columna = $stmt->fetch_assoc();
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden" name="cambio" value="act">
-                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success">Guardar cambios</button><?php }?>
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
                     </div>
                   </div>
 
@@ -296,6 +286,7 @@ $columna = $stmt->fetch_assoc();
               <!-- /.tab-pane -->
             </div>
             <?php
+            
               include("./controlador/ctr.passwordperfil.php");
 
               $actualizar = new PasswordPHP();

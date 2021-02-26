@@ -17,6 +17,7 @@ if($stmt->affected_rows){
   $existe = $stmt->fetch();
 while($stmt->fetch()){
   $mi_rol = $id_rol;
+  $fecha_conexion = $fecha_ult_conexion;
 }
 
 if($existe){
@@ -99,7 +100,7 @@ $columna = $stmt->fetch_assoc();
         <!-- Profile Image -->
         <div class="row">
         <div class="col-md-4">
-        <div class="box box-primary">
+          <div class="box box-primary">
             <div class="box-body box-profile">
               
               <p class="text-center"><span class="text-center">Bienvenido(a): </span><?php echo ucwords($_SESSION['usuario']);?></p>
@@ -107,7 +108,7 @@ $columna = $stmt->fetch_assoc();
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Ultimo acceso:</b> <a class="pull-right"><?php echo $fecha_ult_conexion;?></a>
+                  <b>Ultimo acceso:</b> <a class="pull-right"><?php echo $fecha_conexion;?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Ultimo cambio de contrasena:</b> <a class="pull-right"><?php echo $_SESSION['primer_ingreso'];?></a>
@@ -152,14 +153,14 @@ $columna = $stmt->fetch_assoc();
                         <img src="https://www.toptravelsights.com/wp-content/uploads/2020/12/Jungle-path-in-La-Tigra-National-Park-1024x576.jpg" alt="Second slide">
 
                         <div class="carousel-caption">
-                          Second Slide
+                          Senderos
                         </div>
                       </div>
                       <div class="item">
                         <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="Third slide">
 
                         <div class="carousel-caption">
-                          Third Slide
+                          Vista desde las montañas
                         </div>
                       </div>
                     </div>

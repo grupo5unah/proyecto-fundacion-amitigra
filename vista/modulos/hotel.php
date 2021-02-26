@@ -54,7 +54,7 @@
 											 WHERE estado_eliminar = 1 AND tbl_habitacion_servicio.habitacion_area LIKE '%h%'
 											 ORDER BY id_reservacion ";
 											$resultado = $conn->query($sql);
-										}catch (\Exeption $e){
+										}catch (Exception $e){
 											echo  $e->getMessage();
 										}
 										//esta variable es para realizar un arreglo que permita mostar los resultados en la modal
