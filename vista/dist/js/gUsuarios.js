@@ -21,7 +21,8 @@ $(document).ready(function () {
       ConfirmarContraseña != undefined &&
       genero != undefined &&
       rol != undefined &&
-      usuario_actual != undefined) {
+      usuario_actual != undefined
+    ) {
       const formData = new FormData();
 
       formData.append("nombreCompleto", nombreC);
@@ -34,7 +35,10 @@ $(document).ready(function () {
       formData.append("rol", rol);
       formData.append("usuario_actual", usuario_actual);
 
-      const resp = await axios.post('./controlador/apiGusuarios.php?action=registrarUsuario',formData);
+      const resp = await axios.post(
+        "./controlador/apiGusuarios.php?action=registrarUsuario",
+        formData
+      );
 
       const data = resp.data;
 
@@ -44,8 +48,8 @@ $(document).ready(function () {
 
       return swal("Exito!", data.msj, "success").then((value) => {
         if (value) {
-          // Se limpia el formulario
-          $("#nombre_completo").val("");
+          // Se limpia el formulario de mantenimiento
+          $("#nombreCompleto").val("");
           $("#nombreusuario").val("");
           $("#telefono").val("");
           $("#correo").val("");
@@ -53,6 +57,7 @@ $(document).ready(function () {
           $("#ConfirmarContraseña").val("");
           $("#genero").val("");
           $("#rol").val("");
+          location.reload();
         }
       });
     } else {
@@ -60,26 +65,6 @@ $(document).ready(function () {
     }
   });
 
-  /*$("#nombreusuario").blur(async function () {
-    console.log("jhjsfjsh");
-    if (this.value.length > 0) {
-      try {
-        const resp = await axios(
-          `./controlador/apiGusuarios.php?action=obtenerUsuario & nombre_usuario & correo=${this.value}`
-        );
-        const data = resp.data;
-        if ((data.nombre_usuario > 0) & (data.correo > 0)) {
-          console.log(data.nombre_usuario[0]);
-          $("#nombreusuario");
-          $("#correo");
-        } else {
-          return swal("El usuario ya existe en el sistema");
-        }
-      } catch (err) {
-        console.log("Error - ", err);
-      }
-    }
-  });*/
   $(".btnCrearUsuario").on("click", function () {
     $("#modalCrearUsuario").modal("show");
   });
@@ -95,18 +80,17 @@ $(document).ready(function () {
     const contrasena = $(this).data("contrasena");
     const id_rol = $(this).data("id_rol");
     const id_estado = $(this).data("id_estado");
-    
-    
+
     //llena los campos
     //$("#id").val(idObjeto),
-    $("#idusuario").val(idusuario), 
-    $("#nombrecompct").val(nombrecompleto), 
-    $("#nombreusuarioact").val(nombre_usuario);
+    $("#idusuario").val(idusuario),
+      $("#nombrecompct").val(nombrecompleto),
+      $("#nombreusuarioact").val(nombre_usuario);
     $("#telefonoact").val(telefono);
     $("#correoact").val(correo);
     $("#contrasenaact").val(contrasena);
-    $('#rolact').val(id_rol);
-    $('#estadoact').val(id_estado);
+    $("#rolact").val(id_rol);
+    $("#estadoact").val(id_estado);
 
     //mostrar el modal
     $("#modalEditarUsuario").modal("show");
@@ -125,7 +109,10 @@ $(document).ready(function () {
       formData.append("estado_id", $("#estadoact").val());
       console.log(formData);
 
-      const resp = await axios.post('./controlador/apiGusuarios.php?action=actualizarUsuario', formData);
+      const resp = await axios.post(
+        "./controlador/apiGusuarios.php?action=actualizarUsuario",
+        formData
+      );
       const data = resp.data;
       console.log(data);
       if (data.error) {
@@ -154,34 +141,88 @@ $(document).ready(function () {
     });
   });
 
-  $('.btnEliminarUsuario').on('click', function (){
+  //FUNCION PARA RESETEAR CONTRASEñA SIENDO ADMINISTRADOR
+  $(".btnResetearClaves").on("click", function () {
+    // info previa
+    const idusuario = $(this).data("idusuario");
+    const contrasena = $(this).data("contrasena");
+    const rep_nuevacontra=$(this).data("contrasena");
+
     
-    const idusuario = $(this).data('idusuario');
-    swal("Eliminar Usuario", "Esta seguro de eliminar este Usuario", "warning",{buttons: [true, "OK"]}).then(async (value) => {
-        if (value){
-            
-            const formData = new FormData();
-            formData.append('id_usuario', idusuario);
-            const resp = await axios.post('./controlador/apiGusuarios.php?action=eliminarUsuario', formData);
-            const data = resp.data;
-            //console.log(data);
-            if(data.error){
-                return swal("Error", data.msj, "error",{
-                    buttons: false,
-                    timer: 3000
-                });
-            }
-            return swal("Exito!", data.msj, "success",{
-                buttons: false,
-                timer: 3000
-            }).then(() =>{ 
-                location.reload();
-            });
-        }
+
+    //llena los campos
+
+    $("#idusuario").val(idusuario), 
+    
+    //mostrar el modal
+    $("#modalResetearClave").modal("show");
+    $(".btnResetClave").on("click", async function () {
+      var Idusuario = Number(idusuario);
+
+      const formData = new FormData();
+      formData.append("id_usuario", Idusuario);
+      formData.append("contrasena", $("#nuevacontra").val());
+      formData.append("contrasena", $("#rep_nuevacontra").val());
+      
+      
+      console.log(formData);
+      const resp = await axios.post(
+        "./controlador/apiGusuarios.php?action=resetearClave",
+        formData
+      );
+      const data = resp.data;
+      console.log(data);
+      if (data.error) {
+        return swal("Error", data.msj, "error", {
+          timer: 3000,
+          buttons: false,
+        });
+      } else {
+        $("#modalResetearClave").modal("hide");
+        return swal("Exito!", data.msj, "success", {
+          timer: 3000,
+          buttons: false,
+        }).then(() => {
+          // Se limpia el formulario
+          $("#nuevacontra").val("");
+          $("#rep_nuevacontra").val("");
+          location.reload();
+        });
+      }
     });
-})
+
+      //para eliminar usuario
+    $(".btnEliminarUsuario").on("click", function () {
+      const idusuario = $(this).data("idusuario");
+      swal(
+        "Eliminar Usuario",
+        "Esta seguro de eliminar este Usuario",
+        "warning",
+        { buttons: [true, "OK"] }
+      ).then(async (value) => {
+        if (value) {
+          const formData = new FormData();
+          formData.append("id_usuario", idusuario);
+          const resp = await axios.post(
+            "./controlador/apiGusuarios.php?action=eliminarUsuario",
+            formData
+          );
+          const data = resp.data;
+          //console.log(data);
+          if (data.error) {
+            return swal("Error", data.msj, "error", {
+              buttons: false,
+              timer: 3000,
+            });
+          }
+          return swal("Exito!", data.msj, "success", {
+            buttons: false,
+            timer: 3000,
+          }).then(() => {
+            location.reload();
+          });
+        }
+      });
+    });
+  });
 });
-
-
-
-

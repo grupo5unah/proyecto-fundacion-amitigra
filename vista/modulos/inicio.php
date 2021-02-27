@@ -4,19 +4,20 @@ $id_objeto = 6;
 global $columna;
 //$rol = $_SESSION['mi_rol'];
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT rol_id, fecha_ult_conexion FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol 
                         WHERE tbl_roles.rol = ?");
 $stmt->bind_Param("s",$rol_id);
 $stmt->execute();
-$stmt->bind_Result($id_rol);
+$stmt->bind_Result($id_rol, $fecha_ult_conexion);
 
 if($stmt->affected_rows){
 
   $existe = $stmt->fetch();
 while($stmt->fetch()){
   $mi_rol = $id_rol;
+  $fecha_conexion = $fecha_ult_conexion;
 }
 
 if($existe){
@@ -30,84 +31,167 @@ $columna = $stmt->fetch_assoc();
 ?>
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>
-        Accesos directos
-      </h1>
+      <h1>Inicio<small> Fundacion Amitigra</small></h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Inicio</a></li>
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
       </ol>
+      <br>
     </section>
+    
     <section class="content">
+    <div class="row">
+      <?php if ($_SESSION['rol'] === 'administrador'){ ?>
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">CPU Traffic</span>
+            <span class="info-box-number">90<small>%</small></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+        
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Likes</span>
+            <span class="info-box-number">41,410</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Sales</span>
+            <span class="info-box-number">760</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+        
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+          <?php $visible = false;?>
+          <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">New Members</span>
+            <span class="info-box-number">2,000</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <?php }?>
+    </div>
+      <!-- /.row -->
+    
+        <!-- Profile Image -->
         <div class="row">
+        <div class="col-md-4">
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              
+              <p class="text-center"><span class="text-center">Bienvenido(a): </span><?php echo ucwords($_SESSION['usuario']);?></p>
+              <br>
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Ultimo acceso:</b> <a class="pull-right"><?php echo $fecha_conexion;?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Ultimo cambio de contrasena:</b> <a class="pull-right"><?php echo $_SESSION['primer_ingreso'];?></a>
+                </li>
+                <li class="list-group-item">
+                  <?php
+                  date_default_timezone_set('America/Tegucigalpa');
+                  $fecha = date('Y-m-d H:i:s',time());
+                  
+                  setcookie('fecha', $fecha, time()+31536000);
+                  
+                  if (isset($_COOKIE['fecha'])) {?>
+                  <b>Motivo ultima salida:</b> <a class="pull-right"><?php $_COOKIE['fecha'];}?></a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+        </div>
+
+        <!-- /.col -->
+        <div class="col-md-8">
+              <div class="box box-solid">
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                      <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                      <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="item active">
+                        <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="First slide">
+
+                        <div class="carousel-caption">
+                          Parque Nacional la Tigra
+                        </div>
+                      </div>
+                      <div class="item">
+                        <img src="https://www.toptravelsights.com/wp-content/uploads/2020/12/Jungle-path-in-La-Tigra-National-Park-1024x576.jpg" alt="Second slide">
+
+                        <div class="carousel-caption">
+                          Senderos
+                        </div>
+                      </div>
+                      <div class="item">
+                        <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="Third slide">
+
+                        <div class="carousel-caption">
+                          Vista desde las montañas
+                        </div>
+                      </div>
+                    </div>
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                      <span class="fa fa-angle-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                      <span class="fa fa-angle-right"></span>
+                    </a>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        
+          <div class="row">
             <div class="col-md-3">
                 <!-- INICIO DE LA INFORMACION DEL USUARIO-->
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                     <?php }}?>
-                        <?php if ($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
-                            <div class="small-box bg-red">
-                                <div class="inner">
-                                <p>Reservación hotel</p>
-                                </div>
-                                <div class="icon">
-                                <i class=""></i>
-                                </div>
-                                <a href="hotel" class="small-box-footer">
-                                Click para realizar reservación <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><?php }?>
 
-                        <?php if($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
-                            <div class="small-box bg-green">
-                                <div class="inner">
-
-                                <p>Reservación camping</p>
-                                </div>
-                                <div class="icon">
-                                <i class=""></i>
-                                </div>
-                                <a href="camping" class="small-box-footer">
-                                Click para realizar reservación <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><?php }?>
-
-                        <?php if($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
-                            <div class="small-box bg-blue">
-                                <div class="inner">
-
-                                <p>Solicitudes</p>
-                                </div>
-                                <div class="icon">
-                                <i class=""></i>
-                                </div>
-                                <a href="solicitudes" class="small-box-footer">
-                                Click para realizar solicitud <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><?php }?>
-
-                        <?php if($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
-                            <div class="small-box bg-orange">
-                                <div class="inner">
-
-                                <p>Inventario</p>
-                                </div>
-                                <div class="icon">
-                                <i class=""></i>
-                                </div>
-                                <a href="#" class="small-box-footer">
-                                Click aqui para ir a inventario <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><?php }?>
 
                             <div id="clockdate">
-                            <div class="clockdate-wrapper">
+                              <div class="clockdate-wrapper">
                                 <div id="clock"></div>
                                 <div id="date"></div>
-                            </div>
+                              </div>
                             </div>
 
                             <script>
@@ -134,85 +218,18 @@ $columna = $stmt->fetch_assoc();
                             }
                             </script>
 
-                        <?php if($columna["permiso_consulta"] == 0) {?><div class="col-lg-16">
-                            <div class="small-box bg-aqua">
-                                <div class="inner">
-
-                                <p>Panel de administración</p>
-                                </div>
-                                <div class="icon">
-                                <i class=""></i>
-                                </div>
-                                <a href="panel" class="small-box-footer">
-                                Click para ir al panel <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div><?php }?>
                         
-                    </div>
                 </div>
                 <!--FIN DE LA INFORMACION DEL USUARIO-->
             </div>    
-            
-            <!--INICIO DEL CARROUSEL-->
-            <div class="col-md-9">
-                    <div class="tab-content">
-                        <div class="" id="settings">
-                            <form method="POST" class="form-horizontal">
-                                <!--AQUI TODO LO DEL CARRUSEL-->
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                    <h3 class="box-title">Inicio FUNDACION AMITIGRA</h3>
-                                    </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
-                                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                                            <ol class="carousel-indicators">
-                                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                            <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
-                                            <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
-                                            </ol>
-                                            <div class="carousel-inner">
-                                            <div class="item active">
-                                                <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="First slide">
-
-                                                <div class="carousel-caption">
-                                                FUNDACION AMITIGRA
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <img src="https://www.radiohouse.hn/wp-content/uploads/2019/10/Portada-La-Tigra.-990x660.jpg" alt="Second slide">
-
-                                                <div class="carousel-caption">
-                                                Second Slide
-                                                </div>
-                                            </div>
-                                            <div class="item">
-                                                <img src="https://www.hondurastips.hn/wp-content/uploads/2020/09/0000.jpg" alt="Third slide">
-
-                                                <div class="carousel-caption">
-                                                Third Slide
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                            <span class="fa fa-angle-left"></span>
-                                            </a>
-                                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                            <span class="fa fa-angle-right"></span>
-                                            </a>
-                                        </div>
-                                        </div>
-                                        <!-- /.box-body -->
-                                    </div>
-                                </div>
-                            <!--FIN DE TODO DEL CARRUSEL-->
-                            </form>
-                        </div>
-                    </div>
-              
-            </div>
-            <!--FIN DEL CARROUSEL-->
+          
         </div>
+
+        <!--INICIO DEL CARROUSEL-->
+          <div class="row">
+            
+          </div>
+        <!--FIN DEL CARROUSEL-->
+
     </section>
 </div>

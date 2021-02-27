@@ -1,5 +1,7 @@
 <?php
 
+global $ver;
+
     class NuevaContrasena{
 
         public function ctrNuevaContrasena(){
@@ -25,7 +27,7 @@
 
                         if($password == $confpassword) {
 
-                            require_once('../../modelo/conexionbd.php');
+                            require '../../modelo/conexionbd.php';
                             $Verificar = $conn->prepare("SELECT id_usuario, nombre_usuario FROM tbl_usuarios WHERE token = ? ;");
                             $Verificar->bind_Param("s",$validacion);
                             $Verificar->execute();
@@ -40,28 +42,30 @@
                                 if(!$existe){
                                     $pattern_up = "/^.*(?=.{4,56})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/";
                                     if(!preg_match($pattern_up, $password)) {
-                                        echo "Debe tener al menos 8 caracteres de largo, 1 mayúscula, 1 letra minúscula, 1 caracter espececial y 1 número.";
+                                        echo '<div class="text-center alert alert-danger" role="alert">
+                                        Debe tener al menos 8 caracteres entre ellos, 1 mayúscula, 1 letra minúscula, 1 caracter espececial y 1 número.
+                                        </div>';
+                                        
                                     } else {
                                         
                                         //Pediente MODIFICACION
-
-                                        $contrasena = $conn->prepare("SELECT contrasena, usuario_id FROM tbl_hist_contrasena
-                                                                        
+                                        require_once '../../modelo/conexionbd.php';
+                                        $contrasena = $conn->prepare("SELECT usuario_id, contrasena FROM tbl_hist_contrasena
                                                                         WHERE usuario_id = ?;");
                                         $contrasena->bind_Param("i",$id_usuario);
                                         $contrasena->execute();
-                                        $contrasena->bind_Result($hist_contrasena, $usuario_id);
+                                        $contrasena->bind_Result($usuario_id, $hist_contrasena);
 
                                         if ($contrasena->affected_rows){
-
                                             $si_existe = $contrasena->fetch();
 
                                             if($si_existe){
+
                                                 if (password_verify($password, $hist_contrasena)) {
                                                     echo '<div class = "text-center alert alert-danger" role = "alert">
                                                             Lo sentimos, la contraseña ya estuvo en uso.
                                                             </div>';
-                                                            
+                                                                                                         
                                                 } else {
                                             
                                                     //Estado del usuario
@@ -91,9 +95,11 @@
                                                             No se pudo registrar su contraseña
                                                             </div>";
                                                     } else {
-                                                        echo "<div class='alert alert-success' role='alert'>
+                                                        echo "<div class='text-center alert alert-success' role='alert'>
                                                             Nueva contraseña creada correctamente
                                                             </div>";
+
+                                                            echo $id_usuario;
 
                                                             require_once("../../modelo/conexionbd.php");
                                                             date_default_timezone_set("America/Tegucigalpa");
@@ -115,10 +121,11 @@
                                                             
                                                     }//Cierre octavo IF
 
-                                                }
+                                                }                                              
+                                        
                                             }
                                         }
-
+                                        
                                         //exit;
                                         
                                     }//Cierre septimo IF    
@@ -130,6 +137,7 @@
                             echo "<div class='alert alert-danger' role='alert'>
                                     Las contraseñas no coinciden.
                                     </div>";
+                                    
                         }//Cierre cuarto IF
                     }//Cierre tercer IF
                 }//Cierre segundo IF

@@ -12,7 +12,7 @@
                 $correo = $_POST['email'];
 
                 date_default_timezone_set("America/Tegucigalpa");
-                //require_once('config/config.php');
+                
                 $VerificarUsuario = $conn->prepare("SELECT id_usuario
                                                     FROM tbl_usuarios
                                                     WHERE correo = ?; ");
@@ -24,9 +24,9 @@
                 if($VerificarUsuario->affected_rows) {
                     $existe = $VerificarUsuario->fetch();
                     //Capturar el ID del usuario al que se le enviara el correo
-                while ($VerificarUsuario->fetch()) {
-                    $id = $id_usuario;
-               }
+                    while ($VerificarUsuario->fetch()) {
+                        $id = $id_usuario;
+                    }
                     if($existe){
                         if(!isset($_COOKIE['_unp_'])) {
                             $correo = $_POST['email'];

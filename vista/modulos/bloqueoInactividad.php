@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <?php
-include_once('../../funciones/sesiones.php');
+require '../../funciones/sesiones.php';
 //session_start();
 session_regenerate_id();
-//$usuario = $_SESSION['usuario'];
+$usuario = $_SESSION['usuario'];
 //$nom_mayus = strtoupper($usuario);
 ?>
 <head>

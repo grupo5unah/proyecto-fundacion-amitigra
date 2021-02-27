@@ -83,7 +83,7 @@ switch ($action) {
     case 'eliminarObjetos':
         if (isset($_POST['id_objeto'])) {
             $id_objetos = $_POST['id_objeto'];
-            $sql = "UPDATE tbl_objeto SET estado_eliminados = 0 WHERE id_objeto = " . $id_objetos;
+            $sql = "UPDATE tbl_objeto SET estado_eliminado = 0 WHERE id_objeto = " . $id_objetos;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Objeto Eliminado  Correctamente";

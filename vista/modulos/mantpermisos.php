@@ -30,7 +30,6 @@
                                             <th>Permiso eliminar</th>
                                             <th>Permiso actualizar</th>
                                             <th>Permiso consulta</th>
-											<th>Rol</th>
 											<th>Acciones</th>
 
 										</tr>
@@ -39,7 +38,7 @@
 										<?php
 										try {
 
-											$sql = "SELECT id_permiso, rol_id, objeto_id, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta FROM tbl_permisos
+											$sql = "SELECT id_permiso, permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta, tbl_roles.rol rol, tbl_objeto.objeto objeto FROM tbl_permisos
 													INNER JOIN tbl_roles
 													ON tbl_permisos.rol_id = tbl_roles.id_rol
 													INNER JOIN tbl_objeto
@@ -54,8 +53,8 @@
 
 											$traer = $eventos['permiso_insercion'];
 											$evento = array(
-												'rol' => $eventos['rol_id'],
-												'objeto' => $eventos['objeto_id'],
+												'rol' => $eventos['rol'],
+												'objeto' => $eventos['objeto'],
 												'insercion' => $eventos['permiso_insercion'],
                                                 'eliminacion' => $eventos['permiso_eliminacion'],
                                                 'actualizacion' => $eventos['permiso_actualizacion'],
@@ -78,7 +77,6 @@
                                                     <td> <?php echo $evento['eliminacion']; ?></td>
                                                     <td> <?php echo $evento['actualizacion']; ?></td>
 													<td> <?php echo $evento['consulta']; ?></td>
-													<td> <?php echo $evento['rol']; ?></td>
 
 													<td>
 													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
@@ -120,29 +118,25 @@
 							<div class="modal-body">
 								<form name="">
 									<div class="ingreso-producto form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
-
+										
 										<div class="campos">
 											<label for="">Permiso Insertar</label>
-											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required />
+											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumeros(event)"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Eliminar</label>
-											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required />
+											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Actualizar</label>
-											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required />
+											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" />
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared />
+											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
 
 										</div>
 										

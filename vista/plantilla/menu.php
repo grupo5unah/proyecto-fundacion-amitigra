@@ -33,7 +33,13 @@ $columna = $stmt->fetch_assoc();
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="vista/dist/img/avatar5.png" class="img-circle" alt="User Image">
+      <?php
+      $query = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
+
+      $resultado = mysqli_query($conn,$query);
+      
+      while($imagen = mysqli_fetch_assoc($resultado)):?>
+        <img src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p><?php echo ucwords($usuario);?></p>
@@ -49,7 +55,7 @@ $columna = $stmt->fetch_assoc();
         <!--Pendiente-->
         
         <!--ROL DE ADMINISTRACION-->
-        <?php if($_SESSION['rol'] === 'administrador' OR $_SESSION['rol'] === 'asistente'){?>
+        <?php if($_SESSION['rol'] === 'administrador' OR $_SESSION['rol'] === 'asistente' OR $_SESSION['rol'] === 'usuario'){?>
           <!--Inicio SOLICITUDES-->
           <?php if ($columna["permiso_consulta"] == 1) {?><li class="">
           <a href="solicitudes">
@@ -59,29 +65,6 @@ $columna = $stmt->fetch_assoc();
         </li>
         <?php }?>
         <!--Fin SOLICITUDES-->
-
-        <!--Inico REPORTES-->
-        <li class="treeview">
-        <?php if($columna['permiso_consulta'] == 1 && $columna['permiso_consulta'] == 0) {?>
-          <a href="#">
-            <i class="fa fa-laptop"></i>
-            <span>Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="reporteBitacora"><i class=""></i> Reporte Bitácora</a></li>
-            <li><a href="reporteProducto"><i class=""></i> Reporte Producto</a></li>
-            <li><a href="pruebaTab"><i class=""></i> Prueba TAB</a></li>
-            <li><a href="senderos"><i class=""></i> Senderos</a></li>
-            <li><a href="#"><i class=""></i> Timeline</a></li>
-            <li><a href="#"><i class=""></i> Reporte Bitacora</a></li>
-            <li><a href="bitacora"><i class=""></i> Bitacora</a></li>
-          </ul>
-        </li>
-        <?php }?>
-        <!--Fin REPORTES-->
 
           <!--ROL DE USUARIO-->
           <!--Inicio RESERVACIONES-->
@@ -95,9 +78,9 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-          <li class="active"><a href="camping"><i class="fa fa-circle-o"></i> Camping</a></li>
-            <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
-            <li><a href="senderos"><i class="fa fa-circle-o"></i> Senderos</a></li>
+          <li class="active"><a href="camping"><i class=""></i> Camping</a></li>
+            <li><a href="hotel"><i class=""></i> Hotel</a></li>
+            <li><a href="senderos"><i class=""></i> Senderos</a></li>
           </ul>
         </li>
         <?php }?>
@@ -114,8 +97,8 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="producto"><i class="fa fa-circle-o"></i> Producto</a></li>
-            <li><a href="existencia"><i class="fa fa-circle-o"></i> Existencia</a></li>
+            <li><a href="producto"><i class=""></i> Producto</a></li>
+            <li><a href="existencia"><i class=""></i> Existencia</a></li>
           </ul>
         </li>
         <?php }?>
@@ -132,12 +115,12 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Pantallas del sistema</a></li>
-            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li>
-            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class=""></i> Pantallas del sistema</a></li>
+            <li><a href="mantroles"><i class=""></i> Roles de Usuario</a></li>
+            <li><a href="mantlocalidad"><i class=""></i> Localidad</a></li>
+            <li><a href="mantparametros"><i class=""></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class=""></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class=""></i> Preguntas de Usuario</a></li>
             
           </ul>
         </li>
@@ -154,13 +137,13 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="reportes"><i class="fa fa-circle-o"></i> Reportes</a></li>
-            <li><a href="mantroles"><i class="fa fa-circle-o"></i> Roles de Usuario</a></li>
-            <!-- <li><a href="mantlocalidad"><i class="fa fa-circle-o"></i> Localidad</a></li> -->
-            <li><a href="mantparametros"><i class="fa fa-circle-o"></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class="fa fa-circle-o"></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class="fa fa-circle-o"></i> Preguntas de Usuario</a></li>
-            <li><a href="mantObjetos"><i class="fa fa-circle-o"></i> Objetos del sistema</a></li>
+            <li><a href="reportes"><i class=""></i> Reportes</a></li>
+            <li><a href="mantroles"><i class=""></i> Roles de Usuario</a></li>
+            <!-- <li><a href="mantlocalidad"><i class=""></i> Localidad</a></li> -->
+            <li><a href="mantparametros"><i class=""></i> Parametros del sistema</a></li>
+            <li><a href="mantpermisos"><i class=""></i> Permisos de usuarios</a></li>
+            <li><a href="mantpreguntas"><i class=""></i> Preguntas de Usuario</a></li>
+            <li><a href="mantObjetos"><i class=""></i> Objetos del sistema</a></li>
           </ul>
         </li>
         <!--Fin REPORTES-->
@@ -177,12 +160,24 @@ $columna = $stmt->fetch_assoc();
           </a>
           <ul class="treeview-menu">
             <li><a href="panel"><i class=""></i>Administración sistema</a></li>
-            <li><a href="configuracion"><i class=""></i>Otra configuracion</a></li>
-            <!--<li><a href="mantroles"><i class=""></i>Mantenimiento Roles</a></li>
-            <li><a href="mantObjetos"><i class=""></i>Mantenimiento Objetos</a></li>
-            <li><a href="#"><i class=""></i>A</a></li>
-            <li><a href="#"><i class=""></i>B</a></li>
-            <li><a href="#"><i class=""></i>C</a></li>-->
+            <li><a href="configuracion"><i class=""></i>Configuración sistema</a></li>
+            <li class="treeview">
+              <a href="#"><i class=""></i> Mantenimiento
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#"><i class=""></i> Bitácora</a></li>
+                <li><a href="#"><i class=""></i> Productos</a></li>
+                <li><a href="#"><i class=""></i> Localidad</a></li>
+                <li><a href="mantroles"><i class=""></i> Roles</a></li>
+                <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
+                <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
+                <li><a href="mantparametros"><i class=""></i> Parametros</a></li>
+                <li><a href="mantObjetos"><i class=""></i> Objetos</a></li>
+              </ul>
+            </li>
             <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>
           </ul>
         </li>

@@ -9,41 +9,64 @@
           <h3 class="box-title fa fa-bed"> HOTEL</h3>
         </div>
         <div class="box-body"> 
-            <div class="col-xs-3">
+            <!-- <div class="col-xs-3">
 
               <button type="submit" id="buscar" class="btn btn-default btnbuscarCliente glyphicon glyphicon-search"> Buscar Cliente</button><br><br>
               <button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
-            </div><br>
+            </div><br> -->
           <form  id="hotel" method="post">
-            
-            <!--<<input type="text">!-->
-            <!-- <div class="box box-default"> -->
-              <!-- <div class="box-header with-border"> 
-                <h3 class="box-title">Datos Reservación</h3>-->
+              <div class="box-header with-border">
+                <h3 class="box-title">Datos Cliente</h3>
               </div>
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>Cliente:</label>
-                      <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente">
+                      <label>Identidad:</label>
+                      <input type="text" class="form-control" name="identidad" id="identidad" placeholder="Identidad" onkeydown="return soloNumeros(event)" required>
                     </div>
                     <div class="form-group">
-                      <label>Fecha Reservación:</label>
-                      <div class="input-group ">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="date" class="form-control pull-right" id="reserva" name="reserva" requiered>
-                      </div>
+                      <label for="">Nacionalidad: </label>
+                      <select class="form-control" name="nacionalidad" id="nacionalidad">
+                        <option value="" disabled selected>Selecione...</option>
+                        <?php 
+                        include ('./modelo/conexionbd.php');
+
+                        $stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
+                        $resultado = mysqli_query($conn,$stmt);
+                        ?>
+                        <?php foreach($resultado as $opciones):?>
+                        <option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
+                        <?php endforeach;?>
+                      </select>
+										</div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Cliente:</label>
+                      <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);">
                     </div>
                   </div>
                   <div class="col-md-6">
+                    <div class="campos form-group">
+                      <label for="">Telefeno: </label>
+                      <input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeydown="return soloNumeros(event)"  required />
+                    </div>
+                  </div>
+                </div><!-- row -->
+              </div><!-- box-body -->
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Datos reservación</h3>
+              </div>
+              <div class="box-body">
+                <div class="row"> 
+                <div class="col-md-6">
                     <div class="form-group">
                       <label for="">localidad</label><br>
                       <select class="form-control" name="localidad" id="localidad">
                         <option value="" disabled selected>Selecione...</option>
-                        <?php 
+                        <?php
                         //include_once ('./modelo/conexionbd.php');
 
                         $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
@@ -53,6 +76,17 @@
                         <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
                         <?php endforeach;?>
                       </select>
+                    </div>
+                  </div>   
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Fecha Reservación:</label>
+                      <div class="input-group ">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="date" class="form-control pull-right" id="reservacion" name="reservacion" requiered>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -99,40 +133,38 @@
                     <div class="form-group">
 
                       <label for="cant_habi">Cantidad de Habitaciones:</label><br>
-                      <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones" onkeypress="return soloNumeros(event)"
-                       value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" requiered >
+                      <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones"
+                      onkeydown="return soloNumeros(event)" value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" requiered >
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="area">Cantidad Adultos:</label><br>
-                      <input type="number" min="0"  class="form-control" name="personas" id="personas" placeholder="Cantidad de Adultos" oninput="calcular()" onkeypress="return soloNumeros(event)"
-                     value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>"  requiered>
+                      <input type="number" min="0"  class="form-control" name="personas" id="personas" placeholder="Cantidad de Adultos" oninput="calcular()"
+                      onkeydown="return soloNumeros(event)" value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>"  requiered>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
 
                       <label>Precio Adulto:</label>
-                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion" oninput="calcular()" onkeypress="return soloNumeros(event)"
-                      maxlength="4" minlength="4" value="<?php if(isset($_POST['precioAdulto'])){echo $_POST[' precioAdulto'];} ?>" requiered >
+                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion" oninput="calcular()" onkeydown="return soloNumeros(event)"
+                      maxlength="4"  requiered >
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="area">Cantidad Niños:</label><br>
-                      <input type="number" min="0"  class="form-control" name="niños" id="niños" placeholder="Cantidad de Niños" oninput="calcular()" onkeypress="return soloNumeros(event)"
-
-                     value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>"  requiered>
+                      <label for="">Cantidad Niños:</label><br>
+                      <input type="number" min="0"  class="form-control" name="niños" id="niños" placeholder="Cantidad de Niños" oninput="calcular()"
+                      onkeydown="return soloNumeros(event)"  requiered>
                     </div>
                   </div>
                    
                    <div class="col-md-6">
                     <div class="form-group">
                       <label>Precio Niños:</label>
-                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" onkeypress="return soloNumeros(event)" oninput="calcular()" placeholder="Precio habitacion"
-                      maxlength="4" minlength="3"
-                      value="<?php if(isset($_POST['precioNiños'])){echo $_POST['precioNiños'];} ?>" requiered >
+                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" onkeydown="return soloNumeros(event)" oninput="calcular()" placeholder="Precio habitacion"
+                      maxlength="4" requiered >
                     </div>
                   </div>
                   
@@ -155,7 +187,8 @@
 
               </div>
               <div class="col-md-4">
-                <input type="hidden"  name="agregar-hotel" value="1">
+              
+              <!-- <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>"> -->
                 <button type="submit"  class=" text-center btn btn-success btn-lg ">Registrar</button>
               </div>
             </div><br><br><br><br>
@@ -170,7 +203,7 @@
             //echo "<script>alert(".$mensaje.");</script>";  
             }
 
-          ?>}
+        ?>
           <!-- MODAL CREAR CLIENTE -->
         <div class="modal fade" id="modalCrearCliente" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -223,6 +256,7 @@
 
 
 											</div>
+                      <input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
 										<div class="modal-footer">
@@ -237,7 +271,7 @@
 					</div>
 				</div>
 
-        <!-- MODAL PARA BUSCAR CLIENTE -->
+        <!-- MODAL PARA BUSCAR CLIENTE 
         <div class="modal fade" id="modalBuscarCliente" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -272,7 +306,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
         
       </div>
       <!-- /.box -->

@@ -7,7 +7,13 @@ class PDF extends FPDF
     function Header()
     {
         require_once('funciones/sesiones.php');
-        $user = $_SESSION['usuario'];
+        $user = $_SESSION['usuario']; 
+ 
+        $zona=date_default_timezone_set('America/Tegucigalpa');
+      
+        $hora1 = new DateTime(null, new DateTimeZone('America/Tegucigalpa'));
+        $hora = $hora1->format("h:i:s");
+
 
         // Logo
         $this->Image('vista/dist/img/logo.png', 230, 5, 18);
@@ -20,9 +26,10 @@ class PDF extends FPDF
         // Subtitulo
         $this->Cell(260, 8, 'REPORTE DE USUARIOS', 0, 1, 'C');
         //
-        echo $this->Cell(23, 8, 'Usuario:' . " " . $user, 0, 1, 'C');
-        //
-        $this->Cell(58, 8, 'Fecha: _______________________', 0, 0, 'C');
+        echo $this->Cell(30, 8, 'Usuario:' . " " . $user, 0, 1, 'C');
+        
+        $this->Cell(78, 8, utf8_decode('Fecha y Hora de Impresión:').' '. date('d'). ' '. 'de'. ' '. date('M'). ' '. 'de'.' '. date('Y'), 0, 0, 'R');
+        $this->Cell(20, 8,$hora, 0, 0, 'R');
         // Salto de línea
         $this->Ln(12);
 

@@ -2395,6 +2395,14 @@ a:focus {
   background-color: #dd4b39;
   border-color: #d73925;
 }
+.btn-resetear {
+  background-color: #d20009;
+  border-color: #e08e0b;
+  color: white;
+  width: 85px;
+ height: 32px;
+ text-align: center;
+}
 .btn-danger:hover,
 .btn-danger:active,
 .btn-danger.hover {
@@ -2703,6 +2711,15 @@ a:focus {
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
+
+/* ESTILO FONDO INFORMACIÓN DE USUARIO - PERFIL INICIO */
+.nav-tabs-custom2 > .tab-content {
+  background-color:#fff;
+  padding: 20px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+/* PERFIL FINAL */
 
 .nav-tabs-custom-menu > .tab-content {
   background-color: #fff;
