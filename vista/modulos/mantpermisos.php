@@ -136,7 +136,7 @@
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
+											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
 
 										</div>
 										

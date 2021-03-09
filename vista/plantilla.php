@@ -81,10 +81,11 @@ $_SESSION["timeout"] = time();
   <link rel="stylesheet" href="vista/css/sweetalert2.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   
 </head>
 <!--sidebar-collapse, hace que la barra lateral isquierda aparezca no expandida-->
-<body class="hold-transition skin-green sidebar-collapse sidebar-mini" onload="startTime()">
+<body class="hold-transition skin-green sidebar-collapse sidebar-mini" >
 <div class="wrapper">
 
   <?php
@@ -108,6 +109,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "mantenimientoopciones" ||
+        $_GET["ruta"] == "mantLocalidadesyTipoProducto" ||
         $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "bitacora" ||
         $_GET["ruta"] == "backup" ||
@@ -118,6 +120,7 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "carrusel" ||
         $_GET["ruta"] == "mantLocalidad" ||
         $_GET["ruta"] == "mantroles" ||
+        $_GET["ruta"] == "mantProducto" ||
         $_GET["ruta"] == "rol" ||
         $_GET["ruta"] == "mantObjetos" ||
         $_GET["ruta"] == "mantparametros" ||
@@ -183,7 +186,10 @@ $_SESSION["timeout"] = time();
 <script src="vista/dist/js/dataTables.responsive.min.js"></script> 
 <script src="vista/dist/js/dataTables.buttons.min.js"></script>
 <script src="vista/dist/js/jszip.min.js"></script>
+<script src="vista/dist/js/buttons.colVis.min.js"></script>
+<script src="vista/dist/js/buttons.print.min.js"></script>
 <script src="vista/dist/js/pdfmake.min.js"></script>
+
 <script src="vista/dist/js/vfs_fonts.js"></script>
 <script src="vista/dist/js/buttons.html5.min.js"></script>
 
@@ -193,14 +199,16 @@ $_SESSION["timeout"] = time();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" 
 integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
 <script src="vista/dist/js/tablas.js"></script>
-<script src="vista/dist/js/product.js"></script>
+<script src="vista/dist/js/product.js" type='module'></script>
 <script src="vista/dist/js/roles.js"></script>
 <script src="vista/dist/js/objetos.js"></script>
+<script src="vista/dist/js/mantProducto.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>
 <script src="vista/dist/js/recargar.js"></script>
 <script src="vista/dist/js/senderos.js"></script>
+<script src="vista/bower_components/select2/dist/js/select2.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
