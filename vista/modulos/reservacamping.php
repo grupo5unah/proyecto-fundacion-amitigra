@@ -84,7 +84,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="date" class="form-control pull-right" id="reservacion" name="reservacion">
+                        <input type="text" class="form-control pull-right" id="reservacion" name="reservacion">
                       </div>
                     </div>
                   </div> 
@@ -95,7 +95,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="date" class="form-control pull-right" id="entrada" name="entrada">
+                        <input type="text" class="form-control pull-right" id="entrada" name="entrada">
                       </div>
                     </div>
                   </div>
@@ -106,7 +106,7 @@
                         <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="date" class="form-control pull-right" id="salida" name="salida">
+                        <input type="text" class="form-control pull-right" id="salida" name="salida">
                       </div>
                     </div>
                   </div>

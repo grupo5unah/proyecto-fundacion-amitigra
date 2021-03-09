@@ -70,7 +70,8 @@ switch ($action) {
                     try {
                         $sql = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario, genero, telefono,correo,contrasena,
                 rol_id,estado_id,fecha_ult_conexion,preguntas_contestadas,primer_ingreso,fecha_vencimiento,creado_por,fecha_creacion,
-                modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                modificado_por, fecha_modificacion) 
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         $sql->bind_param(
                             "ssssssiisissssss",
                             $nombreC,
@@ -113,8 +114,10 @@ switch ($action) {
     case 'actualizarUsuario':
 
         if (
-            isset(($_POST['id_usuario'])) && isset($_POST['nombre_completo']) && isset($_POST['nombre_usuario']) && isset($_POST['telefono'])
-            && isset($_POST['correo']) && isset($_POST['contrasena']) && isset($_POST['rol_id']) && isset($_POST['estado_id'])
+            isset(($_POST['id_usuario'])) && isset($_POST['nombre_completo']) && isset($_POST['nombre_usuario']) 
+            && isset($_POST['telefono'])
+            && isset($_POST['correo']) && isset($_POST['contrasena']) && isset($_POST['rol_id']) 
+            && isset($_POST['estado_id'])
         ) {
             $id_usuario = (int)$_POST['id_usuario'];
             $nombrec = $_POST['nombre_completo'];
@@ -151,29 +154,59 @@ switch ($action) {
 
     case 'resetearClave':
         if (
-            isset(($_POST['id_usuario'])) && isset($_POST['contrasena']) 
+            isset(($_POST['id_usuario'])) && isset($_POST['contrasena'])
         ) {
             $id_usuario = (int)$_POST['id_usuario'];
             //clave encriptada
             $contrasena = $_POST['contrasena'];
-            $repcontra=$_POST['rep_nuevacontra'];
-            
-            $contrasena_hash= password_hash($contrasena,PASSWORD_BCRYPT);
+            $repcontra = $_POST['rep_nuevacontra'];
 
-           
+            $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
 
-                $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash' 
+
+
+            $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash' 
                 WHERE id_usuario=" . $id_usuario;
-                $resultado = $conn->query($sql);
-                if ($resultado == 1) {
-                    //print_r($resultado);
-                    $res['msj'] = "La contraseña se Reseteo correctamente";
+            $resultado = $conn->query($sql);
+            if ($resultado == 1) {
+               
+                $res['msj'] = "La contraseña se Reseteo correctamente";
+
+
+                $accion_realizada = 'reseteo de contraseña';
+                $descripcion = 'se realizo reseteo de contraseña por parte';
+                $usuario = $_SESSION['usuario'];
+                $objeto = 7;
+
+                //select para traer el id del usuario
+                require('modelo/conexionbd.php');
+                $consulid = mysqli_query($conn, "SELECT id_usuario
+                    FROM tbl_usuarios
+                    WHERE nombre_usuario='$usuario'");
+                $resulta = mysqli_fetch_array($consulid);
+                if ($resulta > 0) {
+                    $id_user = $resulta['id_usuario'];
                 } else {
-                    $res['msj'] = "Se produjo un error al momento de resetear la contraseña";
+
+                }
+
+                //insertar en bitacora
+
+                $sql_insert = mysqli_query($conn, "INSERT INTO tbl_bitacora(accion,descripcion,fecha_accion,usuario_id,objeto_id)
+                    VALUES('$accion_realizada','$descripcion',now(),$id_user,$objeto)");
+                if ($sql_insert) {
+                    $res['msj'] = "se inserto Correctamente en bitacora";
+                    
+                } else {
+                    $res['msj'] = "no se inserto en bitacora";
                     $res['error'] = true;
                 }
+            } else {
+                $res['msj'] = "Se produjo un error al momento de resetear la contraseña";
+                $res['error'] = true;
+            }
         } else {
-            //print_r($id_inventario);
+            
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }

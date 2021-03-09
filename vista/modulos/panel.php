@@ -39,6 +39,10 @@
                       WHERE rol_id = 3";
             $verificar_sec = mysqli_query($conn, $rol_sec);
             $total_sec = mysqli_fetch_assoc($verificar_sec);
+
+            $preguntas = "SELECT COUNT(*) preguntas FROM tbl_preguntas";
+            $verificar_preguntas = mysqli_query($conn,$preguntas);
+            $total_preguntas = mysqli_fetch_assoc($verificar_preguntas);
           ?>     
           <div class="small-box bg-blue">
             <div class="inner">
@@ -91,15 +95,15 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h4>65</h4>
-
-              <p>Unique Visitors</p>
+            
+              <h2><?php echo $total_preguntas['preguntas'];?></h2>
+              <p>Preguntas registradas</p>
             </div>
             <div class="icon">
-              <i class="fa  fa-gears"></i>
+              <i class="fa  fa-question"></i>
             </div>
-            <a href="mantparametros" class="small-box-footer">
-              Click aqui para consultar parametros <i class="fa fa-arrow-circle-right"></i>
+            <a href="mantpreguntas" class="small-box-footer">
+              Click aqui para consultar preguntas <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>

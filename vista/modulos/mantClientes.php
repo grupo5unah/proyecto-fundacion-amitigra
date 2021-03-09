@@ -1,0 +1,243 @@
+<?php include("./modelo/conexionbd.php"); ?>
+<div class="content-wrapper">
+	<!-- Main content -->
+	<section class="content">
+
+		<!-- Default box -->
+		<div class="box">
+			<div class="box-header with-border">
+
+			</div>
+			<div class="box-body">
+				<!--LLamar al formulario aqui-->
+				<div class="row">
+					<div class="col-md-12">
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Clientes</div>
+							</div> <!-- /panel-heading -->
+							<div class="panel-body">
+								<div class="remove-messages"></div>
+								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+								<button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
+
+								</div> <!-- /div-action -->
+
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantClienteTable">
+									<thead>
+										<tr>
+
+											<th>Nombre completo</th>
+											<th>Identidad</th>
+											<th>Telefono</th>
+											<th>Tipo nacionalidad</th>
+											<th>Modificado por</th>
+											<th>Fecha Modificación</th>
+											<th>Acciones</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<?php
+										try {
+
+
+											$sql = "SELECT id_cliente,nombre_completo,identidad,telefono,tbl_tipo_nacionalidad.nacionalidad, 
+													tbl_clientes.modificado_por,tbl_clientes.fecha_modificacion
+													FROM tbl_clientes
+                                                    INNER JOIN tbl_tipo_nacionalidad
+                                                    ON tbl_clientes.tipo_nacionalidad = tbl_tipo_nacionalidad.id_tipo_nacionalidad
+                                                    WHERE tbl_clientes.estado_eliminado = 1";
+											$resultado = $conn->query($sql);
+										} catch (\Exception $e) {
+											echo $e->getMessage();
+										}
+
+										$vertbl = array();
+										while ($eventos = $resultado->fetch_assoc()) {
+
+											$traer = $eventos['nombre_completo'];
+											$evento = array(
+												'nombre_completo' => $eventos['nombre_completo'],
+												'identidad' => $eventos['identidad'],
+												'telefono' => $eventos['telefono'],
+												'nacionalidad' => $eventos['nacionalidad'],
+												'modificado_por' => $eventos['modificado_por'],
+												'fecha_modificacion' => $eventos['fecha_modificacion'],
+                                                'id_cliente' => $eventos['id_cliente']
+
+											);
+											$vertbl[$traer][] =  $evento;
+										}
+										foreach ($vertbl as $dia => $lista_articulo) { ?>
+
+
+											<?php foreach ($lista_articulo as $evento) { ?>
+												<?php	//echo $evento['nombre_arti']
+												?>
+												<tr>
+													<td> <?php echo $evento['nombre_completo']; ?></td>
+													<td> <?php echo $evento['identidad']; ?></td>
+													<td> <?php echo $evento['telefono']; ?></td>
+													<td> <?php echo $evento['nacionalidad']; ?></td>
+													<td> <?php echo $evento['modificado_por']; ?></td>
+													<td> <?php echo $evento['fecha_modificacion']; ?></td>
+													<td>
+														<button class="btn btn-warning btnEditarCliente glyphicon glyphicon-pencil"  data-idcliente="<?= $evento['id_cliente'] ?>" data-nombrecliente="<?= $evento['nombre_completo'] ?>" 
+														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
+
+														<button class="btn btn-danger btnEliminarCliente glyphicon glyphicon-remove" data-idcliente="<?php echo $evento['id_cliente'] ?>"></button>
+													</td>
+												<?php }?>
+											<?php }?>
+												</tr>
+									</tbody>
+									<!--<?php //}
+										?>-->
+
+								</table>
+								<!-- /table -->
+
+							</div> <!-- /panel-body -->
+						</div> <!-- /panel -->
+					</div> <!-- /col-md-12 -->
+					<?php $conn->close(); ?>
+				</div> <!-- /row -->
+
+
+			</div>
+			<!-- /.box-body -->
+	
+			<div class="modal fade" id="modalEditarCliente" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Actualizar Cliente</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+							<form name="formEditarCliente" onpaste="return false">
+								<div class="ingreso-producto form-group">
+									
+									<div class="campos">
+										<label for="">Nombre Cliente: </label>
+										<input id="nombre_cliente" class="form-control  modal-roles secundary text-uppercase" type="text" name="cliente" placeholde="Escriba el nombre del cliente" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+
+									</div>
+									<div class="campos form-group">
+										<label for="">Identidad: </label>
+										<input id="identidad" class="form-control  modal-roles secundary text-uppercase" type="text" name="identidad"placeholde="Escriba la identidad"  onkeydown="return soloNumeros(event)" required/>
+
+									</div>
+									<div class="campos form-group">
+										<label for="">Telefono: </label>
+										<input id="telefono" class="form-control  modal-roles secundary text-uppercase" type="tel" name="telefono" placeholde="Escriba el telefono" onkeydown="return soloNumeros(event)" required/>
+
+									</div>
+									<div class="campos form-group">
+										<label for="">Nacionalidad: </label>
+										<select class="form-control" name="nacionalidad" id="nacionalidad">
+											<option value="" disabled selected>Selecione...</option>
+											<?php 
+											require ('./modelo/conexionbd.php');
+
+											$stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
+											$resultado = mysqli_query($conn,$stmt);
+											?>
+											<?php foreach($resultado as $opciones):?>
+											<option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									
+									<input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">
+									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+								</div>
+								
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Cliente</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- /.box-footer-->
+			<!-- crear nuevo Cliente -->
+				<div class="modal fade" id="modalCrearCliente" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<div class="d-flex justify-content-between">
+						                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+										</button>
+										<h3 class="modal-title" id="exampleModalLabel">Registrar Nuevo Cliente</h3>
+									</div>
+								</div>
+								<div class="modal-body">
+									<form name="" id="formCliente">
+										<div class="ingreso-producto form-group">
+											
+											<div class="campos">
+												<label for="">Nombre Cliente: </label>
+												<input id="nombreCliente" class="form-control modal-roles secundary text-uppercase" type="text" name="nombrecliente" placeholder="Nombre cliente" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+
+											</div>
+											<div class="campos form-group">
+												<label for="">Identidad: </label>
+												<input id="ident" name="ident"  class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="Identidad" required/>
+
+											</div>
+											<div class="campos form-group">
+												<label for="">Telefono: </label>
+												<input id="tel" name="tel" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Telefono" required/>
+
+											</div>
+                                            <div class="campos form-group">
+                                                <label for="">Nacionalidad: </label>
+                                                <select class="form-control" name="nacion" id="nacion">
+                                                    <option value="" disabled selected>Selecione...</option>
+                                                    <?php 
+                                                    include ('./modelo/conexionbd.php');
+
+                                                    $stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
+                                                    $resultado = mysqli_query($conn,$stmt);
+                                                    ?>
+                                                    <?php foreach($resultado as $opciones):?>
+                                                    <option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
+                                                    <?php endforeach;?>
+                                                </select>
+                                            </div>
+											
+											
+											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+										</div>
+										<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"     data-dismiss="modal">Close</button>
+										<button id=""type="submit" class=" btn btn-primary">Registrar  Cliente</button>
+										</div>
+										
+									</form>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
+				
+				</div>
+		<!-- /.box -->
+
+	</section>
+	<!-- /.content -->
+</div>
