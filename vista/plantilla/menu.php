@@ -142,8 +142,7 @@ $columna = $stmt->fetch_assoc();
               </a>
               <ul class="treeview-menu">
                 <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
-                <li><a href="#"><i class=""></i> Productos</a></li>
-                <li><a href="#"><i class=""></i> Localidad</a></li>-->
+                <!-- <li><a href="#"><i class=""></i> Localidad</a></li> -->
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
                 <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
@@ -154,7 +153,13 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>
                 <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidades y Tipo Producto</a></li>
                 <li ><a href="mantProducto"><i class=""></i> Mantenimiento Producto</a></li>
-              </ul>
+                <li><a href="mantTipoBoletos"><i class=""></i> Tipo de Boletos</a></li>
+                <li><a href="mantNacionalidad"><i class=""></i> Tipo de Nacionalidad</a></li>
+                <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
+                <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
+                <li><a href="mantEstados"><i class=""></i> Estados</a></li>
+                
+               
             </li>
             <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>
           </ul>

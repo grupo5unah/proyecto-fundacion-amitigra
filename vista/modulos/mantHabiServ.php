@@ -20,11 +20,11 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-								<button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar HabitaciÓn/Área</button>
+								<button class="btn btn-default btnCrearHabServ glyphicon glyphicon-plus-sign" >Agregar Habitación/Área</button>
 
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantHabServTable">
 									<thead>
 										<tr>
 
@@ -50,7 +50,7 @@
                                                     WHERE tbl_habitacion_servicio.estado_eliminado = 1
                                                     ORDER BY id_habitacion_servicio ASC";
 											$resultado = $conn->query($sql);
-										} catch (\Exception $e) {
+										} catch (Exception $e) {
 											echo $e->getMessage();
 										}
 
@@ -88,10 +88,12 @@
                                                     <td> <?php echo $evento['precio_adulto_extranjero']; ?></td>
                                                     <td> <?php echo $evento['precio_nino_extranjero']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditarCliente glyphicon glyphicon-pencil"  data-idcliente="<?= $evento['id_cliente'] ?>" data-nombrecliente="<?= $evento['nombre_completo'] ?>" 
-														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
+														<button class="btn btn-warning btnEditarHabServ glyphicon glyphicon-pencil"  data-idhs="<?= $evento['id_habitacion_servicio'] ?>" data-nombreha="<?= $evento['habitacion_area'] ?>" 
+														data-descripcion="<?= $evento['descripcion'] ?>" data-localidad="<?= $evento['localidad_id'] ?>" data-pna="<?= $evento['precio_adulto_nacional'] ?>"
+														data-pnn="<?= $evento['precio_nino_nacional'] ?>" data-pae="<?= $evento['precio_adulto_extranjero'] ?>" data-pne="<?= $evento['precio_nino_extranjero'] ?>"
+														data-estado="<?= $evento['estado_id'] ?>"></button>
 
-														<button class="btn btn-danger btnEliminarCliente glyphicon glyphicon-remove" data-idcliente="<?php echo $evento['id_cliente'] ?>"></button>
+														<button class="btn btn-danger btnEliminarHabServ glyphicon glyphicon-remove" data-idcliente="<?php echo $evento['id_cliente'] ?>"></button>
 													</td>
 												<?php }?>
 											<?php }?>
@@ -113,7 +115,7 @@
 			</div>
 			<!-- /.box-body -->
 	
-				<div class="modal fade" id="modalEditarCliente" tabindex="-1"
+				<div class="modal fade" id="modalEditarHabServ" tabindex="-1"
 				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -126,38 +128,38 @@
 								</div>
 							</div>
 							<div class="modal-body">
-								<form name="formEditarCliente">
+								<form name="formEditarHabServ">
 									<div class="ingreso-producto form-group">
 										
 										<div class="campos">
-											<label for="">Nombre Cliente: </label>
-											<input id="nombre_cliente" class="form-control  modal-roles secundary text-uppercase" type="text" name="cliente" placeholde="Escriba el nombre del cliente" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<label for="">Descripción: </label>
+											<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text" name="descripcion" placeholde="Escriba la descripcion" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
-											<label for="">Identidad: </label>
-											<input id="identidad" class="form-control  modal-roles secundary text-uppercase" type="text" name="identidad"placeholde="Escriba la identidad" required/><--falta poner validacion -->
+											<label for="">Habitacion / Área: </label>
+											<input id="ha" class="form-control  modal-roles secundary text-uppercase" type="text" name="ha"placeholde="Escriba la habitacion/área" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required/>
 
 										</div>
 										<div class="campos form-group">
-											<label for="">Telefono: </label>
-											<input id="telefono" class="form-control  modal-roles secundary text-uppercase" type="tel" name="telefono" placeholde="Escriba el producto" required/> <--falta poner validacion -->
+											<label for="">Estado: </label>
+											<input id="estado" class="form-control  modal-roles secundary text-uppercase" type="text" name="estado" placeholde="Ingrese el estado" required/>
 
 										</div>
                                         <div class="campos form-group">
-                                            <label for="">Nacionalidad: </label>
-                                            <select class="form-control" name="nacionalidad" id="nacionalidad">
-                                                <option value="" disabled selected>Selecione...</option>
-                                                <?php 
-                                                //include ('./modelo/conexionbd.php');
+											<label for="">localidad</label><br>
+											<select class="form-control selectLocalidad" name="localidad" id="localidad">
+											<option value="" disabled selected>Selecione...</option>
+											<?php
+											require ('./modelo/conexionbd.php');
 
-                                                $stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
-                                                $resultado = mysqli_query($conn,$stmt);
-                                                ?>
-                                                <?php foreach($resultado as $opciones):?>
-                                                <option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
-                                                <?php endforeach;?>
-                                            </select>
+											$stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
+											$resultado = mysqli_query($conn,$stmt);
+											?>
+											<?php foreach($resultado as $opciones):?>
+											<option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
+											<?php endforeach;?>
+											</select>
                                         </div>
 										
 										<input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">

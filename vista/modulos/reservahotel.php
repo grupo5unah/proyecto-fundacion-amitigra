@@ -159,7 +159,7 @@
                                 <select class="form-control" name="habitacion" id="habitacion">
                                   <option value="" disabled selected>Selecione...</option>
                                   <?php 
-                                    //include_once ('./modelo/conexionbd.php');
+                                    require ('./modelo/conexionbd.php');
 
                                     $stmt = "SELECT id_habitacion_servicio, habitacion_area,estado_id FROM tbl_habitacion_servicio
                                               WHERE habitacion_area LIKE '%h%' AND localidad_id = 1";

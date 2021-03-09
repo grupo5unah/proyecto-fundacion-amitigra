@@ -79,13 +79,15 @@ class PasswordPHP{
                                             $(this).remove();
                                             });
                                             }, 3000);
+                                            
                                             </script>";
 
                                             echo "<script>
                                             if (window.history.replaceState) { // verificamos disponibilidad
                                                 window.history.replaceState(null, null, window.location.href);
-                                                window.onload();
-                                            }</script>";
+                                            }
+                                            location.reload();
+                                            </script>";
                                             
                                             //header('location:perfil.php');
                                     }

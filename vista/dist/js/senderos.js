@@ -1,21 +1,27 @@
 $(document).ready(function(){
+  /**------------------------------------------------------------------------------------------------------
+    *                                                                                                      *
+    *                                  VENTA DE BOLETOS A NACIONALES                                       *
+    *                                                                                                      *
+    * ------------------------------------------------------------------------------------------------------
+    */
  /**SENDERO NACIONAL*/
    /**FUNCION PARA REALIZAR VENTA NACIONAL */
    $("#senderoN").submit(async function(e){
-    e.preventDefault();
+    e.preventDefault();    
 
-    var /*localidad = $("#localidad").val(),*/ cant_Badultos = $("#boletosN").val(), cant_Bninos = $("#boletosNN").val(),
+    var localidad = $("#localidad").val(), cant_Badultos = $("#boletosN").val(), cant_Bninos = $("#boletosNN").val(),
         precioAdulto = $("#precioN").val(),precioNino = $("#precioNN").val(), id_usuario = $("#id_usuario").val(),
         totalP = $("#Tpagar").val(), totalBNacional = $("#TboletosN").val(), usuario_actual = $("#usuario_actual").val();
 
-    console.log(cant_Badultos, cant_Bninos, precioAdulto, precioNino, id_usuario, totalP, totalBNacional, usuario_actual);
-    if(/*localidad != undefined && */cant_Badultos != undefined && cant_Bninos != undefined && precioAdulto != undefined && 
+    console.log(localidad, cant_Badultos, cant_Bninos, precioAdulto, precioNino, id_usuario, totalP, totalBNacional, usuario_actual);
+    if(localidad != undefined && cant_Badultos != undefined && cant_Bninos != undefined && precioAdulto != undefined && 
         precioNino != undefined && totalP != undefined && totalBNacional != undefined && usuario_actual != undefined && id_usuario != undefined){
         // formdata sirve para enviar los datos al servidor
         /*lo que va entre fuera de las comillas son las variables que declaramos 
          y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
         const registro= new FormData();        
-        /*registro.append('localidad', localidad);*/
+        registro.append('localidad', localidad);
         registro.append('boletosN', cant_Badultos);
         registro.append('boletosNN', cant_Bninos);
         registro.append('precioN', precioAdulto);
@@ -42,29 +48,36 @@ $(document).ready(function(){
             $("#Tpagar").val('');
             $("#TboletosN").val('');            
           }
+          window.location.href='senderos';
         })
     }else{
-      swal("Advertencia!", "Es necesario rellenar los campos de cantidades de boletos", "warning");
+      swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Nacional", "warning");
     } 
   });
   
+   /**------------------------------------------------------------------------------------------------------
+    *                                                                                                      *
+    *                                  VENTA DE BOLETOS A EXTRANJEROS                                      *
+    *                                                                                                      *
+    * ------------------------------------------------------------------------------------------------------
+    */
   /**SENDERO EXTRANJERO*/
    /**FUNCION PARA REALIZAR VENTA EXTRANJERA */
    $("#senderoE").submit(async function(e){
     e.preventDefault();
 
-    var /*localidad = $("#localidad").val(),*/ cant_Badultos = $("#boletosE").val(), cant_Bninos = $("#boletosNE").val(),
+    var localidad = $("#localidad").val(), cant_Badultos = $("#boletosE").val(), cant_Bninos = $("#boletosNE").val(),
         precioAdulto = $("#precioE").val(),precioNino = $("#precioNE").val(), id_usuario = $("#id_usuario").val(),
         totalP = $("#TpagarE").val(), totalBExtranjero = $("#TboletosE").val(), usuario_actual = $("#usuario_actual").val();
 
-    console.log(cant_Badultos, cant_Bninos, precioAdulto, precioNino, id_usuario, totalP, totalBExtranjero, usuario_actual);
-    if(/*localidad != undefined && */cant_Badultos != undefined && cant_Bninos != undefined && precioAdulto != undefined && 
+    console.log(localidad, cant_Badultos, cant_Bninos, precioAdulto, precioNino, id_usuario, totalP, totalBExtranjero, usuario_actual);
+    if(localidad != undefined && cant_Badultos != undefined && cant_Bninos != undefined && precioAdulto != undefined && 
         precioNino != undefined && totalP != undefined && totalBExtranjero != undefined && usuario_actual != undefined && id_usuario != undefined){
         // formdata sirve para enviar los datos al servidor
         /*lo que va entre fuera de las comillas son las variables que declaramos 
          y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
         const registro= new FormData();        
-        /*registro.append('localidad', localidad);*/
+        registro.append('localidad', localidad);
         registro.append('boletosE', cant_Badultos);
         registro.append('boletosNE', cant_Bninos);
         registro.append('precioE', precioAdulto);
@@ -91,9 +104,10 @@ $(document).ready(function(){
             $("#TpagarE").val('');
             $("#TboletosE").val('');            
           }
+          window.location.href='senderos';
         })
     }else{
-      swal("Advertencia!", "Es necesario rellenar los campos de cantidades de boletos", "warning");
+      swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Extranjero", "warning");
     } 
   });
   //BOTON PARA ELIMINAR UNA VENTA BOLETO (TABLA)
@@ -121,7 +135,7 @@ $(document).ready(function(){
             });
         }
     });
-  })
+  }) 
 
 
 });

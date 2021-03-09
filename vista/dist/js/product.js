@@ -33,7 +33,7 @@ $(document).ready(function(){
      
        
         $("#tipoProducto").change( function() {
-            if ($(this).val() !== '3') {
+            if ($(this).val() !== '2') {
                 $("#precioAlquiler").prop("disabled", true);
             } else {
                 $("#precioAlquiler").prop("disabled", false);

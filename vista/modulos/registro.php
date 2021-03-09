@@ -50,19 +50,12 @@
                         <span class="fa fa-user form-control-feedback"></span>
                       </div>
                         <div class="form-group has-feedback">
-<<<<<<< HEAD
-                          <input type="text" maxlength="15" id="usuario" class="form-control" name="usuario" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                          <input type="text" maxlength="15" id="usuario" class="form-control" name="usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                           <span class="fa fa-user form-control-feedback"></span>
+                          <label for="noti" id="notificacion"></label>
                         </div>
                         <div class="form-group has-feedback">
-                          <input type="text" maxlength="50" id="correo" class="form-control" name="correo" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
-=======
-                          <input type="text" maxlength="15" class="form-control" name="usuario" value="<?php if (isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
-                          <span class="fa fa-user form-control-feedback"></span>
-                        </div>
-                        <div class="form-group has-feedback">
-                          <input type="text" maxlength="50" class="form-control" name="correo" value="<?php if (isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
->>>>>>> 134fb9ce1054ad661f2e33e18669b9e66b8e571c
+                          <input type="text" maxlength="50" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
                           <span class="fa fa-envelope form-control-feedback"></span>
                           <span id="ver"></span>
                         </div>
@@ -74,11 +67,7 @@
                           </select>
                         </div>
                         <div class="form-group has-feedback">
-<<<<<<< HEAD
-                          <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
-=======
-                          <input type="tel" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
->>>>>>> 134fb9ce1054ad661f2e33e18669b9e66b8e571c
+                          <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
                           <span class="fa fa-phone-square form-control-feedback"></span>
                         </div>
                         <br>
@@ -100,7 +89,7 @@
                       <label class="color-enlaces" for="">Pregunta número 1</label>
                       <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select name = "id_pregunta1" class="form-control">
+                      <select name = "id_pregunta1" class="form-control" item>
                         <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -330,9 +319,25 @@ window.onload = function(){
 
 </script>
 
+
+<script type="text/javascript">
+function tiemporreal(){
+let usuario = $.ajax({
+url:'../../controlador/consulta.php',
+datatype:'POST',
+asynnc: false,
+}).responseText;
+document.getElementById("notificacion").innerHTML = usuario;
+}
+setInterval(tiemporeal, 1000);
+</script>
+
+
+
+
 <script src="../dist/js/app.login.js"></script>
 
-<script src="../dist/js/registro.js"></script>
+<!-- <script src="../dist/js/registro.js"></script> -->
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->

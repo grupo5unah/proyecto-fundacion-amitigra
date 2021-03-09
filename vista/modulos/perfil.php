@@ -3,13 +3,13 @@ include_once "./modelo/conexionbd.php";
 $id_objeto = 4;
 global $mi_rol;
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id, foto FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol
                         WHERE tbl_roles.rol = ?");
 $stmt->bind_Param("s",$rol_id);
 $stmt->execute();
-$stmt->bind_Result($id_rol, $foto);
+$stmt->bind_Result($id_rol);
 
 if($stmt->affected_rows){
 
@@ -53,7 +53,7 @@ $columna = $stmt->fetch_assoc();
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
-                <img class="img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
+                <img class="img-circle" src="./fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
               </div>
 
 <?php }}?>
@@ -331,21 +331,22 @@ $columna = $stmt->fetch_assoc();
             </div>
             <?php
             
+            if(isset($_POST['cambio_info']) == 'act_info'){
               require("./controlador/ctr.passwordperfil.php");
 
               $actualizar = new PasswordPHP();
               $actualizar->ctrPasswordInfo();
-        
-                    //include("./controlador/ctr.actualizarInformacion.php");
+            }else{
+                    include("./controlador/ctr.actualizarInformacion.php");
 
-                    //$actualizar = new ActualizarInfo();
-                    //$actualizar->ctrActualizarInfo();
+                    $actualizar = new ActualizarInfo();
+                    $actualizar->ctrActualizarInfo();
 
                     require_once("./controlador/ctr.Acciones.php");
 
               $perfilBitacora = new AccionesUsuario();
               $perfilBitacora->ctrPerfilBitacora();
-
+            }
                     ?>
 
             
