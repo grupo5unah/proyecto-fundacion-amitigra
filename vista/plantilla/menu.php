@@ -104,7 +104,6 @@ $columna = $stmt->fetch_assoc();
         <?php }?>
         <!--Final INVENTARIO-->
 
-
           <!-- Reportes -->
         <li class="treeview">
         <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
@@ -142,9 +141,9 @@ $columna = $stmt->fetch_assoc();
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class=""></i> Bitácora</a></li>
+                <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
                 <li><a href="#"><i class=""></i> Productos</a></li>
-                <li><a href="#"><i class=""></i> Localidad</a></li>
+                <li><a href="#"><i class=""></i> Localidad</a></li>-->
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
                 <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
