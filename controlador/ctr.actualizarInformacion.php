@@ -67,10 +67,12 @@
                                                 });
                                                 }, 3000);
                                                 </script>";
-
+                                        
                                         session_destroy();
+                                        
                                         echo '<script>
                                                 location.reload();
+                                                timer: 10000;
                                                 </script>';
                                                 
                                         }

@@ -83,6 +83,7 @@ switch ($action) {
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }
+    break;
     case 'eliminarEstado':
         if (isset($_POST['id_estad'])) {
             $id_estad= $_POST['id_estad'];

@@ -24,7 +24,7 @@
 
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantEstadoTable">
 									<thead>
 										<tr>
 

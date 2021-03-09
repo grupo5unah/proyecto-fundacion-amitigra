@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $('#mantEstadoTable').DataTable({
+    $('#mantHabServTable').DataTable({
       
      
         
@@ -20,7 +20,7 @@ $(document).ready(function(){
               text:'<i class="fas fa-print">',
               titleAttr:'Imprimir',
               title:'FUNDACION AMIGOS DE LA TIGRA',
-              messageTop:' REPORTE DE ESTADOS',
+              messageTop:' REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
               className:'btn btn-dark',
               exportOptions: {
                 modifier: {
@@ -33,7 +33,7 @@ $(document).ready(function(){
                   title: 'FUNDACION AMIGOS DE LA TIGRA',
                   text:'<i class="fas fa-file-excel">',
                   className:'btn btn-success',
-                  messageTop: 'REPORTE DE ESTADOS.',
+                  messageTop: 'REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
                   exportOptions: {
                     columns: [ 0, ':visible' ]
                 },
@@ -47,7 +47,7 @@ $(document).ready(function(){
                   orientation: 'portrait',
                   pageSize: 'A4',
                   title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                  messageTop: 'REPORTE DE ESTADOS.',
+                  messageTop: 'REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
                   Image:'fotoPerfil/foto1.png',
                   download: 'open',
                   exportOptions: {
@@ -141,7 +141,7 @@ $(document).ready(function(){
           },
        
     });
-    //REGISTRAR NUEVO CLIENTE
+    //REGISTRAR NUEVA HABITACION O AREA
     $("#formEstado").submit(async function(e){
         e.preventDefault();
         

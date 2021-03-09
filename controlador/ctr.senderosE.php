@@ -11,7 +11,7 @@ if (isset($_GET['action'])) {
 switch ($action){ 
     
     case 'registrarBoletosE': //realizar una venta de boletos        
-            //$localidad = $_POST['localidad'];
+            $localidad = $_POST['localidad'];
             $cant_Badultos = $_POST['boletosE'];
             $cant_Bninos = $_POST['boletosNE'];
             $precioAdulto  = $_POST['precioE'];
@@ -22,20 +22,22 @@ switch ($action){
             $user=$_POST['id_usuario'];            
             date_default_timezone_set("America/Tegucigalpa");
             $fecha=date('Y-m-d H:i:s',time());
-                    
+            $estado=1;
+                
 
             if(($cant_Badultos=="" && $cant_Bninos=="") || ($cant_Badultos=="0" && $cant_Bninos=="0")){
                 $res['msj'] = 'Tiene que vender un Boleto Extranjero';
                 $res['error'] = true;
              }else{
-            try{                    
-                $inserta=$conn->prepare("INSERT INTO tbl_boletos (cantidad_total_boletos, total_cobrado, creado_por, fecha_creacion, modificado_por, 
-                                        fecha_modificacion) VALUES(?,?,?,?,?,?)");
-                $inserta->bind_param('iissss',$totalBExtranjero, $totalP, $usuario_actual, $fecha, $usuario_actual, $fecha);
+            try{   
+                //AQUI INSERTA EN LA BASE DE DATOS EN LA TABLA TBL_BOLETOS                  
+                $inserta=$conn->prepare("INSERT INTO tbl_boletos (cantidad_total_boletos, total_cobrado, estado_eliminado, creado_por, fecha_creacion, modificado_por, 
+                                        fecha_modificacion) VALUES(?,?,?,?,?,?,?)");
+                $inserta->bind_param('iiissss',$totalBExtranjero, $totalP, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                 $inserta->execute();
 
                 if($cant_Badultos>0){
-                //se captura el id de la tabla de boletos     
+                //se captura el id de la tabla tbl_boletos recien creado    
                                     
                     $captura1=$conn->prepare("SELECT id_boletos_vendidos FROM tbl_boletos WHERE total_cobrado=?;");        
                     $captura1->bind_Param("i", $totalP);                   
@@ -50,20 +52,20 @@ switch ($action){
                     }
                         if($id_cobrado){                            
                             
-                            //inserta en la tabla detalle de reservacion                                
+                            //inserta en la tabla tbl_boletos_detalle por boletos adultos extranjero vendidos                                
                             $nacionalidad=2;           
                             $tipo_boleto=3;
                             $subtotal=$cant_Badultos*$precioAdulto;
-                            $insert=$conn->prepare("INSERT INTO tbl_boletos_detalle (cantidad_boletos, sub_total, tipo_nacionalidad_id, usuario_id, tipo_boleto_id, boletos_vendidos_id,  creado_por, fecha_creacion,
-                                                    modificado_por, fecha_modificacion) VALUES(?,?,?,?,?,?,?,?,?,?)");
-                            $insert->bind_param('iiiiiissss',$cant_Badultos, $subtotal, $nacionalidad, $user, $tipo_boleto, $idbv, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                            $insert=$conn->prepare("INSERT INTO tbl_boletos_detalle (cantidad_boletos, sub_total, tipo_nacionalidad_id, usuario_id, tipo_boleto_id, localidad_id, boletos_vendidos_id,
+                                                    estado_eliminado, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+                            $insert->bind_param('iiiiiiiissss',$cant_Badultos, $subtotal, $nacionalidad, $user, $tipo_boleto, $localidad, $idbv, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                             $insert->execute();                            
                            
                         }                  
                     }
 
                     if($cant_Bninos>0){
-                        //se captura el id de la tabla de boletos      
+                        //se captura el id de la tabla tbl_boletos recien creado      
                         
                             $captura=$conn->prepare("SELECT id_boletos_vendidos FROM tbl_boletos WHERE total_cobrado=?;");        
                             $captura->bind_Param("i", $totalP);                   
@@ -78,13 +80,13 @@ switch ($action){
                             }
                                 if($id_cobradoN){                            
                                     
-                                    //inserta en la tabla detalle de reservacion
+                                    //inserta en la tabla tbl_boletos_detalle por boletos ninos extranjero vendidos
                                     $nacionalidad=2;           
                                     $tipo_boleto=4;
                                     $subtotalN=$cant_Bninos*$precioNino;
-                                    $insertN=$conn->prepare("INSERT INTO tbl_boletos_detalle (cantidad_boletos, sub_total, tipo_nacionalidad_id, usuario_id, tipo_boleto_id, boletos_vendidos_id,  creado_por, fecha_creacion,
-                                                            modificado_por, fecha_modificacion) VALUES(?,?,?,?,?,?,?,?,?,?)");
-                                    $insertN->bind_param('iiiiiissss',$cant_Bninos, $subtotalN, $nacionalidad, $user, $tipo_boleto, $idbv, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                                    $insertN=$conn->prepare("INSERT INTO tbl_boletos_detalle (cantidad_boletos, sub_total, tipo_nacionalidad_id, usuario_id, tipo_boleto_id, localidad_id, boletos_vendidos_id,
+                                                            estado_eliminado, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    $insertN->bind_param('iiiiiiiissss',$cant_Bninos, $subtotalN, $nacionalidad, $user, $tipo_boleto, $localidad, $idbv, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                                     $insertN->execute();                            
                                    
                                 }                   
