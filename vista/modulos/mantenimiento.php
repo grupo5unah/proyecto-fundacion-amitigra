@@ -67,8 +67,8 @@
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol
 									</button> -->
-									<a href="reporteGUsuarios.php" target="_blank" rel="noopener noreferrer" class="btn btn-default"><i class="fa fa-download"></i>Generar Reporte PDF</a>
-									<button class="btn btn-default btnCrearUsuario glyphicon glyphicon-plus-sign">Agregar Usuario</button>
+									<a href="reporteGUsuarios.php" target="_blank" rel="noopener noreferrer" class="btn btn-default"><i class="fa fa-download"></i> Generar Reporte PDF</a>
+									<button class="btn btn-default btnCrearUsuario fa fa-plus"> Agregar Usuario</button>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
@@ -89,10 +89,10 @@
 										try {
 											$stmt = "SELECT id_usuario, nombre_completo, nombre_usuario, genero,telefono,correo,
                                             contrasena,r.id_rol,r.rol,est.nombre_estado,est.id_estado
-                FROM tbl_usuarios u inner JOIN tbl_roles r
-                ON u.rol_id=r.id_rol INNER JOIN tbl_estado est
-                ON u.estado_id=est.id_estado
-                ORDER BY id_usuario";
+											FROM tbl_usuarios u inner JOIN tbl_roles r
+											ON u.rol_id=r.id_rol INNER JOIN tbl_estado est
+											ON u.estado_id=est.id_estado
+											ORDER BY id_usuario";
 											$resultado = $conn->query($stmt);
 										} catch (Exception $e) {
 											$error = $e->getMessage();

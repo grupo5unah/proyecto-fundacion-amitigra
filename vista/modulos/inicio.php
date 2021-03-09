@@ -41,6 +41,12 @@ $columna = $stmt->fetch_assoc();
     <section class="content">
     <div class="row">
       <?php if ($_SESSION['rol'] === 'administrador'){ ?>
+
+        <?php $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
+            $result = mysqli_query($conn, $registros);
+            $fila = mysqli_fetch_assoc($result);?>
+
+
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
           <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
@@ -86,8 +92,8 @@ $columna = $stmt->fetch_assoc();
           <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">New Members</span>
-            <span class="info-box-number">2,000</span>
+            <span class="info-box-text">Usuarios registrados</span>
+            <span class="info-box-number"><?php echo $fila['total'];?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -97,40 +103,43 @@ $columna = $stmt->fetch_assoc();
     </div>
       <!-- /.row -->
     
-        <!-- Profile Image -->
-        <div class="row">
+      <?php
+    include_once "./modelo/conexionbd.php";
+    
+    $query = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
+
+    $resultado = mysqli_query($conn,$query);
+
+    while($imagen = mysqli_fetch_assoc($resultado)):?>
+
+
+      <div class="row">
         <div class="col-md-4">
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-              
-              <p class="text-center"><span class="text-center">Bienvenido(a): </span><?php echo ucwords($_SESSION['usuario']);?></p>
-              <br>
-
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Ultimo acceso:</b> <a class="pull-right"><?php echo $fecha_conexion;?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Ultimo cambio de contrasena:</b> <a class="pull-right"><?php echo $_SESSION['primer_ingreso'];?></a>
-                </li>
-                <li class="list-group-item">
-                  <?php
-                  date_default_timezone_set('America/Tegucigalpa');
-                  $fecha = date('Y-m-d H:i:s',time());
-                  
-                  setcookie('fecha', $fecha, time()+31536000);
-                  
-                  if (isset($_COOKIE['fecha'])) {?>
-                  <b>Motivo ultima salida:</b> <a class="pull-right"><?php $_COOKIE['fecha'];}?></a>
-                </li>
-              </ul>
-
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header">
+              <div class="widget-user-image">
+                <img class="img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="User Avatar">
+              </div>
+              <!-- /.widget-user-image -->
+              <h3 class="widget-user-username"> <strong>Hola: </strong><span><?php echo ucwords($_SESSION['usuario']);?></span></h3>
+              <h5 class="widget-user-desc">Informacion sobre tu actividad en la cuenta</h5>
             </div>
-            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a>Ultimo acceso: <span class="pull-right badge bg-blue"><?php echo $fecha_ult_conexion;?></span></a></li>
+                <li><a>Ultimo cambio de contrasena: <span class="pull-right badge bg-aqua"><?php echo $_SESSION['primer_ingreso'];?></span></a></li>
+                <li><a>Ultimo cambio de contrasena: <span class="pull-right badge bg-orange"><?php echo $_SESSION['primer_ingreso'];?></span></a></li>  
+              </ul>
+            </div>
           </div>
+          <!-- /.widget-user -->
         </div>
-
         <!-- /.col -->
+    
+        <!-- FIN INFORMACION ULTIMO ACCESO -->
+        
         <div class="col-md-8">
               <div class="box box-solid">
                 <!-- /.box-header -->
@@ -179,6 +188,7 @@ $columna = $stmt->fetch_assoc();
             <!-- /.col -->
         </div>
         
+        <!-- INICIO RELOJ -->
           <div class="row">
             <div class="col-md-3">
                 <!-- INICIO DE LA INFORMACION DEL USUARIO-->
@@ -223,12 +233,11 @@ $columna = $stmt->fetch_assoc();
                 <!--FIN DE LA INFORMACION DEL USUARIO-->
             </div>    
           
-        </div>
+          </div>
+        <!-- FIN RELOJ -->
 
         <!--INICIO DEL CARROUSEL-->
-          <div class="row">
-            
-          </div>
+          
         <!--FIN DEL CARROUSEL-->
 
     </section>

@@ -286,7 +286,7 @@ $(document).ready(function(){
         //$("#cantInven").val(existencia),
         $("#precioInven").val(costo)
         
-        
+    
         //mostrar el modal
         $('#modalEditarProducto').modal('show');
         

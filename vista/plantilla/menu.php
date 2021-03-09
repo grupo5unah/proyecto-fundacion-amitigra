@@ -168,7 +168,7 @@ $columna = $stmt->fetch_assoc();
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class=""></i> Bitácora</a></li>
+                <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
                 <li><a href="#"><i class=""></i> Productos</a></li>
                 <li><a href="#"><i class=""></i> Localidad</a></li>
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>

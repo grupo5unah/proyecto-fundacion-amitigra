@@ -30,7 +30,7 @@
 
     <form method="post">
       <div class="form-group has-feedback">
-        <input type="text" maxlength="50" class="form-control" name="email" placeholder="Correo electrónico" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeyup="SinEspacio(this)">
+        <input type="text" maxlength="50" id="correo" class="form-control" name="email" placeholder="Correo electrónico" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeyup="SinEspacio(this)">
         <span class="glyphicon glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <br>
@@ -80,6 +80,25 @@
 	?>
 
 </div>
+
+<script type="text/javascript">
+
+//FUNCION EVITAR COPIADO Y PEGADO EN INPUT CORREO
+window.onload = function(){
+
+  let correo = document.getElementById('correo');
+
+  correo.onpaste = function(e){
+    e.preventDefault();
+  }
+
+  correo.oncopy = function(e){
+    e.preventDefault();
+  }
+
+}
+
+</script>
 
 <script src="../dist/js/app.login.js"></script>
 

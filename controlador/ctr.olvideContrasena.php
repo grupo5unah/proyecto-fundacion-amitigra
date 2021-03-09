@@ -66,26 +66,58 @@
                                   
                                     //echo $id;
                                     echo "<div class='text-center alert alert-success' role = 'alert'>
-                                            Verifique su correo electrónico para el enlace de restablecimiento de contraseña.
-                                            </div>";
+                                            Te hemos enviado un correo electrónico, verifica tu bandeja para el enlace de restablecimiento de contraseña.
+                                            </div>
+                                            <script>
+                                            window.setTimeout(function(){
+                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                            function(){
+                                            $(this).remove();
+                                            });
+                                            }, 3000);
+                                            </script>";
                                 }
                             }
                         } else {
                           
                             echo "<div class='text-center alert alert-warning' role = 'alert'>
                                     Debe esperar al menos 20 minutos para otra solicitud.
-                                    </div>";
+                                    </div>
+                                    <script>
+                                    window.setTimeout(function(){
+                                    $('.alert').fadeTo(1500,00).slideDown(1000,
+                                    function(){
+                                    $(this).remove();
+                                    });
+                                    }, 3000);
+                                    </script>";
                         }
                     }else{
                     
                     echo "<div class='text-center alert alert-danger' role = 'alert'>
                         Correo o nombre de usuario no encontrado.
-                        </div>";
+                        </div>
+                        <script>
+                        window.setTimeout(function(){
+                        $('.alert').fadeTo(1500,00).slideDown(1000,
+                        function(){
+                        $(this).remove();
+                        });
+                        }, 3000);
+                        </script>";
                     }
                 } else {
                     echo "<div class='alert alert-danger' role='alert'>
                             ¡Lo siento! el usuario no fue encontrado.
-                            </div>";
+                            </div>
+                            <script>
+                            window.setTimeout(function(){
+                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                            function(){
+                            $(this).remove();
+                            });
+                            }, 3000);
+                            </script>";
                 }
                 $VerificarUsuario->close();
                 $VerificarUsuario = null;
@@ -114,7 +146,15 @@
                     if($existePregunta){
                         echo "<div class='alert alert-success' role ='alert'>
                                 Bien hecho, en un momento te redirigimos al cambio de contrasena.
-                                </div>";
+                                </div>
+                                <script>
+                                window.setTimeout(function(){
+                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                function(){
+                                $(this).remove();
+                                });
+                                }, 3000);
+                                </script>";
     
                         sleep(3);
     
@@ -128,8 +168,16 @@
     
                     } else {
                         echo "<div class='text-center alert alert-danger' role='alert'>
-                                No existe el usuario con correo.
-                                </div>";
+                                No existe el usuario con correo '$correo'.
+                                </div>
+                                <script>
+                                window.setTimeout(function(){
+                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                function(){
+                                $(this).remove();
+                                });
+                                }, 3000);
+                                </script>";
                     }
                 }
     
