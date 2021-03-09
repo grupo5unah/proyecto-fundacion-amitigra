@@ -189,8 +189,9 @@
                                                             $(this).remove();
                                                             });
                                                             }, 3000);
+                                                            window.location.href=login.php
                                                             </script>";
-                                                        echo '<script>window.location.href:login.php;</script>';
+                                                        echo '<script>;</script>';
                                                     }
 
                                                     $insertar->close();

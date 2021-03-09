@@ -129,9 +129,9 @@ $columna = $stmt->fetch_assoc();
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a>Ultimo acceso: <span class="pull-right badge bg-blue"><?php echo $fecha_ult_conexion;?></span></a></li>
-                <li><a>Ultimo cambio de contrasena: <span class="pull-right badge bg-aqua"><?php echo $_SESSION['primer_ingreso'];?></span></a></li>
-                <li><a>Ultimo cambio de contrasena: <span class="pull-right badge bg-orange"><?php echo $_SESSION['primer_ingreso'];?></span></a></li>  
+                <li><a><strong>Ultimo acceso:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $conexion = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></span></a></li>
+                <li><a><strong>Ult. cambio de contrasena:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>
+                <li><a><strong>Prox. cambio de contrasena:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>  
               </ul>
             </div>
           </div>

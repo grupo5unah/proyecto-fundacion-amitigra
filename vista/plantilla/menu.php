@@ -142,8 +142,7 @@ $columna = $stmt->fetch_assoc();
               </a>
               <ul class="treeview-menu">
                 <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
-                <li><a href="#"><i class=""></i> Productos</a></li>
-                <li><a href="#"><i class=""></i> Localidad</a></li>-->
+                <!-- <li><a href="#"><i class=""></i> Localidad</a></li> -->
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
                 <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
@@ -153,7 +152,7 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>
                 <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidades y Tipo Producto</a></li>
-                <li ><a href="mantProducto"><i class=""></i> Mantenimiento Producto</a></li>
+                <li ><a href="mantProducto"><i class=""></i> Producto</a></li>
               </ul>
             </li>
             <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>

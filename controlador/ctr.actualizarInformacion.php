@@ -4,7 +4,7 @@
 
         public function ctrActualizarInfo(){
 
-            if(isset($_POST['cambio']) == 'act'){
+            if(isset($_POST['cambios']) == 'act'){
                 $usuario = $_POST['usuario'];
                 $actual = $_POST['actualPass'];
                 $password = $_POST['nuevaPass'];
@@ -57,7 +57,7 @@
                                             echo "no se pudo realizar la actualizacion";
                                         }else{                                     
                                             echo "<div class='text-center alert alert-success' role = 'alert'>
-                                                Se actualizo con exito.
+                                                Su contrasena se actualizo con exito.
                                                 </div>
                                                 <script>
                                                 window.setTimeout(function(){
@@ -69,6 +69,9 @@
                                                 </script>";
 
                                         session_destroy();
+                                        echo '<script>
+                                                location.reload();
+                                                </script>';
                                                 
                                         }
                                     }else{                                      
