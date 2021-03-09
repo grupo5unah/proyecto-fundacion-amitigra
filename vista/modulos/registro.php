@@ -46,15 +46,23 @@
                 <div class="active tab-pane" id="activity">
                     <div class="columna">
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="50" id="nombre" name="nombre" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)">
+                        <input type="text" maxlength="50" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)">
                         <span class="fa fa-user form-control-feedback"></span>
                       </div>
                         <div class="form-group has-feedback">
+<<<<<<< HEAD
                           <input type="text" maxlength="15" id="usuario" class="form-control" name="usuario" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                           <span class="fa fa-user form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
                           <input type="text" maxlength="50" id="correo" class="form-control" name="correo" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
+=======
+                          <input type="text" maxlength="15" class="form-control" name="usuario" value="<?php if (isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                          <span class="fa fa-user form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                          <input type="text" maxlength="50" class="form-control" name="correo" value="<?php if (isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
+>>>>>>> 134fb9ce1054ad661f2e33e18669b9e66b8e571c
                           <span class="fa fa-envelope form-control-feedback"></span>
                           <span id="ver"></span>
                         </div>
@@ -66,7 +74,11 @@
                           </select>
                         </div>
                         <div class="form-group has-feedback">
+<<<<<<< HEAD
                           <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
+=======
+                          <input type="tel" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
+>>>>>>> 134fb9ce1054ad661f2e33e18669b9e66b8e571c
                           <span class="fa fa-phone-square form-control-feedback"></span>
                         </div>
                         <br>
@@ -102,7 +114,7 @@
                       </select>
                     </div>
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg1" class="form-control" name="pregunta1" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input type="text" maxlength="15" id="preg1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                       </div>
                       <br>
@@ -134,7 +146,7 @@
                       </select>
                     </div>
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg2" class="form-control" name="pregunta2" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input type="text" maxlength="15" id="preg2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                       </div>
                       <br>
@@ -166,7 +178,7 @@
                       </select>
                     </div>
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                       </div>
                       <br>
