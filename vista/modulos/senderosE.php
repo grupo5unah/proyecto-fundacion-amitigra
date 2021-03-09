@@ -12,7 +12,7 @@
             <h4 class="alineo-texto">VISITAS EXTRANJERAS</h4> 
            
               </div>
-              <div class="box-body contenido-sendero">
+              <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">

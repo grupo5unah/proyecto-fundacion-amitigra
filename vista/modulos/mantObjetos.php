@@ -1,4 +1,10 @@
 <?php include("./modelo/conexionbd.php"); ?>
+<?php
+//$_SESSION['rol'] = 'administrador';
+echo '<pre>';
+var_dump($_SESSION['rol']);
+echo '</pre>';
+?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">

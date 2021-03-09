@@ -97,7 +97,7 @@ $columna = $stmt->fetch_assoc();
                   <b>Teléfono: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['telefono']));?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Contraseña Caduca: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['fecha_vencimiento']));?></a>
+                  <b>Contraseña Caduca: </b> <a class="pull-right"><?php setlocale(LC_ALL,"es_ES"); $conexion = strftime("%d de %b de %G. A las %I:%M %p", strtotime($_SESSION['fecha_vencimiento'])); echo $conexion;?></a>
                 </li>
                 <li class="list-group-item">
                   <b>Días transcurridos: </b> <a class="pull-right"><?php echo $dias_transcurridos;?></a>

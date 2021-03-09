@@ -1,16 +1,17 @@
 <?php
 include_once("./modelo/conexionbd.php");
 $id_objeto = 6;
+$id_usuario = $_SESSION['id'];
 global $columna;
 //$rol = $_SESSION['mi_rol'];
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id, fecha_ult_conexion FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT fecha_ult_conexion, fecha_vencimiento, rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol 
-                        WHERE tbl_roles.rol = ?");
-$stmt->bind_Param("s",$rol_id);
+                        WHERE tbl_roles.rol = ? AND id_usuario = ?");
+$stmt->bind_Param("si",$rol_id, $id_usuario);
 $stmt->execute();
-$stmt->bind_Result($id_rol, $fecha_ult_conexion);
+$stmt->bind_Result($fecha_ult_conexion, $fecha_vencimiento, $id_rol);
 
 if($stmt->affected_rows){
 
@@ -105,20 +106,19 @@ $columna = $stmt->fetch_assoc();
               
               <p class="text-center"><span class="text-center">Bienvenido(a): </span><?php echo ucwords($_SESSION['usuario']);?></p>
               <br>
-
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Ultimo acceso:</b> <a class="pull-right"><?php echo $fecha_conexion;?></a>
+                  <b>Ultimo acceso:</b> <a class="pull-right"><?php setlocale(LC_ALL,"es_ES"); $conexion = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Ultimo cambio de contrasena:</b> <a class="pull-right"><?php echo $_SESSION['primer_ingreso'];?></a>
+                  <b>Cambio contrasena:</b> <a class="pull-right"><?php setlocale(LC_ALL,"es_ES"); $vencimiento = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></a>
                 </li>
                 <li class="list-group-item">
                   <?php
                   date_default_timezone_set('America/Tegucigalpa');
                   $fecha = date('Y-m-d H:i:s',time());
                   
-                  setcookie('fecha', $fecha, time()+31536000);
+                  //setcookie('fecha', $fecha, time()+31536000);
                   
                   if (isset($_COOKIE['fecha'])) {?>
                   <b>Motivo ultima salida:</b> <a class="pull-right"><?php $_COOKIE['fecha'];}?></a>
@@ -186,13 +186,10 @@ $columna = $stmt->fetch_assoc();
                     <div class="box-body box-profile">
                     <?php }}?>
 
-
-                            <div id="clockdate">
                               <div class="clockdate-wrapper">
                                 <div id="clock"></div>
                                 <div id="date"></div>
                               </div>
-                            </div>
 
                             <script>
                             function startTime() {
