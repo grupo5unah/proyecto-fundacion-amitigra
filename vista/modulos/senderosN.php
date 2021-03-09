@@ -8,11 +8,10 @@
           <h3 class="box-title fa fa-tree"> SENDEROS</h3>
         </div>
         <div class="box-body">             
-          <form  id="senderoN" method="post">         
-            <h4 class="alineo-texto">VISITAS NACIONALES</h4> 
-           
-              </div>
-              <div class="box-body contenido-sendero">
+          <form  id="senderoN" method="post" onpaste="return false">         
+            <h4 class="alineo-texto">VISITAS NACIONALES</h4>            
+            
+              <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -20,30 +19,31 @@
                       <select class="form-control" name="localidad" id="localidad">
                         <option value="" disabled selected>Selecione...</option>
                         <?php 
-                        //include_once ('./modelo/conexionbd.php');
-
+                        
                         $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
                         $resultado = mysqli_query($conn,$stmt);
                         ?>
                         <?php foreach($resultado as $opciones):?>
                         <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
                         <?php endforeach;?>
-                      </select>
+                      </select>                      
                     </div>
-                  </div><br><br><br> 
-                  <legend >ADULTO(S)</legend>             
-                  
-                  <div class="col-md-6">
+                  </div>
+                </div> <br>
+                  <div class="box-header with-border">
+                    <h1 class="box-title">ADULTO(S)</h1>
+                  </div>  
+                  <div class="col-md-6">                  
                     <div class="form-group">
                       <label for="boletosN">Cantidad de Adultos:</label><br>
-                      <input type="number" min="0" class="form-control" name="boletosN" id="boletosN" oninput="sumarBoletosN()" placeholder="cantidad personas" onclick="quitar(this.id)"
-                     value="<?php if(isset($_POST['boletosN'])){echo $_POST['boletosN'];} ?>" >
+                      <input type="number" min="1" class="form-control" name="boletosN" id="boletosN" oninput="sumarBoletosN()" placeholder="Cantidad Personas Adultas" onclick="quitar(this.id)"
+                     value="<?php if(isset($_POST['boletosN'])){echo $_POST['boletosN'];} ?>">
                     </div>
                   </div>
                   
                    <div class="col-md-6">
                       <div class="form-group">
-                        <label for="precioN">Precio Adulto:</label>
+                        <label for="precioN">Precio Adulto:</label><br>
                         <input type="number" class="form-control" name="precioN" id="precioN" placeholder="Precio Adulto" disabled="true"
                         <?php
                         $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=1";
@@ -53,17 +53,21 @@
                         value="<?php echo $opcion['precio_venta']?>"> 
                         <?php endforeach;?>
                       </div>
+                    </div><br><br>
+
+                    <div class="box-header with-border">
+                      <h1 class="box-title">NIÑO(S)</h1>
                     </div>
-                  <div class="col-md-6"><legend>NIÑO(S)</legend>                                       
+                  <div class="col-md-6">                                      
                     <div class="form-group">
                       <label for="boletosNN">Cantidad de Niños:</label><br>
-                      <input type="number" min="0" class="form-control" name="boletosNN" id="boletosNN" oninput="sumarBoletosN()" placeholder="cantidad personas" onclick="quitar(this.id)"
-                      value="<?php if(isset($_POST['boletosNN'])){echo $_POST['boletosNN'];} ?>" >
+                      <input type="number" min="1" class="form-control" name="boletosNN" id="boletosNN" oninput="sumarBoletosN()" placeholder="Cantidad Personas Infantiles" onclick="quitar(this.id)"
+                      value="<?php if(isset($_POST['boletosNN'])){echo $_POST['boletosNN'];} ?>">
                     </div>
                   </div>
-                  <div class="col-md-6"><br>
-                    <div class="form-group"><br>
-                      <label for="precioNN">Precio Niños:</label>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="precioNN">Precio Niños:</label><br>
                       <input type="number" class="form-control" name="precioNN" id="precioNN" placeholder="Precio Niños" disabled="true"
                         <?php
                         $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=2";
@@ -130,9 +134,7 @@
               }          
             </script>       
         </div>
-        <div class="form-group">
-          
-        </div>
+        
         <?php 
             if(isset($_GET['msg'])){
             $mensaje = $_GET['msg'];

@@ -124,6 +124,8 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "mantpermisos" ||
         $_GET["ruta"] == "mantpreguntas" ||
         $_GET["ruta"] == "menuSolicitudes" ||
+        $_GET["ruta"] == "mantTipoBoletos" ||
+        $_GET["ruta"] == "mantNacionalidad" ||
         $_GET["ruta"] == "panel" ||
         $_GET["ruta"] == "configuracion" ||
         $_GET["ruta"] == "reportes" ||
@@ -201,6 +203,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/gUsuarios.js"></script>
 <script src="vista/dist/js/recargar.js"></script>
 <script src="vista/dist/js/senderos.js"></script>
+<script src="vista/dist/js/nacionalidad.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
