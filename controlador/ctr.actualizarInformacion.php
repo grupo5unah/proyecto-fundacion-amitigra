@@ -18,7 +18,15 @@
                         
                         echo "<div class ='text-center alert alert-warning' role = 'alert'>
                                 Debe de ingresar su contraseña para poder confirmar los cambios.
-                                </div>";
+                                </div>
+                                <script>
+                                window.setTimeout(function(){
+                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                function(){
+                                $(this).remove();
+                                });
+                                }, 3000);
+                                </script>";
                     } else {
 
                         require("./modelo/conexionbd.php");
@@ -50,7 +58,15 @@
                                         }else{                                     
                                             echo "<div class='text-center alert alert-success' role = 'alert'>
                                                 Se actualizo con exito.
-                                                </div>";
+                                                </div>
+                                                <script>
+                                                window.setTimeout(function(){
+                                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                                function(){
+                                                $(this).remove();
+                                                });
+                                                }, 3000);
+                                                </script>";
 
                                         session_destroy();
                                                 
@@ -58,11 +74,29 @@
                                     }else{                                      
                                         echo "<div class='text-center alert alert-danger' role='alert'>
                                         La nueva contrasena no coincide
-                                        </div>";
+                                        </div>
+                                        <script>
+                                        window.setTimeout(function(){
+                                        $('.alert').fadeTo(1500,00).slideDown(1000,
+                                        function(){
+                                        $(this).remove();
+                                        });
+                                        }, 3000);
+                                        </script>";
                                     }
 
                                 } else {
-                                    echo "Las contrasenas no coinciden";
+                                    echo "<div class='text-center alert alert-danger' role='alert'>
+                                    Las contrasenas no coinciden
+                                    </div>
+                                    <script>
+                                    window.setTimeout(function(){
+                                    $('.alert').fadeTo(1500,00).slideDown(1000,
+                                    function(){
+                                    $(this).remove();
+                                    });
+                                    }, 3000);
+                                    </script>";
                                     
                                 }
                             }else{

@@ -116,12 +116,7 @@ $columna = $stmt->fetch_assoc();
           </a>
           <ul class="treeview-menu">
             <li><a href="reportes"><i class=""></i> Reportes</a></li>
-            <li><a href="mantroles"><i class=""></i> Roles de Usuario</a></li>
-            <!-- <li><a href="mantlocalidad"><i class=""></i> Localidad</a></li> -->
-            <li><a href="mantparametros"><i class=""></i> Parametros del sistema</a></li>
-            <li><a href="mantpermisos"><i class=""></i> Permisos de usuarios</a></li>
-            <li><a href="mantpreguntas"><i class=""></i> Preguntas de Usuario</a></li>
-            <li><a href="mantObjetos"><i class=""></i> Objetos del sistema</a></li>
+            
           </ul>
         </li>
         <!--Fin REPORTES-->
@@ -146,7 +141,7 @@ $columna = $stmt->fetch_assoc();
                 </span>
               </a>
               <ul class="treeview-menu">
-                <!--<li><a href="#"><i class=""></i> Bitácora</a></li>
+                <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
                 <li><a href="#"><i class=""></i> Productos</a></li>
                 <li><a href="#"><i class=""></i> Localidad</a></li>-->
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
@@ -154,6 +149,8 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
                 <li><a href="mantparametros"><i class=""></i> Parametros</a></li>
                 <li><a href="mantObjetos"><i class=""></i> Objetos</a></li>
+                <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidades y Tipo Producto</a></li>
+                <li ><a href="mantProducto"><i class=""></i> Mantenimiento Producto</a></li>
               </ul>
             </li>
             <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>

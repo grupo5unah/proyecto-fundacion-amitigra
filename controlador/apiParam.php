@@ -73,8 +73,11 @@ case 'actualizarParametro':
             $id_param = (int)$_POST['id_parametro'];
             $parametro = $_POST['parametro'];
             $valor = $_POST['valor'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+            
            
-            $sql = "UPDATE tbl_parametros SET parametro = '$parametro', valor= '$valor' WHERE id_parametro=" . $id_param;          
+            $sql = "UPDATE tbl_parametros SET parametro = '$parametro', valor= '$valor', modificado_por= '$usuario_actual', fecha_modificacion= '$fecha' WHERE id_parametro=" . $id_param;          
             $resultado = $conn->query($sql);
           
             if ($resultado == 1) {

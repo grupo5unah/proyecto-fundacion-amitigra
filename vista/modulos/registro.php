@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Registration Page</title>
+  <title>SAAT | Registro Usuario</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -24,21 +24,15 @@
 <div class="register-box">
 
   <?php
-  //Como saber si se esta conectado a la base de datos
   include_once('../../modelo/conexionbd.php');
-/*if($conn->ping()){
-    echo "conectado";
-} else {
-    echo "error de conexion";
-}*/
   ?>
   <div class="register-box-body">
-    <form method="post" enctype="multipart/form-data">
-      <p class="register-box-msg">Registro de usuario</p>
+  <p class="register-box-msg">Registro de usuario</p>
+    <form id="registro" method="post" enctype="multipart/form-data">
+      
       <div class="row">
         <div class="col-md-18">
           <!--INICIO FORM-->
-          
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
                 <li><a></a></li>               
@@ -56,12 +50,21 @@
                         <span class="fa fa-user form-control-feedback"></span>
                       </div>
                         <div class="form-group has-feedback">
+<<<<<<< HEAD
+                          <input type="text" maxlength="15" id="usuario" class="form-control" name="usuario" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                          <span class="fa fa-user form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                          <input type="text" maxlength="50" id="correo" class="form-control" name="correo" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
+=======
                           <input type="text" maxlength="15" class="form-control" name="usuario" value="<?php if (isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                           <span class="fa fa-user form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
                           <input type="text" maxlength="50" class="form-control" name="correo" value="<?php if (isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
+>>>>>>> 134fb9ce1054ad661f2e33e18669b9e66b8e571c
                           <span class="fa fa-envelope form-control-feedback"></span>
+                          <span id="ver"></span>
                         </div>
                         <div class="form-group has-feedback">
                           <select class="form-control" name="genero" id="genero">
@@ -71,7 +74,11 @@
                           </select>
                         </div>
                         <div class="form-group has-feedback">
+<<<<<<< HEAD
+                          <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
+=======
                           <input type="tel" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
+>>>>>>> 134fb9ce1054ad661f2e33e18669b9e66b8e571c
                           <span class="fa fa-phone-square form-control-feedback"></span>
                         </div>
                         <br>
@@ -83,7 +90,7 @@
                           <button href="#timeline" class="btn btn-success" id="enviar" data-toggle="tab">Siguiente</button>
                         </div>
                     </div> 
-                  </div>
+                </div>
      
 
                 <!--PRIMER PREGUNTA-->
@@ -186,14 +193,14 @@
                   <div class="post text-center">
                     <div class="input-group col-sm-11 has-feedback">
                     <label for="inputSkills" class="col-sm-8 control-label">Nueva contraseña</label>
-                        <input id="PassNuevo" type="password" class="form-control" name="password" placeholder="Contraseña">
+                        <input id="PassRegistro" type="password" class="form-control" name="password" placeholder="Contraseña">
                         
                       </div>
                       <br>
                       <div class="input-group has-feedback">
-                        <input id="ConfPass" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
-                        <span class="input-group-btn" onclick="mostrarPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon"></i></button>
+                        <input id="ConfPassR" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
+                        <span class="input-group-btn" onclick="VerPassword()">
+                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
                         </span>
                       </div>
                       <br>
@@ -211,24 +218,121 @@
             </div>
           
           <!--FIN FORM-->
-        </div>   
-
-
-        
-      </div>
-      
-    </form>
-    <?php
+        </div>     
+      </div>  
+      <?php
                       include("../../controlador/ctr.registro.php");
 
                       $registrarse = new Registro();
                       $registrarse->ctrRegistro();
                       ?>
+    </form>
+    
   </div>
-  <!-- /.form-box -->
 </div>
 
+<!-- Con JQUERY -->
+
+<!-- $(document).ready(function(){
+  $("#bloquear").on('paste', function(e){
+    e.preventDefault();
+    alert('Esta acción está prohibida');
+  })
+  
+  $("#bloquear").on('copy', function(e){
+    e.preventDefault();
+    alert('Esta acción está prohibida');
+  })
+}) -->
+
+<!-- FIN CON JQUERY -->
+
+<script type="text/javascript">
+
+window.onload = function(){
+
+  let nombre = document.getElementById('nombre');
+  let usuario = document.getElementById('usuario');
+  let correo = document.getElementById('correo');
+  let telefono = document.getElementById('telefono');
+  let pregunta1 = document.getElementById('preg1');
+  let pregunta2 = document.getElementById('preg2');
+  let pregunta3 = document.getElementById('preg3');
+  let contrasena = document.getElementById('PassRegistro');
+  let confContrasena = document.getElementById('ConfPassR');
+
+  //Evita el copiado y pegado en el input nombre
+  nombre.onpaste = function(e){
+    e.preventDefault();
+  }
+  nombre.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  //Evita el copiado y pegado en el input usuario
+  usuario.onpaste = function(e){
+    e.preventDefault();
+  }
+  usuario.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  //Evita el copiado y pegado en el input correo
+  correo.onpaste = function(e){
+    e.preventDefault();
+  }
+  correo.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  telefono.onpaste = function(e){
+    e.preventDefault();
+  }
+  telefono.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  pregunta1.onpaste = function(e){
+    e.preventDefault();
+  }
+  pregunta1.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  pregunta2.onpaste = function(e){
+    e.preventDefault();
+  }
+  pregunta2.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  pregunta3.onpaste = function(e){
+    e.preventDefault();
+  }
+  pregunta3.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  contrasena.onpaste = function(e){
+    e.preventDefault();
+  }
+  contrasena.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  confContrasena.onpaste = function(e){
+    e.preventDefault();
+  }
+  confContrasena.oncopy = function(e){
+    e.preventDefault();
+  }
+}
+
+</script>
+
 <script src="../dist/js/app.login.js"></script>
+
+<script src="../dist/js/registro.js"></script>
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->

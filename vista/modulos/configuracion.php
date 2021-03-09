@@ -79,13 +79,15 @@ require "./modelo/conexionbd.php";
                             <input type="text" class="form-control" value="<?php echo $parametro['valor']; endwhile;?>" id="inputName" placeholder="Puerto">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="inputName" class="col-sm-3 control-label">Mensaje envío de correo:</label>
 
                             <div class="col-sm-8">
-                            <input type="text" class="form-control" value="<?php ?>" id="mensaje" placeholder="Mensaje">
+                            <input type="text" class="form-control" value="" id="mensaje" placeholder="Mensaje">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="text-center">
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -136,9 +138,11 @@ require "./modelo/conexionbd.php";
                 <div class="form-group">
                     <label for="inputName" class="col-sm-3 control-label">Estado de la conexion:</label>
 
-                    <div class="col-sm-8">
-                    <input type="text" class="text-center form-control btn btn-success" value="<?php if($conn->ping()){ echo "conectado"; } else { echo "error de conexion";}?>" id="inputName">
-                    </div>
+                
+                    <div class="col-sm-3 has-success">
+                    <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i><?php if($conn->ping()){ echo "conectado"; } else { $fallo = ("error de conexion %s\n" + $mysqli->error); echo $fallo;}?></label>
+                     
+                  </div>
                 </div>
                 <div class="form-group">
                     <div class="text-center">
@@ -152,14 +156,22 @@ require "./modelo/conexionbd.php";
               <!-- /.tab-pane -->
 
               <div class="tab-pane" id="timeline">
-                <form method="POST" class="form-horizontal">
+                <form method="POST" class="form-horizontal" enctype="multipart/form-data">
                   <div class="form-group">
-                  <label for="inputName" class="col-sm-3 control-label">Logo</label>
+                  <label for="inputName" class="text-center col-sm-3 control-label"></label>
                   
                   <div class="input-group col-sm-8">
                     <img class="profile-user-img img-responsive img-circle" src="vista/dist/img/logo.png" alt="Foto perfil de usuario">
 
-                    <p class="text-muted text-center">INFORMACIÓN</br>sobre la fundacion</p>
+                    <p class="text-muted text-center">Logo</p>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-3 control-label">logo organizacion:</label>
+
+                    <div class="input-group col-sm-8">
+                      <input type="file" id="imagen" name="imagen" accept="image/jpg, image/png" class="form-control">
                     </div>
                   </div>
                   
@@ -211,6 +223,7 @@ require "./modelo/conexionbd.php";
                       <button type="submit" name="cambio" value="act" class="btn btn-danger">Guardar cambios</button>
                     </div>
                   </div>
+                  <a href="#" class="badge badge-primary">Primary</a>
 
                   <script type="text/javascript">
 	function mostrarPassword(){

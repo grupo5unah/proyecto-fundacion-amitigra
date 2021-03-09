@@ -58,9 +58,11 @@ switch ($action) {
             && isset($_POST['pregunta'])) {
             $id_pregunta = (int)$_POST['id_pregunta'];
             $pregunta = $_POST['pregunta'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
             
            
-            $sql = "UPDATE tbl_preguntas SET pregunta = '$pregunta' WHERE id_pregunta=" . $id_pregunta;          
+            $sql = "UPDATE tbl_preguntas SET pregunta = '$pregunta', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_pregunta=" . $id_pregunta;          
             $resultado = $conn->query($sql);
           
             if ($resultado == 1) {

@@ -40,19 +40,22 @@ $columna = $stmt->fetch_assoc();
     <?php
     include_once "./modelo/conexionbd.php";
     
-    $query = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
+    $consulta = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
 
-    $resultado = mysqli_query($conn,$query);
+    $resultadoFoto = mysqli_query($conn,$consulta);
 
-    while($imagen = mysqli_fetch_assoc($resultado)):?>
-      <div class="row">
+    while($imagen = mysqli_fetch_assoc($resultadoFoto)):?>
+
+<div class="row">
         <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-green">
+              <div class="widget-user-image">
+                <img class="img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
+              </div>
 
-          <!-- INICIO DE LA INFORMACION DEL USUARIO-->
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="Foto perfil de usuario">
-              <p class="text-muted text-center">Cargo: <br> <?php echo ucwords($rol_id);?> </p>
 <?php }}?>
               <?php
 
@@ -82,33 +85,26 @@ $columna = $stmt->fetch_assoc();
                       $dias_transcurridos = $diff->days;
 
               ?>       
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Nombre completo: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Nombre de usuario: </b> <a class="pull-right"><?php echo strtoupper($usuario);?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Correo: </b> <a class="pull-right"><?php echo $_SESSION['correo'];?></a>
-                  <br>
-                </li>
-                <li class="list-group-item">
-                  <b>Teléfono: </b> <a class="pull-right"><?php echo ucwords(strtolower($_SESSION['telefono']));?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Contraseña Caduca: </b> <a class="pull-right"><?php setlocale(LC_ALL,"es_ES"); $conexion = strftime("%d de %b de %G. A las %I:%M %p", strtotime($_SESSION['fecha_vencimiento'])); echo $conexion;?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Días transcurridos: </b> <a class="pull-right"><?php echo $dias_transcurridos;?></a>
-                </li>
+      
+      
+              <!-- /.widget-user-image -->
+              <h3 class="widget-user-username"><strong>Cargo:</strong></h3>
+              <h5 class="widget-user-desc"><?php echo ucwords($rol_id);?></h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a><strong>Nombre completo: </strong><span class="pull-right"><?php echo ucwords(strtolower($_SESSION['nombre_completo']));?></span></a></li>
+                <li><a><strong>Nombre de usuario: </strong><span class="pull-right"><?php echo strtoupper($usuario);?></span></a></li>
+                <li><a><strong>Correo: </strong><span class="pull-right"><?php echo $_SESSION['correo'];?></span></a></li>
+                <li><a><strong>Telefono: </strong><span class="pull-right"><?php echo ucwords(strtolower($_SESSION['telefono']));?></span></a></li>
+                <li><a><strong>Contrasena caduca: </strong><span class="pull-right"><?php echo ucwords(strtolower($_SESSION['fecha_vencimiento']));?></span></a></li>
+                <li><a><strong>Dias transcurridos: </strong><span class="pull-right"><?php echo $dias_transcurridos;?></span></a></li>
               </ul>
-                 
             </div>
           </div>
-          <!--FIN DE LA INFORMACION DEL USUARIO-->
+          <!-- /.widget-user -->
+        </div>
 
-        </div>    
         
         <!--INICIO DE LA TABLA-->
         <div class="col-md-8">
@@ -124,14 +120,14 @@ $columna = $stmt->fetch_assoc();
                     <label for="inputName" class="col-sm-3 control-label">Nombre completo:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" name="nombre" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['nombre_completo']));?>" placeholder="Nombre">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo ucwords(strtolower($_SESSION['nombre_completo']));?>" placeholder="Nombre">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputName" class="col-sm-3 control-label">Nombre de usuario:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" name="usuario" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
+                      <input type="text" name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
                     </div>
                   </div>
 
@@ -147,14 +143,15 @@ $columna = $stmt->fetch_assoc();
                     <label for="inputName" class="col-sm-3 control-label">Tel./Celular:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" name="telefono" class="form-control" id="inputName" value="<?php echo ucwords(strtolower($_SESSION['telefono']));?>" placeholder="Numero telefono fijo o celular">
+                      <input type="tel" name="telefono" class="form-control" id="telefono" value="<?php echo ucwords(strtolower($_SESSION['telefono']));?>" placeholder="Numero telefono fijo o celular">
                     </div>
                   </div>
+
                   <div class="form-group">
                     <label for="inputEmail" class="col-sm-3 control-label">Correo Electrónico:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="email" name="correo" class="form-control" id="inputEmail" value="<?php echo $_SESSION['correo'];?>" placeholder="Correo electronico">
+                      <input type="email" name="correo" class="form-control" id="correo" value="<?php echo $_SESSION['correo'];?>" placeholder="Correo electronico">
                     </div>
                   </div>
 
@@ -173,10 +170,57 @@ $columna = $stmt->fetch_assoc();
                   
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                    <input type="hidden"  name="cambio_info" value="act_info">
-                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
+                    <input type="hidden" name="cambio_info" value="act_info">
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
+                    <button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
                     </div>
                   </div>
+
+                  <script type="text/javascript">
+                    window.onload = function() {
+                      let telefono = document.getElementById('telefono');
+                      let nombre = document.getElementById('nombre');
+                      let usuario = document.getElementById('usuario');
+                      let correo = document.getElementById('correo');
+                      let contrasena = document.getElementById('passConf');
+                      
+                      telefono.onpaste = function(e) {
+                        e.preventDefault();
+                      }                 
+                      telefono.oncopy = function(e) {
+                        e.preventDefault();
+                      }
+
+                      nombre.onpaste = function(e) {
+                        e.preventDefault();
+                      } 
+                      nombre.oncopy = function(e) {
+                        e.preventDefault();
+                      }
+
+                      usuario.onpaste = function(e) {
+                        e.preventDefault();
+                      } 
+                      usuario.oncopy = function(e) {
+                        e.preventDefault();
+                      }
+
+                      contrasena.onpaste = function(e){
+                        e.preventDefault();
+                      }
+                      contrasena.oncopy = function(e){
+                        e.preventDefault();
+                      }
+
+                      correo.onpaste = function(e){
+                        e.preventDefault();
+                      }
+                      correo.oncopy = function(e){
+                        e.preventDefault();
+                      }
+                    }
+                  </script>
+                  
 
                   <!--FUNCION PARA MOSTRAR CONTRASENA-->
                   <script type="text/javascript">
@@ -199,7 +243,7 @@ $columna = $stmt->fetch_assoc();
 
               <!-- INICIO SEGUNDO TAB -->
               <div class="tab-pane" id="settings2">
-                <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+                <form method="POST" id="cambioPass" class="form-horizontal" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="input-group col-sm-8">
                       <input type="hidden" class="form-control" name="usuario" value="<?php echo $usuario;?>" placeholder="Ingrese su contraseña actual">
@@ -242,7 +286,7 @@ $columna = $stmt->fetch_assoc();
                   
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                    <input type="hidden" name="cambio" value="act">
+                    <input type="hidden" name="cambios" value="act">
                     <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
                     </div>
                   </div>
@@ -287,20 +331,20 @@ $columna = $stmt->fetch_assoc();
             </div>
             <?php
             
-              include("./controlador/ctr.passwordperfil.php");
+              require("./controlador/ctr.passwordperfil.php");
 
               $actualizar = new PasswordPHP();
               $actualizar->ctrPasswordInfo();
         
-                    include("./controlador/ctr.actualizarInformacion.php");
+                    //include("./controlador/ctr.actualizarInformacion.php");
 
-                    $actualizar = new ActualizarInfo();
-                    $actualizar->ctrActualizarInfo();
+                    //$actualizar = new ActualizarInfo();
+                    //$actualizar->ctrActualizarInfo();
 
-                    include("./controlador/ctr.Acciones.php");
+                    require_once("./controlador/ctr.Acciones.php");
 
-              // $perfilBitacora = new AccionesUsuario();
-              // $perfilBitacora->ctrPerfilBitacora();
+              $perfilBitacora = new AccionesUsuario();
+              $perfilBitacora->ctrPerfilBitacora();
 
                     ?>
 
@@ -312,8 +356,10 @@ $columna = $stmt->fetch_assoc();
         </div>
         <!--FIN DE LA TABLA-->
       </div>
+    
       
 
     </section>
+
     <!-- /.content -->
   </div>

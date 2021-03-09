@@ -7,7 +7,7 @@ $(document).ready(function(){
         var descripcion = $("#descripcion").val();
         var usuario_actual = $("#usuario_actual").val();
 
-        console.log(nombre, descripcion, usuario_actual);
+        //console.log(nombre, descripcion, usuario_actual);
         if(nombre != undefined && descripcion != undefined && usuario_actual != undefined){
             const formData = new FormData();
             formData.append('rol',nombre);
@@ -67,7 +67,9 @@ $(document).ready(function(){
         // info previa
         const idrol = $(this).data('idrol'); 
         const nombrerol = $(this).data('nombrerol');
-        const descripcion = $(this).data('descripcion'); 
+        const descripcion = $(this).data('descripcion');
+        var usuario_actual = $("#usuario_actual").val();
+ 
         //llena los campos
         $("#idrol").val(idrol),
         $("#nombreRol").val(nombrerol),
@@ -84,6 +86,7 @@ $(document).ready(function(){
             formData.append('id_rol', IdRol);
             formData.append('rol',$("#nombreRol").val());
             formData.append('descripcion',$("#descripcionRol").val());
+            formData.append('usuario_actual', usuario_actual);
             console.log(formData);
             
            const resp = await axios.post('./controlador/apiRol.php?action=actualizarRol', formData);
@@ -143,9 +146,10 @@ $(document).ready(function(){
     $("#formParametros").submit(async function(e){
         e.preventDefault();
         var nombre = $("#nombrePara").val();
+        var idUsuario = $("#id_usuario").val();
         var valor = $("#valorParam").val();
         var usuario_actual = $("#usuario_actual").val();
-        var idUsuario = $("#id_usuario").val();
+        
        
         if(nombre != undefined && valor != undefined && usuario_actual != undefined && idUsuario != undefined){
             const formData = new FormData();
@@ -210,6 +214,7 @@ $(document).ready(function(){
         const idparametro = $(this).data('idparametro'); 
         const parametro = $(this).data('nombreparametro');
         const valor = $(this).data('valor'); 
+        var usuario_actual = $("#usuario_actual").val();
         //llena los campos
         $("#idparametro").val(idparametro),
         $("#Param").val(parametro),
@@ -223,9 +228,10 @@ $(document).ready(function(){
             console.log(Idparametro);
             const formData = new FormData();
             formData.append('id_parametro', Idparametro);
-            formData.append('parametro',$("#parametro").val());
+            formData.append('parametro',$("#Param").val());
             formData.append('valor',$("#valor").val());
-            console.log(formData);
+            formData.append('usuario_actual', usuario_actual);
+            
             
            const resp = await axios.post('./controlador/apiParam.php?action=actualizarParametro', formData);
            const data = resp.data;
@@ -242,8 +248,7 @@ $(document).ready(function(){
                     buttons:false
                 }).then(() => {
                     // Se limpia el formulario
-                    console.log('Ya se cerro el alert');
-                    $("#parametro").val('');
+                    $("#Param").val('');
                     $("#valor").val('');
                     location.reload(); 
                 })
@@ -251,7 +256,7 @@ $(document).ready(function(){
                 
         });
         
-    })
+    });
     //eliminar parametro
     $('.btnEliminarParam').on('click', function (){
         const idParametro = $(this).data('idparametro');
@@ -286,14 +291,12 @@ $(document).ready(function(){
         var pregunta = $("#pregunta").val();
         
         var usuario_actual = $("#usuario_actual").val();
-
-        
+       
         if(pregunta != undefined && usuario_actual != undefined){
             const formData = new FormData();
             formData.append('pregunta',pregunta);
             formData.append('usuario_actual',usuario_actual);
-           // formData.append('usuario_actual', usuario_actual);
-
+          
             const resp = await axios.post(`./controlador/apiPregunta.php?action=registrarPregunta`, formData);
 
             const data = resp.data;
@@ -307,6 +310,7 @@ $(document).ready(function(){
                         // Se limpia el formulario
                         $("#pregunta").val('');
                         $("#usuario_actual").val('');
+                        location.reload();
                         
                     }
                 })
@@ -318,7 +322,7 @@ $(document).ready(function(){
     
     
     $('#pregunta').blur(async function () {
-        //console.log(this.value);
+        
         if(this.value.length > 0 ){
             try{
                 const resp = await axios(`./controlador/apiPregunta.php?action=obtenerPregunta&pregunta=${this.value}`);
@@ -329,8 +333,6 @@ $(document).ready(function(){
                     //$('#valor')
                     
                     return swal('Este pregunta ya existe ');
-                }else{
-                    //return swal('NO existe este producto');
                 }
                 
             }catch(err){
@@ -347,14 +349,12 @@ $(document).ready(function(){
         // info previa
         const idpregunta = $(this).data('idpregunta'); 
         const pregunta = $(this).data('nompregunta');
-        
+        var usuario_actual = $("#usuario_actual").val();
+        console.log(idpregunta,pregunta)
         //llena los campos
         $("#idpregunta").val(idpregunta),
-        $("#pregunta").val(pregunta),
-       
-        
-       // console.log(idrol,nombrerol,descripcion);
-        //mostrar el modal
+        $("#pregunta1").val(pregunta),
+     
         $('#modalEditarPregunta').modal('show');
         
         $('.btnEditarBD').on('click', async function() {
@@ -362,10 +362,9 @@ $(document).ready(function(){
             console.log(IdPregunta);
             const formData = new FormData();
             formData.append('id_pregunta', IdPregunta);
-            formData.append('pregunta',$("#pregunta").val());
-           
-            console.log(formData);
-            
+            formData.append('pregunta',$("#pregunta1").val());
+            formData.append('usuario_actual', usuario_actual);
+ 
            const resp = await axios.post('./controlador/apiPregunta.php?action=actualizarPregunta', formData);
            const data = resp.data;
             console.log(data);
@@ -381,9 +380,8 @@ $(document).ready(function(){
                     buttons:false
                 }).then(() => {
                     // Se limpia el formulario
-                    console.log('Ya se cerro el alert');
-                    $("#pregunta").val('');
                     
+                    $("#pregunta").val('');
                     location.reload(); 
                 })
             }
@@ -391,8 +389,8 @@ $(document).ready(function(){
         });
         
     })
-//eliminar roles
-$('.btnEliminarPregunta').on('click', function (){
+//eliminar pregunta
+   $('.btnEliminarPregunta').on('click', function (){
     const idPregunta = $(this).data('idpregunta');
     swal("Eliminar Pregunta", "Esta seguro de eliminar este Pregunta?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
         if (value){
@@ -415,8 +413,256 @@ $('.btnEliminarPregunta').on('click', function (){
                 location.reload();
             });
         }
+     });
+   })
+
+  // mantenimiento de tipo producto
+  $("#formTP").submit(async function(e){
+    e.preventDefault();
+
+    var tipoProducto = $("#tipoP").val();
+    
+    var usuario_actual = $("#usuario_actual").val();
+   
+    if(tipoProducto != undefined && usuario_actual != undefined){
+        const formData = new FormData();
+        formData.append('tipo_Producto',tipoProducto);
+        formData.append('usuario_actual',usuario_actual);
+      
+        const resp = await axios.post(`./controlador/apiRol.php?action=registrarTProduct`, formData);
+
+        const data = resp.data;
+
+        if(data.error){
+            return swal("Error", data.msj, "error");
+        }
+
+        return swal("Exito!", data.msj, "success").then((value) => {
+                if (value){
+                    // Se limpia el formulario
+                    $("#tipoP").val('');
+                    $("#usuario_actual").val('');
+                    location.reload();
+                    
+                }
+            })
+    }else{
+        swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+    } 
+  });
+
+
+
+  $('#tipoP').blur(async function () {
+    
+    if(this.value.length > 0 ){
+        try{
+            const resp = await axios(`./controlador/apiRol.php?action=obtenerTipoP&tipoP=${this.value}`);
+            const data = resp.data;
+            if(data.tipoP.length > 0){
+                $('#tipoP')
+                return swal('Este tipo de producto ya existe ');
+            }
+            
+        }catch(err){
+            console.log('Error - ', err);
+        }
+    }
+  })
+   $('.btnCrearTipo').on('click', function(){
+    $('#modalRegistrarTP').modal('show');
+   } );
+
+//FUNCION EDITAR TIPO PRODUCTO
+  $('.btnEditarTP ').on('click', function() {
+    // info previa
+    const id = $(this).data("idtipop"); 
+    const nombreTP = $(this).data("tipoproductop");
+    var usuario_actual = $("#usuario_actual").val()
+    console.log(id,nombreTP);
+    //llena los campos
+    //("#idtipoProducto").val(id_tipo_producto);
+    $("#tipo_producto").val(nombreTP);
+
+    $('#modalEditarTP').modal('show');
+    
+    $('.btnEditarBD').on('click', async function() {
+        var idTP = Number(id); 
+        
+        const formData = new FormData();
+        formData.append('id_tipoProducto', idTP);
+        formData.append('tProducto',$("#tipo_producto").val()); 
+        formData.append('usuario_actual', usuario_actual); 
+
+       const resp = await axios.post('./controlador/apiRol.php?action=actualizarTP', formData);
+       const data = resp.data;
+        
+        if(data.error){
+            return swal("Error", data.msj, "error", {
+                timer:3000,
+                buttons:false
+            });
+        } else{
+            $('#modalEditarTP').modal('hide');
+            return swal("Exito!", data.msj, "success", {
+                timer:3000,
+                buttons:false
+            }).then(() => {
+                // Se limpia el formulario
+                console.log('Ya se cerro el alert');
+                $("#tipo_producto").val('');
+                
+                location.reload(); 
+            })
+        }
+            
     });
+    
+  })
+//eliminar tipo producto
+  $('.btnEliminarTP').on('click', function (){
+const idtp = $(this).data('id_tipoP');
+swal("Eliminar Tipo de Producto", "Esta seguro de eliminar este tipo de producto?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+    if (value){
+        
+        const formData = new FormData();
+        formData.append('id_tipo_producto', idtp);
+        const resp = await axios.post('./controlador/apiRol.php?action=eliminarTipoP', formData);
+        const data = resp.data;
+       
+        if(data.error){
+            return swal("Error", data.msj, "error",{
+                buttons: false,
+                timer: 3000
+            });
+        }
+        return swal("Exito!", data.msj, "success",{
+            buttons: false,
+            timer: 3000
+        }).then(() =>{ 
+            location.reload();
+        });
+    }
+ });
+  })
+  
+  // mantenimiento de localidades
+  $("#formLocalidad").submit(async function(e){
+    e.preventDefault();
+    var localidad = $("#nomLocalidad").val();   
+    var usuario_actual = $("#usuario_actual").val();
+       if(localidad != undefined && usuario_actual != undefined){
+        const formData = new FormData();
+        formData.append('localidad',localidad);
+        formData.append('usuario_actual', usuario_actual);
+        const resp = await axios.post(`./controlador/apiRol.php?action=registrarLocalidad`, formData);
+        const data = resp.data;
+        if(data.error){
+            return swal("Error", data.msj, "error");
+        }
+        return swal("Exito!", data.msj, "success").then((value) => {
+                if (value){
+                    // Se limpia el formulario
+                    $("#nombreLocalidad").val('');
+                    $("#usuario_actual").val('');
+                    location.reload(); 
+                    
+                }
+            })
+    }else{
+        swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+    } 
+  });
+
+
+
+  $('#nomLocalidad').blur(async function () {
+    
+    if(this.value.length > 0 ){
+        try{
+            const resp = await axios(`./controlador/apiRol.php?action=obtenerLocalidad&localidad=${this.value}`);
+            const data = resp.data;
+            if(data.localidad.length > 0){
+                console.log(data.localidad[0]);
+                $('#nomLocalidad')
+                return swal('Esta localidad ya existe ');
+            }
+        }catch(err){
+            console.log('Error - ', err);
+        }
+    }
+  })
+     $('.btnCrearLocalidad').on('click', function(){
+   $('#modalRegistrarLocalidad').modal('show');
+   } );
+
+//FUNCION EDITAR Localidades
+$('.btnEditarLocalidad ').on('click', function() {
+    // info previa
+    const idLocalidad = $(this).data('idlocalidad'); 
+    const local = $(this).data('nombrelocalidad');
+    var usuario_actual = $("#usuario_actual").val()
+    
+    //llena los campos
+    $("#idlocalidad").val(idLocalidad),
+    $("#localidad").val(local),
+ 
+    $('#modalEditarLocalidad').modal('show');
+    
+    $('.btnEditarBD').on('click', async function() {
+        var idlocalidad = Number(idLocalidad); 
+        const formData = new FormData();
+        formData.append('id_localidad', idlocalidad);
+        formData.append('localidad',$("#localidad").val());
+        formData.append('usuario_actual', usuario_actual);
+          
+       const resp = await axios.post('./controlador/apiRol.php?action=actualizarLocalidad', formData);
+       const data = resp.data;
+        if(data.error){
+            return swal("Error", data.msj, "error", {
+                timer:3000,
+                buttons:false
+            });
+        } else{
+            $('#modalEditarLocalidad').modal('hide');
+            return swal("Exito!", data.msj, "success", {
+                timer:3000,
+                buttons:false
+            }).then(() => {
+                // Se limpia el formulario
+                $("#localidad").val('');
+                location.reload(); 
+            })
+        }
+            
+    });
+    
 })
+// //eliminar localidades
+  $('.btnEliminarLocalidad').on('click', function (){
+const idlocalidad = $(this).data('idlocalidad');
+swal("Eliminar Localidad", "Esta seguro de eliminar esta Localidad?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+    if (value){
+        const formData = new FormData();
+        formData.append('id_localidad', idlocalidad);
+        const resp = await axios.post('./controlador/apiRol.php?action=eliminarLocalidad', formData);
+        const data = resp.data;
+        //console.log(data);
+        if(data.error){
+            return swal("Error", data.msj, "error",{
+                buttons: false,
+                timer: 3000
+            });
+        }
+        return swal("Exito!", data.msj, "success",{
+            buttons: false,
+            timer: 3000
+        }).then(() =>{ 
+            location.reload();
+        });
+    }
+ });
+  })
     
 
 }); 

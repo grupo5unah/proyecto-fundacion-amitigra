@@ -19,7 +19,15 @@ global $ver;
                 if($expire_date <= $current_date) {
                     echo "<div class='text-center alert alert-danger' role='alert'>
                             Lo sentimos, el enlace ha caducado.
-                            </div>";
+                            </div>
+                            <script>
+                            window.setTimeout(function(){
+                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                            function(){
+                            $(this).remove();
+                            });
+                            }, 3000);
+                            </script>";
                 } else {
                     if(isset($_POST['tipo']) == 'nuevaContrasena') {
                         $password = $_POST['password'];
@@ -42,9 +50,17 @@ global $ver;
                                 if(!$existe){
                                     $pattern_up = "/^.*(?=.{4,56})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/";
                                     if(!preg_match($pattern_up, $password)) {
-                                        echo '<div class="text-center alert alert-danger" role="alert">
+                                        echo "<div class='text-center alert alert-danger' role='alert'>
                                         Debe tener al menos 8 caracteres entre ellos, 1 mayúscula, 1 letra minúscula, 1 caracter espececial y 1 número.
-                                        </div>';
+                                        </div>
+                                        <script>
+                                        window.setTimeout(function(){
+                                        $('.alert').fadeTo(1500,00).slideDown(1000,
+                                        function(){
+                                        $(this).remove();
+                                        });
+                                        }, 3000);
+                                        </script>";
                                         
                                     } else {
                                         
@@ -62,9 +78,17 @@ global $ver;
                                             if($si_existe){
 
                                                 if (password_verify($password, $hist_contrasena)) {
-                                                    echo '<div class = "text-center alert alert-danger" role = "alert">
+                                                    echo "<div class = 'text-center alert alert-danger' role = 'alert'>
                                                             Lo sentimos, la contraseña ya estuvo en uso.
-                                                            </div>';
+                                                            </div>
+                                                            <script>
+                                                            window.setTimeout(function(){
+                                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                                            function(){
+                                                            $(this).remove();
+                                                            });
+                                                            }, 3000);
+                                                            </script>";
                                                                                                          
                                                 } else {
                                             
@@ -93,11 +117,27 @@ global $ver;
                                                     if($Actualizacion->error) {
                                                         echo "<div class='text-center alert alert-danger' role='alert'>
                                                             No se pudo registrar su contraseña
-                                                            </div>";
+                                                            </div>
+                                                            <script>
+                                                            window.setTimeout(function(){
+                                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                                            function(){
+                                                            $(this).remove();
+                                                            });
+                                                            }, 3000);
+                                                            </script>";
                                                     } else {
                                                         echo "<div class='text-center alert alert-success' role='alert'>
                                                             Nueva contraseña creada correctamente
-                                                            </div>";
+                                                            </div>
+                                                            <script>
+                                                            window.setTimeout(function(){
+                                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                                            function(){
+                                                            $(this).remove();
+                                                            });
+                                                            }, 3000);
+                                                            </script>";
 
                                                             echo $id_usuario;
 
@@ -122,7 +162,6 @@ global $ver;
                                                     }//Cierre octavo IF
 
                                                 }                                              
-                                        
                                             }
                                         }
                                         
@@ -134,9 +173,17 @@ global $ver;
                                 }//Cierre sexto IF
                             }//Cierre quinto IF
                         }else {
-                            echo "<div class='alert alert-danger' role='alert'>
+                            echo "<div class='text-center alert alert-danger' role='alert'>
                                     Las contraseñas no coinciden.
-                                    </div>";
+                                    </div>
+                                    <script>
+                                    window.setTimeout(function(){
+                                    $('.alert').fadeTo(1500,00).slideDown(1000,
+                                    function(){
+                                    $(this).remove();
+                                    });
+                                    }, 3000);
+                                    </script>";
                                     
                         }//Cierre cuarto IF
                     }//Cierre tercer IF

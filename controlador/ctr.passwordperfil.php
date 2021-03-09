@@ -1,4 +1,5 @@
 <?php
+
 class PasswordPHP{
         
     public function ctrPasswordInfo(){
@@ -16,9 +17,22 @@ class PasswordPHP{
 
                 if($p_conf == ""){
                     echo "<div class ='text-center alert alert-warning' role = 'alert'>
-                                Debe de ingresar su contraseña para poder confirmar los cambios PHP.
-                                </div>";
-    
+                                Ingrese su contraseña para poder confirmar los cambios.
+                                </div>
+                                <script>
+                                window.setTimeout(function(){
+                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                function(){
+                                $(this).remove();
+                                });
+                                }, 3000);
+                                </script>";
+
+                    echo "<script>
+                        if (window.history.replaceState) { // verificamos disponibilidad
+                            window.history.replaceState(null, null, window.location.href);
+                        }</script>";
+
                 } else {
                     $stmt = $conn->prepare("SELECT id_usuario, contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
                         $stmt->bind_Param("s", $usuario);
@@ -57,15 +71,44 @@ class PasswordPHP{
                                     }else{                                     
                                         echo "<div class='text-center alert alert-success' role = 'alert'>
                                             Su información se actualizó con éxito.
-                                            </div>";
+                                            </div>
+                                            <script>
+                                            window.setTimeout(function(){
+                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                            function(){
+                                            $(this).remove();
+                                            });
+                                            }, 3000);
+                                            </script>";
+
+                                            echo "<script>
+                                            if (window.history.replaceState) { // verificamos disponibilidad
+                                                window.history.replaceState(null, null, window.location.href);
+                                                window.onload();
+                                            }</script>";
+                                            
+                                            //header('location:perfil.php');
                                     }
 
                                 } else {
-                                    echo "Las contrasenas no coinciden";
-                                    
-                                }
-                            }else{
+                                    echo "<div class='text-center alert alert-warning' role = 'alert'>
+                                            La contrasena ingresada es <strong>erronea</strong>.
+                                            </div>
+                                            <script>
+                                            window.setTimeout(function(){
+                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                            function(){
+                                            $(this).remove();
+                                            });
+                                            }, 3000);
+                                            </script>";
 
+                                            echo "<script>
+                                            if (window.history.replaceState) { // verificamos disponibilidad
+                                                window.history.replaceState(null, null, window.location.href);
+                                            }</script>";
+                                   
+                                }
                             }
                         }else{
 
