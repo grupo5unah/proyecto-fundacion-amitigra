@@ -69,10 +69,10 @@ class Login{
                             case 'ACTIVO':
 
                                 date_default_timezone_set("America/Tegucigalpa");
-                                $permiso = date('H:i:s', time());
+                                $permiso = date('H:i', time());
 
-                                if ($permiso == '23:45:00'){//VERIFICA LA HORA SI ES PASADO DE ESE TIEMPO NO PERMITE EL ACCESO
-                                    echo '<div class="alert alert-danger" role="alert">
+                                if ($permiso == '00:00:00'){//VERIFICA LA HORA SI ES PASADO DE ESE TIEMPO NO PERMITE EL ACCESO
+                                    echo '<div class="text-center alert alert-danger" role="alert">
                                             Acceso denegado
                                             </div>';
                                            
@@ -90,10 +90,13 @@ class Login{
                                         $_SESSION['id'] = $id_usuario_bitacora;
 
                                         //Ultima conexion
+                                        date_default_timezone_set("America/Tegucigalpa");
+                                        $fecha_conexion = date('Y-m-d H:i:s', time());
+
                                         $upd_conexion = $conn->prepare('UPDATE tbl_usuarios
                                                                         SET fecha_ult_conexion = ?
                                                                         WHERE id_usuario = ?;');
-                                        $upd_conexion->bind_Param('si',$fecha_hoy, $id_usuario_bitacora);
+                                        $upd_conexion->bind_Param('si',$fecha_conexion, $id_usuario_bitacora);
                                         $upd_conexion->execute();
 
                                         //Registra en la BITACORA la accion realizada
