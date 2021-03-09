@@ -1,91 +1,113 @@
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
-    <!-- Main content -->
-  <section class="content">
-      <!-- Default box -->
-      <!--Inicio de la TABLA-->
 
-      <div class="box">
-        <div class="box-header with-border">
-        <form action="../../ReportesPDF/ReporteBT" method="POST">  
-        <h3 class="box-title">Gestion Bitacora</h3>
-        <br>
-        <br>
-          <div class="row no-print">
-            <div class="col-xs-12">
-              <!--<a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>-->
-              <button type="button" name="irpdf" value="pdf" class="btn btn-danger pull-left">
-                <i class="fa fa-download"></i> Generate PDF
-              </button>
-          
-              <button download="" type="button" class="btn btn-success pull-left" style="margin-left: 5px;"><i class="fa fa-credit-card"></i> Submit Payment
-              </button>
-            </div>
-          </div>
-          <br>
-          </form>
+    <section class="content-header">
+      <h1>Bitácora <small> Acciones realizadas</small></h1>      
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active"><i class="fa fa-user"></i> Bitácora</li>
+      </ol>
+    </section>
 
-          <?php
-        require_once('./modelo/conexionbd.php');
-        ?>
-          <!-- /.box-header -->
-          <div class="box-body">
+	<section class="content">
 
-            <!--<a href="nuevo-registrado.php" class="btn btn-success">Añadir Nuevo</a>-->
-            <table id="tablas" class="display responsive nowrap">
-                <thead>
-                        <tr>
-                            <th>Usuario</th>
-                            <th>Objeto</th>
-                            <th>Fecha</th>
-                            <th>Accion</th>
-                            <th>Descripcion</th>
-                        </tr>
-                </thead>
-                <tbody>
+		<!-- Default box -->
+		<div class="box">
+			<div class="box-header with-border">
 
-                <?php
-                  try {
-                    $stmt = "SELECT accion, tbl_bitacora.descripcion AS descripcion, fecha, tbl_usuarios.nombre_usuario AS nombre_usuario, tbl_objeto.objeto AS objeto from tbl_bitacora
-                    INNER JOIN tbl_usuarios
-                    ON tbl_bitacora.usuario_id = tbl_usuarios.id_usuario
-                    INNER JOIN tbl_objeto
-                    ON tbl_bitacora.objeto_id = tbl_objeto.id_objeto
-                    ORDER BY id_bitacora DESC;
-                    ";
-                    $resultado = $conn->query($stmt);
-                  } catch (Exception $e) {
-                    $error = $e->getMessage();
-                  }
-                 while( $registrado = $resultado->fetch_assoc() ) { ?>
-                    <tr>    
-                    <td><?php echo $registrado['accion']; ?></td>
-                    <td><?php echo $registrado['descripcion']; ?></td>
-                    <td><?php echo $registrado['fecha']; ?></td>
-                    <td><?php echo $registrado['usuario']; ?></td>
-                    <td><?php echo $registrado['objeto']; ?></td>
-                    </tr>
-                <?php } ?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                    <th>Usuario</th>
-                    <th>Objeto</th>
-                    <th>Fecha</th>
-                    <th>Accion</th>
-                    <th>Descripcion</th>
-                    </tr>
-                </tfoot>
-            </table>
-          </div>
-          <!-- /.box-body -->
-          
-        </div>
-        <!-- /.box -->
-      </div>
-      <!--Fin de la TABLA-->
-      <!-- /.col -->
-    <!-- /.row -->
-  </section>
-    <!-- /.content -->
+			</div>
+			<div class="box-body">
+				<!--LLamar al formulario aqui-->
+				<div class="row">
+					<div class="col-md-12">
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Lista de acciones realizadas</div>
+							</div> <!-- /panel-heading -->
+							<div class="panel-body">
+								<div class="remove-messages"></div>
+								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+
+								</div> <!-- /div-action -->
+
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+									<thead>
+										<tr>
+
+											<th>Acción</th>
+											<th>Descripción</th>
+                      						<th>Fecha acción</th>
+                      						<th>Usuario</th>
+											<th>Objeto</th>
+											<th>Acciones</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<?php
+										try {
+
+
+											$sql = "SELECT id_bitacora, accion, descripcion, fecha_accion, tbl_usuarios.nombre_usuario AS usuario, objeto_id
+													FROM tbl_bitacora
+													INNER JOIN tbl_usuarios 
+													ON tbl_bitacora.usuario_id = tbl_usuarios.id_usuario;";
+											$resultado = $conn->query($sql);
+										} catch (\Exception $e) {
+											echo $e->getMessage();
+										}
+
+										$vertbl = array();
+										while ($eventos = $resultado->fetch_assoc()) {
+
+											$traer = $eventos['bitacora'];
+											$evento = array(
+												'accion' => $eventos['accion'],
+												'descripcion' => $eventos['descripcion'],
+												'fecha_accion' => $eventos['fecha_accion'],
+												'usuario' => $eventos['usuario'],
+                        						'objeto_id' => $eventos['objeto_id'],
+                        						'id_bitacora' => $eventos['id_bitacora']
+
+											);
+											$vertbl[$traer][] =  $evento;
+										}
+										foreach ($vertbl as $dia => $lista_articulo) { ?>
+
+
+											<?php foreach ($lista_articulo as $evento) { ?>
+												<?php	//echo $evento['nombre_arti']
+												?>
+												<tr>
+													<td> <?php echo $evento['accion']; ?></td>
+													<td> <?php echo $evento['descripcion']; ?></td>
+                          							<td> <?php echo $evento['fecha_accion']; ?></td>
+                        							<td> <?php echo $evento['usuario']; ?></td>
+													<td> <?php echo $evento['objeto_id']; ?></td>
+													<td>
+
+														<button class="btn btn-danger btnEliminarObjeto glyphicon glyphicon-remove" data-idobjeto="<?php echo $evento['id_bitacora'] ?>"></button>
+													</td>
+												<?php }?>
+											<?php }?>
+												</tr>
+									</tbody>
+									<!--<?php //}
+										?>-->
+
+								</table>
+								<!-- /table -->
+
+							</div> <!-- /panel-body -->
+						</div> <!-- /panel -->
+					</div> <!-- /col-md-12 -->
+					<?php $conn->close(); ?>
+				</div> <!-- /row -->
+
+
+			</div>
+			<!-- /.box-body -->
+	</section>
+	<!-- /.content -->
 </div>
-  <!-- /.content-wrapper -->

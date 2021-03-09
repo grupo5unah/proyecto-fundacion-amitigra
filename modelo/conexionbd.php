@@ -12,6 +12,6 @@
         $conn = new mysqli($server, $user_name, $pass, $data_base);
         $conn->set_charset('utf8');
 
-    } catch (mysqlException $e){
-        die('Se produjó un error en la conexión'. $e->getMessage());
+    } catch (Exception $e){
+        echo ('Se produjó un error en la conexión'. $e->getMessage());
     }

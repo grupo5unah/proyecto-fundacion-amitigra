@@ -23,7 +23,7 @@ switch ($action) {
         $res['rol'] = $rol_db;
         break;
 
-     case 'registrarRol': // REGISTRA UN ROL
+    case 'registrarRol': // REGISTRA UN ROL
         $nombreRol = $_POST['rol'];
         $descripcion = $_POST['descripcion'];
         $estado = 1;
@@ -51,8 +51,8 @@ switch ($action) {
                 echo $e->getMessage();
             }
         }
-     break;
-     case 'actualizarRol':
+    break;
+    case 'actualizarRol':
 
         if (
             isset(($_POST['id_rol']))
@@ -60,8 +60,10 @@ switch ($action) {
             $id_rol = (int)$_POST['id_rol'];
             $nombreR = $_POST['rol'];
             $descripcion = $_POST['descripcion'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
            
-            $sql = "UPDATE tbl_roles SET rol = '$nombreR', descripcion= '$descripcion' WHERE id_rol=" .$id_rol;          
+            $sql = "UPDATE tbl_roles SET rol = '$nombreR', descripcion= '$descripcion',modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_rol=" .$id_rol;          
             $resultado = $conn->query($sql);
           
             if ($resultado == 1) {
@@ -84,18 +86,187 @@ switch ($action) {
             $sql = "UPDATE tbl_roles SET estado_eliminado = 0 WHERE id_rol = " . $id_rol;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-                $res['msj'] = "Producto Eliminado  Correctamente";
+                $res['msj'] = "Rol Eliminado  Correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Rol";
                 $res['error'] = true;
             }
         } else {
-            $res['msj'] = "No se envió el id del producto a eliminar";
+            $res['msj'] = "No se envió el id del Rol a eliminar";
             $res['error'] = true;
         }
+    break;
+
+        //mantenimientos Tipo Producto
+
+
+    case 'obtenerTipoP': // OBTIENE UN tipo POR NOMBRE
+        $tipoP = $_GET['tipoP'];
+        $sql = "SELECT 
+        nombre_tipo_producto, id_tipo_producto
+        FROM tbl_tipo_producto WHERE nombre_tipo_producto = '" . $tipoP . "'";
+        $result = $conn->query($sql);
+        $tipo_db = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($tipo_db, $row);
+        }
+        $res['tipoP'] = $tipo_db;
         break;
 
+    case 'registrarTProduct': // REGISTRA UN tipo p
+        $nombreTP = $_POST['tipo_Producto'];
+        $estado = 1;
+        $usuario_actual = $_POST['usuario_actual'];
+        $fecha = date('Y-m-d H:i:s', time());
 
+        if (empty($_POST['tipo_Producto'])  || empty($_POST['usuario_actual'])) {
+            $res['msj'] = 'Es necesario rellenar todos los campos';
+            $res['error'] = true;
+        } else {
+            try {
+                $sql = $conn->prepare("INSERT INTO tbl_tipo_producto (nombre_tipo_producto,  estado_eliminado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?)");
+                $sql->bind_param("sissss", $nombreTP,  $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                $sql->execute();
+
+                if ($sql->error) {
+                    $res['msj'] = "Se produjo un error al momento de registrar el tipo producto";
+                    $res['error'] = true;
+                } else {
+                    $res['msj'] = "Tipo producto Registrado Correctamente";
+                }
+
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+    break;
+     //edita tipo producto
+    case 'actualizarTP':
+
+        if (
+            isset(($_POST['id_tipoProducto']))
+            && isset($_POST['tProducto'])) {
+            $id_tipoP = (int)$_POST['id_tipoProducto'];
+            $nombreTP = $_POST['tProducto'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+
+            $sql = "UPDATE tbl_tipo_producto SET nombre_tipo_producto = '$nombreTP', modificado_por= '$usuario_actual', fecha_modificacion='$fecha' WHERE id_tipo_producto=" .$id_tipoP;          
+            $resultado = $conn->query($sql);
+          
+            if ($resultado == 1) {
+
+                $res['msj'] = "Tipo producto se  Edito  Correctamente";
+            } else {
+                $res['msj'] = "Se produjo un error al momento de Editar el Tipo producto ";
+                $res['error'] = true;
+            }
+        } else {
+
+            $res['msj'] = "Las variables no estan definidas";
+            $res['error'] = true;
+        }
+
+    break;
+    //elimina el tipo producto
+    case 'eliminarTipoP':
+        if (isset($_POST['id_tipo_producto'])) {
+            $id_tipoP = $_POST['id_tipo_producto'];
+            $sql = "UPDATE tbl_tipo_producto SET estado_eliminado = 0 WHERE id_tipo_producto = " . $id_tipoP;
+            $resultado = $conn->query($sql);
+            if ($resultado == 1) {
+                $res['msj'] = "Tipo Producto Eliminado  Correctamente";
+            } else {
+                $res['msj'] = "Se produjo un error al momento de eliminar el Tipo producto";
+                $res['error'] = true;
+            }
+        } else {
+            $res['msj'] = "No se envió el id del Tipo producto a eliminar";
+            $res['error'] = true;
+        }
+    break;
+    case 'obtenerLocalidad': // OBTIENE la localidad POR NOMBRE
+            $localidad = $_GET['localidad'];
+            $sql = "SELECT 
+            nombre_localidad
+            FROM tbl_localidad WHERE nombre_localidad = '" . $localidad . "'";
+            $result = $conn->query($sql);
+            $localidad_db = array();
+            while ($row = $result->fetch_assoc()) {
+                array_push($localidad_db, $row);
+            }
+            $res['localidad'] = $localidad_db;
+    break;
+    
+    case 'registrarLocalidad': // REGISTRA UN localidad
+            $nombreLocalidad = $_POST['localidad'];
+            $estado = 1;
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+    
+            if (empty($_POST['localidad'])  || empty($_POST['usuario_actual'])) {
+                $res['msj'] = 'Es necesario rellenar todos los campos';
+                $res['error'] = true;
+            } else {
+                try {
+                    $sql = $conn->prepare("INSERT INTO tbl_localidad (nombre_localidad,  estado_eliminado, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?)");
+                    $sql->bind_param("sissss", $nombreLocalidad,  $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $sql->execute();
+    
+                    if ($sql->error) {
+                        $res['msj'] = "Se produjo un error al momento de registrar La Localidad";
+                        $res['error'] = true;
+                    } else {
+                        $res['msj'] = "Localidad Registrada Correctamente";
+                    }
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }
+         break;
+         //edita localidad
+    case 'actualizarLocalidad':
+    
+            if (
+                isset(($_POST['id_localidad']))
+                && isset($_POST['localidad']) && isset($_POST['usuario_actual'])) {
+                $id_localidad = (int)$_POST['id_localidad'];
+                $nombreLocalidad = $_POST['localidad'];
+                $usuario_actual = $_POST['usuario_actual'];
+                $fecha = date('Y-m-d H:i:s', time());
+
+                $sql = "UPDATE tbl_localidad SET nombre_localidad = '$nombreLocalidad', modificado_por= '$usuario_actual', fecha_modificacion=' $fecha' WHERE id_localidad =" .$id_localidad;          
+                $resultado = $conn->query($sql);
+              
+                if ($resultado == 1) {
+                    $res['msj'] = "La localidad se  Edito  Correctamente";
+                } else {
+                    $res['msj'] = "Se produjo un error al momento de Editar el nombre de la Localidad ";
+                    $res['error'] = true;
+                }
+            } else {
+                $res['msj'] = "Las variables no estan definidas";
+                $res['error'] = true;
+            }
+    
+    break;
+        //elimina el tipo producto
+    case 'eliminarLocalidad':
+            if (isset($_POST['id_localidad'])) {
+                $id_Localidad = $_POST['id_localidad'];
+                $sql = "UPDATE tbl_localidad SET estado_eliminado = 0 WHERE id_localidad = " . $id_Localidad;
+                $resultado = $conn->query($sql);
+                if ($resultado == 1) {
+                    $res['msj'] = "Localidad Eliminada  Correctamente";
+                } else {
+                    $res['msj'] = "Se produjo un error al momento de eliminar el registro Localidad";
+                    $res['error'] = true;
+                }
+            } else {
+                $res['msj'] = "No se envió el id de la Localidad a eliminar";
+                $res['error'] = true;
+            }
+    break;
     default:
 
     break;

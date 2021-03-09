@@ -118,6 +118,46 @@ $correo = $_SESSION['correo'];
   <!-- /.form-box -->
 </div>
 
+
+<script type="text/javascript">
+
+window.onload = function(){
+
+  let respuesta = document.getElementById('preg3');
+  let contrasena = document.getElementById('PassNuevo3');
+  let confContrasena = document.getElementById('ConfPass3');
+
+  //NO PERMITE EL COPIADO Y PEGADO EN EL INPUT RESPUESTA
+
+  respuesta.onpaste = function(e){
+    e.preventDefault();
+  }
+
+  respuesta.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  contrasena.onpaste = function(e){
+    e.preventDefault();
+  }
+
+  contrasena.oncopy = function(e){
+    e.preventDefault();
+  }
+
+  confContrasena.onpaste = function(e){
+    e.preventDefault();
+  }
+
+  confContrasena.oncopy = function(e){
+    e.preventDefault();
+  }
+
+}
+
+</script>
+
+
 <script src="../dist/js/app.login.js"></script>
 
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>

@@ -15,15 +15,12 @@
     if($existe){
       $extraer = substr($valor,5,8);
       $extraer2 = substr($valor,28,35);
-
-      $inicial = substr($valor,0,2);
-      $inicial2 = substr($valor,2,3);
 ?>
 <header class="main-header">
     <!-- Logo -->
     <a href="inicio" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b><?php echo $inicial;?></b><?php echo $inicial2;?></span>
+      <span class="logo-mini"><b>SA</b>AT</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b><?php echo $extraer;?> </b><?php echo $extraer2;}}?></span>
     </a>
@@ -57,8 +54,9 @@
                 <img src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" class="img-circle" alt="User Image">
 
                 <p>
+                
                 <?php echo ucwords($usuario); ?> - <?php echo ucwords($rol_id);?><!--<?php //echo $cargo;?>--> <!--Aqui ira la variable que traiga el rol del usuario-->
-                  <small>Miembro desde: <br> <?php echo $ingreso;?></small> <!--Aqui ira variable que muestre la fecha en la que se unio el usuario-->
+                  <small>Miembro desde: <br> <?php date_default_timezone_set('America/Tegucigalpa'); setlocale(LC_ALL,'es_ES.UTF-8'); $fecha = strftime('%A %d de %b del %G',strtotime($ingreso)); echo $fecha;?></small> <!--Aqui ira variable que muestre la fecha en la que se unio el usuario-->
                 </p>
               </li>
 

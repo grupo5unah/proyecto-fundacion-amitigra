@@ -17,6 +17,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de preguntas</div>
+								<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 							</div> <!-- /panel-heading -->
 							<div class="panel-body">
 								<div class="remove-messages"></div>
@@ -41,7 +42,7 @@
 										<?php
 										try {
 											$sql = "SELECT id_pregunta,pregunta,creado_por,fecha_creacion,modificado_por,fecha_modificacion
-                                                            FROM tbl_preguntas;";
+                                                            FROM tbl_preguntas where estado_eliminado = 1;";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -52,7 +53,7 @@
 
 											$traer = $eventos['pregunta'];
 											$evento = array(
-												'pregunta' => $eventos['pregunta'],
+												'pregunta1' => $eventos['pregunta'],
 												'creado_por' => $eventos['creado_por'],
 												'fecha_creacion' => $eventos['fecha_creacion'],
                                                 'modificado_por' => $eventos['modificado_por'],
@@ -68,14 +69,14 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
-													<td> <?php echo $evento['pregunta']; ?></td>
+													<td> <?php echo $evento['pregunta1']; ?></td>
 													<td> <?php echo $evento['creado_por']; ?></td>
                                                     <td> <?php echo $evento['fecha_creacion']; ?></td>
                                                     <td> <?php echo $evento['modificado_por']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil" data-idpregunta="<?php $evento['id_pregunta']; ?>" data-nompregunta="<?php $evento['pregunta']; ?>"></button>
-														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta']; ?>"></button>
+														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil" data-idpregunta="<?= $evento['id_pregunta'] ?>" data-nomPregunta="<?= $evento['pregunta1'] ?>"></button>
+														<button class="btn btn-danger btnEliminarPregunta glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta']; ?>"></button>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -114,11 +115,11 @@
 									<div class="ingreso-producto form-group">
 										<div class="campos">
 											<label for="">Pregunta: </label>
-											<input id="pregunta" class="form-control secundary text-uppercase" type="text" name="" placeholder="Escriba la pregunta" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input id="pregunta1" class="form-control secundary text-uppercase" type="text" name="" placeholder="Escriba la pregunta" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 					
-										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+										
 									</div>
 									
 								</form>
@@ -155,11 +156,11 @@
 
                           <div class="campos">
                           <label for="">Nombre de la Pregunta </label>
-                          <input id="pregunta" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba la pregunta" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+                          <input id="pregunta" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba la pregunta" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
                           </div>
                                 
-                          <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                         
                           </div>
 						  </div>
 							<div class="modal-footer">

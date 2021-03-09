@@ -36,23 +36,55 @@ class CambioContrasena{
                             if($NuevaContrasena->error){
                                 echo "<div class='alert alert-danger' role='alert'>
                                         No se pudo actualizar su contraseña.
-                                        </div>";
+                                        </div>
+                                        <script>
+                                        window.setTimeout(function(){
+                                        $('.alert').fadeTo(1500,00).slideDown(1000,
+                                        function(){
+                                        $(this).remove();
+                                        });
+                                        }, 3000);
+                                        </script>";
 
                             }else {
-                                echo "<div class='alert alert-success' role='alert'>
+                                echo "<div class='text-center alert alert-success' role='alert'>
                                         Contraseña actualizada correctamente.
-                                        </div>";
+                                        </div>
+                                        <script>
+                                        window.setTimeout(function(){
+                                        $('.alert').fadeTo(1500,00).slideDown(1000,
+                                        function(){
+                                        $(this).remove();
+                                        });
+                                        }, 3000);
+                                        </script>";
                             }
                         }else{
-                            echo "<div class='alert alert-danger' role='alert'>
+                            echo "<div class='text-center alert alert-danger' role='alert'>
                                     Lo sentimos, las contraseña no coinciden.
-                                    </div>";
+                                    </div>
+                                    <script>
+                                    window.setTimeout(function(){
+                                    $('.alert').fadeTo(1500,00).slideDown(1000,
+                                    function(){
+                                    $(this).remove();
+                                    });
+                                    }, 3000);
+                                    </script>";
 
                         }
                     }else{
-                        echo "<div class='alert alert-danger' role='alert'>
+                        echo "<div class='text-center alert alert-danger' role='alert'>
                                 La contrasena no coincide con la establecida en nuestro registro
-                                </div>";
+                                </div>
+                                <script>
+                                window.setTimeout(function(){
+                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                function(){
+                                $(this).remove();
+                                });
+                                }, 3000);
+                                </script>";
                     }
                 }
             }

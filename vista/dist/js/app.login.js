@@ -49,24 +49,24 @@
 
     // Scripts de registro de usuario
 
-  function mostrarPassword(){
+  function VerPassword(){
 
-    var nueva = document.getElementById("PassNuevo");
-    if(nueva.type == "password"){
-      nueva.type = "text";
-      $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    var nuevaRegistro = document.getElementById("PassRegistro");
+    if(nuevaRegistro.type == "password"){
+      nuevaRegistro.type = "text";
+      $('.icons').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
     }else{
-      nueva.type = "password";
-      $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+      nuevaRegistro.type = "password";
+      $('.icons').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
     }
-
-    var conf = document.getElementById("ConfPass");
+	
+    var conf = document.getElementById("ConfPassR");
     if(conf.type == "password"){
       conf.type = "text";
-      $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+      $('.icons').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
     }else{
       conf.type = "password";
-      $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+      $('.icons').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
     }
   }
 
