@@ -33,10 +33,15 @@ function soloNumeros(e) {
     else {
         return false;
     }
-          
-  /*if (key < 48 || key > 57) {
-    e.preventDefault();
-  }*/
+}
+//VALIDACION DE FECHAS
+function validarFormatoFecha() {
+  var RegExPattern = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
+  if ((campo.match(RegExPattern)) && (campo!='')) {
+        return true;
+  } else {
+        return false;
+  }
 }
 
 //FUNCION PARA CALCULAR EL TOTAL EN HOTEL
@@ -78,24 +83,43 @@ function calcular_camping()
 
 $(document).ready(function () {
 
+   //Date picker para fecha reservacion
+   $('#reservacion').datepicker({
+    autoclose: true
+
+    
+  });
+  //Date picker para entrada
+  $('#entrada').datepicker({
+    autoclose: true,
+    format: 'mm/dd/yyyy',
+    startDate: '0d'
+    
+  });
+  //Date picker para fecha salida
+  $('#salida').datepicker({
+    autoclose: true,
+    format: 'mm/dd/yyyy',
+    startDate: '0d'
+  })
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
-  /*$("#formCliente").submit(async function(e){
+  $("#regitroClientes").submit(async function(e){
     e.preventDefault();
     
-    var identidad = $("#ideCliente").val();
-    var nombre = $("#nCliente").val();
+    var identidad = $("#identidad").val();
+    var nombre = $("#cliente").val();
     var nacionalidad = $("#nacionalidad").val();
-    var telefono = $("#tel").val();
+    var telefono = $("#telefono").val();
     var usuario_actual = $("#usuario_actual").val();
 
     console.log(identidad,nombre, nacionalidad, telefono, usuario_actual);
     if(identidad != undefined && nombre != undefined && nacionalidad != undefined && telefono != undefined && usuario_actual != undefined){
       // formdata sirve para enviar los datos al servidor
         /*lo que va entre fuera de las comillas son las variables que declaramos 
-         y lo que va dentro de las comillas es como vamos a declarar en el controlador*
+         y lo que va dentro de las comillas es como vamos a declarar en el controlador*/
       const formdata = new FormData();
        formdata.append('identidad',identidad);
-       formdata.append('nombre_cliente',nombre);
+       formdata.append('cliente',nombre);
        formdata.append('nacionalidad',nacionalidad);
        formdata.append('telefono', telefono);
        formdata.append('usuario_actual', usuario_actual);
@@ -111,54 +135,17 @@ $(document).ready(function () {
         return swal("Exito!", data.msj, "success").then((value) => {
           if (value){
             // Se limpia el formulario
-            $("#ideCliente").val('');
-            $("#nCliente").val('');
+            $("#identidad").val('');
+            $("#cliente").val('');
             $("#nacionalidad").val('');  
-            $("#tel").val(''); 
+            $("#telefono").val(''); 
           }
         })
     }else{
         swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
     } 
-  })*/
-  //FUNCION PARA MOSTRAR VENTANA MODAL PARA CREAR UN NUEVO CLIENTES
-  /*$('.btnCrearCliente').on('click',function(){
-    $('#modalCrearCliente').modal('show');
-  });*/
-
-   //FUNCION PARA BUSCAR EL CLIENTE
-   /*$("#formBuscarCliente").submit(async function(e){
-    e.preventDefault();
-    var IdCliente = Number(idcliente);
-    var identidad_Cliente= $("#identidadC").val();
-    console.log(identidad_Cliente, IdCliente);
-    if(identidad_Cliente != undefined){
-      const buscar = new FormData();
-
-      buscar.append('id_cliente', IdCliente);
-      buscar.append('identidad',identidad_Cliente);
-      const resp = await axios.post(`./controlador/ctrhotel.php?action=BuscarCliente`, buscar);
-      const data = resp.data; 
-
-        if(data.error){
-            return swal("Error", data.msj, "error");
-        }
-
-        return swal("Exito!", data.msj, "success").then((value) => {
-          if (value){
-            // Se limpia el formulario
-            $("#identidadC").val(''); 
-          }
-        })
-    }else{
-        swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-    } 
-  })
-   
-  //FUNCION PARA MOSTRAR VENTANA MODAL PARA BUSCAR UN CLIENTE
-  $('.btnbuscarCliente').on('click',function(){
-    $('#modalBuscarCliente').modal('show');
-  });*/
+  });
+ 
 
    /**------------------------------------------------------------------------------------------------------
     *                                                                                                      *
@@ -166,6 +153,73 @@ $(document).ready(function () {
     *                                                                                                      *
     * ------------------------------------------------------------------------------------------------------
     */
+    //BUSCAR EL CLIENTE
+    $('#identidad').keyup(function (e) {
+       e.preventDefault();
+       //console.log('funciona');
+       var ident = $(this).val();
+       var action = 'buscarCliente';
+       $.ajax({
+         url: './controlador/ctrhotel.php',
+         type:'POST',
+         async: true,
+         //esta es la direccion donde que tomara el ajax 
+         data:{action:action,identidad:ident},
+         success: function(response){
+          //console.log(response);
+          if(response == 0){
+            //si la respuesta es 0 va a limpiar el formulario y mostrara el boton de nuevo cliente y boton guardar
+            //el 0 quiere decir que ese usuario no existe ese resultado del else del ctrhotel
+            $('#idCliente').val('');
+            $('#cliente').val('');
+            $('#nacionalidad').val('');
+            $('#telefono').val('');
+            //muestra el boton agregar
+            $('.btnCrearCliente').slideDown();
+          }else{
+            var data = JSON.parse(response);
+            //las variables que van despues del data. son los nombres que estan en las columnas de la tabla de clientes
+            $('#idCliente').val(data.id_cliente);
+            $('#cliente').val(data.nombre_completo);
+            $('#nacionalidad').val(data.tipo_nacionalidad);
+            $('#telefono').val(data.telefono);
+            //oculta el boton de nuevo cliente
+            $('.btnCrearCliente').slideUp();
+            //Bloquear campos
+            $('#cliente').attr('disabled','disabled');
+            $('#nacionalidad').attr('disabled','disabled');
+            $('#telefono').attr('disabled','disabled');
+            //ocultar el boton de guardar
+            $('#guardarCliente').slideUp();
+          }
+        },
+         error: function(error){
+           console.log(error);
+         }
+       });
+        
+     });
+     //ACTIVAR CAMPOS PARA REGISTRAR CLIENTES
+     $('.btnCrearCliente').click(function(e){
+      e.preventDefault();
+      $('#cliente').removeAttr('disabled');
+      $('#nacionalidad').removeAttr('disabled');
+      $('#telefono').removeAttr('disabled');
+      //mostrar el boton de guardar
+      $('#guardarCliente').slideDown();
+      $()
+     });
+  //REGISTRAR UNA RESERVACION PARA HOTEL
+  $('#localidad').on('change', function() {
+    var local = $(this).val();
+    console.log(local);
+    if(local==1){
+      $('#modalRegistrarHotelJutiapa').modal('show');
+    }else{
+      $('#modalRegistrarHotelRosario').modal('show');
+    }
+    
+  });
    /**FUNCION PARA REALIZAR LA RESERVACION EN HOTEL */
    $("#hotel").submit(async function(e){
     e.preventDefault();
@@ -234,6 +288,7 @@ $(document).ready(function () {
             $("#precioN").val('');
             $("#pago").val('');
           }
+          //return Headers.location('hotel');
         })
     }else{
       swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");

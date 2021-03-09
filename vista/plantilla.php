@@ -60,6 +60,7 @@ $_SESSION["timeout"] = time();
   <!-- Theme style -->
   <link rel="preload" href="vista/dist/css/AdminLTE.css" as="style">
   <link rel="stylesheet" href="vista/dist/css/AdminLTE.css">
+  <link rel="stylesheet" href="vista/dist/css/estiloReserva.css">
 
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/responsive.dataTables.min.css">
@@ -70,10 +71,10 @@ $_SESSION["timeout"] = time();
   <link rel="stylesheet" href="vista/bower_components/morris.js/morris.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="vista/bower_components/jvectormap/jquery-jvectormap.css">
+   <!-- daterange picker -->
+   <link rel="stylesheet" href="vista/dist/css/daterangepicker.css">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="vista/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="vista/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="vista/dist/css/bootstrap-datepicker.min.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -127,6 +128,9 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "mantparametros" ||
         $_GET["ruta"] == "mantpermisos" ||
         $_GET["ruta"] == "mantpreguntas" ||
+        $_GET["ruta"] == "mantClientes" ||
+        $_GET["ruta"] == "mantEstados" ||
+        $_GET["ruta"] == "mantHabiServ" ||
         $_GET["ruta"] == "menuSolicitudes" ||
         $_GET["ruta"] == "panel" ||
         $_GET["ruta"] == "configuracion" ||
@@ -171,11 +175,7 @@ $_SESSION["timeout"] = time();
 <script src="vista/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="vista/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="vista/bower_components/moment/min/moment.min.js"></script>
-<script src="vista/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="vista/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
 <!-- Bootstrap WYSIHTML5 -->
 <script src="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Slimscroll -->
@@ -187,7 +187,10 @@ $_SESSION["timeout"] = time();
 
 <script src="vista/dist/js/jquery-3.5.1.js"></script>
 <script src="vista/dist/js/jquery.dataTables.min.js"></script>
- <script src="vista/dist/js/jquery.dataTables.js"></script> 
+ <script src="vista/dist/js/jquery.dataTables.js"></script>
+ <script src="vista/dist/js/daterangepicker.js"></script>
+ <!-- datepicker -->
+<script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
 <script src="vista/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="vista/dist/js/dataTables.responsive.min.js"></script> 
 <script src="vista/dist/js/dataTables.buttons.min.js"></script>
@@ -213,6 +216,8 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/mantProducto.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/clientes.js"></script>
+<script src="vista/dist/js/estado.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>
