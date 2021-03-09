@@ -3,7 +3,7 @@
 <div class="content-wrapper">
   <section class="content-header">
   	<h1>
-	Mantenimiento de Localidades y Tipo Producto
+	PRODUCTOS
   	</h1>      
  	<ol class="breadcrumb ">
         <li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
