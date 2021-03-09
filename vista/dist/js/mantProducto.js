@@ -1,9 +1,7 @@
 $(document).ready(function(){
     //image: 'sampleImage.jpg', 
     $('#mantenimientoProducto').DataTable({
-      
-     
-        
+ 
       //para usar los botones 
       responsive:"true",
       dom: 'Bfrtip',
