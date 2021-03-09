@@ -1,249 +1,446 @@
 <script>
-  function soloLetras(e) {
-    var key = e.keyCode || e.which,
-      tecla = String.fromCharCode(key).toLowerCase(),
-      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-      especiales = [8, 37, 39, 46],
-      tecla_especial = false;
-    for (var i in especiales) {
-      if (key == especiales[i]) {
-        tecla_especial = true;
-        break;
-      }
-    }
-    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-      return false;
-    }
-  }
+	//Solo permite introducir numeros.
+	function soloNumeros(e) {
+		var key = window.event ? e.which : e.keyCode;
+		if (key < 48 || key > 57) {
+			e.preventDefault();
+		}
+	}
 
-  SinEspacio = function(input) {
-    input.value = input.value.replace(' ', '');
-  }
 
-  //Solo numero para TELEFONO
+	function soloLetras(e) {
+		var key = e.keyCode || e.which,
+			tecla = String.fromCharCode(key).toLowerCase(),
+			letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
+			especiales = [8, 37, 39, 46],
+			tecla_especial = false;
+		for (var i in especiales) {
+			if (key == especiales[i]) {
+				tecla_especial = true;
+				break;
+			}
+		}
+		if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+			return false;
+		}
+	}
+	SinEspacio = function(input) {
+		input.value = input.value.replace(' ', '');
+	}
 
-  window.addEventListener("load", function() {
-    formulario.telefono.addEventListener("keypress", soloNumeros, false);
-  });
-  //Solo permite introducir numeros.
-  function soloNumeros(e) {
-    var key = window.event ? e.which : e.keyCode;
-    if (key < 48 || key > 57) {
-      e.preventDefault();
-    }
-  }
+	//Permitir solo un ESPACIO
+	espacio_Letras = function(input) {
+		input.value = input.value.replace('  ', ' ');
+	}
 
-  //solo un espacio
-  espacioLetras = function(input) {
-    input.value = input.value.replace('  ', ' ');
-  }
+
+	function validaemail(valor) {
+		re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+		if (!re.exec(valor)) {
+			$res['msj'] = "Email no valido";
+		}
+
+	}
+
+	function limpia() {
+		var val = document.getElementById("telefono").value;
+		var tam = val.length;
+		for (i = 0; i < tam; i++) {
+			if (isNaN(val[i]))
+				document.getElementById("telefono").value = '';
+		}
+	}
+
+	function mostrarPassword() {
+		var cambio = document.getElementById("Contraseña");
+		if (cambio.type == "password") {
+			cambio.type = "text";
+			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		} else {
+			cambio.type = "password";
+			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	}
+
+	function mostrarPassword2() {
+		var cambio = document.getElementById("ConfirmarContraseña");
+		if (cambio.type == "password") {
+			cambio.type = "text";
+			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		} else {
+			cambio.type = "password";
+			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	}
+
+	function mostrarPasswordreset() {
+		var cambio = document.getElementById("Contraseña_reset");
+		if (cambio.type == "password") {
+			cambio.type = "text";
+			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		} else {
+			cambio.type = "password";
+			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	}
+
+	function mostrarPassword2reset() {
+		var cambio = document.getElementById("ConfirmarContraseña_reset");
+		if (cambio.type == "password") {
+			cambio.type = "text";
+			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		} else {
+			cambio.type = "password";
+			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	}
 </script>
-<?php
 
-/*include_once("./controlador/ctr.BitacoraPDF.php");
-
-if (isset($_POST['envio']) == 'pdf') {
-
-  include("./controlador/ctr.ClasePdf.php");
-  include("./modelo/conexion.php");
-
-  // Creación del objeto de la clase heredada
-  $pdf = new PDF('L', 'mm', 'Letter');
-  $pdf->AddPage();
-  $pdf->SetFont('Times', '', 12);
-  //$pdf->Image('logo.png',120,4);
-  $pdf->Cell(80);
-  $pdf->SetFont('Arial', 'B', 15);
-  $pdf->Cell(90, 10, 'Fundacion AMITIGRA.', 0, 1, 'C');
-  $pdf->cell(80);
-  $pdf->SetFont('Arial', 'B', 12);
-  $pdf->Cell(90, 10, 'Reporte Bitacora.', 0, 1, 'C');
-  $pdf->SetFont('Arial', '', 10);
-  $pdf->SetFont('Times', 'B', 10);
-  $pdf->SetFillColor(93, 183, 134);
-  $pdf->Cell(6, 8, '', 0);
-  $pdf->Cell(28, 6, 'Usuario', 1, 0, 'C', 2);
-  $pdf->Cell(28, 6, 'Objeto', 1, 0, 'C', 2);
-  $pdf->Cell(36, 6, 'Fecha', 1, 0, 'C', 2);
-  $pdf->Cell(34, 6, 'Accion', 1, 0, 'C', 2);
-  $pdf->Cell(122, 6, 'Descripcion', 1, 0, 'C', 2);
-  $pdf->Ln(7);
-  try {
-    $stmt = "SELECT tbl_usuarios.nombre_usuario AS nombre_usuario, tbl_objeto.objeto AS objeto, fecha, accion, tbl_bitacora.descripcion AS descripcion from tbl_bitacora
-                    INNER JOIN tbl_usuarios
-                    ON
-                    tbl_bitacora.usuario_id = tbl_usuarios.id_usuario
-                    INNER JOIN tbl_objeto
-                    ON
-                    tbl_bitacora.objeto_id = tbl_objeto.id_objeto
-                    ORDER BY id_bitacora DESC;
-                    ";
-    $resultado = $conn->query($stmt);
-  } catch (Exception $e) {
-    $error = $e->getMessage();
-  }
-  while ($registrado = $resultado->fetch_assoc()) {
-    $pdf->Cell(6, 8, '', 0);
-    $pdf->Cell(28, 6, $registrado['nombre_usuario'], 1, 0, 'C');
-    $pdf->Cell(28, 6, $registrado['objeto'], 1, 0, 'C');
-    $pdf->Cell(36, 6, $registrado['fecha'], 1, 0, 'C');
-    $pdf->Cell(34, 6, $registrado['accion'], 1, 0, 'C');
-    $pdf->Cell(122, 6, $registrado['descripcion'], 1, 0, 'C');
-    $pdf->Ln(8);
-  }
-  $pdf->AliasNbPages();
-  $pdf->Output('prueba.pdf', 'I');
-}*/
-?>
-
-<script type="text/javascript" src="../js/usuarios.js?rev=<?php echo time(); ?>"></script>
+<?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
-  <!-- Main content -->
-  <section class="content">
-    <!-- Default box -->
-    <!--Inicio de la TABLA-->
+	<!-- Main content -->
+	<section class="content">
 
-    <div class="box">
-      <div class="box-header with-border">
-        <div class="page-heading"> <i class="glyphicon glyphicon-user"></i></i> Listado de Usuarios</div>
-        <br>
-        <br>
+		<!-- Default box -->
+		<div class="box">
+			<div class="box-header with-border">
 
-        <div class="row no-print">
-          <div class="col-xs-12">
-            <a href="registroUsuario" class="btn_new">Crear Usuarios <i class="fa fa-user-plus"></i></i></a>
-            <a href="reporteGUsuarios.php" class="btn_new">Generar Reporte PDF <i class="fa fa-download"></i></a>
+			</div>
+			<div class="box-body">
+				<!--LLamar al formulario aqui-->
+				<div class="row">
+					<div class="col-md-12">
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de usuarios</div>
+							</div> <!-- /panel-heading -->
+							<div class="panel-body">
+								<div class="remove-messages"></div>
+								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+									<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol
+									</button> -->
+									<a href="reporteGUsuarios.php" target="_blank" rel="noopener noreferrer" class="btn btn-default"><i class="fa fa-download"></i>Generar Reporte PDF</a>
+									<button class="btn btn-default btnCrearUsuario glyphicon glyphicon-plus-sign">Agregar Usuario</button>
+								</div> <!-- /div-action -->
+
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+									<thead>
+										<tr>
+											<th>Nombre</th>
+											<th>Usuario</th>
+											<th>Genero</th>
+											<th>Telefono</th>
+											<th>Correo</th>
+											<th>Rol</th>
+											<th>Estado</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php
+										try {
+											$stmt = "SELECT id_usuario, nombre_completo, nombre_usuario, genero,telefono,correo,
+                                            contrasena,r.id_rol,r.rol,est.nombre_estado,est.id_estado
+                FROM tbl_usuarios u inner JOIN tbl_roles r
+                ON u.rol_id=r.id_rol INNER JOIN tbl_estado est
+                ON u.estado_id=est.id_estado
+                ORDER BY id_usuario";
+											$resultado = $conn->query($stmt);
+										} catch (Exception $e) {
+											$error = $e->getMessage();
+										}
+										$vertbl = array();
+										while ($evento = $resultado->fetch_assoc()) {
+											$traer = $evento['nombre_usuario'];
+											$evento = array(
+												'nombre_completo' => $evento['nombre_completo'],
+												'nombre_usuario' => $evento['nombre_usuario'],
+												'genero' => $evento['genero'],
+												'telefono' => $evento['telefono'],
+												'correo' => $evento['correo'],
+												'contrasena' => $evento['contrasena'],
+												'rol' => $evento['rol'],
+												'id_rol' => $evento['id_rol'],
+												'nombre_estado' => $evento['nombre_estado'],
+												'id_usuario' => $evento['id_usuario'],
+												'id_estado' => $evento['id_estado']
+											);
+											$vertbl[$traer][] =  $evento;
+										}
+										foreach ($vertbl as $dia => $lista_usuarios) { ?>
+											<?php foreach ($lista_usuarios as $evento) { ?>
+
+												<tr>
+
+													<td><?php echo $evento['nombre_completo']; ?></td>
+													<td><?php echo $evento['nombre_usuario']; ?></td>
+													<td><?php echo $evento['genero']; ?></td>
+													<td><?php echo $evento['telefono']; ?></td>
+													<td><?php echo $evento['correo']; ?></td>
+													<td><?php echo $evento['rol']; ?></td>
+													<td><?php echo $evento['nombre_estado']; ?></td>
+													<td>
 
 
 
-          </div>
-        </div>
-        <br>
 
-        <?php
-        require_once('./modelo/conexion.php');
-        ?>
-        <!-- /.box-header -->
-        <div class="box-body">
+														<button class="btn btn-warning btnEditarUsuario glyphicon glyphicon-pencil" data-idusuario="<?= $evento['id_usuario'] ?>" data-nombrecompleto="<?= $evento['nombre_completo'] ?>" data-nombreusuario="<?= $evento['nombre_usuario'] ?>" data-genero="<?= $evento['genero'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-correo="<?= $evento['correo'] ?>" data-contrasena="<?= $evento['contrasena'] ?>" data-rol="<?= $evento['rol'] ?>" data-id_rol="<?= $evento['id_rol'] ?>" data-nombre_estado="<?= $evento['nombre_estado'] ?>" data-id_estado="<?= $evento['id_estado'] ?>"></button>
 
-          <!--<a href="nuevo-registrado.php" class="btn btn-success">Añadir Nuevo</a>-->
-          <table id="tabla_usuario" class="display responsive nowrap" style="width: 100%">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Usuario</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
+														<button class="btn btn-danger btnEliminarUsuario glyphicon glyphicon-remove" data-idusuario="<?php echo $evento['id_usuario'] ?>"></button>
 
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
-      <!-- /.box -->
-    </div>
-    <script>
-      $(document).ready(function() {
-        listar_usuario()
-      });
-    </script>
-    <!--Fin de la TABLA-->
+														<button class="btn btn-resetear btnResetearClaves fa fa-key" data-idusuario="<?= $evento['id_usuario'] ?>" data-contrasena="<?= $evento['contrasena'] ?>"> Resetear</button>
+													</td>
+												<?php  } ?>
+											<?php  } ?>
+												</tr>
+									</tbody>
+									<!--<?php //}
+										?>-->
+								</table>
+								<!-- /table -->
+							</div> <!-- /panel-body -->
+						</div> <!-- /panel -->
+					</div> <!-- /col-md-12 -->
+					<?php $conn->close(); ?>
+				</div> <!-- /row -->
+			</div>
+
+			<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+							<form name="formEditarProducto">
+								<div class="ingreso-producto form-group">
+									<div class="campos" type="hidden">
+										<label for=""> </label>
+										<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+									</div>
 
 
-    <!--INICIO MODAL NUEVO-->
+									<div class="campos form-group">
+										<input id="nombrecompct" class="form-control modal-roles secundary" type="text" name="nombrecompct" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)" required />
+									</div>
 
-    <!--INICIO MODAL EDICION-->
+									<div class="campos form-group">
+										<input id="nombreusuarioact" class="form-control modal-roles secundary" type="text" name="nombreusuarioact" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this);" required />
 
-    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="d-flex justify-content-between">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <i aria-hidden="true">&times;</i>
-              </button>
-              <h3 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h3>
-            </div>
-          </div>
-          <div class="modal-body">
-            <form name="formEditarParametro">
-              <div class="ingreso-producto form-group">
-                <div class="campos" type="hidden">
-                  <label for=""> </label>
-                  <input autocomplete="off" class="form-control secundary" type="hidden" name="idInventario" value="0" disabled>
-                </div>
-                <div class="campos">
-                  <label for="">Nombre: </label>
-                  <input id="nombre" class="form-control secundary" type="text" name="nombre" placeholder="Nombre" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)" required required />
-                </div>
-                <div class="campos">
-                  <label for="">Apellido: </label>
-                  <input id="apellido" class="form-control secundary" type="text" name="apellido" placeholder="Apellido" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)" required required />
-                </div>
-                <div class="campos">
-                  <label for="">Nombre Usuario: </label>
-                  <input id="nombre_usuario" class="form-control secundary" type="text" name="nombre_usuario" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)" required required />
-                </div>
-                <div class="campos">
-                  <label for="">Correo: </label>
-                  <input id="correo" class="form-control secundary" type="email" name="correo" placeholder="Correo" onkeyup="validarEmail(this)" required />
-                </div>
-                <div class="campos">
-                  <label for="">Telefono: </label>
-                  <input id="telefono" class="form-control secundary" type="email" name="telefono" maxlength="8" placeholder="Telefono" onkeypress="return soloNumeros(event)" oninput="check_text(this);" required />
-                </div>
-                <div class="campos">
-                  <label for="">Rol del usuario: </label>
-                  <?php
-                  include_once('modelo/conexion.php');
-                  $query_rol = mysqli_query($conn, "SELECT id_rol,rol FROM tbl_roles");
-                  $result_rol = mysqli_num_rows($query_rol);
-                  ?>
-                  <select name="rol" id="rol" required>
-                    <option value="Seleccione un Rol">Seleccione un Rol:</option>
-                    <?php
-                    if ($result_rol > 0) {
-                      while ($rol = mysqli_fetch_array($query_rol)) {
-                    ?>
-                        <option value="<?php echo $rol["id_rol"]; ?>"><?php echo $rol["rol"] ?></option>
-                    <?php
-                      }
-                    }
-                    ?>
+									</div>
+									<div class="campos form-group">
+										<input id="telefonoact" maxlength="8" minlength="8" class="form-control modal-roles secundary" type="text" name="telefonooact" placeholder="Telefono" onkeypress="return soloNumeros(event)" required />
+									</div>
 
-                  </select>
-                </div>
-                <div class="campos">
-                  <label for="">Estado del usuario: </label>
-                  <select name="estado" id="estado" required>
-                    <option value="">Seleccione un estado</option>
-                    <option value="Activo">Activo</option>
-                    <option value="Nuevo">Nuevo</option>
-                    <option value="Inactivo">Inactivo</option>
-                    <option value="Bloqueado">Bloqueado</option>
-                  </select>
-                </div>
-                <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Usuario" onclick="location.reload()">
+									<div class="campos form-group">
+										<input id="correoact" class="form-control modal-roles secundary" type="text" name="correoact" placeholder="Correo" required />
+									</div>
 
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /.col -->
-    <!-- /.row -->
-  </section>
-  <!-- /.content -->
+
+
+									<?php
+									include('./modelo/conexionbd.php');
+									$consult_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles`");
+									$result = mysqli_num_rows($consult_rol);
+									?>
+
+									<select class="form-control" name="rolact" id="rolact" style="width: 350px" required>
+										<option value="Seleccione un Rol">Seleccione un Rol</option>
+										<?php
+										if ($result > 0) {
+											while ($rol = mysqli_fetch_array($consult_rol)) {
+										?>
+												<option value="<?php echo $rol["id_rol"]; ?>"><?php echo $rol["rol"] ?></option>
+										<?php
+											}
+										}
+										?>
+
+									</select><br>
+
+									<?php
+									include('./modelo/conexionbd.php');
+									$consult_estado = mysqli_query($conn, "SELECT id_estado,nombre_estado
+									FROM tbl_estado
+									WHERE nombre_estado IN ('ACTIVO','BLOQUEADO','NUEVO')
+									   ");
+									$result = mysqli_num_rows($consult_estado);
+									?>
+									<select class="form-control" name="estadoact" id="estadoact" style="width: 350px" required>
+										<option value="Seleccione un Estado">Seleccione un Estado</option>
+										<?php
+										if ($result > 0) {
+											while ($rol = mysqli_fetch_array($consult_estado)) {
+										?>
+												<option value="<?php echo $rol["id_estado"]; ?>"><?php echo $rol["nombre_estado"] ?></option>
+										<?php
+											}
+										}
+										?>
+									</select>
+
+
+									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+								</div>
+
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" onclick="validaemail(correoact.value);">Actualizar Usuario</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal para Resetear la contraseña -->
+
+			<div class="modal fade" id="modalResetearClave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Resetear Contraseña</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+							<form name="formEditarProducto">
+								<div class="ingreso-producto form-group">
+									<div class="campos" type="hidden">
+										<label for=""> </label>
+										<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+									</div>
+
+									<div class="campos form-group">
+										<label for="">Nueva Contraseña</label>
+										<input id="Contraseña_reset" style="width:320px" class="" type="password" placeholder="Contraseña" required /></center>
+										<button id="show_pasword" style="width:40px" class="" type="button" onclick=" mostrarPasswordreset()">
+											<span class="fa fa-eye-slash icon"></span></button>
+									</div>
+									<div class="campos form-group">
+										<label for="">Repetir Nueva Contraseña</label>
+										<center></center><input id="ConfirmarContraseña_reset" style="width:320px" type="password" placeholder="Confirmar Contraseña" required /> </center>
+										<button id="show_pasword" style="width:40px" class="" type="button" onclick="mostrarPassword2reset()">
+											<span class="fa fa-eye-slash icon"></span></button>
+									</div>
+
+									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+								</div>
+
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button id="btnResetClave" type="button" class="btnResetClave btn btn-primary">Resetear Contraseña
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- modal registrar usuario -->
+			<div class="modal fade" id="modalCrearUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Registrar Usuario</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+							<form name="" id="formGusuarios" onpaste="return false">
+								<div class=" form-group">
+									<div class="campos form-group" type="hidden">
+										<label for=""> </label>
+										<input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+									</div>
+
+									<div class="campos form-group">
+										<input id="nombreCompleto" maxlength="40" minlength="40" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+										espacio_Letras(this); verificar(this.value)" required />
+									</div>
+
+									<div class="campos form-group">
+										<input id="nombreusuario" maxlength="30" minlength="30" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreusuario" placeholder="Nombre de usuario" onblur="limpianombre()" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)" required />
+									</div>
+
+									<div class="campos form-group">
+										<input id="telefono" autocomplete="off" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
+										secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" onblur="limpia()" required /></center>
+									</div>
+									<div class="campos form-group">
+
+										<input id="correo" style="width:335px" class="form-control modal-roles secundary" type="email" name="cantidad" placeholder="Correo" onkeyup="validarEmail(this)" required />
+									</div>
+
+									<div class="campos form-group">
+										<input id="Contraseña" class="" style="width:295px" type="password" placeholder="Contraseña" required />
+										<button id="show_pasword" class="" style="width:37px" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span></button>
+									</div>
+
+									<div class="campos form-group">
+										<input id="ConfirmarContraseña" style="width:295px" type="password" placeholder="Confirmar Contraseña" required />
+										<button id="show_pasword" class="" style="width:37px" type="button" onclick="mostrarPassword2()"> <span class="fa fa-eye-slash icon"></span></button>
+									</div>
+
+									<div class="campos form-group">
+										<select class="form-control" id="genero" name="genero" style="width:335px" required>
+											<option value="">Seleccione un Genero</option>
+											<option value="masculino">Masculino</option>
+											<option value="femenino">Femenino</option>
+
+										</select>
+									</div>
+									<?php
+									include('./modelo/conexionbd.php');
+									$consulta_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles`");
+									$resultados = mysqli_num_rows($consulta_rol);
+									?>
+									<div class="campos form-group">
+										<select class="form-control" name="rol" id="rol" style="width:335px" required>
+											<option value="">Seleccione un Rol</option>
+											<?php
+											if ($resultados > 0) {
+												while ($rol = mysqli_fetch_array($consulta_rol)) {
+											?>
+													<option value="<?php echo $rol["id_rol"]; ?>"><?php echo $rol["rol"] ?></option>
+											<?php
+												}
+											}
+											?>
+									</div>
+
+									</select>
+									<div class="campos form-group">
+										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+									</div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+
+										<button id="" type="submit" name="ingresarProducto" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Usuario</button>
+									</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- /.box-footer-->
+			</div>
+			<!-- /.box -->
+	</section>
+	<!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
