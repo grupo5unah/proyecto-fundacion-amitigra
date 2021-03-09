@@ -218,6 +218,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/hotel.js"></script>
 <script src="vista/dist/js/clientes.js"></script>
 <script src="vista/dist/js/estado.js"></script>
+<script src="vista/dist/js/manthabserv.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>

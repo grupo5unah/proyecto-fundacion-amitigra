@@ -88,10 +88,11 @@ switch ($action) {
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }
+    break;
     case 'eliminarCliente':
         if (isset($_POST['id_cliente'])) {
-            $id_cliente = $_POST['id_cliente'];
-            $sql = "UPDATE tbl_clientes SET estado_eliminado = 0 WHERE id_cliente = " . $id_cliente;
+            $id_client = $_POST['id_cliente'];
+            $sql = "UPDATE tbl_clientes SET estado_eliminado = 0 WHERE id_cliente = " . $id_client;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Cliente Eliminado  Correctamente";
