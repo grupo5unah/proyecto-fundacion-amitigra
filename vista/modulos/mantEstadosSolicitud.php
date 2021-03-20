@@ -211,7 +211,7 @@
 
 
 
-      <div class="modal fade" id="modalEditarSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal fade" id="modalEditarSolicitud" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -283,7 +283,7 @@
 
     <!--Registrar solicitud-->
 
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalCrearS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCrearS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -318,7 +318,7 @@
                 </div>
 
                 <div class="campos form-group">
-                  <input id="n_recibo" style="width:335px" class="form-control modal-roles secundary" type="text" name="n_recibo" onkeypress="return soloNumeros(event)" placeholder="Numero de recibo o deposito" />
+                  <input id="n_recibo" style="width:335px" class="form-control modal-roles secundary" type="text" name="n_recibo" placeholder="Numero de recibo o deposito" />
 
                 </div>
                 <?php
