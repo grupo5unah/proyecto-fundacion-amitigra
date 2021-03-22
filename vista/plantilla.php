@@ -75,6 +75,7 @@ $_SESSION["timeout"] = time();
    <link rel="stylesheet" href="vista/dist/css/daterangepicker.css">
   <!-- Date Picker -->
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -192,7 +193,9 @@ $_SESSION["timeout"] = time();
  <script src="vista/dist/js/jquery.dataTables.js"></script>
  <script src="vista/dist/js/daterangepicker.js"></script>
  <!-- datepicker -->
-<script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
+<script src="vista/dist/js/bootstrap-datepicker.js"></script> 
+ <!-- datetimepicker -->
+ <script src="vista/dist/js/bootstrap-datetimepicker.js"></script> 
 <script src="vista/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="vista/dist/js/dataTables.responsive.min.js"></script> 
 <script src="vista/dist/js/dataTables.buttons.min.js"></script>
@@ -218,6 +221,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/mantProducto.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/camping.js"></script>
 <script src="vista/dist/js/clientes.js"></script>
 <script src="vista/dist/js/estado.js"></script>
 <script src="vista/dist/js/manthabserv.js"></script>

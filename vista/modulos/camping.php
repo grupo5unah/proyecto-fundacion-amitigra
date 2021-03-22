@@ -21,38 +21,33 @@
 								</div> <!-- /div-action -->
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablas">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantDetReservaCTable">
 									<thead>
 										<tr>
-											<th>Cliente</th>
-											<th>Fecha reservacion</th>
-											<th>Fecha entrada</th>
-											<th>Fecha salida</th>
-											<th>Area</th>
-											<th>Adultos</th>
-											<th>Niños</th>
-											<th>Pagó</th>
-											<th>Estado</th>
-											<th>accion</th>
+											<th class="text-center">Cliente</th>
+											<th class="text-center">Reservacion</th>
+											<th class="text-center">Entrada</th>
+											<th class="text-center">Salida</th>
+											<th class="text-center">Localidad</th>
+											<th class="text-center">accion</th>
 										</tr>
 									</thead>
 									<tbody>
 										<?php
 										try{
 											$sql = "SELECT id_detalle_reservacion, tbl_reservaciones.fecha_reservacion,tbl_reservaciones.fecha_entrada,
-												tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_habitacion_servicio.habitacion_area,
-											 tbl_estado.nombre_estado,cantidad_persona,cantidad_ninos,total_pago   
-											 FROM tbl_detalle_reservacion 
-											 INNER JOIN tbl_reservaciones 
-											 ON tbl_detalle_reservacion.reservacion_id = tbl_reservaciones.id_reservacion 
-											INNER JOIN tbl_clientes 
-											 ON tbl_reservaciones.cliente_id=tbl_clientes.id_cliente 
-											INNER JOIN tbl_habitacion_servicio 
-											ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio 
-											inner join tbl_estado 
-											 ON tbl_habitacion_servicio.estado_id = tbl_estado.id_estado 
-											 WHERE tbl_detalle_reservacion.estado_eliminado = 1 AND tbl_habitacion_servicio.habitacion_area LIKE '%ar%'
-											 ORDER BY id_detalle_reservacion ";
+													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo,tbl_localidad.nombre_localidad  
+													FROM tbl_detalle_reservacion 
+													INNER JOIN tbl_reservaciones 
+													ON tbl_detalle_reservacion.reservacion_id = tbl_reservaciones.id_reservacion 
+													INNER JOIN tbl_clientes 
+													ON tbl_reservaciones.cliente_id=tbl_clientes.id_cliente 
+													INNER JOIN tbl_habitacion_servicio 
+													ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio 
+													INNER JOIN tbl_localidad
+													ON tbl_habitacion_servicio.localidad_id = tbl_localidad.id_localidad
+													WHERE tbl_detalle_reservacion.estado_eliminado = 1 AND tbl_habitacion_servicio.habitacion_area LIKE '%ar%'
+											 		ORDER BY id_detalle_reservacion ";
 											$resultado = $conn->query($sql);
 										}catch (Exception $e){
 											echo  $e->getMessage();
@@ -66,11 +61,7 @@
 												'fecha_reservacion'=>$mostrar['fecha_reservacion'],
 												'fecha_entrada'=>$mostrar['fecha_entrada'],
 												'fecha_salida'=>$mostrar['fecha_salida'],
-												'area'=>$mostrar['habitacion_area'],
-												'adultos'=>$mostrar['cantidad_persona'],
-												'ninos'=>$mostrar['cantidad_ninos'],
-												'total'=>$mostrar['total_pago'],
-												'estado'=>$mostrar['nombre_estado'],
+												'localidad'=>$mostrar['nombre_localidad'],
 												'id_reservacion' =>$mostrar['id_detalle_reservacion']
 											);
 											$ver[$captura][] =  $mostrar;
@@ -79,25 +70,19 @@
 										
 											<?php foreach ($lista as $mostrar) { ?>
 												<tr>
-													<td><?php echo $mostrar['cliente'];?></td>
-													<td><?php echo $mostrar['fecha_reservacion'];?></td>
-													<td><?php echo $mostrar['fecha_entrada'];?></td>
-													<td><?php echo $mostrar['fecha_salida'];?></td>
-													<td><?php echo $mostrar['area'];?></td>
-													<td><?php echo $mostrar['adultos'];?></td>
-													<td><?php echo $mostrar['ninos'];?></td>
-													<td><?php echo $mostrar['total'];?></td>
-													<td><?php echo $mostrar['estado'];?></td>
-													<td>
+													<td class="text-center"><?php echo $mostrar['cliente'];?></td>
+													<td class="text-center"><?php echo $mostrar['fecha_reservacion'];?></td>
+													<td class="text-center"><?php echo $mostrar['fecha_entrada'];?></td>
+													<td class="text-center"><?php echo $mostrar['fecha_salida'];?></td>
+													<td class="text-center"><?php echo $mostrar['localidad'];?></td>
+													<td class="text-center">
 								
-													<button class="btn btn-warning btnEditarCamping glyphicon glyphicon-pencil"  data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
+													<button class="btn btn-primary btnEliminarHotel glyphicon glyphicon-list-alt" data-idreservacion="<?= $mostrar['id_detalle_reservacion'] ?>"> DETALLE</button>
+													<button class="btn btn-warning btnEditarHotel glyphicon glyphicon-pencil"  data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
 													data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" data-adultos="<?= $mostrar['adultos'] ?>" 
 													data-ninos="<?= $mostrar['ninos'] ?>" data-total="<?= $mostrar['total'] ?>"></button>
-
-													<button class="btn btn-danger btnEliminarCamping glyphicon glyphicon-remove" data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
-													data-nombre="<?= $mostrar['cliente'] ?>" data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" 
-													data-cantAdultos="<?= $mostrar['adultos'] ?>" 
-													data-cantiNinos="<?= $mostrar['ninos'] ?>" data-total="<?= $mostrar['total'] ?>"></button>
+													
+													<button class="btn btn-danger btnEliminarHotel glyphicon glyphicon-remove" data-idreservacion="<?= $mostrar['id_detalle_reservacion'] ?>"></button>
 													
 												</td>
 											<?php  } ?>
@@ -114,7 +99,7 @@
 			</div>
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
-			<!-- MODAL EDITAR RESERVACION HOTEL -->
+			<!-- MODAL EDITAR RESERVACION CAMPING -->
 			<div class="modal fade" id="modalEditarCamping" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
