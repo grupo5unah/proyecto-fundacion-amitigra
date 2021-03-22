@@ -1,84 +1,74 @@
+$(document).ready(function () {
 
-$(document).ready(function(){
-  $('#perfil').on('submit',function(e){
-    e.preventDefault();
+  $('#notificacion').hide();
+  $('#notificacion2').hide();  
 
-    let usuario = $('#usuario').val();
-        let password = $('#passConf').val();
-        //let foto = document.querySelector('#imagen').value; 
-        let tipo = $('#cambio').val();
-        let nombre = $('#nombre').val();
-        let telefono = $('#telefono').val();
-        let correo = $('#correo').val();
-    var datos = $(this).serializeArray();
-
-    if(usuario == "" && password == ""){
-
-      let timerInterval
-
-      Swal.fire({
-        icon:'error',
-        title: 'Error',
-        text:'Todos los campos son necesarios',
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading()
-          timerInterval = setInterval(() => {
-            const content = Swal.getContent()
-            if (content) {
-              const b = content.querySelector('b')
-              if (b) {
-                b.textContent = Swal.getTimerLeft()
-              }
-            }
-          }, 100)
-        },
-        willClose: () => {
-          clearInterval(timerInterval)
-        }
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log('I was closed by the timer')
-        }
-      })
-
-    }else{
-      
-
+  //Verifica la existencia del nombre de usuario
+  $('#usuario').keyup(function(e){
+    if($('#usuario').val()){
+      let usuario = $('#usuario').val();
+      //let correo = $('#correo').val();
+    
       $.ajax({
-        type:$(this).attr("method"),
-        url:"../../controlador/ctr.passwordperfil.php",
-        data:datos,
-        //async:true,
-        datatype:'json',
-        success: function(data){
-          console.log(...data);
-          let resultado = data;
+        url:'../../controlador/buscar.php',
+        type:'POST',
+        data: { usuario:usuario },
+        success: function(response){
+          //console.log(response)
+          let existe = JSON.parse(response);
           
-          if(resultado.respuesta == 'exito'){
-            Swal.fire({
-              title: "Iniciando sesion",
-              text: "",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-            });
-               window.location.href = "../../../index.php";
-              
-
+          existe.forEach(verificar => {
+            if(!status == true){
+            console.log(verificar.nombre_completo)
+            $('#notificacion').html('Nombre de usuario no disponible');
+            $('#notificacion').show();
           }else{
-            Swal.fire({
-              title: "Deseas ser redirigido",
-              text: "Pruebas"
-            });
-            window.location.href=('../../../index.php');
+            $('#usuario').val();
+            $('#notificacion').hide();
+            //console.log('No existe')
           }
-
+          });
         }
-      })
+      });
+      $('#notificacion').hide();
     }
-
   });
+
+  
+  //Verifica la existencia del correo
+  $('#correo').keyup(function(e){
+    if($('#correo').val()){
+      let correo = $('#correo').val();
+    
+      $.ajax({
+        url:'../../controlador/buscar.php',
+        type:'POST',
+        data: { correo:correo },
+        success: function(response){
+          //console.log(response)
+          let existente = JSON.parse(response);
+          
+          existente.forEach(exist_correo => {
+            if(!status == true){
+            console.log(exist_correo.nombre_completo)
+            $('#notificacion2').html('Correo electronico no disponible');
+            $('#notificacion2').show();
+          }else{
+            $('#correo').val();
+            $('#notificacion2').hide();
+            console.log('No existe')
+          }
+          });
+        }
+      });
+      
+      $('#notificacion2').hide();
+    }
+  });
+
+
+  $(document).on('change','#pregunta',function(){
+    $(this).closest('.form-group').siblings().find('#pregunta option[value="'+$(this).val()+'"]').remove();
+  });
+  
 });

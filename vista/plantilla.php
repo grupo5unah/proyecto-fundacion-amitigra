@@ -189,6 +189,7 @@ $_SESSION["timeout"] = time();
 <script src="vista/dist/js/adminlte.min.js"></script>
 
 <script src="vista/dist/js/jquery-3.5.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 <script src="vista/dist/js/jquery.dataTables.min.js"></script>
  <script src="vista/dist/js/jquery.dataTables.js"></script>
  <script src="vista/dist/js/daterangepicker.js"></script>
@@ -226,6 +227,10 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/estado.js"></script>
 <script src="vista/dist/js/manthabserv.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>
+<script src="vista/dist/js/infoperfil.js"></script>
+<script src="vista/dist/js/copiaSeguridad.js"></script>
+<script src="vista/dist/js/app.login.js"></script>
+<!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>
 <script src="vista/dist/js/nacionalidad.js"></script>

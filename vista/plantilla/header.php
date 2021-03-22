@@ -34,6 +34,12 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 
+
+        <!-- NOTIFICACIONES INICIO -->
+        
+        <!-- NOTIFICACIONES FINAL -->
+
+
         <?php 
         require './modelo/conexionbd.php';
         
@@ -56,7 +62,7 @@
                 <p>
                 
                 <?php echo ucwords($usuario); ?> - <?php echo ucwords($rol_id);?><!--<?php //echo $cargo;?>--> <!--Aqui ira la variable que traiga el rol del usuario-->
-                  <small>Miembro desde: <br> <?php date_default_timezone_set('America/Tegucigalpa'); setlocale(LC_ALL,'es_ES.UTF-8'); $fecha = strftime('%A %d de %b del %G',strtotime($ingreso)); echo $fecha;?></small> <!--Aqui ira variable que muestre la fecha en la que se unio el usuario-->
+                  <small>Miembro desde: <br> <?php date_default_timezone_set('America/Tegucigalpa'); setlocale(LC_ALL,'es_ES.UTF-8'); $fecha = strftime('%A %d de %B del %G',strtotime($ingreso)); echo $fecha;?></small> <!--Aqui ira variable que muestre la fecha en la que se unio el usuario-->
                 </p>
               </li>
 

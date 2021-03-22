@@ -2721,6 +2721,14 @@ a:focus {
 }
 /* PERFIL FINAL */
 
+/*Estilo mensaje error usuario existe*/
+.msj_error{
+  /* background-color: rgb(185, 0, 0); */
+  color: rgb(185, 185, 185);
+  font-size: 14px;
+}
+/**/
+
 .nav-tabs-custom-menu > .tab-content {
   background-color: #fff;
   padding: 20px;

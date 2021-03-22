@@ -119,37 +119,36 @@
           <?php
           include_once("./modelo/conexionbd.php");
             //TOTAL DE USUARIOS
-            $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
-            $result = mysqli_query($conn, $registros);
-            $fila = mysqli_fetch_assoc($result);
+            $reservaciones = "SELECT COUNT(*) reservaciones FROM tbl_detalle_reservacion";
+            $reserva = mysqli_query($conn, $reservaciones);
+            $mi_reservacion = mysqli_fetch_assoc($reserva);
             
             //TOTAL ACTIVIDADES REALIZADAS
-            $actividades = "SELECT COUNT(*) total FROM tbl_bitacora";
-            $result = mysqli_query($conn, $actividades);
-            $total = mysqli_fetch_assoc($result);
+            $boletos = "SELECT COUNT(*) boletos FROM tbl_boletos_detalle";
+            $boleto = mysqli_query($conn, $boletos);
+            $mi_boleto = mysqli_fetch_assoc($boleto);
             
             //TOTAL ROLES
-            $rol_admin = "SELECT COUNT(*) admon FROM tbl_usuarios
-                      WHERE rol_id = 1";
-            $verificar = mysqli_query($conn, $rol_admin);
-            $total_roles = mysqli_fetch_assoc($verificar);
+            $parametros = "SELECT COUNT(*) parametro FROM tbl_parametros";
+            $param = mysqli_query($conn, $parametros);
+            $mi_parametro = mysqli_fetch_assoc($param);
 
-            $rol_sec = "SELECT COUNT(*) sec FROM tbl_usuarios
-                      WHERE rol_id = 2";
-            $verificar_sec = mysqli_query($conn, $rol_sec);
-            $total_sec = mysqli_fetch_assoc($verificar_sec);
+            //TOTAL CLIENTES
+            $clientes = "SELECT COUNT(*) cliente FROM tbl_clientes";
+            $cliente = mysqli_query($conn, $clientes);
+            $mi_cliente = mysqli_fetch_assoc($cliente);
           ?>     
           <div class="small-box bg-aqua">
             <div class="inner">
-            <h2><?php echo $fila['total'];?></h2>
+            <h2><?php echo $mi_reservacion['reservaciones'];?></h2>
 
-              <p>Preguntas registradas</p>
+              <p>Registro reservaciones</p>
             </div>
             <div class="icon">
-              <i class="fa fa-file-powerpoint-o"></i>
+              <i class="fa fa-calendar"></i>
             </div>
             <a href="mantpreguntas" class="small-box-footer">
-              Click aquí para preguntas <i class="fa fa-arrow-circle-right"></i>
+              Click aquí para ir a reservaciones <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -158,14 +157,14 @@
           <!-- small box -->
           <div class="small-box bg-maroon">
             <div class="inner">
-              <h2><?php echo $total['total'];?></h2>
-              <p>actividades realizadas</p>
+              <h2><?php echo $mi_boleto['boletos'];?></h2>
+              <p>Boletos vendidos</p>
             </div>
             <div class="icon">
-              <i class="fa  fa-ban"></i>
+              <i class="fa  fa-ticket"></i>
             </div>
             <a href="mantpermisos" class="small-box-footer">
-              Click aquí para consultar permisos <i class="fa fa-arrow-circle-right"></i>
+              Click aquí para ir a boletos <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -174,15 +173,14 @@
           <!-- small box -->
           <div class="small-box bg-purple">
             <div class="inner">
-              <p>ROLES</p>
-              <p>Administradores(as): <?php echo $total_roles['admon'];?></p>
-              <p>Asistentes: <?php echo $total_sec['sec'];?></p>
+              <h2><?php echo $mi_parametro['parametro'];?></h2>
+              <p>Parametros</p>
             </div>
             <div class="icon">
-              <i class="fa fa-user-plus"></i>
+              <i class="fa fa-cogs"></i>
             </div>
             <a href="mantroles" class="small-box-footer">
-              Click aquí para mantenimiento roles <i class="fa fa-arrow-circle-right"></i>
+              Click aquí para mantenimiento parametros <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -190,15 +188,15 @@
           <!-- small box -->
           <div class="small-box bg-olive">
             <div class="inner">
-              <h4>65</h4>
+              <h2><?php echo $mi_cliente['cliente'];?></h2>
 
-              <p>Unique Visitors</p>
+              <p>Clientes registrados</p>
             </div>
             <div class="icon">
-              <i class="ion ion-pie-graph"></i>
+              <i class="fa fa-user"></i>
             </div>
             <a href="#" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Click aqui para mantenimiento clientes <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>

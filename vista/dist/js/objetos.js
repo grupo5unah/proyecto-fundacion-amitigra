@@ -1,10 +1,7 @@
 $(document).ready(function(){
    
-    function mayusculas(e) {
-        e.value = e.value.toUpperCase();
-    }
     //registra objetos
-    ("#formObjeto").submit(async function(e){
+    $("#formObjeto").submit(async function(e){
         e.preventDefault();
         
         var nombre = $("#nombreObjeto").val();
@@ -40,7 +37,32 @@ $(document).ready(function(){
         }else{
             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
         } 
-    });    
+    })
+
+    $('.btnCrearObjeto').on('click',function(){
+        $('#modalCrearObjeto').modal('show');
+       } ); 
+       $('#nombreObjeto').blur(async function () {
+        console.log('jhjsfjsh');
+        if(this.value.length > 0 ){
+            try{
+                const resp = await axios(`./controlador/apiObjetos.php?action=obtenerObjeto&objeto=${this.value}`);
+                const data = resp.data;
+                if(data.objeto.length > 0){
+                    console.log(data.objeto[0]);
+                    $('#nombreObjeto')
+                   // $('#descripcion')
+                    
+                    return swal('Este Objeto ya existe ');
+                }else{
+                    //return swal('NO existe este producto');
+                }
+                
+            }catch(err){
+                console.log('Error - ', err);
+            }
+        }
+    });   
     
     //FUNCION EDITAR objeto
     $('.btnEditarObjeto').on('click', function() {
@@ -96,7 +118,7 @@ $(document).ready(function(){
                 
         });
         
-    })
+    });
     //eliminar objetos
     $('.btnEliminarObjeto').on('click', function (){
         const idObjeto = $(this).data('idobjeto');
@@ -122,10 +144,11 @@ $(document).ready(function(){
                 });
             }
         });
-    })
+    });
     //mantenimientos de la tabla permisos
-    $('.btnEditarPermisos').on('click', function() {
+    $('.btnEditarP').on('click', function() {
         // info previa
+        console.log('hola');
         const idpermiso = $(this).data('idpermiso'); 
         const Insercion = $(this).data('insercion');
         const Eliminacion = $(this).data('eliminar');
@@ -135,10 +158,10 @@ $(document).ready(function(){
         //llena los campos
         console.log(idpermiso);
         //$("#id").val(idObjeto),
-        $("#Insertar").val(Insercion),
-        $("#Eliminar").val(Eliminacion),
-        $("#Actualizar").val(Actualizacion),
-        $("#Consulta").val(Consulta)
+        $("#Insertar").val(Insercion);
+        $("#Eliminar").val(Eliminacion);
+        $("#Actualizar").val(Actualizacion);
+        $("#Consulta").val(Consulta);
 
         console.log(typeof(idpermiso),typeof(Eliminacion),typeof(Insercion),typeof(Actualizacion),typeof(Consulta,typeof(usuario_actual)));
         //mostrar el modal
@@ -170,7 +193,7 @@ $(document).ready(function(){
                     buttons:false
                 }).then(() => {
                     // Se limpia el formulario
-                    
+
                     $("#Insertar").val('');
                     $("#Eliminar").val('');
                     $("#Actualizar").val('');
@@ -182,5 +205,10 @@ $(document).ready(function(){
         });
         
     });
+
+    
+    function mayusculas(e) {
+        e.value = e.value.toUpperCase();
+    }
 
 }); 

@@ -521,7 +521,8 @@ $(document).ready(function(){
   })
 //eliminar tipo producto
   $('.btnEliminarTP').on('click', function (){
-const idtp = $(this).data('id_tipoP');
+const idtp = $(this).data('idtipo');
+console.log(idtp);
 swal("Eliminar Tipo de Producto", "Esta seguro de eliminar este tipo de producto?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
     if (value){
         
