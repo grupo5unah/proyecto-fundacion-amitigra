@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    $('#mantNacionalidad').DataTable({
+$(document).ready(function () {
+    $('#manttipoBoletos').DataTable({
       
      
         
@@ -19,7 +19,7 @@ $(document).ready(function(){
               text:'<i class="fas fa-print">',
               titleAttr:'Imprimir',
               title:'FUNDACION AMIGOS DE LA TIGRA',
-              messageTop:' REPORTE DE NACIONALIDADES',
+              messageTop:' REPORTE DE TIPOS DE BOLETOS',
               className:'btn btn-dark',
               exportOptions: {
                 modifier: {
@@ -32,7 +32,7 @@ $(document).ready(function(){
                   title: 'FUNDACION AMIGOS DE LA TIGRA',
                   text:'<i class="fas fa-file-excel">',
                   className:'btn btn-success',
-                  messageTop: 'REPORTE DE NACIONALIDADES',
+                  messageTop: 'REPORTE DE TIPOS DE BOLETOS',
                   exportOptions: {
                     columns: [ 0, ':visible' ]
                 },
@@ -46,7 +46,7 @@ $(document).ready(function(){
                   orientation: 'portrait',
                   pageSize: 'A4',
                   title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                  messageTop: 'REPORTE DE NACIONALIDADES',
+                  messageTop: 'REPORTE DE TIPOS DE BOLETOS',
                   Image:'fotoPerfil/foto1.png',
                   download: 'open',
                   exportOptions: {
@@ -140,133 +140,142 @@ $(document).ready(function(){
           },
        
     });
-    
-    
+
      /**------------------------------------------------------------------------------------------------------
       *                                                                                                      *
-      *                                    Mantenimiento Nacionalidades                                      *
+      *                        Mantenimiento Tipos y Precios de Boletos                                      *
       *                                                                                                      *
       * ------------------------------------------------------------------------------------------------------
       */
   
-    //BOTON EDITAR MODAL (TABLA NACIONALIDAD)
-    $('.btnEditarNacionalidad').on('click', function() {
-      // info previa
-      // con el data se imprime en la modal los datos que hay en la tabla
-      const idnacionalidad = $(this).data('idnacionalidad'); 
-      const nacionalidad = $(this).data('nacionalidad');
-      const fmodificacion = $(this).data('fmodificacion');
-      const modificadoPor = $(this).data('modificadorPor');
-      console.log(idnacionalidad, nacionalidad, fmodificacion, modificadoPor);
-  
-      //$("#idreservacion").val(idreservacion),
-      $("#Nacionalidad").val(nacionalidad),
-      $("#Fmodificacion").val(fmodificacion),
-      $("#ModificadoPor").val(modificadoPor),
-      
-      //mostrar el modal
-      $('#modalEditarNacionalidad').modal('show');
-      //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
-      $('.btnEditarBD').on('click', async function() {
-          var IdNacionalidad = Number(idnacionalidad); 
-          console.log(IdNacionalidad);
-          const formData = new FormData();
-          formData.append('id_tipo_nacionalidad', IdNacionalidad);
-          formData.append('nacionalidad',$("#Nacionalidad").val());
-          formData.append('fecha_modificacion',$("#Femodificacion").val());
-          formData.append('modificado_por',$("#ModificadoPoru").val());
-         
-          console.log(formData);
-          
-         const resp = await axios.post('./controlador/ctr.nacionalidad.php?action=actualizarNacionalidad', formData);
-         const data = resp.data;
-          console.log(data);
-          if(data.error){
-              return swal("Error", data.msj, "error", {
-                  timer:3000,
-                  buttons:false
-              });
-          } else{
-              $('#modalEditarNacionalidad').modal('hide');
-              return swal("Exito!", data.msj, "success", {
-                  timer:3000,
-                  buttons:false
-              }).then(() => {
-                  // Se limpia el formulario
-                  console.log('Ya se cerro el alert');
-                  $("#Nacionalidad").val('');
-                  $("#Fmodificacion").val('');
-                  $("#ModificadoPor").val('');
-                  location.reload(); 
-              })
-          }
-              
-      });
-      
-    })  
+    //BOTON EDITAR MODAL (TABLA TIPO BOLETO)
+    $('.btnEditarTB').on('click', function() {
+        // info previa
+        // con el data se imprime en la modal los datos que hay en la tabla
+        const id_tipoboleto = $(this).data('idtipoboleto'); 
+        const nombre_Boleto = $(this).data('nombreBoleto');
+        const descripcion_TB = $(this).data('descripcion');
+        const precioVenta = $(this).data('precioV');
+        const modificacionPor = $(this).data('modificacionP');
+        const f_modificacion = $(this).data('fmodificacion');
+        
+        console.log(id_tipoboleto, nombre_Boleto, descripcion_TB, precioVenta, modificacionPor, f_modificacion);
     
-     //BOTON PARA ELIMINAR NACIONALIDAD (TABLA NACIONALIDAD)
-  $('.btnEliminarNacionalidad').on('click', function (){
-    const idNacionalidad = $(this).data('idnacionalidad');
-    swal("Eliminar la Nacionalidad", "¿Esta seguro de eliminar la Nacionalidad?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
-        if (value){
-            //console.log(idReservacion);
+        //$("#idreservacion").val(idreservacion),
+        $("#NombreBoleto").val(nombre_Boleto),
+        $("#Descripcion").val(descripcion_TB),
+        $("#PrecioV").val(precioVenta),
+        $("#Fmodificacion").val(f_modificacion),
+        $("#ModificacionPu").val(modificacionPor),
+        
+        //mostrar el modal
+        $('#modalEditarTB').modal('show');
+        //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
+        $('.btnEditarBD').on('click', async function() {
+            var IdTipoBoleto = Number(id_tipoboleto); 
+            console.log(IdTipoBoleto);
             const formData = new FormData();
-            formData.append('id_tipo_nacionalidad', idNacionalidad);
-            const resp = await axios.post('./controlador/ctr.nacionalidad.php?action=eliminarNacionalidad', formData);
-            const data = resp.data;
-            //console.log(data);
+            formData.append('id_tipo_boleto', IdTipoBoleto);
+            formData.append('nombre_tipo_boleto',$("#NombreBoleto").val());
+            formData.append('descripcion',$("#Descripcion").val());
+            formData.append('precio_venta',$("#PrecioV").val());            
+            formData.append('modificado_por',$("#ModificacionPu").val());
+            formData.append('fecha_modificacion',$("#Fmodificacion").val());
+           
+            console.log(formData);
+            
+           const resp = await axios.post('./controlador/ctr.TipoBoleto.php?action=actualizarTipoBoleto', formData);
+           const data = resp.data;
+            console.log(data);
             if(data.error){
-                return swal("Error", data.msj, "error",{
-                    buttons: false,
-                    timer: 3000
+                return swal("Error", data.msj, "error", {
+                    timer:3000,
+                    buttons:false
                 });
+            } else{
+                $('#modalEditarTB').modal('hide');
+                return swal("Exito!", data.msj, "success", {
+                    timer:3000,
+                    buttons:false
+                }).then(() => {
+                    // Se limpia el formulario
+                    console.log('Ya se cerro el alert');
+                    $("#NombreBoleto").val('');
+                    $("#Descripcion").val('');
+                    $("#PrecioV").val('');                    
+                    $("#ModificacionPu").val('');
+                    $("#Fmodificacion").val('');
+                    location.reload(); 
+                })
             }
-            return swal("Exito!", data.msj, "success",{
-                buttons: false,
-                timer: 3000
-            }).then(() =>{ 
-                location.reload();
-            });
-        }
-    });
-  })
-
-  $('.btnNuevaNacionalidad').click(function(){    
-    $('#modalCrearNacionalidad').modal('show');
-   });
-
-   //PARA CREAR UNA NACIONALIDAD
-   $("#formCrearNacionalidad").submit(async function(e){
-    e.preventDefault();
-
-    var NombreNacionalidad = $("#NacionalidadN").val(), usuario_actual = $("#usuario_actual").val();
-
-    console.log(NombreNacionalidad, usuario_actual);
-    if(NombreNacionalidad != undefined && usuario_actual != undefined){
-        // formdata sirve para enviar los datos al servidor        
-        const registro= new FormData();        
-        registro.append('NacionalidadN', NombreNacionalidad);        
-        registro.append('usuario_actual', usuario_actual);
                 
-        const resp = await axios.post(`./controlador/ctr.nacionalidad.php?action=registrarNacionalidad`, registro);
-
-        const data = resp.data;
-
-        if(data.error){
-            return swal("Error", data.msj, "error");
-        }
-
-        return swal("Correcto", data.msj, "success").then((value) => {
+        });
+        
+      })  
+      
+       //BOTON PARA ELIMINAR tipo de Boleto (TABLA TIPO BOLETOS)
+    $('.btnEliminarTipoBoleto').on('click', function (){
+      const idTipoboleto = $(this).data('idtipoboleto');
+      swal("Eliminar el Tipo de Boleto", "¿Esta seguro de eliminar el Tipo de Boleto?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
           if (value){
-            // Se limpia el formulario            
-            $("#NacionalidadN").val('');                      
+              //console.log(idReservacion);
+              const formData = new FormData();
+              formData.append('id_tipo_boleto', idTipoboleto);
+              const resp = await axios.post('./controlador/ctr.TipoBoleto.php?action=eliminarTipoBoleto', formData);
+              const data = resp.data;
+              //console.log(data);
+              if(data.error){
+                  return swal("Error", data.msj, "error",{
+                      buttons: false,
+                      timer: 3000
+                  });
+              }
+              return swal("Exito!", data.msj, "success",{
+                  buttons: false,
+                  timer: 3000
+              }).then(() =>{ 
+                  location.reload();
+              });
           }
-          location.reload();
-        })
-    }else{
-      swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Extranjero", "warning");
-    } 
+      });
+    })
+  
+    $('.btnNuevaNacionalidad').click(function(){    
+      $('#modalCrearNacionalidad').modal('show');
+     });
+  
+     //PARA CREAR UNA NACIONALIDAD
+     $("#formCrearNacionalidad").submit(async function(e){
+      e.preventDefault();
+  
+      var NombreNacionalidad = $("#NacionalidadN").val(), usuario_actual = $("#usuario_actual").val();
+  
+      console.log(NombreNacionalidad, usuario_actual);
+      if(NombreNacionalidad != undefined && usuario_actual != undefined){
+          // formdata sirve para enviar los datos al servidor        
+          const registro= new FormData();        
+          registro.append('NacionalidadN', NombreNacionalidad);        
+          registro.append('usuario_actual', usuario_actual);
+                  
+          const resp = await axios.post(`./controlador/ctr.nacionalidad.php?action=registrarNacionalidad`, registro);
+  
+          const data = resp.data;
+  
+          if(data.error){
+              return swal("Error", data.msj, "error");
+          }
+  
+          return swal("Correcto", data.msj, "success").then((value) => {
+            if (value){
+              // Se limpia el formulario            
+              $("#NacionalidadN").val('');                      
+            }
+            location.reload();
+          })
+      }else{
+        swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Extranjero", "warning");
+      } 
+    });
+   
   });
   
-});

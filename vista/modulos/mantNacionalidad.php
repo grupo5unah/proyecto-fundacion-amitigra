@@ -21,7 +21,7 @@
 								</div> <!-- /div-action -->
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablas">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantNacionalidad">
 									<thead>
 										<tr>
 											<th>Nacionalidad</th>
@@ -123,7 +123,7 @@
 													
 													<div class="campos">
 													<label for="">Nacionalidad:</label>
-														<input id="Nacionalidad" class="form-control modal-roles secundary" type="text" name="Nacionalidad" autocomplete="off" required />
+														<input id="Nacionalidad" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="Nacionalidad" autocomplete="off" required />
 													</div>
 													<div class="campos">
 														<label for="">Fecha Modificada Nacionalidad:</label>
@@ -135,7 +135,7 @@
 													<div class="campos">
 														<label for="">Modificado Por:  </label>			
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
-														<input id="ModificadoPoru" style="text-transform: uppercase;" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
+														<input id="ModificadoPoru" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
 														
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -172,11 +172,11 @@
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Editar Nacionalidad</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Creacion de Nacionalidad</h3>
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formNacionalidad">
+						 	<form method="POST" id="formCrearNacionalidad" onpaste= "return false">
 								<div class="nav-tabs-custom">
 									<ul class="nav nav-tabs">
 										<li><a></a></li>               
@@ -194,19 +194,12 @@
 													
 													<div class="campos">
 													<label for="">Nacionalidad:</label>
-														<input id="Nacionalidad" class="form-control modal-roles secundary" type="text" name="Nacionalidad" autocomplete="off" required />
-													</div>
+														<input id="NacionalidadN" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="NacionalidadN" autocomplete="off" required />
+													</div>													
 													<div class="campos">
-														<label for="">Fecha Modificada Nacionalidad:</label>
-														<input id="Femodificacion" class="form-control modal-roles secundary" type="datetime" name="Femodificacion" <?php
-																														date_default_timezone_set("America/Tegucigalpa");
-																														$fec=date('Y-m-d H:i:s',time());
-																														?> value="<?php echo $fec;?>" disabled="true" />
-													</div>
-													<div class="campos">
-														<label for="">Modificado Por:  </label>			
+														<label for="">Creado Por:  </label>			
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
-														<input id="ModificadoPoru" style="text-transform: uppercase;" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
+														<input id="CreadoPor" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
 														
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -214,7 +207,7 @@
 												<div class="modal-footer">
 												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-													<button id=""type="submit" class="btn btn-primary btnEditarBD">Editar Nacionalidad</button>
+													<button id=""type="submit" class="btn btn-primary btnEditarBD">Crear Nacionalidad</button>
 												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	

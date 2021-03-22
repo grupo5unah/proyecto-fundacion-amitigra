@@ -10,27 +10,29 @@ if (isset($_GET['action'])) {
 
 switch ($action){ 
     
-    case 'actualizarNacionalidad': //Editar una Nacionalidad    
-        if(isset($_POST['id_tipo_nacionalidad']) && isset($_POST['nacionalidad']) &&
-        isset($_POST['fecha_modificacion']) && isset($_POST['modificado_por'])){
+    case 'actualizarTipoBoleto': //Actualizar un tipo boleto      
+        if(isset($_POST['id_tipo_boleto']) && isset($_POST['nombre_tipo_boleto']) && isset($_POST['precio_venta']) 
+        && isset($_POST['descripcion']) && isset($_POST['fecha_modificacion']) && isset($_POST['modificado_por'])){
 
-            $id_nacionalidad=$_POST['id_tipo_nacionalidad'];
-            $nacionalidad=$_POST['nacionalidad'];
+            $id_tipo_boleto=$_POST['id_tipo_boleto'];
+            $nombre_tipo_boleto=$_POST['nombre_tipo_boleto'];
+            $precio_venta=$_POST['precio_venta'];
+            $descripcion=$_POST['descripcion'];
             date_default_timezone_set("America/Tegucigalpa");
             $Fmodificacion=date('Y-m-d H:i:s',time());
             $modificadoPor = $_POST['modificado_por'];
             
 
-            $actualizarnacionalidad = "UPDATE tbl_tipo_nacionalidad                                 
-                                set  nacionalidad='$nacionalidad', 
-                                fecha_modificacion='$Fmodificacion', modificado_por='$modificadoPor'
-                                WHERE id_tipo_nacionalidad=".$id_nacionalidad;
+            $actualizarTipoBoleto = "UPDATE tbl_tipo_boletos                                 
+                                set  nombre_tipo_boleto='$nombre_tipo_boleto', precio_venta='$precio_venta',
+                                descripcion='$descripcion', fecha_modificacion='$Fmodificacion', modificado_por='$modificadoPor'
+                                WHERE id_tipo_boleto=".$id_tipo_boleto;
             
-            $resultado=$conn->query($actualizarnacionalidad);
+            $resultado=$conn->query($actualizarTipoBoleto);
             if ($resultado == 1) {
-                $res['msj'] = "Nacionalidad se Edito Correctamente";
+                $res['msj'] = "Tipo de Boleto se Edito Correctamente";
             } else {
-                $res['msj'] = "Se produjo un error al momento de Editar la Nacionalidad ";
+                $res['msj'] = "Se produjo un error al momento de Editar el Tipo de Boleto";
                 $res['error'] = true;
             }
         }else{
@@ -39,25 +41,25 @@ switch ($action){
         }               
 
     break; 
-    case 'eliminarNacionalidad': //Eliminar una Nacionalidad
-        if (isset($_POST['id_tipo_nacionalidad'])) {
-            $id_nacionalidad = $_POST['id_tipo_nacionalidad'];
-            $sql = "UPDATE tbl_tipo_nacionalidad SET estado_eliminado = 0 WHERE id_tipo_nacionalidad = " . $id_nacionalidad;
+    case 'eliminarTipoBoleto': //Eliminar un Tipo de Boleto
+        if (isset($_POST['id_tipo_boleto'])) {
+            $id_tipo_boleto = $_POST['id_tipo_boleto'];
+            $sql = "UPDATE tbl_tipo_boletos SET estado_eliminado = 0 WHERE id_tipo_boleto = " . $id_tipo_boleto;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-                $res['msj'] = "Nacionalidad Eliminada  Correctamente";
+                $res['msj'] = "Tipo de Boleto Eliminado  Correctamente";
             } else {
-                $res['msj'] = "Se produjo un error al momento de eliminar la nacionalidad";
+                $res['msj'] = "Se produjo un error al momento de eliminar el Tipo de Boleto";
                 $res['error'] = true;
             }
         } else {
-            $res['msj'] = "No se envió el id de la nacionalidad a eliminar";
+            $res['msj'] = "No se envió el id del Tipo de Boleto a eliminar";
             $res['error'] = true;
         }
 
     break;   
 
-    case 'registrarNacionalidad': //Registrar una nueva Nacionalidad
+    case 'registrarNacionalidad':
         $nacionalidad= $_POST['NacionalidadN'];        
         $usuario_actual = $_POST['usuario_actual'];
         $estado=1;

@@ -21,7 +21,7 @@
 								</div> <!-- /div-action -->
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablas">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manttipoBoletos">
 									<thead>
 										<tr>
 											<th>Nombre Tipo de Boleto</th>
@@ -36,10 +36,10 @@
 									<tbody>
 										<?php
 										try{
-											$sql = "SELECT nombre_tipo_boleto, precio_venta, descripcion, fecha_creacion, modificado_por, fecha_modificacion  
+											$sql = "SELECT id_tipo_boleto, nombre_tipo_boleto, precio_venta, descripcion, fecha_creacion, modificado_por, fecha_modificacion  
 											 FROM tbl_tipo_boletos 											 
 											 WHERE estado_eliminado = 1
-											 ORDER BY id_tipo_boleto ";
+											 ORDER BY id_tipo_boleto";
 											$resultado = $conn->query($sql);
 										}catch (Exception $e){
 											echo  $e->getMessage();
@@ -54,8 +54,8 @@
 												'descripcion'=>$mostrar['descripcion'],
 												'fecha_creacion'=>$mostrar['fecha_creacion'],
 												'modificado_por'=>$mostrar['modificado_por'],
-												'fecha_modificacion'=>$mostrar['fecha_modificacion']
-												
+												'fecha_modificacion'=>$mostrar['fecha_modificacion'],
+												'id_tipo_boleto'=>$mostrar['id_tipo_boleto']												
 											);
 											$ver[$captura][] =  $mostrar;
 										} 
@@ -72,11 +72,11 @@
 													
 													<td>
 								
-													<button class="btn btn-warning btnEditarHotel glyphicon glyphicon-pencil"  data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
-													data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" data-adultos="<?= $mostrar['adultos'] ?>" 
-													data-ninos="<?= $mostrar['ninos'] ?>" data-total="<?= $mostrar['total'] ?>"></button>
+													<button class="btn btn-warning btnEditarTB glyphicon glyphicon-pencil"  data-idtipoboleto="<?= $mostrar['id_tipo_boleto'] ?>" 
+													data-nombreBoleto="<?= $mostrar['nombre_tipo_boleto'] ?>" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_venta'] ?>" 
+													data-modificacionP="<?= $mostrar['modificado_por'] ?>" data-fmodificacion="<?= $mostrar['fecha_modificacion'] ?>"></button>
 
-													<button class="btn btn-danger btnEliminarHotel glyphicon glyphicon-remove" data-idreservacion="<?= $mostrar['id_detalle_reservacion'] ?>"></button>
+													<button class="btn btn-danger btnEliminarTipoBoleto glyphicon glyphicon-remove" data-idtipoboleto="<?= $mostrar['id_tipo_boleto'] ?>"></button>
 													
 												</td>
 											<?php  } ?>
@@ -93,8 +93,8 @@
 			</div>
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
-			<!-- MODAL EDITAR RESERVACION HOTEL -->
-			<div class="modal fade" id="modalEditarHotel" tabindex="-1"
+			<!-- MODAL EDITAR TIPO DE BOLETO -->
+			<div class="modal fade" id="modalEditarTB" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -103,11 +103,11 @@
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Registrar reservaión</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Editar Tipo de Boleto</h3>
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formHotel">
+						 	<form method="POST" id="formTipoBoleto">
 								<div class="nav-tabs-custom">
 									<ul class="nav nav-tabs">
 										<li><a></a></li>               
@@ -124,59 +124,37 @@
 													</div>
 													
 													<div class="campos">
-													<label for="">Fecha de reservación </label>
-														<input id="fReservacion" class="form-control modal-roles secundary" type="date" name="fReservacion" required />
+													<label for="">Nombre de Boleto:</label>
+														<input id="NombreBoleto" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="NombreBoleto" autocomplete="off" required />
 													</div>
 													<div class="campos">
-														<label for="">Fecha de entrada  </label>
-														<input id="fEntrada" class="form-control modal-roles secundary" type="date" name="fEntrada"required />
+													<label for="">Descripcion del Boleto:</label>
+														<input id="Descripcion" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="Descripcion" autocomplete="off" required />
 													</div>
 													<div class="campos">
-														<label for="">Fecha de salida  </label>
-														<input id="fSalida" class="form-control modal-roles secundary" type="date" name="fSalida"required />
-													</div>
-														
-												</div> <!-- /.modal form-group -->
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-													<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
-													<button class="btn btn-primary" href="#settings" data-toggle="tab">Siguiente</button>
-												</div>
-												
-												
-											</div> <!-- /.post -->	
-										</div> <!-- /.tab-pane -->
-										<div class="tab-pane" id="settings">
-											<div class="post"> <br>
-												
-												<div class="ingreso-producto form-group">
-													<div class="campos" type="hidden">
-														<label for=""> </label>
-														<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
-													</div>
-														<!-- <input type="hide"> -->
-													<div class="campos">
-														<label for="">Cantidad Adultos </label>
-														<input id="cAdultos" class="form-control modal-roles secundary" type="text" name="cAdultos" onkeypress="return soloNumeros(event)" placeholder="Cantidad Adultos"required />
+													<label for="">Precio del Boleto:</label>
+														<input id="PrecioV" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="number" min="1" name="PrecioV" autocomplete="off" required />
 													</div>
 													<div class="campos">
-														<label for="">Cantidad Niños  </label>
-														<input id="cNinos" class="form-control modal-roles secundary" type="text" name="cNinos" onkeypress="return soloNumeros(event)" placeholder="Cantidad Niños"required />
+														<label for="">Fecha Modificada Tipo Boleto:</label>
+														<input id="Fmodificacion" class="form-control modal-roles secundary" type="datetime" name="Fmodificacion" <?php
+																														date_default_timezone_set("America/Tegucigalpa");
+																														$fec=date('Y-m-d H:i:s',time());
+																														?> value="<?php echo $fec;?>" disabled="true" />
 													</div>
 													<div class="campos">
-														<label for="">Total  </label>
-														<input id="total" class="form-control modal-roles secundary" type="text" name="total" onkeypress="return soloNumeros(event)" placeholder="Total a pagar"required />
+														<label for="">Modificado Por:  </label>			
+														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
+														<input id="ModificacionPu" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
-													
 														
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 												</div> <!-- /.modal form-group -->
 												<div class="modal-footer">
-													<button class="btn btn-default" href="#activity" id="prevtab" data-toggle="tab">Anterior</button>
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-													<button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button>
-												</div>
-												
+													<button id=""type="submit" class="btn btn-primary btnEditarBD">Editar Tipo Boleto</button>
+												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
 									</div> <!-- /.tab-content -->	

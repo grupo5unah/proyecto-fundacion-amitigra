@@ -142,15 +142,15 @@ $columna = $stmt->fetch_assoc();
               </a>
               <ul class="treeview-menu">
                 <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
-                <li><a href="#"><i class=""></i> Productos</a></li>
+                <!--li><a href="#"><i class=""></i> Productos</a></li>
                 <li><a href="#"><i class=""></i> Localidad</a></li>-->
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
                 <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
                 <li><a href="mantparametros"><i class=""></i> Parametros</a></li>
                 <li><a href="mantObjetos"><i class=""></i> Objetos</a></li>
-                <li><a href="mantTipoBoletos"><i class=""></i> Tipo de Boletos</a></li>
-                <li><a href="mantNacionalidad"><i class=""></i> Tipo de Nacionalidad</a></li>
+                <li><a href="mantTipoBoletos"><i class=""></i>Tipo y Precio de Boletos</a></li>
+                <li><a href="mantNacionalidad"><i class=""></i>Tipos de Nacionalidad</a></li>
                 <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>
