@@ -132,7 +132,7 @@
 	</button> -->
                   <button class="btn btn-default btnCreartipoSolicitud glyphicon glyphicon-plus-sign">Agregar Estado</button>
                 </div> <!-- /div-action -->
-                <table id="manageProductTable" class="display responsive nowrap">
+                <table id="mantEstadosSolicitudes" class="display responsive nowrap">
                   <thead>
                     <tr>
                       <th>Estado de Solicitud</th>
