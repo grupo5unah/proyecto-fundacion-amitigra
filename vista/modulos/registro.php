@@ -46,18 +46,19 @@
                 <div class="active tab-pane" id="activity">
                     <div class="columna">
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="50" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this); verificar(this.value)">
+                        <input type="text" maxlength="50" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); verificar(this.value)">
                         <span class="fa fa-user form-control-feedback"></span>
                       </div>
                         <div class="form-group has-feedback">
                           <input type="text" maxlength="15" id="usuario" class="form-control" name="usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                           <span class="fa fa-user form-control-feedback"></span>
-                          <label for="noti" id="notificacion"></label>
+                          <p id="notificacion" class="msj_error"></p>
+                          <!-- <input type="text" id="notificacion" value=""> -->
                         </div>
                         <div class="form-group has-feedback">
-                          <input type="text" maxlength="50" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this)">
+                          <input type="text" maxlength="50" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this); verificar(this.value)">
                           <span class="fa fa-envelope form-control-feedback"></span>
-                          <span id="ver"></span>
+                          <p id="notificacion2" class="msj_error"></p>
                         </div>
                         <div class="form-group has-feedback">
                           <select class="form-control" name="genero" id="genero">
@@ -67,7 +68,7 @@
                           </select>
                         </div>
                         <div class="form-group has-feedback">
-                          <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeypress="return soloNumeros(event)">
+                          <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeyup="verificar2(this.value)" onkeypress="return soloNumeros(event)">
                           <span class="fa fa-phone-square form-control-feedback"></span>
                         </div>
                         <br>
@@ -76,7 +77,7 @@
                           <a href="login.php" class="btn btn-danger">Cancelar</a>
                         </div>
                         <div class="text-center form-group has-feedback">
-                          <button href="#timeline" class="btn btn-success" id="enviar" data-toggle="tab">Siguiente</button>
+                          <button href="#timeline" class="btn btn-success desactivado" id="enviar" data-toggle="tab" disabled>Siguiente</button>
                         </div>
                     </div> 
                 </div>
@@ -89,7 +90,7 @@
                       <label class="color-enlaces" for="">Pregunta número 1</label>
                       <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select name = "id_pregunta1" class="form-control" item>
+                      <select id="pregunta" name = "id_pregunta1" class="form-control selectDisable">
                         <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -97,14 +98,15 @@
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
                             ?>
-                            <?php foreach($resultado as $opciones):?>
+                            <?php while($opciones = mysqli_fetch_assoc($resultado)):?>
                                 <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
-                            <?php endforeach;?>
+                            <?php endwhile;?>
                       </select>
                     </div>
                       <div class="form-group has-feedback">
                         <input type="text" maxlength="15" id="preg1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
+                        <p id="resp" class='msj_error'></p>
                       </div>
                       <br>
                       <div class="columna">
@@ -121,27 +123,29 @@
                     <label class="color-enlaces" for="">Pregunta número 2</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select name = "id_pregunta2" class="form-control">
+                      <select id="pregunta" name = "id_pregunta2" class="form-control selectDisable">
                       <option>Seleccione una pregunta...</option>
                         <?php
-                             include_once ('../../modelo/conexionbd.php');
+                             include ('../../modelo/conexionbd.php');
       
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
                             ?>
-                            <?php foreach($resultado as $opciones):?>
-                                <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
-                            <?php endforeach;?>
+                            <?php while($opciones = mysqli_fetch_assoc($resultado)):?>
+                                <option <?php if(isset($_POST[$opciones['id_pregunta']])){ echo $_POST[$opciones['id_pregunta']];}?> value="<?php echo $opciones['id_pregunta'];?>"><?php echo $opciones['pregunta'];?></option>
+                            <?php endwhile;?>
                       </select>
                     </div>
+                    
                       <div class="form-group has-feedback">
                         <input type="text" maxlength="15" id="preg2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
+                        <p id="resp2" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
                       <button class="btn btn-primary" href="#timeline" id="prevtab" data-toggle="tab">Anterior</button>
-                      <button class="btn btn-success" href="#settings1" id="nexttab" data-toggle="tab">Siguiente</button>
+                      <button class="btn btn-success" href="#settings1" id="nexttab2" data-toggle="tab">Siguiente</button>
                     </div>
                   </div>
                 </div>
@@ -153,7 +157,7 @@
                     <label class="color-enlaces" for="">Pregunta número 3</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select name = "id_pregunta3" class="form-control">
+                      <select name = "id_pregunta3" class="form-control selectDisable">
                       <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -161,19 +165,20 @@
                              $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
                              $resultado = mysqli_query($conn,$stmt);
                             ?>
-                            <?php foreach($resultado as $opciones):?>
-                                <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
-                            <?php endforeach;?>
+                            <?php while($opciones = mysqli_fetch_assoc($resultado)):?>
+                                <option <?php //echo $pregid === $opciones['id_pregunta'] ? 'selected' : '';?> value="<?php echo $opciones['id_pregunta'];?>"><?php echo $opciones['pregunta'];?></option>
+                            <?php endwhile;?>
                       </select>
                     </div>
                       <div class="form-group has-feedback">
                         <input type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
+                        <p id="resp3" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
                       <button class="btn btn-primary" href="#settings" id="prevtab" data-toggle="tab">Anterior</button>
-                      <button class="btn btn-success" href="#settings2" id="nexttab" data-toggle="tab">Siguiente</button>
+                      <button class="btn btn-success" href="#settings2" id="nexttab3" data-toggle="tab">Siguiente</button>
                     </div>
                   </div>
                 </div>
@@ -181,10 +186,10 @@
                 <div class="tab-pane" id="settings2">
                   <div class="post text-center">
                     <div class="input-group col-sm-11 has-feedback">
-                    <label for="inputSkills" class="col-sm-8 control-label">Nueva contraseña</label>
+                        <label for="inputSkills" class="col-sm-6 control-label">Ingresa tu contraseña</label>
                         <input id="PassRegistro" type="password" class="form-control" name="password" placeholder="Contraseña">
                         
-                      </div>
+                    </div>
                       <br>
                       <div class="input-group has-feedback">
                         <input id="ConfPassR" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
@@ -197,8 +202,7 @@
                         <button class="btn btn-primary" href="#settings1" data-toggle="tab">Anterior</button>
                         <input type="hidden" name="tipo" value="registro">
                         <button type="submit" name="submit" class="btn btn-success">Registrarse</button>
-                      </div>
-                      
+                      </div>     
                   </div>
                 </div>
                 </div>
@@ -320,7 +324,7 @@ window.onload = function(){
 </script>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 function tiemporreal(){
 let usuario = $.ajax({
 url:'../../controlador/consulta.php',
@@ -330,7 +334,7 @@ asynnc: false,
 document.getElementById("notificacion").innerHTML = usuario;
 }
 setInterval(tiemporeal, 1000);
-</script>
+</script> -->
 
 
 
@@ -339,7 +343,9 @@ setInterval(tiemporeal, 1000);
 
 <!-- <script src="../dist/js/registro.js"></script> -->
 
-<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="../dist/js/recargar.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->

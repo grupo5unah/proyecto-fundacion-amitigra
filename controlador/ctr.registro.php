@@ -112,7 +112,7 @@
                                                     $rol = 2;
                                                     $token = "";
                                                     $estado = 2;
-                                                    $preguntas = 0;
+                                                    $preguntas = 3;
                                                     $intentos = 0;
                                                     $foto = "foto";
 
@@ -130,6 +130,14 @@
                                                     //move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil . $nombre_foto);
 
                                                     $user = $usuario;
+
+                                                    $foto = "";
+
+                                                    if($genero === "femenino"){
+                                                        $foto = "femenino.png";
+                                                    } else {
+                                                        $foto = "masculino.png";
+                                                    }
 
                                                     //Fecha ACTUAL del sistema
                                                     date_default_timezone_set("America/Tegucigalpa");
@@ -174,7 +182,7 @@
                                                         $registro->execute();
                                                         //$registro->close();
 
-                                                        $cambio_contrasena = $conn->prepare("CALL control_historial_contrasena (?,?,?,?,?,?);");
+                                                        $cambio_contrasena = $conn->prepare("CALL control_hist_contrasena (?,?,?,?,?,?);");
                                                         $cambio_contrasena->bind_Param("isssss",$id_usuario, $hashed_password, $user, $fecha, $user, $fecha);
                                                         $cambio_contrasena->execute();
 
