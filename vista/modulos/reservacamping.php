@@ -126,7 +126,15 @@
                               <label for=""> </label>
                               <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
                             </div>
-                            
+                            <div class="form-group">
+                              <div class=" col-sm-8">
+                                <div class="checkbox">
+                                  <label>
+                                    <input type="checkbox" id="check" name="check">Alquilar Articulos
+                                  </label>
+                                </div>
+                              </div>
+                            </div><br>
                             <div class="campos">
                             <label for="">Fecha de reservación </label>
                               <input id="reservacion" class="form-control modal-roles secundary" type="datetime" name="reservacion" required
@@ -144,7 +152,7 @@
                               <input id="salida" class="form-control modal-roles secundary" type="text" name="salida"required />
                             </div>
                             <div class="campos">
-                              <label for="area">Habitación:</label><br>
+                              <label for="area">Area:</label><br>
                               <select class="form-control modal-roles secundary" name="area" id="area">
                                 <option value="" disabled selected>Selecione...</option>
                                 <?php 
@@ -163,10 +171,91 @@
                           </div> <!-- /.modal form-group -->
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-                            <button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
+                            <button class="btn btn-primary btnsiguiente2" href="#settings2" data-toggle="tab">Articulos</button>
+                            <button class="btn btn-primary btnsiguiente1" href="#timeline" data-toggle="tab">Siguiente</button>
                           </div>
-                          
-                          
+                        </div> <!-- /.post -->	
+                      </div> <!-- /.tab-pane -->
+                      <div class="tab-pane" id="settings2">
+                        <div class="post"> <br>
+                          <div class="ingreso-producto form-group">
+                            <div class="campos" type="hidden">
+                              <label for=""> </label>
+                              <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+                            </div>
+                              <div class="campos col-md-7">
+                                <label for="area">Tipo de tienda:</label><br>
+                                <select class="form-control col-md-8" name="area" id="area">
+                                  <option value="" disabled selected>Selecione...</option>
+                                  <?php 
+                                    //include_once ('./modelo/conexionbd.php');
+
+                                    $stmt = "SELECT id_producto, nombre_producto FROM tbl_producto
+                                              WHERE nombre_producto LIKE '%Ti%'";
+                                    $resultado = mysqli_query($conn,$stmt);
+                                    ?>
+                                    <?php foreach($resultado as $opciones):?>
+                                    <option value="<?php echo $opciones['id_producto']?>"><?php echo $opciones['nombre_producto']?></option>
+                                  <?php endforeach;?>
+                                </select>
+                              </div><br><br><br><br>
+                              <!-- <input type="hide"> -->
+                              <div class="col-md-7">
+                                <div class="campos form-group">
+                                      <label>Precio Tienda:</label>
+                                    <div class="input-group col-xs-8">
+                                      <span class="input-group-addon">L.</span>
+                                      <input type="text" class="form-control" name="precioTi" id="precioTi" placeholder="Precio habitacion" onkeydown="return soloNumeros(event)"
+                                      maxlength="4"  requiered disabled="true"
+                                      <?php
+                                        $stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto=1";
+                                        $resultado1 = mysqli_query($conn,$stmt);
+                                        ?>
+                                        <?php foreach($resultado1 as $opcion):?>
+                                        value="<?php echo $opcion['precio_alquiler']?>"> 
+                                        <?php endforeach;?>
+                                    </div>
+                                  </div>
+                                  <div class="campos form-group">
+                                <label>Precio Sleeping:</label>
+                                  <div class= "input-group col-xs-8">
+                                    <span class="input-group-addon">L.</span>
+                                    <input type="text" class="form-control" name="precioS" id="precioS" onkeydown="return soloNumeros(event)"  placeholder="Precio habitacion"
+                                    maxlength="4" disabled="true"
+                                    <?php
+                                      $stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto=4";
+                                      $resultado1 = mysqli_query($conn,$stmt);
+                                      ?>
+                                      <?php foreach($resultado1 as $opcion):?>
+                                      value="<?php echo $opcion['precio_alquiler']?>"> 
+                                      <?php endforeach;?>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="campos form-group">
+                                <label for="">Cantidad Tiendas: </label>
+                                <div class=" input-group col-xs-4">
+                                  <input id="cantTi" class="form-control" min="0" type="number" name="cantTi" onkeydown="return soloNumeros(event)" oninput="calcularArti()" placeholder="Adultos" />
+                                </div>
+                              </div>
+                              <div class="campos form-group">
+                                <label for="">Cantidad Sleeping:  </label>
+                                <div class="input-group col-xs-4">
+                                  <input id="cantS" class="form-control modal-roles secundary" min="0" type="number" name="cantS" onkeypress="return soloNumeros(event)" oninput="calcularArti()"  placeholder="Niños" />
+                                </div>
+                              </div>
+                            <div class="campos">
+                              <label for="">Total  </label>
+                              <input id="total" class="form-control modal-roles secundary" type="number" name="total" onkeydown="return soloNumeros(event)" placeholder="Total a pagar" disabled />
+                            </div>
+                            
+                              
+                            <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                          </div> <!-- /.modal form-group -->
+                          <div class="modal-footer">
+                            <button class="btn btn-default" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
+                            <button class="btn btn-default" href="#timeline" id="prevtab" data-toggle="tab">Siguiente</button>
+                          </div>
                         </div> <!-- /.post -->	
                       </div> <!-- /.tab-pane -->
                       <div class="tab-pane" id="timeline">
@@ -318,7 +407,7 @@
                           </div> <!-- /.modal form-group -->
                           <div class="modal-footer">
                             <button class="btn btn-default" href="#timeline" id="prevtab" data-toggle="tab">Anterior</button>
-                            <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button>
+                            <button id=""type="submit" class="btn btn-primary ">Registrar reservación</button>
                           </div>
                         </div> <!-- /.post -->	
                       </div> <!-- /.tab-pane -->	

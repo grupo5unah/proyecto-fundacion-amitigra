@@ -25,20 +25,20 @@
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantHabServTable">
-									<thead>
+									<thead style="background-color: #222d32; color: white;">
 										<tr>
 
-											<th>Descripcion</th>
-											<th>Habitacion Área</th>
-											<th>Localidad</th>
-											<th>Estado</th>
-                                            <th>Precio Adulto(N)</th>
-                                            <th>Precio Niño(N)</th>
-                                            <th>Precio Adulto(E)</th>
-                                            <th>Precio Niño(E)</th>
-											<th>Modificacdo por</th>
-											<th>Fecha modificación</th>
-											<th>Acciones</th>
+											<th class="text-center">Descripcion</th>
+											<th class="text-center">Habitacion Área</th>
+											<th class="text-center">Localidad</th>
+											<th class="text-center">Estado</th>
+                                            <th class="text-center">Precio Adulto(N)</th>
+                                            <th class="text-center">Precio Niño(N)</th>
+                                            <th class="text-center">Precio Adulto(E)</th>
+                                            <th class="text-center">Precio Niño(E)</th>
+											<th class="text-center">Modificacdo por</th>
+											<th class="text-center">Fecha modificación</th>
+											<th class="text-center">Acciones</th>
 
 										</tr>
 									</thead>
@@ -88,17 +88,17 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
-													<td> <?php echo $evento['descripcion']; ?></td>
-													<td> <?php echo $evento['habitacion_area']; ?></td>
-													<td> <?php echo $evento['localidad']; ?></td>
-													<td> <?php echo $evento['estado']; ?></td>
-                                                    <td> <?php echo $evento['precio_adulto_nacional']; ?></td>
-                                                    <td> <?php echo $evento['precio_nino_nacional']; ?></td>
-                                                    <td> <?php echo $evento['precio_adulto_extranjero']; ?></td>
-                                                    <td> <?php echo $evento['precio_nino_extranjero']; ?></td>
-													<td> <?php echo $evento['modificado_por']; ?></td>
-													<td> <?php echo $evento['fecha_modificacion']; ?></td>
-													<td>
+													<td class="text-center"> <?php echo $evento['descripcion']; ?></td>
+													<td class="text-center"> <?php echo $evento['habitacion_area']; ?></td>
+													<td class="text-center"> <?php echo $evento['localidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['estado']; ?></td>
+                                                    <td class="text-center"> <?php echo $evento['precio_adulto_nacional']; ?></td>
+                                                    <td class="text-center"> <?php echo $evento['precio_nino_nacional']; ?></td>
+                                                    <td class="text-center"> <?php echo $evento['precio_adulto_extranjero']; ?></td>
+                                                    <td class="text-center"> <?php echo $evento['precio_nino_extranjero']; ?></td>
+													<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
+													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
+													<td class="text-center">
 														<button class="btn btn-warning btnEditarHabServ glyphicon glyphicon-pencil"  data-idhs="<?= $evento['id_habitacion_servicio'] ?>" data-nombreha="<?= $evento['habitacion_area'] ?>" 
 														data-descripcion="<?= $evento['descripcion'] ?>" data-localidad="<?= $evento['localidad'] ?>" data-pan="<?= $evento['precio_adulto_nacional'] ?>"
 														data-pnn="<?= $evento['precio_nino_nacional'] ?>" data-pae="<?= $evento['precio_adulto_extranjero'] ?>" data-prne="<?= $evento['precio_nino_extranjero'] ?>"
