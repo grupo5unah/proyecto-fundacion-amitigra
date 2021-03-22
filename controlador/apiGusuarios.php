@@ -10,18 +10,6 @@ if (isset($_GET['action'])) {
 }
 
 switch ($action) {
-    case 'obtenerUsuario': // OBTIENE UN USUARIO POR NOMBRE DE USUARIO
-        $nombre_usuario = $_GET['nombreusuario'];
-        $correo = $_GET['correo'];
-        $sql = "SELECT nombre_usuario,correo,id_usuario
-        FROM tbl_usuarios WHERE nombre_usuario = '" . $nombre_usuario . "'";
-        $result = $conn->query($sql);
-        $user_db = array();
-        while ($row = $result->fetch_assoc()) {
-            array_push($user_db, $row);
-        }
-        $res['nombre_usuario'] = $user_db;
-        break;
 
     case 'registrarUsuario': // REGISTRA UN USUARIO
         $nombreC = $_POST['nombreCompleto'];
@@ -32,8 +20,9 @@ switch ($action) {
         $ConfirmarContraseña = $_POST['ConfirmarContraseña'];
         $genero = $_POST['genero'];
         $rol = $_POST['rol'];
-        $estado = 4;
+        $estado = 3;
         $usuario_actual = $_POST['usuario_actual'];
+        $foto = "foto";
 
         $preguntas = 0;
         $hashed_password = password_hash($Contraseña, PASSWORD_BCRYPT);
@@ -68,14 +57,15 @@ switch ($action) {
                     // insertar en la tabla tbl_usuarios
 
                     try {
-                        $sql = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario, genero, telefono,correo,contrasena,
-                rol_id,estado_id,fecha_ult_conexion,preguntas_contestadas,primer_ingreso,fecha_vencimiento,creado_por,fecha_creacion,
+                        $sql = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario,foto, genero, telefono,correo,contrasena,
+                rol_id,estado_id,fecha_ult_conexion,preguntas_contestadas,primer_ingreso, fecha_mod_contrasena,fecha_vencimiento,creado_por,fecha_creacion,
                 modificado_por, fecha_modificacion) 
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         $sql->bind_param(
-                            "ssssssiisissssss",
+                            "sssssssiisisssssss",
                             $nombreC,
                             $nombreusuario,
+                            $foto,
                             $genero,
                             $telefono,
                             $correo,
@@ -84,6 +74,7 @@ switch ($action) {
                             $estado,
                             $fecha,
                             $preguntas,
+                            $fecha,
                             $fecha,
                             $vencimiento,
                             $usuario_actual,
@@ -114,9 +105,9 @@ switch ($action) {
     case 'actualizarUsuario':
 
         if (
-            isset(($_POST['id_usuario'])) && isset($_POST['nombre_completo']) && isset($_POST['nombre_usuario']) 
+            isset(($_POST['id_usuario'])) && isset($_POST['nombre_completo']) && isset($_POST['nombre_usuario'])
             && isset($_POST['telefono'])
-            && isset($_POST['correo']) && isset($_POST['contrasena']) && isset($_POST['rol_id']) 
+            && isset($_POST['correo']) && isset($_POST['contrasena']) && isset($_POST['rol_id'])
             && isset($_POST['estado_id'])
         ) {
             $id_usuario = (int)$_POST['id_usuario'];
@@ -127,17 +118,18 @@ switch ($action) {
             $contrasena_hash = password_hash($_POST['contrasena'], PASSWORD_BCRYPT);
             $rol_id = $_POST['rol_id'];
             $estado_id = $_POST['estado_id'];
-            //clave encriptada
-            //$contrasena_hash=password_hash($contrasena, PASSWORD_BCRYPT);
-
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+           
+        
 
             $sql = "UPDATE tbl_usuarios SET nombre_completo = '$nombrec', nombre_usuario = '$nombreu',
-            telefono='$telefono', correo='$correo', rol_id=$rol_id, estado_id=$estado_id
+            telefono='$telefono', correo='$correo', rol_id=$rol_id, estado_id=$estado_id,modificado_por='$usuario_actual',
+            fecha_modificacion=' $fecha'
             WHERE id_usuario=" . $id_usuario;
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
-                //print_r($resultado);
                 $res['msj'] = "El usuario se edito correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de editar el Isuario ";
@@ -169,7 +161,7 @@ switch ($action) {
                 WHERE id_usuario=" . $id_usuario;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-               
+
                 $res['msj'] = "La contraseña se Reseteo correctamente";
 
 
@@ -187,7 +179,6 @@ switch ($action) {
                 if ($resulta > 0) {
                     $id_user = $resulta['id_usuario'];
                 } else {
-
                 }
 
                 //insertar en bitacora
@@ -196,7 +187,6 @@ switch ($action) {
                     VALUES('$accion_realizada','$descripcion',now(),$id_user,$objeto)");
                 if ($sql_insert) {
                     $res['msj'] = "se inserto Correctamente en bitacora";
-                    
                 } else {
                     $res['msj'] = "no se inserto en bitacora";
                     $res['error'] = true;
@@ -206,7 +196,7 @@ switch ($action) {
                 $res['error'] = true;
             }
         } else {
-            
+
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }

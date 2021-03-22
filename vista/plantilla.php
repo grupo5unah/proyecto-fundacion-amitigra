@@ -11,15 +11,15 @@ $ingreso = $_SESSION['primer_ingreso'];
 $TiempoActividad = 40;
 $tiempo = $TiempoActividad - 20;
 // Comprobar si $_SESSION["timeout"] está establecida
-if(isset($_SESSION["timeout"])){
-    // Calcular el tiempo de vida de la sesión (TTL = Time To Live)
-    $sessionTTL = time() - $_SESSION["timeout"];
-      if($sessionTTL > $tiempo){
-        //session_destroy();
-        //session_unset();
-        //header('location:vista/modulos/bloqueoInactividad.php');
-        //die();
-      }
+if (isset($_SESSION["timeout"])) {
+  // Calcular el tiempo de vida de la sesión (TTL = Time To Live)
+  $sessionTTL = time() - $_SESSION["timeout"];
+  if ($sessionTTL > $tiempo) {
+    //session_destroy();
+    //session_unset();
+    //header('location:vista/modulos/bloqueoInactividad.php');
+    //die();
+  }
 }
 // El siguiente key se crea cuando se inicia sesión
 $_SESSION["timeout"] = time();
@@ -27,21 +27,21 @@ $_SESSION["timeout"] = time();
 
 <?php
 
-  $usuario_id = $_SESSION['id'];
-  require './modelo/conexionbd.php';
+$usuario_id = $_SESSION['id'];
+require './modelo/conexionbd.php';
 
-  $nombre_sistema = 'NOMBRE_SISTEMA';
+$nombre_sistema = 'NOMBRE_SISTEMA';
 
-  $nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE usuario_id = ? AND parametro = ?;");
-  $nombre->bind_Param("is",$usuario_id,$nombre_sistema);
-  $nombre->execute();
-  $nombre->bind_Result($parametro,$valor);
+$nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE usuario_id = ? AND parametro = ?;");
+$nombre->bind_Param("is", $usuario_id, $nombre_sistema);
+$nombre->execute();
+$nombre->bind_Result($parametro, $valor);
 
-  if($nombre->affected_rows){
-    $existe = $nombre->fetch();
+if ($nombre->affected_rows) {
+  $existe = $nombre->fetch();
 
-    if($existe){
-      $extraer = substr($valor,0,4); 
+  if ($existe) {
+    $extraer = substr($valor, 0, 4);
 
 
 ?>
@@ -108,6 +108,8 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "senderosE" ||
         $_GET["ruta"] == "reservahotel" ||
         $_GET["ruta"] == "solicitudes" ||
+        $_GET["ruta"] == "mantTipoSolicitudes" || 
+        $_GET["ruta"] == "mantEstadosSolicitud" || 
         $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
@@ -247,6 +249,9 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/senderos.js"></script>
 <script src="vista/dist/js/nacionalidad.js"></script>
 <script src="vista/dist/js/solicitudes.js"></script>
+<script src="vista/dist/js/tipoSolicitudes.js"></script>
+<script src="vista/dist/js/EstadosSolicitud.js"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
