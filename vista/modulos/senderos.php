@@ -4,10 +4,7 @@
 	<section class="content">
  
 		<!-- Default box -->
-		<div class="box">
-			<div class="box-header with-border">
-
-			</div>
+		<div class="box">			
 			<div class="box-body">
 				<!--LLamar al formulario aqui-->
 				<div class="row">
@@ -22,7 +19,7 @@
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
                     <label for="">Nueva Venta de Boleto(s):</label><br>
                       <select class="form-control" name="opciones" onchange="url(this.value);">
-                        <option value="" disabled selected>Selecione tipo de nacionalidad</option>
+                        <option value="" disabled selected>Selecione Tipo de Nacionalidad</option>
                         <option value="senderosN">NACIONAL</option>
                         <option value="senderosE">EXTRANJERO</option>                        
                       </select>
@@ -35,7 +32,7 @@
 								</div> <!-- /div-action -->
                 <!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
                  porque tambien se aplica a todos los mantenimientos --> 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablas">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantSenderos">
 									<thead>
                     <tr>
                             <th>Numero<br>Factura:</th>
@@ -53,26 +50,46 @@
                   
 										<?php //Mando a llamar los datos que se ocupan para llenar la tabla obteniendo los datos de la  base de datos
 										try{
-                          $sql = "SELECT cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.descripcion, tbl_boletos.id_boletos_vendidos, tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad";  
-                          $sql .= " FROM tbl_boletos_detalle ";
-                          $sql .= " INNER JOIN tbl_usuarios ";
-                          $sql .= " ON tbl_boletos_detalle.usuario_id=tbl_usuarios.id_usuario ";
-                          $sql .= " INNER JOIN tbl_tipo_boletos ";
-                          $sql .= " ON tbl_boletos_detalle.tipo_boleto_id=tbl_tipo_boletos.id_tipo_boleto ";
-                          $sql .= " INNER JOIN tbl_boletos ";
-                          $sql .= " ON tbl_boletos_detalle.boletos_vendidos_id=tbl_boletos.id_boletos_vendidos ";
-                          $sql .= " INNER JOIN tbl_localidad ";
-                          $sql .= " ON tbl_boletos_detalle.localidad_id=tbl_localidad.id_localidad";
-                          $sql .= " ORDER BY tbl_boletos.id_boletos_vendidos";
+                          $sql = "SELECT id_boletos_detalle, cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.descripcion, tbl_boletos.id_boletos_vendidos, tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad 
+                                  FROM tbl_boletos_detalle
+                                  INNER JOIN tbl_usuarios
+                                  ON tbl_boletos_detalle.usuario_id=tbl_usuarios.id_usuario
+                                  INNER JOIN tbl_tipo_boletos
+                                  ON tbl_boletos_detalle.tipo_boleto_id=tbl_tipo_boletos.id_tipo_boleto
+                                  INNER JOIN tbl_boletos
+                                  ON tbl_boletos_detalle.boletos_vendidos_id=tbl_boletos.id_boletos_vendidos
+                                  INNER JOIN tbl_localidad
+                                  ON tbl_boletos_detalle.localidad_id=tbl_localidad.id_localidad
+                                  WHERE tbl_boletos.estado_eliminado = 1                                
+                                  ORDER BY tbl_boletos.id_boletos_vendidos";
                       $resultado = $conn->query($sql);
                     }catch (Exeption $e){
                       $error = $e->getMessage();
                       echo $error;
                     }
-
-										while($mostrar = $resultado->fetch_assoc()){ ?>
-                      <tr>
-                          <td><?php echo $mostrar['id_boletos_vendidos'];?></td>
+                    //esta variable es para realizar un arreglo que permita mostrar los resultados en la modal
+										$ver = array();
+										while($mostrar = $resultado->fetch_assoc()){
+											$captura = $mostrar['cantidad_boletos'];
+											$mostrar = array(
+												'nombre_tipo_boleto'=>$mostrar['nombre_tipo_boleto'],
+												'cantidad_boletos'=>$mostrar['cantidad_boletos'],
+												'sub_total'=>$mostrar['sub_total'],
+												'descripcion'=>$mostrar['descripcion'],
+												'nombre_usuario'=>$mostrar['nombre_usuario'],
+												'fecha_creacion' =>$mostrar['fecha_creacion'],
+                        'nombre_localidad' =>$mostrar['nombre_localidad'],
+                        'id_boletos_vendidos' =>$mostrar['id_boletos_vendidos'],
+                        'id_boletos_detalle' =>$mostrar['id_boletos_detalle']
+												
+											);
+											$ver[$captura][] =  $mostrar;
+										} 
+										foreach ($ver as $reserva => $lista) { ?>
+										
+											<?php foreach ($lista as $mostrar) { ?>
+												<tr>
+                        <td><?php echo $mostrar['id_boletos_vendidos'];?></td>
                           <td><?php echo $mostrar['nombre_tipo_boleto'];?></td>
                           <td><?php echo $mostrar['cantidad_boletos'];?></td>
                           <td><?php echo $mostrar['sub_total'];?></td>
@@ -80,17 +97,17 @@
                           <td><?php echo $mostrar['nombre_usuario'];?></td>                          
                           <td><?php echo $mostrar['fecha_creacion'];?></td>
                           <td><?php echo $mostrar['nombre_localidad'];?></td>
-
-                        <td>                          
-                          <!--button class="btn btn-warning btnEditarBoleto glyphicon glyphicon-pencil"  data-idboleto="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"
+													
+													<td>
+								
+													 <!--button class="btn btn-warning btnEditarBoleto glyphicon glyphicon-pencil"  data-idboleto="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"
                               data-sub_total="<?= $mostrar['sub_total']?>" data-fecha_modificada="<?= $mostrar['fecha_cracion'] ?>"></button-->
 
-                          <button class="btn btn-danger btnEliminarBoleto glyphicon glyphicon-remove" data-idboletodetalle="<?= $mostrar['id_boletos_detalle'] ?>"data-idboletoVendido="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"
-                              data-subtotal="<?= $mostrar['sub_total'] ?>" data-nacionalidad="<?= $mostrar['nacionalidad'] ?>" data-nombretipoboleto="<?= $mostrar['nombre_tipo_boleto'] ?>"
-                              data-fecha="<?= $mostrar['fecha_cracion'] ?>"></button>
-                        </td>                  
-                      </tr>
-                    <?php } ?>
+                              <button class="btn btn-danger btnEliminarBoleto glyphicon glyphicon-remove" data-idboletovendido="<?= $mostrar['id_boletos_vendidos'] ?>"></button>
+												</td>
+											<?php  } ?>
+										<?php  } ?>
+												</tr>
 									</tbody>	
                   <!--<?php //}
 										?>-->								

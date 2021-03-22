@@ -161,7 +161,7 @@
    
                               <div class="campos">
                                 <label for="">Nombre del Parametro </label>
-                                  <input id="nombrePara" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreParametro" placeholde="Escriba el parametro" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" />
+                                  <input id="nombrePara" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreParametro" placeholde="Escriba el parametro" required  onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
                                   </div>
                               <div class="campos ">

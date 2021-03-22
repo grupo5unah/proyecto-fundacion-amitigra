@@ -1,24 +1,24 @@
 $(document).ready(function () {
-  $("#formGusuariosh").submit(async function (e) {
+  $("#formSolicitudes").submit(async function (e) {
     e.preventDefault();
 
     var nombreCompleto = $("#nombreCompleto").val();
     var identidad = $("#identidad").val();
     var telefono = $("#telefono").val();
     var croquis = $("#croquis").val();
-    var recibo = $("#recibo").val();
+    var n_recibo = $("#n_recibo").val();
     var tipo_nac = $("#tipo_nac").val();
     var tipo = $("#tipo").val();
     var estatus_solicitud = $("#estatus_solicitud").val();
     var usuario_actual = $("#usuario_actual").val();
+    
 
     if (
       nombreCompleto != undefined &&
       identidad != undefined &&
       telefono != undefined &&
       croquis != undefined &&
-      recibo != undefined &&
-      recibo != undefined &&
+      n_recibo != undefined &&
       tipo_nac != undefined &&
       tipo != undefined &&
       estatus_solicitud != undefined &&
@@ -30,16 +30,15 @@ $(document).ready(function () {
       formData.append("identidad", identidad);
       formData.append("telefono", telefono);
       formData.append("croquis", croquis);
-      formData.append("recibo", recibo);
+      formData.append("n_recibo", n_recibo);
       formData.append("tipo_nac", tipo_nac);
       formData.append("tipo", tipo);
       formData.append("estatus_solicitud", estatus_solicitud);
       formData.append("usuario_actual", usuario_actual);
 
-      const resp = await axios.post(
-        "./controlador/apiSolicitudes.php?action=registrarSolicitud",
-        formData
-      );
+     
+      const resp = await axios.post('./controlador/apiSolicitudes.php?action=registrarSolicitud',formData);
+    
 
       const data = resp.data;
 
@@ -54,20 +53,21 @@ $(document).ready(function () {
           $("#identidad").val("");
           $("#telefono").val("");
           $("#croquis").val("");
-          $("#recibo").val("");
+          $("#n_recibo").val("");
           $("#tipo_nac").val("");
           $("#tipo").val("");
           $("#estatus_solicitud").val("");
+         
           location.reload();
         }
       });
     } else {
-      swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+      swal("Advertencia!", "Es necesario rellenar todos los campos","warning");
     }
-  });
+  })
 
   $(".btnCrearSolicitud").on("click", function () {
-    $("#modalCrearSolicitud").modal("show");
+    $("#modalCrearS").modal("show");
   });
 
 
@@ -117,7 +117,7 @@ $(document).ready(function () {
    const tipo = $(this).data("tipo");
    const id_estatus_solicitud = $(this).data("id_estatus_solicitud");
    const estatus_solicitud = $(this).data("estatus_solicitud");
-
+   var usuario_actual = $("#usuario_actual").val();
 
    //llena los campos
    $("#idsolicitud").val(idsolicitud),
@@ -134,10 +134,10 @@ $(document).ready(function () {
      formData.append("id_solicitud", Idsol);
      formData.append("estatus_solicitud", $("#estatus_solicitud").val());
      formData.append("tipo_solicitud", $("#tipo").val());
+     formData.append('usuario_actual', usuario_actual);
      
-     //formData.append('rol',$("#rol").val())
      const resp = await axios.post(
-       "controlador/apiSolicitudes.php?action=actualizarSolicitud",
+       "./controlador/apiSolicitudes.php?action=actualizarSolicitud",
        formData
      );
      const data = resp.data;
@@ -153,9 +153,10 @@ $(document).ready(function () {
          buttons: false,
        }).then(() => {
          // Se limpia el formulario
-         console.log("Ya se cerro el alert");
+         
          $("#estatus_solicitud").val("");
          $("#tipo").val("");
+
          location.reload();
        });
      }

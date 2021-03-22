@@ -28,13 +28,13 @@
 									<thead>
 										<tr>
 
-											<th>Nombre completo</th>
-											<th>Identidad</th>
-											<th>Telefono</th>
-											<th>Tipo nacionalidad</th>
-											<th>Modificado por</th>
-											<th>Fecha Modificación</th>
-											<th>Acciones</th>
+											<th class="text-center">Nombre completo</th>
+											<th class="text-center">Identidad</th>
+											<th class="text-center">Telefono</th>
+											<th class="text-center">Tipo nacionalidad</th>
+											<th class="text-center">Modificado por</th>
+											<th class="text-center">Fecha Modificación</th>
+											<th class="text-center">Acciones</th>
 
 										</tr>
 									</thead>
@@ -77,13 +77,13 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
-													<td> <?php echo $evento['nombre_completo']; ?></td>
-													<td> <?php echo $evento['identidad']; ?></td>
-													<td> <?php echo $evento['telefono']; ?></td>
-													<td> <?php echo $evento['nacionalidad']; ?></td>
-													<td> <?php echo $evento['modificado_por']; ?></td>
-													<td> <?php echo $evento['fecha_modificacion']; ?></td>
-													<td>
+													<td class="text-center"> <?php echo $evento['nombre_completo']; ?></td>
+													<td class="text-center"> <?php echo $evento['identidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['telefono']; ?></td>
+													<td class="text-center"> <?php echo $evento['nacionalidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
+													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
+													<td class="text-center">
 														<button class="btn btn-warning btnEditarCliente glyphicon glyphicon-pencil"  data-idcliente="<?= $evento['id_cliente'] ?>" data-nombrecliente="<?= $evento['nombre_completo'] ?>" 
 														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
 

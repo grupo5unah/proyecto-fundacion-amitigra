@@ -92,7 +92,7 @@ switch ($action) {
             $fecha = date('Y-m-d H:i:s', time());
 
             $sql = "UPDATE tbl_producto 
-                        SET nombre_producto = '$nombreP', precio_compra = '$costoP', cantidad_producto = '$cantidadP', descripcion = '$desc', tipo_producto_id =' $tipoP', precio_alquiler = '$precioAl', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'                       WHERE id_producto= '" . $producto . "'";;
+                        SET nombre_producto = '$nombreP', precio_compra = '$costoP', cantidad_producto = '$cantidadP', descripcion = '$desc', tipo_producto_id =' $tipoP', precio_alquiler = '$precioAl', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'     WHERE id_producto= '" . $id_product . "'";;
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
@@ -107,7 +107,7 @@ switch ($action) {
             $res['error'] = true;
         }
 
-        break;
+    break;
     case 'ingresarOrden':
 
     break;

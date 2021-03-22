@@ -1,36 +1,8 @@
-$(document).ready(function(){
-
-    $('#mantHabServTable').DataTable({
+$(document).ready(function () {
+    $('#manttipoBoletos').DataTable({
       
-        colmnDefs:[
-            {className: "text-center ", targets: [0]},
-            {className: "text-center ", targets: [1]},
-            {className: "text-center ", targets: [2]},
-            {className: "text-center ", targets: [3]},
-            {className: "text-center ", targets: [4]},
-            {className: "text-center ", targets: [5]},
-            {className: "text-center ", targets: [6]},
-            {className: "text-center ", targets: [7]},
-            {className: "text-center ", targets: [8]},
-            {className: "text-center ", targets: [9]},
-        ],
-        "createdRow":function(row,data,index){
-          if(data[3] == "RESERVADO"){
-            $('td', row).eq(3).css({
-              'background-color': ' #E81313',
-              'color': 'white',
-              'text-align': 'center'
-            });
-          }
-          if(data[3] == "DISPONIBLE"){
-            $('td', row).eq(3).css({
-              'background-color': '#1F9804',
-              'color': 'white',
-              'text-align': 'center'
-            });
-          }
-        },
-       
+     
+        
         //para usar los botones 
         responsive:"true",
         dom: 'Bfrtip',
@@ -47,7 +19,7 @@ $(document).ready(function(){
               text:'<i class="fas fa-print">',
               titleAttr:'Imprimir',
               title:'FUNDACION AMIGOS DE LA TIGRA',
-              messageTop:' REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
+              messageTop:' REPORTE DE TIPOS DE BOLETOS',
               className:'btn btn-dark',
               exportOptions: {
                 modifier: {
@@ -60,7 +32,7 @@ $(document).ready(function(){
                   title: 'FUNDACION AMIGOS DE LA TIGRA',
                   text:'<i class="fas fa-file-excel">',
                   className:'btn btn-success',
-                  messageTop: 'REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
+                  messageTop: 'REPORTE DE TIPOS DE BOLETOS',
                   exportOptions: {
                     columns: [ 0, ':visible' ]
                 },
@@ -74,7 +46,7 @@ $(document).ready(function(){
                   orientation: 'portrait',
                   pageSize: 'A4',
                   title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                  messageTop: 'REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
+                  messageTop: 'REPORTE DE TIPOS DE BOLETOS',
                   Image:'fotoPerfil/foto1.png',
                   download: 'open',
                   exportOptions: {
@@ -111,11 +83,11 @@ $(document).ready(function(){
                       var objHeader = {};
                       objHeader['columns'] = cols;
                       doc['header'] = objHeader;
-   
+    
                        doc['content']['1'].layout = 'lightHorizontalLines';
                       // doc['content']['1'].table.widths = ['2%', 140, 10, 15, 25, 20, 140, 20];
                        doc['content']['1'].style = 'Amitigra';
-   
+    
                       var objFooter = {};
                       objFooter['alignment'] = 'center';
                       doc["footer"] = function(currentPage, pageCount) {
@@ -151,9 +123,9 @@ $(document).ready(function(){
                     } );
                                          
                   }, className: 'btn btn-danger',
-   
+    
                   
-   
+    
               }
             
             ],
@@ -168,180 +140,142 @@ $(document).ready(function(){
           },
        
     });
-    //REGISTRAR NUEVA HABITACION O AREA
-    $("#formHabServi").submit(async function(e){
-        e.preventDefault();
-        var habitacion_area = $("#ha").val();
-        var descripcion = $("#descripcion").val();
-        var localidad = $("#localidad").val();
-        var estado = $("#estado").val();
-        var precio_adultoN = $("#preAdultN").val();
-        var precio_ninoN = $("#precioNiN").val();
-        var precio_adultoE = $("#preAdultE").val();
-        var precio_ninoE = $("#precioNiE").val();
-        var usuario_actual = $("#usuario_actual").val();
 
-        if(habitacion_area != undefined && localidad != undefined && estado != undefined && descripcion != undefined && precio_adultoN != undefined && precio_ninoN != undefined && precio_adultoE != undefined && precio_ninoE != undefined && usuario_actual != undefined){
-            const formData = new FormData();
-            formData.append('habitacion_area',habitacion_area);
-            formData.append('descripcion',descripcion);
-            formData.append('localidad',localidad);
-            formData.append('estado',estado);
-            formData.append('precioAN',precio_adultoN);
-            formData.append('precioNN',precio_ninoN);
-            formData.append('precioAE',precio_adultoE);
-            formData.append('precioNE',precio_ninoE);
-            formData.append('usuario_actual', usuario_actual);
-
-            const resp = await axios.post(`./controlador/ctr.manthabServ.php?action=registrarhabServ`, formData);
-
-            const data = resp.data;
-
-            if(data.error){
-                return swal("Error", data.msj, "error");
-            }
-
-            return swal("Exito!", data.msj, "success").then((value) => {
-                    if (value){
-                        // Se limpia el formulario
-                        $("#ha").val('');
-                        $("#descripcion").val('');
-                        $("#localidad").val('');
-                        $("#estado").val('');
-                        $("#preAdultN").val('');
-                        $("#precioNiN").val('');
-                        $("#preAdultE").val('');
-                        $("#precioNiE").val('');
-                        location.reload()
-                    }
-                   
-                })
-        }else{
-            swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-        } 
-        
-    }); 
-    //BUSCAR HABITACION SERVICIO   
-    $('#ha').blur(async function () {
-        console.log(this.value);
-        if(this.value.length > 0 ){
-            try{
-                const resp = await axios(`./controlador/ctr.mantHabServ.php?action=obtenerHabServ&habserv=${this.value}`);
-                const data = resp.data;
-                if(data.estado.length > 0){
-                //    console.log(data.objeto[0]);
-                    $("#ha")
-                    $("#descripcion")
-                    $("#localidad")
-                    $("#estado")
-                    $("#preAdultN")
-                    $("#precioNiN")
-                    $("#preAdultE")
-                    $("#precioNiE")
-                   
-                    return swal('Este Estado ya existe ');
-                }
-            }catch(err){
-                console.log('Error - ', err);
-            }
-        }
-    })
-    $('.btnCrearHabServ').on('click',function(){
-        $('#modalCrearHabServ').modal('show');
-    } );
-    //FUNCION EDITAR HABITACION O ÁREA
-    $('.btnEditarHabServ').on('click', function() {
+     /**------------------------------------------------------------------------------------------------------
+      *                                                                                                      *
+      *                        Mantenimiento Tipos y Precios de Boletos                                      *
+      *                                                                                                      *
+      * ------------------------------------------------------------------------------------------------------
+      */
+  
+    //BOTON EDITAR MODAL (TABLA TIPO BOLETO)
+    $('.btnEditarTB').on('click', function() {
         // info previa
-        const idhabserv = $(this).data('idhs');
-        const habserv = $(this).data('nombreha');
-        const descripcion = $(this).data('descripcion');
-        const localidad = $(this).data('localidad');
-        const precioAN = $(this).data('pan');
-        const precioNN = $(this).data('pnn');
-        const precioAE = $(this).data('pae');
-        const precioNE = $(this).data('prne');
-        const estado = $(this).data('estado');
-        const usuario =$(this).data('#usuario_actual');
-        //muestra la informacion en los inputs
-        //$("#id").val(idObjeto),
-        $("#ha").val(habserv),
-        $("#localidad").val(localidad),
-        $("#estado").val(estado),
-        $("#descripcion").val(descripcion),
-        $("#precioNiN").val(precioNN),
-        $("#preAdultN").val(precioAN),
-        $("#preAdultE").val(precioAE),
-        $("#precioNiE").val(precioNE),
-        $("#usuario_actual").val(usuario)
+        // con el data se imprime en la modal los datos que hay en la tabla
+        const id_tipoboleto = $(this).data('idtipoboleto'); 
+        const nombre_Boleto = $(this).data('nombreBoleto');
+        const descripcion_TB = $(this).data('descripcion');
+        const precioVenta = $(this).data('precioV');
+        const modificacionPor = $(this).data('modificacionP');
+        const f_modificacion = $(this).data('fmodificacion');
         
-        //console.log(idrol,nombrerol,descripcion);
+        console.log(id_tipoboleto, nombre_Boleto, descripcion_TB, precioVenta, modificacionPor, f_modificacion);
+    
+        //$("#idreservacion").val(idreservacion),
+        $("#NombreBoleto").val(nombre_Boleto),
+        $("#Descripcion").val(descripcion_TB),
+        $("#PrecioV").val(precioVenta),
+        $("#Fmodificacion").val(f_modificacion),
+        $("#ModificacionPu").val(modificacionPor),
+        
         //mostrar el modal
-        $('#modalEditarHabServ').modal('show');
-        
+        $('#modalEditarTB').modal('show');
+        //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
         $('.btnEditarBD').on('click', async function() {
-            var idHabSer = Number(idhabserv); 
-            //console.log(idEstado);
+            var IdTipoBoleto = Number(id_tipoboleto); 
+            console.log(IdTipoBoleto);
             const formData = new FormData();
-            formData.append('id_habserv', idHabSer);
-            formData.append('hab_are',$("#ha").val());
-            formData.append('localidad',$("#localidad").val());
-            formData.append('estado',$("#estado").val());
-            formData.append('precioNN',$("#precioNiN").val());
-            formData.append('precioAN',$("#preAdultN").val());
-            formData.append('precioAE',$("#preAdultE").val());
-            formData.append('precioNE',$("#precioNiE").val());
-            formData.append('usuario_actual',$("#usuario_actual").val());
+            formData.append('id_tipo_boleto', IdTipoBoleto);
+            formData.append('nombre_tipo_boleto',$("#NombreBoleto").val());
+            formData.append('descripcion',$("#Descripcion").val());
+            formData.append('precio_venta',$("#PrecioV").val());            
+            formData.append('modificado_por',$("#ModificacionPu").val());
+            formData.append('fecha_modificacion',$("#Fmodificacion").val());
+           
             console.log(formData);
             
-           const resp = await axios.post('./controlador/ctr.mantHabServ.php?action=actualizarHabServ', formData);
+           const resp = await axios.post('./controlador/ctr.TipoBoleto.php?action=actualizarTipoBoleto', formData);
            const data = resp.data;
-           // console.log(data);
+            console.log(data);
             if(data.error){
                 return swal("Error", data.msj, "error", {
                     timer:3000,
                     buttons:false
                 });
             } else{
-                $('#modalEditarHabServ').modal('hide');
+                $('#modalEditarTB').modal('hide');
                 return swal("Exito!", data.msj, "success", {
                     timer:3000,
                     buttons:false
                 }).then(() => {
                     // Se limpia el formulario
                     console.log('Ya se cerro el alert');
-                    $("#nombreEstado").val('');
-                    $("#descripcion").val('');
+                    $("#NombreBoleto").val('');
+                    $("#Descripcion").val('');
+                    $("#PrecioV").val('');                    
+                    $("#ModificacionPu").val('');
+                    $("#Fmodificacion").val('');
                     location.reload(); 
                 })
             }
                 
         });
         
+      })  
+      
+       //BOTON PARA ELIMINAR tipo de Boleto (TABLA TIPO BOLETOS)
+    $('.btnEliminarTipoBoleto').on('click', function (){
+      const idTipoboleto = $(this).data('idtipoboleto');
+      swal("Eliminar el Tipo de Boleto", "¿Esta seguro de eliminar el Tipo de Boleto?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+          if (value){
+              //console.log(idReservacion);
+              const formData = new FormData();
+              formData.append('id_tipo_boleto', idTipoboleto);
+              const resp = await axios.post('./controlador/ctr.TipoBoleto.php?action=eliminarTipoBoleto', formData);
+              const data = resp.data;
+              //console.log(data);
+              if(data.error){
+                  return swal("Error", data.msj, "error",{
+                      buttons: false,
+                      timer: 3000
+                  });
+              }
+              return swal("Exito!", data.msj, "success",{
+                  buttons: false,
+                  timer: 3000
+              }).then(() =>{ 
+                  location.reload();
+              });
+          }
+      });
     })
-    //ELIMINAR HABITACION AREA
-    $('.btnEliminarHabServ').on('click', function (){
-        const idhabservi = $(this).data('idha');
-        swal("Eliminar Estado", "¿Esta seguro de eliminar esta Habitacion-Área?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+  
+    $('.btnNuevaNacionalidad').click(function(){    
+      $('#modalCrearNacionalidad').modal('show');
+     });
+  
+     //PARA CREAR UNA NACIONALIDAD
+     $("#formCrearNacionalidad").submit(async function(e){
+      e.preventDefault();
+  
+      var NombreNacionalidad = $("#NacionalidadN").val(), usuario_actual = $("#usuario_actual").val();
+  
+      console.log(NombreNacionalidad, usuario_actual);
+      if(NombreNacionalidad != undefined && usuario_actual != undefined){
+          // formdata sirve para enviar los datos al servidor        
+          const registro= new FormData();        
+          registro.append('NacionalidadN', NombreNacionalidad);        
+          registro.append('usuario_actual', usuario_actual);
+                  
+          const resp = await axios.post(`./controlador/ctr.nacionalidad.php?action=registrarNacionalidad`, registro);
+  
+          const data = resp.data;
+  
+          if(data.error){
+              return swal("Error", data.msj, "error");
+          }
+  
+          return swal("Correcto", data.msj, "success").then((value) => {
             if (value){
-                //console.log('Estoy dentro del if');
-                const formData = new FormData();
-                formData.append('id_habiSer', idhabservi);
-                const resp = await axios.post('./controlador/ctr.mantHabServ.php?action=eliminarHabServ', formData);
-                const data = resp.data;
-                //console.log(data);
-                if(data.error){
-                    return swal("Error", data.msj, "error",{
-                        buttons: false,
-                        timer: 3000
-                    });
-                }
-                return swal("Exito!", data.msj, "success",{
-                    buttons: false,
-                    timer: 3000
-                }).then(() =>{ 
-                    location.reload();
-                });
+              // Se limpia el formulario            
+              $("#NacionalidadN").val('');                      
             }
-        });
-    })
-});
+            location.reload();
+          })
+      }else{
+        swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Extranjero", "warning");
+      } 
+    });
+   
+  });
+  
