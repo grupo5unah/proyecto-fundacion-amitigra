@@ -152,8 +152,8 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
                 <li><a href="mantparametros"><i class=""></i> Parametros</a></li>
                 <li><a href="mantObjetos"><i class=""></i> Objetos</a></li>
-                <li><a href="mantTipoBoletos"><i class=""></i>Tipo y Precio de Boletos</a></li>
-                <li><a href="mantNacionalidad"><i class=""></i>Tipos de Nacionalidad</a></li>
+                <li><a href="mantTipoBoletos"><i class=""></i>Tipo y Precio <br> de Boletos</a></li>
+                <li><a href="mantNacionalidad"><i class=""></i>Tipos de <br> Nacionalidad</a></li>
                 <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>

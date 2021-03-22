@@ -59,30 +59,32 @@ switch ($action){
 
     break;   
 
-    case 'registrarNacionalidad':
-        $nacionalidad= $_POST['NacionalidadN'];        
+    case 'registrarTipoBoleto':
+        $nombreTipoBoleto= $_POST['NombreBoletoN'];
+        $descripcionTB= $_POST['DescripcionN'];
+        $precioVenta= $_POST['PrecioVN'];        
         $usuario_actual = $_POST['usuario_actual'];
         $estado=1;
         date_default_timezone_set("America/Tegucigalpa");
         $fecha=date('Y-m-d H:i:s',time());
 
-        if(empty($_POST['NacionalidadN'])||empty($_POST['usuario_actual'])){
+        if(empty($_POST['NombreBoletoN']) ||empty($_POST['DescripcionN']) ||empty($_POST['PrecioVN']) ||empty($_POST['usuario_actual'])){
             
             $res['msj'] = 'Es necesario Nombre de la Nacionalidad';
             $res['error'] = true;
 
         }else{
             try{
-                $insertar=$conn->prepare("INSERT INTO tbl_tipo_nacionalidad (nacionalidad, estado_eliminado,creado_por,fecha_creacion, 
-                                modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?);");
-                $insertar->bind_param('sissss', $nacionalidad,$estado,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                $insertar=$conn->prepare("INSERT INTO tbl_tipo_boletos (nombre_tipo_boleto, precio_venta, descripcion, estado_eliminado,
+                                creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?);");
+                $insertar->bind_param('sisissss', $nombreTipoBoleto, $precioVenta, $descripcionTB, $estado,$usuario_actual,$fecha,$usuario_actual,$fecha);
                 $insertar->execute();
 
                 if ($insertar->error) {
-                    $res['msj'] = "Se produjo un error al momento de registrar la Nacionalidad";
+                    $res['msj'] = "Se produjo un error al momento de registrar el Tipo de Boleto";
                     $res['error'] = true;
                 } else {
-                    $res['msj'] = "Nacionalidad Registrada Correctamente";
+                    $res['msj'] = "Tipo de Boleto Registrada Correctamente";
                 }
             }catch(exception $e){
                 echo $e->getMessage();

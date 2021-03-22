@@ -92,7 +92,7 @@
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
 			<!-- MODAL EDITAR LA NACIONALIDAD -->
-			<div class="modal fade" id="modalEditarNacionalidad" tabindex="-1"
+			<div class="modal fade" id="modalEditarNacionalidad" data-backdrop="static" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -163,7 +163,7 @@
 			</div> <!-- /.modal fade -->
 
 			<!-- MODAL CREAR LA NACIONALIDAD -->
-			<div class="modal fade" id="modalCrearNacionalidad" tabindex="-1"
+			<div class="modal fade" id="modalCrearNacionalidad" data-backdrop="static" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">

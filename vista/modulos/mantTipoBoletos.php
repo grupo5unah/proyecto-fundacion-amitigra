@@ -17,12 +17,12 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a class=" btn btn-default glyphicon glyphicon-plus-sign"> Nuevo Tipo de Boleto </i></a>
+									<a class=" btn btn-default btnNuevoTipoBoleto glyphicon glyphicon-plus-sign"> Nuevo Tipo de Boleto </i></a>
 								</div> <!-- /div-action -->
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manttipoBoletos">
-									<thead>
+									<thead>										
 										<tr>
 											<th>Nombre Tipo de Boleto</th>
 											<th>Precio de Venta</th>
@@ -49,8 +49,8 @@
 										while($mostrar = $resultado->fetch_assoc()){
 											$captura = $mostrar['nombre_tipo_boleto'];
 											$mostrar = array(
-												'nombre_tipo_boleto'=>$mostrar['nombre_tipo_boleto'],
-												'precio_venta'=>$mostrar['precio_venta'],
+												'nombre_boleto'=>$mostrar['nombre_tipo_boleto'],
+												'precio_V'=>$mostrar['precio_venta'],
 												'descripcion'=>$mostrar['descripcion'],
 												'fecha_creacion'=>$mostrar['fecha_creacion'],
 												'modificado_por'=>$mostrar['modificado_por'],
@@ -63,8 +63,8 @@
 										
 											<?php foreach ($lista as $mostrar) { ?>
 												<tr>
-													<td><?php echo $mostrar['nombre_tipo_boleto'];?></td>
-													<td><?php echo $mostrar['precio_venta'];?></td>
+													<td><?php echo $mostrar['nombre_boleto'];?></td>
+													<td><?php echo $mostrar['precio_V'];?></td>
 													<td><?php echo $mostrar['descripcion'];?></td>
 													<td><?php echo $mostrar['fecha_creacion'];?></td>
 													<td><?php echo $mostrar['modificado_por'];?></td>
@@ -73,7 +73,7 @@
 													<td>
 								
 													<button class="btn btn-warning btnEditarTB glyphicon glyphicon-pencil"  data-idtipoboleto="<?= $mostrar['id_tipo_boleto'] ?>" 
-													data-nombreBoleto="<?= $mostrar['nombre_tipo_boleto'] ?>" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_venta'] ?>" 
+													data-nombreBoleto="<?= $mostrar['nombre_boleto'] ?>" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_V'] ?>" 
 													data-modificacionP="<?= $mostrar['modificado_por'] ?>" data-fmodificacion="<?= $mostrar['fecha_modificacion'] ?>"></button>
 
 													<button class="btn btn-danger btnEliminarTipoBoleto glyphicon glyphicon-remove" data-idtipoboleto="<?= $mostrar['id_tipo_boleto'] ?>"></button>
@@ -94,7 +94,7 @@
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
 			<!-- MODAL EDITAR TIPO DE BOLETO -->
-			<div class="modal fade" id="modalEditarTB" tabindex="-1"
+			<div class="modal fade" id="modalEditarTB" data-backdrop="static" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -128,12 +128,12 @@
 														<input id="NombreBoleto" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="NombreBoleto" autocomplete="off" required />
 													</div>
 													<div class="campos">
-													<label for="">Descripcion del Boleto:</label>
+													<label for="">Descripcion del Tipo de Boleto:</label>
 														<input id="Descripcion" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="Descripcion" autocomplete="off" required />
 													</div>
 													<div class="campos">
 													<label for="">Precio del Boleto:</label>
-														<input id="PrecioV" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="number" min="1" name="PrecioV" autocomplete="off" required />
+														<input id="PrecioV" class="form-control modal-roles secundary" type="number" min="1" name="PrecioV" autocomplete="off" required />
 													</div>
 													<div class="campos">
 														<label for="">Fecha Modificada Tipo Boleto:</label>
@@ -145,7 +145,7 @@
 													<div class="campos">
 														<label for="">Modificado Por:  </label>			
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
-														<input id="ModificacionPu" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
+														<input id="ModificacionPuser" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
 														
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -154,6 +154,78 @@
 												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
 													<button id=""type="submit" class="btn btn-primary btnEditarBD">Editar Tipo Boleto</button>
+												</div>				
+											</div> <!-- /.post -->	
+										</div> <!-- /.tab-pane -->	
+									</div> <!-- /.tab-content -->	
+								</div> <!-- /.tabs-custom -->	
+							</form> <!-- /.cierre de formulario -->
+						</div> <!-- /.modal-body -->
+						<?php 
+						if(isset($_GET['msg'])){
+						$mensaje = $_GET['msg'];
+						print_r($mensaje);
+						//echo "<script>alert(".$mensaje.");</script>";  
+						}
+						?>
+					</div> <!-- /.modal content -->
+				</div> <!-- /.modal-dialog -->
+			</div> <!-- /.modal fade -->
+
+			<!-- MODAL CREAR TIPO DE BOLETO -->
+			<div class="modal fade" id="modalCrearTipoBoleto" data-backdrop="static" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Creacion de un Tipo de Boleto</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+						 	<form method="POST" id="formCrearTipoBoleto" onpaste= "return false">
+								<div class="nav-tabs-custom">
+									<ul class="nav nav-tabs">
+										<li><a></a></li>               
+										<li><a></a></li>
+									</u>
+									<div class="tab-content">
+										<div class="active tab-pane" id="activity">
+											<div class="post"><br>
+												
+												<div class="ingreso-producto form-group">
+													<div class="campos" type="hidden">
+														<label for=""> </label>
+														<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+													</div>
+													
+													<div class="campos">
+													<label for="">Nombre del Tipo de Boleto:</label>
+														<input id="NombreBoletoN" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="NombreBoletoN" autocomplete="off" required />
+													</div>
+													<div class="campos">
+													<label for="">Descripcion del Tipo de Boleto:</label>
+														<input id="DescripcionN" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="DescripcionN" autocomplete="off" required />
+													</div>
+													<div class="campos">
+													<label for="">Precio del Boleto:</label>
+														<input id="PrecioVN" class="form-control modal-roles secundary" type="number" min="1" name="PrecioVN" autocomplete="off" required />
+													</div>													
+													<div class="campos">
+														<label for="">Creado Por:  </label>			
+														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
+														<input id="CreadoPor" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
+													</div>
+														
+													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+												</div> <!-- /.modal form-group -->
+												<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
+													<button id=""type="submit" class="btn btn-primary btnEditarBD">Crear Tipo de Boleto</button>
 												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
