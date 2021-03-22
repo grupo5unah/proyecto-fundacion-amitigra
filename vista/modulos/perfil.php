@@ -136,7 +136,7 @@ $columna = $stmt->fetch_assoc();
                     <label for="inputName" class="col-sm-3 control-label">Nombre de usuario:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" readonly name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
+                      <input type="text" readonly name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario" disabled>
                       <p id="notificacion"></p>
                     </div>
                   </div>

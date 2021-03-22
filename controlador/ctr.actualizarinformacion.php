@@ -9,7 +9,7 @@ $telefono = $_POST['telefono'];
 $contrasenas = $_POST['verificarContrasena'];
 $imagen = $_FILES['imagen'];
 
-    if(!empty($usuario) || !empty($nombre) || !empty($correo) || !empty($telefono) || !empty($contrasenas) || !empty($imagen)){
+    if(!empty($imagen) || !empty($usuario) || !empty($nombre) || !empty($correo) || !empty($telefono) || !empty($contrasenas) || !empty($imagen)){
 
         //include '../modelo/conexionbd.php';
         //$json = array();
@@ -25,14 +25,14 @@ $imagen = $_FILES['imagen'];
         
                 if($existe){
 
-                    $respuesta = array(
+                    /*$respuesta = array(
                         "respuesta" => "correcto"
-                    );
+                    );*/
             
                     if(password_verify($contrasenas, $password)){
 
                         //Directorio donde se guardan las fotos
-                        $carpetaFotoPerfil = 'fotoPerfil/';
+                        $carpetaFotoPerfil = '../fotoPerfil/';
 
                         //verifica si el directorio existe
                         if(!is_dir($carpetaFotoPerfil)){
@@ -41,7 +41,7 @@ $imagen = $_FILES['imagen'];
 
                         $nombre_foto ="";
 
-                        if($imagen["name"]){
+                        if($imagen['name']){
                             //Eliminar la imagen previa
                             unlink($carpetaFotoPerfil . $mi_foto);
 
@@ -54,7 +54,6 @@ $imagen = $_FILES['imagen'];
                             $nombre_foto = $mi_foto;
                         }
 
-
                         include "../modelo/conexionbd.php";
                         $actualizar = $conn->prepare("UPDATE tbl_usuarios
                                                     SET nombre_completo = ?, foto = ?, correo = ?, telefono = ?
@@ -64,8 +63,7 @@ $imagen = $_FILES['imagen'];
 
                         if(!$actualizar->error){
                             $respuesta = array(
-                                "respuesta" => "info_actualizada"
-                            );
+                                "respuesta" => "info_actualizada");
 
                         }else{
 
@@ -76,7 +74,7 @@ $imagen = $_FILES['imagen'];
                         
                     }else{
                         $respuesta = array(
-                        'respuesta' => 'error_pass'
+                        "respuesta" => "error_pass"
                         );
                     }
 
@@ -86,9 +84,10 @@ $imagen = $_FILES['imagen'];
         } catch( Exception $e){
 
             $respuesta = array(
-                'respuesta' => 'error_catch'
+                "respuesta" => "error_catch"
                 );
         }
+
         echo json_encode($respuesta);
         
     }

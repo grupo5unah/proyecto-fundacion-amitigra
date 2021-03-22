@@ -20,41 +20,10 @@
                     
                     if(password_verify($contrasena, $password_usuario)){
 
-                        //Verifica si el archivo es legible
-                        if (is_readable('../modelo/conexionbd.php')) {
-                            echo 'El fichero es legible';
-                        } else {
-                            echo 'El fichero no es legible';
-                        } 
-
-                        echo '<br>';
-
-                        //Verifica si es un directorio
-                        var_dump(is_dir('fotoPerfil'));
-
-                        echo '<br>';
-
-                        //Verifica si el fichero existe
-                        if (file_exists('modelo/conexionbd.php')) {
-                            echo "El fichero existe";
-                        } else {
-                            echo "El fichero no existe";
-                        }
-
-                        echo '<br>';
-
-                        //Verifica si es un ejecutable
-                        if(is_executable('modelo/conexionbd.php')){
-                            echo 'Es un ejecutable';
-                        } else {
-                            echo 'No es un ejecutable';
-                        }
-
-
                         //Nombre como se guardara la copia de seguridad
-                        $db_name = "fundacion_amitigra";
+                        $nombre_base_datos = "fundacion_amitigra";
 
-                        include("./modelo/conexionbd.php");
+                        include("../modelo/conexionbd.php");
                         
                         $tables=array();
                         $sql="SHOW TABLES";
@@ -100,24 +69,36 @@
                         if(!empty($backupSQL)){
                             date_default_timezone_set("America/Tegucigalpa");
                         
-                            $backup_file_name=$db_name.'_backup_'.date("Y-m-d-H-i-s").'.sql';
-                            $fileHandler=fopen($backup_file_name,'w+');
+                            $nombre_copia=$nombre_base_datos.'_copiaSeguridad_'.date("Y-m-d_H_i_s").'.sql';
+                            $fileHandler=fopen($nombre_copia,'w+');
                             $number_of_lines=fwrite($fileHandler,$backupSQL);
                             fclose($fileHandler);
 
                             header('Content-Description: File Transfer');
                             header('Content-Type: application/octet-stream');
-                            header('Content-Disposition: attachment; filename='.basename($backup_file_name));
+                            header('Content-Disposition: attachment; filename='.basename($nombre_copia));
                             header('Content-Transfer-Encoding: binary');
                             header('Expires: 0');
                             header('Cache-Control: must-revalidate');
                             header('Pragma: public');
-                            header('Content-Length: '.filesize($backup_file_name));
+                            header('Content-Length: '.filesize($nombre_copia));
                             ob_clean();
-                            flush();
-                            readfile($backup_file_name);
-                            exit;
-                            //exec('rm ' . $backup_file_name);
+                            //flush();
+                            //readfile($nombre_copia);
+                            //readfile($backup_file_name);
+	                        //exec('rm ' . $nombre_copia);                         
+                            
+                            $copiaBd = "../copiaSeguridad/";
+
+                            if(!is_dir($copiaBd)){
+                                mkdir($copiaBd,0777,true);
+                            }
+
+                            if(!file_exists($copiaBd)){
+                                copy($nombre_copia,$copiaBd);
+                            }
+                            
+                            //move_uploaded_file($nombre_copia,$copiaBd);
                         }
 
                         $respuesta = array(

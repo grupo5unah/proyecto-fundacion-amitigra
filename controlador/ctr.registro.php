@@ -111,23 +111,10 @@
                                                     //Valor por Defecto
                                                     $rol = 2;
                                                     $token = "";
-                                                    $estado = 2;
+                                                    $estado = 1;
                                                     $preguntas = 3;
                                                     $intentos = 0;
                                                     $foto = "foto";
-
-                                                    //Carpeta para las imágenes
-                                                    /*$carpetaFotoPerfil = 'fotoPerfil/';
-
-                                                    if(!is_dir($carpetaFotoPerfil)){ //Verifica la carpeta existe, de no ser así la crea
-                                                        mkdir($carpetaFotoPerfil,0777,true);
-                                                    }*/
-
-                                                    //Generar nombre de la foto
-                                                    //$nombre_foto = md5(uniqid(rand(), true)).'.png';
-
-                                                    //subir la imagen
-                                                    //move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil . $nombre_foto);
 
                                                     $user = $usuario;
 
@@ -316,6 +303,6 @@
                 }
   
             }
-                echo json_encode($respuesta);
+                //echo json_encode($respuesta);
         }//Fin FUNCION
     }//Fin CLASE
