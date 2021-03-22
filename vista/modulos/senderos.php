@@ -20,20 +20,32 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="senderosN" class=" btn btn-default glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos Nacionales </i></a><br><br>
-                  <a href="senderosE" class=" btn btn-default glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos Extranjeros </i></a>
+                    <label for="">Nueva Venta de Boleto(s):</label><br>
+                      <select class="form-control" name="opciones" onchange="url(this.value);">
+                        <option value="" disabled selected>Selecione tipo de nacionalidad</option>
+                        <option value="senderosN">NACIONAL</option>
+                        <option value="senderosE">EXTRANJERO</option>                        
+                      </select>
+                      <script language="javascript">
+                        function url(uri) {
+                        location.href = uri;  }
+                      </script>
+									<!--a href="senderosN" class=" btn btn-default glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos Nacionales </i></a--><br><br>
+                  <!--a href="senderosE" class=" btn btn-default glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos Extranjeros </i></a-->
 								</div> <!-- /div-action -->
                 <!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
                  porque tambien se aplica a todos los mantenimientos --> 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablas">
 									<thead>
                     <tr>
-                            <th>Id Factura</th>
-                            <th>Cantidad Boletos Vendidos</th>
+                            <th>Numero<br>Factura:</th>
+                            <th>Tipo de Boleto:</th> 
+                            <th>Cantidad Boletos<br>Vendidos:</th>
                             <th>Subtotal</th>
-                            <th>Tipo de Nacionalidad</th>
-                            <th>Tipo de Boleto</th>
-                            <th>Fecha Vendido</th>
+                            <th>Observacion:</th> 
+                            <th>Vendido Por:</th>                                                       
+                            <th>Fecha Vendido:</th>
+                            <th>Vendido en la<br>Localidad de:</th>
                             <th>Acciones</th>
                       </tr>
 									</thead>
@@ -41,14 +53,16 @@
                   
 										<?php //Mando a llamar los datos que se ocupan para llenar la tabla obteniendo los datos de la  base de datos
 										try{
-                          $sql = "SELECT cantidad_boletos, sub_total, tbl_tipo_nacionalidad.nacionalidad, tbl_tipo_boletos.nombre_tipo_boleto, tbl_boletos.id_boletos_vendidos, tbl_boletos.fecha_creacion";  
+                          $sql = "SELECT cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.descripcion, tbl_boletos.id_boletos_vendidos, tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad";  
                           $sql .= " FROM tbl_boletos_detalle ";
-                          $sql .= " INNER JOIN tbl_tipo_nacionalidad ";
-                          $sql .= " ON tbl_boletos_detalle.tipo_nacionalidad_id=tbl_tipo_nacionalidad.id_tipo_nacionalidad ";
+                          $sql .= " INNER JOIN tbl_usuarios ";
+                          $sql .= " ON tbl_boletos_detalle.usuario_id=tbl_usuarios.id_usuario ";
                           $sql .= " INNER JOIN tbl_tipo_boletos ";
                           $sql .= " ON tbl_boletos_detalle.tipo_boleto_id=tbl_tipo_boletos.id_tipo_boleto ";
                           $sql .= " INNER JOIN tbl_boletos ";
                           $sql .= " ON tbl_boletos_detalle.boletos_vendidos_id=tbl_boletos.id_boletos_vendidos ";
+                          $sql .= " INNER JOIN tbl_localidad ";
+                          $sql .= " ON tbl_boletos_detalle.localidad_id=tbl_localidad.id_localidad";
                           $sql .= " ORDER BY tbl_boletos.id_boletos_vendidos";
                       $resultado = $conn->query($sql);
                     }catch (Exeption $e){
@@ -59,11 +73,13 @@
 										while($mostrar = $resultado->fetch_assoc()){ ?>
                       <tr>
                           <td><?php echo $mostrar['id_boletos_vendidos'];?></td>
+                          <td><?php echo $mostrar['nombre_tipo_boleto'];?></td>
                           <td><?php echo $mostrar['cantidad_boletos'];?></td>
                           <td><?php echo $mostrar['sub_total'];?></td>
-                          <td><?php echo $mostrar['nacionalidad'];?></td>
-                          <td><?php echo $mostrar['nombre_tipo_boleto'];?></td>
+                          <td><?php echo $mostrar['descripcion'];?></td>
+                          <td><?php echo $mostrar['nombre_usuario'];?></td>                          
                           <td><?php echo $mostrar['fecha_creacion'];?></td>
+                          <td><?php echo $mostrar['nombre_localidad'];?></td>
 
                         <td>                          
                           <!--button class="btn btn-warning btnEditarBoleto glyphicon glyphicon-pencil"  data-idboleto="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"

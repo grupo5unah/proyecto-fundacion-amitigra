@@ -8,26 +8,31 @@
         <div class="box-header with-border">
           <h3 class="box-title fa fa-bed"> HOTEL</h3>
         </div>
-        <div class="box-body"> 
-            <!-- <div class="col-xs-3">
+        <div class="box-body">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos Cliente</h3>
+            </div> 
+            <div class="col-xs-3">
 
-              <button type="submit" id="buscar" class="btn btn-default btnbuscarCliente glyphicon glyphicon-search"> Buscar Cliente</button><br><br>
+              <!-- <button type="submit" id="buscar" class="btn btn-default btnbuscarCliente glyphicon glyphicon-search"> Buscar Cliente</button><br><br>-->
               <button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
-            </div><br> -->
-          <form  id="hotel" method="post">
+            </div><br> 
+          <form  id="regitroClientes" method="post" class="datos" onpaste="return false">
+              <input type="hidden" name="action" value="agregarCliente">
+              <input type="hidden" id="idCliente" name="idCliente" value="" required>
               <div class="box-header with-border">
-                <h3 class="box-title">Datos Cliente</h3>
+                <!-- <h3 class="box-title">Datos Cliente</h3> -->
               </div>
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Identidad:</label>
-                      <input type="text" class="form-control" name="identidad" id="identidad" placeholder="Identidad" onkeydown="return soloNumeros(event)" required>
+                      <input type="text" class="form-control" name="identidad" id="identidad" placeholder="Identidad" onkeydown="return soloNumeros(event)" required> 
                     </div>
                     <div class="form-group">
                       <label for="">Nacionalidad: </label>
-                      <select class="form-control" name="nacionalidad" id="nacionalidad">
+                      <select class="form-control" name="nacionalidad" id="nacionalidad" disabled required>
                         <option value="" disabled selected>Selecione...</option>
                         <?php 
                         include ('./modelo/conexionbd.php');
@@ -44,271 +49,370 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Cliente:</label>
-                      <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);">
+                      <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);"
+                      disabled required>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="campos form-group">
                       <label for="">Telefeno: </label>
-                      <input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeydown="return soloNumeros(event)"  required />
+                      <input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeydown="return soloNumeros(event)" disabled required>
                     </div>
+                  </div>
+                  <div class="col-md-6">
+                  <input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">
+									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                  <div id="guardarCliente">
+                    <button type="submit" class="btnGuardarCliente" ><i class="glyphicon glyphicon-floppy-save"></i> Guardar Cliente</button>
+                  </div>
                   </div>
                 </div><!-- row -->
               </div><!-- box-body -->
-
-              <div class="box-header with-border">
-                <h3 class="box-title">Datos reservación</h3>
-              </div>
-              <div class="box-body">
-                <div class="row"> 
-                <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="">localidad</label><br>
-                      <select class="form-control" name="localidad" id="localidad">
-                        <option value="" disabled selected>Selecione...</option>
-                        <?php
-                        //include_once ('./modelo/conexionbd.php');
-
-                        $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
-                        $resultado = mysqli_query($conn,$stmt);
-                        ?>
-                        <?php foreach($resultado as $opciones):?>
-                        <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
-                        <?php endforeach;?>
-                      </select>
-                    </div>
-                  </div>   
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Fecha Reservación:</label>
-                      <div class="input-group ">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="date" class="form-control pull-right" id="reservacion" name="reservacion" requiered>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Fecha Entrada:</label>
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="date" class="form-control pull-right" id="entrada" name="entrada" requiered>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Fecha Salida:</label>
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="date" class="form-control pull-right" id="salida" name="salida" requiered>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="area">Habitación:</label><br>
-                      <select class="form-control" name="habitacion" id="habitacion">
-                        <option value="" disabled selected>Selecione...</option>
-                        <?php 
-                          //include_once ('./modelo/conexionbd.php');
-
-                          $stmt = "SELECT id_habitacion_servicio, habitacion_area,estado_id FROM tbl_habitacion_servicio
-                                    WHERE habitacion_area LIKE '%h%'";
-                          $resultado = mysqli_query($conn,$stmt);
-                          ?>
-                          <?php foreach($resultado as $opciones):?>
-                          <option value="<?php echo $opciones['id_habitacion_servicio']?> <?php echo $opciones['estado_id']?>"><?php echo $opciones['habitacion_area']?></option>
-                        <?php endforeach;?>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-
-                      <label for="cant_habi">Cantidad de Habitaciones:</label><br>
-                      <input type="text" class="form-control" name="cant_habitacion" id="cant_habitacion" placeholder="cantidad habitaciones"
-                      onkeydown="return soloNumeros(event)" value="<?php if(isset($_POST['cant_habitacion'])){echo $_POST['cant_habitacion'];} ?>" requiered >
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="area">Cantidad Adultos:</label><br>
-                      <input type="number" min="0"  class="form-control" name="personas" id="personas" placeholder="Cantidad de Adultos" oninput="calcular()"
-                      onkeydown="return soloNumeros(event)" value="<?php if(isset($_POST['personas'])){echo $_POST['personas'];} ?>"  requiered>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-
-                      <label>Precio Adulto:</label>
-                      <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion" oninput="calcular()" onkeydown="return soloNumeros(event)"
-                      maxlength="4"  requiered >
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="">Cantidad Niños:</label><br>
-                      <input type="number" min="0"  class="form-control" name="niños" id="niños" placeholder="Cantidad de Niños" oninput="calcular()"
-                      onkeydown="return soloNumeros(event)"  requiered>
-                    </div>
-                  </div>
-                   
-                   <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Precio Niños:</label>
-                      <input type="text" class="form-control" name="precioNiños" id="precioNiños" onkeydown="return soloNumeros(event)" oninput="calcular()" placeholder="Precio habitacion"
-                      maxlength="4" requiered >
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
+            
+          </form>
+        </div>
+        <div class="box-body">
+            <div class="box-header with-border">
+              <h2 class="box-title">Datos de Reservación</h2>
+            </div> 
             <div class="col-md-6">
               <div class="form-group">
-                <label for="pago" class="col-sm-2 control-label" >Total:</label>
-                <div class="col-sm-10">
-                  <input type="Text" class="form-control" id="pago" name="pago" placeholder="Total" disabled>
-                </div>
+                <label for="">localidad</label><br>
+                <select class="form-control selectLocalidad" name="localidad" id="localidad">
+                  <option value="" disabled selected>Selecione...</option>
+                  <?php
+                  require ('./modelo/conexionbd.php');
+
+                  $stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
+                  $resultado = mysqli_query($conn,$stmt);
+                  ?>
+                  <?php foreach($resultado as $opciones):?>
+                  <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
+                  <?php endforeach;?>
+                </select>
               </div>
             </div>
-            <br><br><br>
-            <div class="text-center"">
-              <div class="col-md-6">
-
-                <button type="button" name="" id="cancelar" class="text-center btn btn-danger btn-lg">Cancelar</button>
-
-              </div>
-              <div class="col-md-4">
-              
-              <!-- <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>"> -->
-                <button type="submit"  class=" text-center btn btn-success btn-lg ">Registrar</button>
-              </div>
-            </div><br><br><br><br>
-            <?php $conn->close(); ?>
-          </form>
-          
         </div>
-        <?php 
-            if(isset($_GET['msg'])){
-            $mensaje = $_GET['msg'];
-            print_r($mensaje);
-            //echo "<script>alert(".$mensaje.");</script>";  
-            }
+        <!-- MODAL REGISTRAR RESERVACION PARA JUTIAPA -->
+        <div class="modal fade" id="modalRegistrarHotelJutiapa" tabindex="-1"
+          role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true">&times;</i>
+                  </button>
+                  <h3 class="modal-title" id="exampleModalLabel">Registrar reservaión</h3>
+                </div>
+              </div>
+              <div class="modal-body">
+                <form method="POST" id="formHotelJutiapa" onpaste="return false">
+                  <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                      <li><a></a></li>               
+                      <li><a></a></li>
+                    </u>
+                    <div class="tab-content">
+                      <div class="active tab-pane" id="activity">
+                        <div class="post"><br>
+                          
+                          <div class="ingreso-producto form-group">
+                            <div class="campos" type="hidden">
+                              <label for=""> </label>
+                              <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+                            </div>
+                            
+                            <div class="campos">
+                            <label for="">Fecha de reservación </label>
+                              <input id="reservacion" class="form-control modal-roles secundary" type="text" name="reservacion" required
+                              <?php
+                                date_default_timezone_set("America/Tegucigalpa");
+                                $fech=date('Y-m-d H:i:s',time());
+                              ?> value="<?php echo $fech;?>" disabled="true" >
+                            </div>
+                            <div class="campos">
+                              <label for="">Fecha de entrada  </label>
+                              <input id="entrada" class="form-control modal-roles secundary" type="text" name="entrada"required />
+                            </div>
+                            <div class="campos">
+                              <label for="">Fecha de salida  </label>
+                              <input id="salida" class="form-control modal-roles secundary" type="text" name="salida"required />
+                            </div>
+                            <!-- <div class="campos">
+                              <div class="form-group">
+                                <label>Multiple</label>
+                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                                        style="width: 100%;">
+                                  <option>Alabama</option>
+                                  <option>Alaska</option>
+                                  <option>California</option>
+                                  <option>Delaware</option>
+                                  <option>Tennessee</option>
+                                  <option>Texas</option>
+                                  <option>Washington</option>
+                                </select>
+                              </div>
+                            </div> -->
+                            <div class="campos">
+                                <label for="area">Habitación:</label><br>
+                                <select class="form-control" name="habitacion" id="habitacion">
+                                  <option value="" disabled selected>Selecione...</option>
+                                  <?php 
+                                    require ('./modelo/conexionbd.php');
 
-        ?>
-          <!-- MODAL CREAR CLIENTE -->
-        <div class="modal fade" id="modalCrearCliente" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<div class="d-flex justify-content-between">
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<i aria-hidden="true">&times;</i>
-										</button>
-										<h3 class="modal-title" id="exampleModalLabel">Registrar Nuevo Cliente</h3>
-									</div>
-								</div>
-								<div class="modal-body">
-									<form id="formCliente">
-										<div class="form-group">
-											
-											<div class="campos">
-												<label for="">Identidad Cliente: </label>
+                                    $stmt = "SELECT id_habitacion_servicio, habitacion_area,estado_id FROM tbl_habitacion_servicio
+                                              WHERE habitacion_area LIKE '%h%' AND localidad_id = 1";
+                                    $resultado = mysqli_query($conn,$stmt);
+                                    ?>
+                                    <?php foreach($resultado as $opciones):?>
+                                    <option value="<?php echo $opciones['id_habitacion_servicio']?> <?php echo $opciones['estado_id']?>"><?php echo $opciones['habitacion_area']?></option>
+                                  <?php endforeach;?>
+                                </select>
+                          </div>
+                              
+                          </div> <!-- /.modal form-group -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+                            <!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
+                            <button class="btn btn-primary" href="#settings" data-toggle="tab">Siguiente</button>
+                          </div>
+                          
+                          
+                        </div> <!-- /.post -->	
+                      </div> <!-- /.tab-pane -->
+                      <div class="tab-pane" id="settings">
+                        <div class="post"> <br>
+                          
+                          <div class="ingreso-producto form-group">
+                            <div class="campos" type="hidden">
+                              <label for=""> </label>
+                              <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+                            </div>
+                              <!-- <input type="hide"> -->
+                              <div class="campos">
+                              <label>Precio Adulto:</label>
+                              <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion" oninput="calcular()" onkeydown="return soloNumeros(event)"
+                              maxlength="4"  requiered disabled="true"
+                              <?php
+                                $stmt = "SELECT id_habitacion_servicio, precio_adulto_nacional FROM tbl_habitacion_servicio WHERE id_habitacion_servicio=1";
+                                $resultado1 = mysqli_query($conn,$stmt);
+                                ?>
+                                <?php foreach($resultado1 as $opcion):?>
+                                value="<?php echo $opcion['precio_adulto_nacional']?>"> 
+                                <?php endforeach;?>
+                            </div>
+                            <div class="campos">
+                              <label for="">Cantidad Adultos </label>
+                              <input id="cAdultos" class="form-control modal-roles secundary"  type="number" name="cAdultos" onkeydown="return soloNumeros(event)" placeholder="Cantidad Adultos"required />
+                            </div>
+                            <div class="campos">
+                              <label>Precio Niños:</label>
+                              <input type="text" class="form-control" name="precioNiños" id="precioNiños" onkeydown="return soloNumeros(event)" oninput="calcular()" placeholder="Precio habitacion"
+                              maxlength="4" requiered disabled="true"
+                              <?php
+                                $stmt = "SELECT id_habitacion_servicio, precio_nino_nacional FROM tbl_habitacion_servicio WHERE id_habitacion_servicio=1";
+                                $resultado1 = mysqli_query($conn,$stmt);
+                                ?>
+                                <?php foreach($resultado1 as $opcion):?>
+                                value="<?php echo $opcion['precio_nino_nacional']?>"> 
+                                <?php endforeach;?>
+                            </div>
+                            <div class="campos">
+                              <label for="">Cantidad Niños  </label>
+                              <input id="cNinos" class="form-control modal-roles secundary"  type="text" name="cNinos" onkeypress="return soloNumeros(event)" placeholder="Cantidad Niños"required />
+                            </div>
+                            <div class="campos">
+                              <label for="">Total  </label>
+                              <input id="total" class="form-control modal-roles secundary" type="text" name="total" onkeydown="return soloNumeros(event)" placeholder="Total a pagar"required disabled />
+                            </div>
+                            
+                              
+                            <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                          </div> <!-- /.modal form-group -->
+                          <div class="modal-footer">
+                            <button class="btn btn-default" href="#activity" id="prevtab" data-toggle="tab">Anterior</button>
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
+                            <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button>
+                          </div>
+                          
+                        </div> <!-- /.post -->	
+                      </div> <!-- /.tab-pane -->	
+                    </div> <!-- /.tab-content -->	
+                  </div> <!-- /.tabs-custom -->	
+                </form> <!-- /.cierre de formulario -->
+              </div> <!-- /.modal-body -->
+              <?php 
+              if(isset($_GET['msg'])){
+              $mensaje = $_GET['msg'];
+              print_r($mensaje);
+              //echo "<script>alert(".$mensaje.");</script>";  
+              }
+              ?>
+            </div> <!-- /.modal content -->
+          </div> <!-- /.modal-dialog -->
+        </div> <!-- /.modal fade --> 
+        <!-- MODAL REGISTRAR RESERVACION PARA ROSARIO -->
+        <div class="modal fade" id="modalRegistrarHotelRosario" tabindex="-1"
+          role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true">&times;</i>
+                  </button>
+                  <h3 class="modal-title" id="exampleModalLabel">Registrar reservaión</h3>
+                </div>
+              </div>
+              <div class="modal-body">
+                <form method="POST" id="formHotelRosario" onpaste="return false">
+                  <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                      <li><a></a></li>               
+                      <li><a></a></li>
+                    </u>
+                    <div class="tab-content">
+                      <div class="active tab-pane" id="activity2">
+                        <div class="post"><br>
+                          
+                          <div class="ingreso-producto form-group">
+                            <div class="campos" type="hidden">
+                              <label for=""> </label>
+                              <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+                            </div>
+                            
+                            <div class="campos">
+                            <label for="">Fecha de reservación </label>
+                              <input id="reservacion" class="form-control modal-roles secundary" type="datetime" name="reservacion" required
+                              <?php
+                                date_default_timezone_set("America/Tegucigalpa");
+                                $fecha=date('Y-m-d H:i:s',time());
+                              ?> value="<?php echo $fecha;?>" disabled="true">
+                            </div>
+                            <div class="campos">
+                              <label for="">Fecha de entrada  </label>
+                              <input id="entrada" class="form-control modal-roles secundary" type="text" name="entrada"required />
+                            </div>
+                            <div class="campos">
+                              <label for="">Fecha de salida  </label>
+                              <input id="salida" class="form-control modal-roles secundary" type="text" name="salida"required />
+                            </div>
+                            <!-- <div class="campos">
+                              <div class="form-group">
+                                <label>Multiple</label>
+                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                                        style="width: 100%;">
+                                  <option>Alabama</option>
+                                  <option>Alaska</option>
+                                  <option>California</option>
+                                  <option>Delaware</option>
+                                  <option>Tennessee</option>
+                                  <option>Texas</option>
+                                  <option>Washington</option>
+                                </select>
+                              </div>
+                            </div> -->
+                            <div class="campos">
+                                <label for="area">Habitación:</label><br>
+                                <select class="form-control" name="habitacion" id="habitacion">
+                                  <option value="" disabled selected>Selecione...</option>
+                                  <?php 
+                                    //include_once ('./modelo/conexionbd.php');
 
-												<input id="ideCliente" maxlength="13" minlength="13" class="form-control modal-roles secundary" type="text" name="idecliente" placeholder="Identidad Cliente" onkeypress="return soloNumeros(event)" required />
-
-											</div>
-											<div class="campos form-group">
-												<label for="">Nombre Cliente: </label>
-
-												<input id="nCliente" name="nCliente" class="form-control  modal-roles secundary" type="tex"  placeholder="Nombre Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacioLetras(this);" required />
-
-
-											</div>
-											<div class="campos form-group">
-												<label for="">Nacionalidad: </label>
-                        <select class="form-control modal-roles secundary " name="nacionalidad" id="nacionalidad">
-                          <option value="" disabled selected>Selecione...</option>
-                          <?php 
-                          include ('./modelo/conexionbd.php');
-
-                          $stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
-                          $resultado = mysqli_query($conn,$stmt);
-                          ?>
-                          <?php foreach($resultado as $opciones):?>
-                          <option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
-                          <?php endforeach;?>
-                        </select>
-											</div>
-                      <div class="campos form-group">
-												<label for="">Telefeno: </label>
-
-												<input id="tel" maxlength="15" minlength="8"name="tel" class="form-control  modal-roles secundary" type="tex"  placeholder="Telefono" onkeypress="return soloNumeros(event)"  required />
-
-
-											</div>
-                      <input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">
-											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-										</div>
-										<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"     data-dismiss="modal">Cerrar</button>
-										<button id=""type="submit" class=" btn btn-primary">Registrar  Cliente</button>
-										</div>
-									</form>
-								</div>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-
-        <!-- MODAL PARA BUSCAR CLIENTE 
-        <div class="modal fade" id="modalBuscarCliente" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<div class="d-flex justify-content-between">
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<i aria-hidden="true">&times;</i>
-										</button>
-										<h3 class="modal-title" id="exampleModalLabel">Buscar Cliente</h3>
-									</div>
-								</div>
-								<div class="modal-body">
-									<form id="formBuscarCliente">
-										<div class="ingreso-producto form-group">
-											
-											<div class="campos">
-												<label for="">Identidad Cliente: </label>
-
-												<input id="identidadC" class="form-control modal-roles secundary" type="text" name="identidadC" placeholder="Ingrese el numero de identidad" onkeypress="return soloNumeros(event)" required />
-
-											</div>
-											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-										</div>
-										<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"     data-dismiss="modal">Cerrar</button>
-										<button id=""type="submit" class=" btn btn-primary">Buscar  Cliente</button>
-										</div>
-									</form> 
-								</div>
-								
-							</div>
-						</div>
-					</div>
-				</div>-->
-        
+                                    $stmt = "SELECT id_habitacion_servicio, habitacion_area,estado_id FROM tbl_habitacion_servicio
+                                              WHERE habitacion_area LIKE '%h%' AND localidad_id = 2";
+                                    $resultado = mysqli_query($conn,$stmt);
+                                    ?>
+                                    <?php foreach($resultado as $opciones):?>
+                                    <option value="<?php echo $opciones['id_habitacion_servicio']?> <?php echo $opciones['estado_id']?>"><?php echo $opciones['habitacion_area']?></option>
+                                  <?php endforeach;?>
+                                </select>
+                          </div>
+                              
+                          </div> <!-- /.modal form-group -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+                            <!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
+                            <button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
+                          </div>
+                          
+                          
+                        </div> <!-- /.post -->	
+                      </div> <!-- /.tab-pane -->
+                      <div class="tab-pane" id="timeline">
+                        <div class="post"> <br>
+                          
+                          <div class="ingreso-producto form-group">
+                            <div class="campos" type="hidden">
+                              <label for=""> </label>
+                              <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+                            </div>
+                              <!-- <input type="hide"> -->
+                              <div class="campos">
+                              <label>Precio Adulto:</label>
+                              <input type="text" class="form-control" name="precioAdulto" id="precioAdulto" placeholder="Precio habitacion" oninput="calcular()" onkeydown="return soloNumeros(event)"
+                              maxlength="4"  requiered disabled="true"
+                              <?php
+                                $stmt = "SELECT id_habitacion_servicio, precio_adulto_nacional FROM tbl_habitacion_servicio WHERE id_habitacion_servicio=1";
+                                $resultado1 = mysqli_query($conn,$stmt);
+                                ?>
+                                <?php foreach($resultado1 as $opcion):?>
+                                value="<?php echo $opcion['precio_adulto_nacional']?>"> 
+                                <?php endforeach;?>
+                            </div>
+                            <div class="campos">
+                              <label for="">Cantidad Adultos </label>
+                              <input id="cAdultos" class="form-control modal-roles secundary"  type="number" name="cAdultos" onkeydown="return soloNumeros(event)" placeholder="Cantidad Adultos"required />
+                            </div>
+                            <div class="campos">
+                              <label>Precio Niños:</label>
+                              <input type="text" class="form-control" name="precioNiños" id="precioNiños" onkeydown="return soloNumeros(event)" oninput="calcular()" placeholder="Precio habitacion"
+                              maxlength="4" requiered disabled="true"
+                              <?php
+                                $stmt = "SELECT id_habitacion_servicio, precio_nino_nacional FROM tbl_habitacion_servicio WHERE id_habitacion_servicio=1";
+                                $resultado1 = mysqli_query($conn,$stmt);
+                                ?>
+                                <?php foreach($resultado1 as $opcion):?>
+                                value="<?php echo $opcion['precio_nino_nacional']?>"> 
+                                <?php endforeach;?>
+                            </div>
+                            <div class="campos">
+                              <label for="">Cantidad Niños  </label>
+                              <input id="cNinos" class="form-control modal-roles secundary"  type="text" name="cNinos" onkeypress="return soloNumeros(event)" placeholder="Cantidad Niños"required />
+                            </div>
+                            <div class="campos">
+                              <label for="">Total  </label>
+                              <input id="total" class="form-control modal-roles secundary" type="text" name="total" onkeydown="return soloNumeros(event)" placeholder="Total a pagar"required disabled />
+                            </div>
+                            
+                              
+                            <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                          </div> <!-- /.modal form-group -->
+                          <div class="modal-footer">
+                            <button class="btn btn-default" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
+                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
+                            <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button>
+                          </div>
+                          
+                        </div> <!-- /.post -->	
+                      </div> <!-- /.tab-pane -->	
+                    </div> <!-- /.tab-content -->	
+                  </div> <!-- /.tabs-custom -->	
+                </form> <!-- /.cierre de formulario -->
+              </div> <!-- /.modal-body -->
+              <?php 
+              if(isset($_GET['msg'])){
+              $mensaje = $_GET['msg'];
+              print_r($mensaje);
+              //echo "<script>alert(".$mensaje.");</script>";  
+              }
+              ?>
+            </div> <!-- /.modal content -->
+          </div> <!-- /.modal-dialog -->
+        </div> <!-- /.modal fade --> 
       </div>
+      <?php $conn->close(); ?>
       <!-- /.box -->
     </section>
     <!-- /.content -->

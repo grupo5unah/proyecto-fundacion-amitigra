@@ -8,10 +8,11 @@
           <h3 class="box-title fa fa-tree"> SENDEROS</h3>
         </div>
         <div class="box-body">             
-          <form  id="senderoE" method="post">         
+          <form  id="senderoE" method="post" onpaste="return false">         
             <h4 class="alineo-texto">VISITAS EXTRANJERAS</h4> 
            
-              </div>
+              
+    
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
@@ -29,14 +30,17 @@
                         <option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
                         <?php endforeach;?>
                       </select>
+                      </div>
                     </div>
-                  </div><br><br><br> 
-                  <legend >ADULTO(S)</legend>             
+                  </div><br>
+                  <div class="box-header with-border">
+                    <h1 class="box-title">ADULTO(S)</h1>
+                  </div>                
                   
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="boletosE">Cantidad de Adultos:</label><br>
-                      <input type="number" min="0" class="form-control" name="boletosE" id="boletosE" oninput="sumarBoletosE()" placeholder="cantidad personas" onclick="quitar(this.id)"
+                      <input type="number" min="1" class="form-control" name="boletosE" id="boletosE" oninput="sumarBoletosE()" placeholder="Cantidad Personas Adultas" onclick="quitar(this.id)"
                      value="<?php if(isset($_POST['boletosE'])){echo $_POST['boletosE'];} ?>" >
                     </div>
                   </div>
@@ -53,16 +57,20 @@
                         value="<?php echo $opcion['precio_venta']?>"> 
                         <?php endforeach;?>
                       </div>
+                    </div><br><br>
+
+                    <div class="box-header with-border">
+                      <h1 class="box-title">NIÑO(S)</h1>
                     </div>
-                  <div class="col-md-6"><legend>NIÑO(S)</legend>                                       
+                  <div class="col-md-6">                                      
                     <div class="form-group">
                       <label for="boletosNE">Cantidad de Niños:</label><br>
-                      <input type="number" min="0" class="form-control" name="boletosNE" id="boletosNE" oninput="sumarBoletosE()" placeholder="cantidad personas" onclick="quitar(this.id)"
+                      <input type="number" min="1" class="form-control" name="boletosNE" id="boletosNE" oninput="sumarBoletosE()" placeholder="Cantidad Personas Infantiles" onclick="quitar(this.id)"
                       value="<?php if(isset($_POST['boletosNE'])){echo $_POST['boletosNE'];} ?>" >
                     </div>
                   </div>
-                  <div class="col-md-6"><br>
-                    <div class="form-group"><br>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <label for="precioNE">Precio Niños Dolares:</label>
                       <input type="number" class="form-control" name="precioNE" id="precioNE" placeholder="Precio Niños" disabled="true"
                         <?php
@@ -130,9 +138,7 @@
               }          
             </script>       
         </div>
-        <div class="form-group">
-          
-        </div>
+        
         <?php 
             if(isset($_GET['msg'])){
             $mensaje = $_GET['msg'];

@@ -35,7 +35,7 @@
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol  
 									</button> -->
-									<button class="btn btn-default btnCrearRol glyphicon glyphicon-plus-sign" >Agregar Rol</button>
+									<button class="btn btn-default btnCrearRol fa fa-plus" > Agregar Rol</button>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">

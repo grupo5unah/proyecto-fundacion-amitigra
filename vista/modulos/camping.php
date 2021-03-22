@@ -51,10 +51,10 @@
 											ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio 
 											inner join tbl_estado 
 											 ON tbl_habitacion_servicio.estado_id = tbl_estado.id_estado 
-											 WHERE estado_eliminar = 1 AND tbl_habitacion_servicio.habitacion_area LIKE '%ar%'
-											 ORDER BY id_reservacion ";
+											 WHERE tbl_detalle_reservacion.estado_eliminado = 1 AND tbl_habitacion_servicio.habitacion_area LIKE '%ar%'
+											 ORDER BY id_detalle_reservacion ";
 											$resultado = $conn->query($sql);
-										}catch (\Exeption $e){
+										}catch (Exception $e){
 											echo  $e->getMessage();
 										}
 										//esta variable es para realizar un arreglo que permita mostar los resultados en la modal

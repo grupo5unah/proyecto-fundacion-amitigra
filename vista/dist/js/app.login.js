@@ -47,76 +47,149 @@
         }
     }
 
+
+	//Script mostrar contrasena COPIA DE SEGURIDAD
+
+	function contrasenaCopia(){
+		var cambioCopia = document.getElementById("contraCopia");
+		if(cambioCopia.type == "password"){
+			cambioCopia.type = "text";
+			$('.icon_copia').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambioCopia.type = "password";
+			$('.icon_copia').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	} 
+
+	function contrasenaCopia(){
+		var cambioCopia = document.getElementById("contraCopia");
+		if(cambioCopia.type == "password"){
+			cambioCopia.type = "text";
+			$('.icon_copia').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambioCopia.type = "password";
+			$('.icon_copia').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	}
+
+
     // Scripts de registro de usuario
 
-  function mostrarPassword(){
+  function VerPassword(){
 
-    var nueva = document.getElementById("PassNuevo");
-    if(nueva.type == "password"){
-      nueva.type = "text";
-      $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    var nuevaRegistro = document.getElementById("PassRegistro");
+    if(nuevaRegistro.type == "password"){
+      nuevaRegistro.type = "text";
+      $('.icons').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
     }else{
-      nueva.type = "password";
-      $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+      nuevaRegistro.type = "password";
+      $('.icons').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
     }
-
-    var conf = document.getElementById("ConfPass");
+	
+    var conf = document.getElementById("ConfPassR");
     if(conf.type == "password"){
       conf.type = "text";
-      $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+      $('.icons').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
     }else{
       conf.type = "password";
-      $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+      $('.icons').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
     }
   }
 
-//Botones
-/*var btnEnviar = document.getElementById("enviar");
-var btnpreg1 = document.getElementById("preg1");
-var btnpreg2 = document.getElementById("preg2");
-var btnpreg3 = document.getElementById("preg3");
-var btnpass = document.getElementById("pass");
 
-//Inputs
-var nombre = document.getElementById("nombre");
-var preg1 = document.getElementById("pregunta1");
-var preg2 = document.getElementById("pregunta2");
-var preg3 = document.getElementById("pregunta3");*/
+  //BLOQUEAR BOTON SI LOS CAMPOS ESTAN VACIOS (datos generales)
+  let btnSiguiente1 = document.getElementById('enviar');
+  let correo = document.getElementById('correo');
+  let telefono = document.getElementById('telefono');
 
-btnEnviar.disabled = true;
-//apellido.disabled = true;
+  btnSiguiente1.disabled = true;
 
-/*function verificar2(valor) {
-  if (apellido.value.length>=4){
-    btnEnviar.disabled = false;
-    btnEnviar.classList.remove("disabled");
-  } else {
-      btnEnviar.disabled = true;
-  }
-}*/
+  	telefono.addEventListener('keyup',function(){
+		if(this.value.length > 7){
+			console.log('esta funcionando');
+			btnSiguiente1.disabled = false;
 
-/*function verificar(valor) {
-  if (valor.length>=4){
-  	apellido.style.background = "#FFFFFF";
-    apellido.disabled = false
-  } else {
-    //caja2.style.background = "grey";
-    apellido.disabled = true;
-    apellido.value = "";
-    btnEnviar.disabled = true;
-  }
-   
-}*/
+		}else{
+			btnSiguiente1.disabled = true;
+		}
+	});
+
+  //PREGUNTA 1
+  let btnSiguiente2 = document.getElementById('nexttab');
+  let pregunta1 = document.getElementById('preg1');
+
+  btnSiguiente2.disabled = true;
+
+
+  	pregunta1.addEventListener('keyup', function(){
+
+	  	if(this.value.length > 2){  
+		console.log('correcto');
+		btnSiguiente2.disabled = false;
+		$('#resp').hide();
+	  	}else{
+		btnSiguiente2.disabled = true;
+		$('#resp').html('Se requiere una respuesta mayor a 2 caracteres');
+		$('#resp').show();
+	  	}
+  	});
   
-  var $tabs = $('.nav-tabs li');
 
-$('#prevtab').on('click', function() {
-       $tabs.filter('.active').prev('li').find('a[data-toggle="tab"]').tab('show');
-});
+  //PREGUNTA 2
+  let btnSiguiente3 = document.getElementById('nexttab2');
+  let pregunta2 = document.getElementById('preg2');
 
-$('#nexttab').on('click', function() {
-       $tabs.filter('.active').next('li').find('a[data-toggle="tab"]').tab('show');
-});
+  btnSiguiente3.disabled = true;
+
+
+  	pregunta2.addEventListener('keyup', function(){
+
+	  	if(this.value.length > 2){
+		  
+		  console.log('correcto');
+		  btnSiguiente3.disabled = false;
+		  $('#resp2').hide();
+	  	}else{
+		  btnSiguiente3.disabled = true;
+		  $('#resp2').html('Se requiere una respuesta mayor a 2 caracteres');
+		  $('#resp2').show();
+	  	}
+  	});
+
+
+  //PREGUNTA 3
+  let btnSiguiente4 = document.getElementById('nexttab3');
+  let pregunta3 = document.getElementById('preg3');
+
+  btnSiguiente4.disabled = true;
+
+
+  	pregunta3.addEventListener('keyup', function(){
+
+	  	if(this.value.length > 2){
+		  
+		  console.log('correcto');
+		  btnSiguiente4.disabled = false;
+		  $('#resp3').hide();
+	  	}else{
+		  btnSiguiente4.disabled = true;
+		  $('#resp3').html('Se requiere una respuesta mayor a 2 caracteres');
+		  $('#resp3').show();
+	  	}
+  	});
+
+  //FIN BLOQUO DE BOTONES
+
+  
+  	var $tabs = $('.nav-tabs li');
+
+	$('#prevtab').on('click', function() {
+		$tabs.filter('.active').prev('li').find('a[data-toggle="tab"]').tab('show');
+	});
+
+	$('#nexttab').on('click', function() {
+		$tabs.filter('.active').next('li').find('a[data-toggle="tab"]').tab('show');
+	});
 
 
     // Solo numero para TELEFONO
@@ -156,8 +229,22 @@ $('#nexttab').on('click', function() {
 	
 
 	//Permitir solo un ESPACIO
-		espacio_Letras=function(input){
-		input.value=input.value.replace('  ',' ');}
+		//espacioRegistro=function(input){
+		//input.value=input.value.replace('  ',' ');}
+
+	 	document.getElementById("nombre").addEventListener("keydown", teclear);
+
+		var flag = false;
+		var teclaAnterior = "";
+
+		function teclear(event) {
+			teclaAnterior = teclaAnterior + " " + event.keyCode;
+			var arregloTA = teclaAnterior.split(" ");
+			if (event.keyCode == 32 && arregloTA[arregloTA.length - 2] == 32) {
+				event.preventDefault();
+			}
+		}
+
 
 		SinEspacio=function(input){
 		input.value=input.value.replace(' ','');}
@@ -256,44 +343,7 @@ $('#nexttab').on('click', function() {
       }
     }
 
-//Botones
-var btnEnviar = document.getElementById("enviar");
-var btnpreg1 = document.getElementById("preg1");
-var btnpreg2 = document.getElementById("preg2");
-var btnpreg3 = document.getElementById("preg3");
-var btnpass = document.getElementById("pass");
 
-//Inputs
-var nombre = document.getElementById("nombre");
-//var apellido = document.getElementById("apellido");
-var preg1 = document.getElementById("pregunta1");
-var preg2 = document.getElementById("pregunta2");
-var preg3 = document.getElementById("pregunta3");
-
-btnEnviar.disabled = true;
-apellido.disabled = true;
-
-function verificar2(valor) {
-  if (apellido.value.length>=4){
-    btnEnviar.disabled = false;
-    btnEnviar.classList.remove("disabled");
-  } else {
-      btnEnviar.disabled = true;
-  }
-}
-
-function verificar(valor) {
-  if (valor.length>=4){
-  	apellido.style.background = "#FFFFFF";
-    apellido.disabled = false
-  } else {
-    //caja2.style.background = "grey";
-    apellido.disabled = true;
-    apellido.value = "";
-    btnEnviar.disabled = true;
-  }
-   
-}
 
   var $tabs = $('.nav-tabs li');
 

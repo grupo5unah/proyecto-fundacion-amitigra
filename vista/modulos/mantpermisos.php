@@ -79,7 +79,7 @@
 													<td> <?php echo $evento['consulta']; ?></td>
 
 													<td>
-													<button class="btn btn-warning btnEditarPermisos glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
+													<button class="btn btn-warning btnEditarP glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
 													data-actualizacion="<?= $evento['actualizacion'] ?>" data-consulta="<?= $evento['consulta'] ?>"></button>
 											
 													</td>
@@ -136,7 +136,7 @@
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="Cosulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
+											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
 
 										</div>
 										

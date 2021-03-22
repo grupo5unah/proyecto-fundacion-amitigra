@@ -23,7 +23,7 @@ switch ($action) {
         $res['objeto'] = $objeto_db;
     break;
 
-     case 'registrarObjeto': // REGISTRA UN ROL
+    case 'registrarObjeto': // REGISTRA UN objeto
         $nombreObjetos = $_POST['objeto'];
         $tipoObjeto = $_POST['tipo_objeto'];
         $descripcion = $_POST['descripcion'];
@@ -53,7 +53,7 @@ switch ($action) {
             }
         }
      break;
-     case 'actualizarObjeto':
+    case 'actualizarObjeto':
 
         if (
             isset(($_POST['id_objeto']))
@@ -62,8 +62,10 @@ switch ($action) {
             $nombreO = $_POST['objeto'];
             $tipoObjeto = $_POST['tipo_objeto'];
             $descripcion = $_POST['descripcion'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
            
-            $sql = "UPDATE tbl_objeto SET objeto = '$nombreO', tipo_objeto  = '$tipoObjeto', descripcion= '$descripcion' WHERE id_objeto=" .$id_objetos;          
+            $sql = "UPDATE tbl_objeto SET objeto = '$nombreO', tipo_objeto  = '$tipoObjeto', descripcion= '$descripcion', modificado_por= '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_objeto=" .$id_objetos;          
             $resultado = $conn->query($sql);
           
             if ($resultado == 1) {
@@ -96,34 +98,36 @@ switch ($action) {
             $res['error'] = true;
         }
         break;
-        case 'actualizarPermiso':
+    case 'actualizarPermiso':
 
             if (
-                isset(($_POST['id_permisos']))
+                isset(($_POST['id_permiso']))
                 && isset($_POST['permiso_insercion']) && isset($_POST['permiso_eliminacion']) && isset($_POST['permiso_actualizacion']) && isset($_POST['permiso_consulta'])) {
-                $id_permiso = (int)$_POST['id_permisos'];
+                $id_permiso = (int)$_POST['id_permiso'];
                 $PInsertar = $_POST['permiso_insercion'];
                 $PEliminar = $_POST['permiso_eliminacion'];
                 $PActualizacion = $_POST['permiso_actualizacion'];
                 $PConsulta = $_POST['permiso_consulta'];
+                $usuario_actual = $_POST['usuario_actual'];
+                $fecha = date('Y-m-d H:i:s', time());
                
-                $sql = "UPDATE tbl_permisos SET permiso_insercion = '$PInsertar', permiso_eliminacion= '$PEliminar', permiso_actualizacion= '$PActualizacion', permiso_consulta= '$PConsulta' WHERE id_permisos=" .$id_permiso;          
+                $sql = "UPDATE tbl_permisos SET permiso_insercion  = '$PInsertar', permiso_eliminacion= '$PEliminar', permiso_actualizacion= '$PActualizacion', permiso_consulta = '$PConsulta' , modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_permiso=" .$id_permiso;          
                 $resultado = $conn->query($sql);
               
                 if ($resultado == 1) {
-                    //print_r($resultado);
+                    
                     $res['msj'] = "Permisos se  Edito  Correctamente";
                 } else {
-                    $res['msj'] = "Se produjo un error al momento de Editar el Permisos ";
+                    $res['msj'] = "Se produjo un error al momento de Editar el Permiso ";
                     $res['error'] = true;
                 }
             } else {
-                //print_r($id_inventario);
+               
                 $res['msj'] = "Las variables no estan definidas";
                 $res['error'] = true;
             }
     
-        break;
+    break;
 
 
     default:

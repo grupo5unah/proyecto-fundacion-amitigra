@@ -62,18 +62,42 @@ class NuevaPassPregunta{
                                     if(!$actualizacion->error){
                                         echo "<div class='alert alert-success' role='alert'>
                                                 Su contraseña se actualizó correctamente.
-                                                </div>";
+                                                </div>
+                                                <script>
+                                                window.setTimeout(function(){
+                                                $('.alert').fadeTo(1500,00).slideDown(1000,
+                                                function(){
+                                                $(this).remove();
+                                                });
+                                                }, 3000);
+                                                </script>";
                                     }
                                 }else{
                                     echo "<div class='alert alert-danger' role='alert'>
                                             Las contraseña no coinciden.
-                                            </div>";
+                                            </div>
+                                            <script>
+                                            window.setTimeout(function(){
+                                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                                            function(){
+                                            $(this).remove();
+                                            });
+                                            }, 3000);
+                                            </script>";
                                 }
                             }
                         }else{
                             echo "<div class='alert alert-danger' role='alert'>
                             Respuesta incorrecta.
-                            </div>";
+                            </div>
+                            <script>
+                            window.setTimeout(function(){
+                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                            function(){
+                            $(this).remove();
+                            });
+                            }, 3000);
+                            </script>";
                             echo 'Id usuario: '. $id_usuario;
                             echo 'Id pregunta:'. $idPregunta;
                         }

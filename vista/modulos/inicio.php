@@ -5,13 +5,13 @@ $id_usuario = $_SESSION['id'];
 global $columna;
 //$rol = $_SESSION['mi_rol'];
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT fecha_ult_conexion, fecha_vencimiento, rol_id FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT fecha_ult_conexion, fecha_vencimiento, fecha_mod_contrasena, rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol 
                         WHERE tbl_roles.rol = ? AND id_usuario = ?");
 $stmt->bind_Param("si",$rol_id, $id_usuario);
 $stmt->execute();
-$stmt->bind_Result($fecha_ult_conexion, $fecha_vencimiento, $id_rol);
+$stmt->bind_Result($fecha_ult_conexion, $fecha_vencimiento, $fecha_mod_contrasena, $id_rol);
 
 if($stmt->affected_rows){
 
@@ -42,13 +42,34 @@ $columna = $stmt->fetch_assoc();
     <section class="content">
     <div class="row">
       <?php if ($_SESSION['rol'] === 'administrador'){ ?>
+
+        <?php $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
+            $result = mysqli_query($conn, $registros);
+            $fila = mysqli_fetch_assoc($result);?>
+        
+        <?php $reservaciones = "SELECT COUNT(*) reserva FROM tbl_detalle_reservacion";
+        $result2 = mysqli_query($conn, $reservaciones);
+        $fila2 = mysqli_fetch_assoc($result2);
+        ?>
+
+        <?php $boleteria = "SELECT COUNT(*) boleto FROM tbl_boletos_detalle";
+        $result3 = mysqli_query($conn, $boleteria);
+        $fila3 = mysqli_fetch_assoc($result3);
+        ?>
+
+        <?php $roles = "SELECT COUNT(*) roles FROM tbl_roles";
+        $result4 = mysqli_query($conn, $roles);
+        $fila4 = mysqli_fetch_assoc($result4);
+        ?>
+
+
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+          <span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">CPU Traffic</span>
-            <span class="info-box-number">90<small>%</small></span>
+            <span class="info-box-text">Reservaciones</span>
+            <span class="info-box-number"><strong>Total: </strong><?php echo $fila2['reserva'];?><br></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -57,11 +78,11 @@ $columna = $stmt->fetch_assoc();
         
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+          <span class="info-box-icon bg-red"><i class="fa fa-ticket"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Likes</span>
-            <span class="info-box-number">41,410</span>
+            <span class="info-box-text">Boleteria</span>
+            <span class="info-box-number"><strong>Total: </strong><?php echo $fila3['boleto'];?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -70,11 +91,11 @@ $columna = $stmt->fetch_assoc();
 
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
-          <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+          <span class="info-box-icon bg-green"><i class="fa fa-user"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Sales</span>
-            <span class="info-box-number">760</span>
+            <span class="info-box-text">Roles</span>
+            <span class="info-box-number"><strong>Total: </strong><?php echo $fila4['roles'];?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -84,11 +105,11 @@ $columna = $stmt->fetch_assoc();
       <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
           <?php $visible = false;?>
-          <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+          <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">New Members</span>
-            <span class="info-box-number">2,000</span>
+            <span class="info-box-text">Usuarios registrados</span>
+            <span class="info-box-number"><strong>Total: </strong><?php echo $fila['total'];?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -98,87 +119,89 @@ $columna = $stmt->fetch_assoc();
     </div>
       <!-- /.row -->
     
-        <!-- Profile Image -->
-        <div class="row">
+      <?php
+    include_once "./modelo/conexionbd.php";
+    
+    $query = "SELECT foto FROM tbl_usuarios WHERE nombre_usuario = '$usuario'";
+
+    $resultado = mysqli_query($conn,$query);
+
+    while($imagen = mysqli_fetch_assoc($resultado)):?>
+
+
+      <div class="row">
         <div class="col-md-4">
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-              
-              <p class="text-center"><span class="text-center">Bienvenido(a): </span><?php echo ucwords($_SESSION['usuario']);?></p>
-              <br>
-              <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b>Ultimo acceso:</b> <a class="pull-right"><?php setlocale(LC_ALL,"es_ES"); $conexion = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></a>
-                </li>
-                <li class="list-group-item">
-                  <b>Cambio contrasena:</b> <a class="pull-right"><?php setlocale(LC_ALL,"es_ES"); $vencimiento = strftime("%d de %b de %G. A las %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></a>
-                </li>
-                <li class="list-group-item">
-                  <?php
-                  date_default_timezone_set('America/Tegucigalpa');
-                  $fecha = date('Y-m-d H:i:s',time());
-                  
-                  //setcookie('fecha', $fecha, time()+31536000);
-                  
-                  if (isset($_COOKIE['fecha'])) {?>
-                  <b>Motivo ultima salida:</b> <a class="pull-right"><?php $_COOKIE['fecha'];}?></a>
-                </li>
-              </ul>
-
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header">
+              <div class="widget-user-image">
+                <img class="img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="User Avatar">
+              </div>
+              <!-- /.widget-user-image -->
+              <h3 class="widget-user-username"> <strong>Hola: </strong><span><?php echo ucwords($_SESSION['usuario']);?></span></h3>
+              <h5 class="widget-user-desc">Informacion sobre tu actividad en la cuenta</h5>
             </div>
-            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a><strong>Ultimo acceso:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $conexion = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></span></a></li>
+                <li><a><strong>Ult. cambio contrasena:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $modificado = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_mod_contrasena)); echo $modificado;?></span></a></li>
+                <li><a><strong>Prox. cambio contrasena:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>  
+              </ul>
+            </div>
           </div>
+          <!-- /.widget-user -->
         </div>
-
         <!-- /.col -->
+    
+        <!-- FIN INFORMACION ULTIMO ACCESO -->
+        
         <div class="col-md-8">
-              <div class="box box-solid">
-                <!-- /.box-header -->
-                <div class="box-body">
-                  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                      <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
-                      <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
-                    </ol>
-                    <div class="carousel-inner">
-                      <div class="item active">
-                        <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="First slide">
+          <div class="box box-solid">
+            <div class="box-body">
+              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="First slide">
 
-                        <div class="carousel-caption">
-                          Parque Nacional la Tigra
-                        </div>
-                      </div>
-                      <div class="item">
-                        <img src="https://www.toptravelsights.com/wp-content/uploads/2020/12/Jungle-path-in-La-Tigra-National-Park-1024x576.jpg" alt="Second slide">
-
-                        <div class="carousel-caption">
-                          Senderos
-                        </div>
-                      </div>
-                      <div class="item">
-                        <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="Third slide">
-
-                        <div class="carousel-caption">
-                          Vista desde las montañas
-                        </div>
-                      </div>
+                    <div class="carousel-caption">
+                      Parque Nacional la Tigra
                     </div>
-                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                      <span class="fa fa-angle-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                      <span class="fa fa-angle-right"></span>
-                    </a>
+                  </div>
+                  <div class="item">
+                    <img src="https://www.toptravelsights.com/wp-content/uploads/2020/12/Jungle-path-in-La-Tigra-National-Park-1024x576.jpg" alt="Second slide">
+
+                    <div class="carousel-caption">
+                      Senderos
+                    </div>
+                  </div>
+                  <div class="item">
+                    <img src="https://i1.wp.com/www.marcahonduras.hn/wp-content/uploads/2020/07/La-Tigra-1.jpg?resize=1536%2C864&ssl=1" alt="Third slide">
+
+                    <div class="carousel-caption">
+                      Vista desde las montañas
+                    </div>
                   </div>
                 </div>
-                <!-- /.box-body -->
+                  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="fa fa-angle-left"></span>
+                  </a>
+                  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="fa fa-angle-right"></span>
+                  </a>
+                </div>
               </div>
-              <!-- /.box -->
+
             </div>
-            <!-- /.col -->
+          </div>
         </div>
         
+        <!-- INICIO RELOJ -->
           <div class="row">
             <div class="col-md-3">
                 <!-- INICIO DE LA INFORMACION DEL USUARIO-->
@@ -220,13 +243,8 @@ $columna = $stmt->fetch_assoc();
                 <!--FIN DE LA INFORMACION DEL USUARIO-->
             </div>    
           
-        </div>
-
-        <!--INICIO DEL CARROUSEL-->
-          <div class="row">
-            
           </div>
-        <!--FIN DEL CARROUSEL-->
+        <!-- FIN RELOJ -->
 
     </section>
 </div>
