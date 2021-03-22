@@ -1,22 +1,12 @@
 <?php
-//Clase inicio de sesión
 
-//namespace app;
-global $cambio_estado_bloqueo;
-global $reiniciar_intentos;
-global $estado_bloqueo;
-global $valor;
-global $conn;
-global $nombre_estado;
-//require '../../modelo/conexionbd.php';
+require_once "../modelo/conexionbd.php" ;
 
-class Login{
+$usuario = $_POST['usuario'];
+$contrasena = $_POST['contrasena'];
 
-    public function ctrLogin(){
     //verifica la informacion que viene por el metodo $_POST
-    if(isset($_POST['tipo']) == 'login') {
-        $usuario = $_POST['usuario'];
-        $password = $_POST['password'];
+    if(!empty($usuario) || !empty($contrasena)) {
 
         $parametro = 'INTENTOS_SESION';
         $respuesta = array();
@@ -26,20 +16,12 @@ class Login{
 
         try {
 
-            if(empty($usuario) && empty($password)){
-                echo "<div class='text-center alert alert-danger' role='alert'>
-                    <strong>No haz ingresado tus credenciales</strong>.
-                    </div>
-                    <script>
-                    window.setTimeout(function(){
-                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                    function(){
-                    $(this).remove();
-                    });
-                    }, 3000);
-                    </script>";
+            if(empty($usuario) && empty($contrasena)){
+                $respuesta = array(
+                    "respuesta" => "noCredenciales"
+                );
             }else {
-                require_once "../../modelo/conexionbd.php";
+                //require_once "../../modelo/conexionbd.php";
                 $stmt = $conn->prepare("SELECT id_usuario, contrasena FROM tbl_usuarios WHERE nombre_usuario = ?; ");
                 $stmt->bind_Param("s", $usuario);
                 $stmt->execute();
@@ -53,9 +35,8 @@ class Login{
                     }
 
                     if($existe){
-                        $respuesta['respuesta'] = 'exito';
 
-                        $stmt1 = $conn->prepare("SELECT id_usuario, primer_ingreso, intentos, tbl_estado.nombre_estado, rol_id, tbl_roles.rol
+                        $stmt1 = $conn->prepare("SELECT id_usuario, fecha_mod_contrasena, intentos, tbl_estado.nombre_estado, rol_id, tbl_roles.rol
                                                 FROM tbl_usuarios
                                                 INNER JOIN tbl_roles
                                                 ON tbl_usuarios.rol_id = tbl_roles.id_rol
@@ -86,22 +67,6 @@ class Login{
                                     if(password_verify($password, $password_usuario)){    
 
                                         if($dias_transcurridos <= 30){
-                                            
-                                            /*echo "<div class='text-center alert alert-success' role='alert'>
-                                                    Te estamos redirigiendo
-                                                    </div>
-                                                    <script>
-                                                    window.setTimeout(function(){
-                                                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                        function(){
-                                                        $(this).remove();
-                                                        });
-                                                        }, 3000).then((result) =>{
-                                                            if(result.value){
-                                                            window.location.href='../../index.php';
-                                                            }
-                                                        });
-                                                        </script>";*/
 
                                             session_start();
                                             session_encode();
@@ -131,20 +96,12 @@ class Login{
                                             sleep(2);
                                             header('location:../../index.php');
                                         }else {
-        
-                                            echo "<div class='text-center alert alert-danger' role='alert'>
-                                                    <strong>El usuario a sido bloqueado.</strong>
-                                                    </div>
-                                                    <script>
-                                                    window.setTimeout(function(){
-                                                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                    function(){
-                                                    $(this).remove();
-                                                    });
-                                                    }, 3000);
-                                                    </script>";
 
-                                                    echo "<script>
+                                            $respuesta = array(
+                                                "respuesta" => "cambio_estado"
+                                            );
+
+                                            echo "<script>
                                             if (window.history.replaceState) { // verificamos disponibilidad
                                                 window.history.replaceState(null, null, window.location.href);
                                             }
@@ -186,23 +143,16 @@ class Login{
 
                                                 if($intentos_usuario == intval($valor)){
                                                     
-                                                    echo "<div class='alert alert-danger text-center' role='alert'>
-                                                        El usuario a sido bloqueado ya que realizó los 3 intentos permitidos.
-                                                        </div>
-                                                        <script>
-                                                        window.setTimeout(function(){
-                                                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                        function(){
-                                                        $(this).remove();
-                                                        });
-                                                        }, 3000);
-                                                        </script>";
+                                                    $respuesta = array(
+                                                        "respuesta" => "bloqueado_intentos"
+                                                    );
+
                                                         echo "<script>
-                                            if (window.history.replaceState) { // verificamos disponibilidad
-                                                window.history.replaceState(null, null, window.location.href);
-                                            }
-                                            
-                                            </script>";
+                                                        if (window.history.replaceState) { // verificamos disponibilidad
+                                                            window.history.replaceState(null, null, window.location.href);
+                                                        }
+                                                        
+                                                        </script>";
                                                         
                                                     require "../../modelo/conexionbd.php";
 
@@ -229,22 +179,15 @@ class Login{
                                                 } else {
                 
                                                     //Muesta un mensaje cuando el usuario ingresa mal su contrasena
-                                                    echo "<div class='text-center alert alert-danger' role = 'alert'>
-                                                    <strong>La contraseña o nombre de usuario son incorrectos.</strong>
-                                                    </div>
-                                                    <script>
-                                                    window.setTimeout(function(){
-                                                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                    function(){
-                                                    $(this).remove();
-                                                    });
-                                                    }, 3000);
-                                                    </script>";
+                                                    $respuesta = array(
+                                                        "respuesta" => "error_contrasena"
+                                                    );
+
                                                     echo "<script>
-                                            if (window.history.replaceState) { // verificamos disponibilidad
-                                                window.history.replaceState(null, null, window.location.href);
-                                            }
-                                            </script>";
+                                                    if (window.history.replaceState) { // verificamos disponibilidad
+                                                        window.history.replaceState(null, null, window.location.href);
+                                                    }
+                                                    </script>";
 
                                                     require "../../modelo/conexionbd.php";
 
@@ -277,20 +220,6 @@ class Login{
                                     break;
 
                                 case 'BLOQUEADO':
-                                    //Muestra un mensaje de que el usuario fue bloqueado (el bloqueo se produjo previamente)
-                                    echo "<div class='text-center alert alert-danger' role = 'alert'>
-                                    Su usuario se encuentra bloqueado.
-                                    </div>
-                                    <script>
-                                    window.setTimeout(function(){
-                                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                                    function(){
-                                    $(this).remove();
-                                    });
-                                    }, 3000);
-                                    </script>";
-
-                                    
 
                                     /*Genera un registro de error en la tbl_bitacora por intento de acceso al sistema
                                         con usuario bloqueado*/
@@ -329,17 +258,10 @@ class Login{
 
                     } else {
                         /*Muestra mensaje de usuario no existente*/
-                        echo "<div class='text-center alert alert-danger' role = 'alert'>
-                            El usuario no existe.
-                            </div>
-                            <script>
-                            window.setTimeout(function(){
-                            $('.alert').fadeTo(1500,00).slideDown(1000,
-                            function(){
-                            $(this).remove();
-                            });
-                            }, 3000);
-                            </script>";
+
+                        $respuesta =array(
+                            "respuesta" => "usuario_noExiste"
+                        );
 
                             
                         /*Genera registro de intento de inicio de sesion con usuario no existente*/
@@ -368,8 +290,7 @@ class Login{
         } catch(Exception $e) {
             die("se produjo un error". $e->getMessage());
         }
+
+        echo json_encode($respuesta);
           
     }  
-    
-    }
-}
