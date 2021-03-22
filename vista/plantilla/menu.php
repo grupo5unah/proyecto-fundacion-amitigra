@@ -99,6 +99,7 @@ $columna = $stmt->fetch_assoc();
           <ul class="treeview-menu">
             <li><a href="producto"><i class=""></i> Producto</a></li>
             <li><a href="existencia"><i class=""></i> Existencia</a></li>
+            <li><a href="ordenes"><i class=""></i>Ordenes</a></li>
           </ul>
         </li>
         <?php }?>

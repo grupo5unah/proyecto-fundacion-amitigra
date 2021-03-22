@@ -101,7 +101,7 @@
 													<td> <?php echo $evento['modificado_por']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditarP glyphicon glyphicon-pencil" data-idProduct="<?= $evento['id_P'] ?>" data-nomProducto="<?= $evento['nombreP'] ?>" data-precioP="<?= $evento['precioP'] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento['descripcion'] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento['precioAl'] ?>"></button>
+														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento['id_P'] ?>" data-nomProducto="<?= $evento['nombreP'] ?>" data-precioP="<?= $evento['precioP'] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento['descripcion'] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento['precioAl'] ?>"></button>
 
 														<button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento['id_P'] ?>"></button>
 													</td>
@@ -124,7 +124,7 @@
 			</div>
 			<!-- /.box-body -->
 
-			<div class="modal fade" id="modalEditarP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalEditarProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -193,7 +193,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary">Actualizar Tipo Producto</button>
+							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary">Actualizar Producto</button>
 						</div>
 					</div>
 				</div>
