@@ -29,7 +29,7 @@ $(document).ready(function () {
           text:'<i class="fas fa-print">',
           titleAttr:'Imprimir',
           title:'FUNDACION AMIGOS DE LA TIGRA',
-          messageTop:' REPORTE DE CLIENTES',
+          messageTop:'REPORTE DE ESTADOS DE SOLICITUDES',
           className:'btn btn-dark',
           exportOptions: {
             modifier: {
@@ -42,7 +42,7 @@ $(document).ready(function () {
               title: 'FUNDACION AMIGOS DE LA TIGRA',
               text:'<i class="fas fa-file-excel">',
               className:'btn btn-success',
-              messageTop: 'REPORTE DE CLIENTES.',
+              messageTop: 'REPORTE DE ESTADOS DE SOLICITUDES.',
               exportOptions: {
                 columns: [ 0, ':visible' ]
             },
@@ -56,7 +56,7 @@ $(document).ready(function () {
               orientation: 'portrait',
               pageSize: 'A4',
               title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-              messageTop: 'REPORTE DE CLIENTES.',
+              messageTop: 'REPORTE DE ESTADOS DE SOLICITUDES.',
               Image:'fotoPerfil/foto1.png',
               download: 'open',
               exportOptions: {

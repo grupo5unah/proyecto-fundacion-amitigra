@@ -124,7 +124,7 @@
 									<button class="btn btn-default btnCrearUsuario glyphicon glyphicon-plus-sign">Agregar Usuario</button>
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablaMantenimientoUsuarios">
 									<thead>
 										<tr>
 											<th>Nombre</th>
