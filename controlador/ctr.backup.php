@@ -5,7 +5,7 @@
     $contrasena = $_POST['contrasena'];
     $usuario = $_POST['usuario'];
 
-    if(!empty($contrasena)){
+    if(!empty($contrasena) || !empty($usuario)){
 
         $stmt = $conn->prepare("SELECT contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
         $stmt->bind_Param("s", $usuario);
