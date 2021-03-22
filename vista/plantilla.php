@@ -11,15 +11,15 @@ $ingreso = $_SESSION['primer_ingreso'];
 $TiempoActividad = 40;
 $tiempo = $TiempoActividad - 20;
 // Comprobar si $_SESSION["timeout"] está establecida
-if(isset($_SESSION["timeout"])){
-    // Calcular el tiempo de vida de la sesión (TTL = Time To Live)
-    $sessionTTL = time() - $_SESSION["timeout"];
-      if($sessionTTL > $tiempo){
-        //session_destroy();
-        //session_unset();
-        //header('location:vista/modulos/bloqueoInactividad.php');
-        //die();
-      }
+if (isset($_SESSION["timeout"])) {
+  // Calcular el tiempo de vida de la sesión (TTL = Time To Live)
+  $sessionTTL = time() - $_SESSION["timeout"];
+  if ($sessionTTL > $tiempo) {
+    //session_destroy();
+    //session_unset();
+    //header('location:vista/modulos/bloqueoInactividad.php');
+    //die();
+  }
 }
 // El siguiente key se crea cuando se inicia sesión
 $_SESSION["timeout"] = time();
@@ -27,21 +27,21 @@ $_SESSION["timeout"] = time();
 
 <?php
 
-  $usuario_id = $_SESSION['id'];
-  require './modelo/conexionbd.php';
+$usuario_id = $_SESSION['id'];
+require './modelo/conexionbd.php';
 
-  $nombre_sistema = 'NOMBRE_SISTEMA';
+$nombre_sistema = 'NOMBRE_SISTEMA';
 
-  $nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE usuario_id = ? AND parametro = ?;");
-  $nombre->bind_Param("is",$usuario_id,$nombre_sistema);
-  $nombre->execute();
-  $nombre->bind_Result($parametro,$valor);
+$nombre = $conn->prepare("SELECT parametro, valor FROM tbl_parametros WHERE usuario_id = ? AND parametro = ?;");
+$nombre->bind_Param("is", $usuario_id, $nombre_sistema);
+$nombre->execute();
+$nombre->bind_Result($parametro, $valor);
 
-  if($nombre->affected_rows){
-    $existe = $nombre->fetch();
+if ($nombre->affected_rows) {
+  $existe = $nombre->fetch();
 
-    if($existe){
-      $extraer = substr($valor,0,4); 
+  if ($existe) {
+    $extraer = substr($valor, 0, 4);
 
 
 ?>
@@ -69,12 +69,15 @@ $_SESSION["timeout"] = time();
   <link rel="stylesheet" href="vista/dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="vista/bower_components/morris.js/morris.css">
+  <link rel="stylesheet" href="vista/bower_components/select2/dist/css/select2.min.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="vista/bower_components/jvectormap/jquery-jvectormap.css">
    <!-- daterange picker -->
    <link rel="stylesheet" href="vista/dist/css/daterangepicker.css">
+  
   <!-- Date Picker -->
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -105,9 +108,12 @@ $_SESSION["timeout"] = time();
         $_GET["ruta"] == "senderosE" ||
         $_GET["ruta"] == "reservahotel" ||
         $_GET["ruta"] == "solicitudes" ||
+        $_GET["ruta"] == "mantTipoSolicitudes" || 
+        $_GET["ruta"] == "mantEstadosSolicitud" || 
         $_GET["ruta"] == "mantenimiento" ||
         $_GET["ruta"] == "producto" ||
         $_GET["ruta"] == "existencia"||
+        $_GET["ruta"] == "ordenes"||  
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "pdf" ||
         $_GET["ruta"] == "mantenimientoopciones" ||
@@ -188,11 +194,15 @@ $_SESSION["timeout"] = time();
 <script src="vista/dist/js/adminlte.min.js"></script>
 
 <script src="vista/dist/js/jquery-3.5.1.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 <script src="vista/dist/js/jquery.dataTables.min.js"></script>
+<script src="vista/dist/js/jquery.dataTables.js"></script>
  <script src="vista/dist/js/jquery.dataTables.js"></script>
  <script src="vista/dist/js/daterangepicker.js"></script>
  <!-- datepicker -->
-<script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
+<script src="vista/dist/js/bootstrap-datepicker.js"></script> 
+ <!-- datetimepicker -->
+ <script src="vista/dist/js/bootstrap-datetimepicker.js"></script> 
 <script src="vista/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="vista/dist/js/dataTables.responsive.min.js"></script> 
 <script src="vista/dist/js/dataTables.buttons.min.js"></script>
@@ -200,6 +210,13 @@ $_SESSION["timeout"] = time();
 <script src="vista/dist/js/buttons.colVis.min.js"></script>
 <script src="vista/dist/js/buttons.print.min.js"></script>
 <script src="vista/dist/js/pdfmake.min.js"></script>
+<script src="vista/bower_components/moment/min/moment.min.js"></script>
+<script src="vista/dist/js/daterangepicker.js"></script>
+<script src="vista/dist/assets/js/jquery.validate.min.js"></script>
+<script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
+<script src="vista/bower_components/select2/dist/js/select2.min.js"></script>
+<script src="vista/bower_components/select2/dist/js/select2.full.min.js"></script>
+ <!-- datepicker -->
 
 <script src="vista/dist/js/vfs_fonts.js"></script>
 <script src="vista/dist/js/buttons.html5.min.js"></script>
@@ -208,7 +225,7 @@ $_SESSION["timeout"] = time();
 <script src="vista/dist/js/mapa.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
-<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" 
 integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
 <script src="vista/dist/js/tablas.js"></script>
@@ -217,15 +234,25 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/objetos.js"></script>
 <script src="vista/dist/js/mantProducto.js"></script>
 <script src="vista/dist/js/reportes.js"></script>
+<script src="vista/dist/js/ordenes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/camping.js"></script>
 <script src="vista/dist/js/clientes.js"></script>
 <script src="vista/dist/js/estado.js"></script>
+<script src="vista/dist/js/manthabserv.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>
+<script src="vista/dist/js/infoperfil.js"></script>
+<script src="vista/dist/js/copiaSeguridad.js"></script>
+<script src="vista/dist/js/app.login.js"></script>
+<!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>
 <script src="vista/dist/js/nacionalidad.js"></script>
 <script src="vista/dist/js/solicitudes.js"></script>
 <script src="vista/dist/js/tipoBoletos.js"></script>
+<script src="vista/dist/js/tipoSolicitudes.js"></script>
+<script src="vista/dist/js/EstadosSolicitud.js"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->

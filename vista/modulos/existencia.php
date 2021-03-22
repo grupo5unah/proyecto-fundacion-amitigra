@@ -1,5 +1,16 @@
 <?php include("./modelo/conexionbd.php"); ?>
 <div class="content-wrapper">
+	<section class="content-header">
+  	<h1>
+	PRODUCTOS
+  	</h1>      
+ 	<ol class="breadcrumb ">
+        <li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="btn btn-success uppercase fw-bold" ><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+        <li class="btn btn-success uppercase fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
+		<li class="btn btn-success active uppercase fw-bold "><a href="#"></a><i class="fa fa-users"></i> Producto</a></li>
+      </ol>
+    </section>
 	<!-- Main content -->
 	<section class="content">
 
@@ -16,33 +27,38 @@
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de productos</div>
-							</div> <!-- /panel-heading -->
+								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Movimientos</div>
+							</div> 
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									<a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </a>
 
-								</div> <!-- /div-action -->
+								</div> 
 
-								<table data-page-length='10' class=" display table resoinsive table-hover table-condensed table-bordered" style="width:100%" id="manageProductTable">
-									<thead>
-										<tr>
-
-											<th>Nombre del producto</th>
-											<th>Precio</th>
-											<th>Existencia</th>
-											<th>Fecha de Entrada</th>
-											<th>Acciones</th>
-
-										</tr>
-									</thead>
+							<table data-page-length='10' class=" display table responsive            table-hover table-condensed table-bordered" style="width:100%;"  id="managerInventario">
+								<thead>
+									<tr>
+										<th style="background-color:#f0ff33" COLSPAN=2>INVENTARIO GENERAL</th>
+										<th style="background-color:#33ffc1" COLSPAN=2>ENTRADA</th>
+										<th style="background-color:#ffb533" COLSPAN=3>SALIDA</th>
+									</tr>
+									<tr>
+										<th>Nombre del producto</th>
+										<th>Existencias</th>
+										<th>FECHA ENTRADA</th>
+										<th>CANTIDAD</th>
+										<th>FECHA SALIDA</th>
+										<th>CANTIDAD</th>
+										<th>Estado</th>
+									</tr>
+										
+								</thead>
 									<tbody>
-										<?php
+									<?php
 										try {
 
-
-											$sql = "SELECT id_inventario, nombre_articulo,existencias, costo, fecha_entrada FROM tbl_inventario WHERE estado_eliminar=1;";
+											$sql = "SELECT tbl_inventario.id_inventario, tbl_producto.nombre_producto, tbl_inventario.existencias, tbl_inventario.fecha_entrada from tbl_inventario INNER JOIN tbl_producto on tbl_inventario.producto_id= tbl_producto.id_producto  WHERE estado_eliminar=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -53,9 +69,8 @@
 
 											$traer = $eventos['existencias'];
 											$evento = array(
-												'nombre_arti' => $eventos['nombre_articulo'],
-												'existencia_inve' => $eventos['existencias'],
-												'costo_art' => $eventos['costo'],
+												'nombre_arti' => $eventos['nombre_producto'],
+												'existencia' => $eventos['existencias'],
 												'fecha_art' => $eventos['fecha_entrada'],
 												'id_inventario' => $eventos['id_inventario'],
 
@@ -66,86 +81,32 @@
 
 
 											<?php foreach ($lista_articulo as $evento) { ?>
-												<?php	//echo $evento['nombre_arti']
-												?>
 												<tr>
-													<td> <?php echo $evento['nombre_arti']; ?></td>
-													<td> <?php echo $evento['costo_art']; ?></td>
-													<td> <?php echo $evento['existencia_inve']; ?></td>
+													<td> <?php echo $evento['nombre_arti'];?></td>
+													<td><?php echo $evento['existencia'];?></td>
 													<td> <?php echo $evento['fecha_art']; ?></td>
-													<td>
-														<button class="btn btn-warning btnEditar glyphicon glyphicon-pencil"  data-idproducto="<?php $evento['id_inventario'] ?>" data-nombreArti="<?php $evento['nombre_arti'] ?>" data-existencia="<?php $evento['existencia_inve'] ?>" data-costo="<?php $evento['costo_art'] ?>"></button>
-
-														<button class="btn btn-danger btnEliminar glyphicon glyphicon-remove" data-idproductodel="<?php echo $evento['id_inventario'] ?>"></button>
-													</td>
+													<td> <?php echo $evento['nombre_arti'];?></td>
+													<td><?php echo $evento['existencia'];?></td>
+													<td> <?php echo $evento['fecha_art']; ?></td>
+													<td> <?php echo $evento['fecha_art']; ?></td>
 												<?php  } ?>
-											<?php  } ?>
-												</tr>
-									</tbody>
+												</tr> 
+										<?php  } ?>
+												
+									</tbody> 
 								</table>
-								<!-- /table -->
+								
 
-							</div> <!-- /panel-body -->
-						</div> <!-- /panel -->
-					</div> <!-- /col-md-12 -->
+							</div> 
+						</div> 
+					</div>
 					<?php $conn->close(); ?>
 				</div> <!-- /row -->
 
 
 			</div>
-			<!-- /.box-body -->
-			<div class="box-footer">
-				Footer
-				<div class="modal fade" id="modalEditarProducto" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<div class="d-flex justify-content-between">
-									<h3 class="modal-title" id="exampleModalLabel">Actualizar Producto</h3>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<i aria-hidden="true">&times;</i>
-									</button>
-								</div>
-							</div>
-							<div class="modal-body">
-								<form name="formEditarProducto">
-									<div class="ingreso-producto form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="off" class="form-control secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
-
-										<div class="campos">
-											<label for="">Nombre del Producto </label>
-											<input id="nombreInven" class="form-control secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
-
-										</div>
-										<div class="campos form-group">
-											<label for="">Cantidad </label>
-											<input id="cantInven" class="form-control secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
-
-										</div>
-										<div class="campos form-group">
-											<label for="">Precio de Compra </label>
-											<input id="precioInven" class="form-control secundary" type="tel" name="precio" placeholde="Escriba el producto" required />
-
-										</div>
-										
-										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-									</div>
-									
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="  btnEditarBD btn btn-primary">Actualizar producto</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /.box-footer--> 
+			
+		
 		</div>
 		<!-- /.box -->
 

@@ -1,4 +1,49 @@
-//import * as Funciones from './Utils/Funciones';
+// const  letras = /^[a-zA-Z]+$/;
+// const numeros =  /[-+]?([0-9]*\.[0-9]+|[0-9]+)/;
+// let pro = document.querySelector("#nombreP").value;
+// let pre= document.querySelector('#precioProducto').value;
+// let can= document.querySelector('#cantProducto').value;
+// let des= document.querySelector('#descripcion').value;
+// let desactivar= document.querySelector('#actualizar');
+// eventListener();
+// console.log(pro);
+// function eventListener(){
+//     console.log('hola mundo');
+//     document.addEventListener('DOMContentLoaded', iniciarApp);
+//     //campos del formulario
+//     pro.addEventListener('blur',validarCampos);
+//     pre.addEventListener('blur',validarCampos);
+//     cant.addEventListener('blur',validarCampos);
+//     des.addEventListener('blur',validarCampos);
+    
+// }
+// function iniciarApp(){
+//     desactivar.disabled = true;
+//     desactivar.classList.add('cursor-not-allowed', 'opacity-50');
+//     console.log('hola');
+    
+// }
+
+
+// function validarCampos(e){
+   
+//      if(e.target.type === "number"){
+//         if(numeros.test(e.target.value)){
+//             console.log('hola mundo');
+//         }
+//      }
+//      if(e.target.type === "text"){
+//          if(letras.test(e.target.value)){
+//              console.log('error');
+//          }
+//      }
+//      if(pro.value !== "" && pre.value !== "" && des.value 
+//     !== "" && can.value !== ""){
+//      console.log('holaaaa');
+//      desactivar.removeAttribute('disabled');
+//     }
+// }
+
 
 $(document).ready(function(){
 
@@ -228,14 +273,12 @@ $(document).ready(function(){
        const formulario = document.querySelector('#formProducto');
        formulario.reset();
    }
-
-
-  
-
-
-
      
  });
+
+
+ 
+
 
 
   

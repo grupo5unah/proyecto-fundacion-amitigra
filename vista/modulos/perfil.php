@@ -3,13 +3,13 @@ include_once "./modelo/conexionbd.php";
 $id_objeto = 4;
 global $mi_rol;
 $rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT rol_id, foto FROM tbl_usuarios
+$stmt = $conn->prepare("SELECT rol_id FROM tbl_usuarios
                         INNER JOIN tbl_roles
                         ON tbl_usuarios.rol_id = tbl_roles.id_rol
                         WHERE tbl_roles.rol = ?");
 $stmt->bind_Param("s",$rol_id);
 $stmt->execute();
-$stmt->bind_Result($id_rol, $foto);
+$stmt->bind_Result($id_rol);
 
 if($stmt->affected_rows){
 
@@ -53,7 +53,7 @@ $columna = $stmt->fetch_assoc();
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
-                <img class="img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
+                <img class="img-circle" src="./fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
               </div>
 
 <?php }}?>
@@ -61,7 +61,7 @@ $columna = $stmt->fetch_assoc();
 
               include_once("./modelo/conexionbd.php");
                   //try {
-                    $stmt = $conn->prepare("SELECT nombre_completo, correo, telefono, primer_ingreso, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
+                    $stmt = $conn->prepare("SELECT nombre_completo, correo, telefono, fecha_mod_contrasena, fecha_vencimiento FROM tbl_usuarios WHERE nombre_usuario = ?");
                     $stmt->bind_Param("s",$usuario);
                     $stmt->execute();
                     $stmt->bind_Result($nombre, $correo, $telefono, $ingreso, $vencimiento);
@@ -97,7 +97,7 @@ $columna = $stmt->fetch_assoc();
                 <li><a><strong>Nombre de usuario: </strong><span class="pull-right"><?php echo strtoupper($usuario);?></span></a></li>
                 <li><a><strong>Correo: </strong><span class="pull-right"><?php echo $_SESSION['correo'];?></span></a></li>
                 <li><a><strong>Telefono: </strong><span class="pull-right"><?php echo ucwords(strtolower($_SESSION['telefono']));?></span></a></li>
-                <li><a><strong>Contrasena caduca: </strong><span class="pull-right"><?php echo ucwords(strtolower($_SESSION['fecha_vencimiento']));?></span></a></li>
+                <li><a><strong>Contrasena caduca: </strong><span class="pull-right"><?php setlocale(LC_ALL,'es-ES'); $caduca = strftime('%d/%b/%G. a las %I:%M %p', strtotime($_SESSION['fecha_vencimiento'])); echo $caduca;?></span></a></li>
                 <li><a><strong>Dias transcurridos: </strong><span class="pull-right"><?php echo $dias_transcurridos;?></span></a></li>
               </ul>
             </div>
@@ -110,12 +110,21 @@ $columna = $stmt->fetch_assoc();
         <div class="col-md-8">
           <div class="nav-tabs-custom2">
             <ul class="nav nav-tabs">
-              <li><a href="#settings" data-toggle="tab">Informacion general</a></li>
+              <li><a href="#settings" data-toggle="tab">Informacion</a></li>
               <li><a href="#settings2" data-toggle="tab">Seguridad</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="settings">
                 <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <div class="alert alert-light" role="alert">
+                     <h4><i class="fa fa-user"> Informacion general</i></h4>
+                     Hola <strong><?php echo $_SESSION['usuario'];?></strong>
+                     aquí puedes configurar tu información personal, tu <strong>nombre de usuario</strong> no se puede modificar.
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <label for="inputName" class="col-sm-3 control-label">Nombre completo:</label>
 
@@ -127,7 +136,8 @@ $columna = $stmt->fetch_assoc();
                     <label for="inputName" class="col-sm-3 control-label">Nombre de usuario:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
+                      <input type="text" readonly name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
+                      <p id="notificacion"></p>
                     </div>
                   </div>
 
@@ -156,7 +166,7 @@ $columna = $stmt->fetch_assoc();
                   </div>
 
                   <!--INPUT INGRESAR LA CONTRASENA ACTUAL-->
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
 
                     <div class="input-group col-sm-8">
@@ -166,15 +176,61 @@ $columna = $stmt->fetch_assoc();
                       </span>
                     </div>
                     <p class="text-center-msg">Ingrese su contraseña para confirmar los cambios</p>
-                  </div>
+                  </div> -->
                   
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                    <input type="hidden" name="cambio_info" value="act_info">
+                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
                     <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
-                    <button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
+                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    Guardar cambios</button><?php }?>
                     </div>
                   </div>
+
+        <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmar cambios</h4>
+              </div>
+              <div class="modal-body">
+                <!-- AGREGAR CONTENIDO AQUI -->
+                <div class="form-group">
+                    <div class="alert alert-light" role="alert">
+                     <h4><i class="fa fa-warning"> Importante:</i></h4>
+                     El ingreso de la contraseña es necesario para poder hacer efectiva la actualización de sus datos personales.
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                      <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+
+                      <div class="input-group col-sm-8">
+                        <input id="passConf" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
+                        <span class="input-group-btn" onclick="a_mostrarPassword()">
+                          <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                
+                <!-- FIN CONTENIDO -->
+              </div>
+              <div class="modal-footer">
+                <button id="cancelarActualizacion" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
+                Cancelar</button>
+                <button id="aceptCambios" type="button" class="btn btn-primary"><i class="fa fa-user"></i>
+                Guardar cambios</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
+
+
 
                   <script type="text/javascript">
                     window.onload = function() {
@@ -254,48 +310,77 @@ $columna = $stmt->fetch_assoc();
 
                   <!--INPUT INGRESAR LA CONTRASENA ACTUAL-->
                   <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Contraseña actual:</label>
-
-                    <div class="input-group col-sm-8">
-                      <input id="PassActual" type="password" class="form-control" name="actualPass" placeholder="Ingrese su contraseña actual">
-                      <span class="input-group-btn">
-                      </span>
-                    </div>
-                  </div>
-                  <!--INPUT CONFIRMAR NUEVA CONTRASENA-->
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Nueva contraseña:</label>
-
-                    <div class="input-group col-sm-8">
-                      <input id="PassNuevo" type="password" class="form-control" name="nuevaPass" placeholder="Ingrese su nueva contraseña">
-                      <span class="input-group-btn">
-                      </span>
-                    </div>
-                  </div>
-                  <!--INPUT CONFIRMAR NUEVA CONTRASENA-->
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-3 control-label">Confirmar contraseña:</label>
-
-                    <div class="input-group col-sm-8">
-                      <input id="ConfPass" type="password" class="form-control" name="confPass" placeholder="Confirmar su contraseña">
-                      <span class="input-group-btn" onclick="mostrarPassword()">
-                        <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_conf"></i></button>
-                      </span>
+                    <div class="alert alert-light" role="alert">
+                     <h4><i class="fa fa-unlock-alt"> Cambio de contraseña</i></h4>
+                     <strong><?php echo $_SESSION['usuario'];?></strong>
+                     en este espacio puedes hacer cambio de tu contraseña haciendo click en el siguiente botón.
                     </div>
                   </div>
                   
                   <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden" name="cambios" value="act">
-                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?><button type="submit" class="btn btn-success actualizar">Guardar cambios</button><?php }?>
+                    <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
+                    <button type="button" id="cambioContrasena" class="btn btn-success actualizar" data-toggle="modal2" data-target="#modal-default2">
+                      Click aqui para cambiar la contraseña
+                    </button><?php }?>
                     </div>
                   </div>
 
+
+                  <!-- INICIO SEGUNDO MODAL -->
+
+                  <div class="modal fade" id="modal-default2" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title">Cambio de contraseña</h4>
+                        </div>
+                        <div class="modal-body">
+                          <!-- AGREGAR CONTENIDO AQUI -->
+                          <div class="form-floating mb-3">
+                              <label for="floatingInput">Contraseña actual</label>  
+                                <input id="passActual" type="password" class="form-control" name="passConf" placeholder="Contrasena actual">
+                                <br>
+                            </div>
+                            
+                            <div class="form-floating mb-6">
+                              <label for="floatingInput">Nueva contraseña</label>
+                                <input id="passNueva" type="password" class="form-control" name="passConf" placeholder="Nueva contraseña">
+                               <br>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                              <label for="floatingInput">Confirmar contraseña</label>  
+                              <div class="input-group">
+                                <input id="passConfirmar" type="password" class="form-control" name="passConf" placeholder="Confirmar su contraseña">
+                                <span class="input-group-btn" onclick="mostrarPasswordNueva()">
+                                  <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                                </span>
+                              </div>
+                              <br>
+                            </div>
+                          <!-- FIN CONTENIDO -->
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" id="cancelarCambios" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
+                          <button type="button" id="gcambios" class="btn btn-primary"><i class="fa fa-user"></i> Guardar cambios</button>
+                        </div>
+                      </div>
+                      <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                  </div>
+
+                  <!-- FIN SEGUNDO MODAL -->
+
                   <!--FUNCION PARA MOSTRAR CONTRASENA-->
                   <script type="text/javascript">
-                    function mostrarPassword(){
+                    function mostrarPasswordNueva(){
                       
-                      var actual = document.getElementById("PassActual");
+                      var actual = document.getElementById("passActual");
                       if(actual.type == "password"){
                         actual.type = "text";
                         $('.icon_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
@@ -304,7 +389,7 @@ $columna = $stmt->fetch_assoc();
                         $('.icon_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
                       }
 
-                      var nueva = document.getElementById("PassNuevo");
+                      var nueva = document.getElementById("passNueva");
                       if(nueva.type == "password"){
                         nueva.type = "text";
                         $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
@@ -313,7 +398,7 @@ $columna = $stmt->fetch_assoc();
                         $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
                       }
 
-                      var conf = document.getElementById("ConfPass");
+                      var conf = document.getElementById("passConfirmar");
                       if(conf.type == "password"){
                         conf.type = "text";
                         $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
@@ -331,11 +416,12 @@ $columna = $stmt->fetch_assoc();
             </div>
             <?php
             
-              require("./controlador/ctr.passwordperfil.php");
+            if(isset($_POST['cambio_info']) == 'act_info'){
+              /*require("./controlador/ctr.passwordperfil.php");
 
               $actualizar = new PasswordPHP();
-              $actualizar->ctrPasswordInfo();
-        
+              $actualizar->ctrPasswordInfo();*/
+            }else{
                     //include("./controlador/ctr.actualizarInformacion.php");
 
                     //$actualizar = new ActualizarInfo();
@@ -345,7 +431,7 @@ $columna = $stmt->fetch_assoc();
 
               $perfilBitacora = new AccionesUsuario();
               $perfilBitacora->ctrPerfilBitacora();
-
+            }
                     ?>
 
             

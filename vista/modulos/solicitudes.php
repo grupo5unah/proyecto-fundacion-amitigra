@@ -7,100 +7,99 @@
   }
 
   function soloNumeros(e) {
-		var key = window.event ? e.which : e.keyCode;
-		if (key < 48 || key > 57) {
-			e.preventDefault();
-		}
-	}
+    var key = window.event ? e.which : e.keyCode;
+    if (key < 48 || key > 57) {
+      e.preventDefault();
+    }
+  }
 
 
-	function soloLetras(e) {
-		var key = e.keyCode || e.which,
-			tecla = String.fromCharCode(key).toLowerCase(),
-			letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-			especiales = [8, 37, 39, 46],
-			tecla_especial = false;
-		for (var i in especiales) {
-			if (key == especiales[i]) {
-				tecla_especial = true;
-				break;
-			}
-		}
-		if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-			return false;
-		}
-	}
-	SinEspacio = function(input) {
-		input.value = input.value.replace(' ', '');
-	}
+  function soloLetras(e) {
+    var key = e.keyCode || e.which,
+      tecla = String.fromCharCode(key).toLowerCase(),
+      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
+      especiales = [8, 37, 39, 46],
+      tecla_especial = false;
+    for (var i in especiales) {
+      if (key == especiales[i]) {
+        tecla_especial = true;
+        break;
+      }
+    }
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+      return false;
+    }
+  }
+  SinEspacio = function(input) {
+    input.value = input.value.replace(' ', '');
+  }
 
-	//Permitir solo un ESPACIO
-	espacio_Letras = function(input) {
-		input.value = input.value.replace('  ', ' ');
-	}
+  //Permitir solo un ESPACIO
+  espacio_Letras = function(input) {
+    input.value = input.value.replace('  ', ' ');
+  }
 
 
-	function validaemail(valor) {
-		re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-		if (!re.exec(valor)) {
-			$res['msj'] = "Email no valido";
-		}
+  function validaemail(valor) {
+    re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+    if (!re.exec(valor)) {
+      $res['msj'] = "Email no valido";
+    }
 
-	}
+  }
 
-	function limpia() {
-		var val = document.getElementById("telefono").value;
-		var tam = val.length;
-		for (i = 0; i < tam; i++) {
-			if (isNaN(val[i]))
-				document.getElementById("telefono").value = '';
-		}
-	}
+  function limpia() {
+    var val = document.getElementById("telefono").value;
+    var tam = val.length;
+    for (i = 0; i < tam; i++) {
+      if (isNaN(val[i]))
+        document.getElementById("telefono").value = '';
+    }
+  }
 
-	function mostrarPassword() {
-		var cambio = document.getElementById("Contraseña");
-		if (cambio.type == "password") {
-			cambio.type = "text";
-			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-		} else {
-			cambio.type = "password";
-			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-		}
-	}
+  function mostrarPassword() {
+    var cambio = document.getElementById("Contraseña");
+    if (cambio.type == "password") {
+      cambio.type = "text";
+      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    } else {
+      cambio.type = "password";
+      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
+  }
 
-	function mostrarPassword2() {
-		var cambio = document.getElementById("ConfirmarContraseña");
-		if (cambio.type == "password") {
-			cambio.type = "text";
-			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-		} else {
-			cambio.type = "password";
-			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-		}
-	}
+  function mostrarPassword2() {
+    var cambio = document.getElementById("ConfirmarContraseña");
+    if (cambio.type == "password") {
+      cambio.type = "text";
+      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    } else {
+      cambio.type = "password";
+      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
+  }
 
-	function mostrarPasswordreset() {
-		var cambio = document.getElementById("Contraseña_reset");
-		if (cambio.type == "password") {
-			cambio.type = "text";
-			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-		} else {
-			cambio.type = "password";
-			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-		}
-	}
+  function mostrarPasswordreset() {
+    var cambio = document.getElementById("Contraseña_reset");
+    if (cambio.type == "password") {
+      cambio.type = "text";
+      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    } else {
+      cambio.type = "password";
+      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
+  }
 
-	function mostrarPassword2reset() {
-		var cambio = document.getElementById("ConfirmarContraseña_reset");
-		if (cambio.type == "password") {
-			cambio.type = "text";
-			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-		} else {
-			cambio.type = "password";
-			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-		}
-	}
-
+  function mostrarPassword2reset() {
+    var cambio = document.getElementById("ConfirmarContraseña_reset");
+    if (cambio.type == "password") {
+      cambio.type = "text";
+      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+    } else {
+      cambio.type = "password";
+      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    }
+  }
 </script>
 <div class="content-wrapper">
   <!-- Main content -->
@@ -135,7 +134,7 @@
                     <i class="fa fa-download"></i>Generar Reporte PDF</a>
                   <button class="btn btn-default btnCrearSolicitud glyphicon glyphicon-plus-sign">Agregar Solicitud</button>
                 </div> <!-- /div-action -->
-                <table id="tablas" class="display responsive nowrap">
+                <table id="manageProductTable" class="display responsive nowrap">
                   <thead>
                     <tr>
                       <th>Solicitud</th>
@@ -207,194 +206,195 @@
 
         </div>
       </div>
-    
-    <!--CIERRA DIV ROW-->
+
+      <!--CIERRA DIV ROW-->
 
 
 
-    <div class="modal fade" id="modalEditarSolicitud" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog modal-sm" role="document">
+      <div class="modal fade" id="modalEditarSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Actualizar Solicitud</h4>
+            </div>
+            <div class="modal-body">
+              <form name="formEditarParametro" action="">
+                <div class="ingreso-producto form-group">
+                  <div class="campos" type="hidden">
+                    <input autocomplete="off" class="form-control secundary" type="hidden" name="idSolcitud" value="0" disabled>
+                  </div>
+                  <label for="">Tipo de solicitud</label>
+                  <?php
+                  include("modelo/conexionbd.php");
+                  $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud`");
+                  $result = mysqli_num_rows($query_tip);
+                  ?>
+                  <select class="form-control secundary" id="tipo" name="tipo" class="notItemOne">
+                    <?php
+
+                    if ($result > 0) {
+                      while ($tipo_solictud = mysqli_fetch_array($query_tip)) {
+                    ?>
+                        <option value="<?php echo $tipo_solictud["id_tipo_solicitud"]; ?>"><?php echo $tipo_solictud["tipo"] ?></option>
+                    <?php
+                        # code...
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+                <div class="campos">
+                  <label for="estado">Estado de la solicitud </label>
+                  <?php
+                  include("modelo/conexionbd.php");
+                  $query_estad = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus
+                                        FROM `tbl_estatus_solicitud`");
+                  $result_est = mysqli_num_rows($query_estad);
+                  ?>
+                  <select class="form-control secundary" id="estatus_solicitud" name="estatus_solicitud" class="notItemOne">
+                    <?php
+                    echo $option;
+                    if ($result_est > 0) {
+                      while ($est_solictud = mysqli_fetch_array($query_estad)) {
+                    ?>
+                        <option value="<?php echo $est_solictud["id_estatus_solicitud"]; ?>"><?php echo $est_solictud["estatus"] ?></option>
+                    <?php
+                        # code...
+                      }
+                    }
+                    ?>
+                </div>
+                </select>
+                <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+            </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud">
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <!--Registrar solicitud-->
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalCrearS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Actualizar Solicitud</h4>
+            <div class="d-flex justify-content-between">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i aria-hidden="true">&times;</i>
+              </button>
+              <h3 class="modal-title" id="exampleModalLabel">Registrar Solicitud</h3>
+            </div>
           </div>
           <div class="modal-body">
-            <form name="formEditarParametro" action="">
-              <div class="ingreso-producto form-group">
-                <div class="campos" type="hidden">
-                  <input autocomplete="off" class="form-control secundary" type="hidden" name="idSolcitud" value="0" disabled>
+            <form name="" id="formSolicitudes" onpaste="return false">
+              <div class=" form-group">
+                <div class="campos form-group" type="hidden">
+                  <label for=""> </label>
+                  <input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
                 </div>
-                <label for="">Tipo de solicitud</label>
-                <?php
-                include("modelo/conexionbd.php");
-                $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud`");
-                $result = mysqli_num_rows($query_tip);
-                ?>
-                <select class="form-control secundary" id="tipo" name="tipo" class="notItemOne">
-                  <?php
+                <div class="campos form-group">
+                  <input id="nombreCompleto" maxlength="40" minlength="40" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+									espacio_Letras(this);" />
+                </div>
+                <div class="campos form-group">
+                  <input id="identidad" maxlength="13" minlength="13" style="width:335px" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad"/>
+                </div>
+                <div class="campos form-group">
+                  <input id="telefono" autocomplete="off" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
+									secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" onblur="limpia()" /></center>
+                </div>
 
-                  if ($result > 0) {
-                    while ($tipo_solictud = mysqli_fetch_array($query_tip)) {
-                  ?>
-                      <option value="<?php echo $tipo_solictud["id_tipo_solicitud"]; ?>"><?php echo $tipo_solictud["tipo"] ?></option>
-                  <?php
-                      # code...
-                    }
-                  }
-                  ?>
-                </select>
-              </div>
-              <div class="campos">
-                <label for="estado">Estado de la solicitud </label>
+                <div class="campos form-group">
+                  <input id="croquis" style="width:335px" class="form-control modal-roles secundary" type="file" name="croquis" placeholder="Croquis" />
+                </div>
+
+                <div class="campos form-group">
+                  <input id="n_recibo" style="width:335px" class="form-control modal-roles secundary" type="text" name="n_recibo" onkeypress="return soloNumeros(event)" placeholder="Numero de recibo o deposito" />
+
+                </div>
                 <?php
-                include("modelo/conexionbd.php");
-                $query_estad = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus
-                                        FROM `tbl_estatus_solicitud`");
-                $result_est = mysqli_num_rows($query_estad);
+                include('./modelo/conexionbd.php');
+                $consulta_nacionalidad = mysqli_query($conn, "SELECT id_tipo_nacionalidad,nacionalidad FROM `tbl_tipo_nacionalidad`");
+                $resultados = mysqli_num_rows($consulta_nacionalidad);
                 ?>
-                <select class="form-control secundary" id="estatus_solicitud" name="estatus_solicitud" class="notItemOne">
-                  <?php
-                  echo $option;
-                  if ($result_est > 0) {
-                    while ($est_solictud = mysqli_fetch_array($query_estad)) {
-                  ?>
-                      <option value="<?php echo $est_solictud["id_estatus_solicitud"]; ?>"><?php echo $est_solictud["estatus"] ?></option>
-                  <?php
-                      # code...
+                <div class="campos form-group">
+                  <select class="form-control" id="tipo_nac" name="tipo_nac" style="width:335px">
+                    <option value="">Seleccione una nacionalidad</option>
+                    <?php
+                    if ($resultados > 0) {
+                      while ($rol = mysqli_fetch_array($consulta_nacionalidad)) {
+                    ?>
+                        <option value="<?php echo $rol["id_tipo_nacionalidad"]; ?>"><?php echo $rol["nacionalidad"] ?></option>
+                    <?php
+                      }
                     }
-                  }
-                  ?>
-              </div>
-              </select>
-              <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                    ?>
+                  </select>
+                </div>
+
+                <?php
+                include('./modelo/conexionbd.php');
+                $consulta_tip_solicitud = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM tbl_tipo_solicitud");
+                $resultados = mysqli_num_rows($consulta_tip_solicitud);
+                ?>
+                <div class="campos form-group">
+                  <select class="form-control" name="tipo" id="tipo" style="width:335px">
+                    <option value="">Seleccione un tipo de solicitud</option>
+                    <?php
+                    if ($resultados > 0) {
+                      while ($rol = mysqli_fetch_array($consulta_tip_solicitud)) {
+                    ?>
+                        <option value="<?php echo $rol["id_tipo_solicitud"]; ?>"><?php echo $rol["tipo"] ?></option>
+                    <?php
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+
+                <?php
+                include('./modelo/conexionbd.php');
+                $consulta_estatus = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud");
+                $resultados = mysqli_num_rows($consulta_estatus);
+                ?>
+                <div class="campos form-group">
+                  <select class="form-control" name="estatus_solicitud" id="estatus_solicitud" style="width:335px">
+                    <option value="">Seleccione un estado</option>
+                    <?php
+                    if ($resultados > 0) {
+                      while ($rol = mysqli_fetch_array($consulta_estatus)) {
+                    ?>
+                        <option value="<?php echo $rol["id_estatus_solicitud"]; ?>"><?php echo $rol["estatus"] ?></option>
+                    <?php
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+
+
+                <div class="campos form-group">
+                  <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
+                </div>
+            </form>
           </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud">
         </div>
       </div>
+      <!-- /.box-footer-->
     </div>
-
-
-
-</div>
-
-<div class="modal fade" id="modalCrearSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="d-flex justify-content-between">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i aria-hidden="true">&times;</i>
-          </button>
-          <h3 class="modal-title" id="exampleModalLabel">Registrar Solicitud</h3>
-        </div>
-      </div>
-      <div class="modal-body">
-        <form name="" id="formGusuariosh" onpaste="return false">
-          <div class=" form-group">
-            <div class="campos form-group" type="hidden">
-              <label for=""> </label>
-              <input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
-            </div>
-            <div class="campos form-group">
-              <input id="nombreCompleto" maxlength="40" minlength="40" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
-							espacio_Letras(this); verificar(this.value)" required />
-            </div>
-            <div class="campos form-group">
-              <input id="identidad" maxlength="13" minlength="13" style="width:335px" class="form-control modal-roles secundary" type="text" onkeypress="return soloNumeros(event)" name="nombreusuario" placeholder="Identidad"   required />
-            </div>
-            <div class="campos form-group">
-              <input id="telefono" autocomplete="off" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
-							secundary" type="text" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" required /></center>
-            </div>
-            <div class="campos form-group">
-              <input id="croquis" style="width:335px" class="form-control modal-roles secundary" type="file" name="croquis" placeholder="Croquis" required />
-            </div>
-            <div class="campos form-group">
-              <input id="recibo" style="width:335px" class="form-control modal-roles secundary" type="text" name="recibo" onkeypress="return soloNumeros(event)" placeholder="recibo" required />
-            </div>
-
-
-            <?php
-            include('./modelo/conexionbd.php');
-            $consulta_nacionalidad = mysqli_query($conn, "SELECT id_tipo_nacionalidad,nacionalidad FROM `tbl_tipo_nacionalidad`");
-            $resultados = mysqli_num_rows($consulta_nacionalidad);
-            ?>
-            <div class="campos form-group">
-              <select class="form-control" id="tipo_nac" name="tipo_nac" style="width:335px" required>
-                <option value="">Seleccione una nacionalidad</option>
-                <?php
-                if ($resultados > 0) {
-                  while ($rol = mysqli_fetch_array($consulta_nacionalidad)) {
-                ?>
-                    <option value="<?php echo $rol["id_tipo_nacionalidad"]; ?>"><?php echo $rol["nacionalidad"] ?></option>
-                <?php
-                  }
-                }
-                ?>
-            </div>
-            </select><br>
-
-
-            <?php
-            include('./modelo/conexionbd.php');
-            $consulta_tip_solicitud = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM tbl_tipo_solicitud");
-            $resultados = mysqli_num_rows($consulta_tip_solicitud);
-            ?>
-            <div class="campos form-group">
-              <select class="form-control" name="tipo" id="tipo" style="width:335px" required>
-                <option value="">Seleccione un tipo de solicitud</option>
-                <?php
-                if ($resultados > 0) {
-                  while ($rol = mysqli_fetch_array($consulta_tip_solicitud)) {
-                ?>
-                    <option value="<?php echo $rol["id_tipo_solicitud"]; ?>"><?php echo $rol["tipo"] ?></option>
-                <?php
-                  }
-                }
-                ?>
-            </div>
-            </select><br>
-
-            <?php
-            include('./modelo/conexionbd.php');
-            $consulta_estatus = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud");
-            $resultados = mysqli_num_rows($consulta_estatus);
-            ?>
-            <div class="campos form-group">
-              <select class="form-control" name="estatus_solicitud" id="estatus_solicitud" style="width:335px" required>
-                <option value="">Seleccione un estado</option>
-                <?php
-                if ($resultados > 0) {
-                  while ($rol = mysqli_fetch_array($consulta_estatus)) {
-                ?>
-                    <option value="<?php echo $rol["id_estatus_solicitud"]; ?>"><?php echo $rol["estatus"] ?></option>
-                <?php
-                  }
-                }
-                ?>
-            </div>
-            </select>
-
-
-            <div class="campos form-group">
-              <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button id="" type="submit" name="ingresarProducto" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Solicitud</button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <!-- /.box-footer-->
-</div>
-<div>
 
 
 

@@ -143,6 +143,13 @@ class Login{
                                                     });
                                                     }, 3000);
                                                     </script>";
+
+                                                    echo "<script>
+                                            if (window.history.replaceState) { // verificamos disponibilidad
+                                                window.history.replaceState(null, null, window.location.href);
+                                            }
+                                            location.reload();
+                                            </script>";
                                                 //Su usuario a sido bloqueado
 
                                                 $cambio_estado_usuario = 2;
@@ -190,6 +197,12 @@ class Login{
                                                         });
                                                         }, 3000);
                                                         </script>";
+                                                        echo "<script>
+                                            if (window.history.replaceState) { // verificamos disponibilidad
+                                                window.history.replaceState(null, null, window.location.href);
+                                            }
+                                            
+                                            </script>";
                                                         
                                                     require "../../modelo/conexionbd.php";
 
@@ -227,6 +240,11 @@ class Login{
                                                     });
                                                     }, 3000);
                                                     </script>";
+                                                    echo "<script>
+                                            if (window.history.replaceState) { // verificamos disponibilidad
+                                                window.history.replaceState(null, null, window.location.href);
+                                            }
+                                            </script>";
 
                                                     require "../../modelo/conexionbd.php";
 
@@ -271,6 +289,8 @@ class Login{
                                     });
                                     }, 3000);
                                     </script>";
+
+                                    
 
                                     /*Genera un registro de error en la tbl_bitacora por intento de acceso al sistema
                                         con usuario bloqueado*/

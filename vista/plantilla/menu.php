@@ -99,6 +99,7 @@ $columna = $stmt->fetch_assoc();
           <ul class="treeview-menu">
             <li><a href="producto"><i class=""></i> Producto</a></li>
             <li><a href="existencia"><i class=""></i> Existencia</a></li>
+            <li><a href="ordenes"><i class=""></i>Ordenes</a></li>
           </ul>
         </li>
         <?php }?>
@@ -134,6 +135,7 @@ $columna = $stmt->fetch_assoc();
           <ul class="treeview-menu">
             <li><a href="panel"><i class=""></i>Administración sistema</a></li>
             <li><a href="configuracion"><i class=""></i>Configuración sistema</a></li>
+            <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>
             <li class="treeview">
               <a href="#"><i class=""></i> Mantenimiento
                 <span class="pull-right-container">
@@ -144,6 +146,7 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="bitacora"><i class=""></i> Bitácora</a></li>
                 <!--li><a href="#"><i class=""></i> Productos</a></li>
                 <li><a href="#"><i class=""></i> Localidad</a></li>-->
+                <!-- <li><a href="#"><i class=""></i> Localidad</a></li> -->
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
                 <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
@@ -154,11 +157,17 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>
-                <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidades y Tipo Producto</a></li>
-                <li ><a href="mantProducto"><i class=""></i> Mantenimiento Producto</a></li>
-              </ul>
+                <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidad y <br> Tipo Producto</a></li>
+                <li ><a href="mantProducto"><i class=""></i> Producto</a></li>
+                <li><a href="mantTipoBoletos"><i class=""></i> Tipo de Boletos</a></li>
+                <li><a href="mantNacionalidad"><i class=""></i> Tipo de Nacionalidad</a></li>
+                <li><a href="mantTipoSolicitudes"><i class=""></i>Tipo de Solicitudes</a></li>
+                <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
+                <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
+                <li><a href="mantEstados"><i class=""></i> Estados</a></li>
+                <li><a href="mantEstadosSolicitud"><i class=""></i> Estados de Solicitud</a></li>
+                
             </li>
-            <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>
           </ul>
         </li>
         <!--Final ADMINISTRACION-->

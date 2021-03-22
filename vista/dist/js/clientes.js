@@ -1,7 +1,15 @@
 $(document).ready(function(){
     $('#mantClienteTable').DataTable({
       
-     
+        colmnDefs:[
+            {className: "text-center ", targets: [0]},
+            {className: "text-center ", targets: [1]},
+            {className: "text-center ", targets: [2]},
+            {className: "text-center ", targets: [3]},
+            {className: "text-center ", targets: [4]},
+            {className: "text-center ", targets: [4]},
+            {className: "text-center ", targets: [6]}
+        ],
         
         //para usar los botones 
         responsive:"true",
@@ -211,18 +219,18 @@ $(document).ready(function(){
     $('.btnEditarCliente').on('click', function() {
         // info previa
         const idcliente = $(this).data('idcliente'); 
-        const nombre = $(this).data('cliente');
+        const nombre = $(this).data('nombrecliente');
         const identidadC = $(this).data('identidad');
         const telefono = $(this).data('telefono');
         const nacionalidad = $(this).data('nacionalidad');
-        const usuario =$(this).data('#usuario_actual');
+        var usuario_actual = $("#usuario_actual").val();
         //llena los campos
         //$("#id").val(idObjeto),
         $("#nombre_cliente").val(nombre),
         $("#identidad").val(identidadC),
         $("#telefono").val(telefono),
         $("#nacionalidad").val(nacionalidad),
-        $("#usuario_actual").val(usuario)
+        $("#usuario_actual").val(usuario_actual)
         
         //console.log(idrol,nombrerol,descripcion);
         //mostrar el modal
@@ -237,7 +245,7 @@ $(document).ready(function(){
             formData.append('identidad',$("#identidad").val());
             formData.append('telefono',$("#telefono").val());
             formData.append('nacionalidad',$("#nacionalidad").val());
-            formData.append('usuario_actual',$("#usuario_actual").val());
+            formData.append('usuario_actual', usuario_actual);
             console.log(formData);
             
            const resp = await axios.post('./controlador/ctr.mantClientes.php?action=actualizarCliente', formData);
@@ -269,7 +277,7 @@ $(document).ready(function(){
     })
     //ELIMINAR CLIENTE
     $('.btnEliminarCliente').on('click', function (){
-        const idCliente = $(this).data('idcliente');
+        const idCliente = $(this).data('idclient');
         swal("Eliminar Cliente", "Esta seguro de eliminar este Cliente?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
             if (value){
                 //console.log('Estoy dentro del if');

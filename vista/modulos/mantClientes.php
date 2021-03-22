@@ -28,13 +28,13 @@
 									<thead>
 										<tr>
 
-											<th>Nombre completo</th>
-											<th>Identidad</th>
-											<th>Telefono</th>
-											<th>Tipo nacionalidad</th>
-											<th>Modificado por</th>
-											<th>Fecha Modificación</th>
-											<th>Acciones</th>
+											<th class="text-center">Nombre completo</th>
+											<th class="text-center">Identidad</th>
+											<th class="text-center">Telefono</th>
+											<th class="text-center">Tipo nacionalidad</th>
+											<th class="text-center">Modificado por</th>
+											<th class="text-center">Fecha Modificación</th>
+											<th class="text-center">Acciones</th>
 
 										</tr>
 									</thead>
@@ -77,17 +77,17 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
-													<td> <?php echo $evento['nombre_completo']; ?></td>
-													<td> <?php echo $evento['identidad']; ?></td>
-													<td> <?php echo $evento['telefono']; ?></td>
-													<td> <?php echo $evento['nacionalidad']; ?></td>
-													<td> <?php echo $evento['modificado_por']; ?></td>
-													<td> <?php echo $evento['fecha_modificacion']; ?></td>
-													<td>
+													<td class="text-center"> <?php echo $evento['nombre_completo']; ?></td>
+													<td class="text-center"> <?php echo $evento['identidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['telefono']; ?></td>
+													<td class="text-center"> <?php echo $evento['nacionalidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
+													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
+													<td class="text-center">
 														<button class="btn btn-warning btnEditarCliente glyphicon glyphicon-pencil"  data-idcliente="<?= $evento['id_cliente'] ?>" data-nombrecliente="<?= $evento['nombre_completo'] ?>" 
 														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
 
-														<button class="btn btn-danger btnEliminarCliente glyphicon glyphicon-remove" data-idcliente="<?php echo $evento['id_cliente'] ?>"></button>
+														<button class="btn btn-danger btnEliminarCliente glyphicon glyphicon-remove" data-idclient="<?php echo $evento['id_cliente'] ?>"></button>
 													</td>
 												<?php }?>
 											<?php }?>
@@ -185,7 +185,7 @@
 									</div>
 								</div>
 								<div class="modal-body">
-									<form name="" id="formCliente">
+									<form name="" id="formCliente" onpaste="return false">
 										<div class="ingreso-producto form-group">
 											
 											<div class="campos">
@@ -195,12 +195,12 @@
 											</div>
 											<div class="campos form-group">
 												<label for="">Identidad: </label>
-												<input id="ident" name="ident"  class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="Identidad" required/>
+												<input id="ident" name="ident"  class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="Identidad" onkeydown="return soloNumeros(event)" required/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Telefono: </label>
-												<input id="tel" name="tel" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Telefono" required/>
+												<input id="tel" name="tel" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Telefono" onkeydown="return soloNumeros(event)" required/>
 
 											</div>
                                             <div class="campos form-group">

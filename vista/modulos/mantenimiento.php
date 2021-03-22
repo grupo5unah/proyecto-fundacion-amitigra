@@ -372,7 +372,9 @@
 									</div>
 
 									<div class="campos form-group">
-										<input id="nombreusuario" maxlength="30" minlength="30" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreusuario" placeholder="Nombre de usuario" onblur="limpianombre()" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)" required />
+										<input id="nombreusuario" maxlength="30" minlength="30" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreusuario" placeholder="Nombre de usuario" onblur="limpianombre()" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+										
+										SinEspacio(this)" required />
 									</div>
 
 									<div class="campos form-group">

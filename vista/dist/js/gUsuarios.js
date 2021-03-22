@@ -80,6 +80,7 @@ $(document).ready(function () {
     const contrasena = $(this).data("contrasena");
     const id_rol = $(this).data("id_rol");
     const id_estado = $(this).data("id_estado");
+    var usuario_actual = $("#usuario_actual").val();
 
     //llena los campos
     //$("#id").val(idObjeto),
@@ -107,6 +108,7 @@ $(document).ready(function () {
       formData.append("contrasena", $("#contrasenaact").val());
       formData.append("rol_id", $("#rolact").val());
       formData.append("estado_id", $("#estadoact").val());
+      formData.append('usuario_actual', usuario_actual);
       console.log(formData);
 
       const resp = await axios.post(

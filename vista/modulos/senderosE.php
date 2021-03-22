@@ -10,6 +10,9 @@
         <div class="box-body">             
           <form  id="senderoE" method="post" onpaste="return false">         
             <h4 class="alineo-texto">VISITAS EXTRANJERAS</h4> 
+           
+              
+    
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
