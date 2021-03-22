@@ -58,14 +58,12 @@ $stmt =*/
                     <img src="vista/dist/img/logo.png" alt="Logo fundacion AMITIGRA">
                   </div>
                   <br>
-                  <p class="text-center">Creación de copia de seguridad de la Base de Datos - Fundación AMITIGRA</p>
+                  <p class="text-center">Creación de copia de seguridad de la Base de Datos.</p>
                   <br>
                   <!-- <input id="copiaSeguridad" class="buttom-center" type="password" name="password" placeholder="ingrese su contrasena"> -->
-                  <p class="text-center-msg"><i class="fa fa-warning"></i> Por seguridad es necesario que ingrese su contraseña.</p>
                   <button type="button" id ="guardarCopia" class ="buttom-center btn btn-success" data-toggle="modal" data-target="" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
                   Crear copia de seguridad</button>
-                  <p class="text-center">Es recomendable realizar una copia de seguridad.</p>
-                  <p class="text-center-msg">La copia se realiza automáticamente <a href="infoBackup">saber más</a></p>         
+                  <p class="text-center-msg">Es recomendable realizar una copia de seguridad.</p>         
                 </div>
               </form>
               <!--Fin llamado formulario-->
@@ -103,7 +101,7 @@ $stmt =*/
                       <!-- FIN CODIGO -->
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                      <button id="CancelarCopia" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                       <button id="guardarCopiaModal" type="button" class="btn btn-primary">Guardar cambios</button>
                     </div>
                   </div>

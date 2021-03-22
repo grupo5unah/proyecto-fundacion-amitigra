@@ -26,7 +26,7 @@
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantClienteTable">
 									<thead>
-										<tr>
+										<tr style="background-color: #222d32; color: white;">
 
 											<th class="text-center">Nombre completo</th>
 											<th class="text-center">Identidad</th>

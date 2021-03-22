@@ -1,3 +1,17 @@
+function calcularArti()
+{
+  try {
+    var cant_tienda=parseFloat(document.getElementById("cantTi").value)|| 0, 
+        cant_sleeping=parseFloat(document.getElementById("cantS").value)|| 0,
+        precio_Tienda=parseFloat(document.getElementById("precioTi").value)|| 0,
+        precio_sleeping=parseFloat(document.getElementById("precioS").value)|| 0;
+        //document.getElementById("TboletosE").value= e+f;
+        //console.log(document.getElementById("TboletosE").value);                 
+        document.getElementById("total").value= (cant_tienda*precio_Tienda)+(cant_sleeping*precio_sleeping);
+  }catch(e){
+
+  }
+}
 
 $(document).ready(function () {
 
@@ -168,6 +182,19 @@ $(document).ready(function () {
      
   });
 
+   //VALIDAR CHECKBOOX para articulos
+   $( '#check' ).on( 'click', function() {
+    if( $(this).is(':checked') ){
+      //console.log("seclecionaste el check");
+      $('.btnsiguiente2').slideDown();
+      $('.btnsiguiente1').slideUp();
+    } else {
+      //console.log("check no seleccionado");
+      $('.btnsiguiente1').slideDown();
+      $('.btnsiguiente2').slideUp();
+    }
+  });
+
   //REGISTRAR UNA RESERVACION PARA AREA (MODAL)
   $('#localidad').change(function() {
     var local = $(this).val();
@@ -181,47 +208,44 @@ $(document).ready(function () {
     e.preventDefault();
     //console.log('funciona');
     if($('#checke').prop('checked')){
-        var cliente = $("#cliente").val(), reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),
-        salida = $("#salida").val(),area = $("#area").val(), cant_personas = $("#personas").val(), cant_niños = $("#ninos").val(),
-            precioA = $("#precioAdulto").val(),precioN = $("#precioNiños").val(),
-            total = $("#pago").val(), cant_tienda =$("#cant_tienda").val(),precioT =$("#precioTienda").val(),/*cant_sleeping =$("#cant_sleeping").val(),*/
-            /*precioS =$("#precioSleeping").val(),*/tipoT =$("#tipoT").val(),/*sleeping =$("#sleeping").val(), */usuario_actual = $("#usuario_actual").val(),
+        var reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),
+            salida = $("#salida").val(),area = $("#area").val(),
+            precioAN = $("#precioAdultoN").val(),precioNN = $("#precioNinoN").val(), precioAE = $("#precioAdultoE").val(),precioNE = $("#precioNinoE").val(),cantAN = $("#cAdultosN").val(),cantNN = $("#cNinosN").val(),cantAE = $("#cantAdultosE").val(),cantNE = $("#cantNinosE").val(),
+            total2 = $("#total2").val(),total1 = $("#total1").val(), /*cant_tienda =$("#cant_tienda").val(),precioT =$("#precioTienda").val(),cant_sleeping =$("#cant_sleeping").val(),
+            precioS =$("#precioSleeping").val(),tipoT =$("#tipoT").val(),/*sleeping =$("#sleeping").val(), */usuario_actual = $("#usuario_actual").val(),
             id_usuario = $("#id_usuario").val();
 
-        console.log(cliente,reservacion, entrada,salida,area,cant_personas,
-                    cant_niños, precioA, precioN, cant_tienda,precioT,/*cant_sleeping,*/ tipoT,
-                    /*precioS,*/ total, usuario_actual,id_usuario);
-        if(cliente != undefined  && identidad != undefined && nacionalidad != undefined && telefono != undefined &&
-            reservacion != undefined && entrada != undefined &&salida != undefined &&
-            localidad != undefined && cant_personas != undefined && cant_niños != undefined && area != undefined
-            && precioA != undefined && precioN != undefined && cant_tienda != undefined && total != undefined && precioT != undefined && 
-            /*cant_sleeping != undefined && precioS != undefined &&*/ tipoT != undefined && /*sleeping != undefined && */usuario_actual != undefined
+        console.log(reservacion, entrada,salida,area, precioAN, precioNN,precioAE, precioNE, cantAN,cantNN,cantAE,cantNE,
+             /*cant_tienda,precioT,cant_sleeping,*/
+                    /*precioS,*/ total1,total2, usuario_actual,id_usuario);
+
+        if(reservacion != undefined && entrada != undefined &&salida != undefined &&
+             cantAN != undefined && cantNN != undefined && cantAE != undefined && cantNE != undefined && area != undefined
+            && precioAN != undefined && precioNN != undefined && precioAE != undefined && precioNE != undefined 
+            &&  total2 != undefined && usuario_actual != undefined
             && id_usuario != undefined){
             // formdata sirve para enviar los datos al servidor
             /*lo que va entre fuera de las comillas son las variables que declaramos 
             y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
             const registro= new FormData();
-            registro.append('cliente',cliente);
             registro.append('reservacion',reservacion);
             registro.append('entrada',entrada);
             registro.append('salida', salida);
             registro.append('area', area);
-            registro.append('personas', cant_personas);
-            registro.append('ninos', cant_niños);
-            registro.append('tipoTienda', tipoT);
-            //registro.append('sleeping', sleeping);
-            registro.append('cant_tienda', cant_tienda);
-            //registro.append('cant_sleepimg', cant_sleeping);
-            registro.append('precioAdulto', precioA);
-            registro.append('precioNiños', precioN);
-            registro.append('precioTienda', precioT);
-            //registro.append('precioSleeping', precioS);
-            registro.append('pago', total);
+            registro.append('AdultN', cantAN);
+            registro.append('NinoN', cantNN);
+            registro.append('AdultE', cantAE);
+            registro.append('NinoE', cantNE);;
+            registro.append('precioAN', precioAN);
+            registro.append('precioNN', precioNN);
+            registro.append('precioAE', precioAE);
+            registro.append('precioNE', precioNE);
+            registro.append('total2', total2);
             registro.append('usuario_actual', usuario_actual);
             registro.append('id_usuario', id_usuario);
             
 
-            const resp = await axios.post(`./controlador/ctrcamping.php?action=registrarCamping`, registro);
+            const resp = await axios.post(`./controlador/ctrcamping.php?action=registrarCampingNE`, registro);
 
             const data = resp.data;
 
@@ -232,26 +256,21 @@ $(document).ready(function () {
             return swal("Correcto", data.msj, "success").then((value) => {
             if (value){
                 // Se limpia el formulario
-                $("#cliente").val('');
-                $("#identidad").val('');
-                $("#telefono").val('');
-                $("#nacionalidad").val('');
+                
                 $("#reservacion").val('');
                 $("#entrada").val('');
-                $("#localidad").val('');
                 $("#salida").val('');
                 $("#area").val('');
-                $("#personas").val('');
-                $("#ninos").val('');
-                $("#cant_tienda").val('');
-                $("#cant_sleeping").val('');
-                $("#sleeping").val('');
-                $("#tipoT").val('');
-                $("#precioAdulto").val('');
-                $("#precioTienda").val('');
-                $("#precioSleeping").val('');
-                $("#precioNiños").val('');
-                $("#pago").val('');
+                $("#cAdultosN").val('');
+                $("#cNinosN").val('');
+                $("#cantAdultosE").val('');
+                $("#cantNinosE").val('');
+                $("#precioAdultoN").val('');
+                $("#precioNinoN").val('');
+                $("#precioAdultoE").val('');
+                $("#precioNinoE").val('');
+                $("#total2").val('');
+                window.location.href='camping';
             }
             })
         }else{
@@ -263,21 +282,19 @@ $(document).ready(function () {
   $('.btnEditarCamping ').on('click', function() {
     // info previa
     // con el data se imprime en la modal los datos que hay en la tabla
-    const idreservacion = $(this).data('idreservacion'); 
-    const reservacion = $(this).data('reservacion');
-    const entrada = $(this).data('entrada');
-    const salida = $(this).data('salida');
-    const cantAdultos = $(this).data('adultos');
-    const cantiNinos = $(this).data('ninos');
-    const pagar = $(this).data('total');
+    const idreservacion = $(this).data('idreserva'); 
+    const reservacion = $(this).data('res');
+    const entrada = $(this).data('entrad');
+    const salida = $(this).data('sali');
+    const local = $(this).data('localid');
+    const cliente = $(this).data('client');
 
     //$("#idreservacion").val(idreservacion),
     $("#fReservacion").val(reservacion),
     $("#fEntrada").val(entrada),
     $("#fSalida").val(salida),
-    $("#cAdultos").val(cantAdultos),
-    $("#cNinos").val(cantiNinos),
-    $("#total").val(pagar)
+    $("#client").val(cliente),
+    $("#local").val(local)
     //mostrar el modal
     $('#modalEditarCamping').modal('show');
     //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
@@ -289,13 +306,10 @@ $(document).ready(function () {
         formData.append('reservacion',$("#fReservacion").val());
         formData.append('entrada',$("#fEntrada").val());
         formData.append('salida',$("#fSalida").val());
-        formData.append('adultos',$("#cAdultos").val());
-        formData.append('ninos',$("#cNinos").val());
-        formData.append('pago',$("#total").val());
        
         console.log(formData);
         
-       const resp = await axios.post('./controlador/ctrhotel.php?action=actualizarCamping', formData);
+       const resp = await axios.post('./controlador/ctrcamping.php?action=actualizarCamping', formData);
        const data = resp.data;
         console.log(data);
         if(data.error){
@@ -304,7 +318,7 @@ $(document).ready(function () {
                 buttons:false
             });
         } else{
-            $('#modalEditarHotel').modal('hide');
+            $('#modalEditarCamping').modal('hide');
             return swal("Exito!", data.msj, "success", {
                 timer:3000,
                 buttons:false
@@ -323,13 +337,13 @@ $(document).ready(function () {
   })
   //BOTON PARA ELIMINAR RESERVACION (TABLA CAMPING)
   $('.btnEliminarCamping').on('click', function (){
-    const idReservacion = $(this).data('idreservacion');
+    const idReservacion = $(this).data('idreserva');
     swal("Eliminar Reservación", "¿Esta seguro de eliminar esta Reservación?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
         if (value){
             //console.log(idReservacion);
             const formData = new FormData();
-            formData.append('id_reservacion', idReservacion);
-            const resp = await axios.post('./controlador/ctrhotel.php?action=eliminarCampinf', formData);
+            formData.append('idreser', idReservacion);
+            const resp = await axios.post('./controlador/ctrcamping.php?action=eliminarCamping', formData);
             const data = resp.data;
             //console.log(data);
             if(data.error){

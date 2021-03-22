@@ -134,7 +134,7 @@
                     <i class="fa fa-download"></i>Generar Reporte PDF</a>
                   <button class="btn btn-default btnCrearSolicitud glyphicon glyphicon-plus-sign">Agregar Solicitud</button>
                 </div> <!-- /div-action -->
-                <table id="manageProductTable" class="display responsive nowrap">
+                <table id="tablaSolicitudes" class="display responsive nowrap">
                   <thead>
                     <tr>
                       <th>Solicitud</th>

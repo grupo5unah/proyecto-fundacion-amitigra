@@ -70,13 +70,14 @@ $(document).ready(function(){
           }else{
 
             $.ajax({
-              url: './controlador/ctr.actualizarinformacion.php',
-              type: 'POST',
-              datatype: 'json',
+              type: "POST",
+              url: "./controlador/ctr.actualizarinformacion.php",
+              datatype:"json",
+              Cache:false,
               data: {usuario:usuario, nombre:nombre, telefono:telefono, imagen:imagen, correo:correo, verificarContrasena:verificarContrasena},
               success: function (response){
 
-                let verificar = JSON.parse(response);
+                var verificar = JSON.parse(response)
                 
                 //SI LA ACTUALIZACION DE LA INFORMACION ES CORRECTA
                 if(verificar.respuesta == "correcto"){
@@ -87,7 +88,7 @@ $(document).ready(function(){
                     text: "Su informacion se actualizo correctamente"
                   }).then (() => {
                       $('#modal-default').modal('hide');
-                      location.reload();                      
+                      window.location.reload();                      
                     });
 
                   //SI SE PRESENTO UN ERROR EN LA ACTUALIZACION DE LA INFORMACION
@@ -103,7 +104,7 @@ $(document).ready(function(){
 
                   Notificacion("success","Error","Estoy en el catch");
                 
-                } else if(verificar.respuesta == "info_actualizada"){
+                } else if(verificar.respuesta === "info_actualizada"){
 
                   swal({
                     icon:"success",
@@ -176,7 +177,7 @@ $(document).ready(function(){
             data: {contrasenaActual:contrasenaActual, contrasenaNueva:contrasenaNueva, confirmarContrasena:confirmarContrasena, usuario:usuario},
             success: function(response) {
 
-              let respuestas = JSON.parse(response);
+              let respuestas = JSON.parse(response)
 
               //SI LA ACTUALIZACION DE LA CONTRASENA ES CORRECTA
               if(respuestas.respuesta == "exito"){
