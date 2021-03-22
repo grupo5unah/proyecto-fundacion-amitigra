@@ -1,31 +1,61 @@
 //BUSCAR EL CLIENTE
-$('#usuario').keyup(function (e) {
-    e.preventDefault();
-    //console.log('funciona');
-    var ident = $(this).val();
-    var action = 'buscarCliente';
+$(document).ready(function () {
+
+  $("#").on("click", async function() {
+
+    let nombre = document.querySelector("#").Value;
+    let usuario = document.querySelector("#").Value;
+    let correo = document.querySelector("#").Value;
+    let genero = document.querySelector("#").Value;
+    let telefono = document.querySelector("#").Value;
+    let contrasena = document.querySelector("#").Value;
+    let confirmarCOntrasena = document.querySelector("#").Value;
+    let pregunta_1 = document.querySelector("#").Value;
+    let pregunta_2 = document.querySelector("#").Value;
+    let pregunta_3 = document.querySelector("#").Value;
+    let id_preg1 = document.querySelector("#").Value;
+    let id_preg2 = document.querySelector("#").Value;
+    let id_preg3 = document.querySelector("#").Value;
+
     $.ajax({
-      url: './controlador/consulta.php',
-      type:'POST',
-      async: false,
-      //esta es la direccion donde que tomara el ajax 
-      data:{action:action,identidad:ident},
+      url:"./controlador/registro.php",
+      type:"POST",
+      data:{},
+      datatype:"json",
       success: function(response){
-       //console.log(response);
-       if(response == 0){
-         //si la respuesta es 0 va a limpiar el formulario y mostrara el boton de nuevo cliente y boton guardar
-         //el 0 quiere decir que ese usuario no existe ese resultado del else del ctrhotel
-         $('#usuario').val('');
-         //muestra el boton agregar
-       }else{
-         var data = JSON.parse(response);
-         //las variables que van despues del data. son los nombres que estan en las columnas de la tabla de clientes
-         $('#usuario').val(data.usuario)
-         document.getElementById("notificacion").innerHTML = usuario;
-       }
-     },
-      error: function(error){
-        console.log(error);
+
+        let registro = JSON.parse(response);
+
+        if(registro.respuesta == ""){
+          swal({
+            icon:"success",
+            title:"Exito",
+            text:"El usuario se registro exitosamente"
+          }).then(() => {
+            window.location.href = "login.php";
+          });
+        } else if(){
+
+        } else if(){
+
+        } else if(){
+          
+        } else if(){
+          
+        } else if(){
+          
+        }
       }
     });
+
+  });
+
+  function Notificacion(icon, title, text){
+    swal({
+      icon,
+      title,
+      text
+    });
+  }
+
 });

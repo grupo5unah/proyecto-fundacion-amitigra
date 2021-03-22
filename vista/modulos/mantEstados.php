@@ -28,13 +28,13 @@
 									<thead>
 										<tr>
 
-											<th>Nombre Estado</th>
-											<th>Descripción</th>
-											<th>Creado por</th>
-											<th>Fecha creación</th>
-											<th>Modificado por</th>
-											<th>Fecha Modificación</th>
-											<th>Acciones</th>
+											<th class="text-center">Nombre Estado</th>
+											<th class="text-center">Descripción</th>
+											<th class="text-center">Creado por</th>
+											<th class="text-center">Fecha creación</th>
+											<th class="text-center">Modificado por</th>
+											<th class="text-center">Fecha Modificación</th>
+											<th class="text-center">Acciones</th>
 
 										</tr>
 									</thead>
@@ -75,15 +75,15 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
-													<td> <?php echo $evento['nombre_estado']; ?></td>
+													<td class="text-center"> <?php echo $evento['nombre_estado']; ?></td>
 													<td> <?php echo $evento['descripcion']; ?></td>
-													<td> <?php echo $evento['creado_por']; ?></td>
-													<td> <?php echo $evento['fecha_creacion']; ?></td>
-													<td> <?php echo $evento['modificado_por']; ?></td>
-													<td> <?php echo $evento['fecha_modificacion']; ?></td>
+													<td class="text-center"> <?php echo $evento['creado_por']; ?></td>
+													<td class="text-center"> <?php echo $evento['fecha_creacion']; ?></td>
+													<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
+													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
 														<button class="btn btn-warning btnEditarEstado glyphicon glyphicon-pencil"  data-idestado="<?= $evento['id_estado'] ?>" data-nombre="<?= $evento['nombre_estado'] ?>" 
-														data-descripcion="<?= $evento['descripcion'] ?>""></button>
+														data-descripcion="<?= $evento['descripcion'] ?>"></button>
 
 														<button class="btn btn-danger btnEliminarEstado glyphicon glyphicon-remove" data-idestad="<?php echo $evento['id_estado'] ?>"></button>
 													</td>

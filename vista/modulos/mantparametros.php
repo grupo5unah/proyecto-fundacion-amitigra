@@ -166,7 +166,7 @@
                                   </div>
                               <div class="campos ">
                                 <label for=""> Valor </label>
-                                   <input id="valorParam" class="form-control  modal-roles secundary text-uppercase" type="tel" placeholde="Describa el parametro" required onkeypress="return soloLetras(event)"onkeyup="javascript:this.value=this.value.toUpperCase()" />
+                                   <input id="valorParam" class="form-control  modal-roles secundary text-uppercase" type="tel" placeholde="Describa el parametro" required onkeyup="javascript:this.value=this.value.toUpperCase()" />
 
                                  </div>
 								 <input type="hidden" name="usuario_actual" id="id_usuario" value="<?= $_SESSION['id'] ?>">

@@ -48,11 +48,46 @@ require "./modelo/conexionbd.php";
                 <li><a><strong>Puerto: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
                 <li><a><strong>Mensaje correo: </strong><span class="pull-right">12</span></a></li>
                 <li><a><strong>Hola mundo</strong> <span class="pull-right">842</span></a></li>
+                <li><div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
+                    <button type="button" id="editar" class="btn btn-success actualizar" data-toggle="modal" data-target="#modal-correo" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    Guardar cambios</button>
+                    </div>
+                  </div></li>
               </ul>
             </div>
           </div>
+          
           <!-- /.widget-user -->
         </div>
+
+
+        <!-- INICIO MODAL -->
+        <div class="modal fade" id="modal-correo" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Parametros Correo</h4>
+              </div>
+              <div class="modal-body">
+                <!-- AQUI INICIO DEL CODIGO -->
+                <p>One fine body&hellip;</p>
+                <!-- AQUI FINAL DEL CODIGO -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- FINAL MODAL -->
+
 
         <div class="col-md-4">
           <!-- Widget: user widget style 1 -->
@@ -87,11 +122,45 @@ require "./modelo/conexionbd.php";
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
                 <li><a><strong>Nombre base de datos: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
                 <li><a><strong>Estado conexon: </strong><span class="pull-right"><i class="fa fa-check has-success" for="inputSuccess"></i><?php if($conn->ping()){ echo "conectado"; } else { $fallo = ("error de conexion %s\n" + $mysqli->error); echo $fallo;}?></span></a></li>
+                <li><div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
+                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-bd" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    Guardar cambios</button>
+                    </div>
+                  </div></li>
               </ul>
             </div>
           </div>
           <!-- /.widget-user -->
         </div>
+
+
+        <!-- INICIO MODAL -->
+        <div class="modal fade" id="modal-bd" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Parametros Base de datos</h4>
+              </div>
+              <div class="modal-body">
+                <!-- AQUI INICIO CODIGO -->
+                <p>One fine body&hellip;</p>
+                <!-- AQUI FINAL CODIGO -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- FINAL MODAL -->
+
 
         <div class="col-md-4">
           <!-- Widget: user widget style 1 -->
@@ -131,11 +200,44 @@ require "./modelo/conexionbd.php";
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
                 <li><a><strong>Followers</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
+                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-sistema" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    Guardar cambios</button>
+                    </div>
+                  </div></li>
               </ul>
             </div>
           </div>
         
         </div>
+
+
+        <!-- INICIO MODAL -->
+        <div class="modal fade" id="modal-sistema" data-backdrop="static" data-keyboard="false"">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Parametros del sistema</h4>
+              </div>
+              <div class="modal-body">
+                <!-- AQUI INICIO CODIGO -->
+                <p>One fine body&hellip;</p>
+                <!-- AQUI FINAL CODIGO -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- FINAL MODAL -->
 
       </div>
     

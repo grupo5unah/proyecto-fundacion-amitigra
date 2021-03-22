@@ -2,8 +2,35 @@ $(document).ready(function(){
 
     $('#mantHabServTable').DataTable({
       
-     
-        
+        colmnDefs:[
+            {className: "text-center ", targets: [0]},
+            {className: "text-center ", targets: [1]},
+            {className: "text-center ", targets: [2]},
+            {className: "text-center ", targets: [3]},
+            {className: "text-center ", targets: [4]},
+            {className: "text-center ", targets: [5]},
+            {className: "text-center ", targets: [6]},
+            {className: "text-center ", targets: [7]},
+            {className: "text-center ", targets: [8]},
+            {className: "text-center ", targets: [9]},
+        ],
+        "createdRow":function(row,data,index){
+          if(data[3] == "RESERVADO"){
+            $('td', row).eq(3).css({
+              'background-color': ' #E81313',
+              'color': 'white',
+              'text-align': 'center'
+            });
+          }
+          if(data[3] == "DISPONIBLE"){
+            $('td', row).eq(3).css({
+              'background-color': '#1F9804',
+              'color': 'white',
+              'text-align': 'center'
+            });
+          }
+        },
+       
         //para usar los botones 
         responsive:"true",
         dom: 'Bfrtip',
@@ -142,20 +169,31 @@ $(document).ready(function(){
        
     });
     //REGISTRAR NUEVA HABITACION O AREA
-    $("#formEstado").submit(async function(e){
+    $("#formHabServi").submit(async function(e){
         e.preventDefault();
-        
-        var nombreEstado = $("#nombreE").val();
-        var descripcion = $("#descrip").val();
+        var habitacion_area = $("#ha").val();
+        var descripcion = $("#descripcion").val();
+        var localidad = $("#localidad").val();
+        var estado = $("#estado").val();
+        var precio_adultoN = $("#preAdultN").val();
+        var precio_ninoN = $("#precioNiN").val();
+        var precio_adultoE = $("#preAdultE").val();
+        var precio_ninoE = $("#precioNiE").val();
         var usuario_actual = $("#usuario_actual").val();
 
-        if(nombreEstado != undefined && descripcion != undefined &&usuario_actual != undefined){
+        if(habitacion_area != undefined && localidad != undefined && estado != undefined && descripcion != undefined && precio_adultoN != undefined && precio_ninoN != undefined && precio_adultoE != undefined && precio_ninoE != undefined && usuario_actual != undefined){
             const formData = new FormData();
-            formData.append('nombreE',nombreEstado);
-            formData.append('descrip',descripcion);
+            formData.append('habitacion_area',habitacion_area);
+            formData.append('descripcion',descripcion);
+            formData.append('localidad',localidad);
+            formData.append('estado',estado);
+            formData.append('precioAN',precio_adultoN);
+            formData.append('precioNN',precio_ninoN);
+            formData.append('precioAE',precio_adultoE);
+            formData.append('precioNE',precio_ninoE);
             formData.append('usuario_actual', usuario_actual);
 
-            const resp = await axios.post(`./controlador/ctr.mantEstado.php?action=registrarEstado`, formData);
+            const resp = await axios.post(`./controlador/ctr.manthabServ.php?action=registrarhabServ`, formData);
 
             const data = resp.data;
 
@@ -166,8 +204,14 @@ $(document).ready(function(){
             return swal("Exito!", data.msj, "success").then((value) => {
                     if (value){
                         // Se limpia el formulario
-                        $("#nombreE").val('');
-                        $("#descrip").val('');
+                        $("#ha").val('');
+                        $("#descripcion").val('');
+                        $("#localidad").val('');
+                        $("#estado").val('');
+                        $("#preAdultN").val('');
+                        $("#precioNiN").val('');
+                        $("#preAdultE").val('');
+                        $("#precioNiE").val('');
                         location.reload()
                     }
                    
@@ -175,18 +219,25 @@ $(document).ready(function(){
         }else{
             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
         } 
+        
     }); 
-    //BUSCAR CLIENTE   
-    $('#nombreE').blur(async function () {
+    //BUSCAR HABITACION SERVICIO   
+    $('#ha').blur(async function () {
         console.log(this.value);
         if(this.value.length > 0 ){
             try{
-                const resp = await axios(`./controlador/ctr.mantEstado.php?action=obtenerEstado&estado=${this.value}`);
+                const resp = await axios(`./controlador/ctr.mantHabServ.php?action=obtenerHabServ&habserv=${this.value}`);
                 const data = resp.data;
                 if(data.estado.length > 0){
                 //    console.log(data.objeto[0]);
-                    $('#nombreE')
-                    $('#descrip')
+                    $("#ha")
+                    $("#descripcion")
+                    $("#localidad")
+                    $("#estado")
+                    $("#preAdultN")
+                    $("#precioNiN")
+                    $("#preAdultE")
+                    $("#precioNiE")
                    
                     return swal('Este Estado ya existe ');
                 }
@@ -195,37 +246,54 @@ $(document).ready(function(){
             }
         }
     })
-    $('.btnCrearEstado').on('click',function(){
-        $('#modalCrearEstado').modal('show');
+    $('.btnCrearHabServ').on('click',function(){
+        $('#modalCrearHabServ').modal('show');
     } );
-    //FUNCION EDITAR CLIENTE
-    $('.btnEditarEstado').on('click', function() {
+    //FUNCION EDITAR HABITACION O ÁREA
+    $('.btnEditarHabServ').on('click', function() {
         // info previa
-        const idestado = $(this).data('idestado');
-        const nombreestad = $(this).data('nombre');
-        const descrip = $(this).data('descripcion');
+        const idhabserv = $(this).data('idhs');
+        const habserv = $(this).data('nombreha');
+        const descripcion = $(this).data('descripcion');
+        const localidad = $(this).data('localidad');
+        const precioAN = $(this).data('pan');
+        const precioNN = $(this).data('pnn');
+        const precioAE = $(this).data('pae');
+        const precioNE = $(this).data('prne');
+        const estado = $(this).data('estado');
         const usuario =$(this).data('#usuario_actual');
-        //llena los campos
+        //muestra la informacion en los inputs
         //$("#id").val(idObjeto),
-        $("#nombreEstado").val(nombreestad),
-        $("#descripcion").val(descrip),
+        $("#ha").val(habserv),
+        $("#localidad").val(localidad),
+        $("#estado").val(estado),
+        $("#descripcion").val(descripcion),
+        $("#precioNiN").val(precioNN),
+        $("#preAdultN").val(precioAN),
+        $("#preAdultE").val(precioAE),
+        $("#precioNiE").val(precioNE),
         $("#usuario_actual").val(usuario)
         
         //console.log(idrol,nombrerol,descripcion);
         //mostrar el modal
-        $('#modalEditarEstado').modal('show');
+        $('#modalEditarHabServ').modal('show');
         
         $('.btnEditarBD').on('click', async function() {
-            var idEstado = Number(idestado); 
+            var idHabSer = Number(idhabserv); 
             //console.log(idEstado);
             const formData = new FormData();
-            formData.append('id_estado', idEstado);
-            formData.append('estado',$("#nombreEstado").val());
-            formData.append('descripcion',$("#descripcion").val());;
+            formData.append('id_habserv', idHabSer);
+            formData.append('hab_are',$("#ha").val());
+            formData.append('localidad',$("#localidad").val());
+            formData.append('estado',$("#estado").val());
+            formData.append('precioNN',$("#precioNiN").val());
+            formData.append('precioAN',$("#preAdultN").val());
+            formData.append('precioAE',$("#preAdultE").val());
+            formData.append('precioNE',$("#precioNiE").val());
             formData.append('usuario_actual',$("#usuario_actual").val());
             console.log(formData);
             
-           const resp = await axios.post('./controlador/ctr.mantEstado.php?action=actualizarEstado', formData);
+           const resp = await axios.post('./controlador/ctr.mantHabServ.php?action=actualizarHabServ', formData);
            const data = resp.data;
            // console.log(data);
             if(data.error){
@@ -234,7 +302,7 @@ $(document).ready(function(){
                     buttons:false
                 });
             } else{
-                $('#modalEditarEstado').modal('hide');
+                $('#modalEditarHabServ').modal('hide');
                 return swal("Exito!", data.msj, "success", {
                     timer:3000,
                     buttons:false
@@ -250,15 +318,15 @@ $(document).ready(function(){
         });
         
     })
-    //ELIMINAR CLIENTE
-    $('.btnEliminarEstado').on('click', function (){
-        const idEsta = $(this).data('idestad');
-        swal("Eliminar Estado", "Esta seguro de eliminar este Estado?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+    //ELIMINAR HABITACION AREA
+    $('.btnEliminarHabServ').on('click', function (){
+        const idhabservi = $(this).data('idha');
+        swal("Eliminar Estado", "¿Esta seguro de eliminar esta Habitacion-Área?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
             if (value){
                 //console.log('Estoy dentro del if');
                 const formData = new FormData();
-                formData.append('id_estad', idEsta);
-                const resp = await axios.post('./controlador/ctr.mantEstado.php?action=eliminarEstado', formData);
+                formData.append('id_habiSer', idhabservi);
+                const resp = await axios.post('./controlador/ctr.mantHabServ.php?action=eliminarHabServ', formData);
                 const data = resp.data;
                 //console.log(data);
                 if(data.error){
