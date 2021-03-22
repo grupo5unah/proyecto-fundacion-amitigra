@@ -150,8 +150,7 @@
                     include("modelo/conexionbd.php");
                     try {
                       $estado_eliminado=1;
-                      $consult_tipo_solicitud = "SELECT id_tipo_solicitud,tipo,precio_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion
-                      FROM tbl_tipo_solicitud 
+                      $consult_tipo_solicitud = "SELECT * FROM tbl_tipo_solicitud 
                       WHERE estado_eliminado=$estado_eliminado";
                       $resultado = $conn->query($consult_tipo_solicitud);
                     } catch (\Exception $e) {

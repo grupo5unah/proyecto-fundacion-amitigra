@@ -234,6 +234,7 @@ if ($nombre->affected_rows) {
       <script src="vista/dist/js/nacionalidad.js"></script>
       <script src="vista/dist/js/solicitudes.js"></script>
       <script src="vista/dist/js/tipoSolicitudes.js"></script>
+      <script src="vista/dist/js/EstadoSolicitud.js"></script>
       <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
       <script src="vista/dist/js/pages/dashboard.js"></script>
       <!-- AdminLTE for demo purposes -->

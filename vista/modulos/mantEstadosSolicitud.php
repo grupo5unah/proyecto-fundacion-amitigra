@@ -121,7 +121,7 @@
         <div class="box">
           <div class="box-body pad table-responsive">
             <div class="panel-heading">
-              <div class="page-heading"> <i class="glyphicon glyphicon-edit"></i></i> Listado de Solicitudes</div>
+              <div class="page-heading"> <i class="glyphicon glyphicon-edit"></i></i>Estados de Solicitudes</div>
             </div> <!-- /panel-heading -->
             <table class="table table-bordered text-center">
               <!--INICIO TABLA-->
@@ -130,19 +130,16 @@
                 <div class="div-action pull pull-right" style="padding-bottom:20px;">
                   <!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphi
 	</button> -->
-                  <a href="reporteSolicitudes.php" target="_blank" rel="noopener noreferrer" class="btn btn-default">
-                    <i class="fa fa-download"></i>Generar Reporte PDF</a>
-                  <button class="btn btn-default btnCrearSolicitud glyphicon glyphicon-plus-sign">Agregar Solicitud</button>
+                  <button class="btn btn-default btnCreartipoSolicitud glyphicon glyphicon-plus-sign">Agregar Estado</button>
                 </div> <!-- /div-action -->
                 <table id="manageProductTable" class="display responsive nowrap">
                   <thead>
                     <tr>
-                      <th>Solicitud</th>
-                      <th>Nombre</th>
-                      <th>Telefono</th>
-                      <th>Tipo de Solicitud</th>
-                      <th>Precio</th>
-                      <th>Estado</th>
+                      <th>Estado de Solicitud</th>
+                      <th>Creado Por</th>
+                      <th>Fecha Creación</th>
+                      <th>Modificado Por</th>
+                      <th>Fecha Modificación</th>
                       <th>Aciones</th>
                     </tr>
                   </thead>
@@ -151,45 +148,38 @@
                     <?php
                     include("modelo/conexionbd.php");
                     try {
-
-                      $consult_solicitud = "SELECT id_solicitud,cli.id_cliente,cli.nombre_completo,cli.telefono,tips.id_tipo_solicitud,
-                      est.id_estatus_solicitud,tipo,tips.precio_solicitud,est.estatus
-                      FROM tbl_solicitudes sol INNER JOIN tbl_clientes cli
-                      ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
-                      ON sol.tipo_solicitud=tips.id_tipo_solicitud JOIN tbl_estatus_solicitud est
-                      ON sol.estatus_solicitud=est.id_estatus_solicitud ORDER BY id_solicitud";
-                      $resultado = $conn->query($consult_solicitud);
+                      $estado_eliminado=1;
+                      $consult_est_solicitud = "SELECT * FROM tbl_estatus_solicitud
+                      WHERE estado_eliminado=$estado_eliminado";
+                      $resultado = $conn->query($consult_est_solicitud);
                     } catch (\Exception $e) {
                       $error = $e->getMessage();
                     }
                     $vertbl = array();
                     while ($eventos = $resultado->fetch_assoc()) {
-                      $traer = $eventos['nombre_completo'];
+                      $traer = $eventos['estatus'];
                       $evento = array(
-                        'id_solicitud' => $eventos['id_solicitud'],
-                        'id_cliente' => $eventos['id_cliente'],
-                        'nombre_completo' => $eventos['nombre_completo'],
-                        'telefono' => $eventos['telefono'],
-                        'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],
-                        'tipo' => $eventos['tipo'],
-                        'precio_solicitud' => $eventos['precio_solicitud'],
+
                         'id_estatus_solicitud' => $eventos['id_estatus_solicitud'],
                         'estatus' => $eventos['estatus'],
+                        'creado_por' => $eventos['creado_por'],
+                        'fecha_creacion' => $eventos['fecha_creacion'],
+                        'modificado_por' => $eventos['modificado_por'],
+                        'fecha_modificacion' => $eventos['fecha_modificacion'],
                       );
                       $vertbl[$traer][] =  $evento;
                     }
-                    foreach ($vertbl as $dia => $lista_sol) { ?>
-                      <?php foreach ($lista_sol as $evento) { ?>
+                    foreach ($vertbl as $dia => $lista_est_sol) { ?>
+                      <?php foreach ($lista_est_sol as $evento) { ?>
                         <tr>
-                          <td> <?php echo $evento["id_solicitud"]; ?></td>
-                          <td> <?php echo $evento["nombre_completo"]; ?></td>
-                          <td> <?php echo $evento["telefono"]; ?></td>
-                          <td> <?php echo $evento["tipo"]; ?></td>
-                          <td> <?php echo $evento["precio_solicitud"]; ?></td>
                           <td> <?php echo $evento["estatus"]; ?></td>
+                          <td> <?php echo $evento["creado_por"]; ?></td>
+                          <td> <?php echo $evento["fecha_creacion"]; ?></td>
+                          <td> <?php echo $evento["modificado_por"]; ?></td>
+                          <td> <?php echo $evento["fecha_modificacion"]; ?></td>
                           <td>
-                            <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus_solicitud="<?= $evento["estatus"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
-                            <button class="btn btn-danger btnEliminarSolicitud glyphicon glyphicon-remove" data-idsolicitud="<?php echo $evento['id_solicitud'] ?>">
+                            <button class="btn btn-warning btnEditarEstadoSolicitud glyphicon glyphicon-pencil" data-idestadosolicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus="<?= $evento["estatus"] ?>"></button>
+                            <button class="btn btn-danger btnEliminarEstadoSolicitud glyphicon glyphicon-remove" data-idestadosolicitud="<?php echo $evento['id_estatus_solicitud'] ?>"></button>
                           </td>
                         <?php } ?>
                       <?php } ?>
@@ -211,12 +201,12 @@
 
 
 
-      <div class="modal fade" id="modalEditarSolicitud" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal fade" id="modalEditarEstadoSolicitud" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Actualizar Solicitud</h4>
+              <h4 class="modal-title" id="myModalLabel">Actualizar Estado de Solicitud</h4>
             </div>
             <div class="modal-body">
               <form name="formEditarParametro" action="">
@@ -224,177 +214,66 @@
                   <div class="campos" type="hidden">
                     <input autocomplete="off" class="form-control secundary" type="hidden" name="idSolcitud" value="0" disabled>
                   </div>
-                  <label for="">Tipo de solicitud</label>
-                  <?php
-                  include("modelo/conexionbd.php");
-                  $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud`");
-                  $result = mysqli_num_rows($query_tip);
-                  ?>
-                  <select class="form-control secundary" id="tipo" name="tipo" class="notItemOne">
-                    <?php
-
-                    if ($result > 0) {
-                      while ($tipo_solictud = mysqli_fetch_array($query_tip)) {
-                    ?>
-                        <option value="<?php echo $tipo_solictud["id_tipo_solicitud"]; ?>"><?php echo $tipo_solictud["tipo"] ?></option>
-                    <?php
-                        # code...
-                      }
-                    }
-                    ?>
-                  </select>
-                </div>
-                <div class="campos">
-                  <label for="estado">Estado de la solicitud </label>
-                  <?php
-                  include("modelo/conexionbd.php");
-                  $query_estad = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus
-                                        FROM `tbl_estatus_solicitud`");
-                  $result_est = mysqli_num_rows($query_estad);
-                  ?>
-                  <select class="form-control secundary" id="estatus_solicitud" name="estatus_solicitud" class="notItemOne">
-                    <?php
-                    echo $option;
-                    if ($result_est > 0) {
-                      while ($est_solictud = mysqli_fetch_array($query_estad)) {
-                    ?>
-                        <option value="<?php echo $est_solictud["id_estatus_solicitud"]; ?>"><?php echo $est_solictud["estatus"] ?></option>
-                    <?php
-                        # code...
-                      }
-                    }
-                    ?>
-                </div>
-                </select>
-                <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-            </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud">
-          </div>
-        </div>
-      </div>
-
-
-
-    </div>
-
-    <!--Registrar solicitud-->
-
-    <div class="modal fade" id="modalCrearS" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="d-flex justify-content-between">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <i aria-hidden="true">&times;</i>
-              </button>
-              <h3 class="modal-title" id="exampleModalLabel">Registrar Solicitud</h3>
-            </div>
-          </div>
-          <div class="modal-body">
-            <form name="" id="formSolicitudes" onpaste="return false">
-              <div class=" form-group">
-                <div class="campos form-group" type="hidden">
-                  <label for=""> </label>
-                  <input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
-                </div>
-                <div class="campos form-group">
-                  <input id="nombreCompleto" maxlength="40" minlength="40" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
-									espacio_Letras(this);" />
-                </div>
-                <div class="campos form-group">
-                  <input id="identidad" maxlength="13" minlength="13" style="width:335px" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad"/>
-                </div>
-                <div class="campos form-group">
-                  <input id="telefono" autocomplete="off" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
-									secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" onblur="limpia()" /></center>
-                </div>
-
-                <div class="campos form-group">
-                  <input id="croquis" style="width:335px" class="form-control modal-roles secundary" type="file" name="croquis" placeholder="Croquis" />
-                </div>
-
-                <div class="campos form-group">
-                  <input id="n_recibo" style="width:335px" class="form-control modal-roles secundary" type="text" name="n_recibo" placeholder="Numero de recibo o deposito" />
-
-                </div>
-                <?php
-                include('./modelo/conexionbd.php');
-                $consulta_nacionalidad = mysqli_query($conn, "SELECT id_tipo_nacionalidad,nacionalidad FROM `tbl_tipo_nacionalidad`");
-                $resultados = mysqli_num_rows($consulta_nacionalidad);
-                ?>
-                <div class="campos form-group">
-                  <select class="form-control" id="tipo_nac" name="tipo_nac" style="width:335px">
-                    <option value="">Seleccione una nacionalidad</option>
-                    <?php
-                    if ($resultados > 0) {
-                      while ($rol = mysqli_fetch_array($consulta_nacionalidad)) {
-                    ?>
-                        <option value="<?php echo $rol["id_tipo_nacionalidad"]; ?>"><?php echo $rol["nacionalidad"] ?></option>
-                    <?php
-                      }
-                    }
-                    ?>
-                  </select>
-                </div>
-
-                <?php
-                include('./modelo/conexionbd.php');
-                $consulta_tip_solicitud = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM tbl_tipo_solicitud");
-                $resultados = mysqli_num_rows($consulta_tip_solicitud);
-                ?>
-                <div class="campos form-group">
-                  <select class="form-control" name="tipo" id="tipo" style="width:335px">
-                    <option value="">Seleccione un tipo de solicitud</option>
-                    <?php
-                    if ($resultados > 0) {
-                      while ($rol = mysqli_fetch_array($consulta_tip_solicitud)) {
-                    ?>
-                        <option value="<?php echo $rol["id_tipo_solicitud"]; ?>"><?php echo $rol["tipo"] ?></option>
-                    <?php
-                      }
-                    }
-                    ?>
-                  </select>
-                </div>
-
-                <?php
-                include('./modelo/conexionbd.php');
-                $consulta_estatus = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud");
-                $resultados = mysqli_num_rows($consulta_estatus);
-                ?>
-                <div class="campos form-group">
-                  <select class="form-control" name="estatus_solicitud" id="estatus_solicitud" style="width:335px">
-                    <option value="">Seleccione un estado</option>
-                    <?php
-                    if ($resultados > 0) {
-                      while ($rol = mysqli_fetch_array($consulta_estatus)) {
-                    ?>
-                        <option value="<?php echo $rol["id_estatus_solicitud"]; ?>"><?php echo $rol["estatus"] ?></option>
-                    <?php
-                      }
-                    }
-                    ?>
-                  </select>
-                </div>
-
-
+                  <label for="">Estado de solicitud</label>
+                  <input id="estadoSolAct"  class="form-control modal-roles secundary" type="text" name="estadoSolAct" placeholder="Estado de la solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+        espacio_Letras(this);" />
+                
+                
                 <div class="campos form-group">
                   <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
-                </div>
-            </form>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Estado Solicitud">
+            </div>
           </div>
         </div>
+
+
+
       </div>
-      <!-- /.box-footer-->
-    </div>
+
+      </div>
+
+      <div class="modal fade" id="modalCreartipoSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="d-flex justify-content-between">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <i aria-hidden="true">&times;</i>
+                </button>
+                <h3 class="modal-title" id="exampleModalLabel">Registrar Estado de Solicitud</h3>
+              </div>
+            </div>
+            <div class="modal-body">
+              <form name="" id="formTipoSolicitudes" onpaste="return false">
+                <div class=" form-group">
+                  <div class="campos form-group" type="hidden">
+                    <label for=""> </label>
+                    <input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+                  </div>
+                  <div class="campos form-group">
+                    <input id="estadoSolicitud" name="estadoSolicitud" maxlength="15" class="form-control modal-roles secundary" type="text" placeholder="Estado De Solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+									espacio_Letras(this);" />
+                  </div>
+
+                  <div class="campos form-group">
+                    <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Estado</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-footer-->
+      </div>
 
 
 

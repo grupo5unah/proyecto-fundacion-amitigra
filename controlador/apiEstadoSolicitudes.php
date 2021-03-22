@@ -73,31 +73,30 @@ switch ($action) {
             }
         }
         break;
-    case 'actualizarTipSolicitud':
+    case 'actualizarEstSolicitud':
 
         if (
-            isset(($_POST['id_tipo_solicitud'])) && isset($_POST['tipo']) && isset($_POST['precio_solicitud'])
+            isset(($_POST['id_estatus_solicitud'])) && isset($_POST['estatus']) 
 
         ) {
-            $id_tipo_solicitud = (int)$_POST['id_tipo_solicitud'];
-            $tipo = $_POST['tipo'];
-            $precio_solicitud = $_POST['precio_solicitud'];
+            $id_estatus_solicitud = (int)$_POST['id_estatus_solicitud'];
+            $estatus = $_POST['estatus'];
             $usuario_actual = $_POST['usuario_actual'];
             $fecha = date('Y-m-d H:i:s', time());
 
 
-            $sql = "UPDATE tbl_tipo_solicitud SET tipo='$tipo' , precio_solicitud =  $precio_solicitud, modificado_por='$usuario_actual',
+            $sql = "UPDATE tbl_estatus_solicitud SET estatus='$estatus', modificado_por='$usuario_actual',
             fecha_modificacion='$fecha'
            
-            WHERE id_tipo_solicitud=" . $id_tipo_solicitud;
+            WHERE id_estatus_solicitud=" . $id_estatus_solicitud;
 
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
 
-                $res['msj'] = "Tipo de solicitud editado exitosamente";
+                $res['msj'] = "Estado de solicitud editado exitosamente";
             } else {
-                $res['msj'] = "Se produjo un error al momento de editar el tipo de solicitud ";
+                $res['msj'] = "Se produjo un error al momento de editar el estado de solicitud ";
                 $res['error'] = true;
             }
         } else {
@@ -108,21 +107,21 @@ switch ($action) {
 
         break;
 
-    case 'eliminarTipSolicitud':
-        if (isset($_POST['id_tipo_solicitud'])) {
-            $id_tipo_solicitud = $_POST['id_tipo_solicitud'];
+    case 'eliminarEstadoSolicitud':
+        if (isset($_POST['id_estatus_solicitud'])) {
+            $id_estatus_solicitud = $_POST['id_estatus_solicitud'];
             $usuario_actual = $_POST['usuario_actual'];
             $fecha = date('Y-m-d H:i:s', time());
 
             $estado_eliminar = 0;
 
-            $sql = "UPDATE tbl_tipo_solicitud SET estado_eliminado= $estado_eliminar, modificado_por='$usuario_actual', fecha_modificacion='$fecha'
-             WHERE id_tipo_solicitud = " . $id_tipo_solicitud;
+            $sql = "UPDATE tbl_estatus_solicitud SET estado_eliminado= $estado_eliminar, modificado_por='$usuario_actual', fecha_modificacion='$fecha'
+             WHERE id_estatus_solicitud = " . $id_estatus_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-                $res['msj'] = "Tipo solicitud eliminado correctamente";
+                $res['msj'] = "Estado de solicitud eliminado exitosamente";
             } else {
-                $res['msj'] = "Se produjo un error al momento de eliminar el tipo de solicitud";
+                $res['msj'] = "Se produjo un error al momento de eliminar el estado de solicitud";
                 $res['error'] = true;
             }
         } else {
