@@ -227,7 +227,8 @@
                   <label for="">Tipo de solicitud</label>
                   <?php
                   include("modelo/conexionbd.php");
-                  $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud`");
+                  $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud` 
+                  where estado_eliminado=1");
                   $result = mysqli_num_rows($query_tip);
                   ?>
                   <select class="form-control secundary" id="tipo" name="tipo" class="notItemOne">
@@ -249,7 +250,7 @@
                   <?php
                   include("modelo/conexionbd.php");
                   $query_estad = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus
-                                        FROM `tbl_estatus_solicitud`");
+                                        FROM `tbl_estatus_solicitud` where estado_eliminado=1");
                   $result_est = mysqli_num_rows($query_estad);
                   ?>
                   <select class="form-control secundary" id="estatus_solicitud" name="estatus_solicitud" class="notItemOne">
@@ -323,7 +324,8 @@
                 </div>
                 <?php
                 include('./modelo/conexionbd.php');
-                $consulta_nacionalidad = mysqli_query($conn, "SELECT id_tipo_nacionalidad,nacionalidad FROM `tbl_tipo_nacionalidad`");
+                $consulta_nacionalidad = mysqli_query($conn, "SELECT id_tipo_nacionalidad,nacionalidad FROM `tbl_tipo_nacionalidad`
+                where estado_eliminado=1");
                 $resultados = mysqli_num_rows($consulta_nacionalidad);
                 ?>
                 <div class="campos form-group">
@@ -343,7 +345,8 @@
 
                 <?php
                 include('./modelo/conexionbd.php');
-                $consulta_tip_solicitud = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM tbl_tipo_solicitud");
+                $consulta_tip_solicitud = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM tbl_tipo_solicitud 
+                where estado_eliminado=1");
                 $resultados = mysqli_num_rows($consulta_tip_solicitud);
                 ?>
                 <div class="campos form-group">
@@ -363,7 +366,8 @@
 
                 <?php
                 include('./modelo/conexionbd.php');
-                $consulta_estatus = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud");
+                $consulta_estatus = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud
+                where estado_eliminado=1");
                 $resultados = mysqli_num_rows($consulta_estatus);
                 ?>
                 <div class="campos form-group">

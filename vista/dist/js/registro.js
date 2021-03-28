@@ -1,52 +1,90 @@
-//BUSCAR EL CLIENTE
 $(document).ready(function () {
 
-  $("#").on("click", async function() {
+  $("#btnRegistro").on('click', async function() {
 
-    let nombre = document.querySelector("#").Value;
-    let usuario = document.querySelector("#").Value;
-    let correo = document.querySelector("#").Value;
-    let genero = document.querySelector("#").Value;
-    let telefono = document.querySelector("#").Value;
-    let contrasena = document.querySelector("#").Value;
-    let confirmarCOntrasena = document.querySelector("#").Value;
-    let pregunta_1 = document.querySelector("#").Value;
-    let pregunta_2 = document.querySelector("#").Value;
-    let pregunta_3 = document.querySelector("#").Value;
-    let id_preg1 = document.querySelector("#").Value;
-    let id_preg2 = document.querySelector("#").Value;
-    let id_preg3 = document.querySelector("#").Value;
+    let Nombre = document.querySelector("#nombre").value;
+    let Usuario = document.querySelector("#usuario").value;
+    let Correo = document.querySelector("#correo").value;
+    let Genero = document.querySelector("#genero").value;
+    let Telefono = document.querySelector("#telefono").value;
+    let Contrasena = document.querySelector("#PassRegistro").value;
+    let ConfirmarContrasena = document.querySelector("#ConfPassR").value;
+    //SELECTS
+    let Pregunta_1 = document.querySelector("#id_pregunta1").value;
+    let Pregunta_2 = document.querySelector("#id_pregunta2").value;
+    let Pregunta_3 = document.querySelector("#id_pregunta3").value;
+    //INPUTS
+    let Id_preg1 = document.querySelector("#preg1").value;
+    let Id_preg2 = document.querySelector("#preg2").value;
+    let Id_preg3 = document.querySelector("#preg3").value;
 
-    $.ajax({
-      url:"./controlador/registro.php",
-      type:"POST",
-      data:{},
-      datatype:"json",
-      success: function(response){
+    if(Nombre === "" || Contrasena === "" || ConfirmarContrasena ===""){
+      Notificacion("error", "Error", "Todos los campos son requeridos");
+    }else{
 
-        let registro = JSON.parse(response);
+      $.ajax({
+        url:"../../controlador/registros.php",
+        type:"POST",
+        datatype:"json",
+        data: { Nombre:Nombre, Usuario:Usuario, Correo:Correo, Genero:Genero, Telefono:Telefono, Contrasena:Contrasena, ConfirmarContrasena:ConfirmarContrasena, Pregunta_1:Pregunta_1, Pregunta_2:Pregunta_2, Pregunta_3:Pregunta_3, Id_preg1:Id_preg1, Id_preg2:Id_preg2, Id_preg3:Id_preg3 },
+        success: function(response){
 
-        if(registro.respuesta == ""){
-          swal({
-            icon:"success",
-            title:"Exito",
-            text:"El usuario se registro exitosamente"
-          }).then(() => {
-            window.location.href = "login.php";
-          });
-        } else if(){
+          let registro = JSON.parse(response);
 
-        } else if(){
+          if(registro.respuesta == "registro_exitoso"){
+            swal({
+              icon:"success",
+              title:"Exito",
+              text:"El usuario se registro exitosamente"
+            }).then(() => {
+              window.location.href = "login.php";
+            });
+          } else if(registro.respuesta == "datos_requeridos"){
+            swal({
+              icon: "warning",
+              title:"Datos requeridos",
+              text:"Todos los campos son requeridos",
+              timer: 3500,
+              buttons:false
+            }).then(() => {
+              location.reload();
+            });
+          } else if(registro.respuesta == "contrasena_requisitos"){
 
-        } else if(){
+            Notificacion("error", "Contraseña", "La contraseña no cumple los requisitos");
           
-        } else if(){
+          } else if(registro.respuesta == "usuario_noRequisitos"){
           
-        } else if(){
+            Notificacion("error", "usuario", "El nombre de usuario no cumple con los requisitos");
           
+          } else if(registro.respuesta == "error_preguntas"){
+            swal({
+              icon:"error",
+              title:"Respuestas",
+              text:"Hubo un error al momento de registrar la respuesta.",
+              timer: 3500,
+              buttons: false
+            }).then(() => {
+              location.reload();
+            });
+          } else if(registro.respuesta == "error_registro"){
+            swal({
+              icon:"error",
+              title:"Registro",
+              text:"El usuario no se pudo registrar",
+              timer: 3500,
+              buttons: false
+            }).then(() => {
+              location.reload();
+            });
+          } else if (registro.respuesta == "contrasena_NoCoinciden"){
+            Notificacion("error", "Error contraseña", "Las contraseñas no coinciden");
+          } else if (registro.respuesta == "usuario_existe"){
+            Notificacion("warning", "Error", "El nombre de usuario o correo ya existen");
+          }
         }
-      }
-    });
+      });
+    }
 
   });
 

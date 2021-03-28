@@ -7,9 +7,9 @@ $usuario = $_POST['usuario'];
 $correo = $_POST['correo'];
 $telefono = $_POST['telefono'];
 $contrasenas = $_POST['verificarContrasena'];
-$imagen = $_FILES['imagen'];
+//$imagen = $_FILES['imagen'];
 
-    if(!empty($imagen) || !empty($usuario) || !empty($nombre) || !empty($correo) || !empty($telefono) || !empty($contrasenas) || !empty($imagen)){
+    if(!empty($usuario) || !empty($nombre) || !empty($correo) || !empty($telefono) || !empty($contrasenas) || !empty($imagen)){
 
         //include '../modelo/conexionbd.php';
         //$json = array();
@@ -32,14 +32,14 @@ $imagen = $_FILES['imagen'];
                     if(password_verify($contrasenas, $password)){
 
                         //Directorio donde se guardan las fotos
-                        $carpetaFotoPerfil = '../fotoPerfil/';
+                        //$carpetaFotoPerfil = '../fotoPerfil/';
 
                         //verifica si el directorio existe
-                        if(!is_dir($carpetaFotoPerfil)){
+                        /*if(!is_dir($carpetaFotoPerfil)){
                             mkdir($carpetaFotoPerfil,0777, true);
-                        }
+                        }*/
 
-                        $nombre_foto ="";
+                        /*$nombre_foto ="";
 
                         if($imagen['name']){
                             //Eliminar la imagen previa
@@ -52,13 +52,13 @@ $imagen = $_FILES['imagen'];
                             move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil . $nombre_foto);
                         }else{
                             $nombre_foto = $mi_foto;
-                        }
+                        }*/
 
                         include "../modelo/conexionbd.php";
                         $actualizar = $conn->prepare("UPDATE tbl_usuarios
-                                                    SET nombre_completo = ?, foto = ?, correo = ?, telefono = ?
+                                                    SET nombre_completo = ?, correo = ?, telefono = ?
                                                     WHERE nombre_usuario = ?;");
-                        $actualizar->bind_Param("sssss", $nombre, $nombre_foto, $correo, $telefono, $usuario);
+                        $actualizar->bind_Param("ssss", $nombre, $correo, $telefono, $usuario);
                         $actualizar->execute();
 
                         if(!$actualizar->error){

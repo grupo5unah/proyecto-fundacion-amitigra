@@ -5,14 +5,14 @@ global $mail;
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    require '../../modelo/conexionbd.php';
+    require '../modelo/conexionbd.php';
 
     $correo = 'CORREO_SISTEMA';
     $puerto = 'PUERTO_CORREO';
 
-    require '../../phpMailer/src/Exception.php';
-    require '../../phpMailer/src/PHPMailer.php';
-    require '../../phpMailer/src/SMTP.php';
+    require '../phpMailer/src/Exception.php';
+    require '../phpMailer/src/PHPMailer.php';
+    require '../phpMailer/src/SMTP.php';
 
         try{
 

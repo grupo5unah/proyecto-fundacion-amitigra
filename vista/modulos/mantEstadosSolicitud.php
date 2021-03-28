@@ -130,7 +130,7 @@
                 <div class="div-action pull pull-right" style="padding-bottom:20px;">
                   <!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphi
 	</button> -->
-                  <button class="btn btn-default btnCreartipoSolicitud glyphicon glyphicon-plus-sign">Agregar Estado</button>
+                  <button class="btn btn-default btnCrearEstadoSolicitud glyphicon glyphicon-plus-sign">Agregar Estado</button>
                 </div> <!-- /div-action -->
                 <table id="mantEstadosSolicitudes" class="display responsive nowrap">
                   <thead>
@@ -238,7 +238,7 @@
 
       </div>
 
-      <div class="modal fade" id="modalCreartipoSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="modalCrearEstadoSolicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -250,15 +250,15 @@
               </div>
             </div>
             <div class="modal-body">
-              <form name="" id="formTipoSolicitudes" onpaste="return false">
+              <form name="" id="formEstadoSolicitudes" onpaste="return false">
                 <div class=" form-group">
                   <div class="campos form-group" type="hidden">
                     <label for=""> </label>
                     <input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
                   </div>
                   <div class="campos form-group">
-                    <input id="estadoSolicitud" name="estadoSolicitud" maxlength="15" class="form-control modal-roles secundary" type="text" placeholder="Estado De Solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
-									espacio_Letras(this);" />
+                  <label for="">Estado de solicitud</label>
+                    <input id="estadoSolicitud" name="estadoSolicitud" maxlength="15" class="form-control modal-roles secundary" type="text" placeholder="Estado De Solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                   </div>
 
                   <div class="campos form-group">
