@@ -151,26 +151,25 @@ $(document).ready(function () {
    
 });
 
-
-    $("#formTipoSolicitudes").submit(async function (e) {
+//mantenimiento de Estado de Solicitudes
+//crear estado de solicitudes
+    $("#formEstadoSolicitudes").submit(async function (e) {
       e.preventDefault();
   
-      var tipoSolicitud = $("#tipoSolicitud").val();
-      var preciosolicitud = $("#preciosolicitud").val();
+      var estadoSolicitud = $("#estadoSolicitud").val();
+      
       var usuario_actual = $("#usuario_actual").val();
   
       if (
-        tipoSolicitud != undefined &&
-        preciosolicitud != undefined &&
+        estadoSolicitud != undefined &&
         usuario_actual !=undefined
       ) {
         const formData = new FormData();
   
-        formData.append("tipoSolicitud", tipoSolicitud);
-        formData.append("preciosolicitud", preciosolicitud);
+        formData.append("estadoSolicitud", estadoSolicitud);
         formData.append("usuario_actual",usuario_actual);
   
-        const resp = await axios.post('./controlador/apiTipSolicitudes.php?action=registrarTipSolicitud',formData);
+        const resp = await axios.post('./controlador/apiEstadoSolicitudes.php?action=registrarEstadoSolicitud',formData);
       
   
         const data = resp.data;
@@ -182,9 +181,7 @@ $(document).ready(function () {
         return swal("Exito!", data.msj, "success").then((value) => {
           if (value) {
             // Se limpia el formulario de mantenimiento de tipo de solicitudes
-            $("#tipoSolicitud").val("");
-            $("#preciosolicitud").val("");
-           
+            $("#estadoSolicitud").val("");    
             location.reload();
           }
         });
@@ -193,14 +190,14 @@ $(document).ready(function () {
       }
     })
   
-    $(".btnCreartipoSolicitud").on("click", function () {
-      $("#modalCreartipoSolicitud").modal("show");
+    $(".btnCrearEstadoSolicitud").on("click", function () {
+      $("#modalCrearEstadoSolicitud").modal("show");
     });
   
   
   
-    //mantenimiento Solicitudes
-  //eliminar una solicitud
+    
+  //eliminar un estado de solicitud
    $(".btnEliminarEstadoSolicitud").on("click", function () {
      const idestadosolicitud = $(this).data("idestadosolicitud");
      var usuario_actual = $("#usuario_actual").val();
@@ -238,7 +235,7 @@ $(document).ready(function () {
      });
    });
    
-  //actualiza un Estadode solicitud
+  //actualiza un Estado de solicitud
    $(".btnEditarEstadoSolicitud").on("click", function () {
      // info previa
      const idestadosolicitud = $(this).data("idestadosolicitud");

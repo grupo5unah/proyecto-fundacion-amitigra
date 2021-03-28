@@ -89,6 +89,7 @@ switch ($action) {
                             $res['msj'] = "Solicitud Registrada Correctamente";
                         }
                     }
+                    //si no existe el cliente
                 } else {
                     $estado_elim = 1;
                     $sql = $conn->prepare("INSERT INTO tbl_clientes(nombre_completo,identidad,telefono,tipo_nacionalidad,estado_eliminado,
