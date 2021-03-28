@@ -175,10 +175,10 @@ $(document).ready(function(){
         var descripcion = $("#descripcion").val();
         var localidad = $("#localidad").val();
         var estado = $("#estado").val();
-        var precio_adultoN = $("#preAdultN").val();
-        var precio_ninoN = $("#precioNiN").val();
-        var precio_adultoE = $("#preAdultE").val();
-        var precio_ninoE = $("#precioNiE").val();
+        var precio_adultoN = $("#precioAdultoN").val();
+        var precio_ninoN = $("#precioNinoN").val();
+        var precio_adultoE = $("#precioAdultoE").val();
+        var precio_ninoE = $("#precNiE").val();
         var usuario_actual = $("#usuario_actual").val();
 
         if(habitacion_area != undefined && localidad != undefined && estado != undefined && descripcion != undefined && precio_adultoN != undefined && precio_ninoN != undefined && precio_adultoE != undefined && precio_ninoE != undefined && usuario_actual != undefined){
@@ -193,7 +193,7 @@ $(document).ready(function(){
             formData.append('precioNE',precio_ninoE);
             formData.append('usuario_actual', usuario_actual);
 
-            const resp = await axios.post(`./controlador/ctr.manthabServ.php?action=registrarhabServ`, formData);
+            const resp = await axios.post(`./controlador/ctr.matHabServ.php?action=registrarhabserv`, formData);
 
             const data = resp.data;
 
@@ -208,10 +208,10 @@ $(document).ready(function(){
                         $("#descripcion").val('');
                         $("#localidad").val('');
                         $("#estado").val('');
-                        $("#preAdultN").val('');
-                        $("#precioNiN").val('');
-                        $("#preAdultE").val('');
-                        $("#precioNiE").val('');
+                        $("#precioAdultoN").val('');
+                        $("#precioNinoN").val('');
+                        $("#precioAdultoE").val('');
+                        $("#precNiE").val('');
                         location.reload()
                     }
                    
@@ -220,32 +220,7 @@ $(document).ready(function(){
             swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
         } 
         
-    }); 
-    //BUSCAR HABITACION SERVICIO   
-    $('#ha').blur(async function () {
-        console.log(this.value);
-        if(this.value.length > 0 ){
-            try{
-                const resp = await axios(`./controlador/ctr.mantHabServ.php?action=obtenerHabServ&habserv=${this.value}`);
-                const data = resp.data;
-                if(data.estado.length > 0){
-                //    console.log(data.objeto[0]);
-                    $("#ha")
-                    $("#descripcion")
-                    $("#localidad")
-                    $("#estado")
-                    $("#preAdultN")
-                    $("#precioNiN")
-                    $("#preAdultE")
-                    $("#precioNiE")
-                   
-                    return swal('Este Estado ya existe ');
-                }
-            }catch(err){
-                console.log('Error - ', err);
-            }
-        }
-    })
+    });  
     $('.btnCrearHabServ').on('click',function(){
         $('#modalCrearHabServ').modal('show');
     } );
@@ -255,18 +230,18 @@ $(document).ready(function(){
         const idhabserv = $(this).data('idhs');
         const habserv = $(this).data('nombreha');
         const descripcion = $(this).data('descripcion');
-        const localidad = $(this).data('localidad');
+        const localidad = $(this).data('local');
         const precioAN = $(this).data('pan');
         const precioNN = $(this).data('pnn');
         const precioAE = $(this).data('pae');
         const precioNE = $(this).data('prne');
-        const estado = $(this).data('estado');
-        const usuario =$(this).data('#usuario_actual');
+        const estado = $(this).data('estad');
+        var usuario =$(this).data('#usuario_actual');
         //muestra la informacion en los inputs
         //$("#id").val(idObjeto),
         $("#ha").val(habserv),
-        $("#localidad").val(localidad),
-        $("#estado").val(estado),
+        $("#local").val(localidad),
+        $("#estad").val(estado),
         $("#descripcion").val(descripcion),
         $("#precioNiN").val(precioNN),
         $("#preAdultN").val(precioAN),
@@ -317,7 +292,7 @@ $(document).ready(function(){
                 
         });
         
-    })
+    });
     //ELIMINAR HABITACION AREA
     $('.btnEliminarHabServ').on('click', function (){
         const idhabservi = $(this).data('idha');

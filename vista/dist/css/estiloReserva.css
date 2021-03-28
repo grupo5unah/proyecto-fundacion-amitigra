@@ -1,25 +1,66 @@
 #guardarCliente{
     display: none;
+    transform: translate(-109%, -10%);
 }
 .btnSiguiente{
     display: none;
 }
-.nacional{
-    text-align: center center;
-    color:#222d32;
-    display: flex;
-    position: fixed;
-    transform: translate(120%, -10%);
-    /*size:90%;*/
+.modal-reserva{
+    width: 880px;
+    transform: translate(-15%, 0%);
 }
-.extranjeros{
-    text-align: center center;
-    color:#222d32;
-    display: flex;
-    position: fixed;
-    transform: translate(100%, -10%);
-    /*size:90%;*/
+.camping,
+.hotel{
+    display: none;
 }
 .btnsiguiente2{
     display: none;
+}
+.salida{
+    transform: translate(-1%, 53%);
+}
+.jutiapa{
+    display: none;
+}
+.rosario{
+    display: none;
+}
+.reserva{
+    transform: translate(-120%, 0%);
+}
+.precio{
+    transform: translate(240%, -125%);
+}
+.btnAgregar{
+    transform: translate(450%, -8%);
+}
+.extranjero{
+    display: none;
+}
+.nacional{
+    display: none;
+}
+.tablaCamping{
+    text-align: center; 
+    background-color: #96E867; 
+    color: black;
+}
+.tablaJutiapa{
+    text-align: center; 
+    background-color: #F3E76D;
+    color: black;
+}
+.tablaRosario{
+    text-align: center; 
+    background-color: #F1AF50;
+    color: black;
+}
+.btnArticulos{
+    transform: translate(-8%, -10%);
+}
+.nacionales{
+    display: none;
+}
+.sleeping{
+    transform: translate(8%, 100%);
 }

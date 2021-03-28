@@ -68,8 +68,8 @@
 											$evento = array(
 												'descripcion' => $eventos['descripcion'],
 												'habitacion_area' => $eventos['habitacion_area'],
-												'localidad' => $eventos['nombre_localidad'],
-												'estado' => $eventos['nombre_estado'],
+												'nombre_localidad' => $eventos['nombre_localidad'],
+												'nombre_estado' => $eventos['nombre_estado'],
                                                 'precio_adulto_nacional' => $eventos['precio_adulto_nacional'],
                                                 'precio_nino_nacional' => $eventos['precio_nino_nacional'],
                                                 'precio_adulto_extranjero' => $eventos['precio_adulto_extranjero'],
@@ -87,11 +87,11 @@
 											<?php foreach ($lista_articulo as $evento) { ?>
 												<?php	//echo $evento['nombre_arti']
 												?>
-												<tr>
+												<tr> 
 													<td class="text-center"> <?php echo $evento['descripcion']; ?></td>
 													<td class="text-center"> <?php echo $evento['habitacion_area']; ?></td>
-													<td class="text-center"> <?php echo $evento['localidad']; ?></td>
-													<td class="text-center"> <?php echo $evento['estado']; ?></td>
+													<td class="text-center"> <?php echo $evento['nombre_localidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['nombre_estado']; ?></td>
                                                     <td class="text-center"> <?php echo $evento['precio_adulto_nacional']; ?></td>
                                                     <td class="text-center"> <?php echo $evento['precio_nino_nacional']; ?></td>
                                                     <td class="text-center"> <?php echo $evento['precio_adulto_extranjero']; ?></td>
@@ -100,9 +100,9 @@
 													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td class="text-center">
 														<button class="btn btn-warning btnEditarHabServ glyphicon glyphicon-pencil"  data-idhs="<?= $evento['id_habitacion_servicio'] ?>" data-nombreha="<?= $evento['habitacion_area'] ?>" 
-														data-descripcion="<?= $evento['descripcion'] ?>" data-localidad="<?= $evento['localidad'] ?>" data-pan="<?= $evento['precio_adulto_nacional'] ?>"
+														data-descripcion="<?= $evento['descripcion'] ?>" data-local="<?= $evento['nombre_localidad'] ?>" data-pan="<?= $evento['precio_adulto_nacional'] ?>"
 														data-pnn="<?= $evento['precio_nino_nacional'] ?>" data-pae="<?= $evento['precio_adulto_extranjero'] ?>" data-prne="<?= $evento['precio_nino_extranjero'] ?>"
-														data-estado="<?= $evento['estado'] ?>"></button>
+														data-estad="<?= $evento['nombre_estado'] ?>"></button>
 
 														<button class="btn btn-danger btnEliminarHabServ glyphicon glyphicon-remove" data-idha="<?php echo $evento['id_habitacion_servicio'] ?>"></button>
 													</td>
@@ -158,11 +158,11 @@
 									
 									<div class="campos">
 										<label for="">Habitación-Área: </label>
-										<input id="ha" class="form-control modal-roles secundary" type="text" name="ha" required>
+										<input id="habi" class="form-control modal-roles secundary" type="text" name="habi" required>
 									</div>
 									<div class="campos">
 										<label for="">localidad</label><br>
-										<select class="form-control modal-roles secundary " name="localidad" id="localidad">
+										<select class="form-control modal-roles secundary " name="local" id="local">
 											<option value="" disabled selected>Selecione...</option>
 											<?php
 											require ('./modelo/conexionbd.php');
@@ -177,7 +177,7 @@
 									</div>
 									<div class="campos">
 										<label for="">Estado:</label><br>
-										<select class="form-control modal-roles secundary" name="estado" id="estado">
+										<select class="form-control modal-roles secundary" name="estad" id="estad">
 											<option value="" disabled selected>Selecione...</option>
 											<?php
 											require ('./modelo/conexionbd.php');
@@ -220,7 +220,7 @@
 											<label>Precio Adulto (N):</label>
 											<div class="input-group col-xs-6">
 												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control" name="preAdultN" id="preAdultN" placeholder="Ingrese el precio" onkeydown="return soloNumeros(event)"
+												<input type="text" class="form-control" name="precioAdulotN" id="precioAdultoN" placeholder="Ingrese el precio" onkeypress="return soloNumeros(event)"
 												maxlength="4">
 											</div>
 										</div>
@@ -228,8 +228,8 @@
 											<label>Precio Niño (N):</label>
 											<div class="input-group col-xs-6">
 												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control " name="precioNinoNiN" id="precioNiN" onkeydown="return soloNumeros(event)" placeholder="Ingrese el precio"
-												maxlength="4" requiered>
+												<input type="text" class="form-control " name="precioNiN" id="precioNinoN" onkeypress="return soloNumeros(event)" placeholder="Ingrese el precio"
+												maxlength="4" requiered/>
 											</div>
 										</div>
 									</div>
@@ -237,7 +237,7 @@
 										<label>Precio Adulto (E):</label>
 										<div class="input-group col-xs-3">
 											<span class="input-group-addon">$.</span>
-											<input type="text" class="form-control" name="preAdultE" id="preAdultE" placeholder="Ingrese el precio" onkeydown="return soloNumeros(event)"
+											<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Ingrese el precio" onkeydown="return soloNumeros(event)"
 											maxlength="3">
 										</div>
 									</div>
@@ -245,7 +245,7 @@
 										<label>Precio Niño (E):</label>
 										<div class="input-group col-xs-3">
 											<span class="input-group-addon">$.</span>
-											<input type="text" class="form-control" name="precioNiE" id="precioNiE" onkeydown="return soloNumeros(event)" placeholder="Ingrese el precio"
+											<input type="text" class="form-control" name="precNiE" id="precNiE" onkeydown="return soloNumeros(event)" placeholder="Ingrese el precio"
 											maxlength="3" requiered>
 										</div>
 									</div>
