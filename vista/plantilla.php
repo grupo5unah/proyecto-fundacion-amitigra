@@ -124,6 +124,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "cerrarSesion" ||
         $_GET["ruta"] == "bloqueoInactividad" ||
         $_GET["ruta"] == "infoBackup" ||
+        $_GET["ruta"] == "conf_preguntas" ||
         $_GET["ruta"] == "pruebaTab" ||
         $_GET["ruta"] == "carrusel" ||
         $_GET["ruta"] == "mantLocalidad" ||
@@ -225,7 +226,7 @@ if ($nombre->affected_rows) {
 <script src="vista/dist/js/mapa.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" 
 integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
 <script src="vista/dist/js/tablas.js"></script>

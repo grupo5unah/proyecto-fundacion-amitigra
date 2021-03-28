@@ -28,7 +28,7 @@
   ?>
   <div class="register-box-body">
   <p class="register-box-msg">Registro de usuario</p>
-    <form id="registro" method="post" enctype="multipart/form-data">
+    <form id="registro" method="post">
       
       <div class="row">
         <div class="col-md-18">
@@ -90,7 +90,7 @@
                       <label class="color-enlaces" for="">Pregunta número 1</label>
                       <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="pregunta" name = "id_pregunta1" class="form-control selectDisable">
+                      <select id="id_pregunta1" name = "pregunta1" class="form-control selectDisable">
                         <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -123,7 +123,7 @@
                     <label class="color-enlaces" for="">Pregunta número 2</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="pregunta" name = "id_pregunta2" class="form-control selectDisable">
+                      <select id="id_pregunta2" name = "pregunta2" class="form-control selectDisable">
                       <option>Seleccione una pregunta...</option>
                         <?php
                              include ('../../modelo/conexionbd.php');
@@ -157,7 +157,7 @@
                     <label class="color-enlaces" for="">Pregunta número 3</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select name = "id_pregunta3" class="form-control selectDisable">
+                      <select id="id_pregunta3" name = "pregunta3" class="form-control selectDisable">
                       <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -201,7 +201,7 @@
                       <div class="columna">
                         <button class="btn btn-primary" href="#settings1" data-toggle="tab">Anterior</button>
                         <input type="hidden" name="tipo" value="registro">
-                        <button type="submit" name="submit" class="btn btn-success">Registrarse</button>
+                        <button type="button" id="btnRegistro" name="btnRegistros" class="btn btn-success">Registrarse</button>
                       </div>     
                   </div>
                 </div>
@@ -214,10 +214,10 @@
         </div>     
       </div>  
       <?php
-                      include("../../controlador/ctr.registro.php");
+                      //include("../../controlador/ctr.registro.php");
 
-                      $registrarse = new Registro();
-                      $registrarse->ctrRegistro();
+                      //$registrarse = new Registro();
+                      //$registrarse->ctrRegistro();
                       ?>
     </form>
     
@@ -336,18 +336,18 @@ document.getElementById("notificacion").innerHTML = usuario;
 setInterval(tiemporeal, 1000);
 </script> -->
 
-
-
-
-<script src="../dist/js/app.login.js"></script>
-
 <!-- <script src="../dist/js/registro.js"></script> -->
 
-<!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="../dist/js/recargar.js"></script>
-<!-- Bootstrap 3.3.7 -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../dist/js/jquery-3.5.1.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+<script src="../dist/js/app.login.js"></script>
+<!-- <script src="../dist/js/recargar.js"></script> -->
+<script src="../dist/js/registro.js"></script>
+<!-- Bootstrap 3.3.7 -->
+
 <!-- iCheck -->
 <script src="../plugins/iCheck/icheck.min.js"></script>
 </body>

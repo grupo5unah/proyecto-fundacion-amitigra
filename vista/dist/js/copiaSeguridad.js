@@ -14,16 +14,16 @@ $(document).ready( function() {
                 Notificacion("warning", "Cuidado", "Debes de ingresar tu contrasena");
             } else if(contrasena.length <= 7){
 
-                Notificacion("error", "Contrasena", "La contrasena no cumple los requisitos");
+                Notificacion("error", "Contraseña", "La contraseña esta por debajo de lo permitido");
 
             } else{
                 $.ajax({
                     url:"./controlador/ctr.backup.php",
                     type:"POST",
-                    datatype:'json',
+                    datatype:"json",
                     data:{ contrasena:contrasena, usuario:usuario },
                     success: function (response){
-                        let copia = JSON.parse(response);
+                        let copia = JSON.parse(response)
 
                         //SI SE REALIZO CON EXITO LA COPIA DE SEGURIDAD
                         if(copia.respuesta == "exito"){
@@ -48,6 +48,11 @@ $(document).ready( function() {
                         }
                     }
                 });
+
+                $("#CancelarCopia").on("click", async function(){
+                    contrasena = $("#contraCopia").val('');
+                });
+
             }
 
         });

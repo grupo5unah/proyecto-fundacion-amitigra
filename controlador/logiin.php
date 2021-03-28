@@ -1,6 +1,6 @@
 <?php
 
-require_once "../modelo/conexionbd.php" ;
+require_once "../modelo/conexionbd.php";
 
 $usuario = $_POST['usuario'];
 $contrasena = $_POST['contrasena'];
@@ -10,13 +10,13 @@ $contrasena = $_POST['contrasena'];
 
         $parametro = 'INTENTOS_SESION';
         $respuesta = array();
-
+        
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date("Y-m-d H:i:s", time());
 
         try {
 
-            if(empty($usuario) && empty($contrasena)){
+            if(empty($usuario) || empty($contrasena)){
                 $respuesta = array(
                     "respuesta" => "noCredenciales"
                 );
@@ -64,7 +64,7 @@ $contrasena = $_POST['contrasena'];
                             switch($nombre_estado){
                                 case 'ACTIVO':
 
-                                    if(password_verify($password, $password_usuario)){    
+                                    if(password_verify($contrasena, $password_usuario)){    
 
                                         if($dias_transcurridos <= 30){
 
@@ -87,26 +87,30 @@ $contrasena = $_POST['contrasena'];
                                             $objeto = 1;
                                             $acciones = "Inicio de sesion";
                                             $descp = "Inicio de sesion correctamente";
-                                            require_once("../../modelo/conexionbd.php");
+                                            require_once("../modelo/conexionbd.php");
                                             $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                                             $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
                                             $llamar->execute();
                                             $llamar->close();
+
+                                            $respuesta =array(
+                                                "respuesta" => "inicio_sesion"
+                                            );
         
                                             sleep(2);
-                                            header('location:../../index.php');
+                                            //header('location:../../index.php');
                                         }else {
 
                                             $respuesta = array(
                                                 "respuesta" => "cambio_estado"
                                             );
 
-                                            echo "<script>
+                                            /*echo "<script>
                                             if (window.history.replaceState) { // verificamos disponibilidad
                                                 window.history.replaceState(null, null, window.location.href);
                                             }
                                             location.reload();
-                                            </script>";
+                                            </script>";*/
                                                 //Su usuario a sido bloqueado
 
                                                 $cambio_estado_usuario = 2;
@@ -130,7 +134,7 @@ $contrasena = $_POST['contrasena'];
                                     } else {
                                         //NOTA: El codigo comentado no funciona, hace la consulta pero no actualiza los intentos
                                         
-                                        require '../../modelo/conexionbd.php';
+                                        require '../modelo/conexionbd.php';
                                         $intentos_parameter = $conn->prepare("SELECT valor FROM tbl_parametros WHERE parametro = ?;");
                                         $intentos_parameter->bind_Param("s",$parametro);
                                         $intentos_parameter->execute();
@@ -147,14 +151,14 @@ $contrasena = $_POST['contrasena'];
                                                         "respuesta" => "bloqueado_intentos"
                                                     );
 
-                                                        echo "<script>
+                                                        /*echo "<script>
                                                         if (window.history.replaceState) { // verificamos disponibilidad
                                                             window.history.replaceState(null, null, window.location.href);
                                                         }
                                                         
-                                                        </script>";
+                                                        </script>";*/
                                                         
-                                                    require "../../modelo/conexionbd.php";
+                                                    require "../modelo/conexionbd.php";
 
                                                     $estado_bloqueo = 2;
                                                     $reiniciar_intentos = 0;
@@ -171,7 +175,7 @@ $contrasena = $_POST['contrasena'];
                                                     $acciones = "usuario bloqueado";
                                                     $descp = "Usuario bloqueado, realizó los 3 intentos permitidos para acceder al sistema";
                 
-                                                    require_once("../../modelo/conexionbd.php");
+                                                    require_once("../modelo/conexionbd.php");
                                                     $IntentosBitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
                                                     $IntentosBitacora->bind_Param("sssii", $acciones, $descp, $fecha_bloqueo, $id_usuario_bitacora, $objeto);
                                                     $IntentosBitacora->execute();        
@@ -183,13 +187,13 @@ $contrasena = $_POST['contrasena'];
                                                         "respuesta" => "error_contrasena"
                                                     );
 
-                                                    echo "<script>
+                                                    /*echo "<script>
                                                     if (window.history.replaceState) { // verificamos disponibilidad
                                                         window.history.replaceState(null, null, window.location.href);
                                                     }
-                                                    </script>";
+                                                    </script>";*/
 
-                                                    require "../../modelo/conexionbd.php";
+                                                    require "../modelo/conexionbd.php";
 
                                                     $int = $intentos_usuario + 1;
                 
@@ -203,7 +207,7 @@ $contrasena = $_POST['contrasena'];
                                                         $objeto = 1;
                                                         $acciones = "Error de sesion";
                                                         $descp = "ERROR: fallo al iniciar sesión: contraseña o nombre de usuario incorrectos";
-                                                        require_once("../../modelo/conexionbd.php");
+                                                        require_once("../modelo/conexionbd.php");
                                                         $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                                                         $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
                                                         $llamar->execute();
@@ -223,10 +227,15 @@ $contrasena = $_POST['contrasena'];
 
                                     /*Genera un registro de error en la tbl_bitacora por intento de acceso al sistema
                                         con usuario bloqueado*/
+
+                                    $respuesta = array(
+                                        "respuesta" => "bloqueado"
+                                    );
+
                                     $objeto = 1;
                                     $acciones = "usuario bloqueado";
                                     $descp = "ERROR: intento de inicio de sesión con usuario bloqueado";
-                                    require_once '../../modelo/conexionbd.php';
+                                    require_once '../modelo/conexionbd.php';
                                     $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                                     $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
                                     $llamar->execute();
@@ -240,13 +249,22 @@ $contrasena = $_POST['contrasena'];
                                     $objeto = 1;
                                     $acciones = "Usuario nuevo";
                                     $descp = "Usuario nuevo, se redirige a la pantalla de configuracion de preguntas de seguridad";
-                                    require_once("../../modelo/conexionbd.php");
+                                    require_once("../modelo/conexionbd.php");
                                     $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                                     $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
                                     $llamar->execute();
                                     $llamar->close();
 
-                                    header("location:conf_preguntas.php");
+                                    session_start();
+                                    session_encode();
+        
+                                    $_SESSION['usuario'] = strtolower($usuario);
+
+                                    $respuesta = array(
+                                        "respuesta" => "redirigiendo"
+                                    );
+
+                                    //header("location:../vista/modulos/conf_preguntas.php");
                                     break;
 
                                 default:
@@ -268,7 +286,7 @@ $contrasena = $_POST['contrasena'];
                         $objeto = 1;
                         $acciones = "No existe";
                         $descp = "Intentó de ingreso al sistema con usuario no registrado";
-                        require "../../modelo/conexionbd.php";
+                        require "../modelo/conexionbd.php";
                         $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                         $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
                         $llamar->execute();
@@ -291,6 +309,12 @@ $contrasena = $_POST['contrasena'];
             die("se produjo un error". $e->getMessage());
         }
 
-        echo json_encode($respuesta);
+
           
-    }  
+    } else{
+        $respuesta = array(
+            "respuesta" => "noCredenciales"
+        );
+    }
+
+    echo json_encode($respuesta);

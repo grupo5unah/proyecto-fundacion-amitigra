@@ -345,6 +345,33 @@ $(document).ready(function () {
       
     })
   })
+  //Date picker para fecha reservacion modal editar
+  $('#reserva').datepicker({
+    autoclose: true 
+  });
+  //Date picker para entrada
+  $('#fEntrada').datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    startDate: '0d',
+    todayHighlight: true
+  });
+  $('#fEntrada').change(function(){
+    
+    /*esta funciona permite que el input de la fecha salida este desabilitado mientras no se haya eleguido
+    la fecha de entrada*/
+    $('#fSalida').attr("readonly", false);
+
+    //validando que mientras la fecha de entrada no se elija no muestre el calendario
+    var fechaEntrada = $(this).val();
+    $('#fSalida').datepicker({
+      autoclose: true,
+      startDate: fechaEntrada,
+      datesDisabled: fechaEntrada,
+      format: 'yyyy-mm-dd'
+      
+    })
+  })
   
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
   $("#regitroClientes").submit(async function(e){
@@ -505,7 +532,7 @@ $(document).ready(function () {
     //esta funcion se optine el valor de la propuedad (ckecked) que es un valor (true/false)
     if($('#checke').prop('checked')){
       console.log('check activado');
-      var cli = $("#idCli").val(), reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),
+      var cli =$('#idCliente').val(''), reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),
         salida = $("#salida").val(),habitacion = $("#habitacion").val(),
         cantAN = $("#cAdultosN").val(), cantNN = $("#cNinosN").val(), cantAE = $("#cantAdultosE").val(),
         cantNE = $("#cantNinosE").val(),cant_habitacion = $("#cantH").val(),
@@ -586,78 +613,7 @@ $(document).ready(function () {
     }else{
       console.log('funciona2');
       console.log('check desactivado');
-      //aqui se vuelve a validad el check para que permita registrar para una sola nacionalidad
-      //en este caso seria solo para EXTRANJERO
-      if($('#checke').prop('checked')){
-        console.log('registrar Extranjeros');
-        console.log('check desactivado para registrar extranjeros');
-        var cli = $("#idCli").val(), reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),salida = $("#salida").val(),
-            habitacion = $("#habitacion").val(),cantAE = $("#cantAdultosE").val(), cantNE = $("#cantNinosE").val(), 
-            cant_habitacion = $("#cantH").val(),precioAE = $("#precioAdultoE").val(),precioNE = $("#precioNinoE").val(),
-            total2 = $("#total2").val() ,usuario_actual = $("#usuario_actual").val(), id_usuario = $("#id_usuario").val();
-
-        console.log(cli,reservacion, entrada,salida,habitacion,cant_habitacion,cantAE,cantNE,precioAE, precioNE, total2, 
-                    usuario_actual,id_usuario);
-
-        if( reservacion != undefined && entrada != undefined &&salida != undefined && cantAE != undefined && cantNE != undefined  &&
-          habitacion != undefined && cant_habitacion != undefined && precioAE != undefined && precioNE != undefined && 
-          total2 != undefined && usuario_actual != undefined && id_usuario != undefined){
-            // formdata sirve para enviar los datos al servidor
-            /*lo que va entre fuera de las comillas son las variables que declaramos 
-            y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-            const registro= new FormData();
-            registro.append('reservacion',reservacion);
-            registro.append('entrada',entrada);
-            registro.append('salida', salida);
-            registro.append('habitacion', habitacion);
-            registro.append('adultoE', cantAE);
-            registro.append('ninoE', cantNE);
-            registro.append('cant_habitacion', cant_habitacion);
-            registro.append('precioAdultoE', precioAE);
-            registro.append('precioNinoE', precioNE);
-            registro.append('total2', total2);
-            registro.append('usuario_actual', usuario_actual);
-            registro.append('id_usuario', id_usuario);
-            
     
-            const resp = await axios.post(`./controlador/ctrhotel.php?action=hotelJutiapaNoE`, registro);
-    
-            const data = resp.data;
-    
-            if(data.error){
-                return swal("Error", data.msj, "error");
-            }else{
-              return swal("Correcto", data.msj, "success").then((value) => {
-                if (value){
-                  // Se limpia el formulario
-                  $("#reservacion").val('');
-                  $("#entrada").val('');
-                  $("#salida").val('');
-                  $("#habitacion").val('');
-                  $("#cantNinosE").val('');
-                  $("#cantAdultosE").val('');
-                  $("#cantH").val('');
-                  $("#precioAdultoE").val('');
-                  $("#precioNinoE").val('');
-                  $("#total2").val('');
-                  
-                }
-                window.location.href='hotel';
-              })
-
-            }
-            
-            
-        }else{
-          swal({
-            icon: 'warning',
-            title: 'Hubo un error',
-            text:'todos los campos son obligatorios'
-          })
-        } 
-
-      
-      }else{
         //registrar solo para nacionales
         console.log('registrar nacionales');
         console.log('check desactivado para registrar nacionales');
@@ -726,7 +682,7 @@ $(document).ready(function () {
             text:'todos los campos son obligatorios'
           })
         }
-      }
+      
     }
     
   })
@@ -817,76 +773,7 @@ $(document).ready(function () {
       } 
 
     }else{
-      if($('#check').prop('checked')){ 
-        console.log('check activado para reservar extranjeros');
-        var reserva = $("#reserva").val(),entra = $("#entra").val(),
-          sali = $("#sali").val(),habita = $("#habita").val(), cantiAE = $("#cantAdultE").val(),
-          cantiNE = $("#cantNiE").val(),cantiHa = $("#cantHa").val(),precAE = $("#preAdultE").val(),
-          precNE = $("#preNinoE").val(),total4 = $("#total4").val(),
-          usuario_actual = $("#usuario_actual").val(), id_usuario = $("#id_usuario").val();
-  
-         
-        console.log(reserva, entra,sali,habita,cantiHa,cantiAE,cantiNE,precAE, precNE, total4, usuario_actual,id_usuario);
-  
-          if( reserva != undefined && entra != undefined &&sali != undefined &&
-            cantiAE != undefined && cantiNE != undefined &&habita != undefined && cantiHa != undefined
-            && precAE != undefined && precNE != undefined && total4 != undefined 
-            && usuario_actual != undefined && id_usuario != undefined){
-            // formdata sirve para enviar los datos al servidor
-            /*lo que va entre fuera de las comillas son las variables que declaramos 
-             y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-            const registro= new FormData();
-            registro.append('reserva',reserva);
-            registro.append('entra',entra);
-            registro.append('sali', sali);
-            registro.append('habita', habita);
-            registro.append('adultE', cantiAE);
-            registro.append('ninE', cantiNE);
-            registro.append('cantiHa', cantiHa);
-            registro.append('preAdultoE', precAE);
-            registro.append('preNinoE', precNE);
-            registro.append('total4', total4);
-            registro.append('usuario_actual', usuario_actual);
-            registro.append('id_usuario', id_usuario);
-            
-    
-            const resp = await axios.post(`./controlador/ctrhotel.php?action=hotelRosarioNoE`, registro);
-    
-            const data = resp.data;
-    
-            if(data.error){
-                return swal("Error", data.msj, "error");
-            }else{
-              return swal("Correcto", data.msj, "success").then((value) => {
-                if (value){
-                  // Se limpia el formulario
-                  $("#reserva").val('');
-                  $("#entra").val('');
-                  $("#sali").val('');
-                  $("#habita").val('');
-                  $("#cantNiE").val('');
-                  $("#cantAdultE").val('');
-                  $("#cantHa").val('');
-                  $("#preAdultE").val('');
-                  $("#preNinoE").val('');
-                  $("#total4").val('');
-                }
-                window.location.href='hotel';
-              })
-  
-            }
-            
-            
-        }else{
-          swal({
-            icon: 'warning',
-            title: 'Hubo un error',
-            text:'todos los campos son obligatorios'
-          })
-        }
-      
-      }else{
-        console.log('check activado para reservar nacionales');
+        console.log('check desactivado para reservar nacionales');
         var reserva = $("#reserva").val(),entra = $("#entra").val(),
           sali = $("#sali").val(),habita = $("#habita").val(),
           cantiAN = $("#cAdultN").val(), cantiNN = $("#cNiN").val(),cantiHa = $("#cantHa").val(),
@@ -953,11 +840,14 @@ $(document).ready(function () {
             text:'todos los campos son obligatorios'
           })
         }
-      }
-    }
+    } 
     
   })
 
+  //MOSTRAR MODAL DETALLE (TABLA)
+  $('.btnDetalleHotel').on('click', function() {
+    $('#modalDetalleHotel').modal('show');
+  })
    //BOTON EDITAR MODAL (TABLA HOTEL)
    $('.btnEditarHotel ').on('click', function() {
     // info previa
@@ -966,17 +856,15 @@ $(document).ready(function () {
     const reservacion = $(this).data('reservacion');
     const entrada = $(this).data('entrada');
     const salida = $(this).data('salida');
-    const cantAdultos = $(this).data('adultos');
-    const cantiNinos = $(this).data('ninos');
-    const pagar = $(this).data('total');
+    const cliente = $(this).data('cliente');
+    const localidad = $(this).data('localidad');
 
     //$("#idreservacion").val(idreservacion),
+    $("#client").val(cliente),
     $("#fReservacion").val(reservacion),
     $("#fEntrada").val(entrada),
     $("#fSalida").val(salida),
-    $("#cAdultos").val(cantAdultos),
-    $("#cNinos").val(cantiNinos),
-    $("#total").val(pagar)
+    $("#local").val(localidad)
     //mostrar el modal
     $('#modalEditarHotel').modal('show');
     //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
@@ -988,9 +876,6 @@ $(document).ready(function () {
         formData.append('reservacion',$("#fReservacion").val());
         formData.append('entrada',$("#fEntrada").val());
         formData.append('salida',$("#fSalida").val());
-        formData.append('adultos',$("#cAdultos").val());
-        formData.append('ninos',$("#cNinos").val());
-        formData.append('pago',$("#total").val());
        
         console.log(formData);
         
@@ -1022,10 +907,10 @@ $(document).ready(function () {
   })
   //BOTON PARA ELIMINAR RESERVACION (TABLA HOTEL)
   $('.btnEliminarHotel').on('click', function (){
-    const idReservacion = $(this).data('idreservacion');
+    const idReservacion = $(this).data('idreser');
     swal("Eliminar Reservación", "¿Esta seguro de eliminar esta Reservación?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
         if (value){
-            //console.log(idReservacion);
+            console.log(idReservacion);
             const formData = new FormData();
             formData.append('id_reservacion', idReservacion);
             const resp = await axios.post('./controlador/ctrhotel.php?action=eliminarHotel', formData);

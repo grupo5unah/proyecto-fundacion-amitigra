@@ -48,6 +48,43 @@
     }
 
 
+	//MOSTRAR CONTRASENA PANTALLA CONFIGURACION PREGUNTA
+	function contrasenaPreguntas(){
+		let cambioPreguntas = document.querySelector("#PassRegistroPreguntas1");
+
+		if(cambioPreguntas.type == "password"){
+			cambioPreguntas.type = "text";
+			$(".icon_pregunta").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+		} else {
+			cambioPreguntas.type = "password";
+			$(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+		}
+
+
+		let cambioPreguntas2 = document.querySelector("#PassRegistroPreguntas2");
+
+		if(cambioPreguntas2.type == "password"){
+			cambioPreguntas2.type = "text";
+			$(".icon_pregunta").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+		} else {
+			cambioPreguntas2.type = "password";
+			$(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+		}
+
+
+		let cambioPreguntas3 = document.querySelector("#ConfPassPreguntas");
+
+		if(cambioPreguntas3.type == "password"){
+			cambioPreguntas3.type = "text";
+			$(".icon_pregunta").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+		} else {
+			cambioPreguntas3.type = "password";
+			$(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+		}
+	}
+	//FIN MOSTRAR CONTRASENA CONFIGURACION PREGUNTAS
+
+
 	//Script mostrar contrasena COPIA DE SEGURIDAD
 
 	function contrasenaCopia(){

@@ -25,7 +25,7 @@
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantEstadoTable">
-									<thead>
+									<thead style="background-color: #222d32; color: white;">
 										<tr>
 
 											<th class="text-center">Nombre Estado</th>

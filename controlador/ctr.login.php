@@ -53,7 +53,7 @@ class Login{
                     }
 
                     if($existe){
-                        $respuesta['respuesta'] = 'exito';
+                        //$respuesta['respuesta'] = 'exito';
 
                         $stmt1 = $conn->prepare("SELECT id_usuario, primer_ingreso, intentos, tbl_estado.nombre_estado, rol_id, tbl_roles.rol
                                                 FROM tbl_usuarios

@@ -179,7 +179,7 @@ $(document).ready(function () {
             formData.append('nombre_tipo_boleto',$("#NombreBoleto").val());
             formData.append('descripcion',$("#Descripcion").val());
             formData.append('precio_venta',$("#PrecioV").val());            
-            formData.append('modificado_por',$("#ModificacionPu").val());
+            formData.append('modificado_por',$("#ModificacionPuser").val());
             formData.append('fecha_modificacion',$("#Fmodificacion").val());
            
             console.log(formData);
@@ -203,7 +203,7 @@ $(document).ready(function () {
                     $("#NombreBoleto").val('');
                     $("#Descripcion").val('');
                     $("#PrecioV").val('');                    
-                    $("#ModificacionPu").val('');
+                    $("#ModificacionPuser").val('');
                     $("#Fmodificacion").val('');
                     location.reload(); 
                 })
@@ -240,24 +240,27 @@ $(document).ready(function () {
       });
     })
   
-    $('.btnNuevaNacionalidad').click(function(){    
-      $('#modalCrearNacionalidad').modal('show');
+    $('.btnNuevoTipoBoleto').click(function(){    
+      $('#modalCrearTipoBoleto').modal('show');
      });
   
      //PARA CREAR UNA NACIONALIDAD
-     $("#formCrearNacionalidad").submit(async function(e){
+     $("#formCrearTipoBoleto").submit(async function(e){
       e.preventDefault();
   
-      var NombreNacionalidad = $("#NacionalidadN").val(), usuario_actual = $("#usuario_actual").val();
+      var NombreTipoBoleto = $("#NombreBoletoN").val(), usuario_actual = $("#usuario_actual").val()
+        Descripcion= $("#DescripcionN").val(), PrecioVenta= $("#PrecioVN").val();
   
-      console.log(NombreNacionalidad, usuario_actual);
-      if(NombreNacionalidad != undefined && usuario_actual != undefined){
+      console.log(NombreTipoBoleto, usuario_actual, Descripcion, PrecioVenta);
+      if(NombreTipoBoleto != undefined && Descripcion != undefined && PrecioVenta != undefined && usuario_actual != undefined){
           // formdata sirve para enviar los datos al servidor        
           const registro= new FormData();        
-          registro.append('NacionalidadN', NombreNacionalidad);        
+          registro.append('NombreBoletoN', NombreTipoBoleto); 
+          registro.append('DescripcionN', Descripcion); 
+          registro.append('PrecioVN', PrecioVenta);        
           registro.append('usuario_actual', usuario_actual);
                   
-          const resp = await axios.post(`./controlador/ctr.nacionalidad.php?action=registrarNacionalidad`, registro);
+          const resp = await axios.post(`./controlador/ctr.TipoBoleto.php?action=registrarTipoBoleto`, registro);
   
           const data = resp.data;
   
@@ -268,12 +271,14 @@ $(document).ready(function () {
           return swal("Correcto", data.msj, "success").then((value) => {
             if (value){
               // Se limpia el formulario            
-              $("#NacionalidadN").val('');                      
+              $("#NombreBoletoN").val('');
+              $("#DescripcionN").val('');
+              $("#PrecioVN").val('');                      
             }
             location.reload();
           })
       }else{
-        swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Extranjero", "warning");
+        swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto", "warning");
       } 
     });
    

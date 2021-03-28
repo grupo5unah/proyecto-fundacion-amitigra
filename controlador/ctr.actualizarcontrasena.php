@@ -5,7 +5,7 @@ include '../modelo/conexionbd.php';
 $contrasenaActual = $_POST['contrasenaActual'];
 $contrasenaNueva = $_POST['contrasenaNueva'];
 $confirmarContrasena = $_POST['confirmarContrasena'];
-$usuario = $_POST['usuario'];
+$usuario = $_POST['usuario2'];
 
     if(!empty($usuario) || !empty($contrasenaActual) || !empty($contrasenaNueva) || !empty($confirmarContrasena)){
 
@@ -61,7 +61,7 @@ $usuario = $_POST['usuario'];
                                         $comp_existe = $comp_contrasena->fetch();
                                         if($comp_existe){*/
 
-                                            $consulta = "SELECT count(contrasena) FROM tbl_hist_contrasena WHERE usuario_id = '$id'";
+                                            /*$consulta = "SELECT count(contrasena) FROM tbl_hist_contrasena WHERE usuario_id = '$id'";
                                             $resultado = mysqli_query($conn, $consulta);
                                             $passw = mysqli_fetch_assoc($resultado);
 
@@ -71,7 +71,7 @@ $usuario = $_POST['usuario'];
                                                     "respuesta" => "existe_registro"
                                                 );
 
-                                            }else{
+                                            }else{*/
 
                                                 date_default_timezone_set("America/Tegucigalpa");
                                                 $fecha_hoy = date("Y-m-d H:i:s", time());
@@ -92,12 +92,15 @@ $usuario = $_POST['usuario'];
                                                 $actualizar->execute();
 
                                                 if(!$actualizar->error){
-                                                    session_destroy();
-                                                    session_abort();
-                                                    
+
                                                     $respuesta = array (
                                                         "respuesta" => "actualizacion"
                                                     );
+
+                                                    sleep(2);
+                                                    session_unset();
+                                                    ob_flush();
+                                                    //session_abort();
 
                                                 }else{
                                                     $respuesta = array (
@@ -111,7 +114,7 @@ $usuario = $_POST['usuario'];
                                                 $insHistorialContrasena->bind_Param("isssss", $id,$hash_password, $usuario, $fecha_hoy, $usuario, $fecha_hoy);
                                                 $insHistorialContrasena->execute();
 
-                                            }
+                                            //}
                                         //}
 
                                     /*}else{
@@ -139,6 +142,9 @@ $usuario = $_POST['usuario'];
             }
         } catch(Exception $e){
             
+            $respuesta = array(
+                "respuesta" => "try"
+            );
 
         }
 
