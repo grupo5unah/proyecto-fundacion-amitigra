@@ -36,7 +36,7 @@
 
 								</div> 
 
-							<table data-page-length='10' class=" display table responsive            table-hover table-condensed table-bordered" style="width:100%;"  id="managerInventario">
+							<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;"  id="managerInventario">
 								<thead>
 									<tr>
 										<th style="background-color:#f0ff33" COLSPAN=2>INVENTARIO GENERAL</th>

@@ -143,22 +143,14 @@
                               <input id="salida" class="form-control modal-roles secundary" type="text" name="salida"required />
                             </div>
                             <div class="campos">
-<<<<<<< HEAD
                               <label for="area">Habitación:</label><br>
                               <select class="form-control modal-roles secundary" name="habitacion" id="habitacion">
                                 <option value="" disabled selected>Selecione...</option>
                                 <?php 
                                   //include_once ('./modelo/conexionbd.php');
-=======
-                                <label for="area">Habitación:</label><br>
-                                <select class="form-control" name="habitacion" id="habitacion">
-                                  <option value="" disabled selected>Selecione...</option>
-                                  <?php 
-                                    require ('./modelo/conexionbd.php');
->>>>>>> 1aadcfcf77c0d7a6880b498681705b138e9cb1eb
 
-                                  $stmt = "SELECT id_habitacion_servicio, habitacion_area, estado_id FROM tbl_habitacion_servicio
-                                            WHERE habitacion_area LIKE '%h%' AND localidad_id = 1 AND estado_id = 4";
+                               //   $stmt = "SELECT id_habitacion_servicio, habitacion_area, estado_id FROM tbl_habitacion_servicio
+                              //              WHERE habitacion_area LIKE '%h%' AND localidad_id = 1 AND estado_id = 4";
                                   $resultado = mysqli_query($conn,$stmt);
                                   ?>
                                   <?php foreach($resultado as $opciones):?>
