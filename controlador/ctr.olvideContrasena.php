@@ -64,7 +64,13 @@
                                             </script>';
                                     setcookie('_unp_', getToken(16), time() + 60 * 2, '', '', '', true);
                                   
-                                    //echo $id;
+                                    //ENVIO DEL CORREO PARA CAMBIO DE CONTRASENA
+                                    //NUEVO
+                                    $respuesta = array(
+                                        "respuesta" => ""
+                                    );
+
+                                    //ANTERIOR
                                     echo "<div class='text-center alert alert-success' role = 'alert'>
                                             Te hemos enviado un correo electrónico, verifica tu bandeja para el enlace de restablecimiento de contraseña.
                                             </div>
@@ -79,7 +85,14 @@
                                 }
                             }
                         } else {
-                          
+
+                            //MENSAJE POR SI EL USUARIO VUELVE A SOLICITAR UN NUEVO CAMBIO DE CONTRASENA
+                            //NUEVO
+                            $respuesta = array(
+                                "respuesta" => ""
+                            );
+
+                            //ANTERIOR
                             echo "<div class='text-center alert alert-warning' role = 'alert'>
                                     Debe esperar al menos 20 minutos para otra solicitud.
                                     </div>
@@ -93,20 +106,35 @@
                                     </script>";
                         }
                     }else{
-                    
-                    echo "<div class='text-center alert alert-danger' role = 'alert'>
-                        Correo o nombre de usuario no encontrado.
-                        </div>
-                        <script>
-                        window.setTimeout(function(){
-                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                        function(){
-                        $(this).remove();
-                        });
-                        }, 3000);
-                        </script>";
+
+                        //MENSAJE POR SI EL CORREO INGRESADO NO ES ENCONTRADO
+                        //NUEVO
+                        $respuesta = array(
+                            "respuesta" => ""
+                        );
+
+                        //ANTERIOR
+                        echo "<div class='text-center alert alert-danger' role = 'alert'>
+                            Correo o nombre de usuario no encontrado.
+                            </div>
+                            <script>
+                            window.setTimeout(function(){
+                            $('.alert').fadeTo(1500,00).slideDown(1000,
+                            function(){
+                            $(this).remove();
+                            });
+                            }, 3000);
+                            </script>";
                     }
                 } else {
+
+                    //SI EL USUARIO NO FUE ENCONTRADO
+                    //NUEVO
+                    $respuesta = array(
+                        "respuesta" => ""
+                    );
+
+                    //ANTERIOR
                     echo "<div class='alert alert-danger' role='alert'>
                             ¡Lo siento! el usuario no fue encontrado.
                             </div>

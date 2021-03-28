@@ -149,8 +149,8 @@
                                 <?php 
                                   //include_once ('./modelo/conexionbd.php');
 
-                                  $stmt = "SELECT id_habitacion_servicio, habitacion_area, estado_id FROM tbl_habitacion_servicio
-                                            WHERE habitacion_area LIKE '%h%' AND localidad_id = 1 AND estado_id = 4";
+                               //   $stmt = "SELECT id_habitacion_servicio, habitacion_area, estado_id FROM tbl_habitacion_servicio
+                              //              WHERE habitacion_area LIKE '%h%' AND localidad_id = 1 AND estado_id = 4";
                                   $resultado = mysqli_query($conn,$stmt);
                                   ?>
                                   <?php foreach($resultado as $opciones):?>
@@ -164,8 +164,6 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
                             <button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
                           </div>
-                          
-                          
                         </div> <!-- /.post -->	
                       </div> <!-- /.tab-pane -->
                       <div class="tab-pane" id="timeline">

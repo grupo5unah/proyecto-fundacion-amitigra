@@ -1,7 +1,44 @@
+
+function soloLetra(e){
+    key=e.keycode || e.which;
+    teclado = String.fromCharCode(key).toLowerCase();
+    letra=" abvdefghijklmnopqrstuvwxyz¿?_";
+    especiales="8-16-37-38-46-63-92-95-164";
+    teclado_especial=false;
+    for(let i in especiales){
+        if (key===especiales[i]){
+            teclado_especial= true;
+            break;
+        }
+    }
+    if(letra.indexOf(teclado)==-1 && !teclado_especial){
+        return false;
+    }
+
+}
+function soloNumero(e){
+    var key = window.event ? e.which : e.keyCode;
+    teclado=String.fromCharCode(key);
+    numero="123456789.";
+    especiales="8-37-38-46";
+    teclado_especial = false;
+    // if (key < 48 || key > 57) {
+    //   e.preventDefault();
+    // }
+    for(let i in especiales){
+       if(key===especiales[i]){
+           teclado_especial=true;
+       }
+    }
+    if(numero.indexOf(teclado)==-1 && !teclado_especial){
+        return false;
+    }
+  }
+  
 $(document).ready(function(){
     //const contenedorPro =$('#contClone');
     const contenedorOrden= $('#ordenTable  .tbody');
-    //const contProducto =$('#productoPricipal');
+    const local =$('#localidadO').val;
     const nombre = $('#productoOrden').val();
     const cantidad = $('#cantidadPOr').val();
     const descripcion = $('#descCanO').val();
@@ -9,9 +46,12 @@ $(document).ready(function(){
     let contOrden=[]; 
     let idProductoTemporal = null;
     
-   $('#gestionOrdenes').DataTable({
+    var t= $('#gestionOrdenes').DataTable({
      
         columnDefs: [
+             {searchable: false},
+             {orderable: false},
+             { targets: 0},
              {className: "text-center ", targets: [0]},
              {className: "text-center ", targets: [1]},
              {className: "text-center ", targets: [2]},
@@ -19,13 +59,22 @@ $(document).ready(function(){
              {className: "text-center ", targets: [4]},
              {className: "text-center ", targets: [5]},
              {width    : "10px", targets: [0]},
+             //{width    : "100px", targets: [1]},
+             //{width    : "100px", targets: [2]},
              {width    : "10px", targets: [3]},
+            // {width    : "100px", targets: [4]},
+            // {width    : "100px", targets: [5]}
       ],
+       "order": [[ 1, 'asc' ]],
+      
+      
      
        "createdRow":function(row,data,index){
+          
            
            if(data[4] == "PENDIENTE"){
-               $('td', row).eq(4).css({
+            
+               $('select', row).eq(4).css({
                    'background-color':' #dd4b39',
                    'color':'white',
                    'text-align':'center',
@@ -42,12 +91,18 @@ $(document).ready(function(){
 
 
     })
+    t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     //$('div .productoOrden').select2();
     
-    
+        
     // crear orden de envio
     function agregarOrden(e){
         e.preventDefault();
+       
         const orden = {
             //crea un objeto con el contenido del formulario
             proOrden :{
@@ -56,8 +111,7 @@ $(document).ready(function(){
             }, 
             cantidadO : $('#cantidadPOr').val(),
             descripcionO : $('#descCanO').val()
-           
-            
+   
         } 
          // agrergo el producto al arreglo
          contOrden = [...contOrden, orden];
@@ -160,9 +214,13 @@ $(document).ready(function(){
   
      // cuando agregas una presionando agragar a table
      if(nombre !== undefined && cantidad !== undefined&& descripcion !== undefined){
+         listaOrden.prop("disabled", true);
+        
      listaOrden.on('click', agregarOrden);
      $('#btnProductUpdate').on('click', editarOrden);
      resetearFormulario()
+     }else{
+        listaOrden.prop("disabled", false);
      }
      
      function resetearFormulario(){
@@ -170,88 +228,79 @@ $(document).ready(function(){
          formulario.reset();
      }
 
-
+     $('.productoOrden').select2();
+     $('#localidadO').select2();
+     
     $('.btnCrearOrden').on('click',function(){
-        $.ajax({
-            type:'GET',
-            dataType:'json',
-            url:'./controlador/apiOrden.php',
-            success:function(res){
-                $.each(res,function(i,item){
-                     $('div .productoOrden').append("<option value='"+ item.id_producto +"'>"+item.nombre_producto+"</option>")
-                     $('#productoPrincipal .productoOrden').select2();
-                });
-                
-                 
-            }
-
-        });
+      
         $('#ModalCrearOrden').modal('show');
               
     });
 
    // validaciones de cada orden
      function validarCampos(){
-         $.validator.addMethod('descCanO', function(value,element){
-             return this.optional(element) || /^[a-z]+$/i.test(value);
-         });
-         $("#formOrden").validate({
-             rules:{
-                 localidad:{
-                     required:true
-                 },
-                 productoOrden:{
-                     required:true
-                 },
-                 cantidadPO:{
-                     required:true,
-                     digits:true,
-                     minlength:1,
-                     maxlength:3,
-
-                 },
-                 descCanO:{
-                     required:true,
-                     minlength:3,
-                     maxlength:8,
-                     descCanO:true,
-
-                 }
-                
-             }
-         });
-     };
-     $('.btnEditarBD').on('click',async function(){
+         if(local !== undefined && nombre !== undefined && cantidad !== undefined && des !== undefined){
+            listaOrden.prop("disabled", false);
+            //btnAgregar.classList.remove('cursor-not-allowed', 'opacity-50');
+         }
+    };
+     $('.btnEditarBD').on('click', function(){
         console.log('hola mundo');
-        //e.preventDefault();
+        
          var usuario_actual = $("#usuario_actual").val();
+         var usuario_id = $("#id_usuario").val();
          var localidad = $("#localidadO").val();
-         if(usuario_actual !== undefined && localidad !== undefined && contOrden !== ""){
-            const formData = new FormData();
-                    formData.append('localidad',localidad);
-                    formData.append('usuario_actual',usuario_actual);
-                    formData.append('contObjetoO',JSON.stringify(contOrden));
-                   // console.log(formData);
-                const resp = await axios.post(`./controlador/contOrden.php?action=registroOrden`, formData);
-                const data = resp;
-                console.log(data);
-                if(data.error){
-                    return swal("Error", data.msj, "error");
-                }
-                return swal("Exito", data.msj, "success").then(
-                (value)=>{
-                    if(value){
-                        // se limpia el formulario
-                        location.reload();
-                    }
-                });
+         
+                
+         if(usuario_actual !== undefined && localidad !== undefined && contOrden !== undefined ){
+        const formData = new FormData();
+          formData.append('localidad',localidad);
+          formData.append('usuario_actual',usuario_actual);
+          formData.append('usuario_id',usuario_id);
+        
 
-
+             //primer Insert orden
+              axios.post(`./controlador/contOrden.php?action=registrarOrden`, formData).then(lastid =>{
+            //repuesta trae el ordenId
+            console.log(lastid);
+             if(lastid){
+                
+                console.log(contOrden);
+                const formData1 = new FormData();
+                formData1.append('contOrden', JSON.stringify(contOrden.map(p => ({id: p.proOrden.id, cantidad: p.cantidadO, descripcion: p.descripcionO }))));
+                formData1.append('usuario_actual',usuario_actual);
+                //formData1.append('lastId',lastid);
+                
+                axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1).then(respuesta => console.log('se registraron los productos', respuesta)).catch(err=>console.log(err))
+                
+            }
+            }).catch(err=>console.log(err));
+        
+                // const data = resp;s
+                // console.log(data);
+                // if(data.error){
+                //     return swal("Error", data.msj, "error");
+                // }
+                // return swal("Exito", data.msj, "success").then(
+                // (value)=>{
+                //     if(value){
+                //         // se limpia el formulario
+                //         location.reload();
+                //     }
+                // });
+           
+        
         }else{
-                 swal("Avertencia!", "Es necesario rellenar todos los campos", "warning");
-             }
+                  swal("Avertencia!", "Es necesario rellenar todos los campos", "warning");
+        }
+    
 
+     
+    });
 
+    $(".btnVerd").mouseenter(function(){
+        $('#modalVerDetalle').modal('show');
+       // alert('hola');
     });
      
 

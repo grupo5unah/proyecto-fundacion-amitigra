@@ -105,24 +105,6 @@ $columna = $stmt->fetch_assoc();
         <?php }?>
         <!--Final INVENTARIO-->
 
-          <!-- Reportes -->
-        <li class="treeview">
-        <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
-          <a href="#">
-            <i class="fa fa-pencil"></i>
-            <span>Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="reportes"><i class=""></i> Reportes</a></li>
-            
-          </ul>
-        </li>
-        <!--Fin REPORTES-->
-        <?php }?>
-
         <!--Inicio panel de ADMINISTRACION-->
         <li name="admin" id= "admin" class="treeview">
         <?php if ($_SESSION['rol'] == 'administrador' and $columna['permiso_consulta'] == 1) {?>
@@ -157,6 +139,7 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>
+                <li ><a href="mantReservaciones"><i class=""></i> Mantenimiento <br> Reservaciones</a></li>
                 <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidad y <br> Tipo Producto</a></li>
                 <li ><a href="mantProducto"><i class=""></i> Producto</a></li>
                 <li><a href="mantTipoBoletos"><i class=""></i> Tipo de Boletos</a></li>

@@ -42,14 +42,6 @@
 
 	}
 
-	function limpia() {
-		var val = document.getElementById("telefono").value;
-		var tam = val.length;
-		for (i = 0; i < tam; i++) {
-			if (isNaN(val[i]))
-				document.getElementById("telefono").value = '';
-		}
-	}
 
 	function mostrarPassword() {
 		var cambio = document.getElementById("Contraseña");
@@ -189,7 +181,7 @@
 
 														<button class="btn btn-danger btnEliminarUsuario glyphicon glyphicon-remove" data-idusuario="<?php echo $evento['id_usuario'] ?>"></button>
 
-														<button class="btn btn-resetear btnResetearClaves fa fa-key" data-idusuario="<?= $evento['id_usuario'] ?>" data-contrasena="<?= $evento['contrasena'] ?>"> Resetear</button>
+														<button class="btn btn-resetear btnResetearClaves fa fa-key" style="width:40px" style="height:50px;" data-idusuario="<?= $evento['id_usuario'] ?>" data-contrasena="<?= $evento['contrasena'] ?>"></button>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -246,7 +238,7 @@
 
 									<?php
 									include('./modelo/conexionbd.php');
-									$consult_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles`");
+									$consult_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles` WHERE estado_eliminado=1");
 									$result = mysqli_num_rows($consult_rol);
 									?>
 
@@ -268,7 +260,7 @@
 									include('./modelo/conexionbd.php');
 									$consult_estado = mysqli_query($conn, "SELECT id_estado,nombre_estado
 									FROM tbl_estado
-									WHERE nombre_estado IN ('ACTIVO','BLOQUEADO','NUEVO')
+									WHERE nombre_estado IN ('ACTIVO','BLOQUEADO','NUEVO') && estado_eliminado=1
 									   ");
 									$result = mysqli_num_rows($consult_estado);
 									?>
@@ -313,7 +305,7 @@
 							</div>
 						</div>
 						<div class="modal-body">
-							<form name="formEditarProducto">
+							<form name="formResetearcontra">
 								<div class="ingreso-producto form-group">
 									<div class="campos" type="hidden">
 										<label for=""> </label>
@@ -323,7 +315,7 @@
 									<div class="campos form-group">
 										<label for="">Nueva Contraseña</label>
 										<input id="Contraseña_reset" style="width:320px" class="" type="password" placeholder="Contraseña" required /></center>
-										<button id="show_pasword" style="width:40px" class="" type="button" onclick=" mostrarPasswordreset()">
+										<button id="show_pasword" style="width:40px" class="" type="button" onclick="mostrarPasswordreset()">
 											<span class="fa fa-eye-slash icon"></span></button>
 									</div>
 									<div class="campos form-group">
@@ -340,7 +332,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-							<button id="btnResetClave" type="button" class="btnResetClave btn btn-primary">Resetear Contraseña
+							<button id="btnResetClave" type="button" class="btnResetClave btn btn-primary">Resetear Contraseña</button>
 						</div>
 					</div>
 				</div>
@@ -406,7 +398,7 @@
 									</div>
 									<?php
 									include('./modelo/conexionbd.php');
-									$consulta_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles`");
+									$consulta_rol = mysqli_query($conn, "SELECT id_rol,rol FROM `tbl_roles` where estado_eliminado=1");
 									$resultados = mysqli_num_rows($consulta_rol);
 									?>
 									<div class="campos form-group">

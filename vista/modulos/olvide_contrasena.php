@@ -39,12 +39,12 @@
 			<div class="form-group">
 				<form method="POST">
 				<input type="hidden" id="tipo_correo" name="tipo_correo" value="recuperarCorreo">
-		  		<button type="submit" name="submit_correo" class="btn btn-primary btn-flat">Mediante correo</button>
+		  		<button type="button" id="btnCorreo" name="submit_correo" class="btn btn-primary btn-flat">Mediante correo</button>
 				</form>  
 			</div>
 		  	<div class="form-group">
 			  <input type="hidden" id="tipo_pregunta" name="tipo_pregunta" value="recuperarPregunta">
-		  		<button type="submit" name="submit_pregunta" class="btn btn-primary btn-flat">Mediante pregunta</button>
+		  		<button type="button" id="btnPregunta" name="submit_pregunta" class="btn btn-primary btn-flat">Mediante pregunta</button>
 		  	</div>
         </div>
 		<div class="form-group text-center">
@@ -54,7 +54,7 @@
 	</form>
   </div>
   <?php
-	if(isset($_POST['submit_correo'])){
+	/*if(isset($_POST['submit_correo'])){
 	include_once('../../controlador/ctr.olvideContrasena.php');
 
 	$olvideContrasena = new OlvideContrasena();
@@ -65,7 +65,7 @@
 
 	$AccionesBitacoraCorreo = new AccionesBitacora();
 	$AccionesBitacoraCorreo->ctrPassCorreo();*/
-	}elseif(isset($_POST['submit_pregunta'])) {
+	/*}elseif(isset($_POST['submit_pregunta'])) {
 	include_once('../../controlador/ctr.recPassPregunta.php');
 
 	$olvideContrasenaPregunta = new RecuPregunta();
@@ -76,7 +76,7 @@
 
 	$AccionesBitacoraPregunta = new AccionesBitacora();
 	$AccionesBitacoraPregunta->ctrPassPregunta();*/
-	}
+	//}
 	?>
 
 </div>
@@ -100,12 +100,14 @@ window.onload = function(){
 
 </script>
 
-<script src="../dist/js/app.login.js"></script>
-
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="vista/dist/js/jquery-3.5.1.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../dist/js/app.login.js"></script>
+<script src="../dist/js/olvide_contrasena.js"></script>
 <!-- iCheck -->
 <script src="../plugins/iCheck/icheck.min.js"></script>
 <script>

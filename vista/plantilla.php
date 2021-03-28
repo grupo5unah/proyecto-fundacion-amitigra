@@ -52,6 +52,7 @@ if ($nombre->affected_rows) {
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
+  
   <link rel="stylesheet" href="vista/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="vista/bower_components/font-awesome/css/font-awesome.min.css">
@@ -61,7 +62,7 @@ if ($nombre->affected_rows) {
   <link rel="preload" href="vista/dist/css/AdminLTE.css" as="style">
   <link rel="stylesheet" href="vista/dist/css/AdminLTE.css">
   <link rel="stylesheet" href="vista/dist/css/estiloReserva.css">
-
+ 
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/dataTables.bootstrap4.min.css">
@@ -71,10 +72,7 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/bower_components/morris.js/morris.css">
   <link rel="stylesheet" href="vista/bower_components/select2/dist/css/select2.min.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="vista/bower_components/jvectormap/jquery-jvectormap.css">
-   <!-- daterange picker -->
-   <link rel="stylesheet" href="vista/dist/css/daterangepicker.css">
-  
+  <link rel="stylesheet" href="vista/bower_components/jvectormap/jquery-jvectormap.css">  
   <!-- Date Picker -->
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datepicker.min.css">
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
@@ -124,6 +122,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "cerrarSesion" ||
         $_GET["ruta"] == "bloqueoInactividad" ||
         $_GET["ruta"] == "infoBackup" ||
+        $_GET["ruta"] == "conf_preguntas" ||
         $_GET["ruta"] == "pruebaTab" ||
         $_GET["ruta"] == "carrusel" ||
         $_GET["ruta"] == "mantLocalidad" ||
@@ -135,6 +134,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantpermisos" ||
         $_GET["ruta"] == "mantpreguntas" ||
         $_GET["ruta"] == "mantClientes" ||
+        $_GET["ruta"] == "mantReservaciones" ||
         $_GET["ruta"] == "mantEstados" ||
         $_GET["ruta"] == "mantHabiServ" ||
         $_GET["ruta"] == "menuSolicitudes" ||
@@ -198,7 +198,6 @@ if ($nombre->affected_rows) {
 <script src="vista/dist/js/jquery.dataTables.min.js"></script>
 <script src="vista/dist/js/jquery.dataTables.js"></script>
  <script src="vista/dist/js/jquery.dataTables.js"></script>
- <script src="vista/dist/js/daterangepicker.js"></script>
  <!-- datepicker -->
 <script src="vista/dist/js/bootstrap-datepicker.js"></script> 
  <!-- datetimepicker -->
@@ -211,7 +210,6 @@ if ($nombre->affected_rows) {
 <script src="vista/dist/js/buttons.print.min.js"></script>
 <script src="vista/dist/js/pdfmake.min.js"></script>
 <script src="vista/bower_components/moment/min/moment.min.js"></script>
-<script src="vista/dist/js/daterangepicker.js"></script>
 <script src="vista/dist/assets/js/jquery.validate.min.js"></script>
 <script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
 <script src="vista/bower_components/select2/dist/js/select2.min.js"></script>
@@ -236,8 +234,9 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/ordenes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
-<script src="vista/dist/js/camping.js"></script>
+<script src="vista/dist/js/tablaReserva.js"></script>
 <script src="vista/dist/js/clientes.js"></script>
+<script src="vista/dist/js/reservaciones.js"></script>
 <script src="vista/dist/js/estado.js"></script>
 <script src="vista/dist/js/manthabserv.js"></script>
 <script src="vista/dist/js/gUsuarios.js"></script>

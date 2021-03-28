@@ -12,9 +12,8 @@ if (isset($_GET['action'])) {
 switch ($action) {
 
 
-    case 'registrarTipSolicitud':
-        $tipoSolicitud = $_POST['tipoSolicitud'];
-        $preciosolicitud = $_POST['preciosolicitud'];
+    case 'registrarEstadoSolicitud':
+        $estadoSolicitud = $_POST['estadoSolicitud'];
         $usuario_actual = $_POST['usuario_actual'];
 
         //Fecha ACTUAL del sistema
@@ -23,37 +22,34 @@ switch ($action) {
 
 
         if (
-            empty($_POST['tipoSolicitud']) || empty($_POST['preciosolicitud'])
+            empty($_POST['estadoSolicitud'])
         ) {
-            $res['msj'] = 'Es necesario rellenar todos los campos';
+            $res['msj'] = 'Es necesario rellenar este campo';
             $res['error'] = true;
         } else {
 
             try {
 
-                // select para ver si existe el tipo de solicitud en la Base de datos
-
-                $consult = mysqli_query($conn, " SELECT id_tipo_solicitud, tipo 
-                FROM tbl_tipo_solicitud 
-                WHERE tipo = '$tipoSolicitud' and estado_eliminado=1 ");
+                // select para ver si existe el estado en la Base de datos
+                $consult = mysqli_query($conn, "SELECT estatus
+                FROM tbl_estatus_solicitud
+                WHERE estatus = '$estadoSolicitud' and estado_eliminado=1 ");
                 $result = mysqli_fetch_array($consult);
 
 
                 if ($result > 0) {
                     //mandara un mensaje que ya existe el tipo de dato en la BD 
-
-                    $res['msj'] = "Este tipo de solicitud ya existe en la base de datos";
+                    $res['msj'] = "Este estado ya existe en la base de datos";
                     $res['error'] = true;
                 } else {
                     $estado_elim = 1;
 
-                    $sql = $conn->prepare("INSERT INTO tbl_tipo_solicitud(tipo,precio_solicitud,estado_eliminado,creado_por,fecha_creacion,
+                    $sql = $conn->prepare("INSERT INTO tbl_estatus_solicitud(estatus,estado_eliminado,creado_por,fecha_creacion,
                            modificado_por,fecha_modificacion)
-                    VALUES (?,?,?,?,?,?,?)");
+                    VALUES (?,?,?,?,?,?)");
                     $sql->bind_param(
-                        "siissss",
-                        $tipoSolicitud,
-                        $preciosolicitud,
+                        "sissss",
+                        $estadoSolicitud,
                         $estado_elim,
                         $usuario_actual,
                         $fecha,
@@ -62,10 +58,10 @@ switch ($action) {
                     );
                     $sql->execute();
                     if ($sql->error) {
-                        $res['msj'] = "Se produjo un error al momento de registrar el tipo de solicitud";
+                        $res['msj'] = "Se produjo un error al momento de registrar el estado";
                         $res['error'] = true;
                     } else {
-                        $res['msj'] = "El tipo de Solicitud se ha registrado Correctamente";
+                        $res['msj'] = "El estado de Solicitud se ha registrado Correctamente";
                     }
                 }
             } catch (Exception $e) {

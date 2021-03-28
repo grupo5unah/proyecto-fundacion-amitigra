@@ -17,7 +17,7 @@
 		<!-- Default box -->
 		<div class="box">
 			<div class="box-header with-border">
-
+				<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 			</div>
 			<div class="box-body">
 				<!--LLamar al formulario aqui-->
@@ -36,7 +36,7 @@
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="gestionOrdenes">
-									<thead style="background-color: #222d32; color: white;">
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 											<th>Orden</th>
 											<th>Localidad</th>
@@ -78,12 +78,25 @@
 												<?php	//echo $evento['nombre_arti']
 												?>
 												<tr>
-													<td> <?php echo $evento['numeroOrden']; ?></td>
+													<td> </td>
 													<td> <?php echo $evento['localidad']; ?></td>
 													<td> <?php echo $evento['usuario']; ?></td>
 													<td> <?php echo $evento['totalP']; ?></td>
-													<td> <?php echo $evento['estado']; ?></td>
-													<td>
+													<td><select size="1" id="row" name="row-3-office">
+															<option value="0">
+																<?php echo $evento['estado']; ?>
+															</option>
+															<option value="enviado">
+																ENVIADO
+															</option>
+															<option value="Pendiente">
+																PENDIENTE
+															</option>
+
+														</select></td>
+													<td class=" d-flex">
+														<!-- //<i class="fas fa-eye"></i>bi bi-eye-fill -->
+														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idP=""></button>
 														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento['id_P'] ?>" data-nomProducto="<?= $evento['nombreP'] ?>" data-precioP="<?= $evento['precioP'] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento['descripcion'] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento['precioAl'] ?>"></button>
 
 														<button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento['id_P'] ?>"></button>
@@ -119,45 +132,62 @@
 							</div>
 						</div>
 						<div class="modal-body">
+							<div class=" form-group " style="width: 380px; margin-left:45px;">
+								<label for="">LOCALIDAD</label>
+								<select name="localidad" id="localidadO" style="width: 280px; margin-left:.5rem;" class="js-example-basic-multiple js-states typep">
+									<option value="0">LOCALIDAD</option>
+									<?php
+
+									$sql = "SELECT id_localidad, nombre_localidad FROM tbl_localidad where estado_eliminado=1";
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+										// output data of each row
+										while ($row = $result->fetch_assoc()) {
+											echo "<option value=" . $row['id_localidad'] . ">" . $row['nombre_localidad'] . "</option>";
+										}
+									} else {
+										echo "0 results";
+									}
+									// $conn->close();
+									// 
+									?>
+								</select>
+							</div>
 							<form id="formOrden" name="">
 								<div id="contFormOrden" class=" row d-flex ingreso-producto form-group">
 
-									<div class=" form-group " style="width: 380px; margin-left:45px;">
-										<label for="">LOCALIDAD</label>
-										<select name="localidad" id="localidadO" style="width: 280px; margin-left:.5rem;" class="js-example-basic-multiple js-states typep">
-											<option value="0"></option>
-											<?php
 
-											$sql = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
-											$result = $conn->query($sql);
-
-											if ($result->num_rows > 0) {
-												// output data of each row
-												while ($row = $result->fetch_assoc()) {
-													echo "<option value=" . $row['id_localidad'] . ">" . $row['nombre_localidad'] . "</option>";
-												}
-											} else {
-												echo "0 results";
-											}
-											$conn->close();
-											?>
-										</select>
-									</div>
 									<div id="productoPrincipal" class="productoPrincipal d-flex">
 
 
 										<div class="col-md-4 " style="width:200px; margin-left:10px;">
-											<select name="productoOrden[]" id="productoOrden" style="width:200px" class=" productoOrden js-example-responsive js-states form-control form-select ">
-												<option value="0"></option>
+											<select required name="productoOrden[]" id="productoOrden" style="width:200px" class=" productoOrden js-example-responsive js-states form-control form-select ">
+												<option value="0">PRODUCTOS</option>
+												<?php
+
+												$sql = "SELECT id_producto, nombre_producto FROM tbl_producto where estado_eliminado=1";
+												$result = $conn->query($sql);
+
+												if ($result->num_rows > 0) {
+													// output data of each row
+													while ($row = $result->fetch_assoc()) {
+														echo "<option value=" . $row['id_producto'] . ">" . $row['nombre_producto'] . "</option>";
+													}
+												} else {
+													echo "0 results";
+												}
+												$conn->close();
+												?>
 											</select>
 										</div>
 										<div class="col-md-1 " style=" width:100px; margin-left:40px; padding:0;">
-											<input name="cantidadPOr[]" id="cantidadPOr" class="col-md-1" style="margin:0;width: 80px;" type="number" placeholder="0" require>
+											<input name="cantidadPOr[]" id="cantidadPOr" class="col-md-1" style="margin:0;width: 80px;" type="number" placeholder="0" required min="1" pattern="^[0-9]+" onkeypress="return soloNumero(event)">
 										</div>
 										<div class="col-md-3" style=" width:100px; margin-left:10px; padding:0;">
-											<input name="descCanO" id="descCanO" class="col-md-2" style=" margin:0; width: 100px;" type="text" placeholder="UNIDADES" require>
+											<input name="descCanO" id="descCanO" class="col-md-2" style=" margin:0; width: 100px;" type="text" placeholder="UNIDADES" required pattern="^[0-9]+" onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off">
 										</div>
-										<button type="button" class="btn btn-success btnAgregarFila aling-item">AGREGAR</button>
+										<button style=" width:25px; height:22px; margin-left:15px;padding:0;" type="button" class="btn btn-success btnAgregarFila aling-item glyphicon glyphicon-plus-sign" disabled></button>
 										<input type="hidden" id="btnProductUpdate" class=" btn btn-primary agregar-table" value="Finalizar Edicion">
 
 									</div>
@@ -179,7 +209,7 @@
 								</div>
 
 								<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-								
+
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -189,6 +219,67 @@
 					</div>
 				</div>
 			</div>
+			<!-- modal para ver el detalle de las ordenes de pedido -->
+
+
+			<div class="modal fade" id="modalVerDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<h3>ORDEN DE PEDIDO DE INSUMOS</h3>
+							<P> JUTIAPA</P>
+							<div class="row justify-content-between">
+							<label for="">FECHA: <span></span></label>
+							<p> Usuario que ingreso el Pedido</p>
+							</div>
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">First</th>
+										<th scope="col">Last</th>
+										<th scope="col">Handle</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>Mark</td>
+										<td>Otto</td>
+										<td>@mdo</td>
+									</tr>
+									<tr>
+										<th scope="row">2</th>
+										<td>Jacob</td>
+										<td>Thornton</td>
+										<td>@fat</td>
+									</tr>
+									<tr>
+										<th scope="row">3</th>
+										<td>Larry</td>
+										<td>the Bird</td>
+										<td>@twitter</td>
+									</tr>
+								</tbody>
+							</table>
+
+							...
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
 
 
 			<!-- /.box-footer-->
