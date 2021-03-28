@@ -1,8 +1,18 @@
-$(document).ready(function(){
-  $('#mantSenderos').DataTable({
+$(document).ready(function () {
+
+  
+  $('#mantEstadosSolicitudes').DataTable({
       
-     
-        
+    colmnDefs:[
+        {className: "text-center ", targets: [0]},
+        {className: "text-center ", targets: [1]},
+        {className: "text-center ", targets: [2]},
+        {className: "text-center ", targets: [3]},
+        {className: "text-center ", targets: [4]},
+        {className: "text-center ", targets: [4]},
+        {className: "text-center ", targets: [6]}
+    ],
+    
     //para usar los botones 
     responsive:"true",
     dom: 'Bfrtip',
@@ -19,7 +29,7 @@ $(document).ready(function(){
           text:'<i class="fas fa-print">',
           titleAttr:'Imprimir',
           title:'FUNDACION AMIGOS DE LA TIGRA',
-          messageTop:' REPORTE DE BOLETOS VENDIDOS',
+          messageTop:'REPORTE DE ESTADOS DE SOLICITUDES',
           className:'btn btn-dark',
           exportOptions: {
             modifier: {
@@ -32,7 +42,7 @@ $(document).ready(function(){
               title: 'FUNDACION AMIGOS DE LA TIGRA',
               text:'<i class="fas fa-file-excel">',
               className:'btn btn-success',
-              messageTop: 'REPORTE DE BOLETOS VENDIDOS',
+              messageTop: 'REPORTE DE ESTADOS DE SOLICITUDES.',
               exportOptions: {
                 columns: [ 0, ':visible' ]
             },
@@ -46,7 +56,7 @@ $(document).ready(function(){
               orientation: 'portrait',
               pageSize: 'A4',
               title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-              messageTop: 'REPORTE DE BOLETOS VENDIDOS',
+              messageTop: 'REPORTE DE ESTADOS DE SOLICITUDES.',
               Image:'fotoPerfil/foto1.png',
               download: 'open',
               exportOptions: {
@@ -141,144 +151,137 @@ $(document).ready(function(){
    
 });
 
-
-  /**------------------------------------------------------------------------------------------------------
-    *                                                                                                      *
-    *                                  VENTA DE BOLETOS A NACIONALES                                       *
-    *                                                                                                      *
-    * ------------------------------------------------------------------------------------------------------
-    */
- /**SENDERO NACIONAL*/
-   /**FUNCION PARA REALIZAR VENTA NACIONAL */
-   $("#senderoN").submit(async function(e){
-    e.preventDefault();    
-
-    var localidad = $("#localidad").val(), cant_Badultos = $("#boletosN").val(), cant_Bninos = $("#boletosNN").val(),
-        precioAdulto = $("#precioN").val(),precioNino = $("#precioNN").val(), id_usuario = $("#id_usuario").val(),
-        totalP = $("#Tpagar").val(), totalBNacional = $("#TboletosN").val(), usuario_actual = $("#usuario_actual").val();
-
-    console.log(localidad, cant_Badultos, cant_Bninos, precioAdulto, precioNino, id_usuario, totalP, totalBNacional, usuario_actual);
-    if(localidad != undefined && cant_Badultos != undefined && cant_Bninos != undefined && precioAdulto != undefined && 
-        precioNino != undefined && totalP != undefined && totalBNacional != undefined && usuario_actual != undefined && id_usuario != undefined){
-        // formdata sirve para enviar los datos al servidor
-        /*lo que va entre fuera de las comillas son las variables que declaramos 
-         y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-        const registro= new FormData();        
-        registro.append('localidad', localidad);
-        registro.append('boletosN', cant_Badultos);
-        registro.append('boletosNN', cant_Bninos);
-        registro.append('precioN', precioAdulto);
-        registro.append('precioNN', precioNino);
-        registro.append('Tpagar', totalP);
-        registro.append('TboletosN', totalBNacional);
-        registro.append('usuario_actual', usuario_actual);
-        registro.append('id_usuario', id_usuario);
-                
-        const resp = await axios.post(`./controlador/ctr.senderosN.php?action=registrarBoletos`, registro);
-
+//mantenimiento de Estado de Solicitudes
+//crear estado de solicitudes
+    $("#formEstadoSolicitudes").submit(async function (e) {
+      e.preventDefault();
+  
+      var estadoSolicitud = $("#estadoSolicitud").val();
+      
+      var usuario_actual = $("#usuario_actual").val();
+  
+      if (
+        estadoSolicitud != undefined &&
+        usuario_actual !=undefined
+      ) {
+        const formData = new FormData();
+  
+        formData.append("estadoSolicitud", estadoSolicitud);
+        formData.append("usuario_actual",usuario_actual);
+  
+        const resp = await axios.post('./controlador/apiEstadoSolicitudes.php?action=registrarEstadoSolicitud',formData);
+      
+  
         const data = resp.data;
-
-        if(data.error){
-            return swal("Error", data.msj, "error");
+  
+        if (data.error) {
+          return swal("Error", data.msj, "error");
         }
-
-        return swal("Correcto", data.msj, "success").then((value) => {
-          if (value){
-            // Se limpia el formulario            
-            $("#localidad").val('');
-            $("#boletosN").val('');
-            $("#boletosNN").val('');
-            $("#Tpagar").val('');
-            $("#TboletosN").val('');            
+  
+        return swal("Exito!", data.msj, "success").then((value) => {
+          if (value) {
+            // Se limpia el formulario de mantenimiento de tipo de solicitudes
+            $("#estadoSolicitud").val("");    
+            location.reload();
           }
-          window.location.href='senderos';
-        })
-    }else{
-      swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Nacional", "warning");
-    } 
+        });
+      } else {
+        swal("Advertencia!", "Es necesario rellenar todos los campos","warning");
+      }
+    })
+  
+    $(".btnCrearEstadoSolicitud").on("click", function () {
+      $("#modalCrearEstadoSolicitud").modal("show");
+    });
+  
+  
+  
+    
+  //eliminar un estado de solicitud
+   $(".btnEliminarEstadoSolicitud").on("click", function () {
+     const idestadosolicitud = $(this).data("idestadosolicitud");
+     var usuario_actual = $("#usuario_actual").val();
+     swal(
+       "Eliminar Estado de Solicitud",
+       "Esta seguro de eliminar este estado de solicitud",
+       "warning",
+       { buttons: [true, "OK"] }
+     ).then(async (value) => {
+       if (value) {
+        
+         const formData = new FormData();
+         formData.append("id_estatus_solicitud", idestadosolicitud);
+         formData.append('usuario_actual', usuario_actual);
+       
+         const resp = await axios.post(
+          "controlador/apiEstadoSolicitudes.php?action=eliminarEstadoSolicitud",
+           formData
+         );
+         const data = resp.data;
+         //console.log(data);
+         if (data.error) {
+           return swal("Error", data.msj, "error", {
+             buttons: false,
+             timer: 2000,
+           });
+         }
+         return swal("Exito!", data.msj, "success", {
+           buttons: false,
+           timer: 2000,
+         }).then(() => {
+           location.reload();
+         });
+       }
+     });
+   });
+   
+  //actualiza un Estado de solicitud
+   $(".btnEditarEstadoSolicitud").on("click", function () {
+     // info previa
+     const idestadosolicitud = $(this).data("idestadosolicitud");
+     const estatus = $(this).data("estatus");
+     var usuario_actual = $("#usuario_actual").val();
+  
+     //llena los campos
+     $("#estadoSolAct").val(estatus),
+      
+
+       //mostrar el modal
+       $("#modalEditarEstadoSolicitud").modal("show");
+     $(".btnEditarBD").on("click", async function () {
+       var Idestadosol = Number(idestadosolicitud);
+       const formData = new FormData();
+       formData.append("id_estatus_solicitud", Idestadosol);
+       formData.append("estatus", $("#estadoSolAct").val());
+       formData.append('usuario_actual', usuario_actual);
+       
+       
+       const resp = await axios.post(
+         "controlador/apiEstadoSolicitudes.php?action=actualizarEstSolicitud",
+         formData
+       );
+       const data = resp.data;
+       if (data.error) {
+         return swal("Error", data.msj, "error", {
+           timer: 3000,
+           buttons: false,
+         });
+       } else {
+         $("#modalEditarEstadoSolicitud").modal("hide");
+         return swal("Exito!", data.msj, "success", {
+           timer: 3000,
+           buttons: false,
+         }).then(() => {
+           // Se limpia el formulario
+           
+           $("#tipo").val("");
+           $("#precio_solicitud").val("");
+           location.reload();
+         });
+       }
+     });
+   });
+  
+   
   });
   
-   /**------------------------------------------------------------------------------------------------------
-    *                                                                                                      *
-    *                                  VENTA DE BOLETOS A EXTRANJEROS                                      *
-    *                                                                                                      *
-    * ------------------------------------------------------------------------------------------------------
-    */
-  /**SENDERO EXTRANJERO*/
-   /**FUNCION PARA REALIZAR VENTA EXTRANJERA */
-   $("#senderoE").submit(async function(e){
-    e.preventDefault();
-
-    var localidad = $("#localidad").val(), cant_Badultos = $("#boletosE").val(), cant_Bninos = $("#boletosNE").val(),
-        precioAdulto = $("#precioE").val(),precioNino = $("#precioNE").val(), id_usuario = $("#id_usuario").val(),
-        totalP = $("#TpagarE").val(), totalBExtranjero = $("#TboletosE").val(), usuario_actual = $("#usuario_actual").val();
-
-    console.log(localidad, cant_Badultos, cant_Bninos, precioAdulto, precioNino, id_usuario, totalP, totalBExtranjero, usuario_actual);
-    if(localidad != undefined && cant_Badultos != undefined && cant_Bninos != undefined && precioAdulto != undefined && 
-        precioNino != undefined && totalP != undefined && totalBExtranjero != undefined && usuario_actual != undefined && id_usuario != undefined){
-        // formdata sirve para enviar los datos al servidor
-        /*lo que va entre fuera de las comillas son las variables que declaramos 
-         y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-        const registro= new FormData();        
-        registro.append('localidad', localidad);
-        registro.append('boletosE', cant_Badultos);
-        registro.append('boletosNE', cant_Bninos);
-        registro.append('precioE', precioAdulto);
-        registro.append('precioNE', precioNino);
-        registro.append('TpagarE', totalP);
-        registro.append('TboletosE', totalBExtranjero);
-        registro.append('usuario_actual', usuario_actual);
-        registro.append('id_usuario', id_usuario);
-                
-        const resp = await axios.post(`./controlador/ctr.senderosE.php?action=registrarBoletosE`, registro);
-
-        const data = resp.data;
-
-        if(data.error){
-            return swal("Error", data.msj, "error");
-        }
-
-        return swal("Correcto", data.msj, "success").then((value) => {
-          if (value){
-            // Se limpia el formulario            
-            $("#localidad").val('');
-            $("#boletosE").val('');
-            $("#boletosNE").val('');
-            $("#TpagarE").val('');
-            $("#TboletosE").val('');            
-          }
-          window.location.href='senderos';
-        })
-    }else{
-      swal("Advertencia!", "Es necesario la localidad y vender por lo menos un Boleto Extranjero", "warning");
-    } 
-  });
-  //BOTON PARA ELIMINAR UNA VENTA BOLETO (TABLA)
-  $('.btnEliminarBoleto').on('click', function (){    
-    const idboleto = $(this).data('idboletovendido');
-    swal("Eliminar Boleto(s)", "¿Esta seguro de eliminar esta Facturacion?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
-        if (value){
-            //console.log(idReservacion);
-            const formData = new FormData();           
-            formData.append('id_boletos_vendidos', idboleto);
-            const resp = await axios.post('./controlador/ctr.senderosN.php?action=eliminarBoleto', formData);
-            const data = resp.data;
-            //console.log(data);
-            if(data.error){
-                return swal("Error", data.msj, "error",{
-                    buttons: false,
-                    timer: 3000
-                });
-            }
-            return swal("Exito!", data.msj, "success",{
-                buttons: false,
-                timer: 3000
-            }).then(() =>{ 
-                location.reload();
-            });
-        }
-    });
-  }) 
-
-
-});

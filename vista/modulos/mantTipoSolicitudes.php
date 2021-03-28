@@ -132,7 +132,7 @@
 	</button> -->
                   <button class="btn btn-default btnCreartipoSolicitud glyphicon glyphicon-plus-sign">Agregar Tipo de Solicitud</button>
                 </div> <!-- /div-action -->
-                <table id="manageProductTable" class="display responsive nowrap">
+                <table id="tablaTipoSolicitudes" class="display responsive nowrap">
                   <thead>
                     <tr>
                       <th>Tipo de Solicitud</th>

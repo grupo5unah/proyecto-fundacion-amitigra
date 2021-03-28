@@ -108,6 +108,24 @@ switch ($action){
             }    
 
     break;    
+
+    case 'eliminarBoleto':
+        if (isset($_POST['id_boletos_vendidos'])) {            
+            $id_boletos_vendidos = $_POST['id_boletos_vendidos'];            
+            $sql = "UPDATE tbl_boletos SET estado_eliminado = 0 WHERE id_boletos_vendidos = " . $id_boletos_vendidos;
+            $resultado = $conn->query($sql);
+            if ($resultado == 1) {
+                $res['msj'] = "Factura de Boleto(s) Eliminado(s)  Correctamente";
+            } else {
+                $res['msj'] = "Se produjo un error al momento de eliminar la factura";
+                $res['error'] = true;
+            }
+        } else {
+            $res['msj'] = "No se envió el id de la Factura a eliminar";
+            $res['error'] = true;
+        }
+
+    break;   
     
     default:
         echo "Falló";

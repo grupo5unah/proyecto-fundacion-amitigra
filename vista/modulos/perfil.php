@@ -53,7 +53,10 @@ $columna = $stmt->fetch_assoc();
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
-                <img class="img-circle" src="./fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
+               <img class="img-circle" src="./fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
+               <form method="POST" enctype="multipart/form-data">
+               <input type="file" class="fotos" id="fotos" name="fotos">
+               </form>
               </div>
 
 <?php }}?>
@@ -136,7 +139,7 @@ $columna = $stmt->fetch_assoc();
                     <label for="inputName" class="col-sm-3 control-label">Nombre de usuario:</label>
 
                     <div class="input-group col-sm-8">
-                      <input type="text" readonly name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario">
+                      <input type="text" readonly name="usuario" class="form-control" id="usuario" value="<?php echo ucwords(strtolower($usuario));?>" placeholder="Nombre de usuario" disabled>
                       <p id="notificacion"></p>
                     </div>
                   </div>
@@ -342,14 +345,14 @@ $columna = $stmt->fetch_assoc();
                           <!-- AGREGAR CONTENIDO AQUI -->
                           <div class="form-floating mb-3">
                               <label for="floatingInput">Contraseña actual</label>  
-                                <input id="passActual" type="password" class="form-control" name="passConf" placeholder="Contrasena actual">
-                                <br>
+                                <input id="passActual" type="password" class="form-control" name="passConf" placeholder="Contrasena actual"/>
+                                <!-- <br> -->
                             </div>
                             
                             <div class="form-floating mb-6">
                               <label for="floatingInput">Nueva contraseña</label>
-                                <input id="passNueva" type="password" class="form-control" name="passConf" placeholder="Nueva contraseña">
-                               <br>
+                                <input id="passNueva" type="password" class="form-control" name="passConf" placeholder="Nueva contraseña"/>
+                               <!-- <br> -->
                             </div>
 
                             <div class="form-floating mb-3">
@@ -360,7 +363,7 @@ $columna = $stmt->fetch_assoc();
                                   <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
                                 </span>
                               </div>
-                              <br>
+                              <!-- <br> -->
                             </div>
                           <!-- FIN CONTENIDO -->
                         </div>
@@ -415,24 +418,12 @@ $columna = $stmt->fetch_assoc();
               <!-- /.tab-pane -->
             </div>
             <?php
-            
-            if(isset($_POST['cambio_info']) == 'act_info'){
-              /*require("./controlador/ctr.passwordperfil.php");
-
-              $actualizar = new PasswordPHP();
-              $actualizar->ctrPasswordInfo();*/
-            }else{
-                    //include("./controlador/ctr.actualizarInformacion.php");
-
-                    //$actualizar = new ActualizarInfo();
-                    //$actualizar->ctrActualizarInfo();
-
-                    require_once("./controlador/ctr.Acciones.php");
+          
+              require_once("./controlador/ctr.Acciones.php");
 
               $perfilBitacora = new AccionesUsuario();
               $perfilBitacora->ctrPerfilBitacora();
-            }
-                    ?>
+            ?>
 
             
           </div>

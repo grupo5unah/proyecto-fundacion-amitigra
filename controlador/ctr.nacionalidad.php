@@ -10,7 +10,7 @@ if (isset($_GET['action'])) {
 
 switch ($action){ 
     
-    case 'actualizarNacionalidad': //realizar una nueva  nacionalidad      
+    case 'actualizarNacionalidad': //Editar una Nacionalidad    
         if(isset($_POST['id_tipo_nacionalidad']) && isset($_POST['nacionalidad']) &&
         isset($_POST['fecha_modificacion']) && isset($_POST['modificado_por'])){
 
@@ -39,7 +39,7 @@ switch ($action){
         }               
 
     break; 
-    case 'eliminarNacionalidad':
+    case 'eliminarNacionalidad': //Eliminar una Nacionalidad
         if (isset($_POST['id_tipo_nacionalidad'])) {
             $id_nacionalidad = $_POST['id_tipo_nacionalidad'];
             $sql = "UPDATE tbl_tipo_nacionalidad SET estado_eliminado = 0 WHERE id_tipo_nacionalidad = " . $id_nacionalidad;
@@ -56,6 +56,39 @@ switch ($action){
         }
 
     break;   
+
+    case 'registrarNacionalidad': //Registrar una nueva Nacionalidad
+        $nacionalidad= $_POST['NacionalidadN'];        
+        $usuario_actual = $_POST['usuario_actual'];
+        $estado=1;
+        date_default_timezone_set("America/Tegucigalpa");
+        $fecha=date('Y-m-d H:i:s',time());
+
+        if(empty($_POST['NacionalidadN'])||empty($_POST['usuario_actual'])){
+            
+            $res['msj'] = 'Es necesario Nombre de la Nacionalidad';
+            $res['error'] = true;
+
+        }else{
+            try{
+                $insertar=$conn->prepare("INSERT INTO tbl_tipo_nacionalidad (nacionalidad, estado_eliminado,creado_por,fecha_creacion, 
+                                modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?);");
+                $insertar->bind_param('sissss', $nacionalidad,$estado,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                $insertar->execute();
+
+                if ($insertar->error) {
+                    $res['msj'] = "Se produjo un error al momento de registrar la Nacionalidad";
+                    $res['error'] = true;
+                } else {
+                    $res['msj'] = "Nacionalidad Registrada Correctamente";
+                }
+            }catch(exception $e){
+                echo $e->getMessage();
+            }
+        }
+            
+        
+    break;
     
     default:
         echo "Falló";
