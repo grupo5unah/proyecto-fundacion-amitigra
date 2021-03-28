@@ -164,8 +164,6 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
                             <button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
                           </div>
-                          
-                          
                         </div> <!-- /.post -->	
                       </div> <!-- /.tab-pane -->
                       <div class="tab-pane" id="timeline">

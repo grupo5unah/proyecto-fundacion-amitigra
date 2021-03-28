@@ -1,52 +1,4 @@
 //VALIDDACIONES DE FORMULARIOS HOTEL Y CAMPING
-//validacion solo acepte letras
-function soloLetras(e) {
-  var key = e.keyCode || e.which,
-    tecla = String.fromCharCode(key).toLowerCase(),
-    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-    especiales = [8, 37, 39, 46],
-    tecla_especial = false;
-  for (var i in especiales) {
-    if (key == especiales[i]) {
-      tecla_especial = true;
-      break;
-    }
-  }
-  if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-    return false;
-  }
-}
-//validacion solo permite  un espacio
-espacioLetras = function(input) {
-  input.value = input.value.replace('  ', ' ');
-}
-//validacion solo permite numeros
-function soloNumeros(e) {
-  var key = window.event ? e.which : e.keyCode;
-
-  if (((key == 8) || (key == 46) 
-    || (key >= 35 && key <= 40)
-        || (key >= 48 && key <= 57)
-        || (key >= 96 && key <= 105))) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-//VALIDACION DE FECHAS
-function validarFecha() {
-  if (((key == 8) || (key == 46) 
-    || (key >= 35 && key <= 40)
-        || (key >= 48 && key <= 57)
-        || (key >= 96 && key <= 105))) {
-        return false;
-    }
-    else {
-        return false;
-    }
-}
-
 //FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO NACIONALES
 function calculo()
 {
@@ -169,7 +121,7 @@ $(document).ready(function () {
           text:'<i class="fas fa-print">',
           titleAttr:'Imprimir',
           title:'FUNDACION AMIGOS DE LA TIGRA',
-          messageTop:' REPORTE DETALLE DE RESERVACIONES HOTEL.',
+          messageTop:' REPORTE DETALLE DE RESERVACIONES.',
           className:'btn btn-dark',
           exportOptions: {
             modifier: {
@@ -182,7 +134,7 @@ $(document).ready(function () {
               title: 'FUNDACION AMIGOS DE LA TIGRA',
               text:'<i class="fas fa-file-excel">',
               className:'btn btn-success',
-              messageTop: 'REPORTE DETALLE DE RESERVACIONES HOTEL.',
+              messageTop: 'REPORTE DETALLE DE RESERVACIONES.',
               exportOptions: {
                 columns: [ 0, ':visible' ]
             },
@@ -196,7 +148,7 @@ $(document).ready(function () {
               orientation: 'portrait',
               pageSize: 'A4',
               title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-              messageTop: 'REPORTE DETALLE RESERVACIONES HOTEL.',
+              messageTop: 'REPORTE DETALLE RESERVACIONES.',
               Image:'fotoPerfil/foto1.png',
               download: 'open',
               exportOptions: {
@@ -477,41 +429,58 @@ $(document).ready(function () {
     var local = $(this).val();
     console.log(local);
     if(local==1){
-      $('#modalRegistrarHotelJutiapa').modal('show');
+      $('.jutiapa').slideDown();
+      $('.rosario').slideUp();
     }else{
-      $('#modalRegistrarHotelRosario').modal('show');
+      $('.rosario').slideDown();
+      $('.jutiapa').slideUp();
     }
   });
-
-  //VALIDAR CHECKBOOX ROSARIO
+  //VALIDAR LOCALIDAD CUANDO ES JUTIAPA Y ES PARA CAMPING
+  $( '#radio input:radio' ).on( 'click', function() {
+    if($(this).val() === 2 && $('#localidad').val() === 1 ){
+      $('.camping').slideDown();
+      $('.jutiapa').slideUp();
+    }
+  });
+  //VALIDAR RADIO BUTTON
+  $( '#radio input:radio' ).on( 'click', function() {
+    if($(this).val() === '1'){
+      $('.hotel').slideDown();
+      $('.camping').slideUp();
+    }else if($(this).val() === '2'){
+      $('.camping').slideDown();
+      $('.hotel').slideUp();
+    }
+  });
+  //VALIDAR BOTON DE EXTRANJEROS Y NACIONALES
+  $('.extranjeros' ).on( 'click', function() {
+      $('.extranjero').slideDown();
+      $('.nacional').slideUp();
+      $('.nacionales').slideDown();
+      $('.extranjeros').slideUp();
+  });
+  $('.nacionales' ).on( 'click', function() {
+    $('.extranjero').slideUp();
+    $('.nacional').slideDown();
+    $('.nacionales').slideUp();
+    $('.extranjeros').slideDown();
+});
+  //VALIDAR CHECKBOOX PARA EXTRANJEROS
   $( '#check' ).on( 'click', function() {
     if( $(this).is(':checked') ){
-      console.log("seclecionaste el check");
-      $('.btnSiguiente').slideDown();
-      $('.btnregistrar').slideUp();
-      $('.total').slideUp();
-    } else {
-      console.log("check no seleccionado");
-      $('.btnSiguiente').slideUp();
-      $('.btnregistrar').slideDown();
-      $('.total').slideDown();
-    }
-  });
-  //VALIDAR CHECKBOOX JUTIAPA
-  $( '#checke' ).on( 'click', function() {
-    if( $(this).is(':checked') ){
       //console.log("seclecionaste el check");
-      $('.btnSiguiente').slideDown();
-      $('.btnregistrar').slideUp();
-      $('.total').slideUp();
+      $('.extranjero').slideDown();
+      $('.nacional').slideUp();
     } else {
       //console.log("check no seleccionado");
-      $('.btnSiguiente').slideUp();
-      $('.btnregistrar').slideDown();
-      $('.total').slideDown();
+      $('.nacional').slideDown();
+      $('.extranjero').slideUp();
     }
   });
-
+  $('.btnArticulos').on('click', function (){
+        $('#modalArticulos').modal('show');
+  });
   //MOSTRAR MODAL PARA PONER LA TASA DE CAMBIO
   // $('#cantAdultos').keyup(function(e){
   //   e.preventDefault();
@@ -524,7 +493,7 @@ $(document).ready(function () {
   //   }
     
   // });
-
+  
    /**FUNCION PARA REALIZAR LA RESERVACION EN HOTEL EN JUTIAPA */
    $("#formHotelJutiapa").submit(async function(e){
     e.preventDefault();
@@ -844,9 +813,16 @@ $(document).ready(function () {
     
   })
 
+  //NUEVA RESERVACION
+  $('.btnCrearReservacion ').on('click', function() {
+    
+    //mostrar el modal
+    $('#modalNuevaReserva').modal('show');
+  });
+
   //MOSTRAR MODAL DETALLE (TABLA)
-  $('.btnDetalleHotel').on('click', function() {
-    $('#modalDetalleHotel').modal('show');
+  $('.btnDetalle').on('click', function() {
+    $('#modalDetalle').modal('show');
   })
    //BOTON EDITAR MODAL (TABLA HOTEL)
    $('.btnEditarHotel ').on('click', function() {
