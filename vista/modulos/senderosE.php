@@ -9,10 +9,8 @@
         </div>
         <div class="box-body">             
           <form  id="senderoE" method="post" onpaste="return false">         
-            <h4 class="alineo-texto">VISITAS EXTRANJERAS</h4> 
-           
-              
-    
+            <h4 class="alineo-texto">VISITAS EXTRANJERAS</h4>      
+
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
@@ -48,16 +46,20 @@
                    <div class="col-md-6">
                       <div class="form-group">
                         <label for="precioE">Precio Adulto Dolares:</label>
-                        <input type="number" class="form-control" name="precioE" id="precioE" placeholder="Precio Adulto" disabled="true"
-                        <?php
-                        $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=3";
-                        $resultado1 = mysqli_query($conn,$stmt);
-                        ?>
-                        <?php foreach($resultado1 as $opcion):?>
-                        value="<?php echo $opcion['precio_venta']?>"> 
-                        <?php endforeach;?>
+                        <div class="input-group col-xs-8">
+                          <span class="input-group-addon">$</span>
+                          <input type="number" class="form-control" name="precioE" id="precioE" placeholder="Precio Adulto" disabled="true"
+                          <?php
+                          $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=3";
+                          $resultado1 = mysqli_query($conn,$stmt);
+                          ?>
+                          <?php foreach($resultado1 as $opcion):?>
+                          value="<?php echo $opcion['precio_venta']?>"> 
+                          <?php endforeach;?>
+                        </div>
                       </div>
-                    </div><br><br>
+                    </div>
+                    </div>
 
                     <div class="box-header with-border">
                       <h1 class="box-title">NIÑO(S)</h1>
@@ -72,6 +74,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="precioNE">Precio Niños Dolares:</label>
+                      <div class="input-group col-xs-8">
+                      <span class="input-group-addon">$</span>
                       <input type="number" class="form-control" name="precioNE" id="precioNE" placeholder="Precio Niños" disabled="true"
                         <?php
                         $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=4";
@@ -83,20 +87,23 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div><br><br>
+            
             <div class="col-md-6">
               <div class="form-group">
                 <label for="TpagarE" class="col-sm-2 control-label" >Total a Pagar en Dolares:</label>
                 <div class="col-sm-10">
-                  <input type="Text" class="form-control" id="TpagarE" name="TpagarE" placeholder="Total a Pagar" disabled="true">
+                  <div class="input-group col-xs-8">
+                      <span class="input-group-addon">$</span>
+                      <input type="Text" class="form-control" id="TpagarE" name="TpagarE" placeholder="Total a Pagar" disabled="true">
+                  </div>   
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="TboletosE" class="col-sm-2 control-label" >Total Boletos Vendidos:</label>
-                <div class="col-sm-10">
+                <div class="input-group col-xs-8">
                   <input type="Text" class="form-control" id="TboletosE" name="TboletosE" placeholder="Total Boletos Vendidos" disabled="true">
                 </div>
               </div>

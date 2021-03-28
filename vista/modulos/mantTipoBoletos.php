@@ -55,7 +55,7 @@
 												'fecha_creacion'=>$mostrar['fecha_creacion'],
 												'modificado_por'=>$mostrar['modificado_por'],
 												'fecha_modificacion'=>$mostrar['fecha_modificacion'],
-												'id_tipo_boleto'=>$mostrar['id_tipo_boleto']												
+												'id_tipo'=>$mostrar['id_tipo_boleto']												
 											);
 											$ver[$captura][] =  $mostrar;
 										} 
@@ -72,11 +72,11 @@
 													
 													<td>
 								
-													<button class="btn btn-warning btnEditarTB glyphicon glyphicon-pencil"  data-idtipoboleto="<?= $mostrar['id_tipo_boleto'] ?>" 
+													<button class="btn btn-warning btnEditarTB glyphicon glyphicon-pencil"  data-idtipoboleto="<?= $mostrar['id_tipo'] ?>" 
 													data-nombreBoleto="<?= $mostrar['nombre_boleto'] ?>" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_V'] ?>" 
 													data-modificacionP="<?= $mostrar['modificado_por'] ?>" data-fmodificacion="<?= $mostrar['fecha_modificacion'] ?>"></button>
 
-													<button class="btn btn-danger btnEliminarTipoBoleto glyphicon glyphicon-remove" data-idtipoboleto="<?= $mostrar['id_tipo_boleto'] ?>"></button>
+													<button class="btn btn-danger btnEliminarTipoBoleto glyphicon glyphicon-remove" data-idtipoboleto="<?= $mostrar['id_tipo'] ?>"></button>
 													
 												</td>
 											<?php  } ?>
@@ -107,7 +107,7 @@
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formTipoBoleto">
+						 	<form method="POST" id="formEditarTipoBoleto">
 								<div class="nav-tabs-custom">
 									<ul class="nav nav-tabs">
 										<li><a></a></li>               

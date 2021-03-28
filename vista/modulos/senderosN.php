@@ -44,17 +44,20 @@
                    <div class="col-md-6">
                       <div class="form-group">
                         <label for="precioN">Precio Adulto:</label><br>
-                        <input type="number" class="form-control" name="precioN" id="precioN" placeholder="Precio Adulto" disabled="true"
-                        <?php
-                        $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=1";
-                        $resultado1 = mysqli_query($conn,$stmt);
-                        ?>
-                        <?php foreach($resultado1 as $opcion):?>
-                        value="<?php echo $opcion['precio_venta']?>"> 
-                        <?php endforeach;?>
+                        <div class="input-group col-xs-8">
+                          <span class="input-group-addon">L.</span>
+                          <input type="number" class="form-control" name="precioN" id="precioN" placeholder="Precio Adulto" disabled="true"
+                          <?php
+                          $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=1";
+                          $resultado1 = mysqli_query($conn,$stmt);
+                          ?>
+                          <?php foreach($resultado1 as $opcion):?>
+                          value="<?php echo $opcion['precio_venta']?>"> 
+                          <?php endforeach;?>
+                        </div>
+                        </div>
                       </div>
-                    </div><br><br>
-
+                    </div>
                     <div class="box-header with-border">
                       <h1 class="box-title">NIÑO(S)</h1>
                     </div>
@@ -68,6 +71,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="precioNN">Precio Niños:</label><br>
+                      <div class="input-group col-xs-8">
+                      <span class="input-group-addon">L.</span>
                       <input type="number" class="form-control" name="precioNN" id="precioNN" placeholder="Precio Niños" disabled="true"
                         <?php
                         $stmt = "SELECT id_tipo_boleto, precio_venta FROM tbl_tipo_boletos WHERE id_tipo_boleto=2";
@@ -79,20 +84,23 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div><br><br>
+            
             <div class="col-md-6">
               <div class="form-group">
                 <label for="Tpagar" class="col-sm-2 control-label" >Total a Pagar en Lempiras:</label>
                 <div class="col-sm-10">
-                  <input type="Text" class="form-control" id="Tpagar" name="Tpagar" placeholder="Total a Pagar" disabled="true">
+                  <div class="input-group col-xs-8">
+                      <span class="input-group-addon">L.</span>
+                      <input type="Text" class="form-control" id="Tpagar" name="Tpagar" placeholder="Total a Pagar" disabled="true">
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="TboletosN" class="col-sm-2 control-label" >Total Boletos Vendidos:</label>
-                <div class="col-sm-10">
+                <div class=" input-group col-xs-8">
                   <input type="Text" class="form-control" id="TboletosN" name="TboletosN" placeholder="Total Boletos Vendidos" disabled="true">
                 </div>
               </div>
