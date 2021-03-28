@@ -5,7 +5,7 @@ include '../modelo/conexionbd.php';
 $contrasenaActual = $_POST['contrasenaActual'];
 $contrasenaNueva = $_POST['contrasenaNueva'];
 $confirmarContrasena = $_POST['confirmarContrasena'];
-$usuario = $_POST['usuario'];
+$usuario = $_POST['usuario2'];
 
     if(!empty($usuario) || !empty($contrasenaActual) || !empty($contrasenaNueva) || !empty($confirmarContrasena)){
 
@@ -92,13 +92,15 @@ $usuario = $_POST['usuario'];
                                                 $actualizar->execute();
 
                                                 if(!$actualizar->error){
-                                                    
+
                                                     $respuesta = array (
                                                         "respuesta" => "actualizacion"
                                                     );
 
-                                                    session_destroy();
-                                                    session_abort();
+                                                    sleep(2);
+                                                    session_unset();
+                                                    ob_flush();
+                                                    //session_abort();
 
                                                 }else{
                                                     $respuesta = array (

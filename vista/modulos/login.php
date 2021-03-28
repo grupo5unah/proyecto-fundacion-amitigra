@@ -53,7 +53,7 @@
         <!-- /.col -->
         <div class="text-center">
 		      <input type="hidden" id="tipo" name="tipo" value="login">
-          <button type="submit" id="btn" class="btn btn-success btn-flat">Iniciar sesión</button>
+          <button type="button" id="btn" class="btn btn-success btn-flat">Iniciar sesión</button>
         </div>
         <!-- /.col -->
 	    </div>
@@ -101,20 +101,21 @@
 </div>
 <?php
 
-    include_once('../../controlador/ctr.login.php');
-    $login = new Login();
-    $login->ctrLogin();
+    //include_once('../../controlador/ctr.login.php');
+    //$login = new Login();
+    //$login->ctrLogin();
 	?>
 
 <!-- /.login-box -->
 
-<script src="../dist/js/app.login.js"></script>
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="../dist/js/jquery-3.5.1.js"></script>
+<script src="../dist/js/app.login.js"></script>
+<script src="../dist/js/logins.js"></script>
 <script src="../plugins/iCheck/icheck.min.js"></script>
 
 <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->

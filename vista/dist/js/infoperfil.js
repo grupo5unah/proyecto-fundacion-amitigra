@@ -74,8 +74,10 @@ $(document).ready(function(){
               url: "./controlador/ctr.actualizarinformacion.php",
               datatype:"json",
               Cache:false,
-              data: {usuario:usuario, nombre:nombre, telefono:telefono, imagen:imagen, correo:correo, verificarContrasena:verificarContrasena},
+              data: {usuario:usuario, nombre:nombre, telefono:telefono, correo:correo, verificarContrasena:verificarContrasena},
               success: function (response){
+
+                console.log(response)
 
                 var verificar = JSON.parse(response)
                 
@@ -139,10 +141,6 @@ $(document).ready(function(){
     //FUNCION PARA ACTUALIZAR LA CONTRASENA DEL USUARIO
     $('#cambioContrasena').on('click', function () {
 
-      //let contrasenaActual = document.querySelector('#passActual').value;
-      //let contrasenaNueva = document.querySelector('#passNueva').value;
-      //let confirmarContrasena = document.querySelector('#passConfirmar').value;
-
       $('#modal-default2').modal('show');
       $('#modal-default2').modal({backdrop: 'static', keyboard: false})
 
@@ -151,7 +149,7 @@ $(document).ready(function(){
         let contrasenaActual = document.querySelector('#passActual').value;
         let contrasenaNueva = document.querySelector('#passNueva').value;
         let confirmarContrasena = document.querySelector('#passConfirmar').value;
-        let usuario = document.querySelector('#usuario').value;
+        let usuario2 = document.querySelector('#usuario').value;
 
         if(contrasenaActual === '' || contrasenaNueva ==='' || confirmarContrasena ===''){
           swal(
@@ -174,9 +172,10 @@ $(document).ready(function(){
             url:'./controlador/ctr.actualizarcontrasena.php',
             type:'POST',
             datatype:'json',
-            data: {contrasenaActual:contrasenaActual, contrasenaNueva:contrasenaNueva, confirmarContrasena:confirmarContrasena, usuario:usuario},
+            data: {contrasenaActual:contrasenaActual, contrasenaNueva:contrasenaNueva, confirmarContrasena:confirmarContrasena, usuario2:usuario2},
             success: function(response) {
 
+              console.log(response)
               let respuestas = JSON.parse(response)
 
               //SI LA ACTUALIZACION DE LA CONTRASENA ES CORRECTA

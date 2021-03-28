@@ -124,6 +124,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "cerrarSesion" ||
         $_GET["ruta"] == "bloqueoInactividad" ||
         $_GET["ruta"] == "infoBackup" ||
+        $_GET["ruta"] == "conf_preguntas" ||
         $_GET["ruta"] == "pruebaTab" ||
         $_GET["ruta"] == "carrusel" ||
         $_GET["ruta"] == "mantLocalidad" ||

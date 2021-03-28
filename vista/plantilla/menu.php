@@ -105,24 +105,6 @@ $columna = $stmt->fetch_assoc();
         <?php }?>
         <!--Final INVENTARIO-->
 
-          <!-- Reportes -->
-        <li class="treeview">
-        <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
-          <a href="#">
-            <i class="fa fa-pencil"></i>
-            <span>Reportes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="reportes"><i class=""></i> Reportes</a></li>
-            
-          </ul>
-        </li>
-        <!--Fin REPORTES-->
-        <?php }?>
-
         <!--Inicio panel de ADMINISTRACION-->
         <li name="admin" id= "admin" class="treeview">
         <?php if ($_SESSION['rol'] == 'administrador' and $columna['permiso_consulta'] == 1) {?>
