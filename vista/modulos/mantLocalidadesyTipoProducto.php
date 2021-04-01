@@ -35,8 +35,8 @@
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">				    <button class="btn btn-success btnCrearTipo glyphicon glyphicon-plus-sign" >AGREGAR TIPO PRODUCTO</button>
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
-									<thead>
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerTp">
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 											<th>Nombre_Tipo_Producto</th>
 											<th>creado por</th>
@@ -109,7 +109,7 @@
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarTP" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -126,7 +126,7 @@
 										
 										<div class="campos">
 											<label for="">Nombre Tipo Producto </label>
-											<input id="tipo_producto" class="form-control modal-roles secundary text-uppercase" type="text"  required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+											<input id="tipo_producto" class="form-control modal-roles secundary text-uppercase" type="text"  required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 																				
@@ -144,7 +144,7 @@
 				</div>
 				<!-- modal registrar rol -->
 				<div class="modal fade" id="modalRegistrarTP" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -162,7 +162,7 @@
 
 										<div class="campos">
 											<label for="">Nombre Tipo Producto </label>
-											<input  id="tipoP" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba el tipo producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+											<input  id="tipoP" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba el tipo producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 
 										</div>
 									
@@ -209,7 +209,7 @@
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerLocalidades">
-									<thead>
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 											<th>Localidad</th>
 											<th>creado por</th>
@@ -282,7 +282,7 @@
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarLocalidad" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -299,7 +299,7 @@
 										
 										<div class="campos">
 											<label for="">Nombre de la localidad </label>
-											<input id="localidad" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"  autocomplete="off"/>
+											<input id="localidad" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"  autocomplete="off"/>
 
 										</div>
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -315,7 +315,7 @@
 				</div>
 				<!-- modal registrar rol -->
 				<div class="modal fade" id="modalRegistrarLocalidad" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -333,7 +333,7 @@
 
 										<div class="campos">
 											<label for="">Nombre de la localidad</label>
-											<input autocomplete="off" id="nomLocalidad" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input autocomplete="off" id="nomLocalidad" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>									
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">

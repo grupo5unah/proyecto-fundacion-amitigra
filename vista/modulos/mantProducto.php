@@ -33,12 +33,12 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="producto" class="btn btn-success button1 uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </a>
+									<a href="producto" class="btn btn-success button1 text-uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </a>
 
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantenimientoProducto">
-									<thead>
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 											<th>Nombre Producto</th>
 											<th>Precio de compra</th>
@@ -124,7 +124,7 @@
 			</div>
 			<!-- /.box-body -->
 
-			<div class="modal fade" id="modalEditarProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalEditarProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -141,21 +141,21 @@
 
 									<div class="campos">
 										<label for="">Nombre Producto </label>
-										<input id="product" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+										<input id="product" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 
 									</div>
 									<div class="campos">
 										<label for="">Precio de Compra</label>
-										<input id="price" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+										<input id="price" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloNumero(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 
 									</div>
 									<div class="campos">
 										<label for="">Cantidad</label>
-										<input id="count" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+										<input id="count" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloNumero(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 									</div>
 									<div class="campos">
 										<label for="">Descripcion </label>
-										<input id="des" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+										<input id="des" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 
 									</div>
 									
@@ -182,7 +182,7 @@
 									</div>
 									<div class="campos">
 											<label for="">Precio Alquiler </label>
-											<input id="Rprice" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" disabled/>
+											<input id="Rprice" class="form-control modal-roles secundary text-uppercase" type="text" required onkeypress="return soloNumero(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" disabled/>
 
 									</div>
 
@@ -193,7 +193,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary">Actualizar Producto</button>
+							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary text-uppercase">Actualizar Producto</button>
 						</div>
 					</div>
 				</div>
