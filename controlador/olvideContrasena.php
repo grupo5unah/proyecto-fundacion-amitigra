@@ -41,7 +41,7 @@
                     //Se incluye la CONEXION
                     require_once('../modelo/conexionbd.php');
                     $stmt1 = $conn->prepare("UPDATE tbl_usuarios SET token = '$tkn' WHERE id_usuario = ?;");
-                    $stmt1->bind_Param("i", $id);
+                    $stmt1->bind_Param("i", $id_usuario);
                     $stmt1->execute();
 
                     if($stmt1->error) {
@@ -98,77 +98,3 @@
     }
         echo json_encode($respuesta);
     //FIN SI ES MEDIANTE CORREO
-
-
-    //SI LA RECUPERACION ES POR PREGUNTA
-    /*if (isset($_POST['tipo_pregunta']) == 'recuperarPregunta'){
-        $correo = $_POST['email'];
-
-        include("../../modelo/conexionbd.php");
-        $consultarPregunta = $conn->prepare("SELECT correo FROM tbl_usuarios WHERE correo = ?;");
-        $consultarPregunta->bind_Param("s",$correo);
-        $consultarPregunta->execute();
-        $consultarPregunta->bind_Result($correo_electronico);
-
-        if ($consultarPregunta->affected_rows){
-            $existePregunta = $consultarPregunta->fetch();
-
-            while($consultarPregunta->fetch()){
-                $mi_correo = $correo_electronico;
-            }
-
-            if($existePregunta){
-                //I FUE EXITOSO
-                //NUEVO
-                $respuesta = array(
-                    "respuesta" => ""
-                );
-
-                //ANTERIOR
-                echo "<div class='alert alert-success' role ='alert'>
-                        Bien hecho, en un momento te redirigimos al cambio de contrasena.
-                        </div>
-                        <script>
-                        window.setTimeout(function(){
-                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                        function(){
-                        $(this).remove();
-                        });
-                        }, 3000);
-                        </script>";
-
-                sleep(3);
-
-                if(isset($correo_electronico)){
-                    session_start();
-                    $_SESSION['correo'] = $correo_electronico;
-                    echo '<script type="text/javascript">
-                            location.href="recupregunta.php";
-                            </script>';
-                }
-
-            } else {
-
-                //SI NO EXISTE USUARIO CON ESE CORREO
-                //NUEVO
-                $respuesta = array(
-                    "respuesta" => ""
-                );
-
-                //ANTERIOR
-                echo "<div class='text-center alert alert-danger' role='alert'>
-                        No existe el usuario con correo '$correo'.
-                        </div>
-                        <script>
-                        window.setTimeout(function(){
-                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                        function(){
-                        $(this).remove();
-                        });
-                        }, 3000);
-                        </script>";
-            }
-        }
-
-    }*/
-    //FIN SI ES MEDIANTE PREGUNTA

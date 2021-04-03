@@ -1,11 +1,33 @@
-<?php require "./modelo/conexionbd.php"; ?>
+<?php require "./modelo/conexionbd.php";
+
+$id_objeto = 31;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
+  if($columna["permiso_consulta"] == 1){
+?>
 
 <div class="content-wrapper">
+
+<section class="content-header">
+		<h1>MANTENIMIENTO PREGUNTAS</h1>
+		<ol class="breadcrumb ">
+			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+			<li class="btn btn-success  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Preguntas</a></li>
+			
+		</ol>
+	</section>
 	<!-- Main content -->
 	<section class="content">
 
 		<!-- Default box -->
-		<div class="box">
+		<div class="box"  oncopy="return false" onpaste="return false">
 			<div class="box-header with-border">
 
 			</div>
@@ -22,13 +44,13 @@
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<!-- <a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar nueva pregunta </a> -->
-									<button class="btn btn-default btnCrearPregunta glyphicon glyphicon-plus-sign" >Agregar Nueva Pregunta</button>
+								
+									<button class="btn btn-success btnCrearPregunta glyphicon glyphicon-plus-sign text-uppercase" >Agregar Nueva Pregunta</button>
 
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
-									<thead>
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerPreguntas">
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 											<th>Pregunta</th>
 											<th>creado por</th>
@@ -99,7 +121,7 @@
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarPregunta" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -115,7 +137,7 @@
 									<div class="ingreso-producto form-group">
 										<div class="campos">
 											<label for="">Pregunta: </label>
-											<input id="pregunta1" class="form-control secundary text-uppercase" type="text" name="" placeholder="Escriba la pregunta" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input id="pregunta1" class="form-control secundary text-uppercase" type="text" name="" placeholder="Escriba la pregunta" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 					
@@ -135,7 +157,7 @@
 			<!-- /.box-footer-->
 			<!-- modal para agregar Preguntas -->
 			<div class="modal fade" id="modalRegistrarPregunta" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -156,7 +178,7 @@
 
                           <div class="campos">
                           <label for="">Nombre de la Pregunta </label>
-                          <input id="pregunta" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba la pregunta" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+                          <input id="pregunta" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba la pregunta" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
                           </div>
                                 
@@ -188,3 +210,11 @@
 	</section>
 	<!-- /.content -->
 </div>
+
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

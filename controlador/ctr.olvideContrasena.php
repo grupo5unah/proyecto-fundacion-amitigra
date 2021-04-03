@@ -158,7 +158,7 @@
             if (isset($_POST['tipo_pregunta']) == 'recuperarPregunta'){
                 $correo = $_POST['email'];
     
-                include("../../modelo/conexionbd.php");
+                include("../modelo/conexionbd.php");
                 $consultarPregunta = $conn->prepare("SELECT correo FROM tbl_usuarios WHERE correo = ?;");
                 $consultarPregunta->bind_Param("s",$correo);
                 $consultarPregunta->execute();
@@ -208,7 +208,7 @@
                                 </script>";
                     }
                 }
-    
+
             }
         }
     }

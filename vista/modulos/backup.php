@@ -3,11 +3,18 @@
 include_once('funciones/sesiones.php');
 $usuario = $_SESSION['usuario'];
 
+$id_objeto = 15;
+$rol = $_SESSION["rol"];
+$rol_id = $_SESSION['idRol'];
 
-/*$objeto = 3;
-$rol_id = $_SESSION['rol'];
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
 
-$stmt =*/ 
+
+if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente"){
+  if($columna["permiso_consulta"] == 1){
+
 
 ?>
 <main>
@@ -126,3 +133,10 @@ $stmt =*/
     <!-- /.content -->
   </div>
 </main>
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

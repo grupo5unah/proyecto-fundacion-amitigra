@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     //FUNCION INICIO DE SESION
-    $("#btn").on('click', async function(){
+    $("#btnInicioSesion").on('click', async function(){
 
         let usuario = document.querySelector("#usuario").value;
         let contrasena = document.querySelector("#P_Password").value;
@@ -10,13 +10,19 @@ $(document).ready(function(){
             swal({
                 icon:"error",
                 title:"Credenciales",
-                text:"No haz ingresado tus credenciales"
+                text:"No haz ingresado tus credenciales."
             });
-        }else if(contrasena ===""){
+        }else if(usuario === ""){
             swal({
                 icon:"error",
                 title:"Credenciales",
-                text:"No haz ingresado tu contrasena"
+                text:"No haz ingresado tu nombre de usuario."
+            });
+        }else if(contrasena === ""){
+            swal({
+                icon:"error",
+                title:"Credenciales",
+                text:"No haz ingresado tu contraseña."
             });
         }else{
             $.ajax({
@@ -32,7 +38,7 @@ $(document).ready(function(){
                         swal({
                             icon:"success",
                             title:"Éxito",
-                            text:"Te estamos redirigiendo, espera un momento",
+                            text:"Te estamos redirigiendo, espera un momento.",
                             timer: 4000,
                             buttons:false
                             
@@ -47,21 +53,21 @@ $(document).ready(function(){
                         swal({
                             icon:"error",
                             title:"Lo sentimos",
-                            text:"El nombre de usuario o contraseña son incorrectos"
+                            text:"El nombre de usuario o contraseña son incorrectos."
                         }).then(() => {
-                            location.reload();
+                            $("#P_Password").val("");
                         });
 
                     } else if(usuario_existe.respuesta == "cambio_estado"){
 
-                        Notificacion("error", "Bloqeuo", "Su usuario a sido bloqueado");
+                        Notificacion("error", "Bloqeuo", "Su usuario a sido bloqueado.");
 
                     } else if(usuario_existe.respuesta == "bloqueado_intentos"){
 
                         swal({
                             icon:"warning",
                             title:"Bloqueo usuario",
-                            text:"Su usuario a sido bloqueado ya que realizó los intentos permitidos"
+                            text:"El usuario a sido bloqueado, realizó los intentos permitidos."
                         }).then(() => {
                             location.reload();
                         });
@@ -70,7 +76,7 @@ $(document).ready(function(){
                         swal({
                             icon:"error",
                             title: "Lo sentimos",
-                            text:"El usuario no existe",
+                            text:"El usuario no existe.",
                             timer: 2500,
                             buttons: false
                         }).then(() => {
@@ -100,13 +106,19 @@ $(document).ready(function(){
                         swal({
                             icon:"success",
                             title: "Exito",
-                            text:"Te estamos redirigiendo",
+                            text:"Te estamos redirigiendo.",
                             timer: 4000,
                             buttons: false
 
                         }).then(() => {
                             window.location.href=("conf_preguntas.php");
                         })
+                    } else if(usuario_existe.respuesta == "no_verificada"){
+                        swal({
+                            icon:"error",
+                            title: "Contraseña incorrecta",
+                            text:"Su contraseña es incorrecta."
+                        });
                     }
                 }
             });
@@ -114,10 +126,6 @@ $(document).ready(function(){
 
     });
     //FIN FUNCION INICIO DE SESION
-
-    //INICIO FUNCION REGISTRO DE USUARIO
-    
-    //FIN FUNCION REGISTRO DE USUARIO
 
     //INICIO FUNCION DE NOTIFICACION
     function Notificacion(icon, title, text){

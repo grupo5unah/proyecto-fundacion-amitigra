@@ -101,8 +101,34 @@
     }
   }
 </script>
+
+<?php
+
+include "./modelo/conexionbd.php";
+
+$id_objeto = 3;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
+  if($columna["permiso_consulta"] == 1){
+?>
+
 <div class="content-wrapper">
-  <!-- Main content -->
+  
+    <section class="content-header">
+      <h1>Mantenimiento<small> solicitudes</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+		    <li><a><i class="fa fa-users"></i> mantenimiento solicitudes</a></li>
+      </ol>
+      <br>
+    </section>
+
   <section class="content">
 
     <div class="">
@@ -410,3 +436,11 @@
   </section>
   <!-- /.box-footer-->
 </div>
+
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

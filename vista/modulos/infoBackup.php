@@ -1,23 +1,68 @@
 <?php
 require "./modelo/conexionbd.php";
 
+//$id_objeto = ;
+
   $arreglo = ['NOMBRE_DATABASE','PUERTO_DATABASE','NOMBRE_SISTEMA','NOMBRE_ORGANIZACION','PUERTO_CORREO',
-              'CORREO_SISTEMA','FOTO_ORGANIZACION','USUARIO_ADMIN','USUARIO_CONTRASENA','HOST_HOSPEDADOR'];
+              'CORREO_SISTEMA','FOTO_ORGANIZACION','USUARIO_ADMIN','USUARIO_CONTRASENA','HOST_HOSPEDADOR','MENSAJE_CORREO'];
 
-    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[5]';";
-    $resultado = mysqli_query($conn, $extraer);
+  //TRAE EL CORREO ELECTRONICO DE LA ORGANIZACION
+  $correo = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[5]';");
+  $resultCorreo = mysqli_query($conn, $correo);
+  $PCorreo = mysqli_fetch_assoc($resultCorreo);
 
-    while($parametro = mysqli_fetch_assoc($resultado)):
+  //TRAE EL PUERTO DEL CORREO DE LA ORGANIZACION
+  $puerto = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[4]';");
+  $resultPuerto = mysqli_query($conn, $puerto);
+  $PPuerto = mysqli_fetch_assoc($resultPuerto);
+
+  //TRAE EL MENSAJE QUE SE ENVIA POR CORREO ELECTRONICO
+  $mensajeCorreo = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[10]';");
+  $resultMensaje = mysqli_query($conn, $mensajeCorreo);
+  $PMensaje = mysqli_fetch_assoc($resultMensaje);
   
+
+
+  //TRAE EL NOMBRE DEL HOST DE LA BASE DE DATOS
+  $host = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';");
+  $resultHost = mysqli_query($conn, $host);
+  $PHost = mysqli_fetch_assoc($resultHost);
+
+  //TRAE EL PUERTO DE LA BASE DE DATOS
+  $puertobd = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';");
+  $resultPuertobd = mysqli_query($conn, $puertobd);
+  $PPuertoBD = mysqli_fetch_assoc($resultPuertobd);
+
+  //TRAE EL NOMBRE DE LA BASE DE DATOS
+  $nombreBD = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';");
+  $resultNombreBD = mysqli_query($conn, $nombreBD);
+  $PNombreBD = mysqli_fetch_assoc($resultNombreBD);
+
+
+  //TRAE EL NOMBRE DE LA ORGANIZACION
+  $NombreOrganizacion = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[3]';");
+  $resultOrganizacion = mysqli_query($conn, $NombreOrganizacion);
+  $PNOrganizacion = mysqli_fetch_assoc($resultOrganizacion);
+
+  //TRAE EL NOMBRE DEL SISTEMA
+  $NSistema = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[2]';");
+  $resultNSistema = mysqli_query($conn, $NSistema);
+  $PNSistema = mysqli_fetch_assoc($resultNSistema);
+
+  //TRAE EL NOMBRE DEL ADMINISTRADOR
+  $administrador = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[7]';");
+  $resultAdmin = mysqli_query($conn, $administrador);
+  $PNAdmin = mysqli_fetch_assoc($resultAdmin);
 ?>
 <div class="content-wrapper">
 
-<section class="content-header">
-<h1>
-  Configuracion <small>Sistema</small>
-</h1>      
-<ol class="breadcrumb">
+    <section class="content-header">
+      <h1>
+        Configuracion<small> sistema</small>
+      </h1>
+      <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li><a href="panel"><i class="fa fa-cogs"></i> Panel de control</a></li>
         <li class="active"><i class="fa fa-cog"></i> Otra configuración</li>
       </ol>
     </section>
@@ -39,15 +84,10 @@ require "./modelo/conexionbd.php";
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a href="#"><strong>Correo: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                            $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[4]';";
-                            $resultado = mysqli_query($conn, $extraer);
-
-                            while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Puerto: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <li><a><strong>Mensaje correo: </strong><span class="pull-right">12</span></a></li>
-                <li><a><strong>Hola mundo</strong> <span class="pull-right">842</span></a></li>
+                <li><a href="#"><strong>Correo: </strong><span class="pull-right"><?php echo $PCorreo['valor'];?></span></a></li>
+                <li><a><strong>Puerto: </strong><span class="pull-right"><?php echo $PPuerto['valor'];?></span></a></li>
+                <!-- <li><a><strong>Mensaje correo: <br></strong><span class="pull-right"><?php //echo $PMensaje['valor'];?></span></a></li><br> -->
+                <!-- <li><a><strong>Hola mundo</strong> <span class="pull-right">842</span></a></li> -->
               </ul>
             </div>
           </div>
@@ -68,24 +108,9 @@ require "./modelo/conexionbd.php";
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-              <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Host hospedador:</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Puerto:</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Nombre base de datos: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Host hospedador:</strong><span class="pull-right"><?php echo $PHost['valor'];?></span></a></li>
+                <li><a><strong>Puerto:</strong><span class="pull-right"><?php echo $PPuertoBD['valor'];?></span></a></li>
+                <li><a><strong>Nombre base de datos: </strong><span class="pull-right"><?php echo $PNombreBD['valor'];?></span></a></li>
                 <li><a><strong>Estado conexon: </strong><span class="pull-right"><i class="fa fa-check has-success" for="inputSuccess"></i><?php if($conn->ping()){ echo "conectado"; } else { $fallo = ("error de conexion %s\n" + $mysqli->error); echo $fallo;}?></span></a></li>
               </ul>
             </div>
@@ -107,30 +132,10 @@ require "./modelo/conexionbd.php";
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-              <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[3]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Nombre organizacion: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Nombre sistema: </strong> <span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Usuario administrador</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[3]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Followers</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Nombre organizacion: </strong><span class="pull-right"><?php echo $PNOrganizacion['valor'];?></span></a></li>
+                <li><a><strong>Nombre sistema: </strong> <span class="pull-right"><?php echo $PNSistema['valor'];?></span></a></li>
+                <li><a><strong>Usuario administrador</strong><span class="pull-right"><?php echo $PNAdmin['valor'];?></span></a></li>
+                <!-- <li><a><strong>Followers</strong><span class="pull-right"><?php //echo $parametro['valor'];?></span></a></li> -->
               </ul>
             </div>
           </div>
