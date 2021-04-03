@@ -12,11 +12,20 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
   if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
+<section class="content-header">
+		<h1>MANTENIMIENTO PARAMETROS</h1>
+		<ol class="breadcrumb ">
+			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+			<li class="btn btn-success  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Parametros</a></li>
+			
+		</ol>
+	</section>
 	<!-- Main content -->
 	<section class="content">
 
 		<!-- Default box -->
-		<div class="box">
+		<div class="box" oncopy="return false" onpaste="return false">
 			<div class="box-header with-border">
 
 			</div>
@@ -33,11 +42,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								 <!-- /div-action -->
 								 <div class="div-action pull pull-right" style="padding-bottom:20px;">
 								
-								 <button class="btn btn-default btnCrearParam glyphicon glyphicon-plus-sign" >Agregar Parametro</button>
+								 <button class="btn btn-success btnCrearParam glyphicon glyphicon-plus-sign text-uppercase" >Agregar Parametro</button>
 								 </div>
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
-									<thead>
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerParam">
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 
 											<th>Parámetro</th>
@@ -111,7 +120,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarParam" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -127,12 +136,12 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									<div class="ingreso-producto form-group">
 										<div class="campos">
 											<label for="">Parametro: </label>
-											<input id="Param" class="form-control modal-roles secundary text-uppercase" type="text" name="" placeholde="Escriba el Paramenttro" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" />
+											<input id="Param" class="form-control modal-roles secundary text-uppercase" type="text" name=""  required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">valor parametro: </label>
-											<input id="valor" class="form-control  modal-roles  secundary text-uppercase" type="tel" name="" placeholde="Escriba el producto" required />
+											<input id="valor" class="form-control  modal-roles  secundary text-uppercase" type="tel" name="" placeholde="Escriba el producto" required autocomplete="off" />
 
 										</div>
 										<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
@@ -150,7 +159,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 				</div>
 				<!-- modal para crear un prametro -->
 				<div class="modal fade" id="modalRegistrarParam" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -173,12 +182,12 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
    
                               <div class="campos">
                                 <label for="">Nombre del Parametro </label>
-                                  <input id="nombrePara" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreParametro" placeholde="Escriba el parametro" required  onkeyup="javascript:this.value=this.value.toUpperCase()" />
+                                  <input id="nombrePara" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreParametro" placeholder="Escriba el parametro" required  onkeypress="return soloLetra(event)"onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 
                                   </div>
                               <div class="campos ">
                                 <label for=""> Valor </label>
-                                   <input id="valorParam" class="form-control  modal-roles secundary text-uppercase" type="tel" placeholde="Describa el parametro" required onkeyup="javascript:this.value=this.value.toUpperCase()" />
+                                   <input id="valorParam" class="form-control  modal-roles secundary text-uppercase" type="tel" placeholder="Describa el parametro" required onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
                                  </div>
 								 <input type="hidden" name="usuario_actual" id="id_usuario" value="<?= $_SESSION['id'] ?>">

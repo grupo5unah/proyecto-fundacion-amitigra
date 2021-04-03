@@ -13,18 +13,21 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 ?>
 
 <div class="content-wrapper">
-	<section class="content-header">
-      <h1>Mantenimiento<small> permisos</small></h1>
-      <ol class="breadcrumb">
-        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a><i class="fa fa-cogs"></i> mantenimiento permisos</a></li>
-      </ol>
-      <br>
-    </section>
+
+<section class="content-header">
+		<h1>MANTENIMIENTO Permisos</h1>
+		<ol class="breadcrumb ">
+			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+			<li class="btn btn-success  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Permisos</a></li>
+			
+		</ol>
+	</section>
+	<!-- Main content -->
 	<section class="content">
 
 		<!-- Default box -->
-		<div class="box">
+		<div class="box" oncopy="return false" onpaste="return false">
 			<div class="box-header with-border">
 
 			</div>
@@ -40,8 +43,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
-									<thead>
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerPermisos">
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 										    <th>Rol</th>
 											<th>Objeto</th>
@@ -123,7 +126,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarPermisos" tabindex="-1"
-			    	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			    	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -140,22 +143,22 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										
 										<div class="campos">
 											<label for="">Permiso Insertar</label>
-											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumeros(event)"/>
+											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumero(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Eliminar</label>
-											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)"/>
+											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumero(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Actualizar</label>
-											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" />
+											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumero(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" />
+											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumero(event)" autocomplete="off"/>
 
 										</div>
 										
@@ -172,52 +175,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 						</div>
 					</div>
 				</div>
-				<!-- //modal para crear nuevos permisos -->
-				<!-- <div class="modal fade" id="modalCrearPermisos" tabindex="-1"
-			    	role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<div class="d-flex justify-content-between">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<i aria-hidden="true">&times;</i>
-									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Registrar Permiso</h3>
-								</div>
-							</div>
-							<div class="modal-body">
-								<form name="formEditarProducto">
-									<div class="ingreso-producto form-group">
-										<div class="campos" type="hidden">
-											<label for=""> </label>
-											<input autocomplete="off" class="form-control secundary" type="hidden" name="idInventario" value="0" disabled>
-										</div>
-
-										<div class="campos">
-											<label for="">Nombre rol </label>
-											<input id="nombreRol" class="form-control secundary" type="text" name="nombreProducto" placeholde="Escriba el producto" required />
-
-										</div>
-										<div class="campos form-group">
-											<label for="">Descripcion </label>
-											<input id="descripcionRol" class="form-control secundary" type="tel" name="cantidad" placeholde="Escriba el producto" required />
-
-										</div>
-										
-										
-										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-									</div>
-									
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar rol</button>
-							</div>
-						</div>
-					</div>
-				</div> -->
-
+				
 			<!-- /.box-footer-->
 		</div>
 		<!-- /.box -->

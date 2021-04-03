@@ -70,13 +70,13 @@
               <li class="user-footer">
                 <div class="pull-left">
                   <form method="POST">
-                  <a href="perfil" class="btn btn-primary btn-flat">Perfil</a> <!--Boton que redirige al perfil o configuracion de usuario-->
+                  <a href="perfil" class="btn btn-primary btn-flat"><i class="fa fa-user"></i> Perfil</a> <!--Boton que redirige al perfil o configuracion de usuario-->
                   
                   </form>
                 </div>
                 
                 <div class="pull-right">
-                  <a href="cerrarSesion" class="btn btn-danger btn-flat">Cerrar sesion</a> <!--Salir del sistema-->
+                  <a href="cerrarSesion" class="btn btn-danger btn-flat"><i class="fa fa-power-off"></i> Cerrar sesion</a> <!--Salir del sistema-->
                 </div>
               </li>
             </ul>

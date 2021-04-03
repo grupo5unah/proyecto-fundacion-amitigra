@@ -45,7 +45,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerBitacora">
 									<thead>
 										<tr>
 

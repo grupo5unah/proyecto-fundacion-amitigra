@@ -1,6 +1,5 @@
 //MUESTA LA HORA EN LA PANTALLA PRINCIPAL
 
-(function(){
     function startTime() {
         var hora_dia = new Date();
         var hora = hora_dia.getHours();
@@ -22,4 +21,3 @@
         }
         return i;
     }
-}())

@@ -2,7 +2,7 @@
 function soloLetra(e){
     key=e.keycode || e.which;
     teclado = String.fromCharCode(key).toLowerCase();
-    letra=" abvdefghijklmnopqrstuvwxyz¿?_";
+    letra=" abcdefghijklmnopqrstuvwxyz¿?_";
     especiales="8-16-37-38-46-63-92-95-164";
     teclado_especial=false;
     for(let i in especiales){
@@ -22,9 +22,9 @@ function soloNumero(e){
     numero="123456789.";
     especiales="8-37-38-46";
     teclado_especial = false;
-    // if (key < 48 || key > 57) {
-    //   e.preventDefault();
-    // }
+     if (key < 48 || key > 57) {
+     e.preventDefault();
+    }
     for(let i in especiales){
        if(key===especiales[i]){
            teclado_especial=true;
@@ -38,7 +38,7 @@ function soloNumero(e){
 $(document).ready(function(){
     //const contenedorPro =$('#contClone');
     const contenedorOrden= $('#ordenTable  .tbody');
-    const local =$('#localidadO').val;
+    const local =$('#localidadO').val();
     const nombre = $('#productoOrden').val();
     const cantidad = $('#cantidadPOr').val();
     const descripcion = $('#descCanO').val();
@@ -117,6 +117,7 @@ $(document).ready(function(){
          contOrden = [...contOrden, orden];
         //if(contOrden.length > 0) sincronizarStorage(contOrden)
         //agrega  art a la tabla
+        listaOrden.prop('disabled', true);
         
         llenarTabla();
         resetearFormulario()
@@ -213,36 +214,36 @@ $(document).ready(function(){
     //  cargarStorage();
   
      // cuando agregas una presionando agragar a table
-     if(nombre !== undefined && cantidad !== undefined&& descripcion !== undefined){
-         listaOrden.prop("disabled", true);
-        
-     listaOrden.on('click', agregarOrden);
-     $('#btnProductUpdate').on('click', editarOrden);
-     resetearFormulario()
-     }else{
-        listaOrden.prop("disabled", false);
-     }
+           
+         listaOrden.on('click', agregarOrden);
+        $('#btnProductUpdate').on('click', editarOrden);
+        resetearFormulario()
+     
      
      function resetearFormulario(){
          const formulario = document.querySelector('#formOrden');
          formulario.reset();
      }
-
+     
      $('.productoOrden').select2();
      $('#localidadO').select2();
      
     $('.btnCrearOrden').on('click',function(){
-      
         $('#ModalCrearOrden').modal('show');
-              
     });
-
-   // validaciones de cada orden
+    // validar cada campo
+    $('#localidadO').on('change',validarCampos);
+   $('#productoOrden').on('change',validarCampos);
+   $('#cantidadPOr').on('blur',validarCampos);
+   $('#descripcion').on('blur',validarCampos);
+   //validaciones de cada orden
+   
      function validarCampos(){
-         if(local !== undefined && nombre !== undefined && cantidad !== undefined && des !== undefined){
-            listaOrden.prop("disabled", false);
-            //btnAgregar.classList.remove('cursor-not-allowed', 'opacity-50');
-         }
+         if(local !== "" && nombre !== " " && cantidad !== " " && descripcion !== " " ){
+            listaOrden.prop("disabled", false);    
+        }else{
+            listaOrden.prop("disabled", true);  
+        }
     };
      $('.btnEditarBD').on('click', function(){
         console.log('hola mundo');
@@ -298,13 +299,44 @@ $(document).ready(function(){
      
     });
 
-    $(".btnVerd").mouseenter(function(){
+    // $(".btnVerd").dblclick(function(){
+    //     $('#modalVerDetalle').modal('show');
+       
+    // });
+
+
+    // datos de la dela modal ver el detalle de los datos
+    $('.btnVerd').click(async function () {
         $('#modalVerDetalle').modal('show');
-       // alert('hola');
+      console.log('hola mundo')
+        if(this.value.length > 0 ){
+            try{
+                const resp = await axios(`./controlador/contOrden.php?action=traerDetalleO&idOrdenes=${this.value}`);
+                const data = resp.data;
+                if(data.producto.length > 0){
+                    console.log(data.producto[0]);
+                  
+                    
+                }
+                
+            }catch(err){
+                console.log('Error - ', err);
+            }
+        }
     });
+
      
 
 
     
 
 });
+
+/*
+ recordatorio de validaciones y notificacion de enviado:
+   -si la tabla esta vacia el boton Registrar orden debe estar inhabilitado,
+   -si re registro la orden se debe deshabilitar el boton registrar de nuevo y vaciar la tabla
+   -si se engreso el producto se debe informar al usuario que se registro el producto o informar si no se registro
+   -arreglar el boton de editar  y el localstorage
+    
+*/
