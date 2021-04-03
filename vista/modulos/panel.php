@@ -1,8 +1,15 @@
+<?php
+
+$id_objeto = 2;
+$rol = $_SESSION["rol"];
+
+if($rol === "administrador"){
+?>
 <div class="content-wrapper">
 
-<section class="content-header">
-<h1>Panel <small>administración</small></h1>      
-<ol class="breadcrumb">
+    <section class="content-header">
+      <h1>Panel <small>administración</small></h1>      
+        <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
         <li class="active"> <i class="fa fa-cogs"></i> Panel de administración</li>
       </ol>
@@ -21,8 +28,8 @@
           include_once("./modelo/conexionbd.php");
             //TOTAL DE USUARIOS
             $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
-            $result = mysqli_query($conn, $registros);
-            $fila = mysqli_fetch_assoc($result);
+            $resultados = mysqli_query($conn, $registros);
+            $fila = mysqli_fetch_assoc($resultados);
             
             //TOTAL ACTIVIDADES REALIZADAS
             $actividades = "SELECT COUNT(*) total FROM tbl_bitacora";
@@ -195,24 +202,20 @@
             <div class="icon">
               <i class="fa fa-user"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="mantClientes" class="small-box-footer">
               Click aqui para mantenimiento clientes <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
       </div>
-    <!--CAJAS FINAL SEGUNDA LINEA-->
-
-      <!--INICIO DE OTRA INFORMACION-->
-      
-        <!--FIN DE OTRA INFORMACION-->  
-        
-        <!--INICIO DE LA TABLA-->
-        
-        <!--FIN DE LA TABLA-->
-
-      <!-- /.box -->
 
     </section>
     <!-- /.content -->
   </div>
+  <?php
+}else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";
+}
+  ?>

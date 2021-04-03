@@ -45,7 +45,7 @@ $(document).ready(function(){
       let telefono = document.querySelector('#telefono').value;
       let correo = document.querySelector('#correo').value;
       //let contrasenas = document.querySelector("#passConf").value;
-      let imagen = document.querySelector("#imagen").value;
+      //let imagen = document.querySelector("#imagen").value;
 
       if(nombre === '' || usuario === '' || telefono ==='' || correo === ''){
         Notificacion("error","Parece que hubo un error","Todos los campos son requeridos");

@@ -55,40 +55,44 @@ $columna = $stmt->fetch_assoc();
         <!--Pendiente-->
         
         <!--ROL DE ADMINISTRACION-->
-        <?php if($_SESSION['rol'] === 'administrador' OR $_SESSION['rol'] === 'asistente' OR $_SESSION['rol'] === 'usuario'){?>
+        <?php if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador"){?>
           <!--Inicio SOLICITUDES-->
-          <?php if ($columna["permiso_consulta"] == 1) {?><li class="">
-          <a href="solicitudes">
-            <i class="fa fa-files-o"></i>
-            <span>Solicitudes</span>
-          </a>
-        </li>
-        <?php }?>
+          <!-- MUESTRA SOLICITUDES SOLO A ADMINISTRACION -->
+          <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" && $columna["permiso_consulta"] !== 0) {?>
+            <li class="">
+              <a href="solicitudes">
+                <i class="fa fa-files-o"></i>
+                <span>Solicitudes</span>
+              </a>
+            </li>
+          <?php }?>
         <!--Fin SOLICITUDES-->
 
           <!--ROL DE USUARIO-->
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">
-          <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
-          <a href="#">
-            <i class="fa fa-calendar-check-o"></i>
-            <span>Reservaciones</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-          <li class="active"><a href="camping"><i class=""></i> Camping</a></li>
-            <li><a href="hotel"><i class=""></i> Hotel</a></li>
-            <li><a href="senderos"><i class=""></i> Senderos</a></li>
-          </ul>
-        </li>
-        <?php }?>
+          <!-- MUESTRA RESERVACIONES SOLO PARA ADMINISTRADOR Y COLABORADOR -->
+            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" && $columna["permiso_consulta"] !== 0) {?>
+              <a href="#">
+                <i class="fa fa-calendar-check-o"></i>
+                <span>Reservaciones</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="active"><a href="camping"><i class=""></i> Camping</a></li>
+                <li><a href="hotel"><i class=""></i> Hotel</a></li>
+                <li><a href="senderos"><i class=""></i> Senderos</a></li>
+              </ul>
+          </li>
+            <?php }?>
         <!--Fin RESERVACIONES-->
 
         <!--Inicio INVENTARIO-->
         <li class="treeview">
-        <?php if ($columna['permiso_consulta'] == 1 OR $columna["permiso_consulta"] == 0) {?>
+        <!-- MUESTRA INVENTATIO SOLO A ADMINISTRACION -->
+        <?php if ($_SESSION["rol"] === "administrador" && $columna['permiso_consulta'] !== 0) {?>
           <a href="#">
             <i class="fa fa-pencil-square-o"></i>
             <span>Inventario</span>
@@ -106,8 +110,9 @@ $columna = $stmt->fetch_assoc();
         <!--Final INVENTARIO-->
 
         <!--Inicio panel de ADMINISTRACION-->
+        <!-- MUESTRA EL AREA DE CONFIGURACION DEL SISTEMA SOLO A ADMINISTRACION -->
         <li name="admin" id= "admin" class="treeview">
-        <?php if ($_SESSION['rol'] == 'administrador' and $columna['permiso_consulta'] == 1) {?>
+        <?php if ($_SESSION["rol"] === "administrador" && $columna["permiso_consulta"] !== 0) {?>
           <a href="#">
             <i class="fa fa-gear"></i> <span>Panel de control</span>
             <span class="pull-right-container">
@@ -147,7 +152,6 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantTipoSolicitudes"><i class=""></i>Tipo de Solicitudes</a></li>
                 <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
-                <li><a href="mantEstados"><i class=""></i> Estados</a></li>
                 <li><a href="mantEstadosSolicitud"><i class=""></i> Estados de Solicitud</a></li>
                 
             </li>

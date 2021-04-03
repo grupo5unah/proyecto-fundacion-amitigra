@@ -144,13 +144,13 @@ $columna = $stmt->fetch_assoc();
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="inputName" class="col-sm-3 control-label">Foto de perfil:</label>
 
                     <div class="input-group col-sm-8">
                       <input type="file" id="imagen" name="imagen" accept="image/jpg, image/png" class="form-control">
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="form-group">
                     <label for="inputName" class="col-sm-3 control-label">Tel./Celular:</label>

@@ -1,6 +1,28 @@
-<?php include("./modelo/conexionbd.php"); ?>
+<?php include("./modelo/conexionbd.php");
+
+$id_objeto = 7;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
+  if($columna["permiso_consulta"] === 1){
+
+?>
 <div class="content-wrapper">
-	<!-- Main content -->
+	
+	<section class="content-header">
+      <h1>Senderos</h1> <?php echo $rol_id;?> <br> <?php echo $_SESSION["rol"];?>
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+		<li><a><i class="fa fa-cogs"></i> Senderos</a></li>
+      </ol>
+      <br>
+    </section>
+
 	<section class="content">
  
 		<!-- Default box -->
@@ -63,7 +85,7 @@
                                   WHERE tbl_boletos.estado_eliminado = 1                                
                                   ORDER BY tbl_boletos.id_boletos_vendidos";
                       $resultado = $conn->query($sql);
-                    }catch (Exeption $e){
+                    }catch (Exception $e){
                       $error = $e->getMessage();
                       echo $error;
                     }
@@ -187,3 +209,11 @@
 	</section>
 	<!-- /.content -->
 </div>
+
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

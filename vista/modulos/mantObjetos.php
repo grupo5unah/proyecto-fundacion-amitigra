@@ -1,12 +1,36 @@
-<?php include("./modelo/conexionbd.php"); ?>
+<?php
+
+include("./modelo/conexionbd.php");
+
+$id_objeto = 28;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
+  if($columna["permiso_consulta"] === 1){
+?>
 <?php
 //$_SESSION['rol'] = 'administrador';
-echo '<pre>';
-var_dump($_SESSION['rol']);
-echo '</pre>';
+// echo '<pre>';
+// var_dump($_SESSION['rol']);
+// echo '</pre>';
 ?>
 <div class="content-wrapper">
-	<!-- Main content -->
+	
+	<section class="content-header">
+      <h1>Mantenimiento<small> objetos</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+		<li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
+		<li><a><i class="fa fa-users"></i> mantenimiento objetos</a></li>
+      </ol>
+      <br>
+    </section>
+
 	<section class="content">
 
 		<!-- Default box -->
@@ -216,3 +240,11 @@ echo '</pre>';
 	</section>
 	<!-- /.content -->
 </div>
+
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

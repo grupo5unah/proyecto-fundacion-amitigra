@@ -52,7 +52,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="fotoPerfil/<?php echo $imagen['foto'];?>" class="user-image" alt="User Image">
-              <span class="hidden-xs">Cuenta: <?php echo ucwords($usuario);?></span>
+              <span class="hidden-xs"><strong>Cuenta:</strong> <?php echo ucwords($usuario);?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
