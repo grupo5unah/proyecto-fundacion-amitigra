@@ -81,8 +81,7 @@ $columna = $stmt->fetch_assoc();
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="camping"><i class=""></i> Camping</a></li>
-                <li><a href="hotel"><i class=""></i> Hotel</a></li>
+                <li><a href="hotel"><i class=""></i> Hotel y Camping</a></li>
                 <li><a href="senderos"><i class=""></i> Senderos</a></li>
               </ul>
           </li>

@@ -135,7 +135,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol
 									</button> -->
-									<a href="reporteGUsuarios.php" target="_blank" rel="noopener noreferrer" class="btn btn-default"><i class="fa fa-download"></i>Generar Reporte PDF</a>
+									
 									<button class="btn btn-default btnCrearUsuario glyphicon glyphicon-plus-sign">Agregar Usuario</button>
 								</div> <!-- /div-action -->
 

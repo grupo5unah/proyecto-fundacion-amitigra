@@ -1,15 +1,26 @@
 //VALIDDACIONES DE FORMULARIOS HOTEL Y CAMPING
-//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO NACIONALES
+//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO NACIONALES JUTIAPA
 function calculo()
 {
   try {
-    var cant_adultos=parseFloat(document.getElementById("cAdultosN").value)|| 0, 
-        cant_niños=parseFloat(document.getElementById("cNinosN").value)|| 0,
-        precio_adulto=parseFloat(document.getElementById("precioAdultoN").value)|| 0,
-        precio_niños=parseFloat(document.getElementById("precioNinoN").value)|| 0;
-        //document.getElementById("TboletosE").value= e+f;
-        //console.log(document.getElementById("TboletosE").value);                 
-        document.getElementById("total1").value= (cant_adultos*precio_adulto)+(cant_niños*precio_niños);
+    var cantAdultosN=parseFloat(document.getElementById("cantAN").value)|| 0, 
+        cantNiN=parseFloat(document.getElementById("cantNN").value)|| 0,
+        Padult=parseFloat(document.getElementById("precioAdultoN").value)|| 0,
+        Pnino=parseFloat(document.getElementById("precioNinoN").value)|| 0;          
+        document.getElementById("totalNJ").value= (cantAdultosN*Padult)+(cantNiN*Pnino);
+  }catch(e){
+
+  }
+}
+//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO EXTRANJEROS JUTIAPA
+function calcular2()
+{
+  try {
+    var cantAdultosE=parseFloat(document.getElementById("cantAE").value)|| 0, 
+        cantNiE=parseFloat(document.getElementById("cantNE").value)|| 0,
+        PadultE=parseFloat(document.getElementById("precioAdultoE").value)|| 0,
+        PninoE=parseFloat(document.getElementById("precioNinoE").value)|| 0;          
+        document.getElementById("totalEJ").value= (cantAdultosE*PadultE)+(cantNiE*PninoE);
   }catch(e){
 
   }
@@ -74,6 +85,45 @@ function calcular_camping()
   }
 }
 
+function soloLetra(e){
+  key=e.keycode || e.which;
+  teclado = String.fromCharCode(key).toLowerCase();
+  letra=" abvdefghijklmnopqrstuvwxyz¿?_";
+  especiales="8-16-37-38-46-63-92-95-164";
+  teclado_especial=false;
+  for(let i in especiales){
+      if (key===especiales[i]){
+          teclado_especial= true;
+          break;
+      }
+  }
+  if(letra.indexOf(teclado)==-1 && !teclado_especial){
+      return false;
+  }
+
+}
+function soloNumero(e){
+  var key = window.event ? e.which : e.keyCode;
+  teclado=String.fromCharCode(key);
+  numero="123456789.";
+  especiales="8-37-38-46";
+  teclado_especial = false;
+  // if (key < 48 || key > 57) {
+  //   e.preventDefault();
+  // }
+  for(let i in especiales){
+     if(key===especiales[i]){
+         teclado_especial=true;
+     }
+  }
+  if(numero.indexOf(teclado)==-1 && !teclado_especial){
+      return false;
+  }
+}
+//Permitir solo un ESPACIO
+espacio_Letras = function(input) {
+  input.value = input.value.replace('  ', ' ');
+}
 $(document).ready(function () {
 
   //TABLA DE RESERVACIONES PARA HOTEL
@@ -427,7 +477,7 @@ $(document).ready(function () {
   //REGISTRAR UNA RESERVACION PARA HOTEL (MODAL)
   $('#localidad').change(function() {
     var local = $(this).val();
-    console.log(local);
+    //console.log(local);
     if(local==1){
       $('.jutiapa').slideDown();
       $('.rosario').slideUp();
@@ -436,13 +486,7 @@ $(document).ready(function () {
       $('.jutiapa').slideUp();
     }
   });
-  //VALIDAR LOCALIDAD CUANDO ES JUTIAPA Y ES PARA CAMPING
-  $( '#radio input:radio' ).on( 'click', function() {
-    if($(this).val() === 2 && $('#localidad').val() === 1 ){
-      $('.camping').slideDown();
-      $('.jutiapa').slideUp();
-    }
-  });
+   
   //VALIDAR RADIO BUTTON
   $( '#radio input:radio' ).on( 'click', function() {
     if($(this).val() === '1'){
@@ -453,365 +497,34 @@ $(document).ready(function () {
       $('.hotel').slideUp();
     }
   });
+  //VALIDAR LOCALIDAD CUANDO ES JUTIAPA Y ES PARA CAMPING
+  $( '#radio input:radio' ).on( 'click', function() {
+    if($(this).val() == '2' && $('#localidad').val() == 1 ){
+      $('.camping').slideDown();
+      $('.jutiapa').slideUp();
+    }
+  });
   //VALIDAR BOTON DE EXTRANJEROS Y NACIONALES
-  $('.extranjeros' ).on( 'click', function() {
+  $('#extranjeros' ).on( 'click', function(e) {
+    e.preventDefault();
       $('.extranjero').slideDown();
       $('.nacional').slideUp();
       $('.nacionales').slideDown();
       $('.extranjeros').slideUp();
   });
-  $('.nacionales' ).on( 'click', function() {
+  $('#nacionales' ).on( 'click', function(e) {
+    e.preventDefault();
     $('.extranjero').slideUp();
     $('.nacional').slideDown();
     $('.nacionales').slideUp();
     $('.extranjeros').slideDown();
-});
-  //VALIDAR CHECKBOOX PARA EXTRANJEROS
-  $( '#check' ).on( 'click', function() {
-    if( $(this).is(':checked') ){
-      //console.log("seclecionaste el check");
-      $('.extranjero').slideDown();
-      $('.nacional').slideUp();
-    } else {
-      //console.log("check no seleccionado");
-      $('.nacional').slideDown();
-      $('.extranjero').slideUp();
-    }
   });
   $('.btnArticulos').on('click', function (){
         $('#modalArticulos').modal('show');
   });
-  //MOSTRAR MODAL PARA PONER LA TASA DE CAMBIO
-  // $('#cantAdultos').keyup(function(e){
-  //   e.preventDefault();
-  //   if($(this).val()){
-  //     $('#modalTasa').modal('show');
-  //     $('#modalRegistrarHotelRosario').modal('hidden');
-  //   }else{
-  //     $('#modalTasa').modal('hidden');
-  //     $('#modalRegistrarHotelRosario').modal('show');
-  //   }
-    
-  // });
+
   
-   /**FUNCION PARA REALIZAR LA RESERVACION EN HOTEL EN JUTIAPA */
-   $("#formHotelJutiapa").submit(async function(e){
-    e.preventDefault();
-    //console.log('funciona');
-    //esta funcion se optine el valor de la propuedad (ckecked) que es un valor (true/false)
-    if($('#checke').prop('checked')){
-      console.log('check activado');
-      var cli =$('#idCliente').val(''), reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),
-        salida = $("#salida").val(),habitacion = $("#habitacion").val(),
-        cantAN = $("#cAdultosN").val(), cantNN = $("#cNinosN").val(), cantAE = $("#cantAdultosE").val(),
-        cantNE = $("#cantNinosE").val(),cant_habitacion = $("#cantH").val(),
-        precioAN = $("#precioAdultoN").val(),precioNN = $("#precioNinoN").val(),precioAE = $("#precioAdultoE").val(),
-        precioNE = $("#precioNinoE").val(),
-        total2 = $("#total2").val(),usuario_actual = $("#usuario_actual").val(), id_usuario = $("#id_usuario").val();
-
-       
-      console.log( cli, reservacion, entrada,salida,habitacion,cantAN,
-        cantNN, cant_habitacion, precioAN,cantAE,cantNE, precioNN,precioAE, precioNE, total2, usuario_actual,id_usuario);
-
-        if( reservacion != undefined && entrada != undefined &&salida != undefined &&
-          cantAN != undefined && cantNN != undefined && cantAE != undefined && cantNE != undefined &&
-           habitacion != undefined && cant_habitacion != undefined
-          && precioAN != undefined && precioNN != undefined && precioAE != undefined && precioNE != undefined 
-          && total2 != undefined && usuario_actual != undefined && id_usuario != undefined){
-          // formdata sirve para enviar los datos al servidor
-          /*lo que va entre fuera de las comillas son las variables que declaramos 
-           y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-          const registro= new FormData();
-          registro.append('reservacion',reservacion);
-          registro.append('entrada',entrada);
-          registro.append('salida', salida);
-          registro.append('habitacion', habitacion);
-          registro.append('adultoN', cantAN);
-          registro.append('ninoN', cantNN);
-          registro.append('adultoE', cantAE);
-          registro.append('ninoE', cantNE);
-          registro.append('cant_habitacion', cant_habitacion);
-          registro.append('precioAdultoN', precioAN);
-          registro.append('precioNinoN', precioNN);
-          registro.append('precioAdultoE', precioAE);
-          registro.append('precioNinoE', precioNE);
-          registro.append('total2', total2);
-          registro.append('usuario_actual', usuario_actual);
-          registro.append('id_usuario', id_usuario);
-          
   
-          const resp = await axios.post(`./controlador/ctrhotel.php?action=hotelJutiapaNE`, registro);
-  
-          const data = resp.data;
-  
-          if(data.error){
-              return swal("Error", data.msj, "error");
-          }else{
-            return swal("Correcto", data.msj, "success").then((value) => {
-              if (value){
-                // Se limpia el formulario
-                $("#reservacion").val('');
-                $("#entrada").val('');
-                $("#salida").val('');
-                $("#habitacion").val('');
-                $("#cAdultosN").val('');
-                $("#cNinosN").val('');
-                $("#cantNinosE").val('');
-                $("#cantAdultosE").val('');
-                $("#cantH").val('');
-                $("#precioAdultoN").val('');
-                $("#precioNinoN").val('');
-                $("#precioAdultoE").val('');
-                $("#precioNinoE").val('');
-                $("#total2").val('');
-              }
-              window.location.href='hotel';
-            })
-
-          }
-          
-          
-      }else{
-        swal({
-          icon: 'warning',
-          title: 'Hubo un error',
-          text:'todos los campos son obligatorios'
-        })
-      } 
-
-    }else{
-      console.log('funciona2');
-      console.log('check desactivado');
-    
-        //registrar solo para nacionales
-        console.log('registrar nacionales');
-        console.log('check desactivado para registrar nacionales');
-        var reservacion = $("#reservacion").val(),entrada = $("#entrada").val(),salida = $("#salida").val(),
-            habitacion = $("#habitacion").val(),cantAN = $("#cAdultosN").val(),cantNN = $("#cNinosN").val(), 
-            cant_habitacion = $("#cantH").val(),precioAN = $("#precioAdultoN").val(),precioNN = $("#precioNinoN").val(),
-            total1 = $("#total1").val() ,usuario_actual = $("#usuario_actual").val(), id_usuario = $("#id_usuario").val();
-
-        console.log(reservacion, entrada,salida,habitacion,cantAN, cantNN, cant_habitacion, precioAN, precioNN,total1, 
-                    usuario_actual,id_usuario);
-
-        if( reservacion != undefined && entrada != undefined &&salida != undefined && cantAN != undefined && cantNN != undefined &&
-          habitacion != undefined && cant_habitacion != undefined && precioAN != undefined && precioNN != undefined && 
-           total1 != undefined && usuario_actual != undefined
-            && id_usuario != undefined){
-            // formdata sirve para enviar los datos al servidor
-            /*lo que va entre fuera de las comillas son las variables que declaramos 
-            y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-            const registro= new FormData();
-            registro.append('reservacion',reservacion);
-            registro.append('entrada',entrada);
-            registro.append('salida', salida);
-            registro.append('habitacion', habitacion);
-            registro.append('adultoN', cantAN);
-            registro.append('ninoN', cantNN);
-            registro.append('cant_habitacion', cant_habitacion);
-            registro.append('precioAdultoN', precioAN);
-            registro.append('precioNinoN', precioNN);
-            registro.append('total1', total1);
-            registro.append('usuario_actual', usuario_actual);
-            registro.append('id_usuario', id_usuario);
-            
-    
-            const resp = await axios.post(`./controlador/ctrhotel.php?action=hotelJutiapaNoE`, registro);
-    
-            const data = resp.data;
-    
-            if(data.error){
-                return swal("Error", data.msj, "error");
-            }else{
-              return swal("Correcto", data.msj, "success").then((value) => {
-                if (value){
-                  // Se limpia el formulario
-                  $("#reservacion").val('');
-                  $("#entrada").val('');
-                  $("#salida").val('');
-                  $("#habitacion").val('');
-                  $("#cAdultosN").val('');
-                  $("#cNinosN").val('');
-                  $("#cantH").val('');
-                  $("#precioAdultoN").val('');
-                  $("#precioNinoN").val('');
-                  $("#total1").val('');
-                  
-                }
-                window.location.href='hotel';
-              })
-
-            }
-            
-            
-        }else{
-          swal({
-            icon: 'warning',
-            title: 'Hubo un error',
-            text:'todos los campos son obligatorios'
-          })
-        }
-      
-    }
-    
-  })
-
-  /**FUNCION PARA REALIZAR LA RESERVACION EN HOTEL EN ROSARIO */
-  $("#formHotelRosario").submit(async function(e){
-    e.preventDefault();
-    //console.log('funciona');
-    //esta funcion se optine el valor de la propuedad (ckecked) que es un valor (true/false)
-    if($('#check').prop('checked')){
-      console.log('check activado');
-      var reserva = $("#reserva").val(),entra = $("#entra").val(), idCli = $('#idCliente').val(''),
-        sali = $("#sali").val(),habita = $("#habita").val(),
-        cantiAN = $("#cAdultN").val(), cantiNN = $("#cNiN").val(), cantiAE = $("#cantAdultE").val(),
-        cantiNE = $("#cantNiE").val(),cantiHa = $("#cantHa").val(),
-        precAN = $("#preAdultoN").val(),precNN = $("#preNinoN").val(),precAE = $("#preAdultE").val(),
-        precNE = $("#preNinoE").val(),
-        total4 = $("#total4").val(),usuario_actual = $("#usuario_actual").val(), id_usuario = $("#id_usuario").val();
-
-       
-      console.log(reserva, entra,sali,habita,cantiAN, idCli,
-        cantiNN, cantiHa, precAN,cantiAE,cantiNE, precNN,precAE, precNE, total4, usuario_actual,id_usuario);
-
-        if( reserva != undefined && entra != undefined &&sali != undefined &&
-          cantiAN != undefined && cantiNN != undefined && cantiAE != undefined && cantiNE != undefined &&
-           habita != undefined && cantiHa != undefined
-          && precAN != undefined && precNN != undefined && precAE != undefined && precNE != undefined 
-          && total4 != undefined && usuario_actual != undefined && id_usuario != undefined){
-          // formdata sirve para enviar los datos al servidor
-          /*lo que va entre fuera de las comillas son las variables que declaramos 
-           y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-          const registro= new FormData();
-          registro.append('reserva',reserva);
-          registro.append('entra',entra);
-          registro.append('sali', sali);
-          registro.append('habita', habita);
-          registro.append('adultN', cantiAN);
-          registro.append('ninN', cantiNN);
-          registro.append('adultE', cantiAE);
-          registro.append('ninE', cantiNE);
-          registro.append('cantiHa', cantiHa);
-          registro.append('preAdultoN', precAN);
-          registro.append('preNinoN', precNN);
-          registro.append('preAdultoE', precAE);
-          registro.append('preNinoE', precNE);
-          registro.append('total4', total4);
-          registro.append('usuario_actual', usuario_actual);
-          registro.append('id_usuario', id_usuario);
-          
-  
-          const resp = await axios.post(`./controlador/ctrhotel.php?action=hotelRosarioNE`, registro);
-  
-          const data = resp.data;
-  
-          if(data.error){
-              return swal("Error", data.msj, "error");
-          }else{
-            return swal("Correcto", data.msj, "success").then((value) => {
-              if (value){
-                // Se limpia el formulario
-                $("#reserva").val('');
-                $("#entra").val('');
-                $("#sali").val('');
-                $("#habita").val('');
-                $("#cAdultN").val('');
-                $("#cNiN").val('');
-                $("#cantNiE").val('');
-                $("#cantAdultE").val('');
-                $("#cantHa").val('');
-                $("#preAdultoN").val('');
-                $("#preNinoN").val('');
-                $("#preAdultE").val('');
-                $("#preNinoE").val('');
-                $("#total4").val('');
-              }
-              window.location.href='hotel';
-            })
-
-          }
-          
-          
-      }else{
-        swal({
-          icon: 'warning',
-          title: 'Hubo un error',
-          text:'todos los campos son obligatorios'
-        })
-      } 
-
-    }else{
-        console.log('check desactivado para reservar nacionales');
-        var reserva = $("#reserva").val(),entra = $("#entra").val(),
-          sali = $("#sali").val(),habita = $("#habita").val(),
-          cantiAN = $("#cAdultN").val(), cantiNN = $("#cNiN").val(),cantiHa = $("#cantHa").val(),
-          precAN = $("#preAdultoN").val(),precNN = $("#preNinoN").val(),total3 = $("#total3").val(),
-          usuario_actual = $("#usuario_actual").val(), id_usuario = $("#id_usuario").val();
-  
-         
-        console.log(reserva, entra,sali,habita,cantiAN,
-          cantiNN, cantiHa, precAN, precNN, total3, usuario_actual,id_usuario);
-  
-          if( reserva != undefined && entra != undefined &&sali != undefined &&
-            cantiAN != undefined && cantiNN != undefined &&habita != undefined && cantiHa != undefined
-            && precAN != undefined && precNN != undefined && total3 != undefined &&
-             usuario_actual != undefined && id_usuario != undefined){
-            // formdata sirve para enviar los datos al servidor
-            /*lo que va entre fuera de las comillas son las variables que declaramos 
-             y lo que va dentro de las comillas es como vamos a declarar en el controlador*/ 
-            const registro= new FormData();
-            registro.append('reserva',reserva);
-            registro.append('entra',entra);
-            registro.append('sali', sali);
-            registro.append('habita', habita);
-            registro.append('adultN', cantiAN);
-            registro.append('ninN', cantiNN);
-            registro.append('cantiHa', cantiHa);
-            registro.append('preAdultoN', precAN);
-            registro.append('preNinoN', precNN);
-            registro.append('total3', total3);
-            registro.append('usuario_actual', usuario_actual);
-            registro.append('id_usuario', id_usuario);
-            
-    
-            const resp = await axios.post(`./controlador/ctrhotel.php?action=hotelRosarioNoE`, registro);
-    
-            const data = resp.data;
-    
-            if(data.error){
-                return swal("Error", data.msj, "error");
-            }else{
-              return swal("Correcto", data.msj, "success").then((value) => {
-                if (value){
-                  // Se limpia el formulario
-                  $("#reserva").val('');
-                  $("#entra").val('');
-                  $("#sali").val('');
-                  $("#habita").val('');
-                  $("#cAdultN").val('');
-                  $("#cNiN").val('');
-                  $("#cantHa").val('');
-                  $("#preAdultoN").val('');
-                  $("#preNinoN").val('');
-                  $("#total3").val('');
-                }
-                window.location.href='hotel';
-              })
-  
-            }
-            
-            
-        }else{
-          swal({
-            icon: 'warning',
-            title: 'Hubo un error',
-            text:'todos los campos son obligatorios'
-          })
-        }
-    } 
-    
-  })
 
   //NUEVA RESERVACION
   $('.btnCrearReservacion ').on('click', function() {
@@ -825,7 +538,7 @@ $(document).ready(function () {
     $('#modalDetalle').modal('show');
   })
    //BOTON EDITAR MODAL (TABLA HOTEL)
-   $('.btnEditarHotel ').on('click', function() {
+   $('.btnEditarReservacion').on('click', function() {
     // info previa
     // con el data se imprime en la modal los datos que hay en la tabla
     const idreservacion = $(this).data('idreservacion'); 
@@ -842,7 +555,7 @@ $(document).ready(function () {
     $("#fSalida").val(salida),
     $("#local").val(localidad)
     //mostrar el modal
-    $('#modalEditarHotel').modal('show');
+    $('#modalEditarReservacion').modal('show');
     //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
     $('.btnEditarBD').on('click', async function() {
         var IdReservacion = Number(idreservacion); 
@@ -855,7 +568,7 @@ $(document).ready(function () {
        
         console.log(formData);
         
-       const resp = await axios.post('./controlador/ctrhotel.php?action=actualizarHotel', formData);
+       const resp = await axios.post('./controlador/ctrhotel.php?action=actualizarReservacion', formData);
        const data = resp.data;
         console.log(data);
         if(data.error){
@@ -881,15 +594,16 @@ $(document).ready(function () {
     });
     
   })
+  
   //BOTON PARA ELIMINAR RESERVACION (TABLA HOTEL)
-  $('.btnEliminarHotel').on('click', function (){
+  $('.btnEliminarReservacion').on('click', function (){
     const idReservacion = $(this).data('idreser');
     swal("Eliminar Reservación", "¿Esta seguro de eliminar esta Reservación?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
         if (value){
             console.log(idReservacion);
             const formData = new FormData();
             formData.append('id_reservacion', idReservacion);
-            const resp = await axios.post('./controlador/ctrhotel.php?action=eliminarHotel', formData);
+            const resp = await axios.post('./controlador/ctrhotel.php?action=eliminarReservacion', formData);
             const data = resp.data;
             //console.log(data);
             if(data.error){
