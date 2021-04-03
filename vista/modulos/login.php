@@ -53,7 +53,7 @@
         <!-- /.col -->
         <div class="text-center">
 		      <input type="hidden" id="tipo" name="tipo" value="login">
-          <button type="button" id="btn" class="btn btn-success btn-flat">Iniciar sesión</button>
+          <button type="button" id="btnInicioSesion" class="btn btn-success btn-flat">Iniciar sesión</button>
         </div>
         <!-- /.col -->
 	    </div>

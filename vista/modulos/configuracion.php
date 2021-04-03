@@ -1,6 +1,17 @@
 <?php
 require "./modelo/conexionbd.php";
 
+$id_objeto = 18;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" ){
+  if($columna["permiso_consulta"] == 1){
+
   $arreglo = ['NOMBRE_DATABASE','PUERTO_DATABASE','NOMBRE_SISTEMA','NOMBRE_ORGANIZACION','PUERTO_CORREO',
               'CORREO_SISTEMA','FOTO_ORGANIZACION','USUARIO_ADMIN','USUARIO_CONTRASENA','HOST_HOSPEDADOR'];
 
@@ -458,3 +469,10 @@ require "./modelo/conexionbd.php";
     
     <!-- /.content -->
   </div>
+  <?php
+
+}else{
+echo "<script type='text/javascript'>
+window.location.href='index.php';
+</script>";}
+}?>

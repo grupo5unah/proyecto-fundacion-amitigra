@@ -96,4 +96,9 @@ $(document).ready(function () {
     });
   }
 
+
+  $("#btnCancelar").on("click", function(){
+    window.location.href = "login.php";
+  });
+
 });

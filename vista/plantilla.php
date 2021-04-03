@@ -43,7 +43,6 @@ if ($nombre->affected_rows) {
   if ($existe) {
     $extraer = substr($valor, 0, 4);
 
-
 ?>
 <head>
   <meta charset="utf-8">
@@ -120,6 +119,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "bitacora" ||
         $_GET["ruta"] == "backup" ||
         $_GET["ruta"] == "cerrarSesion" ||
+        $_GET["ruta"] == "recuperacionPregunta" ||
         $_GET["ruta"] == "bloqueoInactividad" ||
         $_GET["ruta"] == "infoBackup" ||
         $_GET["ruta"] == "conf_preguntas" ||
@@ -243,6 +243,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/infoperfil.js"></script>
 <script src="vista/dist/js/copiaSeguridad.js"></script>
 <script src="vista/dist/js/app.login.js"></script>
+<script src="vista/dist/js/reloj.js"></script>
 <!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>

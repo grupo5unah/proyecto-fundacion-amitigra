@@ -1,16 +1,39 @@
-<?php include("./modelo/conexionbd.php"); ?>
+<?php
+
+include("./modelo/conexionbd.php");
+
+$id_objeto = 28;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
+  if($columna["permiso_consulta"] === 1){
+?>
 <?php
 //$_SESSION['rol'] = 'administrador';
-echo '<pre>';
-var_dump($_SESSION['rol']);
-echo '</pre>';
+// echo '<pre>';
+// //var_dump($_SESSION['rol']);
+// echo '</pre>';
 ?>
 <div class="content-wrapper">
+<section class="content-header">
+		<h1>MANTENIMIENTO OBJETOS</h1>
+		<ol class="breadcrumb ">
+			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+			<li class="btn btn-success  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Objetos</a></li>
+			
+		</ol>
+	</section>
 	<!-- Main content -->
 	<section class="content">
 
 		<!-- Default box -->
-		<div class="box">
+		<div class="box" oncopy="return false" onpaste="return false">
 			<div class="box-header with-border">
 
 			</div>
@@ -26,12 +49,12 @@ echo '</pre>';
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-								<button class="btn btn-default btnCrearObjeto glyphicon glyphicon-plus-sign" >Agregar Nuevo Objeto</button>
+								<button class="btn btn-success btnCrearObjeto glyphicon glyphicon-plus-sign" >Agregar Nuevo Objeto</button>
 
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="manageProductTable">
-									<thead>
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerObjetos">
+									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 
 											<th>Objeto</th>
@@ -115,7 +138,7 @@ echo '</pre>';
 			<!-- /.box-body -->
 	
 				<div class="modal fade" id="modalEditarObjeto" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -132,17 +155,17 @@ echo '</pre>';
 										
 										<div class="campos">
 											<label for="">Nombre objeto: </label>
-											<input id="nombre_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="objeto" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input id="nombre_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="objeto" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Tipo objeto: </label>
-											<input id="tipo_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="tipo_objeto"placeholde="Escriba el tipo obj" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input id="tipo_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="tipo_objeto" autocomplete="off" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion objeto: </label>
-											<input id="descripcionObjeto" class="form-control  modal-roles secundary text-uppercase" type="tel" name="descripcion" placeholde="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input autocomplete="off" id="descripcionObjeto" class="form-control  modal-roles secundary text-uppercase" type="tel" name="descripcion" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										
@@ -163,7 +186,7 @@ echo '</pre>';
 			<!-- /.box-footer-->
 			<!-- crear nuevos Objetos -->
 				<div class="modal fade" id="modalCrearObjeto" tabindex="-1"
-					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -180,17 +203,17 @@ echo '</pre>';
 											
 											<div class="campos">
 												<label for="">Nombre objeto: </label>
-												<input id="nombreObjeto" class="form-control modal-roles secundary text-uppercase" type="text" name="Objeto" placeholder="Escriba el objeto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+												<input autocomplete="off" id="nombreObjeto" class="form-control modal-roles secundary text-uppercase" type="text" name="Objeto" placeholder="Escriba el objeto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Tipo objeto: </label>
-												<input id="tObjeto" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="tipo del objeto" required  onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+												<input id="tObjeto" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="tipo del objeto" required  autocomplete="off" onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Descripcion objeto: </label>
-												<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+												<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 											</div>
 											
@@ -216,3 +239,11 @@ echo '</pre>';
 	</section>
 	<!-- /.content -->
 </div>
+
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

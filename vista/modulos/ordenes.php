@@ -1,4 +1,16 @@
-<?php require './modelo/conexionbd.php'; ?>
+<?php require './modelo/conexionbd.php';
+
+$id_objeto = 14;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
+  if($columna["permiso_consulta"] == 1){
+?>
 
 <div class="content-wrapper" oncopy="return false" onpaste="return false">
 
@@ -50,7 +62,7 @@
 										<?php
 										try {
 
-											$sql = "SELECT O.id_orden, l.nombre_localidad, u.nombre_usuario, E.nombre_estado, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
+											$sql = "SELECT O.id_orden, l.nombre_localidad, u.nombre_usuario, E.nombre_estado, d.ordenes_id, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
 
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
@@ -66,7 +78,8 @@
 												'localidad' => $eventos['nombre_localidad'],
 												'usuario' => $eventos['nombre_usuario'],
 												'totalP' => $eventos['count(*)'],
-												'estado' => $eventos['nombre_estado']
+												'estado' => $eventos['nombre_estado'],
+												'ordenes'=>$eventos['ordenes_id']
 
 											);
 											$vertbl[$traer][] =  $evento;
@@ -96,8 +109,10 @@
 														</select></td>
 													<td class=" d-flex">
 														<!-- //<i class="fas fa-eye"></i>bi bi-eye-fill -->
-														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idP=""></button>
-														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento['id_P'] ?>" data-nomProducto="<?= $evento['nombreP'] ?>" data-precioP="<?= $evento['precioP'] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento['descripcion'] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento['precioAl'] ?>"></button>
+														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idOrdenes="ordenes_id"></button>
+
+														
+														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" ></button>
 
 														<button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento['id_P'] ?>"></button>
 													</td>
@@ -185,7 +200,7 @@
 											<input name="cantidadPOr[]" id="cantidadPOr" class="col-md-1" style="margin:0;width: 80px;" type="number" placeholder="0" required min="1" pattern="^[0-9]+" onkeypress="return soloNumero(event)">
 										</div>
 										<div class="col-md-3" style=" width:100px; margin-left:10px; padding:0;">
-											<input name="descCanO" id="descCanO" class="col-md-2" style=" margin:0; width: 100px;" type="text" placeholder="UNIDADES" required pattern="^[0-9]+" onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off">
+											<input name="descCanO" id="descCanO" class="col-md-2" style=" margin:0; width: 100px;" type="text" placeholder="UNIDADES" required pattern="^[a-zA-Z\s]+" onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off">
 										</div>
 										<button style=" width:25px; height:22px; margin-left:15px;padding:0;" type="button" class="btn btn-success btnAgregarFila aling-item glyphicon glyphicon-plus-sign" disabled></button>
 										<input type="hidden" id="btnProductUpdate" class=" btn btn-primary agregar-table" value="Finalizar Edicion">
@@ -232,44 +247,27 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<h3>ORDEN DE PEDIDO DE INSUMOS</h3>
-							<P> JUTIAPA</P>
+							<h3 class="tituloOrden">ORDEN DE PEDIDO DE INSUMOS</h3>
+							<P class="local"></span> </P>
 							<div class="row justify-content-between">
 							<label for="">FECHA: <span></span></label>
-							<p> Usuario que ingreso el Pedido</p>
+							<p class="userO"> USUARIO: <span></span></p>
 							</div>
 							<table class="table">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">First</th>
-										<th scope="col">Last</th>
-										<th scope="col">Handle</th>
+										<th scope="col">Producto</th>
+										<th scope="col">cantidad</th>
+										<th scope="col">Descripción</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-									</tr>
-									<tr>
-										<th scope="row">2</th>
-										<td>Jacob</td>
-										<td>Thornton</td>
-										<td>@fat</td>
-									</tr>
-									<tr>
-										<th scope="row">3</th>
-										<td>Larry</td>
-										<td>the Bird</td>
-										<td>@twitter</td>
-									</tr>
+								
 								</tbody>
 							</table>
 
-							...
+						
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -289,3 +287,11 @@
 
 	<!-- /.content -->
 </div>
+
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

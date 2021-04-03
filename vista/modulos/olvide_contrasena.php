@@ -23,7 +23,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>AMI</b>TIGRA</a>
+    <a href="login.php"><b>AMI</b>TIGRA</a>
   </div>
   <div class="login-box-body">
     <p class="login-box-msg">Recuperación de contraseña</p>
@@ -108,6 +108,7 @@ window.onload = function(){
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../dist/js/app.login.js"></script>
 <script src="../dist/js/olvide_contrasena.js"></script>
+<script src="../dist/js/verificar_correo.js"></script>
 <!-- iCheck -->
 <script src="../plugins/iCheck/icheck.min.js"></script>
 <script>

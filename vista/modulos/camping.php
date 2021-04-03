@@ -1,4 +1,7 @@
-<?php include("./modelo/conexionbd.php"); ?>
+<?php include("./modelo/conexionbd.php"); 
+
+//$id_objeto = ;
+?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">

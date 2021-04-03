@@ -23,8 +23,6 @@ while($stmt->fetch()){
 
 if($existe){
 
-
-
 $stmt = $conn->query("SELECT permiso_consulta,rol_id,objeto_id FROM tbl_permisos
 WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
@@ -41,12 +39,13 @@ $columna = $stmt->fetch_assoc();
     
     <section class="content">
     <div class="row">
-      <?php if ($_SESSION['rol'] === 'administrador'){ ?>
+      <?php if ($_SESSION["rol"] === "administrador" OR $_SESSION["rol"] === "ADMINISTRADOR" OR $_SESSION["rol"] === "admin"){ ?>
 
         <?php $registros = "SELECT COUNT(*) total FROM tbl_usuarios";
             $result = mysqli_query($conn, $registros);
-            $fila = mysqli_fetch_assoc($result);?>
-        
+            $fila = mysqli_fetch_assoc($result);
+        ?>
+
         <?php $reservaciones = "SELECT COUNT(*) reserva FROM tbl_detalle_reservacion";
         $result2 = mysqli_query($conn, $reservaciones);
         $fila2 = mysqli_fetch_assoc($result2);
@@ -63,58 +62,58 @@ $columna = $stmt->fetch_assoc();
         ?>
 
 
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span>
 
-          <div class="info-box-content">
-            <span class="info-box-text">Reservaciones</span>
-            <span class="info-box-number"><strong>Total: </strong><?php echo $fila2['reserva'];?><br></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Reservacion hotel</span>
+              <span class="info-box-number"><strong>Total: </strong><?php echo $fila2['reserva'];?><br></span>
+            </div>
+            <!-- /.info-box-content -->
           </div>
-          <!-- /.info-box-content -->
+          <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-      </div>
-        
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-red"><i class="fa fa-ticket"></i></span>
 
-          <div class="info-box-content">
-            <span class="info-box-text">Boleteria</span>
-            <span class="info-box-number"><strong>Total: </strong><?php echo $fila3['boleto'];?></span>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Reservación camping</span>
+              <span class="info-box-number"><strong>Total: </strong><?php echo $fila4['roles'];?></span>
+            </div>
+            <!-- /.info-box-content -->
           </div>
-          <!-- /.info-box-content -->
+          <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-      </div>
+          
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-ticket"></i></span>
 
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-green"><i class="fa fa-user"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Roles</span>
-            <span class="info-box-number"><strong>Total: </strong><?php echo $fila4['roles'];?></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Boleteria</span>
+              <span class="info-box-number"><strong>Total: </strong><?php echo $fila3['boleto'];?></span>
+            </div>
+            <!-- /.info-box-content -->
           </div>
-          <!-- /.info-box-content -->
+          <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-      </div>
-        
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <?php $visible = false;?>
-          <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+          
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <?php $visible = false;?>
+            <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
 
-          <div class="info-box-content">
-            <span class="info-box-text">Usuarios registrados</span>
-            <span class="info-box-number"><strong>Total: </strong><?php echo $fila['total'];?></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Usuarios registrados</span>
+              <span class="info-box-number"><strong>Total: </strong><?php echo $fila['total'];?></span>
+            </div>
+            <!-- /.info-box-content -->
           </div>
-          <!-- /.info-box-content -->
+          <!-- /.info-box -->
         </div>
-        <!-- /.info-box -->
-      </div>
       <?php }?>
     </div>
       <!-- /.row -->
@@ -140,13 +139,13 @@ $columna = $stmt->fetch_assoc();
               </div>
               <!-- /.widget-user-image -->
               <h3 class="widget-user-username"> <strong>Hola: </strong><span><?php echo ucwords($_SESSION['usuario']);?></span></h3>
-              <h5 class="widget-user-desc">Informacion sobre tu actividad en la cuenta</h5>
+              <h5 class="widget-user-desc">Información sobre tu actividad en la cuenta</h5>
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a><strong>Ultimo acceso:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $conexion = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></span></a></li>
-                <li><a><strong>Ult. cambio contrasena:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $modificado = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_mod_contrasena)); echo $modificado;?></span></a></li>
-                <li><a><strong>Prox. cambio contrasena:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>  
+                <li><a><strong>Último acceso:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $conexion = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></span></a></li>
+                <li><a><strong>Últ. cambio contraseña:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $modificado = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_mod_contrasena)); echo $modificado;?></span></a></li>
+                <li><a><strong>Próx. cambio contraseña:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>  
               </ul>
             </div>
           </div>
@@ -204,45 +203,16 @@ $columna = $stmt->fetch_assoc();
         <!-- INICIO RELOJ -->
           <div class="row">
             <div class="col-md-3">
-                <!-- INICIO DE LA INFORMACION DEL USUARIO-->
-                <div class="box box-primary">
-                    <div class="box-body box-profile">
-                    <?php }}?>
-
-                              <div class="clockdate-wrapper">
-                                <div id="clock"></div>
-                                <div id="date"></div>
-                              </div>
-
-                            <script>
-                            function startTime() {
-                                var today = new Date();
-                                var hr = today.getHours();
-                                var min = today.getMinutes();
-                                var sec = today.getSeconds();
-                                ap = (hr < 12) ? "<span>AM</span>" : "<span>PM</span>";
-                                hr = (hr == 0) ? 12 : hr;
-                                hr = (hr > 12) ? hr - 12 : hr;
-                                //Add a zero in front of numbers<10
-                                hr = checkTime(hr);
-                                min = checkTime(min);
-                                sec = checkTime(sec);
-                                document.getElementById("clock").innerHTML = hr + " : " + min + " : " + sec + " " + ap;
-                                var time = setTimeout(function(){ startTime() }, 500);
-                            }
-                            function checkTime(i) {
-                                if (i < 10) {
-                                    i = "0" + i;
-                                }
-                                return i;
-                            }
-                            </script>
-
-                        
+              <div class="box">
+                <div class="box-body">
+                  <?php }}?>
+                  <div class="clockdate-wrapper">
+                    <div id="clock"></div>
+                    <div id="date"></div>
+                  </div>
                 </div>
-                <!--FIN DE LA INFORMACION DEL USUARIO-->
-            </div>    
-          
+              </div>    
+            </div>
           </div>
         <!-- FIN RELOJ -->
 

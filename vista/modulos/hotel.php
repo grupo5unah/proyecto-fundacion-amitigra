@@ -1,4 +1,17 @@
-<?php include("./modelo/conexionbd.php"); ?>
+<?php include("./modelo/conexionbd.php");
+
+$id_objeto = 10;
+$rol_id = $_SESSION['idRol'];
+
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
+$columna = $stmt->fetch_assoc();
+
+
+if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente"){
+  if($columna["permiso_consulta"] == 1){
+
+?>
 <div class="content-wrapper">
 	<!-- Main content -->
 	<section class="content">
@@ -82,7 +95,7 @@
 													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['id_reservacion'] ?>"></button>
 													<button class="btn btn-warning btnEditarReservacion glyphicon glyphicon-pencil"  data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
 													data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" data-cliente="<?= $mostrar['cliente'] ?>" 
-													data-localidad="<?= $mostrar['localidad'] ?>""></button>
+													data-localidad="<?= $mostrar['localidad'] ?>" ></button>
 													
 													<button class="btn btn-danger btnEliminarReservacion glyphicon glyphicon-remove" data-idreser="<?= $mostrar['id_reservacion'] ?>"></button>
 													
@@ -843,9 +856,10 @@
 					</div> <!-- /.modal content -->
 				</div> <!-- /.modal-dialog -->
 			</div> <!-- /.modal fade -->
+			
 			<!-- MODAL DETALLE RESERVACION -->
 			<div class="modal fade" id="modalDetalle" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"data-backdrop="static" data-keyboard="false">
+				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 				<div class="modal-dialog">
 					<div class="modal-content" style="width: 600px;">
 						<div class="modal-header">
@@ -1056,3 +1070,10 @@
 	</section>
 	<!-- /.content -->
 </div>
+<?php
+
+  }else{
+  echo "<script type='text/javascript'>
+  window.location.href='index.php';
+  </script>";}
+  }?>

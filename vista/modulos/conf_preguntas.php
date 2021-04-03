@@ -3,7 +3,9 @@
 <?php
 include "../../funciones/sesiones.php"; 
 $usuario = $_SESSION['usuario'];
-//$id_usuario = $_SESSION['id'];
+
+$id_objeto = 17;
+
 ?>
 <head>
   <meta charset="utf-8">
@@ -53,7 +55,7 @@ $usuario = $_SESSION['usuario'];
                     <div class="post text-center">
 						<div class="form-group has-feedback">
                     		<div class="color-enlaces alert alert-light" role="alert">
-                     			<h4><i class="fa fa-check-circle"> Excelente:</i></h4>
+                     			<h4><i class="fa fa-check-circle"> Bienvenido/a <?php echo strtoupper($usuario);?>:</i></h4>
                      			<strong>Ahora un último paso <?php echo strtoupper($usuario); ?>, para poder terminar
 								de configurar tu cuenta debes de responder una serie de preguntas de seguridad y al finalizar
 								debes de crear una nueva contraseña.</strong>

@@ -335,16 +335,16 @@
 
     //Scripts de nueva_contrasena
 		function m_Password(){
-			let nuevaa = document.getElementById("PassNueva");
+			let nuevaa = document.getElementById("InputNuevaContrasena");
 			if(nuevaa.type == "password"){
 				nuevaa.type = "text";
-				$('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
 			}else{
 				nuevaa.type = "password";
-				$('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
 			}
 
-			let confi = document.getElementById("ConfPass");
+			let confi = document.getElementById("InputConfirmarNuevaContrasena");
 			if(confi.type == "password"){
 				confi.type = "text";
 				$('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
