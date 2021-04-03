@@ -14,11 +14,9 @@ if ($row = mysqli_fetch_row($rs)) {
     $lastid = trim($row[0]);
 }
 switch ($action) {
-    case 'ss': // OBTIENE UN PREGUNTA POR NOMBRE
+    case 'obtenerproducto': // OBTIENE UN PREGUNTA POR NOMBRE
         $pregunta = $_GET['pregunta'];
-        $sql = "SELECT 
-        pregunta, id_pregunta
-        FROM tbl_preguntas WHERE pregunta = '" . $pregunta . "'";
+        $sql = "SELECT  p.nombre_producto, i.existencias from tbl_inventario i INNER JOIN tbl_producto p on p.id_producto= i.producto_id WHERE p.estado_eliminado=i.estado_eliminar AND p.nombre_producto  ='" . $pregunta . "'";
         $result = $conn->query($sql);
         $pregunta_db = array();
         while ($row = $result->fetch_assoc()) {
@@ -67,13 +65,11 @@ switch ($action) {
             //$lastid= $_POST['lastId'];
             $estado = 1;
             $fecha = date('Y-m-d H:i:s', time());
-            //var_dump(json_decode($proOrdenes));
-            //$lastid = mysqli_query($conn,'SELECT MAX("id_orden") from tbl_ordenes');
-            //echo $lastid->num_rows;
+            
 
             $sql = $conn->prepare("INSERT INTO `tbl_detalle_orden`(`cantidad`, `descripcion`, `producto_id`,`ordenes_id`,`estado_eliminado`,`creado_por`,`fecha_creacion`,`modificado_por`,`fecha_modificacion`) VALUES (?,?,?,?,?,?,?,?,?);");
             foreach ($proOrdenes as $valor) {
-                // $query .= "(".$valor->cantidad.",'".$valor->descripcion."',".$valor->id.",".$lastid.", ".$estado.",'".$usuario_actual."','".$fecha."','".$usuario_actual."','".$fecha."'),";
+                
                 $cant = $valor->cantidad;
                 $des = $valor->descripcion;
                 $ids = $valor->id;
@@ -104,46 +100,28 @@ switch ($action) {
 
 
         break;
-    case 'traerOrdenMaestra':
-        if (isset($_POST['id_pregunta'])) {
-            $id_pregunta = (int)$_POST['id_pregunta'];
-            $sql = "UPDATE tbl_preguntas SET estado_eliminado = 0 WHERE id_pregunta = " . $id_pregunta;
-            $resultado = $conn->query($sql);
-            if ($resultado == 1) {
-                $res['msj'] = "Pregunta Eliminada  Correctamente";
-            } else {
-                $res['msj'] = "Se produjo un error al momento de eliminar el Pregunta";
-                $res['error'] = true;
-            }
-        } else {
-            $res['msj'] = "No se envió el id del Pregunta a eliminar";
-            $res['error'] = true;
-        }
-        break;
+     
     case 'traerDetalleO':
+        $ordenD = $_GET['idOrdenes'];
         try {
 
-            $sql = "SELECT p.nombre_producto, d.cantidad, d.descripcion FROM tbl_detalle_orden d INNER join tbl_producto p on p.id_producto = d.producto_id where d.ordenes_id = 2" ;
+            $sql = "SELECT p.nombre_producto, d.cantidad, d.descripcion FROM tbl_detalle_orden d INNER join tbl_producto p on p.id_producto = d.producto_id where d.ordenes_id = $ordenD";
             $result = $conn->query($sql);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
 
         $vertbl = array();
-        while ($eventos = $resultado->fetch_assoc()) {
-
-            $traer = $eventos['id_orden'];
+        while ($eventos = $result->fetch_assoc()) {
             $evento = array(
                 'nombre' => $eventos['nombre_producto'],
                 'cantidad' => $eventos['cantidad'],
-                'descripcion' => $eventos['nombre_usuario'],
+                'descripcion' => $eventos['descripcion'],
                 
             );
-            $vertbl[$traer][] =  $evento;
+            array_push($vertbl, $evento);
         }
-        $res['nombre']=$evento;
-        $res['cantidad']=$evento;
-        $res['descripcion']=$evento;
+        $res['productos'] = $vertbl;
 
         break;
 

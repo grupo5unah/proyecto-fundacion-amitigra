@@ -43,6 +43,7 @@ $(document).ready(function(){
     const cantidad = $('#cantidadPOr').val();
     const descripcion = $('#descCanO').val();
     const listaOrden = $('.btnAgregarFila');
+    const registrar = $('.btnEditarBD');
     let contOrden=[]; 
     let idProductoTemporal = null;
     
@@ -121,6 +122,7 @@ $(document).ready(function(){
         
         llenarTabla();
         resetearFormulario()
+        registrar.prop('disabled',false);
     }
     function llenarTabla(){
         $('.tbody tr').remove();
@@ -132,6 +134,7 @@ $(document).ready(function(){
         const{proOrden, cantidadO , descripcionO} = orden;
         contenedorOrden.append(`
         <tr >
+           <td>${index+1}</td>
             <td>${proOrden.nombre}</td>
             <td>${cantidadO}</td>
             <td>${descripcionO}</td>
@@ -272,7 +275,13 @@ $(document).ready(function(){
                 formData1.append('usuario_actual',usuario_actual);
                 //formData1.append('lastId',lastid);
                 
-                axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1).then(respuesta => console.log('se registraron los productos', respuesta)).catch(err=>console.log(err))
+                axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1).then(respuesta => swal("Exito", respuesta.msj, "success").then(
+                    (value)=>{
+                        if(value){
+                            location.reload();
+                        }
+                    }
+                )).catch(err=>console.log(err))
                 
             }
             }).catch(err=>console.log(err));
@@ -294,8 +303,10 @@ $(document).ready(function(){
         }else{
                   swal("Avertencia!", "Es necesario rellenar todos los campos", "warning");
         }
-    
-
+        // vacia la tabla
+        $('.tbody tr').remove();
+        //desabilita el boton registrar
+        registrar.prop('disabled', true);
      
     });
 
@@ -307,18 +318,43 @@ $(document).ready(function(){
 
     // datos de la dela modal ver el detalle de los datos
     $('.btnVerd').click(async function () {
-        $('#modalVerDetalle').modal('show');
-      console.log('hola mundo')
-        if(this.value.length > 0 ){
+
+        let idOrdenes = $(this).data('idordenes');
+        const usuario = $(this).data('usuario'); 
+        const localidad = $(this).data('localidad');
+        const fecha = $(this).data('fecha');
+         const info =$('#cont');
+         $('#cont div ').remove();
+         info.append(
+            `
+           
+             <div class="user col-3">
+             <P class="local col-6"> ${localidad}</P>
+             <label for="" id="fecha">FECHA: <span>${fecha}</span></label>
+             <p class="userO"> USUARIO: <span>${usuario}</span></p>
+             </div>
+         
+            `
+            );
+      
+        if(idOrdenes){
             try{
-                const resp = await axios(`./controlador/contOrden.php?action=traerDetalleO&idOrdenes=${this.value}`);
-                const data = resp.data;
-                if(data.producto.length > 0){
-                    console.log(data.producto[0]);
+                const data = (await axios.get(`./controlador/contOrden.php?action=traerDetalleO&idOrdenes=${Number(idOrdenes)}`)).data;
+                const listaDeProductosTabla = $('#listaDeProductosTabla');
+                $('#listaDeProductosTabla tr').remove();
+                data.productos.forEach((p, index) => listaDeProductosTabla.append(`
                   
-                    
-                }
-                
+                <tr>
+                    <td>${index+1}</td>
+                    <td>${p.nombre}</td>
+                    <td>${p.cantidad}</td>
+                    <td>${p.descripcion}</td>
+                </tr>
+                `));
+                $("#userO span").val(usuario);
+                $(".local span").val(localidad);
+                $("#fecha span").val(fecha);
+                $('#modalVerDetalle').modal('show');
             }catch(err){
                 console.log('Error - ', err);
             }

@@ -50,7 +50,7 @@
 										<?php
 										try {
 
-											$sql = "SELECT O.id_orden, l.nombre_localidad, u.nombre_usuario, E.nombre_estado, d.ordenes_id, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
+											$sql = "SELECT O.id_orden, o.fecha_creacion, l.nombre_localidad, u.nombre_usuario, E.nombre_estado, d.ordenes_id, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
 
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
@@ -67,7 +67,8 @@
 												'usuario' => $eventos['nombre_usuario'],
 												'totalP' => $eventos['count(*)'],
 												'estado' => $eventos['nombre_estado'],
-												'ordenes'=>$eventos['ordenes_id']
+												'ordenes'=>$eventos['ordenes_id'],
+												'fecha'=>$eventos['fecha_creacion']
 
 											);
 											$vertbl[$traer][] =  $evento;
@@ -97,10 +98,10 @@
 														</select></td>
 													<td class=" d-flex">
 														<!-- //<i class="fas fa-eye"></i>bi bi-eye-fill -->
-														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idOrdenes="ordenes_id"></button>
+														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idOrdenes="<?php echo $evento['ordenes'] ?>"  data-fecha="<?php echo $evento['fecha'] ?>"   data-usuario="<?= $evento['usuario'] ?>" data-localidad="<?= $evento['localidad'] ?>" ></button>
 
 														
-														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" ></button>
+														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil"></button>
 
 														<button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento['id_P'] ?>"></button>
 													</td>
@@ -200,6 +201,7 @@
 									<table id="ordenTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
 										<thead>
 											<tr>
+												<td>#</td>
 												<td>Nombre Producto</td>
 												<td>Cantidad</td>
 												<td>Descripcion</td>
@@ -217,29 +219,24 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary">REGISTRAR ORDEN</button>
+							<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary " disabled >REGISTRAR ORDEN</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- modal para ver el detalle de las ordenes de pedido -->
-
-
 			<div class="modal fade" id="modalVerDetalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-scrollable" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+							<h5 class="modal-title" id="exampleModalScrollableTitle">ORDEN DE PEDIDO DE INSUMOS</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-							<h3 class="tituloOrden">ORDEN DE PEDIDO DE INSUMOS</h3>
-							<P class="local"></span> </P>
-							<div class="row justify-content-between">
-							<label for="">FECHA: <span></span></label>
-							<p class="userO"> USUARIO: <span></span></p>
+							
+							<div class="cont row" id="cont">
 							</div>
 							<table class="table">
 								<thead>
@@ -250,16 +247,16 @@
 										<th scope="col">Descripción</th>
 									</tr>
 								</thead>
-								<tbody>
-								
+								<tbody id="listaDeProductosTabla">
+									
 								</tbody>
 							</table>
 
 						
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save changes</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+							<button type="button" class="btn btn-primary">EDITAR</button>
 						</div>
 					</div>
 				</div>
