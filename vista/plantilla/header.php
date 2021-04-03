@@ -52,7 +52,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="fotoPerfil/<?php echo $imagen['foto'];?>" class="user-image" alt="User Image">
-              <span class="hidden-xs">Cuenta: <?php echo ucwords($usuario);?></span>
+              <span class="hidden-xs"><strong>Cuenta:</strong> <?php echo ucwords($usuario);?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -70,13 +70,13 @@
               <li class="user-footer">
                 <div class="pull-left">
                   <form method="POST">
-                  <a href="perfil" class="btn btn-primary btn-flat">Perfil</a> <!--Boton que redirige al perfil o configuracion de usuario-->
+                  <a href="perfil" class="btn btn-primary btn-flat"><i class="fa fa-user"></i> Perfil</a> <!--Boton que redirige al perfil o configuracion de usuario-->
                   
                   </form>
                 </div>
                 
                 <div class="pull-right">
-                  <a href="cerrarSesion" class="btn btn-danger btn-flat">Cerrar sesion</a> <!--Salir del sistema-->
+                  <a href="cerrarSesion" class="btn btn-danger btn-flat"><i class="fa fa-power-off"></i> Cerrar sesion</a> <!--Salir del sistema-->
                 </div>
               </li>
             </ul>

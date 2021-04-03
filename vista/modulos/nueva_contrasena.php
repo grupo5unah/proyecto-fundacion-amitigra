@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+<?php
+$eid = $_GET["eid"];
+$tkn = $_GET["tkn"];
+$exd = $_GET["exd"];
+?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,13 +36,13 @@
 
     <form method="post">
 		<div class="form-group has-feedback">
-        	<input id="PassNueva" type="password" class="form-control" name="password" placeholder="Ingrese su contrasena">
+        	<input id="InputNuevaContrasena" type="password" class="form-control" name="password" placeholder="Ingrese su contrasena">
         	<span class="input-group-btn">
         	</span>
 		</div>
 		<br>
       <div class="input-group has-feedback">
-        <input id="ConfPass" type="password" class="form-control" name="password2" placeholder="Ingrese su contrasena">
+        <input id="InputConfirmarNuevaContrasena" type="password" class="form-control" name="password2" placeholder="Ingrese su contrasena">
         <span class="input-group-btn" onclick="m_Password()">
           <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_conf"></i></button>
         </span>
@@ -46,8 +51,10 @@
       <div class="row">
         <!-- /.col -->
         <div class="text-center">
-		<input type="hidden" name="tipo" value="nuevaContrasena">
-          <button type="submit" class="btn btn-primary btn-flat">Cambio contraseña</button>
+          <input type="hidden" id="imputTkn" value="<?php echo $tkn;?>">
+          <input type="hidden" id="imputEid" value="<?php echo $eid;?>">
+          <input type="hidden" id="imputExd" value="<?php echo $exd;?>">
+          <button type="button" id="NuevaContrasena" class="btn btn-primary btn-flat">Cambio contraseña</button>
         </div>
         <!-- /.col -->
 	  </div>
@@ -56,19 +63,44 @@
 
   </div>
 
+  <script type="text/javascript">
+  
+  window.onload = function(){
+    let contrasena = document.querySelector("#InputNuevaContrasena");
+    let confirmarContrasena = document.querySelector("#InputConfirmarNuevaContrasena");
+
+    contrasena.onpaste = function(e){
+      e.preventDefault();
+    }
+    contrasena.oncopy = function(e){
+      e.preventDefault();
+    }
+
+    confirmarContrasena.oncopy = function(e){
+      e.preventDefault();
+    }
+    confirmarContrasena.onpaste = function(e){
+      e.preventDefault();
+    }
+  }
+  </script>
+
   	<?php
-	include_once('../../controlador/ctr.NuevaContrasena.php');
+	/*include_once('../../controlador/ctr.NuevaContrasena.php');
 	$NuevaContrasena = new NuevaContrasena();
-	$NuevaContrasena->ctrNuevaContrasena();		
+	$NuevaContrasena->ctrNuevaContrasena();*/
 	?>
   <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
 
-<script src="../dist/js/app.login.js"></script>
-
 <!-- jQuery 3 -->
+<script src="vista/dist/js/jquery-3.5.1.js"></script>
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="../dist/js/app.login.js"></script>
+<script src="../dist/js/nuevaContrasena.js"></script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->

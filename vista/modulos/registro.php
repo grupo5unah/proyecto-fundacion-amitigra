@@ -74,7 +74,7 @@
                         <br>
 
                         <div class="text-center form-group has-feedback">
-                          <a href="login.php" class="btn btn-danger">Cancelar</a>
+                          <button type="button" id="btnCancelar" class="btn btn-danger">Cancelar</button>
                         </div>
                         <div class="text-center form-group has-feedback">
                           <button href="#timeline" class="btn btn-success desactivado" id="enviar" data-toggle="tab" disabled>Siguiente</button>
