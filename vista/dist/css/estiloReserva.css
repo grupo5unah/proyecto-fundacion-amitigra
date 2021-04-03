@@ -31,7 +31,10 @@
 .precio{
     transform: translate(240%, -125%);
 }
-.btnAgregar{
+#btnAgregarN,
+#btnAgregarE,
+#btnAgregarNR,
+#btnAgregarER,#btnAgregarNC{
     transform: translate(450%, -8%);
 }
 .extranjero{
@@ -46,7 +49,6 @@
     color: black;
 }
 .tablaJutiapa{
-    text-align: center; 
     background-color: #F3E76D;
     color: black;
 }
@@ -63,4 +65,12 @@
 }
 .sleeping{
     transform: translate(8%, 100%);
+}
+.imagen{
+    transform: translate(620%, -125%);
+    width: 70px;
+    height: 70px;
+}
+.datos{
+    transform: translate(0%, 100%);
 }
