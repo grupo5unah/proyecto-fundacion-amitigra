@@ -157,11 +157,10 @@ $(document).ready(function () {
     var nombreCompleto = $("#nombreCompleto").val();
     var identidad = $("#identidad").val();
     var telefono = $("#telefono").val();
-    var croquis = $("#croquis").val();
     var n_recibo = $("#n_recibo").val();
     var tipo_nac = $("#tipo_nac").val();
-    var tipo = $("#tipo").val();
-    var estatus_solicitud = $("#estatus_solicitud").val();
+    var tipo = $("#tipo_sol").val();
+    var estado= $("#estado_solicitud").val();
     var usuario_actual = $("#usuario_actual").val();
     
 
@@ -169,11 +168,10 @@ $(document).ready(function () {
       nombreCompleto != undefined &&
       identidad != undefined &&
       telefono != undefined &&
-      croquis != undefined &&
       n_recibo != undefined &&
       tipo_nac != undefined &&
       tipo != undefined &&
-      estatus_solicitud != undefined &&
+      estado!= undefined &&
       usuario_actual != undefined
     ) {
       const formData = new FormData();
@@ -181,11 +179,10 @@ $(document).ready(function () {
       formData.append("nombreCompleto", nombreCompleto);
       formData.append("identidad", identidad);
       formData.append("telefono", telefono);
-      formData.append("croquis", croquis);
       formData.append("n_recibo", n_recibo);
       formData.append("tipo_nac", tipo_nac);
-      formData.append("tipo", tipo);
-      formData.append("estatus_solicitud", estatus_solicitud);
+      formData.append("tipo_sol", tipo);
+      formData.append("estado_solicitud",  estado);
       formData.append("usuario_actual", usuario_actual);
 
      
@@ -204,11 +201,10 @@ $(document).ready(function () {
           $("#nombreCompleto").val("");
           $("#identidad").val("");
           $("#telefono").val("");
-          $("#croquis").val("");
           $("#n_recibo").val("");
           $("#tipo_nac").val("");
-          $("#tipo").val("");
-          $("#estatus_solicitud").val("");
+          $("#tipo_sol").val("");
+          $("#estado_solicitud").val("");
          
           location.reload();
         }
@@ -264,6 +260,7 @@ $(document).ready(function () {
  $(".btnEditarSolicitud").on("click", function () {
    // info previa
    const idsolicitud = $(this).data("idsolicitud");
+   const recibo_sol =$(this).data("recibo");
    const idcliente = $(this).data("idcliente");
    const id_tipo_solicitud = $(this).data("id_tipo_solicitud");
    const tipo = $(this).data("tipo");
@@ -273,6 +270,7 @@ $(document).ready(function () {
 
    //llena los campos
    $("#idsolicitud").val(idsolicitud),
+   $("#recibo").val(recibo_sol),
      $("#idcliente").val(idcliente),
 
      $("#tipo").val(id_tipo_solicitud ),
@@ -284,6 +282,7 @@ $(document).ready(function () {
      var Idsol = Number(idsolicitud);
      const formData = new FormData();
      formData.append("id_solicitud", Idsol);
+     formData.append("recibo", $("#recibo").val());
      formData.append("estatus_solicitud", $("#estatus_solicitud").val());
      formData.append("tipo_solicitud", $("#tipo").val());
      formData.append('usuario_actual', usuario_actual);
