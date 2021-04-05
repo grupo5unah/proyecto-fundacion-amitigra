@@ -134,8 +134,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 </div>
 <?php
 
-  }else{
-  echo "<script type='text/javascript'>
+ }else{
+   echo "<script type='text/javascript'>
   window.location.href='index.php';
   </script>";}
-  }?>
+   }?>
