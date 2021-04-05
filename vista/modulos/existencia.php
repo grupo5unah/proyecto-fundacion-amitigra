@@ -8,9 +8,9 @@ WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
-if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente"){
-  if($columna["permiso_consulta"] === 1){
-?>
+// if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente"){
+//   if($columna["permiso_consulta"] === 1){
+// ?>
 <div class="content-wrapper">
 	<section class="content-header">
   	<h1>
@@ -127,8 +127,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 </div>
 <?php
 
-  }else{
-  echo "<script type='text/javascript'>
-  window.location.href='index.php';
-  </script>";}
-  }?>
+//   }else{
+//   echo "<script type='text/javascript'>
+//   window.location.href='index.php';
+//   </script>";}
+//   }?>

@@ -19,7 +19,7 @@ function soloLetra(e){
 function soloNumero(e){
     var key = window.event ? e.which : e.keyCode;
     teclado=String.fromCharCode(key);
-    numero="123456789.";
+    numero="0123456789.";
     especiales="8-37-38-46";
     teclado_especial = false;
      if (key < 48 || key > 57) {
@@ -43,7 +43,7 @@ $(document).ready(function(){
     const cantidad = $('#cantidadPOr').val();
     const descripcion = $('#descCanO').val();
     const listaOrden = $('.btnAgregarFila');
-    const registrar = $('.btnEditarBD');
+    const registrar = $('#btnRegistrar');
     let contOrden=[]; 
     let idProductoTemporal = null;
     
@@ -97,13 +97,12 @@ $(document).ready(function(){
             cell.innerHTML = i+1;
         } );
     } ).draw();
-    //$('div .productoOrden').select2();
-    
-        
+
+    cargar()
     // crear orden de envio
     function agregarOrden(e){
         e.preventDefault();
-       
+        
         const orden = {
             //crea un objeto con el contenido del formulario
             proOrden :{
@@ -125,6 +124,7 @@ $(document).ready(function(){
         registrar.prop('disabled',false);
     }
     function llenarTabla(){
+        resetearFormulario();
         $('.tbody tr').remove();
         contOrden.forEach((orden, index) => agregarFila(orden, index));
     }
@@ -235,22 +235,35 @@ $(document).ready(function(){
         $('#ModalCrearOrden').modal('show');
     });
     // validar cada campo
+    function cargar(){
+  
     $('#localidadO').on('change',validarCampos);
    $('#productoOrden').on('change',validarCampos);
    $('#cantidadPOr').on('blur',validarCampos);
    $('#descripcion').on('blur',validarCampos);
+   };
    //validaciones de cada orden
    
      function validarCampos(){
-         if(local !== "" && nombre !== " " && cantidad !== " " && descripcion !== " " ){
-            listaOrden.prop("disabled", false);    
+         if(local !== undefined ){
+            listaOrden.prop("disabled", true);
+             if( nombre !== undefined){
+                listaOrden.prop("disabled", true);
+                 if(cantidad !== undefined){
+                    listaOrden.prop("disabled", true);
+                     if(descripcion !== undefined){
+                         listaOrden.prop("disabled", false);
+                    }
+                }
+             }  
+              
         }else{
             listaOrden.prop("disabled", true);  
         }
     };
-     $('.btnEditarBD').on('click', function(){
-        console.log('hola mundo');
-        
+    // registra la orden y el  detalle 
+     $('#btnRegistrar').on('click', function(){
+
          var usuario_actual = $("#usuario_actual").val();
          var usuario_id = $("#id_usuario").val();
          var localidad = $("#localidadO").val();
@@ -264,56 +277,39 @@ $(document).ready(function(){
         
 
              //primer Insert orden
-              axios.post(`./controlador/contOrden.php?action=registrarOrden`, formData).then(lastid =>{
+             const res = axios.post(`./controlador/contOrden.php?action=registrarOrden`, formData).then(lastid =>{
             //repuesta trae el ordenId
-            console.log(lastid);
+          
              if(lastid){
-                
-                console.log(contOrden);
-                const formData1 = new FormData();
+                 const formData1 = new FormData();
                 formData1.append('contOrden', JSON.stringify(contOrden.map(p => ({id: p.proOrden.id, cantidad: p.cantidadO, descripcion: p.descripcionO }))));
                 formData1.append('usuario_actual',usuario_actual);
-                //formData1.append('lastId',lastid);
-                
-                axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1).then(respuesta => swal("Exito", respuesta.msj, "success").then(
-                    (value)=>{
-                        if(value){
-                            location.reload();
-                        }
-                    }
-                )).catch(err=>console.log(err))
+               
+                const resp = axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1);
+                const datas = resp.data;
+
+                datas.forEach((p, index)=>{
+                    console.log(p.msj);
+              
+                });                
+  
                 
             }
             }).catch(err=>console.log(err));
+            const data =res.data;
+            console.log(data);
         
-                // const data = resp;s
-                // console.log(data);
-                // if(data.error){
-                //     return swal("Error", data.msj, "error");
-                // }
-                // return swal("Exito", data.msj, "success").then(
-                // (value)=>{
-                //     if(value){
-                //         // se limpia el formulario
-                //         location.reload();
-                //     }
-                // });
+                
            
         
         }else{
                   swal("Avertencia!", "Es necesario rellenar todos los campos", "warning");
         }
-        // vacia la tabla
         $('.tbody tr').remove();
         //desabilita el boton registrar
-        registrar.prop('disabled', true);
+       registrar.prop('disabled', true);
      
     });
-
-    // $(".btnVerd").dblclick(function(){
-    //     $('#modalVerDetalle').modal('show');
-       
-    // });
 
 
     // datos de la dela modal ver el detalle de los datos
@@ -360,6 +356,106 @@ $(document).ready(function(){
             }
         }
     });
+    //eliminar la orden y detalle orden
+    $('.btnDeleteOrden').on('click', function (){
+        const idOrden = $(this).data('orden');
+        console.log(idOrden);
+        swal("Eliminar la Orden", "Esta seguro de eliminar esta Orden?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+            if (value){
+                const formData = new FormData();
+                formData.append('id_orden', idOrden);
+                const resp = await axios.post('./controlador/contOrden.php?action=eliminarOrden', formData);
+                const data = resp.data;
+                //console.log(data);
+                if(data.error){
+                    return swal("Error", data.msj, "error",{
+                        buttons: false,
+                        timer: 3000
+                    });
+                }
+                return swal("Exito!", data.msj, "success",{
+                    buttons: false,
+                    timer: 3000
+                }).then(() =>{ 
+                    location.reload();
+                });
+            }
+        });
+    });
+
+    //validad que la cantidad requeridad no sea mayor que la que se tiene en inventario
+    $("#cantidadPOr").blur(async function () {
+        const idP =$('#productoOrden').val();
+        const nombre= $("#productoOrden option:selected").text();
+        
+ 
+            try{
+                const resp = await axios(`./controlador/contOrden.php?action=obtenerCantidad&idProducto=${idP}`);
+                const data = resp.data;
+                if(data.existencias.length > 0){
+                data.existencias.forEach((p, index)=>{
+                    const cant =$('#cantidadPOr').val(); 
+                    console.log(cant); 
+                   if( cant >= p.existencias){
+                   swal("Lo sentimos no tenemos en Inventario esa cantidad de", nombre, "info", {
+                        position: 'top-end',
+                        //timer:3000,
+                        showConfirmButton: false
+                    })
+
+                   }
+                });
+
+                
+                    
+                    
+                }
+                     
+                
+            }catch(err){
+                console.log('Error - ', err);
+            }
+        
+    });
+    // funcion para hacer la resta en el inventario general
+    /*el inventario solo se actualizara cuando la opcion se enviado, por lo que debe confirmar con el usuario si quiere realizar la accion */
+    const tabla = $('.contenedorOrden tr td');
+
+    
+    $('#row ').on('change',()=>{
+       
+        const idEstado= $("#row").val();
+        const nombre = $("#row option:selected").text();
+        tabla.map(index =>{
+            console.log(index+1, nombre);
+        })
+        console.log(tabla)
+        // if (idEstado !== 6){
+        //     console.log('seguro que quiere enviar el producto');
+        //     // swal({
+        //     //     title: "Estas Seguros?",
+        //     //     text: "Una vez cambiado el estado a Enviado, se rebajara la orden de inventario!",
+        //     //     icon: "warning",
+        //     //     buttons: true,
+        //     //     dangerMode: true,
+        //     //   })
+        //     //   .then((willDelete) => {
+        //     //     if (willDelete) {
+        //     //       swal("Exito! Orden rebajada de inventario!", {
+        //     //         icon: "success",
+        //     //       });
+        //     //     }
+        //     //   });
+           
+        // }else {
+        //     console.log('no importa');
+        //     //$('#row option').prop('disabled',true);
+        // };
+        
+       
+    })
+
+    
 
      
 

@@ -14,15 +14,16 @@ if ($row = mysqli_fetch_row($rs)) {
     $lastid = trim($row[0]);
 }
 switch ($action) {
-    case 'obtenerproducto': // OBTIENE UN PREGUNTA POR NOMBRE
-        $pregunta = $_GET['pregunta'];
-        $sql = "SELECT  p.nombre_producto, i.existencias from tbl_inventario i INNER JOIN tbl_producto p on p.id_producto= i.producto_id WHERE p.estado_eliminado=i.estado_eliminar AND p.nombre_producto  ='" . $pregunta . "'";
+    case 'obtenerCantidad': // OBTIENE 
+        $idPro = $_GET['idProducto'];
+        $sql = "SELECT i.existencias from tbl_inventario i INNER JOIN tbl_producto p on p.id_producto= i.producto_id where p.id_producto= $idPro ";
         $result = $conn->query($sql);
-        $pregunta_db = array();
+        $producto = array();
         while ($row = $result->fetch_assoc()) {
-            array_push($pregunta_db, $row);
+            array_push($producto, $row);
         }
-        $res['pregunta'] = $pregunta_db;
+        $res['existencias'] = $producto;
+        
         break;
 
     case 'registrarOrden': // REGISTRA Orden
@@ -53,7 +54,7 @@ switch ($action) {
 
         //https://www.anerbarrena.com/php-array-tipos-ejemplos-3876/
     case 'registrarDetalleOrden':
-        echo $lastid;
+        //cho $lastid;
 
         if (empty($_POST['contOrden']) || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
@@ -64,9 +65,8 @@ switch ($action) {
             $usuario_actual = $_POST['usuario_actual'];
             //$lastid= $_POST['lastId'];
             $estado = 1;
-            $fecha = date('Y-m-d H:i:s', time());
-            
-
+           $fecha = date('Y-m-d H:i:s', time());
+           
             $sql = $conn->prepare("INSERT INTO `tbl_detalle_orden`(`cantidad`, `descripcion`, `producto_id`,`ordenes_id`,`estado_eliminado`,`creado_por`,`fecha_creacion`,`modificado_por`,`fecha_modificacion`) VALUES (?,?,?,?,?,?,?,?,?);");
             foreach ($proOrdenes as $valor) {
                 
@@ -85,7 +85,7 @@ switch ($action) {
 
                     $res['msj'] = "Se produjo un error al momento de registrar el detalle de la Orden";
                     $res['sql'] = $sql;
-                    $res['error'] = true;
+                   // $res['error'] = true;
                 } else {
                     $res['msj'] = "Detalle de la Orden Registrada Correctamente";
                 }
@@ -124,6 +124,23 @@ switch ($action) {
         $res['productos'] = $vertbl;
 
         break;
+
+    case 'eliminarOrden':
+            if (isset($_POST['id_orden'])) {
+                $id_orden = (int)$_POST['id_orden'];
+                $sql = "DELETE from tbl_ordenes where id_orden = " . $id_orden;
+                $resultado = $conn->query($sql);
+                if ($resultado == 1) {
+                    $res['msj'] = "Orden Eliminada  Correctamente";
+                } else {
+                    $res['msj'] = "Se produjo un error al momento de eliminar la Orden";
+                    $res['error'] = true;
+                }
+            } else {
+                $res['msj'] = "No se envió el id de la Orden a eliminar";
+                $res['error'] = true;
+            }
+    break; 
 
 
     default:
