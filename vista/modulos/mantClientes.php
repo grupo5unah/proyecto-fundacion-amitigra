@@ -4,7 +4,7 @@ $id_objeto = 19;
 $rol = $_SESSION["rol"];
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -43,7 +43,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+								<?php
+								if($columna["permiso_insercion"] == 0):
+								
+								else:?>
 								<button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
+								<?php
+								endif;
+								?>
 
 								</div> <!-- /div-action -->
 
@@ -107,10 +114,21 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 													<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
 													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td class="text-center">
+													<?php
+													if($columna["permiso_actualizacion"] == 1):?>
 														<button class="btn btn-warning btnEditarCliente glyphicon glyphicon-pencil"  data-idcliente="<?= $evento['id_cliente'] ?>" data-nombrecliente="<?= $evento['nombre_completo'] ?>" 
 														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
-
+													<?php
+													else:
+													endif;
+													
+													if($columna["permiso_eliminacion"] == 1):
+													?>
 														<button class="btn btn-danger btnEliminarCliente glyphicon glyphicon-remove" data-idclient="<?php echo $evento['id_cliente'] ?>"></button>
+													<?php
+													else:
+													endif;
+													?>
 													</td>
 												<?php }?>
 											<?php }?>

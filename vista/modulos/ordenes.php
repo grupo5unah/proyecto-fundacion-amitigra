@@ -3,7 +3,7 @@
 $id_objeto = 14;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -43,7 +43,14 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+								<?php
+								if($columna["permiso_insercion"] == 0):
+								else:
+								?>
 									<a href="#" class="btn btn-success button1 btnCrearOrden text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> Agregar Orden de Productos </a>
+								<?php
+								endif;
+								?>
 
 								</div> <!-- /div-action -->
 
@@ -55,7 +62,13 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 											<th>Usuario</th>
 											<th>Total</th>
 											<th>Estado</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>Acciones</th>
+											<?php
+											endif;
+											?>
 										</tr>
 									</thead>
 									<tbody>
@@ -111,10 +124,20 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 														<!-- //<i class="fas fa-eye"></i>bi bi-eye-fill -->
 														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idOrdenes="ordenes_id"></button>
 
-														
+														<?php
+														if($columna["permiso_actualizacion"] == 1):
+														?>	
 														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" ></button>
+														<?php
+														else:
+														endif;
 
+														if($columna["permiso_eliminacion"] == 1):
+														?>
 														<button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento['id_P'] ?>"></button>
+														<?php
+														else:
+														endif;?>
 													</td>
 												<?php  } ?>
 											<?php  } ?>

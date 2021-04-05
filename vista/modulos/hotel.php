@@ -3,7 +3,7 @@
 $id_objeto = 10;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -30,7 +30,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+								<?php
+								if($columna["permiso_insercion"] == 1):?>
 									<button type="button" class=" btn btn-success btnCrearReservacion text-uppercase"><i class="glyphicon glyphicon-plus-sign"> Nueva Reservación </i></button>
+								<?php
+								else:
+								endif;?>
 								</div> <!-- /div-action -->
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->
@@ -43,7 +48,14 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 											<th class="text-center">Salida</th>
 											<th class="text-center">Localidad</th>
 											<th class="text-center">Tipo Reservación</th>
+											<?php
+											if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th class="text-center">accion</th>
+											<?php
+											endif;
+											?>
 										</tr>
 									</thead>
 									<tbody>
@@ -93,11 +105,23 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													<td class="text-center">
 								
 													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['id_reservacion'] ?>"></button>
+													<?php
+													if($columna["permiso_actualizacion"] == 1):
+													?>
 													<button class="btn btn-warning btnEditarReservacion glyphicon glyphicon-pencil"  data-idreservacion="<?= $mostrar['id_reservacion'] ?>" data-reservacion="<?= $mostrar['fecha_reservacion'] ?>"
 													data-entrada="<?= $mostrar['fecha_entrada'] ?>" data-salida="<?= $mostrar['fecha_salida'] ?>" data-cliente="<?= $mostrar['cliente'] ?>" 
 													data-localidad="<?= $mostrar['localidad'] ?>" ></button>
-													
+													<?php
+													else:
+													endif;
+
+													if($columna["permiso_eliminacion"] == 1):
+													?>
 													<button class="btn btn-danger btnEliminarReservacion glyphicon glyphicon-remove" data-idreser="<?= $mostrar['id_reservacion'] ?>"></button>
+													<?php
+													else:
+													endif;
+													?>
 													
 												</td>
 											<?php  } ?>

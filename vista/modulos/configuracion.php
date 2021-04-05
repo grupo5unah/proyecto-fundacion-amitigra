@@ -4,7 +4,7 @@ require "./modelo/conexionbd.php";
 $id_objeto = 18;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -50,15 +50,25 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a href="#"><strong>Correo: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a href="#"><strong>Correo:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro["valor"];?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                 <?php endwhile;?></a></li>
                 <?php
                             $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[4]';";
                             $resultado = mysqli_query($conn, $extraer);
 
                             while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Puerto: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <li><a><strong>Mensaje correo: </strong><span class="pull-right">12</span></a></li>
-                <li><a><strong>Hola mundo</strong> <span class="pull-right">842</span></a></li>
+                <li><a><strong>Puerto: </strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro['valor'];?>" placeholder="Nombre">
+                    </div>
+                  </div><?php endwhile;?></span></a></li>
+                
                 <li><div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
@@ -73,7 +83,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
           <!-- /.widget-user -->
         </div>
 
-
         <!-- INICIO MODAL -->
         <div class="modal fade" id="modal-correo" data-backdrop="static" data-keyboard="false">
           <div class="modal-dialog">
@@ -85,12 +94,29 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
               </div>
               <div class="modal-body">
                 <!-- AQUI INICIO DEL CODIGO -->
-                <p>One fine body&hellip;</p>
+                <div class="form-group">
+                    <div class="alert alert-light" role="alert">
+                     <h4><i class="fa fa-warning"> Importante:</i></h4>
+                     El ingreso de la contraseña es necesario para poder hacer efectiva la actualización de la informacion.
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="form-group">
+                      <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+
+                      <div class="input-group col-sm-8">
+                        <input id="passConf" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
+                        <span class="input-group-btn" onclick="a_mostrarPassword()">
+                          <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                    </div>
                 <!-- AQUI FINAL DEL CODIGO -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" id="InformacionCorreo" class="btn btn-primary">Guardar cambios</button>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -98,7 +124,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
           <!-- /.modal-dialog -->
         </div>
         <!-- FINAL MODAL -->
-
 
         <div class="col-md-4">
           <!-- Widget: user widget style 1 -->
@@ -119,19 +144,36 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                     $resultado = mysqli_query($conn, $extraer);
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Host hospedador:</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Host hospedador:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php $parametro['valor']; endwhile;?>" placeholder="Nombre">
+                    </div>
+                  </div></a></li>
                 <?php
                     $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';";
                     $resultado = mysqli_query($conn, $extraer);
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Puerto:</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Puerto:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro['valor'];?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                <?php endwhile;?></a></li>
                 <?php
                     $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';";
                     $resultado = mysqli_query($conn, $extraer);
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Nombre base de datos: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Nombre base de datos: </strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro['valor'];?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                <?php endwhile;?></a></li>
                 <li><a><strong>Estado conexon: </strong><span class="pull-right"><i class="fa fa-check has-success" for="inputSuccess"></i><?php if($conn->ping()){ echo "conectado"; } else { $fallo = ("error de conexion %s\n" + $mysqli->error); echo $fallo;}?></span></a></li>
                 <li><div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
@@ -146,7 +188,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
           <!-- /.widget-user -->
         </div>
 
-
         <!-- INICIO MODAL -->
         <div class="modal fade" id="modal-bd" data-backdrop="static" data-keyboard="false">
           <div class="modal-dialog">
@@ -158,12 +199,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
               </div>
               <div class="modal-body">
                 <!-- AQUI INICIO CODIGO -->
-                <p>One fine body&hellip;</p>
+                
                 <!-- AQUI FINAL CODIGO -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" id="InformacionBD" class="btn btn-primary">Guardar cambios</button>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -171,7 +212,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
           <!-- /.modal-dialog -->
         </div>
         <!-- FINAL MODAL -->
-
 
         <div class="col-md-4">
           <!-- Widget: user widget style 1 -->
@@ -192,25 +232,37 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                     $resultado = mysqli_query($conn, $extraer);
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Nombre organizacion: </strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Nombre organizacion: </strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro['valor']; endwhile;?>" placeholder="Nombre">
+                    </div>
+                    </div>
+                    </a></li>
                 <?php
                     $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';";
                     $resultado = mysqli_query($conn, $extraer);
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Nombre sistema: </strong> <span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Nombre sistema: </strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro['valor']; endwhile;?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                  </a></li>
                 <?php
                     $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[9]';";
                     $resultado = mysqli_query($conn, $extraer);
 
                     while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Usuario administrador</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
-                <?php
-                    $extraer = "SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[3]';";
-                    $resultado = mysqli_query($conn, $extraer);
-
-                    while($parametro = mysqli_fetch_assoc($resultado)):?>
-                <li><a><strong>Followers</strong><span class="pull-right"><?php echo $parametro['valor']; endwhile;?></span></a></li>
+                <li><a><strong>Usuario administrador</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="nombre" value="<?php echo $parametro['valor']; endwhile;?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                  </a></li>
                 <li><div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
@@ -223,7 +275,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
           </div>
         
         </div>
-
 
         <!-- INICIO MODAL -->
         <div class="modal fade" id="modal-sistema" data-backdrop="static" data-keyboard="false"">
@@ -241,7 +292,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" id="InformacionSistema" class="btn btn-primary">Guardar cambios</button>
               </div>
             </div>
             <!-- /.modal-content -->

@@ -3,7 +3,7 @@
 $id_objeto = 30;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -52,7 +52,13 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
                                             <th>Permiso eliminar</th>
                                             <th>Permiso actualizar</th>
                                             <th>Permiso consulta</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>Acciones</th>
+											<?php
+											endif;
+											?>
 
 										</tr>
 									</thead>
@@ -101,9 +107,14 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													<td> <?php echo $evento['consulta']; ?></td>
 
 													<td>
+
+													<?php if($columna["permiso_actualizacion"] == 1):?>
 													<button class="btn btn-warning btnEditarP glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
 													data-actualizacion="<?= $evento['actualizacion'] ?>" data-consulta="<?= $evento['consulta'] ?>"></button>
-											
+													<?php
+														else:
+														endif;
+													?>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
