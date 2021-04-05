@@ -12,135 +12,54 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 	if ($columna["permiso_consulta"] == 1) {
 ?>
 
-<div class="content-wrapper" oncopy="return false" onpaste="return false">
+		<div class="content-wrapper" oncopy="return false" onpaste="return false">
 
-	<section class="content-header">
-		<h1>Gestionar Ordenes</h1>
-		<ol class="breadcrumb ">
-			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-			<li class="btn btn-success  fw-bold"><a href="existencias"><i class="fas fa-inventory"></i> Inventario General</a></li>
-			<li class="btn btn-success active  fw-bold "><a href="#"></a><i class="fab fa-product-hunt"></i> Ordenes </a></li>
-		</ol>
-	</section>
-	<!-- Main content -->
-	<section class="content">
+			<section class="content-header">
+				<h1>Gestionar Ordenes</h1>
+				<ol class="breadcrumb ">
+					<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+					<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
+					<li class="btn btn-success  fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
+					<li class="btn btn-success active  fw-bold "><a href="#"></a><i class="fab fa-product-hunt"></i> Ordenes </a></li>
+				</ol>
+			</section>
+			<!-- Main content -->
+			<section class="content">
 
-		<!-- Default box -->
-		<div class="box">
-			<div class="box-header with-border">
-				<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
-			</div>
-			<div class="box-body">
-				<!--LLamar al formulario aqui-->
-				<div class="row">
-					<div class="col-md-12">
+				<!-- Default box -->
+				<div class="box">
+					<div class="box-header with-border">
+						<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
+					</div>
+					<div class="box-body">
+						<!--LLamar al formulario aqui-->
+						<div class="row">
+							<div class="col-md-12">
 
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Ordenes</div>
-							</div> <!-- /panel-heading -->
-							<div class="panel-body">
-								<div class="remove-messages"></div>
-								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-								<?php
-								if($columna["permiso_insercion"] == 0):
-								else:
-								?>
-									<a href="#" class="btn btn-success button1 btnCrearOrden text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> Agregar Orden de Productos </a>
-								<?php
-								endif;
-								?>
-
-								</div> <!-- /div-action -->
-
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="gestionOrdenes">
-									<thead style=" background-color: #222d32; color: white;">
-										<tr>
-											<th>Orden</th>
-											<th>Localidad</th>
-											<th>Usuario</th>
-											<th>Total</th>
-											<th>Estado</th>
-											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
-											
-											else:?>
-											<th>Acciones</th>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Ordenes</div>
+									</div> <!-- /panel-heading -->
+									<div class="panel-body">
+										<div class="remove-messages"></div>
+										<div class="div-action pull pull-right" style="padding-bottom:20px;">
+										<?php if($columna["permiso_insercion"] == 1):?>
+											<a href="#" class="btn btn-success button1 btnCrearOrden text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> Agregar Orden de Productos </a>
 											<?php
-											endif;
-											?>
-										</tr>
-									</thead>
-									<tbody>
-										<?php
-										try {
+											else:
+											endif;?>
 
-											$sql = "SELECT O.id_orden, l.nombre_localidad, u.nombre_usuario, E.nombre_estado, d.ordenes_id, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
+										</div> <!-- /div-action -->
 
-											$resultado = $conn->query($sql);
-										} catch (\Exception $e) {
-											echo $e->getMessage();
-										}
-
-										$vertbl = array();
-										while ($eventos = $resultado->fetch_assoc()) {
-
-											$traer = $eventos['id_orden'];
-											$evento = array(
-												'numeroOrden' => $eventos['id_orden'],
-												'localidad' => $eventos['nombre_localidad'],
-												'usuario' => $eventos['nombre_usuario'],
-												'totalP' => $eventos['count(*)'],
-												'estado' => $eventos['nombre_estado'],
-												'ordenes'=>$eventos['ordenes_id']
-
-											);
-											$vertbl[$traer][] =  $evento;
-										}
-										foreach ($vertbl as $dia => $lista_articulo) { ?>
-
-
-											<?php foreach ($lista_articulo as $evento) { ?>
-												<?php	//echo $evento['nombre_arti']
-												?>
+										<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="gestionOrdenes">
+											<thead style=" background-color: #222d32; color: white;">
 												<tr>
-													<td> </td>
-													<td> <?php echo $evento['localidad']; ?></td>
-													<td> <?php echo $evento['usuario']; ?></td>
-													<td> <?php echo $evento['totalP']; ?></td>
-													<td><select size="1" id="row" name="row-3-office">
-															<option value="0">
-																<?php echo $evento['estado']; ?>
-															</option>
-															<option value="enviado">
-																ENVIADO
-															</option>
-															<option value="Pendiente">
-																PENDIENTE
-															</option>
-
-														</select></td>
-													<td class=" d-flex">
-														<!-- //<i class="fas fa-eye"></i>bi bi-eye-fill -->
-														<button style="color:white" class="btn btn-success align-item btnVerd fas fa-eye" data-idOrdenes="ordenes_id"></button>
-
-														<?php
-														if($columna["permiso_actualizacion"] == 1):
-														?>	
-														<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" ></button>
-														<?php
-														else:
-														endif;
-
-														if($columna["permiso_eliminacion"] == 1):
-														?>
-														<button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento['id_P'] ?>"></button>
-														<?php
-														else:
-														endif;?>
-													</td>
-												<?php  } ?>
-											<?php  } ?>
+													<th>Orden</th>
+													<th>Localidad</th>
+													<th>Usuario</th>
+													<th>Total</th>
+													<th>Estado</th>
+													<th>Acciones</th>
 												</tr>
 											</thead>
 											<tbody class="contenedorOrden">

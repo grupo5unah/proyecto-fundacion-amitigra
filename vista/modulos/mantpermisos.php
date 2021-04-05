@@ -154,22 +154,22 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										
 										<div class="campos">
 											<label for="">Permiso Insertar</label>
-											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Eliminar</label>
-											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos">
 											<label for="">Permiso Actualizar</label>
-											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Permiso de Consulta</label>
-											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										

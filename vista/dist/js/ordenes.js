@@ -20,7 +20,7 @@ function soloNumero(e){
     var key = window.event ? e.which : e.keyCode;
     teclado=String.fromCharCode(key);
     numero="0123456789.";
-    especiales="8-37-38-46";
+    especiales="8-37-38-46-48";
     teclado_especial = false;
      if (key < 48 || key > 57) {
      e.preventDefault();
