@@ -278,7 +278,12 @@ $(document).ready(function(){
             });
         }
     });
-  }) 
+  })
+  
+  //MOSTRAR MODAL DETALLE (TABLA)
+  $('.btnVerdDetalle').on('click', function() {
+    $('#modalDetalleSendero').modal('show');
+  })
 
 
 });

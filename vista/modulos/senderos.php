@@ -15,7 +15,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 <div class="content-wrapper">
 	
 	<section class="content-header">
-      <h1>Senderos</h1> <?php echo $rol_id;?> <br> <?php echo $_SESSION["rol"];?>
+      <h1>Senderos</h1> <!--?php echo $rol_id;?--> <!--?php echo $_SESSION["rol"];?-->
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 		<li><a><i class="fa fa-cogs"></i> Senderos</a></li>
@@ -126,6 +126,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                               data-sub_total="<?= $mostrar['sub_total']?>" data-fecha_modificada="<?= $mostrar['fecha_cracion'] ?>"></button-->
 
                               <button class="btn btn-danger btnEliminarBoleto glyphicon glyphicon-remove" data-idboletovendido="<?= $mostrar['id_boletos_vendidos'] ?>"></button>
+
+                              <button class="btn btn-success align-item btnVerdDetalle fas fa-eye" data-idbolvendido="<?= $mostrar['id_boletos_vendidos'] ?>"></button>
 												</td>
 											<?php  } ?>
 										<?php  } ?>
@@ -148,47 +150,23 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
 			<!-- MODAL EDITAR VENTA BOLETO -->
-			<div class="modal fade" id="modalEditarBoleto" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalDetalleSendero" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
-						<div class="modal-content">
+						<div class="modal-content"  style="width: 600px;">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
 				                	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Editar Cantidad de Boletos</h3>
+									<h3 class="modal-title" id="exampleModalLabel">Fundación AMITIGRA</h3>
 								</div>
 							</div>
 							<div class="modal-body">
-							<form method="POST" id="formSendero">
-                              <div class="ingreso-producto form-group">
-                               <div class="campos" type="hidden">
-                               <label for=""> </label>
-                               <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
-                            </div>
-
-                          <div class="campos">
-                          <label for="">Cantidad de boletos</label>
-                          <input id="CantBoletos" class="form-control modal-roles secundary" type="date" name="CantBoletos" required />
-                          </div>
-						  <div class="campos">
-                          <label for="">Sub-Total </label>
-                          <input id="SubTotal" class="form-control modal-roles secundary" type="date" name="SubTotal"required />
-                          </div>
-						  <div class="campos">
-                          <label for="">Fecha Modificada  </label>
-                          <input id="fmodificada" class="form-control modal-roles secundary" type="date" name="fmodificada"required />
-                          </div>
-                                
-                          <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-                          </div>
-						  </div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-								<button id=""type="submit" class="btn btn-primary btnEditarBD">Actualizar Boletos</button>
-							</div>
+                        <form method="POST" id="formSenderoDet">
+                                   
                         </form>
+              </div> <!-- /.modal-body -->
                         <?php 
                             if(isset($_GET['msg'])){
                             $mensaje = $_GET['msg'];
@@ -198,10 +176,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
                         ?>
 							
-						</div>
-					</div>
-				</div>
-			
+              </div> <!-- /.modal content -->
+				  </div> <!-- /.modal-dialog -->
+			</div> <!-- /.modal fade -->
 
 		</div>
 		<!-- /.box -->
