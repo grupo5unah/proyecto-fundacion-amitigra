@@ -158,7 +158,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                       <th>Fecha Creación</th>
                       <th>Modificado Por</th>
                       <th>Fecha Modificación</th>
+                      <?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+                      else:?>
                       <th>Aciones</th>
+                      <?php
+                      endif;
+                      ?>
                     </tr>
                   </thead>
                   <tbody>

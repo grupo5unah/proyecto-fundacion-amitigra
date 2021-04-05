@@ -11,7 +11,7 @@ $columna = $stmt->fetch_assoc();
 
 
 if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
-  if($columna["permiso_consulta"] === 1){
+  if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
 
@@ -53,7 +53,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<th>Fecha de Creacion</th>
 											<th>Modificado por</th>
 											<th>Fecha de Modificacion</th>											
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>accion</th>
+											<?php
+											endif;
+											?>
+
 										</tr>
 									</thead>
 									<tbody>
@@ -93,13 +100,21 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 													<td><?php echo $mostrar['fecha_modificacion'];?></td>
 													
 													<td>
-								
+													<?php if($columna['permiso_actualizacion'] == 1):?>
 													<button class="btn btn-warning btnEditarNacionalidad glyphicon glyphicon-pencil"  data-idnacionalidad="<?= $mostrar['id_tipo_nacionalidad'] ?>" 
 													data-nacionalidad="<?= $mostrar['nacionalidad'] ?>"	data-fmodificacion="<?= $mostrar['fecha_modificacion'] ?>" 
 													data-modificadoPor="<?= $mostrar['modificado_por'] ?>"></button>
+													<?php
+														else:
+														endif;
 
+														if($columna['permiso_eliminacion'] == 1):
+													?>
 													<button class="btn btn-danger btnEliminarNacionalidad glyphicon glyphicon-remove" data-idnacionalidad="<?= $mostrar['id_tipo_nacionalidad'] ?>"></button>
-													
+													<?php
+														else:
+														endif;
+													?>									
 												</td>
 											<?php  } ?>
 										<?php  } ?>

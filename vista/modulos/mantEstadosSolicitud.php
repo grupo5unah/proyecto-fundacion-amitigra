@@ -107,13 +107,13 @@ include "./modelo/conexionbd.php";
 $id_objeto = 23;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
 if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
-  if($columna["permiso_consulta"] === 1){
+  if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
   
@@ -164,7 +164,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                       <th>Fecha Creación</th>
                       <th>Modificado Por</th>
                       <th>Fecha Modificación</th>
+                      <?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+                      else:?>
                       <th>Aciones</th>
+                      <?php
+                      endif;
+                      ?>
                     </tr>
                   </thead>
                   <tbody>
@@ -202,8 +208,22 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                           <td> <?php echo $evento["modificado_por"]; ?></td>
                           <td> <?php echo $evento["fecha_modificacion"]; ?></td>
                           <td>
+
+                          <?php
+														if($columna['permiso_actualizacion'] == 1):
+														?>
                             <button class="btn btn-warning btnEditarEstadoSolicitud glyphicon glyphicon-pencil" data-idestadosolicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus="<?= $evento["estatus"] ?>"></button>
+                            <?php
+														else:
+														endif;
+
+														if($columna['permiso_eliminacion'] == 1):
+														?>
                             <button class="btn btn-danger btnEliminarEstadoSolicitud glyphicon glyphicon-remove" data-idestadosolicitud="<?php echo $evento['id_estatus_solicitud'] ?>"></button>
+                            <?php
+														else:
+														endif;
+														?>
                           </td>
                         <?php } ?>
                       <?php } ?>

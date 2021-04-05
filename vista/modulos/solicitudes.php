@@ -109,7 +109,7 @@ include "./modelo/conexionbd.php";
 $id_objeto = 3;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -168,7 +168,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                       <th>Precio</th>
                       <th>Total</th>
                       <th>Estado</th>
+                      <?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+                      else:?>
                       <th>Aciones</th>
+                      <?php
+                      endif;
+                      ?>
                     </tr>
                   </thead>
                   <tbody>

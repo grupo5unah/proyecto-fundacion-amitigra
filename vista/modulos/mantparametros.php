@@ -3,7 +3,7 @@
 $id_objeto = 29;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -53,7 +53,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<th>Valor</th>
 											<th>Fecha creación</th>
 											<th>Fecha modificaciÓn</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>Acciones</th>
+											<?php
+											endif;
+											?>
 
 										</tr>
 									</thead>
@@ -95,9 +101,20 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                                                     <td> <?php echo $evento['fecha_creacion']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditarParam glyphicon glyphicon-pencil"  data-idparametro="<?= $evento['id_parametro'] ?>" data-nombreparametro="<?= $evento['nombre_parametro']?>" data-valor="<?= $evento['valor'] ?>"></button>
 
+														<?php if($columna["permiso_actualizacion"] == 1):?>
+														<button class="btn btn-warning btnEditarParam glyphicon glyphicon-pencil"  data-idparametro="<?= $evento['id_parametro'] ?>" data-nombreparametro="<?= $evento['nombre_parametro']?>" data-valor="<?= $evento['valor'] ?>"></button>
+														<?php
+														else:
+														endif;
+
+														if($columna["permiso_eliminacion"] == 1):
+														?>
 														<button class="btn btn-danger btnEliminarParam glyphicon glyphicon-remove" data-idparametro="<?php echo $evento['id_parametro'] ?>"></button>
+														<?php
+														else:
+														endif;
+														?>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
