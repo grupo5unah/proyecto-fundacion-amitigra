@@ -4,7 +4,7 @@ $id_objeto = 8;
 
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_eliminacion, permiso_actualizacion, permiso_insercion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -14,7 +14,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 ?>
 <div class="content-wrapper">
-    <!-- Main content -->
+    
+    <section class="content-header">
+      <h1>Senderos <small>extranjeros</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+		    <li><a href="senderos"><i class="fa fa-cogs"></i> Senderos</a></li>
+        <li><a><i class="fa fa-cogs"></i> Senderos extranjeros</a></li>
+      </ol>
+      <br>
+    </section>
+
     <section class="content">
       <!-- Default box -->
       <div class="box">
@@ -129,8 +139,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
               </div>              
               <div class="col-md-4">
                 <input type="hidden"  name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">   
-                <input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">         
+                <input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 
+                <?php if($columna['permiso_insercion'] == 1):?>        
                 <button type="submit" name="registrarsendero" id="registrar" class=" text-center btn btn-success btn-lg ">Generar Boleto(s)</button>
+                <?php
+                else:
+                endif;
+                ?>
               </div>
              
             </div><br><br><br><br>
