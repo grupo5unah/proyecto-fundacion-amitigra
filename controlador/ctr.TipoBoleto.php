@@ -11,11 +11,11 @@ if (isset($_GET['action'])) {
 switch ($action){ 
     
     case 'actualizarTipoBoleto': //Actualizar un tipo boleto      
-        if(isset($_POST['id_tipo_boleto']) && isset($_POST['nombre_tipo_boleto']) && isset($_POST['precio_venta']) 
+        if(isset($_POST['id_tipo_boleto']) && /*isset($_POST['nombre_tipo_boleto']) && */isset($_POST['precio_venta']) 
         && isset($_POST['descripcion']) && isset($_POST['fecha_modificacion']) && isset($_POST['modificado_por'])){
 
             $id_tipo_boleto=$_POST['id_tipo_boleto'];
-            $nombre_tipo_boleto=$_POST['nombre_tipo_boleto'];
+            //$nombre_tipo_boleto=$_POST['nombre_tipo_boleto'];
             $precio_venta=$_POST['precio_venta'];
             $descripcion=$_POST['descripcion'];
             date_default_timezone_set("America/Tegucigalpa");
@@ -24,7 +24,7 @@ switch ($action){
             
 
             $actualizarTipoBoleto = "UPDATE tbl_tipo_boletos                                 
-                                set  nombre_tipo_boleto='$nombre_tipo_boleto', precio_venta='$precio_venta',
+                                set   precio_venta='$precio_venta',
                                 descripcion='$descripcion', fecha_modificacion='$Fmodificacion', modificado_por='$modificadoPor'
                                 WHERE id_tipo_boleto=".$id_tipo_boleto;
             

@@ -70,7 +70,12 @@ switch ($action) {
                         //capturamos el id del usuario
                         $id_usercap = $resultado['id_usuario'];
 
-                        $total_pago=700;
+                        
+                        if($tipo === "COMUNITARIAS"){
+                            $total_pago= 0;
+                        } else {
+                            $total_pago=700;
+                        }
                         //Insertamos en la tabla solicitudes
                         $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                         tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
@@ -134,7 +139,7 @@ switch ($action) {
 
                         if ($result) {
                             $cliente_capturado = $result['id_cliente'];
-                            $total_pago=700;
+                           
                             //Capturar el id_usuario 
                             $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
                             WHERE nombre_usuario= '$usuario_actual'");
@@ -144,6 +149,12 @@ switch ($action) {
                                 $id_usercap = $resultado['id_usuario'];
                             }
                             //insertamos en tbl_solicitudes
+
+                            if($tipo === "COMUNITARIAS"){
+                                $total_pago= 0;
+                            } else {
+                                $total_pago=700;;
+                            }
                             $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,
                                                    estatus_solicitud,
                                                    tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
