@@ -108,82 +108,38 @@ switch ($action) {
         }
 
     break;
-    case 'ingresarOrden':
+    case 'actualizarStock':
+        if (
+            isset($_POST['id_'])
+            && isset($_POST['nameP']) && isset($_POST['priceP'])  && isset($_POST['countP']) && isset($_POST['desc'])
+            && isset($_POST['typeP']) && isset($_POST['id_product'])
+        ) {
+            $id_product = $_POST['id_product'];
+            
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+
+            $sql = "UPDATE tbl_producto 
+                        SET nombre_producto = '$nombreP', precio_compra = '$costoP', cantidad_producto = '$cantidadP', descripcion = '$desc', tipo_producto_id =' $tipoP', precio_alquiler = '$precioAl', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'     WHERE id_producto= '" . $id_product . "'";;
+            $resultado = $conn->query($sql);
+
+            if ($resultado == 1) {
+                $res['msj'] = "Producto Edito  Correctamente";
+            } else {
+                $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                $res['error'] = true;
+            }
+        } else {
+           
+            $res['msj'] = "Las variables no estan definidas";
+            $res['error'] = true;
+        }
+
 
     break;
-    case 'traer_productosOrden':
-
-        $sql = "SELECT id_inventario, nombre_articulo FROM tbl_inventario WHERE estado_eliminar = 1   AND existencia != 0";
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-        // output data of each row
-        $listas = '<option value = "0"> Elige una opcion </option>';
-            while ($row = $result->fetch_assoc()) {
-              echo  $listas .="<option value=" . $row['id_inventario'] . ">" . $row['nombre_articulo'] . "</option>";
-            }
-            
-        } else {
-            echo "0 results";
-        }
-                                    
-        break;
-    case 'registrarOrden':
-
-        if (empty($_POST['nombreProducto']) || empty($_POST['cantidad']) || ((int)$_POST['id_localidad'] > 0 &&  empty($_POST['id_localidad']) || empty($_POST['id_inventario']) || empty($_POST['usuario_actual']))) {
-            $res['msj'] = 'Es necesario rellenar todos los campos';
-            $res['error'] = true;
-        } else {
-            $nombreProducto = $_POST['nombreProducto'];
-            $cantidad = $_POST['cantidad'];
-            $localidad = $_POST['id_localidad'];
-            $id_inventario = $_POST['id_inventario'];
-            $usuario_actual = $_POST['usuario_actual'];
-            try {
-                $sql = $conn->prepare("INSERT INTO tbl_orden (nombre_producto, cantidad, id_localidad, id_inventario, creado_por) VALUES (?,?,?,?,?)");
-                $sql->bind_param("siiis", $nombreProducto, $cantidad,  $localidad, $id_inventario, $usuario_actual);
-                $sql->execute();
-                if($sql->error){ 
-                    $res['msj'] = "Se produjo un error al momento de registrar un nuevo pedido";
-                    $res['error'] = true;
-                } else {
-                    $res['msj'] = "Pedido de Insumos Registrado Correctamente";
-                    $res['msj'] = "Se produjo un error al momento de registrar la orden MAESTRA";
-                    $res['error'] = true;
-
-                }
-                // $sql->close();
-                // $sql = null;
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        }
-        break;
-
-   
-
-    
-    case 'registrarDetalleOrden':
-        if(isset($_POST['id_orden']) && isset($_POST['productos'])){
-            print_r($_POST['id_orden']);
-            print_r($_POST['productos']);
-
-            //$sql = "INSERT INTO tbl_detalleorden () VALUES ";
-
-            /*print_r($sql);
-            $resultado = $conn->query($sql);
-            if($resultado === 1){
-                $res['msj'] = "Solicitud de Insumos Agregada Correctamente"; 
-            }else{
-                $res['error'] = true;
-                $res['msj'] = "Hubo un error al registrar los productos de la orden";
-            }*/
-        }
-
-        break;
     
         
-        //preguntas
+        
         
         
     

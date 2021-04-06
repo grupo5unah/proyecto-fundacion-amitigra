@@ -70,7 +70,7 @@ $columna = $stmt->fetch_assoc();
 									<?php
 										try {
 
-											$sql = "SELECT tbl_inventario.id_inventario, tbl_producto.nombre_producto, tbl_inventario.existencias, tbl_inventario.fecha_entrada from tbl_inventario INNER JOIN tbl_producto on tbl_inventario.producto_id= tbl_producto.id_producto  WHERE estado_eliminar=1";
+											$sql = "SELECT  tbl_inventario.id_inventario, tbl_producto.nombre_producto, tbl_inventario.existencias, tbl_inventario.fecha_entrada from tbl_inventario INNER JOIN tbl_producto on tbl_inventario.producto_id= tbl_producto.id_producto  WHERE estado_eliminar=1";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -95,12 +95,14 @@ $columna = $stmt->fetch_assoc();
 											<?php foreach ($lista_articulo as $evento) { ?>
 												<tr>
 													<td> <?php echo $evento['nombre_arti'];?></td>
-													<td><?php echo $evento['existencia'];?></td>
+													<td class="exis"><?php echo $evento['existencia'];?></td>
 													<td> <?php echo $evento['fecha_art']; ?></td>
 													<td> <?php echo $evento['nombre_arti'];?></td>
 													<td><?php echo $evento['existencia'];?></td>
 													<td> <?php echo $evento['fecha_art']; ?></td>
-													<td> <?php echo $evento['fecha_art']; ?></td>
+													
+													<td> <button class="btn btn-success btnSumarI glyphicon glyphicon-plus" data-idinve="<?php echo $evento['id_inventario']; ?>" data-nombre="<?= $evento['nombre_arti'] ?>" data-stock="<?= $evento['existencia'] ?>"></button> </td>
+												 
 												<?php  } ?>
 												</tr> 
 										<?php  } ?>
@@ -108,19 +110,58 @@ $columna = $stmt->fetch_assoc();
 									</tbody> 
 								</table>
 								
-
+													
 							</div> 
 						</div> 
 					</div>
 					<?php $conn->close(); ?>
 				</div> <!-- /row -->
+			
 
-
-			</div>
+			
+			
+           </div>
 			
 		
 		</div>
 		<!-- /.box -->
+		<!-- //modal para agregar producto -->							
+		<div class="modal fade" id="agregarProducto" tabindex="-1" 
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+					<div class="modal-dialog">
+						<div class="modal-content" style="width:200px;">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+                					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Actualizar</h3>
+								</div>
+							</div>
+							<div class="modal-body" >
+								<form name="" id="">
+									<div class=" form-group">
+									    <p  id="pro"> </p>
+										<div class="campos form-group">
+											
+											<input style="width:150px;" id="valor" class="form-control modal-roles secundary " type="tel" name="cantidad" placeholde="Escriba el producto" required autocomplete="off"/>
+
+										</div>
+										
+										
+										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+									</div>
+									
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button id="" type="submit"  name="" class=" btn btn-success idStock">Actualizar</button>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
 
 	</section>
 	<!-- /.content -->

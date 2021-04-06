@@ -62,7 +62,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 												<?php
 												try {
 
-													$sql = "SELECT O.id_orden, o.fecha_creacion, l.nombre_localidad, u.nombre_usuario, E.nombre_estado, d.ordenes_id, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
+													$sql = "SELECT O.id_orden, o.fecha_creacion, l.nombre_localidad, u.nombre_usuario, E.id_estado, E.nombre_estado, d.ordenes_id, count(*) from tbl_ordenes O INNER JOIN tbl_localidad L on O.localidad_id = L.id_localidad INNER JOIN tbl_usuarios U ON O.usuario_id = U.id_usuario INNER JOIN tbl_estado E ON E.id_estado= o.estado_id INNER JOIN tbl_detalle_orden d ON d.ordenes_id = O.id_orden GROUP BY d.ordenes_id  ";
 
 													$resultado = $conn->query($sql);
 												} catch (\Exception $e) {
@@ -80,7 +80,8 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 														'totalP' => $eventos['count(*)'],
 														'estado' => $eventos['nombre_estado'],
 														'ordenes' => $eventos['ordenes_id'],
-														'fecha' => $eventos['fecha_creacion']
+														'fecha' => $eventos['fecha_creacion'],
+														'idEstado' => $eventos['id_estado']
 
 													);
 													$vertbl[$traer][] =  $evento;
@@ -96,20 +97,23 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 															<td> <?php echo $evento['localidad']; ?></td>
 															<td> <?php echo $evento['usuario']; ?></td>
 															<td> <?php echo $evento['totalP']; ?></td>
-															<td><select size="1" id="row" name="row-3-office">
-																	<option value="0">
-																		<?php echo $evento['estado']; ?>
-																	</option>
+															<td><select  class=" rowO" id="<?php echo $evento['numeroOrden'] ?>" name="">
+															 
+																	
 																	<?php
 
-																	$sql = "SELECT id_estado, nombre_estado FROM tbl_estado where nombre_estado = 'PENDIENTE' OR nombre_estado = 'ENVIADO' OR nombre_estado = 'RECIBIDO'";
+																	$sql = "SELECT id_estado, nombre_estado FROM tbl_estado where  nombre_estado = 'ENVIADO' OR nombre_estado = 'RECIBIDO' OR nombre_estado = 'PENDIENTE'";
 																	$result = $conn->query($sql);
 
 																	if ($result->num_rows > 0) {
 																		// output data of each row
 																		while ($row = $result->fetch_assoc()) {
-																			echo "<option value=" . $row['id_estado'] . ">" . $row['nombre_estado'] . "</option>";
-																		}
+																			if($row['id_estado'] == $evento['idEstado']){
+																				echo "<option selected  value=" . $row['id_estado'] . ">" . $row['nombre_estado'] . "</option>";
+																			}else{
+																				echo "<option   value=" . $row['id_estado'] . ">" . $row['nombre_estado'] . "</option>";
+																			}
+																	   }
 																	} else {
 																		echo "0 results";
 																	}
@@ -125,7 +129,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
 																<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil"></button>
 
-																<button class="btn btn-danger btnDeleteOrden glyphicon glyphicon-remove" data-Orden="<?php echo $evento['numeroOrden'] ?>"></button>
+																<button class="btn btn-danger btnDeleteOrden glyphicon glyphicon-remove" data-orden="<?php echo $evento['numeroOrden'] ?>"></button>
 															</td>
 														<?php  } ?>
 													<?php  } ?>
@@ -208,13 +212,13 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 													</select>
 												</div>
 												<div class="col-md-1 " style=" width:100px; margin-left:40px; padding:0;">
-													<input name="cantidadPOr[]" id="cantidadPOr" class="col-md-1" style="margin:0;width: 80px;" type="number" placeholder="0" required min="1" pattern="^[0-9]+" onkeypress="return soloNumero(event)">
+													<input name="cantidadPOr[]" id="cantidadPOr" class="col-md-1" style="margin:0;width: 80px;" type="number" placeholder="0" required   onkeypress="return soloNumero(event)">
 												</div>
 												<div class="col-md-3" style=" width:100px; margin-left:10px; padding:0;">
 													<input name="descCanO" id="descCanO" class="col-md-2" style=" margin:0; width: 100px;" type="text" placeholder="UNIDADES" required pattern="^[a-zA-Z\s]+" onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off">
 												</div>
-												<button style=" width:25px; height:22px; margin-left:15px;padding:0;" type="button" class="btn btn-success btnAgregarFila aling-item glyphicon glyphicon-plus-sign" disabled></button>
-												<input type="hidden" id="btnProductUpdate" class=" btn btn-primary agregar-table" value="Finalizar Edicion">
+												<input style=" width:25px; height:22px; margin-left:15px;padding:0;" type="button" class="btn btn-success btnAgregarFila aling-item glyphicon glyphicon-plus-sign" value="+" disabled>
+												<input type="hidden" id="btnOrdenUpdate" class=" btn btn-primary agregar-table" value="☻" style=" width:25px; height:22px; margin-left:15px;padding:0;" >
 
 											</div>
 
