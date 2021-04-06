@@ -25,6 +25,32 @@ function calcular2()
 
   }
 }
+//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO NACIONALES ROSARIO
+function calculaRosario()
+{
+  try {
+    var cantAdultosNR=parseFloat(document.getElementById("anr").value)|| 0, 
+        cantNiNR=parseFloat(document.getElementById("nnr").value)|| 0,
+        PadultR=parseFloat(document.getElementById("pnar").value)|| 0,
+        PninoR=parseFloat(document.getElementById("pnnr").value)|| 0;          
+        document.getElementById("totalNR").value= (cantAdultosNR*PadultR)+(cantNiNR*PninoR);
+  }catch(e){
+
+  }
+}
+//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO EXTRANJEROS ROSARIO
+function calculaRosarioE()
+{
+  try {
+    var cantAdultosER=parseFloat(document.getElementById("aer").value)|| 0, 
+        cantNiER=parseFloat(document.getElementById("ner").value)|| 0,
+        PadultER=parseFloat(document.getElementById("paer").value)|| 0,
+        PninoER=parseFloat(document.getElementById("pner").value)|| 0;          
+        document.getElementById("totalER").value= (cantAdultosER*PadultER)+(cantNiER*PninoER);
+  }catch(e){
+
+  }
+}
 //FUNCION PARA CALCULAR EL TOTAL TIENDA PARA 2 PERSDONAS
 function calcularCamping()
 {
@@ -570,10 +596,18 @@ $(document).ready(function () {
     } 
   });
   //ACTIVAR RADIO BUTTONS 
-  $('#identidad').click(function(e){
+  
+  $('#identidad').keyup( function(e){
     e.preventDefault();
-    $('#hotel').removeAttr('disabled');
-    $('#camping').removeAttr('disabled');
+    let identi = document.querySelector("#identidad").value;
+    if(identi.length == 10){
+      $('#hotel').removeAttr('disabled');
+      $('#camping').removeAttr('disabled')
+    }else if(identi.length < 10){
+      $('#hotel').Attr('disabled');
+      $('#camping').Attr('disabled');
+    }
+    
     
    });
 
@@ -581,6 +615,23 @@ $(document).ready(function () {
   if($()){
 
   }
+  //MOSTAR ALERTA SI DESEA CANCELAR 
+  $('#cancelar').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "cancelar",
+      text: "¿Esta seguro que quiere ejecutar esta accion?",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        identidad = document.querySelector('#identidad').value = "";
+      }else{
+        $('#modalNuevaReserva').modal('show');
+      }
+    })
+  })
 
   //NUEVA RESERVACION
   $('.btnCrearReservacion ').on('click', function() {
@@ -590,9 +641,69 @@ $(document).ready(function () {
   });
 
   //MOSTRAR MODAL DETALLE (TABLA)
-  $('.btnDetalle').on('click', function() {
-    $('#modalDetalle').modal('show');
-  })
+  // datos de la dela modal ver el detalle de los datos
+  $('.btnDetalle').click(async function () {
+
+    let idReservacion = $(this).data('idreserva');
+    const fechaReserva = $(this).data('fechreserva'); 
+    const localidad = $(this).data('idlocal');
+    const usuario= $(this).data('usuario');
+    const fecha = $(this).data('fecha');
+    const total = $(this).data('total');
+     const info =$('#contenido');
+     const tot = $('#total')
+     $('#contenido div ').remove();
+     info.append(
+        `
+       
+         <div class="user col-3">
+         <label for="" id="fecha">Fecha de Reservacion: <span>${fechaReserva}</span></label>
+         <P class="local col-6">Localidad: ${localidad}</P>
+         <p class="userO"> Vendedor: <span>${usuario}</span></p>
+         </div>
+         
+     
+        `
+        );
+        
+    if(idReservacion){
+        try{
+            const data = (await axios.get(`./controlador/ctrhotel.php?action=traerDetalle&idReservacion=${Number(idReservacion)}`)).data;
+            const detalle= $('#detalle');
+            $('#detalle tr').remove();
+            data.reserva.forEach((r, index) => detalle.append(`
+              
+            <tr>
+                <td>${index+1}</td>
+                <td>${r.habitacionArea}</td>
+                <td>${r.adultos}</td>
+                <td>${r.padulto}</td>
+                <td>${r.niños}</td>
+                <td>${r.pniño}</td>
+                <td>${r.articulos}</td>
+            </tr>
+            `));
+            $('#total div ').remove();
+              tot.append(
+                  `
+                
+                  <div class="user col-3">
+                  <label for="" id="total">TOTAL: <span>${total}</span></label>
+                  </div>
+                  `
+                  );
+            $("#total span").val(total);
+            $("#userO span").val(usuario);
+            $(".local span").val(localidad);
+            $("#fecha span").val(fecha);
+            $('#modalDetalle').modal('show');
+            
+        }catch(err){
+            console.log('Error - ', err);
+        }
+    }
+});
+  
    //BOTON EDITAR MODAL (TABLA HOTEL)
    $('.btnEditarReservacion').on('click', function() {
     // info previa

@@ -42,6 +42,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantDetReservaTable">
 									<thead style="background-color: #222d32; color: white;">
 										<tr>
+											<th class="text-center">N°</th>
 											<th class="text-center">Cliente</th>
 											<th class="text-center">Reservacion</th>
 											<th class="text-center">Entrada</th>
@@ -62,7 +63,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										<?php
 										try{
 											$sql = "SELECT id_detalle_reservacion, tbl_reservaciones.fecha_reservacion,tbl_reservaciones.fecha_entrada,
-													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_localidad.nombre_localidad  
+													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_localidad.nombre_localidad, reservacion_id,
+													tbl_detalle_reservacion.total_pago, tbl_detalle_reservacion.creado_por  
 													FROM tbl_detalle_reservacion 
 													INNER JOIN tbl_reservaciones 
 													ON tbl_detalle_reservacion.reservacion_id = tbl_reservaciones.id_reservacion 
@@ -83,11 +85,14 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										while($mostrar = $resultado->fetch_assoc()){
 											$captura = $mostrar['nombre_completo'];
 											$mostrar = array(
+												'numreserva'=>$mostrar['reservacion_id'],
 												'cliente'=>$mostrar['nombre_completo'],
 												'fecha_reservacion'=>$mostrar['fecha_reservacion'],
 												'fecha_entrada'=>$mostrar['fecha_entrada'],
 												'fecha_salida'=>$mostrar['fecha_salida'],
 												'localidad'=>$mostrar['nombre_localidad'],
+												'usuario'=>$mostrar['creado_por'],
+												'total'=>$mostrar['total_pago'],
 												'id_reservacion' =>$mostrar['id_detalle_reservacion']
 											);
 											$ver[$captura][] =  $mostrar;
@@ -96,15 +101,18 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										
 											<?php foreach ($lista as $mostrar) { ?>
 												<tr>
+													<td class="text-center"><?php echo $mostrar['numreserva'];?></td>
 													<td class="text-center"><?php echo $mostrar['cliente'];?></td>
 													<td class="text-center"><?php echo $mostrar['fecha_reservacion'];?></td>
 													<td class="text-center"><?php echo $mostrar['fecha_entrada'];?></td>
 													<td class="text-center"><?php echo $mostrar['fecha_salida'];?></td>
 													<td class="text-center"><?php echo $mostrar['localidad'];?></td>
-													<td class="text-center"><?php echo "camping";?></td>
+													<td class="text-center"><?php echo "Hotel";?></td>
 													<td class="text-center">
 								
-													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['id_reservacion'] ?>"></button>
+													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['numreserva'] ?>"
+													data-fechreserva="<?= $mostrar['fecha_reservacion'] ?>" data-idlocal="<?= $mostrar['localidad'] ?>" data-usuario="<?= $mostrar['usuario'] ?>"
+													data-total="<?= $mostrar['total'] ?>"></button>
 													<?php
 													if($columna["permiso_actualizacion"] == 1):
 													?>
@@ -117,7 +125,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 
 													if($columna["permiso_eliminacion"] == 1):
 													?>
-													<button class="btn btn-danger btnEliminarReservacion glyphicon glyphicon-remove" data-idreser="<?= $mostrar['id_reservacion'] ?>"></button>
+													<button class="btn btn-danger btnEliminarReservacion glyphicon glyphicon-remove" data-idreser="<?= $mostrar['numreserva'] ?>"></button>
 													<?php
 													else:
 													endif;
@@ -152,7 +160,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formReserva" onpaste="return false" >
+						 	<form method="POST" id="formReserva" onpaste="return false" autocomplete="off">
 								<div class="nav-tabs-custom">
 									<ul class="nav nav-tabs">
 										<li><a></a></li>               
@@ -264,7 +272,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+													<button type="button" class="btn btn-secondary" id="cancelar" data-dismiss="modal">Cerrar </button>
 													<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
 													<button id=""type="button" href="#timeline" class="btn btn-primary" data-toggle="tab">Siguiente</button>
 												</div>
@@ -495,7 +503,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2" >
 																	<label>Adulto:</label>
-																	<input name="anr" id="anr" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="anr" id="anr" class="form-control col-md-2" type="number" min="0" placeholder="0" require 
+																	oninput="calculaRosario();">
 															</div>
 															<div class="form-group col-xs-4">
 																<label>Precio (A):</label>
@@ -514,7 +523,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2 reserva" >
 																	<label>Niños:</label>
-																	<input name="nnr" id="nnr" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="nnr" id="nnr" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calculaRosario();">
 															</div>
 															<div class="form-group col-xs-4 precio">
 																<label>Precio (N):</label>
@@ -556,7 +565,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2" >
 																	<label>Adulto:</label>
-																	<input name="aer" id="aer" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="aer" id="aer" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																	oninput="calculaRosarioE();">
 															</div>
 															<div class="form-group col-xs-4">
 																<label>Precio (A):</label>
@@ -575,7 +585,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2 reserva" >
 																	<label>Niños:</label>
-																	<input name="ner" id="ner" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="ner" id="ner" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																	oninput="calculaRosarioE();">
 															</div>
 															<div class="form-group col-xs-4 precio">
 																<label>Precio (N):</label>
@@ -959,109 +970,36 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 						 	<form method="POST" id="formDetalle">
 							 	<div class="box-body">
 								 	<h3 class="text-center">Detalle de reservación</h3>
-								 	
-									<strong>Fecha: <?php
-										date_default_timezone_set("America/Tegucigalpa");
-										$fecha=date('Y-m-d H:i:s',time());
-										echo $fecha;?>
-											
-									</strong><br>
-									<strong>Usuario: <?php
-										echo $usuario ?>
-									</strong><br><br>
-									
-									<!-- <img src="vista/dist/img/logo.png" alt="imagen" class="imagen"><br> -->
-									
-										<?php
-											try{
-												$sql = "SELECT id_cliente, nombre_completo,identidad,telefono, tbl_tipo_nacionalidad.nacionalidad FROM tbl_clientes
-														INNER JOIN tbl_tipo_nacionalidad
-														ON tbl_clientes.tipo_nacionalidad = tbl_tipo_nacionalidad.id_tipo_nacionalidad
-														WHERE id_cliente = 2 ";
-												$resultado = $conn->query($sql);
-											}catch (Exception $e){
-												echo  $e->getMessage();
-											}
-											$cliente = array();
-											while($ver = $resultado->fetch_assoc()){
-												$captura = $ver['nombre_completo'];
-												$mostrar = array(
-													'nombre'=>$ver['nombre_completo'],
-													'identidad'=>$ver['identidad'],
-													'telefono'=>$ver['telefono'],
-													'nacionalidad'=>$ver['nacionalidad'],
-													'id_cliente' =>$ver['id_cliente']
-												);
-												$cliente[$captura][] =  $ver;
-											}
-											foreach ($cliente as $cli => $lista) { ?>
-											
-												<?php foreach ($lista as $ver) { ?>
-													<div class="">
-														<div class="col-md-6">
-															<strong>Identidad:</strong> <span class=""><?php echo $ver['identidad'];?></span><br>
-															<strong>Telefono:</strong> <span class=""><?php echo $ver['telefono'];?></span><br>
-															
-														</div>
-															<strong class="">Cliente:</strong> <span class="cliente"><?php echo $ver['nombre_completo'];?></span> <br>
-															<strong>Nacionalidad:</strong> <span class=""><?php echo $ver['nacionalidad'];?></span><br>
-													</div>
-												<?php  } ?>
-											<?php  } ?>
-									
+									 
+									 <div id="contenido">
+
+									 </div>
 									<table class="table table-striped">
 										<thead>
 										<tr>
-											<th>Habitacion/Area</th>
-											<th>Articulo</th>
+											<th>N°</th>
+											<th>Descripción</th>
 											<th>Adultos</th>
+											<th>P.Adulto</th>
 											<th>Niños</th>
-											<th>Total</th>
+											<th>P.Niños</th>
+											<th>Articulos</th>
+											
 										</tr>
 										</thead>
-										<tbody>
-											<?php
-											try{
-												$sql = "SELECT id_detalle_reservacion, tbl_habitacion_servicio.habitacion_area,cantidad_persona,cantidad_ninos,inventario_id, total_pago FROM tbl_detalle_reservacion
-														INNER JOIN tbl_habitacion_servicio
-														ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio
-														WHERE id_detalle_reservacion = 1 ";
-												$resultado = $conn->query($sql);
-											}catch (Exception $e){
-												echo  $e->getMessage();
-											}
-											//esta variable es para realizar un arreglo que permita mostar los resultados en la modal
-											$ver = array();
-											while($mostrar = $resultado->fetch_assoc()){
-												$captura = $mostrar['habitacion_area'];
-												$mostrar = array(
-													'habitacion_area'=>$mostrar['habitacion_area'],
-													'articulo'=>$mostrar['inventario_id'],
-													'adultos'=>$mostrar['cantidad_persona'],
-													'ninos'=>$mostrar['cantidad_ninos'],
-													'total'=>$mostrar['total_pago'],
-													'id_reservacion' =>$mostrar['id_detalle_reservacion']
-												);
-												$ver[$captura][] =  $mostrar;
-											} 
-											foreach ($ver as $reserva => $lista) { ?>
-											
-												<?php foreach ($lista as $mostrar) { ?>
-													<tr>
-														<td class="text-center"><?php echo $mostrar['habitacion_area'];?></td>
-														<td class="text-center"><?php echo $mostrar['articulo'];?></td>
-														<td class="text-center"><?php echo $mostrar['adultos'];?></td>
-														<td class="text-center"><?php echo $mostrar['ninos'];?></td>
-														<td class="text-center"><?php echo $mostrar['total'];?></td>
-												<?php  } ?>
-											<?php  } ?>
-													</tr>
-										
+										<tbody id="detalle">
 										</tbody>
+										
 									</table>
+								</div><br>
+								<div id="total">
+
 								</div>
 							</form> <!-- /.cierre de formulario -->
-							<!-- <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a> -->
+							<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+									<a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a>
+							</div>
 						</div> <!-- /.modal-body -->
 						<?php 
 						if(isset($_GET['msg'])){

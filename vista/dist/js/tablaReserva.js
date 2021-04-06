@@ -328,7 +328,7 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
   $('#registro').on('click', function(){
       //falta que registre y agregar el elssleping bag
       $('#tableCamping tr').each(function () {
-          var acci = 'registrarCamping';
+          var acciones = 'registrarCamping';
           const descripcion = $(this).find('td').eq(0).html();
           const cantidad_adultosC = $(this).find('td').eq(1).html();
           const cantidad_ninosC = $(this).find('td').eq(3).html();
@@ -349,7 +349,7 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
               type: "POST",
               datatype: 'json',
               url: './controlador/ctr.reservaciones.php',
-              data: {acci:acci,descripcion:descripcion, cantidad_adultosC:cantidad_adultosC,cantidad_ninosC:cantidad_articuloC,cantidad_C:cantidad_ninosC,totalR:totalC,nombre_cliente:nombre_cliente,
+              data: {acciones:acciones,descripcion:descripcion, cantidad_adultosC:cantidad_adultosC,cantidad_ninosC:cantidad_articuloC,cantidad_C:cantidad_ninosC,totalR:totalC,nombre_cliente:nombre_cliente,
               idCliente:idCliente,identidad:identidad,telefono:telefono,nacionalidad:nacionalidad,fecha_reservacion:fecha_reservacion,fecha_entrada:fecha_entrada,
               fecha_salida:fecha_salida, idusuario:idusuario,usuario_actual:usuario_actual} ,
               success: function(response){

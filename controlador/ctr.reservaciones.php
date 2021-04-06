@@ -85,7 +85,17 @@ if(isset($_POST['action']) == 'registrarJutiapa'){
                                     "respuesta"=>"error"
                                 );
                             }
-                            // FALTA QUE ACTUALICE EL ESTADO A DISPONIBLE  
+                            // actualizar la el estado de la habitacion segun las fechas
+                            //Fecha actual
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fech = date('Y-m-d H:i:s', time());
+                            //generar fecha para realizar cambio de estado de habitacion
+                            $fecha_actual = new DateTime($fech);
+                            //$vencimiento = $fecha_actual->format('Y-m-d H:i:s'); 
+                            if($fecha_actual == $salida){
+                                $actulizar = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
+                                WHERE id_habitacion_servicio = ?;");
+                            }
                         }
 
                     }
