@@ -55,7 +55,11 @@ switch ($action) {
                 //Validacion contrasenas iguales
                 if ($Contraseña == $ConfirmarContraseña) {
                     // insertar en la tabla tbl_usuarios
-
+                    if($genero === "femenino"){
+                        $foto = "femenino.png";
+                    } else {
+                        $foto = "masculino.png";
+                    }
                     try {
                         $sql = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario,foto, genero, telefono,correo,contrasena,
                 rol_id,estado_id,fecha_ult_conexion,preguntas_contestadas,primer_ingreso, fecha_mod_contrasena,fecha_vencimiento,creado_por,fecha_creacion,

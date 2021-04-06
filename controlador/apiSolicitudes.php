@@ -48,12 +48,12 @@ switch ($action) {
 
 
                 if ($result > 0) {
-                    $tipo = $_POST['tipo_sol'];
+                    
                     //capturamos el id del cliente
                     $id_clientecap = $result['id_cliente'];
 
                     //consuta para traer el precio de la solicitud
-                    $consultar_precio = mysqli_query($conn, "SELECT id_tipo_solicitud,precio_solicitud FROM tbl_tipo_solicitud
+                   /* $consultar_precio = mysqli_query($conn, "SELECT id_tipo_solicitud,precio_solicitud FROM tbl_tipo_solicitud
                     WHERE tipo='$tipo'");
                     $resultado_precio = mysqli_fetch_array($consultar_precio);
 
@@ -61,7 +61,7 @@ switch ($action) {
                        
                         $total_pago=800;// variable para insertar en la tabla solicitudes
                     
-                    }
+                    }*/
                     //consulta para el id del usuario
                     $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
                             WHERE nombre_usuario= '$usuario_actual'");
@@ -70,7 +70,12 @@ switch ($action) {
                         //capturamos el id del usuario
                         $id_usercap = $resultado['id_usuario'];
 
-                        $total_pago=800;
+                        
+                        if($tipo === "COMUNITARIAS"){
+                            $total_pago= 0;
+                        } else {
+                            $total_pago=700;
+                        }
                         //Insertamos en la tabla solicitudes
                         $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                         tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
@@ -103,6 +108,7 @@ switch ($action) {
                     //si no existe el cliente
                 } else {
                     $estado_elim = 1;
+                    
                     $sql = $conn->prepare("INSERT INTO tbl_clientes(nombre_completo,identidad,telefono,tipo_nacionalidad,estado_eliminado,
                             creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                     VALUES (?,?,?,?,?,?,?,?,?)");
@@ -133,7 +139,7 @@ switch ($action) {
 
                         if ($result) {
                             $cliente_capturado = $result['id_cliente'];
-
+                           
                             //Capturar el id_usuario 
                             $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
                             WHERE nombre_usuario= '$usuario_actual'");
@@ -143,6 +149,12 @@ switch ($action) {
                                 $id_usercap = $resultado['id_usuario'];
                             }
                             //insertamos en tbl_solicitudes
+
+                            if($tipo === "COMUNITARIAS"){
+                                $total_pago= 0;
+                            } else {
+                                $total_pago=700;;
+                            }
                             $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,
                                                    estatus_solicitud,
                                                    tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
@@ -190,10 +202,11 @@ switch ($action) {
             $nuevo_recibo = $_POST['recibo'];
             $estatus_solicitud = $_POST['estatus_solicitud'];
             $tipo_solicitud = $_POST['tipo_solicitud'];
+            $preciosolicitud = $_POST['precio_actual'];
             $usuario_actual = $_POST['usuario_actual'];
             $fecha = date('Y-m-d H:i:s', time());
 
-            $sql = "UPDATE tbl_solicitudes SET recibo='$nuevo_recibo', estatus_solicitud=$estatus_solicitud , tipo_solicitud =  $tipo_solicitud,
+            $sql = "UPDATE tbl_solicitudes SET recibo='$nuevo_recibo', total= 700, estatus_solicitud=$estatus_solicitud , tipo_solicitud =  $tipo_solicitud,
             modificado_por='$usuario_actual', fecha_modificacion='$fecha'
            
             WHERE id_solicitud=" . $id_solicitud;
