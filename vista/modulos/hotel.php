@@ -63,13 +63,16 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										<?php
 										try{
 											$sql = "SELECT id_detalle_reservacion, tbl_reservaciones.fecha_reservacion,tbl_reservaciones.fecha_entrada,
-													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_localidad.nombre_localidad, reservacion_id,
+													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_clientes.identidad, tbl_clientes.telefono,
+													tbl_tipo_nacionalidad.nacionalidad,tbl_localidad.nombre_localidad, reservacion_id,
 													tbl_detalle_reservacion.total_pago, tbl_detalle_reservacion.creado_por  
 													FROM tbl_detalle_reservacion 
 													INNER JOIN tbl_reservaciones 
 													ON tbl_detalle_reservacion.reservacion_id = tbl_reservaciones.id_reservacion 
 													INNER JOIN tbl_clientes 
 													ON tbl_reservaciones.cliente_id=tbl_clientes.id_cliente 
+													INNER JOIN tbl_tipo_nacionalidad
+													ON tbl_clientes.tipo_nacionalidad = tbl_tipo_nacionalidad.id_tipo_nacionalidad
 													INNER JOIN tbl_habitacion_servicio 
 													ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio 
 													INNER JOIN tbl_localidad
@@ -87,6 +90,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 											$mostrar = array(
 												'numreserva'=>$mostrar['reservacion_id'],
 												'cliente'=>$mostrar['nombre_completo'],
+												'identidad'=>$mostrar['identidad'],
+												'telefono'=>$mostrar['telefono'],
+												'nacion'=>$mostrar['nacionalidad'],
 												'fecha_reservacion'=>$mostrar['fecha_reservacion'],
 												'fecha_entrada'=>$mostrar['fecha_entrada'],
 												'fecha_salida'=>$mostrar['fecha_salida'],
@@ -112,7 +118,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								
 													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['numreserva'] ?>"
 													data-fechreserva="<?= $mostrar['fecha_reservacion'] ?>" data-idlocal="<?= $mostrar['localidad'] ?>" data-usuario="<?= $mostrar['usuario'] ?>"
-													data-total="<?= $mostrar['total'] ?>"></button>
+													data-total="<?= $mostrar['total'] ?>" data-cliente="<?= $mostrar['cliente'] ?>" data-identidad="<?= $mostrar['identidad'] ?>"
+													data-telefono="<?= $mostrar['telefono'] ?>" data-nacion="<?= $mostrar['nacion'] ?>"></button>
 													<?php
 													if($columna["permiso_actualizacion"] == 1):
 													?>
@@ -253,7 +260,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	<div class="form-group">
 																		<label>Cliente:</label>
 																		<input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this);"
-																		disabled required>
+																		disabled required maxlength="60">
 																	</div>
 																</div>
 																<div class="col-md-6">
@@ -265,6 +272,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<div class="col-md-6">
 																<div id="guardarCliente">
 																	<button type="submit" class="btnGuardarCliente" ><i class="glyphicon glyphicon-floppy-save"></i> Guardar Cliente</button>
+																	<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
 																</div>
 																
 															</div>
@@ -969,7 +977,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 						<div class="modal-body">
 						 	<form method="POST" id="formDetalle">
 							 	<div class="box-body">
-								 	<h3 class="text-center">Detalle de reservación</h3>
+								 	
 									 
 									 <div id="contenido">
 
@@ -998,7 +1006,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</form> <!-- /.cierre de formulario -->
 							<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-									<a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a>
+									<!-- <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a> -->
 							</div>
 						</div> <!-- /.modal-body -->
 						<?php 
