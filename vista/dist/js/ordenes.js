@@ -124,9 +124,10 @@ $(document).ready(function(){
         registrar.prop('disabled',false);
     }
     function llenarTabla(){
-        resetearFormulario();
+        //resetearFormulario();
         $('.tbody tr').remove();
         contOrden.forEach((orden, index) => agregarFila(orden, index));
+        console.log('hola0')
     }
     //agregar producto a la orden
     
@@ -139,7 +140,7 @@ $(document).ready(function(){
             <td>${cantidadO}</td>
             <td>${descripcionO}</td>
             <td>
-                <button class="btn btn-warning btnEditar Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
+                <button class="btn btn-warning btnEditarO Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
                 <button class="btn btn-danger btnEliminarP glyphicon glyphicon-remove" data-id="${index}"></button>
             </td>  
         </tr>
@@ -161,15 +162,15 @@ $(document).ready(function(){
 
         });
 
-        $('.btnEditar').on('click', e => {
+        $('.btnEditarO').on('click', e => {
           	let id = e.target.dataset.id;
             idProductoTemporal = id;
             let productoSeleccionado = contOrden[id];
             if(productoSeleccionado !== undefined){
-              $('#productoOrden').val(productoSeleccionado.proOrden);
+              $('#productoOrden').val(productoSeleccionado.proOrden.id);
               $('#cantidadPOr').val(productoSeleccionado.cantidadO);
               $('#descCanO').val(productoSeleccionado.descripcionO);
-              $('#btnProductUpdate').attr('type','button');
+              $('#btnOrdenUpdate').attr('type','button');
               $('.btnAgregarFila').attr('type','hidden');
             } 
             
@@ -181,21 +182,24 @@ $(document).ready(function(){
         
         contOrden[idProductoTemporal] = {
           ...contOrden[idProductoTemporal],
-          proOrden : $('#productoOrden').val(),
+          proOrden :{
+                id:$('#productoOrden').val(),
+                nombre: $("#productoOrden option:selected").text()
+            },
           cantidadO : $('#cantidadPOr').val(),
           descripcionO : $('#descCanO').val(),
               
         };
         //sincronizarStorage(contOrden);
-        $('#btnProductUpdate').attr('type','hidden');
+        $('#btnOrdenUpdate').attr('type','hidden');
         $('.btnAgregarFila').attr('type','button');
         llenarTabla();
-        
+        resetearFormulario();
         swal('Producto actualizado','El producto se actualizo con exito','success',{
             
           buttons:false,
           timer:2000,
-          //resetearFormulario()
+          
         });
       }
       
@@ -219,8 +223,8 @@ $(document).ready(function(){
      // cuando agregas una presionando agragar a table
            
          listaOrden.on('click', agregarOrden);
-        $('#btnProductUpdate').on('click', editarOrden);
-        resetearFormulario()
+        $('#btnOrdenUpdate').on('click', editarOrden);
+        //resetearFormulario()
      
      
      function resetearFormulario(){
@@ -419,48 +423,101 @@ $(document).ready(function(){
     });
     // funcion para hacer la resta en el inventario general
     /*el inventario solo se actualizara cuando la opcion se enviado, por lo que debe confirmar con el usuario si quiere realizar la accion */
-    const tabla = $('.contenedorOrden tr td');
-
     
-    $('#row ').on('change',()=>{
-       
-        const idEstado= $("#row").val();
-        const nombre = $("#row option:selected").text();
-        tabla.map(index =>{
-            console.log(index+1, nombre);
-        })
-        console.log(tabla)
-        // if (idEstado !== 6){
-        //     console.log('seguro que quiere enviar el producto');
-        //     // swal({
-        //     //     title: "Estas Seguros?",
-        //     //     text: "Una vez cambiado el estado a Enviado, se rebajara la orden de inventario!",
-        //     //     icon: "warning",
-        //     //     buttons: true,
-        //     //     dangerMode: true,
-        //     //   })
-        //     //   .then((willDelete) => {
-        //     //     if (willDelete) {
-        //     //       swal("Exito! Orden rebajada de inventario!", {
-        //     //         icon: "success",
-        //     //       });
-        //     //     }
-        //     //   });
+    $('.rowO ').on('change',function (){
+       const idOrden=$(this).attr('id')
+       var usuario_actual = $("#usuario_actual").val();
+     
+        const idEstado= Number($(this).val());        
+        if (idEstado === 6 ){
+            
+              swal("Estas Seguros?", "Una vez cambiado el estado a Enviado, se rebajara la orden de inventario!", "warning",{buttons: [true, "OK"]})
+              .then(async (value) => {
+                if (value){
+                    console.log(idOrden);
+                    const formData = new FormData();
+                    formData.append('id_orden', idOrden);
+                    formData.append('id_estado', idEstado);
+                    formData.append('usuario_actual', usuario_actual);
+                    const resp = await axios.post('./controlador/contOrden.php?action=actualizarEstadoOrden', formData);
+                    const data = resp.data;
+                    //console.log(data);
+                    if(data.error){
+                        return swal("Error", data.msj, "error",{
+                            buttons: false,
+                            timer: 3000
+                        });
+                    }
+                    return swal("Exito!", data.msj, "success",{
+                        buttons: false,
+                        timer: 3000
+                    }).then(() =>{ 
+                        location.reload();
+                    });
+                }
+            });
+              $(".rowO option:selected").prop('disabled', true);
+
            
-        // }else {
-        //     console.log('no importa');
-        //     //$('#row option').prop('disabled',true);
-        // };
+        }
         
        
     })
+    // funcion para sumar al inventario
+    $("#formRol").submit(async function(e){
+        e.preventDefault();
 
-    
+    });
 
-     
+    $('.btnSumarI').on('click',function(){
+        const idInventario = $(this).data('idinve'); 
+        const nombreP = $(this).data('nombre');
+        const stock =$(this).data('stock');
+       
+       // llenar el formulario y obtener 
+       $("#pro").val(nombreP);
+       
+       //muestra el modal
+       $('#agregarProducto').modal('show');
 
+       $(".idStock").on('click', async function(){
 
-    
+           let idIn = Number(idInventario);
+           let oldStock = Number(stock);
+           var usuario_actual = $("#usuario_actual").val();
+           const valor= $('#valor').val();
+           let nuevoStock=0;
+           nuevoStock= (parseInt(oldStock)+parseInt(valor));
+           
+           const formData = new FormData();
+           formData.append('id_inven',idIn);
+           formData.append('valor', nuevoStock);
+           formData.append('usuario_actual', usuario_actual);
+           
+           const resp = await axios.post('./controlador/apiRol.php?action=actualizarStock', formData);
+           const data = resp.data;
+            console.log(data);
+            if(data.error){
+                return swal("Error", data.msj, "error", {
+                    timer:3000,
+                    buttons:false
+                });
+            } else{
+                $('#agregarProducto').modal('hide');
+                return swal("Exito!", data.msj, "success", {
+                    timer:3000,
+                    buttons:false
+                }).then(() => {
+                    // Se limpia el formulario
+                    $("#descripcion").val('');
+                    location.reload(); 
+                })
+            }
+
+       });
+       
+
+    });
 
 });
 

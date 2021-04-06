@@ -141,12 +141,39 @@ switch ($action) {
                 $res['error'] = true;
             }
     break; 
+    case 'actualizarEstadoOrden':
+        if (
+            isset(($_POST['id_orden'])) && isset(($_POST['id_estado'])) && isset(($_POST['usuario_actual']))) {
+            $id_orden = (int)$_POST['id_orden'];
+            $id_estado = (int)$_POST['id_estado'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+           
+            $sql = "UPDATE tbl_ordenes SET estado_id = $id_estado, modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_orden=" .$id_orden;          
+            $resultado = $conn->query($sql);
+          
+            if ($resultado == 1) {
+                //print_r($resultado);
+                $res['msj'] = "Se ha rebajado de inventario con exito";
+            } else {
+                $res['msj'] = "Se produjo un error al momento de Editar la Orden ";
+                $res['error'] = true;
+            }
+        } else {
+            //print_r($id_inventario);
+            $res['msj'] = "Las variables no estan definidas";
+            $res['error'] = true;
+        }
+    break;    
+        
+    
 
 
     default:
 
         break;
 }
+
 
 $conn->close();
 header('Content-Type: application/json');

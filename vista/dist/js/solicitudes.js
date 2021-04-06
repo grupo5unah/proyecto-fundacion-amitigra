@@ -261,7 +261,7 @@ $(document).ready(function () {
     const idcliente = $(this).data("idcliente");
     const id_tipo_solicitud = $(this).data("id_tipo_solicitud");
     const tipo = $(this).data("tipo");
-    const precio_solicitud = $(this).data("precio_solicitud");
+    var precio_solicitud = $(this).data("precio_solicitud");
     const id_estatus_solicitud = $(this).data("id_estatus_solicitud");
     const estatus_solicitud = $(this).data("estatus_solicitud");
     var usuario_actual = $("#usuario_actual").val();
@@ -282,6 +282,7 @@ $(document).ready(function () {
       formData.append("recibo", $("#recibo").val());
       formData.append("estatus_solicitud", $("#estatus_solicitud").val());
       formData.append("tipo_solicitud", $("#tipo").val());
+      formData.append("precio_actual",  $("#precio_solicitud").val());
       formData.append("usuario_actual", usuario_actual);
 
       const resp = await axios.post(

@@ -65,7 +65,7 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/dataTables.bootstrap4.min.css">
-
+  <link rel="stylesheet" href="vista/dist/css/sweetalert.css">
   <link rel="stylesheet" href="vista/dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="vista/bower_components/morris.js/morris.css">
@@ -77,6 +77,7 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <!-- <link rel="stylesheet" href="vista/css/sweetalert2.min.css"> -->
@@ -254,6 +255,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/tipoBoletos.js"></script>
 <script src="vista/dist/js/tipoSolicitudes.js"></script>
 <script src="vista/dist/js/EstadosSolicitud.js"></script>
+<script src="vista/dist/js/sweetalert.min.js"></script>
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>

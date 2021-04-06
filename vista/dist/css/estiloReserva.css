@@ -37,6 +37,12 @@
 #btnAgregarER,#btnAgregarNC{
     transform: translate(450%, -8%);
 }
+#tienda2,#tienda4,#tienda6{
+    display: none;
+}
+#sleeping{
+    display: none;
+}
 .extranjero{
     display: none;
 }
