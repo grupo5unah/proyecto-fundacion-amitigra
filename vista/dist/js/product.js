@@ -60,8 +60,8 @@ $(document).ready(function(){
 
         } 
          // agrergo el producto al arreglo
-        articulosProducto = [...articulosProducto, infoProducto];
-        if(articulosProducto.length > 0) sincronizarStorage(articulosProducto)
+        // articulosProducto = [...articulosProducto, infoProducto];
+        // if(articulosProducto.length > 0) sincronizarStorage(articulosProducto)
         //agrega  art a la tabla
         
         llenarTabla();
@@ -130,6 +130,7 @@ $(document).ready(function(){
         const{nombreProducto, precioP, cantidadP, descripcionP, tipoProducto,precioAlquiler} = producto;
         contenedorProducto.append(`
         <tr >
+            <td>${index+1}</td>
             <td>${nombreProducto}</td>
             <td>${precioP}</td>
             <td>${cantidadP}</td>
