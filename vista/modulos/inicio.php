@@ -23,7 +23,7 @@ while($stmt->fetch()){
 
 if($existe){
 
-$stmt = $conn->query("SELECT permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 

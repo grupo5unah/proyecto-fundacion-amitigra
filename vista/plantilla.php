@@ -129,6 +129,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantroles" ||
         $_GET["ruta"] == "mantProducto" ||
         $_GET["ruta"] == "rol" ||
+        $_GET["ruta"] == "parametrosSeguridad" ||
         $_GET["ruta"] == "mantObjetos" ||
         $_GET["ruta"] == "mantparametros" ||
         $_GET["ruta"] == "mantpermisos" ||
@@ -141,7 +142,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantTipoBoletos" ||
         $_GET["ruta"] == "mantNacionalidad" ||
         $_GET["ruta"] == "panel" ||
-        $_GET["ruta"] == "configuracion" ||
+        $_GET["ruta"] == "parametrosSistema" ||
         $_GET["ruta"] == "reportes" ||
         $_GET["ruta"] == "reporteProducto"){
         include("modulos/".$_GET["ruta"].".php");
@@ -244,6 +245,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/copiaSeguridad.js"></script>
 <script src="vista/dist/js/app.login.js"></script>
 <script src="vista/dist/js/reloj.js"></script>
+<script src="vista/dist/js/actualizarParametros.js"></script>
 <!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>
