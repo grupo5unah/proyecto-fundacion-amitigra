@@ -417,7 +417,7 @@ $(document).ready(function () {
   })
   
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
-  $("#regisClientes").submit(async function(e){
+  $("#regitroClientes").submit(async function(e){
     e.preventDefault();
     console.log('funciona');
     var identidad = $("#identidad").val();
@@ -607,8 +607,6 @@ $(document).ready(function () {
       $('#hotel').Attr('disabled');
       $('#camping').Attr('disabled');
     }
-    
-    
    });
 
   //ACTIVAR BOTONES SIGUIENTES
@@ -642,24 +640,41 @@ $(document).ready(function () {
 
   //MOSTRAR MODAL DETALLE (TABLA)
   // datos de la dela modal ver el detalle de los datos
-  $('.btnDetalle').click(async function () {
-
+  $('.btnDetalle').click(async function (e) {
+    e.preventDefault();
     let idReservacion = $(this).data('idreserva');
     const fechaReserva = $(this).data('fechreserva'); 
     const localidad = $(this).data('idlocal');
     const usuario= $(this).data('usuario');
     const fecha = $(this).data('fecha');
+    const cliente = $(this).data('cliente');
+    const identidad = $(this).data('identidad');
+    const tel = $(this).data('telefono');
+    const nacion = $(this).data('nacion');
     const total = $(this).data('total');
      const info =$('#contenido');
      const tot = $('#total')
      $('#contenido div ').remove();
      info.append(
         `
-       
-         <div class="user col-3">
+          
+         <div class="user col-6">
+         <h3 class="text-center">Detalle de Reservacion N° ${idReservacion}</h3>
          <label for="" id="fecha">Fecha de Reservacion: <span>${fechaReserva}</span></label>
-         <P class="local col-6">Localidad: ${localidad}</P>
          <p class="userO"> Vendedor: <span>${usuario}</span></p>
+         <P class="local col-6">Localidad: ${localidad}</P>
+         </div>
+         <div>
+         <p class="text-center">DATOS CLIENTE:</div>
+         </div>
+         <div class="col-md-6">
+         <p class="client"> identidad: <span>${identidad}</span></p>
+         <p class="client"> Naconalidad: <span>${nacion}</span></p>
+         </div>
+         <div>
+         <p class="client"> Cliente: <span>${cliente}</span></p>
+         
+         <p class="client"> Telefono: <span>${tel}</span></p>
          </div>
          
      
@@ -696,6 +711,7 @@ $(document).ready(function () {
             $("#userO span").val(usuario);
             $(".local span").val(localidad);
             $("#fecha span").val(fecha);
+            $(".client span").val(cliente);
             $('#modalDetalle').modal('show');
             
         }catch(err){
