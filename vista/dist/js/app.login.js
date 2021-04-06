@@ -52,6 +52,35 @@ function mostrarPassSistema(){
 	}
 }
 
+//SCRIPT MOSTRAR LA CONTRASENA ADMINISTRADOR
+function mostrarPassSistemaParam(){
+	 
+	let cambioSistemaPass = document.querySelector("#contrasenaAdministrador");
+
+	if(cambioSistemaPass.type == "password"){
+		cambioSistemaPass.type = "text";
+		$(".icon_PassSistema").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioSistemaPass.type = "password";
+		$(".icon_PassSistema").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+//SCRIPT MOSTRAR LA CONTRASENA DEL CORREO
+function mostrarPassCorreoParam(){
+	 
+	let cambioCorreoPass = document.querySelector("#contrasenaCorreo");
+
+	if(cambioCorreoPass.type == "password"){
+		cambioCorreoPass.type = "text";
+		$(".icon_PassCorreo").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioCorreoPass.type = "password";
+		$(".icon_PassCorreo").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+
 // Scripts del modulo login
     function PasswordMostrar(){
         let cambio = document.getElementById("P_Password");

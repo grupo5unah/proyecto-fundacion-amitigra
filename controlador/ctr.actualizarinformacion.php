@@ -31,29 +31,6 @@ $contrasenas = $_POST['verificarContrasena'];
             
                     if(password_verify($contrasenas, $password)){
 
-                        //Directorio donde se guardan las fotos
-                        //$carpetaFotoPerfil = '../fotoPerfil/';
-
-                        //verifica si el directorio existe
-                        /*if(!is_dir($carpetaFotoPerfil)){
-                            mkdir($carpetaFotoPerfil,0777, true);
-                        }*/
-
-                        /*$nombre_foto ="";
-
-                        if($imagen['name']){
-                            //Eliminar la imagen previa
-                            unlink($carpetaFotoPerfil . $mi_foto);
-
-                            //Crea un nombre a la foto, este es unico entre todos
-                            $nombre_foto = md5(uniqid(rand(),true)).".png";
-
-                            //Mueve la foto del estado temporal a la carpeta fotoPerfil
-                            move_uploaded_file($imagen['tmp_name'], $carpetaFotoPerfil . $nombre_foto);
-                        }else{
-                            $nombre_foto = $mi_foto;
-                        }*/
-
                         include "../modelo/conexionbd.php";
                         $actualizar = $conn->prepare("UPDATE tbl_usuarios
                                                     SET nombre_completo = ?, correo = ?, telefono = ?

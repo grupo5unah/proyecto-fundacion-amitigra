@@ -122,7 +122,7 @@ if($existe){
         <!-- MUESTRA EL AREA DE CONFIGURACION DEL SISTEMA SOLO A ADMINISTRACION -->
         <li name="admin" id= "admin" class="treeview">
         <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
-          <?php //if($columna2["permiso_consulta"] == 1){?>
+          <?php if($columna["permiso_consulta"] == 1){?>
           <a href="#">
             <i class="fa fa-gear"></i> <span>Panel de control</span>
             <span class="pull-right-container">

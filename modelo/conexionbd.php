@@ -3,6 +3,10 @@
 
     global $conn;
     
+    //$Pdatabase = "SELECT FROM WHERE parametro = '$Pbd'";
+    //$ResultPdatabase = mysqli_query($conn, $Pdatabase);
+    //$PPdatabase = mysqli_fetch_assoc($ResultPdatabase);
+
     $server = 'localhost';
     $user_name = 'root';
     $pass = '';

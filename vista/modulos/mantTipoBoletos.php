@@ -92,7 +92,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								
 													<?php if($columna['permiso_actualizacion'] == 1):?>
 													<button class="btn btn-warning btnEditarTB glyphicon glyphicon-pencil"  data-idtipoboleto="<?= $mostrar['id_tipo'] ?>" 
-													data-nombreBoleto="<?= $mostrar['nombre_boleto'] ?>" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_V'] ?>" 
+													data-nombreBoleto="<!--?= $mostrar['nombre_boleto'] ?-->" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_V'] ?>" 
 													data-modificacionP="<?= $mostrar['modificado_por'] ?>" data-fmodificacion="<?= $mostrar['fecha_modificacion'] ?>"></button>
 
 													<?php
@@ -131,7 +131,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Editar Tipo de Boleto</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Editar Precio del Tipo de Boleto</h3>
 							</div>
 						</div>
 						<div class="modal-body">
@@ -151,10 +151,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
 													</div>
 													
-													<div class="campos">
+													<!--div class="campos">
 													<label for="">Nombre de Boleto:</label>
 														<input id="NombreBoleto" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="NombreBoleto" autocomplete="off" required />
-													</div>
+													</div-->
 													<div class="campos">
 													<label for="">Descripcion del Tipo de Boleto:</label>
 														<input id="Descripcion" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="Descripcion" autocomplete="off" required />

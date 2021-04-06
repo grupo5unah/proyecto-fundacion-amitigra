@@ -13,7 +13,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
   if($columna["permiso_consulta"] == 1){
 
     $arreglo = ['NOMBRE_DATABASE','PUERTO_DATABASE','NOMBRE_SISTEMA','NOMBRE_ORGANIZACION','PUERTO_CORREO',
-    'CORREO_SISTEMA','FOTO_ORGANIZACION','USUARIO_ADMIN','USUARIO_CONTRASENA','HOST_HOSPEDADOR','MENSAJE_CORREO'];
+    'CORREO_SISTEMA','FOTO_ORGANIZACION','USUARIO_ADMIN','USUARIO_CONTRASENA','HOST_HOSPEDADOR','MENSAJE_CORREO','CONTRASENA_ADMIN','CONTRASENA_CORREO'];
 
     //TRAE EL CORREO ELECTRONICO DE LA ORGANIZACION
     $correo = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[5]';");
@@ -30,6 +30,10 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
     $resultMensaje = mysqli_query($conn, $mensajeCorreo);
     $PMensaje = mysqli_fetch_assoc($resultMensaje);
 
+    //TRAE LA CONTRASENA DEL CORREO
+    $CCorreo = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[12]';");
+    $resultCCorreo = mysqli_query($conn, $CCorreo);
+    $PCCorreo = mysqli_fetch_assoc($resultCCorreo);
 
 
     //TRAE EL NOMBRE DEL HOST DE LA BASE DE DATOS
@@ -62,6 +66,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
     $administrador = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[7]';");
     $resultAdmin = mysqli_query($conn, $administrador);
     $PNAdmin = mysqli_fetch_assoc($resultAdmin);
+
+    //TRAE LA CONTRASENA DEL ADMINISTRADOR
+    $Cadministrador = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[11]';");
+    $resultCAdmin = mysqli_query($conn, $Cadministrador);
+    $PCAdmin = mysqli_fetch_assoc($resultCAdmin);
   
 ?>
 <div class="content-wrapper">
@@ -106,6 +115,16 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                     </div>
                   </div>
                     </a></li>
+                    <li><a><strong>Contraseña correo:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="password" name="nombre" class="form-control" id="contrasenaCorreo" value="<?php echo $PCCorreo['valor'];?>" placeholder="Nombre">
+                      <span class="input-group-btn" onclick="mostrarPassCorreoParam()">
+                          <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_PassCorreo"></i></button>
+                        </span>
+                    </div>
+                  </div>
+                  </a></li>
               
                 <li><br><div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
@@ -291,7 +310,17 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <li><a><strong>Usuario administrador</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="usuarioAdministrador" value="<?php echo $PNAdmin['valor'];?>" placeholder="Nombre">
+                      <input type="text" name="nombre" disabled="true" class="form-control" id="usuarioAdministrador" value="<?php echo $PNAdmin['valor'];?>" placeholder="Nombre">
+                    </div>
+                  </div>
+                  </a></li>
+                  <li><a><strong>Contrasena administrador</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="password" name="nombre" disabled="true" class="form-control" id="contrasenaAdministrador" value="<?php echo $PCAdmin['valor'];?>" placeholder="Nombre">
+                      <span class="input-group-btn" onclick="mostrarPassSistemaParam()">
+                          <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_PassSistema"></i></button>
+                        </span>
                     </div>
                   </div>
                   </a></li>
