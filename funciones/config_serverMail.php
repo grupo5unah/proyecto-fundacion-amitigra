@@ -9,12 +9,23 @@ global $mail;
 
     $correo = 'CORREO_SISTEMA';
     $puerto = 'PUERTO_CORREO';
+    $contrasena = 'CONTRASENA_CORREO';
 
     require '../phpMailer/src/Exception.php';
     require '../phpMailer/src/PHPMailer.php';
     require '../phpMailer/src/SMTP.php';
 
         try{
+
+            //PUERTO CORREO
+            $PuertoCorreo = ("SELECT valor FROM tbl_parametros WHERE parametro = '$puerto';");
+            $resultPuerto = mysqli_query($conn, $PuertoCorreo);
+            $PPuerto = mysqli_fetch_assoc($resultPuerto);
+
+            //CONTRASENA CORREO
+            $ContrasenaCorreo = ("SELECT valor FROM tbl_parametros WHERE parametro = '$contrasena';");
+            $resultContrasena = mysqli_query($conn, $ContrasenaCorreo);
+            $PContrasena = mysqli_fetch_assoc($resultContrasena);
 
             $correo_organizacion = $conn->prepare('SELECT valor FROM tbl_parametros WHERE parametro = ?;');
             $correo_organizacion->bind_Param('s',$correo);
@@ -34,9 +45,9 @@ global $mail;
                     $mail->Host       = "smtp.gmail.com";
                     $mail->SMTPAuth   = true;
                     $mail->Username   = $valor;
-                    $mail->Password   = "root_amitigra";
+                    $mail->Password   = $PContrasena["valor"];
                     $mail->SMTPSecure = "tls";
-                    $mail->Port       = 587;   
+                    $mail->Port       = $PPuerto["valor"];
 
                     $mail->setFrom($valor, "Soporte tecnico");
                     $mail->isHTML(true);
