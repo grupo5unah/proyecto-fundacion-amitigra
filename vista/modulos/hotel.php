@@ -128,7 +128,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formReserva">
+						 	<form method="POST" id="formReserva" onpaste="return false" >
 								<div class="nav-tabs-custom">
 									<ul class="nav nav-tabs">
 										<li><a></a></li>               
@@ -157,7 +157,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	<div class="form-group">
 																		<label>Identidad:</label>
 																		<input type="text" class="form-control" name="identidad" id="identidad" placeholder="Identidad"  required
-																		maxlength="13"> 
+																		maxlength="13" onkeypress="return soloNumero(event)"> 
 																	</div>
 																	<div class="form-group">
 																		<label for="">Nacionalidad: </label>
@@ -178,10 +178,10 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	<!-- radio -->
 																	<div class="form-group" id="radio">
 																		<label>
-																		<input type="radio" id="hotel" name="r1" class="minimal" value="1"> Hotel
+																		<input type="radio" id="hotel" name="r1" class="minimal" value="1" disabled> Hotel
 																		</label>
 																		<label>
-																		<input type="radio" id="camping" name="r1" class="minimal" value="2"> Camping
+																		<input type="radio" id="camping" name="r1" class="minimal" value="2" disabled> Camping
 																		</label>
 																	</div>
 																	<div class="form-group hotel">
@@ -227,12 +227,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<div class="col-md-6">
 																	<div class="campos form-group">
 																		<label for="">Telefeno: </label>
-																		<input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeydown="return soloNumeros(event)" disabled required>
+																		<input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeypress="return soloNumero(event)" disabled required>
 																	</div>
 																</div>
 																<div class="col-md-6">
 																<div id="guardarCliente">
-																	
 																	<button type="submit" class="btnGuardarCliente" ><i class="glyphicon glyphicon-floppy-save"></i> Guardar Cliente</button>
 																</div>
 																
@@ -614,7 +613,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="form-group col-md-2" >
 																		<label>Adulto:</label>
-																		<input name="anc" id="anc" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																		<input name="anc" id="anc" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																		oninput="calcularCampingNacional();">
 																</div>
 																<div class="form-group col-xs-4">
 																	<label>Precio (A):</label>
@@ -633,7 +633,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="form-group col-md-2 reserva" >
 																		<label>Niños:</label>
-																		<input name="nnc" id="nnc" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																		<input name="nnc" id="nnc" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																		oninput="calcularCampingNacional();">
 																</div>
 																<div class="form-group col-xs-4 precio">
 																	<label>Precio (N):</label>
@@ -650,7 +651,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<?php endforeach;?>
 																	</div>
 																</div>
-																<input type="hidden" name="totalNC" id="totalNC" value="">
+																<input type="hidden" name="totalNC" id="totalNC" value="" oninput="calcularTotalesCamping();">
 																<button id="btnAgregarNC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row nacionales -->
 															<div class="row extranjero">
@@ -675,7 +676,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="form-group col-md-2" >
 																		<label>Adulto:</label>
-																		<input name="aec" id="aec" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																		<input name="aec" id="aec" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calcularCampingExtranjero();">
 																</div>
 																<div class="form-group col-xs-4">
 																	<label>Precio (A):</label>
@@ -694,7 +695,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="form-group col-md-2 reserva" >
 																		<label>Niños:</label>
-																		<input name="nec]" id="nec" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																		<input name="nec" id="nec" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																		oninput="calcularCampingExtranjero();">
 																</div>
 																<div class="form-group col-xs-4 precio">
 																	<label>Precio (N):</label>
@@ -711,7 +713,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<?php endforeach;?>
 																	</div>
 																</div>
-																<input type="hidden" name="totalEC" id="totalEC" value="">
+																<input type="hidden" name="totalEC" id="totalEC" value="" oninput="calcularTotalesCamping();">
 																<button id="btnAgregarEC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row extranjeros-->
 															<div id="lista">
@@ -725,15 +727,21 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																			<td class="tablaCamping">P.Niños</td>
 																			<td class="tablaCamping">cantidad Articulo</td>
 																			<td class="tablaCamping">P.Articulo</td>
-																			<td class="tablaCamping">Total</td>
+																			<td class="tablaCamping"> Sub-Total</td>
 																			<td class="tablaCamping">Acciones</td>
 																		</tr>
 																	</thead>
 																	<tbody>
 																	</tbody>
+																	<!-- <div class="total-camping input-group col-xs-4">
+																		<label for="">Total:</label>
+																		<input type="text" class="form-control" id="totalCamping" disabled>
+																	</div> -->
 																</table>
 															</div>
 													</div><!-- box-body -->
+													
+														
 													
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
@@ -794,54 +802,107 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 											</div>
 											
 										</div>
-										<div class="form-group col-md-2" >
-												<label>Cantidad:</label>
-												<input name="canT" id="canT" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
-										</div>
-										<div class="form-group col-xs-5">
-											<label>Precio Tienda:</label>
-											<div class="input-group col-xs-6">
-												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control" name="precioT" id="precioT" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
-												maxlength="4"  requiered disabled="true"
-												<?php
-												$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 1";
-												$resultado1 = mysqli_query($conn,$stmt);
-												?>
-												<?php foreach($resultado1 as $opcion):?>
-												value="<?php echo $opcion['precio_alquiler']?>"> 
-												<?php endforeach;?>
+										<!-- este div es para cuando sellecione la tienda para 2 personas -->
+										<div id="tienda2">
+											<div class="form-group col-md-2" >
+													<label>Cantidad:</label>
+													<input name="canTi" id="canTi" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calcularCamping();">
 											</div>
+											<div class="form-group col-xs-5">
+												<label>Precio Tienda:</label>
+												<div class="input-group col-xs-6">
+													<span class="input-group-addon">L.</span>
+													<input type="text" class="form-control" name="precioT2" id="precioT2" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
+													maxlength="4"  requiered disabled="true"
+													<?php
+													$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 1";
+													$resultado1 = mysqli_query($conn,$stmt);
+													?>
+													<?php foreach($resultado1 as $opcion):?>
+													value="<?php echo $opcion['precio_alquiler']?>"> 
+													<?php endforeach;?>
+												</div>
+											</div>
+											<input type="hidden" name="totaltienda2" id="totaltienda2" value="">
 										</div>
+										<!-- este div es para cuando sellecione la tienda para 4 personas -->
+										<div id="tienda4">
+											<div class="form-group col-md-2" >
+													<label>Cantidad:</label>
+													<input name="canTi4" id="canTi4" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calcularCamping();">
+											</div>
+											<div class="form-group col-xs-5">
+												<label>Precio Tienda:</label>
+												<div class="input-group col-xs-6">
+													<span class="input-group-addon">L.</span>
+													<input type="text" class="form-control" name="precioT4" id="precioT4" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
+													maxlength="4"  requiered disabled="true" oninput="calcularCamping4();"
+													<?php
+													$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 2";
+													$resultado1 = mysqli_query($conn,$stmt);
+													?>
+													<?php foreach($resultado1 as $opcion):?>
+													value="<?php echo $opcion['precio_alquiler']?>"> 
+													<?php endforeach;?>
+												</div>
+											</div>
+											<input type="hidden" name="totaltienda4" id="totaltienda4" value="">
+										</div>
+										<!-- este div es para cuando sellecione la tienda para 6 personas -->
+										<div id="tienda6">
+											<div class="form-group col-md-2" >
+													<label>Cantidad:</label>
+													<input name="canTi6" id="canTi6" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calcularCamping();">
+											</div>
+											<div class="form-group col-xs-5">
+												<label>Precio Tienda:</label>
+												<div class="input-group col-xs-6">
+													<span class="input-group-addon">L.</span>
+													<input type="text" class="form-control" name="precioT6" id="precioT6" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
+													maxlength="4"  requiered disabled="true"
+													<?php
+													$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 3";
+													$resultado1 = mysqli_query($conn,$stmt);
+													?>
+													<?php foreach($resultado1 as $opcion):?>
+													value="<?php echo $opcion['precio_alquiler']?>"> 
+													<?php endforeach;?>
+												</div>
+											</div>
+											<input type="hidden" name="totaltienda6" id="totaltienda6" value="">
+										</div>
+										
 									</div><!-- row tienda -->
 									<div class="row">
+										<br>
 										<div class="col-md-4">
-											<div class="form-group sleeping">
-												<label>SLEEPING BAG:</label>
+											<strong><input type="checkbox" id="checks" name="checks"> Sleeping Bag</strong>
+										</div>
+										<div id="sleeping">
+											<div class="form-group col-md-2" >
+													<label>Cantidad:</label>
+													<input name="canS" id="canS" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+													oninput="calcularSleeping();">
 											</div>
-											
-										</div>
-										<div class="form-group col-md-2" >
-												<label>Cantidad:</label>
-												<input name="canS" id="canS" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
-										</div>
-										<div class="form-group col-xs-5">
-											<label>Precio Sleeping:</label>
-											<div class="input-group col-xs-6">
-												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control" name="precioS" id="precioS" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
-												maxlength="4"  requiered disabled="true"
-												<?php
-												$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 4";
-												$resultado1 = mysqli_query($conn,$stmt);
-												?>
-												<?php foreach($resultado1 as $opcion):?>
-												value="<?php echo $opcion['precio_alquiler']?>"> 
-												<?php endforeach;?>
+											<div class="form-group col-xs-5">
+												<label>Precio Sleeping:</label>
+												<div class="input-group col-xs-6">
+													<span class="input-group-addon">L.</span>
+													<input type="text" class="form-control" name="precioS" id="precioS" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
+													maxlength="4"  requiered disabled="true"
+													<?php
+													$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 4";
+													$resultado1 = mysqli_query($conn,$stmt);
+													?>
+													<?php foreach($resultado1 as $opcion):?>
+													value="<?php echo $opcion['precio_alquiler']?>"> 
+													<?php endforeach;?>
+												</div>
 											</div>
 										</div>
-									</div><!-- row sleeping -->
-									<input type="hidden" name="totalAC" id="totalAC" value="">
+										<input type="hidden" name="totalSleep" id="totalSleep" value="">
+									</div><!-- row sleeping --> <br>
+									
 									<button id="btnAgregarAC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 								</div>
 							</form> <!-- /.cierre de formulario -->
