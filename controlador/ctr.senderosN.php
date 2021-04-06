@@ -126,6 +126,39 @@ switch ($action){
         }
 
     break;   
+
+    case 'traerDetallesB':
+        $factura = $_GET['idbolvendido'];
+        try {
+
+            $sql =  "SELECT cantidad_boletos, sub_total, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.precio_venta
+            FROM tbl_boletos_detalle            
+            INNER JOIN tbl_tipo_boletos
+            ON tbl_boletos_detalle.tipo_boleto_id=tbl_tipo_boletos.id_tipo_boleto
+            INNER JOIN tbl_boletos
+            ON tbl_boletos_detalle.boletos_vendidos_id=tbl_boletos.id_boletos_vendidos           
+            WHERE tbl_boletos.id_boletos_vendidos = $factura";                           
+            
+            $result = $conn->query($sql);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        $vertbl = array();
+        while ($eventos = $result->fetch_assoc()) {
+            $evento = array(               
+                'cantidad' => $eventos['cantidad_boletos'],
+                'NombreBoleto' => $eventos['nombre_tipo_boleto'],
+                'precio' => $eventos['precio_venta'],
+                'subtotal' => $eventos['sub_total'],
+               
+                
+            );
+            array_push($vertbl, $evento);
+        }
+        $res['boletos'] = $vertbl;
+
+        break;
     
     default:
         echo "Falló";
