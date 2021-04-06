@@ -3,7 +3,7 @@
 $id_objeto = 7;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_eliminacion, permiso_actualizacion, permiso_insercion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -15,7 +15,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 <div class="content-wrapper">
 	
 	<section class="content-header">
-      <h1>Senderos</h1> <?php echo $rol_id;?> <br> <?php echo $_SESSION["rol"];?>
+      <h1>Senderos</h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 		<li><a><i class="fa fa-cogs"></i> Senderos</a></li>
@@ -39,6 +39,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+                <?php if($columna["permiso_insercion"] == 1):?>
                     <label for="">Nueva Venta de Boleto(s):</label><br>
                       <select class="form-control" name="opciones" onchange="url(this.value);">
                         <option value="" disabled selected>Selecione Tipo de Nacionalidad</option>
@@ -49,6 +50,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                         function url(uri) {
                         location.href = uri;  }
                       </script>
+                      <?php
+                      else:
+                      endif;
+                      ?>
 									<!--a href="senderosN" class=" btn btn-default glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos Nacionales </i></a--><br><br>
                   <!--a href="senderosE" class=" btn btn-default glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos Extranjeros </i></a-->
 								</div> <!-- /div-action -->
@@ -65,7 +70,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                             <th>Vendido Por:</th>                                                       
                             <th>Fecha Vendido:</th>
                             <th>Vendido en la<br>Localidad de:</th>
+                            <?php if($columna["permiso_eliminacion"] == 0):
+											
+                            else:?>
                             <th>Acciones</th>
+                            <?php
+                            endif;
+                            ?>
                       </tr>
 									</thead>
 									<tbody>
@@ -124,8 +135,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								
 													 <!--button class="btn btn-warning btnEditarBoleto glyphicon glyphicon-pencil"  data-idboleto="<?= $mostrar['id_boletos_vendidos'] ?>" data-cantidad="<?= $mostrar['cantidad_boletos'] ?>"
                               data-sub_total="<?= $mostrar['sub_total']?>" data-fecha_modificada="<?= $mostrar['fecha_cracion'] ?>"></button-->
-
+                              <?php if($columna['permiso_eliminacion'] == 1):?>
                               <button class="btn btn-danger btnEliminarBoleto glyphicon glyphicon-remove" data-idboletovendido="<?= $mostrar['id_boletos_vendidos'] ?>"></button>
+
+                              <button class="btn btn-success align-item btnVerdDetalle fas fa-eye" data-idbolvendido="<?= $mostrar['id_boletos_vendidos'] ?>"></button>
+                              <?php
+                              else:
+                              endif;
+                              ?>
 												</td>
 											<?php  } ?>
 										<?php  } ?>
@@ -148,47 +165,23 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
 			<!-- MODAL EDITAR VENTA BOLETO -->
-			<div class="modal fade" id="modalEditarBoleto" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="modalDetalleSendero" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
-						<div class="modal-content">
+						<div class="modal-content"  style="width: 600px;">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
 				                	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Editar Cantidad de Boletos</h3>
+									<h3 class="modal-title" id="exampleModalLabel">Fundación AMITIGRA</h3>
 								</div>
 							</div>
 							<div class="modal-body">
-							<form method="POST" id="formSendero">
-                              <div class="ingreso-producto form-group">
-                               <div class="campos" type="hidden">
-                               <label for=""> </label>
-                               <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
-                            </div>
-
-                          <div class="campos">
-                          <label for="">Cantidad de boletos</label>
-                          <input id="CantBoletos" class="form-control modal-roles secundary" type="date" name="CantBoletos" required />
-                          </div>
-						  <div class="campos">
-                          <label for="">Sub-Total </label>
-                          <input id="SubTotal" class="form-control modal-roles secundary" type="date" name="SubTotal"required />
-                          </div>
-						  <div class="campos">
-                          <label for="">Fecha Modificada  </label>
-                          <input id="fmodificada" class="form-control modal-roles secundary" type="date" name="fmodificada"required />
-                          </div>
-                                
-                          <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-                          </div>
-						  </div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-								<button id=""type="submit" class="btn btn-primary btnEditarBD">Actualizar Boletos</button>
-							</div>
+                        <form method="POST" id="formSenderoDet">
+                                   
                         </form>
+              </div> <!-- /.modal-body -->
                         <?php 
                             if(isset($_GET['msg'])){
                             $mensaje = $_GET['msg'];
@@ -198,10 +191,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
                         ?>
 							
-						</div>
-					</div>
-				</div>
-			
+              </div> <!-- /.modal content -->
+				  </div> <!-- /.modal-dialog -->
+			</div> <!-- /.modal fade -->
 
 		</div>
 		<!-- /.box -->

@@ -5,13 +5,13 @@ include("./modelo/conexionbd.php");
 $id_objeto = 28;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
 if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
-  if($columna["permiso_consulta"] === 1){
+  if($columna["permiso_consulta"] == 1){
 ?>
 <?php
 //$_SESSION['rol'] = 'administrador';
@@ -64,7 +64,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                                             <th>Fecha creacion</th>
                                             <th>Modificado por</th>
 											<th>Fecha modificacion</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>Acciones</th>
+											<?php
+											endif;
+											?>
 
 										</tr>
 									</thead>
@@ -112,10 +118,21 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                         							<td> <?php echo $evento['modificado_por']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
+
+														<?php if($columna["permiso_actualizacion"] == 1):?>
 														<button class="btn btn-warning btnEditarObjeto glyphicon glyphicon-pencil"  data-idobjeto="<?= $evento['id_objeto'] ?>" data-nombreobjeto="<?= $evento['nombre_objeto'] ?>" 
 														data-tipo_objeto="<?= $evento['tipo_objeto'] ?>" data-descripcion="<?= $evento['descripcion'] ?>"></button>
+														<?php
+														else:
+														endif;
 
+														if($columna["permiso_eliminacion"] == 1):
+														?>
 														<button class="btn btn-danger btnEliminarObjeto glyphicon glyphicon-remove" data-idobjeto="<?php echo $evento['id_objeto'] ?>"></button>
+														<?php
+														else:
+														endif;
+														?>
 													</td>
 												<?php }?>
 											<?php }?>

@@ -3,7 +3,7 @@
 $id_objeto = 12;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -127,7 +127,13 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
                               <td>Descripcion</td>
                               <td>Tipo Producto</td>
                               <td>Precio Alquiler</td>
+                              <?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+                              else:?>
                               <td>Acciones</td>
+                              <?php
+                              endif;
+                              ?>
                             </tr>
                           </thead>
                           <tbody id="row1" class="tbody">

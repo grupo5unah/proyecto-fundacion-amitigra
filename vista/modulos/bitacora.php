@@ -4,7 +4,7 @@ $id_objeto = 16;
 $rol = $_SESSION["rol"];
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_consulta, permiso_eliminacion FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -63,10 +63,12 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 										try {
 
 
-											$sql = "SELECT id_bitacora, accion, descripcion, fecha_accion, tbl_usuarios.nombre_usuario AS usuario, objeto_id
+											$sql = "SELECT id_bitacora, accion, descripcion, fecha_accion, tbl_usuarios.nombre_usuario AS usuario, tbl_objeto.objeto AS objeto
 													FROM tbl_bitacora
 													INNER JOIN tbl_usuarios 
-													ON tbl_bitacora.usuario_id = tbl_usuarios.id_usuario;";
+													ON tbl_bitacora.usuario_id = tbl_usuarios.id_usuario
+													INNER JOIN tbl_objeto
+													ON tbl_bitacora.objeto_id = tbl_objeto.id_objeto;";
 											$resultado = $conn->query($sql);
 										} catch (\Exception $e) {
 											echo $e->getMessage();
@@ -81,8 +83,8 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 												'descripcion' => $eventos['descripcion'],
 												'fecha_accion' => $eventos['fecha_accion'],
 												'usuario' => $eventos['usuario'],
-                        						'objeto_id' => $eventos['objeto_id'],
-                        						'id_bitacora' => $eventos['id_bitacora']
+                        						'objeto' => $eventos['objeto'],
+                        						// 'id_bitacora' => $eventos['id_bitacora']
 
 											);
 											$vertbl[$traer][] =  $evento;
@@ -98,10 +100,14 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 													<td> <?php echo $evento['descripcion']; ?></td>
                           							<td> <?php echo $evento['fecha_accion']; ?></td>
                         							<td> <?php echo $evento['usuario']; ?></td>
-													<td> <?php echo $evento['objeto_id']; ?></td>
+													<td> <?php echo $evento['objeto']; ?></td>
 													<td>
 
-														<button class="btn btn-danger btnEliminarObjeto glyphicon glyphicon-remove" data-idobjeto="<?php echo $evento['id_bitacora'] ?>"></button>
+														<?php if($columna['permiso_eliminacion'] == 1):?>
+														<button class="btn btn-danger btnEliminarObjeto glyphicon glyphicon-remove" data-idobjeto="<?php //echo $evento['id_bitacora'];?>"></button>
+														<?php
+														else:
+														endif;?>
 													</td>
 												<?php }?>
 											<?php }?>

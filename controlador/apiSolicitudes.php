@@ -48,31 +48,38 @@ switch ($action) {
 
 
                 if ($result > 0) {
+                    $tipo = $_POST['tipo_sol'];
                     //capturamos el id del cliente
                     $id_clientecap = $result['id_cliente'];
+
+                    //consuta para traer el precio de la solicitud
+                    $consultar_precio = mysqli_query($conn, "SELECT id_tipo_solicitud,precio_solicitud FROM tbl_tipo_solicitud
+                    WHERE tipo='$tipo'");
+                    $resultado_precio = mysqli_fetch_array($consultar_precio);
+
+                    if ($resultado_precio > 0) {
+                       
+                        $total_pago=800;// variable para insertar en la tabla solicitudes
                     
-
-                    //buscamos en la tabla solicitudes si ya existe el cliente con la misma solicitud
-                   /* $consulta_cliente=mysqli_query($conn,"SELECT cliente_id FROM tbl_solicitudes 
-                                                          WHERE cliente_id=$id_clientecap && tipo_solicitud= '$tipo' ");
-                    $resultado_cliente = mysqli_fetch_array($ $consulta_cliente);*/
-
-                    //Capturar el id_usuario 
+                    }
+                    //consulta para el id del usuario
                     $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
-                    WHERE nombre_usuario= '$usuario_actual'");
+                            WHERE nombre_usuario= '$usuario_actual'");
                     $resultado = mysqli_fetch_array($consulta_id);
                     if ($resultado > 0) {
                         //capturamos el id del usuario
                         $id_usercap = $resultado['id_usuario'];
 
+                        $total_pago=800;
                         //Insertamos en la tabla solicitudes
-                        $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,cliente_id,usuario_id,estatus_solicitud,
+                        $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                         tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
-                        VALUES (?,?,?,?,?,?,?,?,?,?)");
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                         $sql->bind_param(
-                            "ssiiiissss",
+                            "ssiiiiissss",
                             $fecha,
                             $recibo,
+                            $total_pago,
                             $id_clientecap,
                             $id_usercap,
                             $estatus_solicitud,
@@ -91,6 +98,8 @@ switch ($action) {
                             $res['msj'] = "Solicitud Registrada Correctamente";
                         }
                     }
+                
+
                     //si no existe el cliente
                 } else {
                     $estado_elim = 1;
@@ -114,7 +123,7 @@ switch ($action) {
                         $res['msj'] = "Se produjo un error al momento de registrar el cliente";
                         $res['error'] = true;
                     } else {
-                        $res['msj'] = "Cliente Registrado Correctamente";
+                        
 
                         // select para ver si existe el cliente registrado de acuerdo al numero de identidad
                         $consult = mysqli_query($conn, "SELECT id_cliente,nombre_completo,telefono,nac.nacionalidad 
@@ -134,14 +143,15 @@ switch ($action) {
                                 $id_usercap = $resultado['id_usuario'];
                             }
                             //insertamos en tbl_solicitudes
-                            $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,cliente_id,usuario_id,
+                            $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,
                                                    estatus_solicitud,
                                                    tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
-                                                   VALUES (?,?,?,?,?,?,?,?,?,?)");
+                                                   VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                             $sql->bind_param(
-                                "ssiiiissss",
+                                "ssiiiiissss",
                                 $fecha,
                                 $recibo,
+                                $total_pago,
                                 $cliente_capturado,
                                 $id_usercap,
                                 $estatus_solicitud,

@@ -5,13 +5,13 @@ include("./modelo/conexionbd.php");
 $id_objeto = 33;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
 if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
-  if($columna["permiso_consulta"] === 1){
+  if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
 	<!-- Main content -->
@@ -49,7 +49,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<th class="text-center">Usuario</th>
                                             <th class="text-center">Creado por</th>
 											<th class="text-center">Fecha Creacion</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th class="text-center">Acciones</th>
+											<?php
+											endif;
+											?>
 
 										</tr>
 									</thead>
@@ -105,10 +111,20 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 													<td class="text-center"> <?php echo $evento['fecha_creacion']; ?></td>
 													
 													<td>
+														<?php if($columna["permiso_actualizacion"] == 1):?>
 														<button class="btn btn-warning btnEditarEstado glyphicon glyphicon-pencil"  data-idestado="<?= $evento['id_estado'] ?>" data-nombre="<?= $evento['nombre_estado'] ?>" 
 														data-descripcion="<?= $evento['descripcion'] ?>"></button>
+														<?php
+														else:
+														endif;
 
+														if($columna["permiso_eliminacion"] == 1):
+														?>
 														<button class="btn btn-danger btnEliminarEstado glyphicon glyphicon-remove" data-idestad="<?php echo $evento['id_estado'] ?>"></button>
+														<?php
+														else:
+														endif;
+														?>
 													</td>
 												<?php }?>
 											<?php }?>

@@ -54,9 +54,6 @@ $columna = $stmt->fetch_assoc();
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
                <img class="img-circle" src="./fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="foto usuario">
-               <form method="POST" enctype="multipart/form-data">
-               <input type="file" class="fotos" id="fotos" name="fotos">
-               </form>
               </div>
 
 <?php }}?>
@@ -75,7 +72,6 @@ $columna = $stmt->fetch_assoc();
 
                     if($existe){
                       $_SESSION['nombre_completo'] = $nombre;
-                      // $_SESSION['apellido'] = $apellido;
                       $_SESSION['correo'] = $correo;
                       $_SESSION['telefono'] = $telefono;
                       $_SESSION['fecha_vencimiento'] = $vencimiento;
@@ -118,9 +114,9 @@ $columna = $stmt->fetch_assoc();
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="settings">
-                <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+                <form method="POST" autocomplete="off" class="form-horizontal" enctype="multipart/form-data">
 
-                <div class="form-group">
+                  <div class="form-group">
                     <div class="alert alert-light" role="alert">
                      <h4><i class="fa fa-user"> Informacion general</i></h4>
                      Hola <strong><?php echo $_SESSION['usuario'];?></strong>
@@ -190,6 +186,8 @@ $columna = $stmt->fetch_assoc();
                     </div>
                   </div>
 
+       
+       
         <div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -302,7 +300,7 @@ $columna = $stmt->fetch_assoc();
 
               <!-- INICIO SEGUNDO TAB -->
               <div class="tab-pane" id="settings2">
-                <form method="POST" id="cambioPass" class="form-horizontal" enctype="multipart/form-data">
+                <form method="POST" id="cambioPass" autocomplete="off" class="form-horizontal" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="input-group col-sm-8">
                       <input type="hidden" class="form-control" name="usuario" value="<?php echo $usuario;?>" placeholder="Ingrese su contraseña actual">

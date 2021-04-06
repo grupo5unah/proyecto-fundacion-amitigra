@@ -109,7 +109,7 @@ include "./modelo/conexionbd.php";
 $id_objeto = 3;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -161,13 +161,20 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 <table id="tablaSolicitudes" class="display responsive nowrap">
                   <thead>
                     <tr>
-                      <th>Solicitud</th>
                       <th>Nombre</th>
+                      <th>Identidad</th>
                       <th>Telefono</th>
                       <th>Tipo de Solicitud</th>
                       <th>Precio</th>
+                      <th>Total</th>
                       <th>Estado</th>
+                      <?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+                      else:?>
                       <th>Aciones</th>
+                      <?php
+                      endif;
+                      ?>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,8 +183,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                     include("modelo/conexionbd.php");
                     try {
 
-                      $consult_solicitud = "SELECT id_solicitud,recibo,cli.id_cliente,cli.nombre_completo,cli.telefono,tips.id_tipo_solicitud,
-                      est.id_estatus_solicitud,tipo,tips.precio_solicitud,est.estatus
+                      $consult_solicitud = "SELECT id_solicitud,recibo,cli.id_cliente,cli.nombre_completo,cli.identidad,cli.telefono,tips.id_tipo_solicitud,
+                      est.id_estatus_solicitud,tipo,tips.precio_solicitud,total,est.estatus
                       FROM tbl_solicitudes sol INNER JOIN tbl_clientes cli
                       ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
                       ON sol.tipo_solicitud=tips.id_tipo_solicitud JOIN tbl_estatus_solicitud est
@@ -194,10 +201,12 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                         'recibo' => $eventos['recibo'],
                         'id_cliente' => $eventos['id_cliente'],
                         'nombre_completo' => $eventos['nombre_completo'],
+                        'identidad' => $eventos['identidad'],
                         'telefono' => $eventos['telefono'],
                         'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],
                         'tipo' => $eventos['tipo'],
                         'precio_solicitud' => $eventos['precio_solicitud'],
+                        'total' => $eventos['total'],
                         'id_estatus_solicitud' => $eventos['id_estatus_solicitud'],
                         'estatus' => $eventos['estatus'],
                       );
@@ -206,14 +215,18 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                     foreach ($vertbl as $dia => $lista_sol) { ?>
                       <?php foreach ($lista_sol as $evento) { ?>
                         <tr>
-                          <td> <?php echo $evento["id_solicitud"]; ?></td>
                           <td> <?php echo $evento["nombre_completo"]; ?></td>
+                          <td> <?php echo $evento["identidad"]; ?></td>
                           <td> <?php echo $evento["telefono"]; ?></td>
                           <td> <?php echo $evento["tipo"]; ?></td>
                           <td> <?php echo $evento["precio_solicitud"]; ?></td>
+                          <td> <?php echo $evento["total"]; ?></td>
                           <td> <?php echo $evento["estatus"]; ?></td>
                           <td>
-                            <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-recibo="<?= $evento["recibo"] ?>" data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus_solicitud="<?= $evento["estatus"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
+                            <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-recibo="<?= $evento["recibo"] ?>" 
+                            data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" 
+                            data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" 
+                            data-precio_solicitud="<?= $evento["precio_solicitud"] ?>"data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus_solicitud="<?= $evento["estatus"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
                             <button class="btn btn-danger btnEliminarSolicitud glyphicon glyphicon-remove" data-idsolicitud="<?php echo $evento['id_solicitud'] ?>">
                           </td>
                         <?php } ?>
@@ -302,6 +315,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 </div>
                 </select>
                 <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                <input type="hidden" name="precio_actual" id="precio_actual" value=" <?php echo $evento["precio_solicitud"]; ?>">
             </div>
             </form>
           </div>
@@ -361,7 +375,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 ?>
                 <div class="campos form-group">
                   <select class="form-control" id="tipo_nac" name="tipo_nac" style="width:335px">
-                    <option value="">Seleccione una nacionalidad</option>
+                    <option value=""disabled selected>Seleccione una nacionalidad</option>
                     <?php
                     if ($resultados > 0) {
                       while ($rol = mysqli_fetch_array($consulta_nacionalidad)) {
@@ -382,7 +396,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 ?>
                 <div class="campos form-group">
                   <select class="form-control" id="tipo_sol" style="width:335px">
-                    <option value="">Seleccione un tipo de solicitud</option>
+                    <option value=""disabled selected>Seleccione un tipo de solicitud</option>
                     <?php
                     if ($resultados > 0) {
                       while ($rol = mysqli_fetch_array($consulta_tip_solicitud)) {
@@ -403,7 +417,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 ?>
                 <div class="campos form-group">
                   <select class="form-control" id="estado_solicitud" style="width:335px">
-                    <option value="">Seleccione un estado</option>
+                    <option value=""disabled selected>Seleccione un estado</option>
                     <?php
                     if ($resultados > 0) {
                       while ($rol = mysqli_fetch_array($consulta_estatus)) {

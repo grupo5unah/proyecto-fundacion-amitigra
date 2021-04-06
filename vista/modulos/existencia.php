@@ -3,13 +3,13 @@
 $id_objeto = 13;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
 if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente"){
-  if($columna["permiso_consulta"] === 1){
+  if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -44,7 +44,14 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
+
+								<?php if($columna["permiso_insercion"] == 0):
+									
+								else:?>
 									<a href="producto" class="btn btn-default button1" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </a>
+								<?php
+								endif;
+								?>
 
 								</div> 
 
@@ -127,8 +134,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 </div>
 <?php
 
-  }else{
-  echo "<script type='text/javascript'>
+ }else{
+   echo "<script type='text/javascript'>
   window.location.href='index.php';
   </script>";}
-  }?>
+   }?>

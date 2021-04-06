@@ -58,21 +58,22 @@ $columna = $stmt->fetch_assoc();
         <?php if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador"){?>
           <!--Inicio SOLICITUDES-->
           <!-- MUESTRA SOLICITUDES SOLO A ADMINISTRACION -->
-          <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" && $columna["permiso_consulta"] !== 0) {?>
+          <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente") {?>
+          <?php if($columna["permiso_consulta"] == 1){?>
             <li class="">
               <a href="solicitudes">
                 <i class="fa fa-files-o"></i>
                 <span>Solicitudes</span>
               </a>
             </li>
-          <?php }?>
+          <?php }}?>
         <!--Fin SOLICITUDES-->
 
-          <!--ROL DE USUARIO-->
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">
           <!-- MUESTRA RESERVACIONES SOLO PARA ADMINISTRADOR Y COLABORADOR -->
-            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" && $columna["permiso_consulta"] !== 0) {?>
+            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
+            <?php if($columna["permiso_consulta"] == 1){?>
               <a href="#">
                 <i class="fa fa-calendar-check-o"></i>
                 <span>Reservaciones</span>
@@ -85,13 +86,14 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="senderos"><i class=""></i> Senderos</a></li>
               </ul>
           </li>
-            <?php }?>
+            <?php }}?>
         <!--Fin RESERVACIONES-->
 
         <!--Inicio INVENTARIO-->
         <li class="treeview">
         <!-- MUESTRA INVENTATIO SOLO A ADMINISTRACION -->
-        <?php if ($_SESSION["rol"] === "administrador" && $columna['permiso_consulta'] !== 0) {?>
+        <?php if ($_SESSION["rol"] === "administrador") {?>
+        <?php if($columna['permiso_consulta'] == 1){?>
           <a href="#">
             <i class="fa fa-pencil-square-o"></i>
             <span>Inventario</span>
@@ -105,13 +107,15 @@ $columna = $stmt->fetch_assoc();
             <li><a href="ordenes"><i class=""></i>Ordenes</a></li>
           </ul>
         </li>
-        <?php }?>
+        <?php
+        }}?>
         <!--Final INVENTARIO-->
 
         <!--Inicio panel de ADMINISTRACION-->
         <!-- MUESTRA EL AREA DE CONFIGURACION DEL SISTEMA SOLO A ADMINISTRACION -->
         <li name="admin" id= "admin" class="treeview">
-        <?php if ($_SESSION["rol"] === "administrador" && $columna["permiso_consulta"] !== 0) {?>
+        <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ) {
+          if($columna["permiso_consulta"] == 1){?>
           <a href="#">
             <i class="fa fa-gear"></i> <span>Panel de control</span>
             <span class="pull-right-container">
@@ -119,9 +123,19 @@ $columna = $stmt->fetch_assoc();
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="panel"><i class=""></i>Administración sistema</a></li>
-            <li><a href="configuracion"><i class=""></i>Configuración sistema</a></li>
-            <li><a href="backup"><i class=""></i>Copia de seguridad BD</a></li>
+            <li class="treeview">
+              <a href="#"><i class=""></i> Administracion
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="panel"><i class=""></i>Administración <br> sistema</a></li>
+                <li><a href="bitacora"><i class=""></i> bitacora </a></li>
+                <li><a href="backup"><i class=""></i> copia de seguridad<br> Base de datos </a></li>
+              </ul>
+            </li>
+            
             <li class="treeview">
               <a href="#"><i class=""></i> Mantenimiento
                 <span class="pull-right-container">
@@ -152,13 +166,26 @@ $columna = $stmt->fetch_assoc();
                 <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitacion Servicio</a></li>
                 <li><a href="mantEstadosSolicitud"><i class=""></i> Estados de Solicitud</a></li>
-                
+              </ul>          
+            </li>
+
+            <li class="treeview">
+              <a href="#"><i class=""></i> Seguridad
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="mantpermisos"><i class=""></i> Acceso sistema</a></li>
+                <li><a href="configuracion"><i class=""></i> configuracion sistema</a></li>
+                <li><a href="mantroles"><i class=""></i> Roles</a></li>
+              </ul>
             </li>
           </ul>
         </li>
         <!--Final ADMINISTRACION-->
 
-        <?php }}
+        <?php }}}
         }}?>
 
 

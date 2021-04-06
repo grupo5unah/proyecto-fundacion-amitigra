@@ -3,7 +3,7 @@
 $id_objeto = 34;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -56,7 +56,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                       						<th>Fecha creacion</th>
                       						<th>Modificado por</th>
 											<th>Fecha modificacion</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>Acciones</th>
+											<?php
+											endif;
+											?>
 										</tr>
 									</thead>
 									<tbody>
@@ -100,9 +106,20 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 													<td> <?php echo $evento['modificado_por']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
-														<button class="btn btn-warning btnEditarRol glyphicon glyphicon-pencil"  data-idrol="<?= $evento['id_rol'] ?>" data-nombrerol="<?= $evento['nombre_rol'] ?>" data-descripcion="<?= $evento['descripcion'] ?>"></button>
 
+														<?php if($columna['permiso_actualizacion'] == 1):?>
+														<button class="btn btn-warning btnEditarRol glyphicon glyphicon-pencil"  data-idrol="<?= $evento['id_rol'] ?>" data-nombrerol="<?= $evento['nombre_rol'] ?>" data-descripcion="<?= $evento['descripcion'] ?>"></button>
+														<?php
+														else:
+														endif;
+
+														if($columna['permiso_eliminacion'] == 1):
+														?>
 														<button class="btn btn-danger btnEliminarRol glyphicon glyphicon-remove" data-idrol="<?php echo $evento['id_rol'] ?>"></button>
+														<?php
+														else:
+														endif;
+														?>
 													</td>
 												<?php  } ?>
 											<?php  } ?>

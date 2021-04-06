@@ -3,7 +3,7 @@
 $id_objeto = 31;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -44,9 +44,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-								
-									<button class="btn btn-success btnCrearPregunta glyphicon glyphicon-plus-sign text-uppercase" >Agregar Nueva Pregunta</button>
 
+									<?php if($columna["permiso_insercion"] == 1):?>
+									<button class="btn btn-success btnCrearPregunta glyphicon glyphicon-plus-sign text-uppercase" >Agregar Nueva Pregunta</button>
+									<?php
+									else:
+									endif;
+									?>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerPreguntas">
@@ -57,7 +61,12 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                                             <th>Fecha creacion</th>
                                             <th>Modificado por</th>
 											<th>Fecha modificacion</th>
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>
 											<th>Acciones</th>
+											<?php endif;
+											?>
 										</tr>
 									</thead>
 									<tbody>
@@ -97,8 +106,20 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                                                     <td> <?php echo $evento['modificado_por']; ?></td>
 													<td> <?php echo $evento['fecha_modificacion']; ?></td>
 													<td>
+
+														<?php if($columna["permiso_actualizacion"] == 1):?>
 														<button class="btn btn-warning btnEditarPreg glyphicon glyphicon-pencil" data-idpregunta="<?= $evento['id_pregunta'] ?>" data-nomPregunta="<?= $evento['pregunta1'] ?>"></button>
+														<?php
+														else:
+														endif;
+
+														if($columna["permiso_eliminacion"] == 1):
+														?>
 														<button class="btn btn-danger btnEliminarPregunta glyphicon glyphicon-remove" data-idpregunta="<?php echo $evento['id_pregunta']; ?>"></button>
+														<?php
+														else:
+														endif;
+														?>
 													</td>
 												<?php  } ?>
 											<?php  } ?>

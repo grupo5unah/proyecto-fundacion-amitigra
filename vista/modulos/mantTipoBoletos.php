@@ -3,13 +3,13 @@
 $id_objeto = 35;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
 if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
-  if($columna["permiso_consulta"] === 1){
+  if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
 	<!-- Main content -->
@@ -41,8 +41,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<th>Descripcion</th>
 											<th>Fecha de Creacion</th>
 											<th>Modificado por</th>
-											<th>Fecha de Modificacion</th>											
+											<th>Fecha de Modificacion</th>	
+											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+											
+											else:?>										
 											<th>accion</th>
+											<?php
+											endif;
+											?>
 										</tr>
 									</thead>
 									<tbody>
@@ -84,12 +90,22 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 													
 													<td>
 								
+													<?php if($columna['permiso_actualizacion'] == 1):?>
 													<button class="btn btn-warning btnEditarTB glyphicon glyphicon-pencil"  data-idtipoboleto="<?= $mostrar['id_tipo'] ?>" 
 													data-nombreBoleto="<?= $mostrar['nombre_boleto'] ?>" data-descripcion="<?= $mostrar['descripcion'] ?>" data-precioV="<?= $mostrar['precio_V'] ?>" 
 													data-modificacionP="<?= $mostrar['modificado_por'] ?>" data-fmodificacion="<?= $mostrar['fecha_modificacion'] ?>"></button>
 
+													<?php
+													else:
+													endif;
+
+													if($columna['permiso_eliminacion'] == 1):
+													?>
 													<button class="btn btn-danger btnEliminarTipoBoleto glyphicon glyphicon-remove" data-idtipoboleto="<?= $mostrar['id_tipo'] ?>"></button>
-													
+													<?php
+													else:
+													endif;
+													?>
 												</td>
 											<?php  } ?>
 										<?php  } ?>
