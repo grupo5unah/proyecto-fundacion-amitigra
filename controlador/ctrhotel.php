@@ -74,13 +74,16 @@ switch ($action){
                 $reservacion=$_POST['reservacion'];
                 $entrada=$_POST['entrada'];
                 $salida = $_POST['salida'];
+                date_default_timezone_set("America/Tegucigalpa");
+                $entrar = $entrada ." ".date('H:i:s',time());
+                $salir = $salida ." ".date('H:i:s',time());
                 
 
                 $actualizarcamping = "UPDATE tbl_detalle_reservacion dr
                                     inner join tbl_reservaciones r
                                     on dr.reservacion_id = r.id_reservacion
                                     set 
-                                    r.fecha_entrada='$entrada', r.fecha_salida='$salida' 
+                                    r.fecha_entrada='$entrar', r.fecha_salida='$salir' 
                                     WHERE id_reservacion=".$id_reservacion;
                 
                 $resultado=$conn->query($actualizarcamping);
