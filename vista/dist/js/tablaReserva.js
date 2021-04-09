@@ -236,7 +236,7 @@ $(document).on('click', '.btn_eliminarRosarioN', function(e) {
 //   var canT = document.getElementById("canT").value;
 //   var precioT = document.getElementById("precioT").value;
   var filaNC = '<tr><td>' + areaN  + '</td><td>' + adulNC + '</td><td>' + padultoNC + '</td><td>'
-  + ninNC + '</td><td>' + pninoNC + '</td><td>'+ totNC + '</td><td>'+ '</td><td>'+ 
+  + ninNC + '</td><td>' + pninoNC + '</td><td>'+  '</td><td>'+ '</td><td>'+ totNC +
   '</td><td><button type="button" name="removeN"  class="btn btn-danger btn_eliminarCampingN glyphicon glyphicon-remove"></button></td></tr>'; //esto seria lo que contendria la fila
 
 
@@ -267,7 +267,7 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
     var totalEC = document.getElementById("totalEC").value;
     //var j = 1; //contador para asignar id al boton que borrara la fila
     var filaEC = '<tr><td>' + areaEC + '</td><td>' + adultoEC + '</td><td>' + preadultoEC + '</td><td>'
-    + ninoEC + '</td><td>' + preninoEC +'</td><td>' + totalEC + '</td><td>'+ '</td><td>'+ 
+    + ninoEC + '</td><td>' + preninoEC +'</td><td>' + '</td><td>'+ '</td><td>'+ totalEC + 
     '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingE glyphicon glyphicon-remove"></button></td></tr>'; //esto seria lo que contendria la fila
 
     //j++;
@@ -289,31 +289,36 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
   });
 
   //AGREGANDO ARTICULOS A CAMPING
-  $('#btnAgregarAC').click(function(e) {
-    e.preventDefault();
-    var tipoT = document.getElementById("tipotienda").value ;
-    var canT = document.getElementById("canT").value;
-    var precioT = document.getElementById("precioT").value;
-    /*var ninoEC = document.getElementById("nec").value;
-    var preninoEC = document.getElementById("pnec").value;*/
-    var totalAC = document.getElementById("totalAC").value;
-    //var j = 1; //contador para asignar id al boton que borrara la fila
-    var filaAC = '<tr><td>' + tipoT + '</td><td>'  + '</td><td>' + '</td><td>'
-     + '</td><td>' +'</td><td>' + canT + '</td><td>'+ precioT+'</td><td>'+ totalAC +
-    '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingA glyphicon glyphicon-remove"></button></td></tr>'; //esto seria lo que contendria la fila
+    $('#btnAgregarAC').click(function(e){
+        e.preventDefault();
+        console.log('agregando');
+        //agregar para el tipo de tienda para 2 personas
+        var tipoT = document.getElementById("tipotienda").value ;
+        var canT = document.getElementById("canTi").value;
+        var precioT = document.getElementById("precioT2").value;
+        /*var ninoEC = document.getElementById("nec").value;
+        var preninoEC = document.getElementById("pnec").value;*/
+        var totalAC = document.getElementById("totaltienda2").value;
+        //var j = 1; //contador para asignar id al boton que borrara la fila
+        var filaAC = '<tr><td>' + tipoT + '</td><td>'  + '</td><td>' + '</td><td>'
+        + '</td><td>' +'</td><td>' + canT + '</td><td>'+ precioT+'</td><td>'+ totalAC +
+        '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingA glyphicon glyphicon-remove"></button></td></tr>'; //esto seria lo que contendria la fila
 
-    //j++;
+        //j++;
 
-    $('#tableCamping tr:first').after(filaAC);
-        $("#lista").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-        var nFilasEC = $("#tableCamping tr").length;
-        $("#lista").append(nFilasEC - 1);
-        //le resto 1 para no contar la fila del header
-        document.getElementById("tipotienda").value ="";
-        document.getElementById("canT").value = "";
-        document.getElementById("totalAC").value = "";
-        // document.getElementById("nombre").focus();
-});
+        $('#tableCamping tr:first').after(filaAC);
+            $("#lista").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+            var nFilasEC = $("#tableCamping tr").length;
+            $("#lista").append(nFilasEC - 1);
+            //le resto 1 para no contar la fila del header
+            document.getElementById("tipotienda").value ="";
+            document.getElementById("canTi").value = "";
+            document.getElementById("totaltienda2").value = "";
+            // document.getElementById("nombre").focus();
+            
+
+    });
+        
   $(document).on('click', '.btn_eliminarCampingA ', function(e) {
       e.preventDefault();
       $(this).closest('tr').remove();
@@ -323,11 +328,12 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
   $('#registro').on('click', function(){
       //falta que registre y agregar el elssleping bag
       $('#tableCamping tr').each(function () {
-          var accion = 'registrarCamping';
-          const habitacionR = $(this).find('td').eq(0).html();
-          const cantidad_adultosR = $(this).find('td').eq(1).html();
-          const cantidad_ninosR = $(this).find('td').eq(3).html();
-          const totalR = $(this).find('td').eq(5).html();
+          var acciones = 'registrarCamping';
+          const descripcion = $(this).find('td').eq(0).html();
+          const cantidad_adultosC = $(this).find('td').eq(1).html();
+          const cantidad_ninosC = $(this).find('td').eq(3).html();
+          const cantidad_articuloC = $(this).find('td').eq(5).html();
+          const totalC = $(this).find('td').eq(7).html();
           const fecha_reservacion = document.querySelector("#reservacion").value;
           const fecha_entrada = document.querySelector("#entrada").value;
           const fecha_salida = document.querySelector("#salida").value;
@@ -343,7 +349,7 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
               type: "POST",
               datatype: 'json',
               url: './controlador/ctr.reservaciones.php',
-              data: {accion:accion,habitacionR:habitacionR, cantidad_adultosR:cantidad_adultosR,cantidad_ninosR:cantidad_ninosR,totalR:totalR,nombre_cliente:nombre_cliente,
+              data: {acciones:acciones,descripcion:descripcion, cantidad_adultosC:cantidad_adultosC,cantidad_ninosC:cantidad_articuloC,cantidad_C:cantidad_ninosC,totalR:totalC,nombre_cliente:nombre_cliente,
               idCliente:idCliente,identidad:identidad,telefono:telefono,nacionalidad:nacionalidad,fecha_reservacion:fecha_reservacion,fecha_entrada:fecha_entrada,
               fecha_salida:fecha_salida, idusuario:idusuario,usuario_actual:usuario_actual} ,
               success: function(response){

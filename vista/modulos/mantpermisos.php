@@ -109,7 +109,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													<td>
 
 													<?php if($columna["permiso_actualizacion"] == 1):?>
-													<button class="btn btn-warning btnEditarP glyphicon glyphicon-pencil"  data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
+													<button class="btn btn-warning btnEditarP glyphicon glyphicon-pencil" data-rol="<?= $evento['rol']?>" data-objeto="<?= $evento['objeto']?>" data-idpermiso="<?= $evento['id_permisos'] ?>" data-insercion="<?= $evento['insercion']?>" data-eliminar="<?= $evento['eliminacion'] ?>" 
 													data-actualizacion="<?= $evento['actualizacion'] ?>" data-consulta="<?= $evento['consulta'] ?>"></button>
 													<?php
 														else:
@@ -152,24 +152,42 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								<form name="">
 									<div class="ingreso-producto form-group">
 										
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="input-group">
+													<label for="">Objeto:</label>
+													<input id="Objeto" disabled class="form-control modal-roles secundary" type="text" required onkeypress="return soloNumeros(event)" autocomplete="off"/>
+												</div>
+											</div>
+										
+											<div class="col-lg-6">
+												<div class="input-group">
+													<label for="">Rol:</label>
+													<input id="Rol" disabled class="form-control modal-roles secundary" type="text" required onkeypress="return soloNumeros(event)" autocomplete="off"/>
+												</div>
+												<br>
+											</div>
+										</div>
+
 										<div class="campos">
-											<label for="">Permiso Insertar</label>
-											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<label for="">Permiso Insertar:</label>
+											<input id="Insertar" class="form-control modal-roles secundary" type="text"   required onkeypress="return soloNumeros(event)" autocomplete="off"/>
+
+										</div>
+
+										<div class="campos">
+											<label for="">Permiso Eliminar:</label>
+											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos">
-											<label for="">Permiso Eliminar</label>
-											<input id="Eliminar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumero(event)" autocomplete="off"/>
-
-										</div>
-										<div class="campos">
-											<label for="">Permiso Actualizar</label>
-											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<label for="">Permiso Actualizar:</label>
+											<input id="Actualizar" class="form-control modal-roles secundary" type="text" name="" required onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
-											<label for="">Permiso de Consulta</label>
-											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumero(event)" autocomplete="off"/>
+											<label for="">Permiso de Consulta:</label>
+											<input id="Consulta" class="form-control modal-roles secundary" type="text" name=""requared onkeypress="return soloNumeros(event)" autocomplete="off"/>
 
 										</div>
 										

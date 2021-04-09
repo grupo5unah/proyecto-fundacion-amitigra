@@ -1,39 +1,5 @@
 $(document).ready(function(){
 
-  $('#notificacion').hide();
-
-    $('#usuario').keyup(function(e){
-      if($('#usuario').val()){
-        var usuario = $('#usuario').val();
-    
-        $.ajax({
-          url:'./controlador/perfiles.php',
-          type:'POST',
-          data: { usuario:usuario },
-          success: function(response){
-  
-            let contrasena = JSON.parse(response);
-    
-            contrasena.forEach(resultado => {
-              if(!status == true){
-                console.log(resultado.nombre_completo);
-                console.log(resultado.bien);
-                console.log(resultado.error);
-                $('#notificacion').html('Si existe');
-                $('#notificacion').show();
-              }else if($('#usuario') === ''){
-                console.log('No existe');
-                //$('#usuario').val();
-                $('#notificacion').hide();
-              }
-            });
-          }
-        });
-        $('#notificacion').hide();
-      }
-    });
-
-
     //FUNCION PARA ACTUALIZAR LA INFORMACION PERSONAL DEL USUARIO
     //ABRE EL MODAL
     $('#editar').on('click', function (){
@@ -74,7 +40,8 @@ $(document).ready(function(){
               url: "./controlador/ctr.actualizarinformacion.php",
               datatype:"json",
               Cache:false,
-              data: {usuario:usuario, nombre:nombre, telefono:telefono, correo:correo, verificarContrasena:verificarContrasena},
+              data: {usuario:usuario, nombre:nombre, telefono:telefono, correo:correo,
+                      verificarContrasena:verificarContrasena},
               success: function (response){
 
                 console.log(response)

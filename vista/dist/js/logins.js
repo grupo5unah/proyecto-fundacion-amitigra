@@ -37,9 +37,9 @@ $(document).ready(function(){
 
                         swal({
                             icon:"success",
-                            title:"Éxito",
-                            text:"Te estamos redirigiendo, espera un momento.",
-                            timer: 4000,
+                            title:"Iniciando sesion",
+                            text:"Espera un momento.",
+                            timer: 2500,
                             buttons:false
                             
                         })

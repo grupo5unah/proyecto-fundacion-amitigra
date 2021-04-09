@@ -83,7 +83,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   
 										<?php //Mando a llamar los datos que se ocupan para llenar la tabla obteniendo los datos de la  base de datos
 										try{
-                          $sql = "SELECT id_boletos_detalle, cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.descripcion, tbl_boletos.id_boletos_vendidos, tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad 
+                          $sql = "SELECT id_boletos_detalle, cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.descripcion, tbl_tipo_boletos.precio_venta, tbl_boletos.id_boletos_vendidos,  tbl_boletos.total_cobrado, tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad 
                                   FROM tbl_boletos_detalle
                                   INNER JOIN tbl_usuarios
                                   ON tbl_boletos_detalle.usuario_id=tbl_usuarios.id_usuario
@@ -108,12 +108,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 												'nombre_tipo_boleto'=>$mostrar['nombre_tipo_boleto'],
 												'cantidad_boletos'=>$mostrar['cantidad_boletos'],
 												'sub_total'=>$mostrar['sub_total'],
+												'precio_venta'=>$mostrar['precio_venta'],
+												'total_cobrado'=>$mostrar['total_cobrado'],
 												'descripcion'=>$mostrar['descripcion'],
 												'nombre_usuario'=>$mostrar['nombre_usuario'],
 												'fecha_creacion' =>$mostrar['fecha_creacion'],
-                        'nombre_localidad' =>$mostrar['nombre_localidad'],
-                        'id_boletos_vendidos' =>$mostrar['id_boletos_vendidos'],
-                        'id_boletos_detalle' =>$mostrar['id_boletos_detalle']
+												'nombre_localidad' =>$mostrar['nombre_localidad'],
+												'id_boletos_vendidos' =>$mostrar['id_boletos_vendidos'],
+												'id_boletos_detalle' =>$mostrar['id_boletos_detalle']
 												
 											);
 											$ver[$captura][] =  $mostrar;
@@ -122,14 +124,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										
 											<?php foreach ($lista as $mostrar) { ?>
 												<tr>
-                        <td><?php echo $mostrar['id_boletos_vendidos'];?></td>
-                          <td><?php echo $mostrar['nombre_tipo_boleto'];?></td>
-                          <td><?php echo $mostrar['cantidad_boletos'];?></td>
-                          <td><?php echo $mostrar['sub_total'];?></td>
-                          <td><?php echo $mostrar['descripcion'];?></td>
-                          <td><?php echo $mostrar['nombre_usuario'];?></td>                          
-                          <td><?php echo $mostrar['fecha_creacion'];?></td>
-                          <td><?php echo $mostrar['nombre_localidad'];?></td>
+													<td><?php echo $mostrar['id_boletos_vendidos'];?></td>
+													<td><?php echo $mostrar['nombre_tipo_boleto'];?></td>
+													<td><?php echo $mostrar['cantidad_boletos'];?></td>
+													<td><?php echo $mostrar['sub_total'];?></td>
+													<td><?php echo $mostrar['descripcion'];?></td>
+													<td><?php echo $mostrar['nombre_usuario'];?></td>                          
+													<td><?php echo $mostrar['fecha_creacion'];?></td>
+													<td><?php echo $mostrar['nombre_localidad'];?></td>
 													
 													<td>
 								
@@ -141,6 +143,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                               else:
                               endif;
                               ?>
+							  <button  style="color:white" class="btn btn-success align-item btnVerdDetalle fas fa-eye" data-idbolvendido="<?= $mostrar['id_boletos_vendidos'] ?>" data-usuario="<?= $mostrar['nombre_usuario'] ?>" 
+							  data-localidad="<?= $mostrar['nombre_localidad'] ?>" data-fecha="<?= $mostrar['fecha_creacion'] ?>" data-desc="<?= $mostrar['descripcion'] ?>"  data-total="<?= $mostrar['total_cobrado'] ?>"></button>
 												</td>
 											<?php  } ?>
 										<?php  } ?>
@@ -162,61 +166,47 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 			</div>
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
-			<!-- MODAL EDITAR VENTA BOLETO -->
-			<div class="modal fade" id="modalEditarBoleto" tabindex="-1"
-				 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<div class="d-flex justify-content-between">
-				                	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<i aria-hidden="true">&times;</i>
+			<!-- MODAL DETALLE BOLETO -->
+      <div class="modal fade" id="modalDetalleB" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true"  data-backdrop="static">
+						<div class="modal-dialog modal-dialog-scrollable" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="exampleModalScrollableTitle">FUNDACION AMITIGRA</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Editar Cantidad de Boletos</h3>
+								</div>
+								<div class="modal-body">
+
+									<div class="cont row" id="cont">
+									</div>
+									<table class="table">
+										<thead>
+											<tr>												
+												<th scope="col">Cantidad</th>
+												<th scope="col">Descripcion</th>
+												<th scope="col">Precio</th>
+												<th scope="col">Subtotal</th>
+											</tr>
+											
+										</thead>
+										<tbody id="listaDeBoletosTabla">										
+
+										</tbody>
+										
+									</table>								
+									
+								</div>
+								<div id="total">
+											
+									</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+									<button type="button" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button>
 								</div>
 							</div>
-							<div class="modal-body">
-							<form method="POST" id="formSendero">
-                              <div class="ingreso-producto form-group">
-                               <div class="campos" type="hidden">
-                               <label for=""> </label>
-                               <!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
-                            </div>
-
-                          <div class="campos">
-                          <label for="">Cantidad de boletos</label>
-                          <input id="CantBoletos" class="form-control modal-roles secundary" type="date" name="CantBoletos" required />
-                          </div>
-						  <div class="campos">
-                          <label for="">Sub-Total </label>
-                          <input id="SubTotal" class="form-control modal-roles secundary" type="date" name="SubTotal"required />
-                          </div>
-						  <div class="campos">
-                          <label for="">Fecha Modificada  </label>
-                          <input id="fmodificada" class="form-control modal-roles secundary" type="date" name="fmodificada"required />
-                          </div>
-                                
-                          <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-                          </div>
-						  </div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-								<button id=""type="submit" class="btn btn-primary btnEditarBD">Actualizar Boletos</button>
-							</div>
-                        </form>
-                        <?php 
-                            if(isset($_GET['msg'])){
-                            $mensaje = $_GET['msg'];
-                            print_r($mensaje);
-                           //echo "<script>alert(".$mensaje.");</script>";  
-                           }
-
-                        ?>
-							
 						</div>
 					</div>
-				</div>
-			
 
 		</div>
 		<!-- /.box -->

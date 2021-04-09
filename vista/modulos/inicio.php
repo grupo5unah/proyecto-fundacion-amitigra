@@ -23,7 +23,7 @@ while($stmt->fetch()){
 
 if($existe){
 
-$stmt = $conn->query("SELECT permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto'");
 $columna = $stmt->fetch_assoc();
 
@@ -81,7 +81,7 @@ $columna = $stmt->fetch_assoc();
 
             <div class="info-box-content">
               <span class="info-box-text">Reservación camping</span>
-              <span class="info-box-number"><strong>Total: </strong><?php echo $fila4['roles'];?></span>
+              <span class="info-box-number"><strong>Total: </strong><?php //echo $fila4['roles'];?></span>
             </div>
             <!-- /.info-box-content -->
           </div>

@@ -45,13 +45,16 @@ if ($nombre->affected_rows) {
 
 ?>
 <head>
+
   <meta charset="utf-8">
+  <meta name="description" content="SAAT - Sistema Administrativo AmiTigra">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="fotoPerfil/favicon.ico">
   <title><?php echo $extraer;}}?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  
+
   <link rel="stylesheet" href="vista/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="vista/bower_components/font-awesome/css/font-awesome.min.css">
@@ -65,7 +68,7 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/dataTables.bootstrap4.min.css">
-
+  <!-- <link rel="stylesheet" href="vista/dist/css/sweetalert.css"> -->
   <link rel="stylesheet" href="vista/dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="vista/bower_components/morris.js/morris.css">
@@ -77,6 +80,7 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <!-- <link rel="stylesheet" href="vista/css/sweetalert2.min.css"> -->
@@ -129,6 +133,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantroles" ||
         $_GET["ruta"] == "mantProducto" ||
         $_GET["ruta"] == "rol" ||
+        $_GET["ruta"] == "parametrosSeguridad" ||
         $_GET["ruta"] == "mantObjetos" ||
         $_GET["ruta"] == "mantparametros" ||
         $_GET["ruta"] == "mantpermisos" ||
@@ -141,7 +146,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantTipoBoletos" ||
         $_GET["ruta"] == "mantNacionalidad" ||
         $_GET["ruta"] == "panel" ||
-        $_GET["ruta"] == "configuracion" ||
+        $_GET["ruta"] == "parametrosSistema" ||
         $_GET["ruta"] == "reportes" ||
         $_GET["ruta"] == "reporteProducto"){
         include("modulos/".$_GET["ruta"].".php");
@@ -242,8 +247,10 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/gUsuarios.js"></script>
 <script src="vista/dist/js/infoperfil.js"></script>
 <script src="vista/dist/js/copiaSeguridad.js"></script>
+<script src="vista/dist/js/restaurarCSeguridad.js"></script>
 <script src="vista/dist/js/app.login.js"></script>
 <script src="vista/dist/js/reloj.js"></script>
+<script src="vista/dist/js/actualizarParametros.js"></script>
 <!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <!-- <script src="vista/dist/js/recargar.js"></script> -->
 <script src="vista/dist/js/senderos.js"></script>
@@ -252,6 +259,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/tipoBoletos.js"></script>
 <script src="vista/dist/js/tipoSolicitudes.js"></script>
 <script src="vista/dist/js/EstadosSolicitud.js"></script>
+<!-- <script src="vista/dist/js/sweetalert.min.js"></script> -->
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>

@@ -1,7 +1,10 @@
 <?php
 require "./modelo/conexionbd.php";
-global $mi_rol;
+
 $id_objeto = 5;
+$id_objeto2 = 48;
+
+global $mi_rol;
 global $columna;
 global $mi_rol;
 $rol_id = $_SESSION['rol'];
@@ -22,10 +25,14 @@ while($stmt->fetch()){
 
 if($existe){
 
-$stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
-WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto';");
-$columna = $stmt->fetch_assoc();
 
+  $stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+  WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto';");
+  $columna = $stmt->fetch_assoc();
+
+  $stmt = $conn->query("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta,rol_id,objeto_id FROM tbl_permisos
+  WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto2';");
+  $columna2 = $stmt->fetch_assoc();
 ?>
 <aside class="main-sidebar">
   <!-- sidebar: style can be found in sidebar.less -->
@@ -72,7 +79,7 @@ $columna = $stmt->fetch_assoc();
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">
           <!-- MUESTRA RESERVACIONES SOLO PARA ADMINISTRADOR Y COLABORADOR -->
-            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
+            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente") {?>
             <?php if($columna["permiso_consulta"] == 1){?>
               <a href="#">
                 <i class="fa fa-calendar-check-o"></i>
@@ -114,8 +121,12 @@ $columna = $stmt->fetch_assoc();
         <!--Inicio panel de ADMINISTRACION-->
         <!-- MUESTRA EL AREA DE CONFIGURACION DEL SISTEMA SOLO A ADMINISTRACION -->
         <li name="admin" id= "admin" class="treeview">
-        <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ) {
-          if($columna["permiso_consulta"] == 1){?>
+        <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
+<<<<<<< HEAD
+          <?php if($columna["permiso_consulta"] == 1){?>
+=======
+          <!-- <?php if($columna2["permiso_consulta"] == 1){?> -->
+>>>>>>> RAMA_DINA
           <a href="#">
             <i class="fa fa-gear"></i> <span>Panel de control</span>
             <span class="pull-right-container">
@@ -176,8 +187,9 @@ $columna = $stmt->fetch_assoc();
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="mantpermisos"><i class=""></i> Acceso sistema</a></li>
-                <li><a href="configuracion"><i class=""></i> configuracion sistema</a></li>
+                <li><a href="mantpermisos"><i class=""></i> Permios acceso <br> al sistema</a></li>
+                <li><a href="parametrosSeguridad"><i class=""></i> Parametros seguridad</a></li>
+                <li><a href="parametrosSistema"><i class=""></i> Parametros sistema</a></li>
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
               </ul>
             </li>
@@ -185,8 +197,9 @@ $columna = $stmt->fetch_assoc();
         </li>
         <!--Final ADMINISTRACION-->
 
-        <?php }}}
-        }}?>
+        <?php }}?>
+        <?php }?>
+        <!-- <?php }}?> -->
 
 
   </section>

@@ -1,5 +1,87 @@
-// Scripts del modulo login
+//SCRIPT MOSTRAR CONTRASENA PARAMETROS SEGURIDAD
+function mostrarPassSeguridad(){
 
+	let cambioSeguridad = document.querySelector("#contrasenaSeguridad");
+	if(cambioSeguridad.type == "password"){
+		cambioSeguridad.type ="text";
+		$(".icon_seguridad").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioSeguridad.type = "password"
+		$(".icon_seguridad").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+//SCRIPT MOSTRAR CONTRASENA PARAMETROS CORREO
+function mostrarPassCorreo(){
+	let cambioCorreo = document.querySelector("#contrasenaCorreo");
+
+	if(cambioCorreo.type == "password"){
+		cambioCorreo.type = "text"
+		$(".icon_correo").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioCorreo.type = "password";
+		$(".icon_correo").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+//SCRIPT MOSTRAR CONTRASENA PARAMETROS BD
+function mostrarPassBD(){
+	
+	let cambioBD = document.querySelector("#contrasenaBD")
+	
+	if(cambioBD.type == "password"){
+		cambioBD.type = "text";
+		$(".icon_bd").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioBD.type = "password"
+		$(".icon_bd").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+//SCRIPT MOSTRAR CONTRASENA PARAMETROS SISTEMA
+function mostrarPassSistema(){
+
+	let cambioSistema = document.querySelector("#contrasenaSistema");
+
+	if(cambioSistema.type == "password"){
+		cambioSistema.type ="text";
+		$(".icon_sistema").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	} else{
+		cambioSistema.type = "password";
+		$(".icon_sistema").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+//SCRIPT MOSTRAR LA CONTRASENA ADMINISTRADOR
+function mostrarPassSistemaParam(){
+	 
+	let cambioSistemaPass = document.querySelector("#contrasenaAdministrador");
+
+	if(cambioSistemaPass.type == "password"){
+		cambioSistemaPass.type = "text";
+		$(".icon_PassSistema").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioSistemaPass.type = "password";
+		$(".icon_PassSistema").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+//SCRIPT MOSTRAR LA CONTRASENA DEL CORREO
+function mostrarPassCorreoParam(){
+	 
+	let cambioCorreoPass = document.querySelector("#contrasenaCorreo");
+
+	if(cambioCorreoPass.type == "password"){
+		cambioCorreoPass.type = "text";
+		$(".icon_PassCorreo").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioCorreoPass.type = "password";
+		$(".icon_PassCorreo").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+}
+
+
+// Scripts del modulo login
     function PasswordMostrar(){
         let cambio = document.getElementById("P_Password");
         if(cambio.type == "password"){

@@ -19,8 +19,8 @@ function soloLetra(e){
 function soloNumero(e){
     var key = window.event ? e.which : e.keyCode;
     teclado=String.fromCharCode(key);
-    numero="0123456789.";
-    especiales="8-37-38-46";
+    numero="1234567890.";
+    especiales="8-37-38-46-48";
     teclado_especial = false;
      if (key < 48 || key > 57) {
      e.preventDefault();
@@ -117,6 +117,7 @@ $(document).ready(function(){
          contOrden = [...contOrden, orden];
         //if(contOrden.length > 0) sincronizarStorage(contOrden)
         //agrega  art a la tabla
+        $('.tbody tr').remove();
         listaOrden.prop('disabled', true);
         
         llenarTabla();
@@ -124,13 +125,15 @@ $(document).ready(function(){
         registrar.prop('disabled',false);
     }
     function llenarTabla(){
-        resetearFormulario();
+        console.log('holaaa')
+        //resetearFormulario();
         $('.tbody tr').remove();
         contOrden.forEach((orden, index) => agregarFila(orden, index));
+        console.log('hola0')
     }
     //agregar producto a la orden
     
-    function agregarFila(orden = {}, index = -1){
+    function agregarFila(orden = {}, index=-1){
         const{proOrden, cantidadO , descripcionO} = orden;
         contenedorOrden.append(`
         <tr >
@@ -139,12 +142,12 @@ $(document).ready(function(){
             <td>${cantidadO}</td>
             <td>${descripcionO}</td>
             <td>
-                <button class="btn btn-warning btnEditar Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
-                <button class="btn btn-danger btnEliminarP glyphicon glyphicon-remove" data-id="${index}"></button>
+                <button class="btn btn-warning btnEditarOrden Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
+                <button class="btn btn-danger btnEliminarO glyphicon glyphicon-remove" data-id="${index}"></button>
             </td>  
         </tr>
         `);
-        $('.btnEliminarP').on('click', (e)=>{
+        $('.btnEliminarO').on('click', (e)=>{
            let id = e.target.dataset.id;
            swal('Eliminar producto','Esta seguro que desea eliminar este producto?','warning',{
                buttons: ['Cancelar', 'Aceptar']
@@ -152,8 +155,9 @@ $(document).ready(function(){
             .then((resp) => {
                 if(resp){
                     contOrden.splice(id, 1);
-                    //sincronizarStorage(contOrden);
+                    
                     llenarTabla();
+                    resetearFormulario();
                     
                 }
             })
@@ -161,15 +165,15 @@ $(document).ready(function(){
 
         });
 
-        $('.btnEditar').on('click', e => {
+        $('.btnEditarOrden').on('click', e => {
           	let id = e.target.dataset.id;
             idProductoTemporal = id;
             let productoSeleccionado = contOrden[id];
             if(productoSeleccionado !== undefined){
-              $('#productoOrden').val(productoSeleccionado.proOrden);
+              $('#productoOrden').val(productoSeleccionado.proOrden.id);
               $('#cantidadPOr').val(productoSeleccionado.cantidadO);
               $('#descCanO').val(productoSeleccionado.descripcionO);
-              $('#btnProductUpdate').attr('type','button');
+              $('#btnOrdenUpdate').attr('type','button');
               $('.btnAgregarFila').attr('type','hidden');
             } 
             
@@ -181,46 +185,32 @@ $(document).ready(function(){
         
         contOrden[idProductoTemporal] = {
           ...contOrden[idProductoTemporal],
-          proOrden : $('#productoOrden').val(),
+          proOrden :{
+                id:$('#productoOrden').val(),
+                nombre: $("#productoOrden option:selected").text()
+            },
           cantidadO : $('#cantidadPOr').val(),
           descripcionO : $('#descCanO').val(),
               
         };
-        //sincronizarStorage(contOrden);
-        $('#btnProductUpdate').attr('type','hidden');
+        
+        $('#btnOrdenUpdate').attr('type','hidden');
         $('.btnAgregarFila').attr('type','button');
         llenarTabla();
-        
+        //resetearFormulario();
         swal('Producto actualizado','El producto se actualizo con exito','success',{
-            
+          
           buttons:false,
           timer:2000,
-          //resetearFormulario()
+          
         });
       }
-      
-      
-    //   function cargarStorage(){
-    //       const productsStorage = localStorage.getItem('orden');
-    //       if(!productsStorage){
-    //           localStorage.setItem('orden',JSON.stringify([]));
-    //       }else{
-    //         contOrden = JSON.parse(productsStorage);
-    //           llenarTabla();
-    //       }
-    //   };
-   
-    //   function sincronizarStorage(data=[]){
-    //       if(data.length > 0) localStorage.setItem('orden',JSON.stringify(data));
-    //   }
-  
-    //  cargarStorage();
-  
+
      // cuando agregas una presionando agragar a table
            
          listaOrden.on('click', agregarOrden);
-        $('#btnProductUpdate').on('click', editarOrden);
-        resetearFormulario()
+        $('#btnOrdenUpdate').on('click', editarOrden);
+        //resetearFormulario()
      
      
      function resetearFormulario(){
@@ -286,20 +276,13 @@ $(document).ready(function(){
                 formData1.append('usuario_actual',usuario_actual);
                
                 const resp = axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1);
-                const datas = resp.data;
-
-                datas.forEach((p, index)=>{
-                    console.log(p.msj);
-              
-                });                
+                const data =resp; 
+                             
   
                 
             }
             }).catch(err=>console.log(err));
-            const data =res.data;
-            console.log(data);
-        
-                
+                       
            
         
         }else{
@@ -308,6 +291,7 @@ $(document).ready(function(){
         $('.tbody tr').remove();
         //desabilita el boton registrar
        registrar.prop('disabled', true);
+       location.reload(); 
      
     });
 
@@ -323,7 +307,6 @@ $(document).ready(function(){
          $('#cont div ').remove();
          info.append(
             `
-           
              <div class="user col-3">
              <P class="local col-6"> ${localidad}</P>
              <label for="" id="fecha">FECHA: <span>${fecha}</span></label>
@@ -395,12 +378,13 @@ $(document).ready(function(){
                 if(data.existencias.length > 0){
                 data.existencias.forEach((p, index)=>{
                     const cant =$('#cantidadPOr').val(); 
-                    console.log(cant); 
-                   if( cant >= p.existencias){
+                   // console.log(cant, idP); 
+                   if(Number(cant) >= Number(p.existencias)){
+                       console.log(cant,p.existencias);
                    swal("Lo sentimos no tenemos en Inventario esa cantidad de", nombre, "info", {
                         position: 'top-end',
-                        //timer:3000,
-                        showConfirmButton: false
+                        timer:2000,
+                        button: false
                     })
 
                    }
@@ -419,46 +403,48 @@ $(document).ready(function(){
     });
     // funcion para hacer la resta en el inventario general
     /*el inventario solo se actualizara cuando la opcion se enviado, por lo que debe confirmar con el usuario si quiere realizar la accion */
-    const tabla = $('.contenedorOrden tr td');
-
     
-    $('#row ').on('change',()=>{
-       
-        const idEstado= $("#row").val();
-        const nombre = $("#row option:selected").text();
-        tabla.map(index =>{
-            console.log(index+1, nombre);
-        })
-        console.log(tabla)
-        // if (idEstado !== 6){
-        //     console.log('seguro que quiere enviar el producto');
-        //     // swal({
-        //     //     title: "Estas Seguros?",
-        //     //     text: "Una vez cambiado el estado a Enviado, se rebajara la orden de inventario!",
-        //     //     icon: "warning",
-        //     //     buttons: true,
-        //     //     dangerMode: true,
-        //     //   })
-        //     //   .then((willDelete) => {
-        //     //     if (willDelete) {
-        //     //       swal("Exito! Orden rebajada de inventario!", {
-        //     //         icon: "success",
-        //     //       });
-        //     //     }
-        //     //   });
+    $('.rowO ').on('change',function (){
+       const idOrden=$(this).attr('id')
+       var usuario_actual = $("#usuario_actual").val();
+     
+        const idEstado= Number($(this).val());        
+        if (idEstado === 6 ){
+            
+              swal("Estas Seguros?", "Una vez cambiado el estado a Enviado, se rebajara la orden de inventario!", "warning",{buttons: [true, "OK"]})
+              .then(async (value) => {
+                if (value){
+                    console.log(idOrden);
+                    const formData = new FormData();
+                    formData.append('id_orden', idOrden);
+                    formData.append('id_estado', idEstado);
+                    formData.append('usuario_actual', usuario_actual);
+                    const resp = await axios.post('./controlador/contOrden.php?action=actualizarEstadoOrden', formData);
+                    const data = resp.data;
+                    //console.log(data);
+                    if(data.error){
+                        return swal("Error", data.msj, "error",{
+                            buttons: false,
+                            timer: 3000
+                        });
+                    }
+                    return swal("Exito!", data.msj, "success",{
+                        buttons: false,
+                        timer: 3000
+                    }).then(() =>{ 
+                        location.reload();
+                    });
+                }
+            });
+              $(".rowO option:selected").prop('disabled', true);
+
            
-        // }else {
-        //     console.log('no importa');
-        //     //$('#row option').prop('disabled',true);
-        // };
+        }
         
        
-    })
-
-    
-
-     
-
+    });
+    // funcion para sumar al inventario
+   
 
     
 

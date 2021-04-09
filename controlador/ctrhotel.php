@@ -74,13 +74,16 @@ switch ($action){
                 $reservacion=$_POST['reservacion'];
                 $entrada=$_POST['entrada'];
                 $salida = $_POST['salida'];
+                date_default_timezone_set("America/Tegucigalpa");
+                $entrar = $entrada ." ".date('H:i:s',time());
+                $salir = $salida ." ".date('H:i:s',time());
                 
 
                 $actualizarcamping = "UPDATE tbl_detalle_reservacion dr
                                     inner join tbl_reservaciones r
                                     on dr.reservacion_id = r.id_reservacion
                                     set 
-                                    r.fecha_entrada='$entrada', r.fecha_salida='$salida' 
+                                    r.fecha_entrada='$entrar', r.fecha_salida='$salir' 
                                     WHERE id_reservacion=".$id_reservacion;
                 
                 $resultado=$conn->query($actualizarcamping);
@@ -95,17 +98,74 @@ switch ($action){
                 $res['error'] = true;
             }
     break;
+    case 'traerDetalle':
+        $DetReserva = $_GET['idReservacion'];
+        try {
+
+            $sql = "SELECT id_detalle_reservacion,reservacion_id, tbl_habitacion_servicio.habitacion_area, tbl_habitacion_servicio.precio_adulto_nacional,
+             tbl_habitacion_servicio.precio_nino_nacional,cantidad_persona,cantidad_ninos,
+            inventario_id
+            FROM tbl_detalle_reservacion
+            INNER JOIN tbl_habitacion_servicio
+            ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio
+            WHERE reservacion_id= $DetReserva";
+            $result = $conn->query($sql);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        $vertbl = array();
+        while ($eventos = $result->fetch_assoc()) {
+            $evento = array(
+                'numero' => $eventos['reservacion_id'],
+                'habitacionArea' => $eventos['habitacion_area'],
+                'adultos' => $eventos['cantidad_persona'],
+                'padulto' => $eventos['precio_adulto_nacional'],
+                'niños' => $eventos['cantidad_ninos'],
+                'pniño' => $eventos['precio_nino_nacional'],
+                'articulos' => $eventos['inventario_id'],
+                
+            );
+            array_push($vertbl, $evento);
+        }
+        $res['reserva'] = $vertbl;
+
+    break;
     case 'eliminarReservacion':
         if (isset($_POST['id_reservacion'])) {
             $id_reserva = $_POST['id_reservacion'];
-            $sql = "UPDATE tbl_detalle_reservacion SET estado_eliminado = 0 WHERE id_detalle_reservacion = " .$id_reserva;
+            $sql = "UPDATE tbl_detalle_reservacion SET estado_eliminado = 0 WHERE reservacion_id = " .$id_reserva;
             $resultado = $conn->query($sql);
-            if ($resultado == 1) {
-                $res['msj'] = "Reservacion Eliminada  Correctamente";
-            } else {
-                $res['msj'] = "Se produjo un error al momento de eliminar la reservación";
-                $res['error'] = true;
-            }
+                
+            //se captura el id de la tabla de habitacion servicio para cambiarle el estado a disponible
+                $captura_ha = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
+                WHERE reservacion_id =  ?;");
+                $captura_ha->bind_Param("i", $id_reserva);
+                $captura_ha->execute();
+                $captura_ha->bind_result($idH);
+
+                if($captura_ha->affected_rows){
+                    $existe_ha = $captura_ha->fetch();
+
+                    while ($captura_ha->fetch()) {
+                        $id_hab = $idH;
+                    }
+                    if($existe_ha){
+                        $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
+                        WHERE id_habitacion_servicio = ?;");
+
+                        $actulizar_estado -> bind_param('i', $idH);
+                        $actulizar_estado -> execute();
+
+                        if(!$actulizar_estado -> error){
+            
+                            $res['msj'] = "Reservacion Eliminada Correctamente";
+                        } else {
+                            $res['msj'] = "Se produjo un error al momento de eliminar la reservación";
+                            $res['error'] = true;
+                        }
+                    }
+                }
         } else {
             $res['msj'] = "No se envió el id de la reservacion a eliminar";
             $res['error'] = true;

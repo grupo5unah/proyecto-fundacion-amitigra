@@ -45,7 +45,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a href="producto" class="btn btn-success button1 text-uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </a>
+								<button class="btn btn-success button1 text-uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </button>
 
 								</div> <!-- /div-action -->
 
@@ -153,7 +153,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 			</div>
 			<!-- /.box-body -->
 
-			<div class="modal fade" id="modalEditarProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+			<div class="modal fade" id="modalEditarProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-target=".bd-example-modal-lg">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -228,8 +228,173 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 				</div>
 			</div>
 
+			<!-- modal para crear un producto -->
+			<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+					<div class="modal-dialog">
+						<div class="modal-content" style="width: 900px;">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Registrar Producto</h3>
+								</div>
+							</div>
+							<div class="modal-body">
+								<form method="POST" id="formProducto" role="form" class="validarFORM" style="text-align:center;">
+									<div class="row d-flex  justify-content-around">
 
-			<!-- /.box-footer-->
+										<div class="col-sm-3 form-group " id="groupP">
+											<label for=""> PRODUCTO </label>
+											<input id="nombreP" class="form-control   secundary text-uppercase" type="text" name="nombreP" min="0" maxlength="10" minlength="3" placeholder="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+										</div>
+
+										<div class="col-sm-3 m-auto form-group ">
+											<label for="">PRECIO </label>
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input id="precioProducto" class="form-control  secundary " type="number" name="precioProducto" placeholder="Lps:1.00" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
+
+											</div>
+										</div>
+										<div class="col-sm-2 form-group ">
+											<label>DESCRIPCION </label>
+											<input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder="Escriba la descripcion(lbs,uds)" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+										</div>
+										<div class="col-sm-2 form-group justify-content-between">
+											<label for=""> TIPO PRODUCTO</label>
+											<select name="tipoProducto" id="tipoProducto" class=" input-group">
+												<option value="0">Seleciona una Opción</option>
+												<?php
+
+												$sql = "SELECT id_tipo_producto, nombre_tipo_producto FROM tbl_tipo_producto";
+												$result = $conn->query($sql);
+
+												if ($result->num_rows > 0) {
+													// output data of each row
+													while ($row = $result->fetch_assoc()) {
+														echo "<option value=" . $row['id_tipo_producto'] . ">" . $row['nombre_tipo_producto'] . "</option>";
+													}
+												} else {
+													echo "0 results";
+												}
+												//$conn->close();
+												?>
+											</select>
+
+										</div>
+
+									</div>
+									<div>
+										<div class="col-sm-3 m-auto form-group ">
+											<label for="">CANTIDAD INICIAL </label>
+											<div class="input-group">
+
+												<input id="inicial" class="form-control  secundary " type="number" name="precioProducto" placeholder="Lps:1.00" onkeypress="return soloNumero(event)" autocomplete="off" min="1" minlength="1" required />
+
+											</div>
+										</div>
+										<div class="col-sm-3 m-auto form-group ">
+											<label for="">MINIMO</label>
+											<div class="input-group">
+												<input id="minimo" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
+
+											</div>
+										</div>
+										<div class="col-sm-3 m-auto form-group ">
+											<label for="">MAXIMO </label>
+											<div class="input-group">
+
+												<input id="maximo" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
+
+											</div>
+										</div>
+
+										<input id="btnAddList" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+">
+										<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table">
+									</div>
+									<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
+									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+									<?php
+
+									$sql = "SELECT id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA'";
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+										// output data of each row
+										while ($row = $result->fetch_assoc()) {
+											$id = ($row['id_tipo_movimiento']); ?>
+											<input type="hidden" name="" id="entrada" value="<?php echo ($id); ?>">
+									<?php	}
+									} else {
+										echo "0 results";
+									}
+								
+
+									$sql = "SELECT id_localidad FROM tbl_localidad where nombre_localidad = 'TEGUCIGALPA'";
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+										// output data of each row
+										while ($row = $result->fetch_assoc()) {
+											$id = ($row['id_localidad']); ?>
+											<input type="hidden" name="" id="id_local" value="<?php echo ($id); ?>">
+									<?php	}
+									} else {
+										echo "0 results";
+									}
+									$conn->close();
+									?>
+									<!-- <input type="hidden" name="" id="tipo_movimiento" value="<?= $usuario ?>"> -->
+								</form>
+								<div id="producto">
+									<table id="productTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+										<thead>
+											<tr>
+												<td>#</td>
+												<td>Nombre Producto</td>
+												<td>Precio</td>
+												<td>Descripcion</td>
+												<td>Tipo Producto</td>
+												<td>Cantidad Inicial</td>
+												<td>Minimo</td>
+												<td>Maximo</td>
+
+												<?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
+
+												else : ?>
+													<td>Acciones</td>
+												<?php
+												endif;
+												?>
+											</tr>
+										</thead>
+										<tbody id="row1" class="tbody">
+										</tbody>
+									</table>
+
+
+								</div>
+
+								<?php
+								if (isset($_GET['msg'])) {
+									$mensaje = $_GET['msg'];
+									print_r($mensaje);
+									//echo "<script>alert(".$mensaje.");</script>";  
+								}
+
+								?>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-Danger" id="cerrar" data-dismiss="modal">Close</button>
+									<button type="button" id="registrarInventario" class=" btn btn-primary">Registrar </button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			
 		</div>
 		<!-- /.box -->
 	</section>

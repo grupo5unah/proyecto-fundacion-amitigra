@@ -47,16 +47,6 @@ switch ($action) {
 
 
                 if ($result > 0) {
-
-
-                    //consulta para verificar que el recibo o deposito no se encuentre registrado 
-$consulta_recibo = mysqli_query($conn, "SELECT id_solicitud,recibo FROM tbl_solicitudes
-WHERE recibo=$recibo");
-$resultado_recibo = mysqli_fetch_array($consulta_recibo);
-if ($resultado_recibo > 0) {
-    $res['msj'] = "Este número de deposito ya se encuentra registrado";
-    $res['error'] = true;
-}
                     
                     //capturamos el id del cliente
                     $id_clientecap = $result['id_cliente'];
@@ -69,16 +59,6 @@ if ($resultado_recibo > 0) {
                         $estado_capturado = $resultado_estado['id_estatus_solicitud'];
                     }
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-
-
                     //consulta para el id del usuario
                     $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
                             WHERE nombre_usuario= '$usuario_actual'");
@@ -87,7 +67,7 @@ if ($resultado_recibo > 0) {
                         //capturamos el id del usuario
                         $id_usercap = $resultado['id_usuario'];
 
-                        $total_pago = 800;
+                        $total_pago = 700;
                         //Insertamos en la tabla solicitudes
                         $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                         tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
@@ -120,6 +100,7 @@ if ($resultado_recibo > 0) {
                     //si no existe el cliente
                 } else {
                     $estado_elim = 1;
+                    
                     $sql = $conn->prepare("INSERT INTO tbl_clientes(nombre_completo,identidad,telefono,tipo_nacionalidad,estado_eliminado,
                             creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                     VALUES (?,?,?,?,?,?,?,?,?)");
@@ -150,7 +131,7 @@ if ($resultado_recibo > 0) {
 
                         if ($result) {
                             $cliente_capturado = $result['id_cliente'];
-
+                           
                             //Capturar el id_usuario 
                             $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
                             WHERE nombre_usuario= '$usuario_actual'");
@@ -162,18 +143,10 @@ if ($resultado_recibo > 0) {
 
                             //insertamos en tbl_solicitudes
 
-                            if ($tipo === "COMUNITARIAS") {
-                                $total_pago = 0;
+                            if($tipo === "COMUNITARIAS"){
+                                $total_pago= 0;
                             } else {
-                                $total_pago = 700;;
-                            }
-
-                            //consulta para traer el id del estado de la solicitud
-                            $consulta_id = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud
-                            WHERE estatus = 'PROCESO'");
-                            $resultado_estado = mysqli_fetch_array($consulta_id);
-                            if ($resultado_estado > 0) {
-                                $estado_capturado = $resultado_estado['id_estatus_solicitud'];
+                                $total_pago=700;;
                             }
                             $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,
                                                    estatus_solicitud,
