@@ -19,7 +19,7 @@ switch ($action) {
         $recibo = $_POST['n_recibo'];
         $tipo_nac = $_POST['tipo_nac'];
         $tipo = $_POST['tipo_sol'];
-        $estatus_solicitud = $_POST['estado_solicitud'];
+
         $usuario_actual = $_POST['usuario_actual'];
 
         //Fecha ACTUAL del sistema
@@ -31,8 +31,7 @@ switch ($action) {
 
         if (
             empty($_POST['nombreCompleto']) || empty($_POST['identidad'])  || empty($_POST['telefono'])
-            || empty($_POST['n_recibo']) || empty($_POST['tipo_nac'])
-            || empty($_POST['tipo_sol']) || empty($_POST['estado_solicitud'])
+            || empty($_POST['n_recibo']) || empty($_POST['tipo_nac'])|| empty($_POST['tipo_sol'])
         ) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
@@ -52,16 +51,14 @@ switch ($action) {
                     //capturamos el id del cliente
                     $id_clientecap = $result['id_cliente'];
 
-                    //consuta para traer el precio de la solicitud
-                   /* $consultar_precio = mysqli_query($conn, "SELECT id_tipo_solicitud,precio_solicitud FROM tbl_tipo_solicitud
-                    WHERE tipo='$tipo'");
-                    $resultado_precio = mysqli_fetch_array($consultar_precio);
+                    //consulta para traer el id del estado de la solicitud
+                    $consulta_id = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud
+                    WHERE estatus = 'PROCESO'");
+                    $resultado_estado = mysqli_fetch_array($consulta_id);
+                    if ($resultado_estado > 0) {
+                        $estado_capturado = $resultado_estado['id_estatus_solicitud'];
+                    }
 
-                    if ($resultado_precio > 0) {
-                       
-                        $total_pago=800;// variable para insertar en la tabla solicitudes
-                    
-                    }*/
                     //consulta para el id del usuario
                     $consulta_id = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
                             WHERE nombre_usuario= '$usuario_actual'");
@@ -70,12 +67,7 @@ switch ($action) {
                         //capturamos el id del usuario
                         $id_usercap = $resultado['id_usuario'];
 
-                        
-                        if($tipo === "COMUNITARIAS"){
-                            $total_pago= 0;
-                        } else {
-                            $total_pago=700;
-                        }
+                        $total_pago = 700;
                         //Insertamos en la tabla solicitudes
                         $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                         tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
@@ -87,7 +79,7 @@ switch ($action) {
                             $total_pago,
                             $id_clientecap,
                             $id_usercap,
-                            $estatus_solicitud,
+                            $estado_capturado,
                             $tipo,
                             $usuario_actual,
                             $fecha,
@@ -103,7 +95,7 @@ switch ($action) {
                             $res['msj'] = "Solicitud Registrada Correctamente";
                         }
                     }
-                
+
 
                     //si no existe el cliente
                 } else {
@@ -129,7 +121,7 @@ switch ($action) {
                         $res['msj'] = "Se produjo un error al momento de registrar el cliente";
                         $res['error'] = true;
                     } else {
-                        
+
 
                         // select para ver si existe el cliente registrado de acuerdo al numero de identidad
                         $consult = mysqli_query($conn, "SELECT id_cliente,nombre_completo,telefono,nac.nacionalidad 
@@ -148,6 +140,7 @@ switch ($action) {
                             if ($resultado) {
                                 $id_usercap = $resultado['id_usuario'];
                             }
+
                             //insertamos en tbl_solicitudes
 
                             if($tipo === "COMUNITARIAS"){
@@ -166,7 +159,7 @@ switch ($action) {
                                 $total_pago,
                                 $cliente_capturado,
                                 $id_usercap,
-                                $estatus_solicitud,
+                                $estado_capturado,
                                 $tipo,
                                 $usuario_actual,
                                 $fecha,

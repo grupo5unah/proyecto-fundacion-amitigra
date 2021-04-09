@@ -60,7 +60,7 @@ $(document).ready(function () {
             Image:'fotoPerfil/foto1.png',
             download: 'open',
             exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6],
+                columns: [0, 1, 2, 3,4,5,6],
                 orthogonal: 'export'
              },
             customize: function(doc){
