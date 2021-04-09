@@ -15,7 +15,7 @@ $re = mysqli_query($conn, "SELECT MAX(id_producto) AS id FROM tbl_producto");
 if ($row = mysqli_fetch_row($re)) {
     $lastid = trim($row[0]);
 }
-$ri = mysqli_query($conn, "SELECT MAX(id_movimientos) AS id FROM tbl_movimientos");
+$ri = mysqli_query($conn, "SELECT MAX(id_movimiento) AS id FROM tbl_movimientos");
 if ($row = mysqli_fetch_row($ri)) {
     $id= trim($row[0]);
 }
@@ -77,7 +77,7 @@ switch ($action) {
              $res['error'] = true;
         } else {
              try {
-                 $sql = $conn->prepare("INSERT INTO tbl_inventario (existencias, minimo,  	maximo, stock , estado_eliminar , producto_id, movimientos_id,  creado_por, fecha_creacion, modificado_por , fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                 $sql = $conn->prepare("INSERT INTO tbl_inventario (existencias, minimo, maximo, stock , estado_eliminar , producto_id, movimiento_id,  creado_por, fecha_creacion, modificado_por , fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                  foreach ($cont as $valor) {
                     $cantInicial =$valor->inicial;
                     $minimo =$valor->minimo;

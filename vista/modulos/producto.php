@@ -81,7 +81,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                           <?php
                           try {
 
-                            $sql = "SELECT  m.id_movimientos, p.nombre_producto, t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento FROM tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto = m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento= m.tipo_movimiento_id where p.id_producto = m.producto_id and m.tipo_movimiento_id=t.id_tipo_movimiento ";
+                            $sql = "SELECT  m.id_movimiento, p.nombre_producto, t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento FROM tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto = m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento= m.tipo_movimiento_id where p.id_producto = m.producto_id and m.tipo_movimiento_id=t.id_tipo_movimiento ";
 
                             $resultado = $conn->query($sql);
                           } catch (\Exception $e) {
@@ -98,7 +98,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                               'descripcionM' => $eventos['descripcion'],
                               'cantidadM' => $eventos['cantidad'],
                               'fecha_movimiento' => $eventos['fecha_movimiento'],
-                              'id_m' => $eventos['id_movimientos']
+                              'id_m' => $eventos['id_movimiento']
                             );
                             $vertbl[$traer][] =  $evento;
                           }
@@ -117,14 +117,14 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                                 <td>
 
                                   <?php if ($columna["permiso_actualizacion"] == 1) : ?>
-                                    <button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento[''] ?>" data-nomProducto="<?= $evento[''] ?>" data-precioP="<?= $evento[''] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento[''] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento[''] ?>"></button>
+                                    <button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-cantProducto="<?= $evento['cantidadM'] ?>"></button>
                                   <?php
                                   else :
                                   endif;
 
                                   if ($columna["permiso_eliminacion"] == 1) :
                                   ?>
-                                    <button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento[''] ?>"></button>
+                                    <button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php //echo $evento[''] ?>"></button>
                                   <?php
                                   else :
                                   endif;
