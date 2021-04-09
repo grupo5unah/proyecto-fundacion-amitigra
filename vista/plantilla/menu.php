@@ -79,7 +79,7 @@ if($existe){
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">
           <!-- MUESTRA RESERVACIONES SOLO PARA ADMINISTRADOR Y COLABORADOR -->
-            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
+            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente") {?>
             <?php if($columna["permiso_consulta"] == 1){?>
               <a href="#">
                 <i class="fa fa-calendar-check-o"></i>
