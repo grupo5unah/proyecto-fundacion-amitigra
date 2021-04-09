@@ -19,7 +19,7 @@ function soloLetra(e){
 function soloNumero(e){
     var key = window.event ? e.which : e.keyCode;
     teclado=String.fromCharCode(key);
-    numero="0123456789.";
+    numero="1234567890.";
     especiales="8-37-38-46-48";
     teclado_especial = false;
      if (key < 48 || key > 57) {
@@ -117,6 +117,7 @@ $(document).ready(function(){
          contOrden = [...contOrden, orden];
         //if(contOrden.length > 0) sincronizarStorage(contOrden)
         //agrega  art a la tabla
+        $('.tbody tr').remove();
         listaOrden.prop('disabled', true);
         
         llenarTabla();
@@ -124,6 +125,7 @@ $(document).ready(function(){
         registrar.prop('disabled',false);
     }
     function llenarTabla(){
+        console.log('holaaa')
         //resetearFormulario();
         $('.tbody tr').remove();
         contOrden.forEach((orden, index) => agregarFila(orden, index));
@@ -131,7 +133,7 @@ $(document).ready(function(){
     }
     //agregar producto a la orden
     
-    function agregarFila(orden = {}, index = -1){
+    function agregarFila(orden = {}, index=-1){
         const{proOrden, cantidadO , descripcionO} = orden;
         contenedorOrden.append(`
         <tr >
@@ -140,12 +142,12 @@ $(document).ready(function(){
             <td>${cantidadO}</td>
             <td>${descripcionO}</td>
             <td>
-                <button class="btn btn-warning btnEditarO Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
-                <button class="btn btn-danger btnEliminarP glyphicon glyphicon-remove" data-id="${index}"></button>
+                <button class="btn btn-warning btnEditarOrden Producto glyphicon glyphicon-pencil" data-id="${index}"></button>
+                <button class="btn btn-danger btnEliminarO glyphicon glyphicon-remove" data-id="${index}"></button>
             </td>  
         </tr>
         `);
-        $('.btnEliminarP').on('click', (e)=>{
+        $('.btnEliminarO').on('click', (e)=>{
            let id = e.target.dataset.id;
            swal('Eliminar producto','Esta seguro que desea eliminar este producto?','warning',{
                buttons: ['Cancelar', 'Aceptar']
@@ -153,8 +155,9 @@ $(document).ready(function(){
             .then((resp) => {
                 if(resp){
                     contOrden.splice(id, 1);
-                    //sincronizarStorage(contOrden);
+                    
                     llenarTabla();
+                    resetearFormulario();
                     
                 }
             })
@@ -162,7 +165,7 @@ $(document).ready(function(){
 
         });
 
-        $('.btnEditarO').on('click', e => {
+        $('.btnEditarOrden').on('click', e => {
           	let id = e.target.dataset.id;
             idProductoTemporal = id;
             let productoSeleccionado = contOrden[id];
@@ -190,36 +193,19 @@ $(document).ready(function(){
           descripcionO : $('#descCanO').val(),
               
         };
-        //sincronizarStorage(contOrden);
+        
         $('#btnOrdenUpdate').attr('type','hidden');
         $('.btnAgregarFila').attr('type','button');
         llenarTabla();
-        resetearFormulario();
+        //resetearFormulario();
         swal('Producto actualizado','El producto se actualizo con exito','success',{
-            
+          
           buttons:false,
           timer:2000,
           
         });
       }
-      
-      
-    //   function cargarStorage(){
-    //       const productsStorage = localStorage.getItem('orden');
-    //       if(!productsStorage){
-    //           localStorage.setItem('orden',JSON.stringify([]));
-    //       }else{
-    //         contOrden = JSON.parse(productsStorage);
-    //           llenarTabla();
-    //       }
-    //   };
-   
-    //   function sincronizarStorage(data=[]){
-    //       if(data.length > 0) localStorage.setItem('orden',JSON.stringify(data));
-    //   }
-  
-    //  cargarStorage();
-  
+
      // cuando agregas una presionando agragar a table
            
          listaOrden.on('click', agregarOrden);
@@ -290,20 +276,13 @@ $(document).ready(function(){
                 formData1.append('usuario_actual',usuario_actual);
                
                 const resp = axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1);
-                const datas = resp.data;
-
-                datas.forEach((p, index)=>{
-                    console.log(p.msj);
-              
-                });                
+                const data =resp; 
+                             
   
                 
             }
             }).catch(err=>console.log(err));
-            const data =res.data;
-            console.log(data);
-        
-                
+                       
            
         
         }else{
@@ -312,6 +291,7 @@ $(document).ready(function(){
         $('.tbody tr').remove();
         //desabilita el boton registrar
        registrar.prop('disabled', true);
+       location.reload(); 
      
     });
 
@@ -327,7 +307,6 @@ $(document).ready(function(){
          $('#cont div ').remove();
          info.append(
             `
-           
              <div class="user col-3">
              <P class="local col-6"> ${localidad}</P>
              <label for="" id="fecha">FECHA: <span>${fecha}</span></label>
@@ -399,12 +378,13 @@ $(document).ready(function(){
                 if(data.existencias.length > 0){
                 data.existencias.forEach((p, index)=>{
                     const cant =$('#cantidadPOr').val(); 
-                    console.log(cant); 
-                   if( cant >= p.existencias){
+                   // console.log(cant, idP); 
+                   if(Number(cant) >= Number(p.existencias)){
+                       console.log(cant,p.existencias);
                    swal("Lo sentimos no tenemos en Inventario esa cantidad de", nombre, "info", {
                         position: 'top-end',
-                        //timer:3000,
-                        showConfirmButton: false
+                        timer:2000,
+                        button: false
                     })
 
                    }
@@ -462,62 +442,11 @@ $(document).ready(function(){
         }
         
        
-    })
+    });
     // funcion para sumar al inventario
-    $("#formRol").submit(async function(e){
-        e.preventDefault();
+   
 
-    });
-
-    $('.btnSumarI').on('click',function(){
-        const idInventario = $(this).data('idinve'); 
-        const nombreP = $(this).data('nombre');
-        const stock =$(this).data('stock');
-       
-       // llenar el formulario y obtener 
-       $("#pro").val(nombreP);
-       
-       //muestra el modal
-       $('#agregarProducto').modal('show');
-
-       $(".idStock").on('click', async function(){
-
-           let idIn = Number(idInventario);
-           let oldStock = Number(stock);
-           var usuario_actual = $("#usuario_actual").val();
-           const valor= $('#valor').val();
-           let nuevoStock=0;
-           nuevoStock= (parseInt(oldStock)+parseInt(valor));
-           
-           const formData = new FormData();
-           formData.append('id_inven',idIn);
-           formData.append('valor', nuevoStock);
-           formData.append('usuario_actual', usuario_actual);
-           
-           const resp = await axios.post('./controlador/apiRol.php?action=actualizarStock', formData);
-           const data = resp.data;
-            console.log(data);
-            if(data.error){
-                return swal("Error", data.msj, "error", {
-                    timer:3000,
-                    buttons:false
-                });
-            } else{
-                $('#agregarProducto').modal('hide');
-                return swal("Exito!", data.msj, "success", {
-                    timer:3000,
-                    buttons:false
-                }).then(() => {
-                    // Se limpia el formulario
-                    $("#descripcion").val('');
-                    location.reload(); 
-                })
-            }
-
-       });
-       
-
-    });
+    
 
 });
 
