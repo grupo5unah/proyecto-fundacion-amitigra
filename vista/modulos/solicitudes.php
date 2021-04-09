@@ -343,8 +343,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
               <h3 class="modal-title" id="exampleModalLabel">Registrar Solicitud</h3>
             </div>
           </div>
-          <div class="modal-body">
-            <form name="" id="formSolicitudes" onpaste="return false">
+          <div class="modal-body" >
+            <form name="" id="formSolicitudes" onpaste="return false" autocomplete="off" >
               <div class=" form-group">
                 <div class="campos form-group" type="hidden">
                   <label for=""> </label>
@@ -358,7 +358,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   <input id="identidad" maxlength="13" minlength="13" style="width:335px" onkeypress="return soloNumeros(event)" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad" />
                 </div>
                 <div class="campos form-group">
-                  <input id="telefono" autocomplete="off" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
+                  <input id="telefono" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
 									secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" /></center>
                 </div>
 
