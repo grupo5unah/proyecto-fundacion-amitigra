@@ -1,8 +1,8 @@
 
-function soloLetra(e){
+function soloLetrasNumeros(e){
     key=e.keycode || e.which;
     teclado = String.fromCharCode(key).toLowerCase();
-    letra=" abcdefghijklmnopqrstuvwxyz¿?_";
+    letra=" ABCDEFGHIJKMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789¿?_";
     especiales="8-16-37-38-46-63-92-95-164";
     teclado_especial=false;
     for(let i in especiales){

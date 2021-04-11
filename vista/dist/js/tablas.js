@@ -1396,8 +1396,7 @@ $(document).ready(function() {
             {className: "text-center ", targets: [5]},
             {className: "text-center ", targets: [6]},
             {className: "text-center ", targets: [7]},
-            {className: "text-center ", targets: [8]},
-            {className: "text-center ", targets: [9]},
+            
            
             
         ],
@@ -1449,7 +1448,7 @@ $(document).ready(function() {
                 Image:'fotoPerfil/foto1.png',
                 download: 'open',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4,5,6,7,8,9],
+                    columns: [0, 1, 2, 3, 4,5,6,7],
                     orthogonal: 'export'
                  },
                 customize: function(doc){
