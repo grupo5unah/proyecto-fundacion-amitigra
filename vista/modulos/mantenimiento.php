@@ -247,11 +247,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 						</div>
 						<div class="modal-body">
-							<form name="formEditarProducto">
+							<form name="formEditarProducto" autocomplete="off" onpaste="return false">
 								<div class="ingreso-producto form-group">
 									<div class="campos" type="hidden">
 										<label for=""> </label>
-										<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+										<input  class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
 									</div>
 
 
@@ -388,7 +388,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 						</div>
 						<div class="modal-body">
-							<form name="" id="formGusuarios" onpaste="return false">
+							<form name="" id="formGusuarios" onpaste="return false" autocomplete="off">
 								<div class=" form-group">
 									<div class="campos form-group" type="hidden">
 										<label for=""> </label>

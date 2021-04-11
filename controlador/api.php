@@ -17,7 +17,7 @@ if ($row = mysqli_fetch_row($re)) {
 }
 $ri = mysqli_query($conn, "SELECT MAX(id_movimiento) AS id FROM tbl_movimientos");
 if ($row = mysqli_fetch_row($ri)) {
-    $id= trim($row[0]);
+    $id = trim($row[0]);
 }
 
 switch ($action) {
@@ -33,48 +33,46 @@ switch ($action) {
             array_push($producto_db, $row);
         }
         $res['producto'] = $producto_db;
-    break;
-
+        break;
     case 'registrarProducto': // REGISTRA UN PRODUCTO
-            
-        $cont= json_decode($_POST['contProducto']);
-        $estado=1;
+
+        $cont = json_decode($_POST['contProducto']);
+        $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
         $fecha = date('Y-m-d H:i:s', time());
-        
-         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
-             $res['msj'] = 'Es necesario rellenar todos los campos';
-             $res['error'] = true;
+
+        if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
+            $res['msj'] = 'Es necesario rellenar todos los campos';
+            $res['error'] = true;
         } else {
-             try {
-                 $sql = $conn->prepare("INSERT INTO tbl_producto (nombre_producto,  precio_compra, descripcion,  tipo_producto_id,  estado_eliminado, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
-                 foreach ($cont as $valor) {
-                    $nombre =$valor->nombre;
-                    $precio =$valor->precio;
-                    $descripcion =$valor->descripcion;
-                    $tipoP =$valor->id;
+            try {
+                $sql = $conn->prepare("INSERT INTO tbl_producto (nombre_producto,  precio_compra, descripcion,  tipo_producto_id,  estado_eliminado, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                foreach ($cont as $valor) {
+                    $nombre = $valor->nombre;
+                    $precio = $valor->precio;
+                    $descripcion = $valor->descripcion;
+                    $tipoP = $valor->id;
 
-                 $sql->bind_param("sisiissss", $nombre, $precio,  $descripcion,  $tipoP, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
-                 $sql->execute();
-               }
+                    $sql->bind_param("sisiissss", $nombre, $precio,  $descripcion,  $tipoP, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $sql->execute();
+                }
             } catch (Exception $e) {
-                   echo $e->getMessage();
+                echo $e->getMessage();
             }
-
-         }
-    break;
+        }
+        break;
     case 'registrarInventarioInicial': // REGISTRA UN PRODUCTO
-            
-        $cont= json_decode($_POST['contProducto']);
-        $estado=1;
+
+        $cont = json_decode($_POST['contProducto']);
+        $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
-        $local= $_POST['local'];
-        $idorden=0;
+        $local = $_POST['local'];
+        $idorden = 0;
         $fecha = date('Y-m-d H:i:s', time());
-        
-         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
-             $res['msj'] = 'Es necesario rellenar todos los campos';
-             $res['error'] = true;
+
+        if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
+            $res['msj'] = 'Es necesario rellenar todos los campos';
+            $res['error'] = true;
         } else {
              try {
                  $sql = $conn->prepare("INSERT INTO tbl_inventario (existencias, minimo, maximo, stock , estado_eliminar , producto_id, movimiento_id,  creado_por, fecha_creacion, modificado_por , fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
@@ -96,42 +94,40 @@ switch ($action) {
                 //$sql->close();
                 // $sql = null;
             } catch (Exception $e) {
-                   echo $e->getMessage();
+                echo $e->getMessage();
             }
-
-         }
-    break;
+        }
+        break;
     case 'registrarEntradaInicial': // REGISTRA UN PRODUCTO
-            
-        $cont= json_decode($_POST['contProducto']);
-        $estado=1;
+
+        $cont = json_decode($_POST['contProducto']);
+        $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
         $entrada = $_POST['entrada'];
-        $descripcion= 'ENTRADA INICIAL';
+        $descripcion = 'ENTRADA INICIAL';
         $fecha = date('Y-m-d H:i:s', time());
-         echo $lastid;
-         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
-             $res['msj'] = 'Es necesario rellenar todos los campos';
-             $res['error'] = true;
+        echo $lastid;
+        if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
+            $res['msj'] = 'Es necesario rellenar todos los campos';
+            $res['error'] = true;
         } else {
-             try {
-                 $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
-                 foreach ($cont as $valor) {
-                    $cantInicial =$valor->inicial;
-                       
-             
-                 $sql->bind_param("iisisssss", $lastid,$entrada, $descripcion,$cantInicial,$fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
-                 $sql->execute();
-               }
-               
+            try {
+                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                foreach ($cont as $valor) {
+                    $cantInicial = $valor->inicial;
+
+
+                    $sql->bind_param("iisisssss", intval($lastid), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $sql->execute();
+                }
+
                 //$sql->close();
                 // $sql = null;
             } catch (Exception $e) {
-                   echo $e->getMessage();
+                echo $e->getMessage();
             }
-
-         }
-    break;
+        }
+        break;
     case 'eliminarProducto':
         if (isset($_POST['id_inventario'])) {
             $id_producto = $_POST['id_producto'];
@@ -175,47 +171,114 @@ switch ($action) {
                 $res['error'] = true;
             }
         } else {
-           
+
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }
 
-    break;
+        break;
+
+    case 'registrarEntrada': // REGISTRA UN movimiento de entrada
+
+        $cont = json_decode($_POST['contMovi']);
+        $estado = 1;
+        $usuario_actual = $_POST['usuario_actual'];
+        //$entrada = $_POST['entrada'];
+        //$descripcion= 'ENTRADA INICIAL';
+        $fecha = date('Y-m-d H:i:s', time());
+        echo $lastid;
+        if (empty($_POST['contMovi']) || empty($_POST['usuario_actual'])) {
+            $res['msj'] = 'Es necesario rellenar todos los campos';
+            $res['error'] = true;
+        } else {
+            try {
+                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                foreach ($cont as $valor) {
+                    $id_producto = $valor->nombreID;
+                    $cantInicial = $valor->cantidad;
+                    $descripcion = $valor->descripcion;
+                    $entrada=$valor->id_movimiento;
+
+                    $sql->bind_param("iisisssss", intval($id_producto), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $sql->execute();
+
+                    if ($sql->error) {
+                        $res['msj'] = "Se produjo un error al momento de registrar el movimiento";
+                        $res['error'] = true;
+                    } else {
+                        $res['msj'] = "movimiento Registrado Correctamente";
+                    }
+                }
+
+                //$sql->close();
+                // $sql = null;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+        break;
+        //actualiza el inventario
     case 'actualizarInventario':
         if (
-            isset($_POST['id_inventario'])
-            && isset($_POST['stock']) && isset($_POST['usuario_actual'])
+             isset($_POST['usuario_actual'])
         ) {
-            $id_inventario = $_POST['id_inventario'];
-            $valor=$_POST['stock'];
+            $cont = json_decode($_POST['contMovi']);
+            //$id_inventario = $_POST['id_inventario'];
+           // $stock = $_POST['stock'];
             $usuario_actual = $_POST['usuario_actual'];
             $fecha = date('Y-m-d H:i:s', time());
-     
-            $sql = "UPDATE tbl_inventario 
-                        SET existencias = '$valor',modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_inventario= '" . $id_inventario . "'";
-            $resultado = $conn->query($sql);
-
-            if ($resultado == 1) {
-                $res['msj'] = "Producto Edito  Correctamente";
-            } else {
-                $res['msj'] = "Se produjo un error al momento de Editar el producto ";
-                $res['error'] = true;
+            //$movimiento = $_POST['nombre_movimiento'];
+            
+            //echo $stock;
+            foreach ($cont as $valor) {
+                $movimiento=$valor->movimiento;
+                $cantInicial = $valor->cantidad;
+                $local = $valor->id;
+                $id_inventario=$valor->id_inventario;
+                $stock = $valor->stock;
+                $rev = 'ENTRADA';
+                $pos = strripos($movimiento, $rev);
+                if ($pos === false) {
+                   if($stock > $cantInicial) {
+                   $nuevoStock=intval($stock) - intval($cantInicial);    
+                   echo $nuevoStock;
+                    $sql = "UPDATE tbl_inventario SET existencias = '$nuevoStock', stock = '$nuevoStock', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario=". $id_inventario;
+                    $resultado = $conn->query($sql);
+                    if ($resultado == 1) {
+                        $res['msj'] = "Producto Edito  Correctamente";
+                    } else {
+                        $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                        $res['error'] = true;
+                    }
+                  }
+                } else{
+                    $stockTotal=$stock+$cantInicial;
+                    echo $stockTotal;
+                    $sql = "UPDATE tbl_inventario SET existencias = '$stockTotal', stock = '$stockTotal', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario= ". $id_inventario;
+                    $resultado = $conn->query($sql);
+                    if ($resultado == 1) {
+                        $res['msj'] = "Producto Edito  Correctamente";
+                    } else {
+                        $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                        $res['error'] = true;
+                    }
+                }
             }
         } else {
-           
+
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }
 
 
-    break;
-    
-        
-        
-        
-        
-    
-        default:
+        break;
+
+
+
+
+
+
+    default:
 
         break;
 }
