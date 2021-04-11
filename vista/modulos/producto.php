@@ -81,7 +81,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                           <?php
                           try {
 
-                            $sql = "SELECT  m.id_movimientos, p.nombre_producto, t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento FROM tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto = m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento= m.tipo_movimiento_id where p.id_producto = m.producto_id and m.tipo_movimiento_id=t.id_tipo_movimiento ";
+                            $sql = "SELECT  m.id_movimiento, p.nombre_producto, t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento FROM tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto = m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento= m.tipo_movimiento_id where p.id_producto = m.producto_id and m.tipo_movimiento_id=t.id_tipo_movimiento ";
 
                             $resultado = $conn->query($sql);
                           } catch (\Exception $e) {
@@ -98,7 +98,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                               'descripcionM' => $eventos['descripcion'],
                               'cantidadM' => $eventos['cantidad'],
                               'fecha_movimiento' => $eventos['fecha_movimiento'],
-                              'id_m' => $eventos['id_movimientos']
+                              'id_m' => $eventos['id_movimiento']
                             );
                             $vertbl[$traer][] =  $evento;
                           }
@@ -174,54 +174,54 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                       </div>
                       <div class="modal-body">
 
-                        <form method="POST" id="formProducto" role="form" class="validarFORM" style="text-align:center;">
+                        <form method="POST" id="formM" role="form" class="validarFORM" style="text-align:center;">
                           <div class="row d-flex">
-                          <?php
+                            <?php
 
-                      $sql = "SELECT id_tipo_movimiento, movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA' OR movimiento= 'SALIDA'";
-                      $result = $conn->query($sql);
+                            $sql = "SELECT id_tipo_movimiento, movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA' OR movimiento= 'SALIDA'";
+                            $result = $conn->query($sql);
 
-                      if ($result->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
-                          $id = ($row['id_tipo_movimiento']);
-                          $movimiento = ($row['movimiento']);
-                           ?>
-                          <input type="hidden" name="" id="entrada" value="<?php echo ($id); ?>">
-                          <div class="form-check form-check-inline col-sm-2 form-group ">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="<?php echo ($id); ?>" value="<?php echo ($movimiento); ?>">
-                              <label class="form-check-label" for="inlineRadio1"> <?php echo ($movimiento); ?></label>
+                            if ($result->num_rows > 0) {
+                              // output data of each row
+                              while ($row = $result->fetch_assoc()) {
+                                $id = ($row['id_tipo_movimiento']);
+                                $movimiento = ($row['movimiento']);
+                            ?>
+                                
+                                <div class="form-check form-check-inline col-sm-2 form-group movimiento">
+                                  <input data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>" >
+                                  <label class="form-check-label" for="exampleRadios1">
+                                  <?php echo ($movimiento); ?>
+                                  </label>
+                                </div>
+                                
+
+                            <?php  }
+                            } else {
+                              echo "0 results";
+                            }
+
+
+                            ?>
+
                           </div>
-                          <!-- <div class="form-check form-check-inline col-sm-2 form-group">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="<?php echo ($id); ?>" value="<?php echo ($movimiento); ?>">
-                              <label class="form-check-label" for="inlineRadio2"></label>
-                            </div>
-                          </div> -->
-
-                      <?php  }
-                      } else {
-                        echo "0 results";
-                      }
-
-                      
-                      ?>
-                            
-                            
                           <div class="row d-flex  justify-content-around">
 
-                            <div class="col-sm-3 form-group justify-content-between">
+                            <div class="col-sm-3  justify-content-between">
                               <label for=""> PRODUCTO</label>
-                              <select name="tipoProducto" id="movimientoProducto" class=" input-group">
-                                <option value="0">Seleciona una opción</option>
+                              <select name="tipoProducto" id="" class="js-example-basic-multiple js-states  movimientoProducto " style="width: 150px; margin-left:.5rem;">
+                              <option value="0">Selecciona una opción...</option>
+
                                 <?php
 
-                                $sql = "SELECT id_producto, nombre_producto FROM tbl_producto";
+                                $sql = "SELECT p.id_producto, p.nombre_producto, i.id_inventario, i.stock from tbl_producto p LEFT JOIN tbl_inventario i on p.id_producto = i.producto_id where i.stock >=0 ";
                                 $result = $conn->query($sql);
+                                
 
                                 if ($result->num_rows > 0) {
                                   // output data of each row
                                   while ($row = $result->fetch_assoc()) {
-                                    echo "<option value=" . $row['id_producto'] . ">" . $row['nombre_producto'] . "</option>";
+                                    echo "<option  data-id_inventario=" . $row['id_inventario'] . " data-stock=" . $row['stock'] . " value=" . $row['id_producto'] . ">" . $row['nombre_producto'] . "</option>";
                                   }
                                 } else {
                                   echo "0 results";
@@ -233,14 +233,12 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                             </div>
                             <div class="col-sm-3 form-group ">
                               <label>DESCRIPCION </label>
-                              <input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder=" descripcion" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+                              <input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder=" descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
                             </div>
                             <div class="col-sm-2 m-auto form-group ">
                               <label for="">Cantidad</label>
                               <div class="input-group">
-
-                                <input id="precioProducto" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
-
+                                <input id="cantidad" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
                               </div>
                             </div>
                             <div class="col-sm-2 form-group justify-content-between">
@@ -266,8 +264,8 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                             </div>
                             <div class="col-sm-1 form-group justify-content-between">
-                            <input id="btnAddList" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+">
-                            <input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table">
+                              <input id="btnMO" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+">
+                              <input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table" value="■">
                             </div>
                           </div>
 
@@ -275,11 +273,11 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                       <!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
                       <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-                     
-                    
+
+
                       </form>
                       <div id="producto">
-                        <table id="productTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+                        <table id="moviemintoTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
                           <thead>
                             <tr>
                               <td>#</td>
@@ -339,104 +337,3 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
   </script>";
   }
 } ?>
-<!-- tabla de productos -->
-<!-- <div id="producto">
-                        <table id="productTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
-                          <thead>
-                            <tr>
-                              <td>Nombre Producto</td>
-                              <td>Precio</td>
-                              <td>Cantidad</td>
-                              <td>Descripcion</td>
-                              <td>Tipo Producto</td>
-                              <td>Precio Alquiler</td>
-                              <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
-
-                              else : ?>
-                              <td>Acciones</td>
-                              <?php
-                              endif;
-                              ?>
-                            </tr>
-                          </thead>
-                          <tbody id="row1" class="tbody">
-                          </tbody>
-                        </table>
-                        
-                        <div class=" row d-flex text-center">
-                          <a href="#" id="vaciarTabla" class=" btn btn-primary u-full-width">Vaciar Table
-                          </a>
-                          <button type="button" id="registrarInventario" name="ingresarProducto" class=" btn btn-success">Registrar inventario</button>
-                        </div>
-                      </div>
-
-<!-- //// infomacion de entrada  -->
-<!-- <div id="contenedorProducto">
-                        <form method="POST" id="formProducto" role="form" class="validarFORM" style="text-align:center;">
-                          <div class="row d-flex  justify-content-around" >
-
-                            <div class="col-sm-2 form-group " id="groupP">
-                              <label for="">NOMBRE DEL PRODUCTO </label>
-                              <input id="nombreP" class="form-control   secundary text-uppercase" type="text"  name="nombreP" 
-                              min="0"
-                              maxlength="10" minlength="3"
-                              placeholder="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
-                            </div>
-
-                            <div class="col-sm-2 m-auto form-group ">
-                              <label for="">PRECIO </label>
-                              <input id="precioProducto" class="form-control  secundary " type="number" name="precioProducto" placeholder="Lps:1.00" onkeypress="return soloNumeros(event)" autocomplete="off" min="0" required/>
-
-                            </div>
-
-                            <div class="col-sm-2 form-group ">
-                              <label for="">CANTIDAD </label>
-                              <input id="cantProducto" class="form-control   secundary" type="number" name="cantProducto" placeholder="0" required onkeypress="return soloNumeros(event)" autocomplete="off" minlength="-" />
-
-                            </div>
-                            <div class="col-sm-2 form-group ">
-                              <label>DESCRIPCION </label>
-                              <input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder="Escriba la descripcion(lbs,uds)" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
-                            </div>
-                            <div class="col-sm-2 form-group justify-content-between">
-                              <label for=""> TIPO PRODUCTO</label>
-                              <select  name="tipoProducto" id="tipoProducto" class=" input-group">
-                                <option value="0">Seleciona una Opción</option>
-                                <?php
-
-                                $sql = "SELECT id_tipo_producto, nombre_tipo_producto FROM tbl_tipo_producto";
-                                $result = $conn->query($sql);
-
-                                if ($result->num_rows > 0) {
-                                  // output data of each row
-                                  while ($row = $result->fetch_assoc()) {
-                                    echo "<option value=" . $row['id_tipo_producto'] . ">" . $row['nombre_tipo_producto'] . "</option>";
-                                  }
-                                } else {
-                                  echo "0 results";
-                                }
-                                $conn->close();
-                                ?>
-                              </select>
-
-                            </div>
-
-                            <div class="col-sm-2 m-auto form-group ">
-                              <label for="">RENTA</label>
-                              <input id="precioAlquiler" class="form-control  secundary " type="number" name="precio" placeholder="Lps:1.00" onkeypress="return soloNumeros(event)" autocomplete="off" min="0" disabled required />
-                            </div>
-                            <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-                            
-                          </div>
-
-                          <div class="row d-flex ">
-
-                            <input type="button" id="btnAddList" class=" btn btn-primary agregar-table" value=" Agregar a la Lista">
-                            <input type="hidden" id="btnProductUpdate" class=" btn btn-primary " value="Finalizar Edicion">
-                            <input type="button" id="actulizar" class=" btn btn-primary " value=" ACTUALIZAR" >
-                            <input type="button" id="btnCancelar" class=" btn btn-primary " value="CANCELAR">
-                       
-                          </div>
-                        </form>
-
-                      </div>  -->

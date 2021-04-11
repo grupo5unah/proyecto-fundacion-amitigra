@@ -1,8 +1,7 @@
 $(document).ready(function () {
   $("#typeP").select2();
   $("#tipoProducto").select2();
-  $("#movimientoProducto").select2();
-  $("#movimientoLocalidad").select2();
+  
 
   // Busca si el nombre existe
   $("#nombreP").blur(async function () {
@@ -30,7 +29,7 @@ $(document).ready(function () {
   });
 
   const contenedorProducto = $("#productTable  .tbody");
-  const habitarbtn = document.querySelector("#formProducto");
+  const formulario = document.querySelector("#formProducto");
   const listaProduct = $("#btnAddList");
   let articulosProducto = [];
   let idProductoTemporal = null;
@@ -103,6 +102,7 @@ $(document).ready(function () {
         .post(`./controlador/api.php?action=registrarProducto`, formData)
         .then((lastid) => {
           if (lastid) {
+            const descripcion = "ENTRADA INICIAL"
             const formData1 = new FormData();
             formData1.append(
               "contProducto",
@@ -112,6 +112,7 @@ $(document).ready(function () {
             );
             formData1.append("usuario_actual", usuario_actual);
             formData1.append("entrada", id_entrada);
+            formData1.append("descripcion", descripcion);
             axios
               .post(
                 "./controlador/api.php?action=registrarEntradaInicial",
@@ -259,29 +260,12 @@ $(document).ready(function () {
       }
     );
   };
-
-  //     function cargarStorage(){
-  //         const productsStorage = localStorage.getItem('productos');
-  //         if(!productsStorage){
-  //             localStorage.setItem('productos',JSON.stringify([]));
-  //         }else{
-  //             articulosProducto = JSON.parse(productsStorage);
-  //             llenarTabla();
-  //         }
-  //     };
-
-  //     function sincronizarStorage(data=[]){
-  //         if(data.length > 0) localStorage.setItem('productos',JSON.stringify(data));
-  //     }
-
-  //    cargarStorage();
-
+  
   // cuando agregas un curso presionando agragar a table
   listaProduct.on("click", agregarProducto);
   $("#btnProductUpdate").on("click", editarProducto);
 
   function resetearFormulario() {
-    const formulario = $("#formProducto");
     formulario.reset();
   }
 
