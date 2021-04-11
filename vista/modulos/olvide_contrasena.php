@@ -1,3 +1,16 @@
+<?php
+  include "../../modelo/conexionbd.php";
+
+  $objeto = 49;
+
+  $permiso = ("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+                            FROM tbl_permisos
+                            WHERE objeto_id = '$objeto'");
+
+  $resultado = mysqli_query($conn, $permiso);
+
+  while($mipermiso = mysqli_fetch_assoc($resultado)):
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,36 +61,12 @@
 		  	</div>
         </div>
 		<div class="form-group text-center">
+      <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
 		  		<i class="fa fa-arrow-left"><a href="login.php" type="submit" class="btn btn-success btn-flat">Regresar</a></i>
 		  	</div>
 	  </div>
 	</form>
   </div>
-  <?php
-	/*if(isset($_POST['submit_correo'])){
-	include_once('../../controlador/ctr.olvideContrasena.php');
-
-	$olvideContrasena = new OlvideContrasena();
-	$olvideContrasena->ctrOlvideContrasena();
-
-	//REGISTRA EN LA BITACORA LA ACCION DE CORREO
-	/*include_once('../../controlador/ctr.AccionesBitacora.php');
-
-	$AccionesBitacoraCorreo = new AccionesBitacora();
-	$AccionesBitacoraCorreo->ctrPassCorreo();*/
-	/*}elseif(isset($_POST['submit_pregunta'])) {
-	include_once('../../controlador/ctr.recPassPregunta.php');
-
-	$olvideContrasenaPregunta = new RecuPregunta();
-	$olvideContrasenaPregunta->ctrRecuPregunta();
-
-	//REGISTRA EN LA BITACORA LA ACCION DE PREGUNTA
-	/*include_once('../../controlador/ctr.AccionesBitacora.php');
-
-	$AccionesBitacoraPregunta = new AccionesBitacora();
-	$AccionesBitacoraPregunta->ctrPassPregunta();*/
-	//}
-	?>
 
 </div>
 
@@ -98,6 +87,7 @@ window.onload = function(){
 
 }
 
+  <?php endwhile;?>
 </script>
 
 <!-- jQuery 3 -->

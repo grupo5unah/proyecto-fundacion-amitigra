@@ -2,11 +2,13 @@
 
     $contrasena = $_POST["contrasena"];
     $confirmarContrasena = $_POST["confirmarContrasena"];
+    $idObjeto = $_POST["idObjeto"];
     $eid = $_POST["eid"];
     $tkn = $_POST["tkn"];
     $exd = $_POST["exd"];
 
-    if(!empty($contrasena) || !empty($confirmarContrasena) || !empty($eid) || !empty($tkn) || !empty($exd)){
+    if(!empty($contrasena) || !empty($confirmarContrasena) || !empty($eid) || !empty($tkn) ||
+        !empty($exd) || !empty($idObjeto)){
 
         if(isset($eid) && isset($tkn) && isset($exd)){
 
@@ -108,10 +110,10 @@
                                                     "respuesta" => "exito"
                                                 );
 
-                                                    /*echo $id_usuario;
+                                                    //echo $id_usuario;
 
-                                                    require_once("../modelo/conexionbd.php");
-                                                    date_default_timezone_set("America/Tegucigalpa");
+                                                    include "../modelo/conexionbd.php";
+                                                    /*date_default_timezone_set("America/Tegucigalpa");
                                                     $fecha_actualizacion = date('Y-m-d H:i:s',time());
 
                                                     //REGISTRO A HISTORIAL CONTRASEÑA LA NUEVA CONTRASENA
@@ -120,13 +122,14 @@
                                                     $cambio_contrasena->execute();*/
 
                                                     //REGISTRO A BITACORA POR CAMBIO DE CONTRASENA
-                                                    /*$id_objeto = 1;
+                                                    date_default_timezone_set("America/Tegucigalpa");
+                                                    $fecha = date("Y-m-d H:i:s", time());
                                                     $acciones = "Cambio de contraseña";
-                                                    $descripcion = "Cambio de contraseña, por motivos de olvido o bloqueo";
+                                                    $descripcion = "Cambio de contraseña por correo exitoso";
 
-                                                    $actualizarPassword = $conn->prepare("CALL control_bitacora (?,?,?,?,?)");
-                                                    $actualizarPassword->bind_Param("sssii", $acciones, $descripcion, $fecha_actualizacion,$id_usuario, $id_objeto);
-                                                    $actualizarPassword->execute();*/
+                                                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?)");
+                                                    $bitacora->bind_Param("sssii", $acciones, $descripcion, $fecha, $id_usuario, $idObjeto);
+                                                    $bitacora->execute();
                                                     
                                             }//Cierre octavo IF
 

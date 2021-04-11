@@ -2,8 +2,21 @@
 <html>
 <?php
 include "../../funciones/sesiones.php"; 
+include "../../modelo/conexionbd.php";
+
 $usuario = $_SESSION['usuario'];
 //$id_usuario = $_SESSION['id'];
+
+  $objeto = 50;
+
+  $permiso = "SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+              FROM tbl_permisos
+              WHERE objeto_id = '$objeto';";
+
+  $resultado = mysqli_query($conn, $permiso);
+
+  while($mipermiso = mysqli_fetch_assoc($resultado)):
+
 ?>
 <head>
   <meta charset="utf-8">
@@ -96,6 +109,7 @@ $usuario = $_SESSION['usuario'];
                       <div class="columna">
                         <button class="btn btn-primary" href="#activity" data-toggle="tab">Anterior</button>
                         <input type="hidden" id="usuario" value="<?php echo $usuario;?>">
+                        <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
                         <button type="button" id="confirmarCambio" name="submit" class="btn btn-success">Actualizar</button>
                       </div>
                     
@@ -109,17 +123,10 @@ $usuario = $_SESSION['usuario'];
           <!--FIN FORM-->
         </div>   
       </div>
-      <?php
-        //include("../../controlador/ctr.nuevaPassPregunta.php");
-
-        //$AtualizarPassword = new NuevaPassPregunta();
-        //$AtualizarPassword->ctrNuevaPassPregunta();
-      ?>
     </form>
   </div>
   <!-- /.form-box -->
 </div>
-
 
 <script type="text/javascript">
 
@@ -170,3 +177,4 @@ window.onload = function(){
 <script src="../plugins/iCheck/icheck.min.js"></script>
 </body>
 </html>
+<?php endwhile;?>

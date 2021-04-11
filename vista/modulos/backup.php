@@ -18,15 +18,15 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
 
 ?>
 
-    <div class="content-wrapper">
+  <div class="content-wrapper">
 
-      <section class="content-header">
-        <h1>Copia y restauracion de base de datos <small> ajustes</small></h1>      
-        <ol class="breadcrumb">
-          <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-          <li class="active"><i class="fa fa-user"></i> Copia y restauracion</li>
-        </ol>
-      </section>
+    <section class="content-header">
+      <h1>Copia y restauración base de datos <small> ajustes</small></h1>      
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active"><i class="fa fa-database"></i> Copia y restauración</li>
+      </ol>
+    </section>
 
     <section class="content">
       <div class="col-md-4">
@@ -39,7 +39,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                 <strong>Por que una copia de seguridad de la Base de datos?</strong>
                 <br>
                 Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
-                presentamos problemas podes reestablecer la informacion.
+                presentamos problemas podes reestablecer la información.
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="text-center alert alert-light" role="alert">
                     <h4><i class="text-center fa fa-database"></i><strong> Copia de seguridad</strong></h4>
                     Hola <strong><?php echo $_SESSION['usuario'];?></strong>
-                    aquí puedes crear una copia de seguridad de la base de datos de la organizacion.
+                    aquí puedes crear una copia de seguridad de la base de datos de la organización.
                     <br>
                     <br>
                     <i class="fa fa-warning"></i> Recuerda que para poder realizar la <strong>copia de seguridad de la base de datos</strong> no tiene
@@ -121,7 +121,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                           <div class="input-group col-sm-8">
                             <input type="hidden" id="usuario" value="<?php echo $_SESSION['usuario'];?>">
                             <input id="contraCopia" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
-                            <span class="input-group-btn" onclick="a_mostrarPassword()">
+                            <span class="input-group-btn" onclick="contrasenaCopia()">
                               <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
                             </span>
                           </div>
@@ -161,10 +161,9 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="text-center alert alert-light" role="alert">
                     <h4><i class="text-center fa fa-database"></i><strong> Restaurar copia de seguridad</strong></h4>
                     Hola <strong><?php echo $_SESSION['usuario'];?></strong>
-                    aquí puedes realizar la restauracion de la copia de seguridad de la base de datos de la organizacion.
+                    aquí puedes realizar la restauración de la copia de seguridad de la base de datos de la organización.
                     <br>
-                    <i class="fa fa-warning"></i> Recuerda que para poder realizar la <strong>restauracion de la base de datos</strong> no tiene
-                    que estar en uso el sistema.
+                    <i class="fa fa-warning"></i><strong>Importante:</strong> Realiza la <strong>restauración de la base de datos</strong> solo en caso de ser necesario.
                   </div>
                 </div>
                 <!-- FIN DE INSTRUCCIONES -->
@@ -174,7 +173,8 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="text-center col-sm-offset-2 col-sm-8">
                     <label class="color-enlaces-cr">Seleccione una copia disponible para restaurar</label>
                     <select id="path" name="path" class="form-control">
-                      <option disabled selected="selected">Seleccione la copia a restaurar...</option>
+                      <option value=""></option>
+                      <option disabled>Seleccione la copia a restaurar...</option>
                       <?php
                         $directorio = "copiaSeguridad";
                         $dir=opendir($directorio);
@@ -226,8 +226,8 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                           <div class="input-group col-sm-8">
                           <input type="hidden" id="usuario" value="<?php echo $_SESSION['usuario'];?>">
                             <input id="contraRestauracion" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
-                            <span class="input-group-btn" onclick="a_mostrarPassword()">
-                              <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                            <span class="input-group-btn" onclick="contraRestauracion()">
+                              <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_contraRest"></i></button>
                             </span>
                           </div>
                         </div>

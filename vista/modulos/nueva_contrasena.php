@@ -1,3 +1,18 @@
+<?php
+
+  include_once "../../modelo/conexionbd.php";
+
+  $objeto = 51;
+
+  /*$permiso = "SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+              FROM tbl_permisos
+              WHERE objeto_id = '$objeto';";
+
+  $resultado = mysqli_query($conn, $permiso);
+
+  while($mipermiso = mysqli_fetch_assoc($resultado)):*/
+
+?>
 <!DOCTYPE html>
 <html>
 <?php
@@ -54,6 +69,7 @@ $exd = $_GET["exd"];
           <input type="hidden" id="imputTkn" value="<?php echo $tkn;?>">
           <input type="hidden" id="imputEid" value="<?php echo $eid;?>">
           <input type="hidden" id="imputExd" value="<?php echo $exd;?>">
+          <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
           <button type="button" id="NuevaContrasena" class="btn btn-primary btn-flat">Cambio contraseña</button>
         </div>
         <!-- /.col -->
@@ -85,16 +101,9 @@ $exd = $_GET["exd"];
   }
   </script>
 
-  	<?php
-	/*include_once('../../controlador/ctr.NuevaContrasena.php');
-	$NuevaContrasena = new NuevaContrasena();
-	$NuevaContrasena->ctrNuevaContrasena();*/
-	?>
-  <!-- /.login-box-body -->
 </div>
-<!-- /.login-box -->
 
-<!-- jQuery 3 -->
+
 <script src="vista/dist/js/jquery-3.5.1.js"></script>
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -116,3 +125,6 @@ $exd = $_GET["exd"];
 </script>
 </body>
 </html>
+<?php
+    //endwhile;
+    ?>

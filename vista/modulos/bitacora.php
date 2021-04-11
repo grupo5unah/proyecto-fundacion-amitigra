@@ -63,7 +63,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 										try {
 
 
-											$sql = "SELECT id_bitacora, accion, descripcion, fecha_accion, tbl_usuarios.nombre_usuario AS usuario, tbl_objeto.objeto AS objeto
+											$sql = "SELECT id_bitacora, accion, descripcion_bitacora, fecha_accion, tbl_usuarios.nombre_usuario AS usuario, tbl_objeto.objeto AS objeto
 													FROM tbl_bitacora
 													INNER JOIN tbl_usuarios 
 													ON tbl_bitacora.usuario_id = tbl_usuarios.id_usuario
@@ -80,7 +80,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 											$traer = $eventos["id_bitacora"];
 											$evento = array(
 												'accion' => $eventos['accion'],
-												'descripcion' => $eventos['descripcion'],
+												'descripcion' => $eventos['descripcion_bitacora'],
 												'fecha_accion' => $eventos['fecha_accion'],
 												'usuario' => $eventos['usuario'],
                         						'objeto' => $eventos['objeto'],

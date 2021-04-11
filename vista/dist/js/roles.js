@@ -28,7 +28,24 @@ $(document).ready(function(){
                         // Se limpia el formulario
                         $("#nombreRol").val('');
                         $("#descripcion").val('');
-                        location.reload()
+                        swal({
+                            icon:"warning",
+                            text: "Desea asignar permisos al nuevo rol",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+
+                                $("#modalPermisos").modal("show");
+                                
+                                // contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
+                                // $("#contraRestauracion").val("");
+                            } else {
+                                location.reload()
+                            }
+                        });
+                        
                     }
                 })
                 ;
@@ -63,6 +80,7 @@ $(document).ready(function(){
     $('.btnCrearRol').on('click',function(){
         $('#modalRegistrarRol').modal('show');
        } );
+
        //FUNCION EDITAR ROLES
     $('.btnEditarRol').on('click', function() {
         // info previa
@@ -115,6 +133,7 @@ $(document).ready(function(){
         });
         
     })
+
     //eliminar roles
     $('.btnEliminarRol').on('click', function (){
         const idRol = $(this).data('idrol');
@@ -140,6 +159,12 @@ $(document).ready(function(){
                 });
             }
         });
+    });
+
+    //MOSTRAR MODAL DE PERMISOS
+    $(".btnPermisos").on("click", function(){
+
+        $("#modalPermisos").modal("show");
     })
 
     

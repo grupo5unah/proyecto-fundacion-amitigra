@@ -103,7 +103,47 @@ $(document).ready(function(){
       }
 
     });
-    
+
+
+    $("#cancelarActualizacion").on("click", function(){
+
+      swal({
+          icon:"warning",
+          text: "Seguro que quieres salir?",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              // contrasena4 = document.querySelector("#contraRestauracion").val("");
+              $("#passConf").val("");
+          } else {
+          $("#modal-restauracion").modal("show");
+          }
+      });
+      
+    });
+
+
+    $("#cerrarActualizacion").on("click", function(){
+
+      swal({
+          icon:"warning",
+          text: "Seguro que quieres salir?",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              // contrasena4 = document.querySelector("#contraRestauracion").val("");
+              $("#passConf").val("");
+          } else {
+          $("#modal-restauracion").modal("show");
+          }
+      });
+      
+    });    
+
 
     //FUNCION PARA ACTUALIZAR LA CONTRASENA DEL USUARIO
     $('#cambioContrasena').on('click', function () {

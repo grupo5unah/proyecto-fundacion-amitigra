@@ -3,12 +3,13 @@
     //INPUTS
     $respuestaUsuario = $_POST["respuestaUsuario"];
     $usuario = $_POST["usuario"];
+    $idObjeto = $_POST["idObjeto"];
     //SELECT
     $id_pregunta = $_POST["id_pregunta"];
     $PassPregunta = $_POST["PassPregunta"];
     $ConfPassPregunta = $_POST["ConfPassPregunta"];
 
-    if(!empty($respuestaUsuario) || !empty($id_pregunta) || !empty($PassPregunta) ||
+    if(!empty($respuestaUsuario) || !empty($id_pregunta) || !empty($PassPregunta) || !empty($idObjeto) ||
         !empty($ConfPassPregunta || !empty($usuario))){
 
         //Traer la informacion del usuario
@@ -57,6 +58,18 @@
                                     $respuesta = array(
                                         "respuesta" => "exito"
                                     );
+
+                                    include "../modelo/conexionbd.php";
+
+                                    date_default_timezone_set("America/Tegucigalpa");
+                                    $fechaAccion = date("Y-m-d H:i:s", time());
+                                    $accion = "recuperacion contrasena";
+                                    $descripcion = "Recuperacion de contrasena mediante pregunta";
+
+                                    //REGISTRA LA ACCION EN LA BASE DE DATOS
+                                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                                    $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_usuario, $idObjeto);
+                                    $bitacora->execute();
 
                                 }else{
                                     $respuesta = array(

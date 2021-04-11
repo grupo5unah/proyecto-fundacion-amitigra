@@ -191,6 +191,29 @@ function mostrarPassCorreoParam(){
 		}
 	}
 
+	//Script mostrar contrasena RESPALDO DE BD
+
+	function contraRestauracion(){
+		var cambioCopia = document.getElementById("contraRestauracion");
+		if(cambioCopia.type == "password"){
+			cambioCopia.type = "text";
+			$('.icon_contraRest').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambioCopia.type = "password";
+			$('.icon_contraRest').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	} 
+
+	function contraRestauracion(){
+		var cambioCopia = document.getElementById("contraRestauracion");
+		if(cambioCopia.type == "password"){
+			cambioCopia.type = "text";
+			$('.icon_contraRest').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambioCopia.type = "password";
+			$('.icon_contraRest').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	}
 
     // Scripts de registro de usuario
 

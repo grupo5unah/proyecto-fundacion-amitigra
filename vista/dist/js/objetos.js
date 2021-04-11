@@ -119,6 +119,8 @@ $(document).ready(function(){
         });
         
     });
+
+
     //eliminar objetos
     $('.btnEliminarObjeto').on('click', function (){
         const idObjeto = $(this).data('idobjeto');
@@ -145,6 +147,8 @@ $(document).ready(function(){
             }
         });
     });
+
+
     //mantenimientos de la tabla permisos
     $('.btnEditarP').on('click', function() {
         // info previa
@@ -209,7 +213,6 @@ $(document).ready(function(){
         });
         
     });
-
     
     function mayusculas(e) {
         e.value = e.value.toUpperCase();

@@ -4,6 +4,7 @@ $(document).ready(function(){
 
         let respuestaUsuario = document.querySelector("#respuestaUsuario").value;
         let id_pregunta = document.querySelector("#id_pregunta").value;
+        let idObjeto = document.querySelector("#idObjeto").value;
         let usuario = document.querySelector("#usuario").value;
         let PassPregunta = document.querySelector("#PassPregunta").value;
         let ConfPassPregunta = document.querySelector("#ConfPassPregunta").value;
@@ -19,7 +20,7 @@ $(document).ready(function(){
                 type:"POST",
                 datatype:"json",
                 data: { respuestaUsuario:respuestaUsuario, id_pregunta:id_pregunta, usuario:usuario,
-                        PassPregunta:PassPregunta, ConfPassPregunta:ConfPassPregunta },
+                        PassPregunta:PassPregunta, ConfPassPregunta:ConfPassPregunta, idObjeto:idObjeto },
                 success: function(response){
 
                     let recuPregunta = JSON.parse(response);

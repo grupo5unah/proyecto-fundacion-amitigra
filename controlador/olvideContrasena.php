@@ -6,8 +6,9 @@
     require '../modelo/conexionbd.php';
 
     $correo = $_POST["correo"];
+    $idObjeto = $_POST["idObjeto"];
 
-    if(!empty($correo)) {
+    if(!empty($correo) || !empty($idObjeto)) {
 
         date_default_timezone_set("America/Tegucigalpa");
         
@@ -50,12 +51,13 @@
                         $mail->Subject = "Confirmacion cambio de contrasena AMITIGRA";
                         $mail->Body = "<h4>Se solicitó recientemente cambiar la contraseña de su cuenta.</h4>
                                     <p>Si usted ha solicitado el cambio de contraseña, pulse el siguiente enlace para establecer una nueva contraseña:</p>
-                                    <a href='localhost/proyectos/proyecto-fundacion-amitigra/vista/modulos/nueva_contrasena.php?eid={$correo}&tkn={$encode_token}&exd={$expire_date}'>Haga clic aquí para cambiar su contraseña</a>
+                                    <a href='http://fundacionamitigra.com/vista/modulos/nueva_contrasena.php?eid={$correo}&tkn={$encode_token}&exd={$expire_date}'>Haga clic aquí para cambiar su contraseña</a>
                                     <p>De no ser asi ignore el enlace</p>
                                     <p> <spam><strong>Nota:<strong></spam> este enlace es válido por 24 horas, puedes solicitar otro cambio de contraseña una vez a pasado el tiempo estipulado.</p>";
 
                         if($mail->send()) {
                             /*echo '<script>
+                            localhost/proyectos/proyecto-fundacion-amitigra
                                         if (window.history.replaceState){
                                         window.history.replaceState(null, null, window.location.href);
                                         }
@@ -63,10 +65,22 @@
                             setcookie('_unp_', getToken(16), time() + 60 * 2, '', '', '', true);
                             
                             //ENVIO DEL CORREO PARA CAMBIO DE CONTRASENA
-                            //NUEVO
                             $respuesta = array(
                                 "respuesta" => "exito"
                             );
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Envio de correo";
+                            $descripcion = "Envio de correo para recuperacion de contrasena";
+
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_usuario, $idObjeto);
+                            $bitacora->execute();
                         }
                     }
                 } else {
