@@ -112,7 +112,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantTipoSolicitudes" || 
         $_GET["ruta"] == "mantEstadosSolicitud" || 
         $_GET["ruta"] == "mantenimiento" ||
-        $_GET["ruta"] == "producto" ||
+        $_GET["ruta"] == "movimientos" ||
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "ordenes"||  
         $_GET["ruta"] == "perfil" ||

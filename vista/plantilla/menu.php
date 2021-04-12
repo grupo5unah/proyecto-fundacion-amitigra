@@ -109,9 +109,9 @@ if($existe){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="producto"><i class=""></i> Producto</a></li>
-            <li><a href="existencia"><i class=""></i> Existencia</a></li>
-            <li><a href="ordenes"><i class=""></i>Ordenes</a></li>
+            <li><a href="movimientos"><i class=""></i>Movimientos</a></li>
+            <li><a href="existencia"><i class=""></i> Inventario General</a></li>
+            <!-- <li><a href="ordenes"><i class=""></i>Ordenes</a></li> -->
           </ul>
         </li>
         <?php
