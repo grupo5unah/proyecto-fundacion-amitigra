@@ -45,13 +45,16 @@ if ($nombre->affected_rows) {
 
 ?>
 <head>
+
   <meta charset="utf-8">
+  <meta name="description" content="SAAT - Sistema Administrativo AmiTigra">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="fotoPerfil/favicon.ico">
   <title><?php echo $extraer;}}?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  
+
   <link rel="stylesheet" href="vista/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="vista/bower_components/font-awesome/css/font-awesome.min.css">
@@ -108,7 +111,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantTipoSolicitudes" || 
         $_GET["ruta"] == "mantEstadosSolicitud" || 
         $_GET["ruta"] == "mantenimiento" ||
-        $_GET["ruta"] == "producto" ||
+        $_GET["ruta"] == "movimientos" ||
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "ordenes"||  
         $_GET["ruta"] == "perfil" ||
@@ -244,6 +247,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/gUsuarios.js"></script>
 <script src="vista/dist/js/infoperfil.js"></script>
 <script src="vista/dist/js/copiaSeguridad.js"></script>
+<script src="vista/dist/js/restaurarCSeguridad.js"></script>
 <script src="vista/dist/js/app.login.js"></script>
 <script src="vista/dist/js/reloj.js"></script>
 <script src="vista/dist/js/actualizarParametros.js"></script>
@@ -255,6 +259,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/tipoBoletos.js"></script>
 <script src="vista/dist/js/tipoSolicitudes.js"></script>
 <script src="vista/dist/js/EstadosSolicitud.js"></script>
+<script src="vista/dist/js/movimientos.js"></script>
 <!-- <script src="vista/dist/js/sweetalert.min.js"></script> -->
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

@@ -68,9 +68,15 @@
 
                         if(!empty($backupSQL)){
                             date_default_timezone_set("America/Tegucigalpa");
-                        
-                            $nombre_copia=$nombre_base_datos.'_copiaSeguridad_'.date("Y-m-d_H_i_s").'.sql';
-                            $fileHandler=fopen($nombre_copia,'w+');
+
+                            $ruta = "../copiaSeguridad/";
+
+                            if(is_dir($ruta)){
+                                mkdir($ruta,777,true);
+                            }
+
+                            $nombre_copia=$nombre_base_datos.'_CSBD_'.date("Y-m-d_H_i_s").'.sql';
+                            $fileHandler=fopen($ruta.$nombre_copia,'w+');
                             $number_of_lines=fwrite($fileHandler,$backupSQL);
                             fclose($fileHandler);
 
@@ -88,17 +94,6 @@
                             //readfile($backup_file_name);
 	                        //exec('rm ' . $nombre_copia);                         
                             
-                            $copiaBd = "../copiaSeguridad/";
-
-                            if(!is_dir($copiaBd)){
-                                mkdir($copiaBd,0777,true);
-                            }
-
-                            if(!file_exists($copiaBd)){
-                                copy($nombre_copia,$copiaBd);
-                            }
-                            
-                            //move_uploaded_file($nombre_copia,$copiaBd);
                         }
 
                         $respuesta = array(

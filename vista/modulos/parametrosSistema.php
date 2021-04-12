@@ -104,21 +104,21 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <li><a href="#"><strong>Correo:</strong>
                   <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="correo" value="<?php echo $PCorreo['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="correo" value="<?php echo $PCorreo['valor'];?>" placeholder="Nombre">
                     </div>
                   </div>
                 </a></li>
                 <li><a><strong>Puerto: </strong>
                   <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="puertoCorreo" value="<?php echo $PPuerto['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="puertoCorreo" value="<?php echo $PPuerto['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
                     </div>
                   </div>
                     </a></li>
                     <li><a><strong>Contraseña correo:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="password" name="nombre" class="form-control" id="contrasenaCorreo" value="<?php echo $PCCorreo['valor'];?>" placeholder="Nombre">
+                      <input type="password" name="nombre" disabled="true" class="form-control" id="contrasenaCorreo" value="<?php echo $PCCorreo['valor'];?>" placeholder="Nombre">
                       <span class="input-group-btn" onclick="mostrarPassCorreoParam()">
                           <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_PassCorreo"></i></button>
                         </span>
@@ -204,19 +204,19 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <li><a><strong>Host hospedador:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="host" value="<?php echo $PHost['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="host" value="<?php echo $PHost['valor'];?>" placeholder="Nombre">
                     </div>
                   </div></a></li>
                 <li><a><strong>Puerto:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="puertoBD" value="<?php echo $PPuertoBD['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="puertoBD" value="<?php echo $PPuertoBD['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
                     </div>
                   </div></a></li>
                 <li><a><strong>Nombre base de datos: </strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="nombreBD" value="<?php echo $PNombreBD['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="nombreBD" value="<?php echo $PNombreBD['valor'];?>" placeholder="Nombre">
                     </div>
                   </div></a></li>
                 <li><a><strong>Estado conexión: </strong><span class="pull-right"><i class="fa fa-check has-success" for="inputSuccess"></i><?php if($conn->ping()){ echo "conectado"; } else { $fallo = ("error de conexion %s\n" + $mysqli->error); echo $fallo;}?></span></a></li>
@@ -296,21 +296,21 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <li><a><strong>Nombre organización: </strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="nombreOrganizacion" value="<?php echo $PNOrganizacion['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="nombreOrganizacion" value="<?php echo $PNOrganizacion['valor'];?>" placeholder="Nombre">
                     </div>
                     </div>
                     </a></li>
                 <li><a><strong>Nombre sistema: </strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="nombreSistema" value="<?php echo $PNSistema['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" class="form-control" id="nombreSistema" value="<?php echo $PNSistema['valor'];?>" placeholder="Nombre">
                     </div>
                   </div>
                   </a></li>
                 <li><a><strong>Usuario administrador</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" disabled="true" class="form-control" id="usuarioAdministrador" value="<?php echo $PNAdmin['valor'];?>" placeholder="Nombre">
+                      <input type="text" autocomplete="off" name="nombre" disabled="true" class="form-control" id="usuarioAdministrador" value="<?php echo $PNAdmin['valor'];?>" placeholder="Nombre">
                     </div>
                   </div>
                   </a></li>

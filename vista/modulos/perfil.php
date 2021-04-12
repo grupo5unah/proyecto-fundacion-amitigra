@@ -28,8 +28,8 @@ $columna = $stmt->fetch_assoc();
 <div class="content-wrapper">
 
     <section class="content-header">
-    <h1>Perfil <small> ajustes</small></h1>      
-    <ol class="breadcrumb">
+      <h1>Perfil <small> ajustes</small></h1>      
+      <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
         <li class="active"><i class="fa fa-user"></i> Perfil de usuario</li>
       </ol>
@@ -46,7 +46,7 @@ $columna = $stmt->fetch_assoc();
 
     while($imagen = mysqli_fetch_assoc($resultadoFoto)):?>
 
-<div class="row">
+    <div class="row">
         <div class="col-md-4">
           <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">

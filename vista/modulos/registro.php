@@ -20,7 +20,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition register-page">
+<body class="hold-transition register-page" onload="">
 <div class="register-box">
 
   <?php
@@ -90,7 +90,7 @@
                       <label class="color-enlaces" for="">Pregunta número 1</label>
                       <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="id_pregunta1" name = "pregunta1" class="form-control selectDisable">
+                      <select id="id_pregunta1" name = "pregunta1" class="sel form-control selectDisable">
                         <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -104,7 +104,7 @@
                       </select>
                     </div>
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input autocomplete="off" type="text" maxlength="15" id="preg1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                         <p id="resp" class='msj_error'></p>
                       </div>
@@ -123,7 +123,7 @@
                     <label class="color-enlaces" for="">Pregunta número 2</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="id_pregunta2" name = "pregunta2" class="form-control selectDisable">
+                      <select id="id_pregunta2" name = "pregunta2" class="sel form-control selectDisable">
                       <option>Seleccione una pregunta...</option>
                         <?php
                              include ('../../modelo/conexionbd.php');
@@ -138,7 +138,7 @@
                     </div>
                     
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input autocomplete="off" type="text" maxlength="15" id="preg2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                         <p id="resp2" class="msj_error"></p>
                       </div>
@@ -157,7 +157,7 @@
                     <label class="color-enlaces" for="">Pregunta número 3</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="id_pregunta3" name = "pregunta3" class="form-control selectDisable">
+                      <select id="id_pregunta3" name = "pregunta3" class="sel form-control">
                       <option>Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
@@ -168,10 +168,9 @@
                             <?php while($opciones = mysqli_fetch_assoc($resultado)):?>
                                 <option <?php //echo $pregid === $opciones['id_pregunta'] ? 'selected' : '';?> value="<?php echo $opciones['id_pregunta'];?>"><?php echo $opciones['pregunta'];?></option>
                             <?php endwhile;?>
-                      </select>
                     </div>
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input autocomplete="off" type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                         <p id="resp3" class="msj_error"></p>
                       </div>
@@ -212,13 +211,7 @@
           
           <!--FIN FORM-->
         </div>     
-      </div>  
-      <?php
-                      //include("../../controlador/ctr.registro.php");
-
-                      //$registrarse = new Registro();
-                      //$registrarse->ctrRegistro();
-                      ?>
+      </div>
     </form>
     
   </div>
@@ -336,8 +329,6 @@ document.getElementById("notificacion").innerHTML = usuario;
 setInterval(tiemporeal, 1000);
 </script> -->
 
-<!-- <script src="../dist/js/registro.js"></script> -->
-
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../dist/js/jquery-3.5.1.js"></script>
@@ -346,6 +337,7 @@ setInterval(tiemporeal, 1000);
 <script src="../dist/js/app.login.js"></script>
 <!-- <script src="../dist/js/recargar.js"></script> -->
 <script src="../dist/js/registro.js"></script>
+<script src="../dist/js/funcionPreguntas.js"></script>
 <!-- Bootstrap 3.3.7 -->
 
 <!-- iCheck -->

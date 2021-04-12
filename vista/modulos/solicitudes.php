@@ -343,8 +343,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
               <h3 class="modal-title" id="exampleModalLabel">Registrar Solicitud</h3>
             </div>
           </div>
-          <div class="modal-body">
-            <form name="" id="formSolicitudes" onpaste="return false">
+          <div class="modal-body" >
+            <form name="" id="formSolicitudes" onpaste="return false" autocomplete="off" >
               <div class=" form-group">
                 <div class="campos form-group" type="hidden">
                   <label for=""> </label>
@@ -355,10 +355,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									espacio_Letras(this);" />
                 </div>
                 <div class="campos form-group">
-                  <input id="identidad" maxlength="13" minlength="13" style="width:335px" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad" />
+                  <input id="identidad" maxlength="13" minlength="13" style="width:335px" onkeypress="return soloNumeros(event)" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad" />
                 </div>
                 <div class="campos form-group">
-                  <input id="telefono" autocomplete="off" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
+                  <input id="telefono" style="width:335px" maxlength="8" minlength="8" class="form-control modal-roles 
 									secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" /></center>
                 </div>
 
@@ -402,27 +402,6 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                       while ($rol = mysqli_fetch_array($consulta_tip_solicitud)) {
                     ?>
                         <option value="<?php echo $rol["id_tipo_solicitud"]; ?>"><?php echo $rol["tipo"] ?></option>
-                    <?php
-                      }
-                    }
-                    ?>
-                  </select>
-                </div>
-
-                <?php
-                include('./modelo/conexionbd.php');
-                $consulta_estatus = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud
-                where estado_eliminado=1");
-                $resultados = mysqli_num_rows($consulta_estatus);
-                ?>
-                <div class="campos form-group">
-                  <select class="form-control" id="estado_solicitud" style="width:335px">
-                    <option value=""disabled selected>Seleccione un estado</option>
-                    <?php
-                    if ($resultados > 0) {
-                      while ($rol = mysqli_fetch_array($consulta_estatus)) {
-                    ?>
-                        <option value="<?php echo $rol["id_estatus_solicitud"]; ?>"><?php echo $rol["estatus"] ?></option>
                     <?php
                       }
                     }

@@ -1,14 +1,15 @@
 $(document).ready( function() {
 
-    $("#guardarCopia").on("click", function (){
+    $("#restaurar").on("click", function (){
 
-        $("#modal-copia").modal("show");
-        $("#modal-copia").modal({backdrop: 'static', keyboard: false});
+        $("#modal-restauracion").modal("show");
+        $("#modal-restauracion").modal({backdrop: 'static', keyboard: false});
 
-        $("#guardarCopiaModal").on("click", async function(){
+        $("#restaurarCopiaModal").on("click", async function(){
 
-            let contrasena = document.querySelector("#contraCopia").value;
+            let contrasena = document.querySelector("#contraRestauracion").value;
             let usuario = document.querySelector("#usuario").value;
+            let path = document.querySelector("#path").value;
 
             if(contrasena === ""){
                 Notificacion("warning", "Cuidado", "Debes de ingresar tu contrasena");
@@ -16,12 +17,14 @@ $(document).ready( function() {
 
                 Notificacion("error", "Contraseña", "La contraseña esta por debajo de lo permitido");
 
-            } else{
+            } else if(path === ""){
+                Notificacion("error", "No seleccionado", "No haz seleccionado ningun archivo de recuperacion.");
+            }else{
                 $.ajax({
-                    url:"./controlador/ctr.backup.php",
+                    url:"./controlador/ctr.restauracion.php",
                     type:"POST",
                     datatype:"json",
-                    data:{ contrasena:contrasena, usuario:usuario },
+                    data:{ contrasena:contrasena, usuario:usuario, path:path },
                     success: function (response){
                         let copia = JSON.parse(response)
 
@@ -49,7 +52,7 @@ $(document).ready( function() {
                     }
                 });
 
-                $("#CancelarCopia").on("click", async function(){
+                $("#CancelarRestauracion").on("click", async function(){
                     contrasena = $("#contraCopia").val('');
                 });
 
@@ -59,7 +62,8 @@ $(document).ready( function() {
     });
 
 
-    $("#CancelarCopia").on("click", function(){
+    //BOTON CANCELAR
+    $("#CancelarRestauracion").on("click", function(){
 
         swal({
             icon:"warning",
@@ -71,13 +75,13 @@ $(document).ready( function() {
             if (willDelete) {
                 contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
             } else {
-            $("#modal-copia").modal("show");
+            $("#modal-restauracion").modal("show");
             }
         });
         
     });
 
-    $("#cerrarBack").on("click", function(){
+    $("#cerrarRest").on("click", function(){
 
         swal({
             icon:"warning",
@@ -89,7 +93,7 @@ $(document).ready( function() {
             if (willDelete) {
                 contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
             } else {
-            $("#modal-copia").modal("show");
+            $("#modal-restauracion").modal("show");
             }
         });
         

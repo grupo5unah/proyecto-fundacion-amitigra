@@ -3517,7 +3517,12 @@ table.text-center th {
 
 .color-enlaces{
   color: white;
-  }
+}
+
+
+.color-enlaces-cr{
+  color: black;
+}
 
 .login-box-body .form-control-feedback,
 .register-box-body .form-control-feedback {
