@@ -2,6 +2,10 @@
     display: none;
     transform: translate(-109%, -10%);
 }
+#guardarClient{
+    display: none;
+    transform: translate(-109%, -10%);
+}
 .btnSiguiente{
     display: none;
 }
@@ -29,13 +33,31 @@
     transform: translate(-120%, 0%);
 }
 .precio{
+    transform: translate(140%, -125%);
+}
+.canT{
+    transform: translate(-200%, 11%);
+}
+.precioT{
+    transform: translate(150%, -112%);
+}
+.precioh{
     transform: translate(240%, -125%);
+}
+
+#btnAgregarEC{
+    transform: translate(-80%, 95%);
+   
+}
+#btnAgregarNC{
+    transform: translate(0%, -100%);
+   
 }
 #btnAgregarN,
 #btnAgregarE,
 #btnAgregarNR,
-#btnAgregarER,#btnAgregarNC{
-    transform: translate(450%, -8%);
+#btnAgregarER {
+    transform: translate(400%, -10%);
 }
 #tienda2,#tienda4,#tienda6{
     display: none;
@@ -51,16 +73,16 @@
 }
 .tablaCamping{
     text-align: center; 
-    background-color: #96E867; 
+    background-color: #E1E5E6; 
     color: black;
 }
 .tablaJutiapa{
-    background-color: #F3E76D;
+    background-color: #E1E5E6;
     color: black;
 }
 .tablaRosario{
     text-align: center; 
-    background-color: #F1AF50;
+    background-color: #E1E5E6;
     color: black;
 }
 .btnArticulos{

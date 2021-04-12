@@ -74,7 +74,6 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/bower_components/jvectormap/jquery-jvectormap.css">  
   <!-- Date Picker -->
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datepicker.min.css">
-  <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   
@@ -213,7 +212,7 @@ if ($nombre->affected_rows) {
 <script src="vista/dist/js/pdfmake.min.js"></script>
 <script src="vista/bower_components/moment/min/moment.min.js"></script>
 <script src="vista/dist/assets/js/jquery.validate.min.js"></script>
-<script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
+<!-- <script src="vista/dist/js/bootstrap-datepicker.min.js"></script>  -->
 <script src="vista/bower_components/select2/dist/js/select2.min.js"></script>
 <script src="vista/bower_components/select2/dist/js/select2.full.min.js"></script>
  <!-- datepicker -->
@@ -236,6 +235,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/ordenes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/camping.js"></script>
 <script src="vista/dist/js/tablaReserva.js"></script>
 <script src="vista/dist/js/clientes.js"></script>
 <script src="vista/dist/js/reservaciones.js"></script>
