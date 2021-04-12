@@ -189,7 +189,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                             ?>
                                 
                                 <div class="form-check form-check-inline col-sm-2 form-group movimiento">
-                                  <input data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>" >
+                                  <input data-movi="<?php echo ($movimiento); ?>" data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>" >
                                   <label class="form-check-label" for="exampleRadios1">
                                   <?php echo ($movimiento); ?>
                                   </label>
