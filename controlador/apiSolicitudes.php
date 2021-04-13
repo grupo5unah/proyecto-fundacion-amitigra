@@ -263,14 +263,6 @@ switch ($action) {
             $usuario_actual = $_POST['usuario_actual'];
             $fecha = date('Y-m-d H:i:s', time());
 
-            //ver si se repite el numero de deposito
-            $consulta_id = mysqli_query($conn, "SELECT id_solicitud,recibo FROM tbl_solicitudes   
-            WHERE recibo=$nuevo_recibo");
-            $resultado_deposito = mysqli_fetch_array($consulta_id);
-            if ($resultado_deposito > 0) {
-                $res['msj'] = "Por favor verifique el número de deposito ingresado";
-                $res['error'] = true;
-            } else {
 
                 //consulta para traer el precio de la solicitud
                 if (isset($_POST['tipo_solicitud'])) {
@@ -298,7 +290,7 @@ switch ($action) {
                     $res['msj'] = "Se produjo un error al momento de editar la solicitud ";
                     $res['error'] = true;
                 }
-            }
+            
         } else {
 
             $res['msj'] = "Las variables no estan definidas";
