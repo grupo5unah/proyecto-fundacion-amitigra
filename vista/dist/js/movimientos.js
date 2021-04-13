@@ -1,46 +1,14 @@
 $(document).ready(function () {
-  $(".movimientoProducto").select2();
-  $("#movimientoLocalidad").select2();
-
+  
+  const registrar = $('#registrarMovimiento');
   const contenedorProducto = $("#moviemintoTable  .tbody");
-  const formulario = $("#formM");
+  const formulario =document.querySelector("#formM");
   const listaProduct = $("#btnMO");
   let contMov = [];
   let idProductoTemporal = null;
-  let cant = 0;
-
-  $("#cantidadPOr").blur(async function () {
-    const idP = $("#productoOrden").val();
-    const nombre = $("#productoOrden option:selected").text();
-
-    try {
-      const resp = await axios(
-        `./controlador/contOrden.php?action=obtenerCantidad&idProducto=${idP}`
-      );
-      const data = resp.data;
-      if (data.existencias.length > 0) {
-        data.existencias.forEach((p, index) => {
-          const cant = $("#cantidadPOr").val();
-          // console.log(cant, idP);
-          if (Number(cant) >= Number(p.existencias)) {
-            console.log(cant, p.existencias);
-            swal(
-              "Lo sentimos no tenemos en Inventario esa cantidad de",
-              nombre,
-              "info",
-              {
-                position: "top-end",
-                timer: 2000,
-                button: false,
-              }
-            );
-          }
-        });
-      }
-    } catch (err) {
-      console.log("Error - ", err);
-    }
-  });
+ 
+  $(".movimientoProducto").select2();
+  $("#movimientoLocalidad").select2();
   // funciones de producto
   function agregarProducto(e) {
     e.preventDefault();
@@ -65,23 +33,23 @@ $(document).ready(function () {
     };
     // agrergo el producto al arreglo
     contMov = [...contMov, infoProducto];
-
+    $(".tbody tr").remove();
     llenarTabla();
     resetearFormulario();
-  }
+    listaProduct.prop('disabled', true);
+    registrar.prop('disabled', false);
+    
 
   function llenarTabla() {
     $(".tbody tr").remove();
     contMov.forEach((producto, index) => agregarFila(producto, index));
+    
+  }
   }
 
   // btnRegistrarMovimiento
   $("#registrarMovimiento").click(async function (e) {
     e.preventDefault();
-    //const nombre = $("input:radio[name=entrada]:checked ").data("mo");
-    //const id_movimiento =$('input:radio[name=entrada]:checked').val();
-    // const stock = $(".movimientoProducto option:selected").data('stock');
-    // const id_inventario = $(".movimientoProducto option:selected").data('id_inventario');
     var usuario_actual = $("#usuario_actual").val();
 
     if (contMov !== undefined && usuario_actual != undefined) {
@@ -97,10 +65,7 @@ $(document).ready(function () {
           }))
         )
       );
-      console.log("hola2");
-
       formData.append("usuario_actual", usuario_actual);
-      //formData.append('cantidad_actual', stock);
 
       axios
         .post(`./controlador/api.php?action=registrarEntrada`, formData)
@@ -128,13 +93,31 @@ $(document).ready(function () {
                 "./controlador/api.php?action=actualizarInventario",
                 formData1
               )
-              .then((res) => {});
+              .then(res=>{
+                console.log(res);
+                const data = res.data;
+                console.log(data.msj);
+                    if(data.error){
+                        return swal("Error", data.msj, "error",{
+                            buttons: false,
+                            timer: 3000
+                        });
+                    }
+                    return swal("Exito!", data, "success",{
+                        buttons: false,
+                        timer: 3000
+                    }).then(() =>{ 
+                      
+                      $('.tbody tr').remove();
+                     //desabilita el boton registrar
+                     registrar.prop('disabled', true);
+                     $("#modalCrearMovimiento").modal("hide");
+                     location.reload();
+                       
+                    });
+            });
           }
-        });
-      resetearFormulario();
-      $(".tbody tr").remove();
-
-      $("#modalCrearMovimiento").modal("hide");
+        });     
     }
   });
   // muestra el carrito de compras en el html
@@ -183,7 +166,7 @@ $(document).ready(function () {
         $("#cantidad").val(productoSeleccionado.cantidad);
         $("#movimientoLocalidad").val(productoSeleccionado.localidad.id);
 
-        $("#btnProductUpdate").attr("type", "button");
+        $("#btnProductMovimiento").attr("type", "button");
         $("#btnMO").attr("type", "hidden");
       }
     });
@@ -198,7 +181,7 @@ $(document).ready(function () {
         id: $(".movimientoProducto").val(),
         nombre: $(".movimientoProducto option:selected").text(),
       },
-      //moviemiento:$('input:radio[name=entrada]:checked ').data('mo'),
+      moviemiento:$('input:radio[name=entrada]:checked ').data('mo'),
       descripcion: $("#descripcion").val(),
       cantidad: $("#cantidad").val(),
       localidad: {
@@ -207,7 +190,7 @@ $(document).ready(function () {
       },
     };
     //   sincronizarStorage(articulosProducto);
-    $("#btnProductUpdate").attr("type", "hidden");
+    $("#btnProductMovimiento").attr("type", "hidden");
     $("#btnMO").attr("type", "button");
     llenarTabla();
     //resetearFormulario()
@@ -224,7 +207,7 @@ $(document).ready(function () {
 
   // cuando agregas un curso presionando agragar a table
   listaProduct.on("click", agregarProducto);
-  $("#btnProductUpdate").on("click", editarOrden);
+  $("#btnProductMovimiento").on("click", editarOrden);
 
   function resetearFormulario() {
     formulario.reset();
@@ -267,8 +250,8 @@ $(document).ready(function () {
           data.existencias.forEach((p, index) => {
             const cant = $("#cantidad").val();
             // console.log(cant, idP);
-            if (Number(p.existencias)  >= Number(cant) ) {
-              console.log(cant, p.existencias);
+            if (Number(p.existencias)  <= Number(cant) ) {
+              listaProduct.prop('disabled', true);
               swal(
                 "Lo sentimos no tenemos en Inventario esa cantidad de",
                 nombre,
@@ -287,4 +270,11 @@ $(document).ready(function () {
       }
     }
   });
+   
+    // }
+  
+  
+ 
+
+
 });

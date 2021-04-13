@@ -201,13 +201,7 @@ switch ($action) {
 
                     $sql->bind_param("iisisssss", intval($id_producto), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
                     $sql->execute();
-
-                    if ($sql->error) {
-                        $res['msj'] = "Se produjo un error al momento de registrar el movimiento";
-                        $res['error'] = true;
-                    } else {
-                        $res['msj'] = "movimiento Registrado Correctamente";
-                    }
+                   
                 }
 
                 //$sql->close();
@@ -216,7 +210,7 @@ switch ($action) {
                 echo $e->getMessage();
             }
         }
-        break;
+    break;
         //actualiza el inventario
     case 'actualizarInventario':
         if (
@@ -245,9 +239,9 @@ switch ($action) {
                     $sql = "UPDATE tbl_inventario SET existencias = '$nuevoStock', stock = '$nuevoStock', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario=". $id_inventario;
                     $resultado = $conn->query($sql);
                     if ($resultado == 1) {
-                        $res['msj'] = "Producto Edito  Correctamente";
+                        $res['msj'] = "Producto adicionado  Correctamente";
                     } else {
-                        $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                        $res['msj'] = "Se produjo un error al momento de adicion el producto ";
                         $res['error'] = true;
                     }
                   }
@@ -257,9 +251,9 @@ switch ($action) {
                     $sql = "UPDATE tbl_inventario SET existencias = '$stockTotal', stock = '$stockTotal', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario= ". $id_inventario;
                     $resultado = $conn->query($sql);
                     if ($resultado == 1) {
-                        $res['msj'] = "Producto Edito  Correctamente";
+                        $res['msj'] = "Producto adicionado  Correctamente";
                     } else {
-                        $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                        $res['msj'] = "Se produjo un error al momento de laadicion el producto ";
                         $res['error'] = true;
                     }
                 }
