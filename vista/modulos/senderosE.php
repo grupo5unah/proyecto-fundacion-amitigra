@@ -135,7 +135,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
             <br><br><br>
             <div class="text-center">
               <div class="col-md-6">
-                <button type="button" name="" id="cancelar" onclick="location='senderos'" class="text-center btn btn-danger btn-lg">Cancelar</button>
+                <button type="button" name="" id="cancelarS" class="text-center btn btn-danger btn-lg">Cancelar</button>
               </div>              
               <div class="col-md-4">
                 <input type="hidden"  name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">   

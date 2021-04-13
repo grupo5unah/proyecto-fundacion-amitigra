@@ -40,7 +40,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
                 <?php if($columna["permiso_insercion"] == 1):?>
-                    <label for="">Nueva Venta de Boleto(s):</label><br>
+                    <!--label for="">Nueva Venta de Boleto(s):</label><br>
                       <select class="form-control" name="opciones" onchange="url(this.value);">
                         <option value="" disabled selected>Selecione Tipo de Nacionalidad</option>
                         <option value="senderosN">NACIONAL</option>
@@ -49,7 +49,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                       <script language="javascript">
                         function url(uri) {
                         location.href = uri;  }
-                      </script>
+                      </script-->
+					  <button type="button" class=" btn btn-success btnCrearBoleteria text-uppercase"><i class="glyphicon glyphicon-plus-sign"> Nueva Venta de Boletos </i></button>
                       <?php
                       else:
                       endif;
@@ -210,6 +211,142 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 		</div>
 		<!-- /.box -->
+
+		<!-- MODAL NUEVA BOLETERIA -->
+		<div class="modal fade" id="modalNuevaBoleteria" tabindex="-1"  data-backdrop="static" data-keyboard="false"
+				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content modal-reserva">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Registrar Boletos</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+						 	<form method="POST" id="formBoleteria" onpaste="return false" >
+								<div class="nav-tabs-custom">
+									<ul class="nav nav-tabs">
+										<li><a></a></li>               
+										<li><a></a></li>
+									</u>
+									<div class="tab-content" >
+										<div class="active tab-pane" id="activity">
+											<div class="post"><br>
+												
+												<div class="box-body" >
+													
+													<div class="box-body">
+														<div class="row clientes" id="regitroBoletos">
+															
+																<div class="col-md-6">																	
+																	<div class="form-group">
+																		<label for="">localidad</label><br>
+																		<select class="form-control" name="localidad" id="localidad">
+																			<option value="" disabled selected>Seleccione...</option>
+																			<?php 
+																			require ('./modelo/conexionbd.php');
+																			$stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
+																			$resultado = mysqli_query($conn,$stmt);
+																			?>
+																			<?php foreach($resultado as $opciones):?>
+																			<option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
+																			<?php endforeach;?>
+																		</select>      																		      
+																	</div>																	
+																	<!-- radio -->
+																</div>
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label>Tipo Boleto:</label><br>
+																		<select type="text" class="form-control" id="lista1" name="lista1">
+																		<option value="" disabled selected>Seleccione...</option>
+																		<?php
+																			require ('./modelo/conexionbd.php');
+																		$stmt = "SELECT id_tipo_boleto, nombre_tipo_boleto FROM tbl_tipo_boletos WHERE estado_eliminado = 1";
+																		$resultado = mysqli_query($conn,$stmt);
+																		?>
+																		<?php foreach($resultado as $opciones):?>
+																		<option value="<?php echo $opciones['id_tipo_boleto']?>"><?php echo $opciones['nombre_tipo_boleto']?></option>
+																		<?php endforeach;?>
+																		</select>																																				
+																	</div>
+																</div>
+																<div class="col-md-6">                  
+																	<div class="campos form-group">
+																		<label for="CantBoletos">Cantidad de Personas:</label>
+																		<input type="number" min="1" class="form-control" name="CantBoleto" id="CantBoleto" oninput="sumarBoletosN();" placeholder="Cantidad Personas Adultas" 
+																		value="">
+																	</div>
+																</div>	
+																<div class="col-md-6">																
+																	<div class="campos form-group">
+																		<label for="precioN">Precio de Boleto:</label>
+																		<div class="input-group col-xs-8">																																		
+																			<input type="number" class="form-control" id="miprecio" disabled="true" value=" "> 
+																		</div>
+																	</div>
+																</div>
+																
+																<div class="col-md-6">
+																<div id="guardarCliente">
+																
+																</div>
+																
+															</div>
+																<input type="hidden" name="totalBVendido" id="totalBVendido" value="">
+																<input type="hidden" name="totalPB" id="totalPB" value="">
+																<div>
+																<button id="btnAgregarS" class="btn btn-success btnAgregarS addnacional glyphicon glyphicon-plus-sign">Agregar</button>
+																</div><br><br>
+														</div><!-- row -->
+														<!-- <div id="listaBoletos"></div> -->
+															<table id="tableBoletos" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+																<thead>
+																	<tr>
+																		<td class="text-center tableBoletos">Cantidad</td>
+																		<td class="text-center tableBoletos">Descripcion</td>
+																		<td class="text-center tableBoletos">Precio</td>
+																		<td class="text-center tableBoletos">Sub-Total</td>
+																		<td class="text-center tableBoletos">Localidad</td>
+																		<td class="text-center tableBoletos">Acciones</td>
+																	</tr>
+																</thead>																
+																<tbody>
+																</tbody>
+																<tfoot>
+																	<tr class="total">
+																		<th>Total</th>
+																	</tr>
+																</tfoot>
+															</table>
+															<label id="total" for=""></label>
+													</div><!-- box-body -->
+												</div><!-- box-body principal -->
+												<div class="modal-footer">
+												<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
+													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
+													<button type="button"  class="btn btn-secondary" data-dismiss="modal">Cerrar </button>	
+													<button type="button" id="registroBoletos" class="btn btn-primary" data-toggle="tab">REGISTRAR BOLETOS</button>
+												</div>
+											</div> <!-- /.post -->	
+										</div> <!-- /.tab-pane -->	
+									</div> <!-- /.tab-content -->	
+								</div> <!-- /.tabs-custom -->	
+							</form> <!-- /.cierre de formulario -->
+						</div> <!-- /.modal-body -->
+						<?php 
+						if(isset($_GET['msg'])){
+						$mensaje = $_GET['msg'];
+						print_r($mensaje);
+						//echo "<script>alert(".$mensaje.");</script>";  
+						}
+						?>
+					</div> <!-- /.modal content -->
+				</div> <!-- /.modal-dialog -->
+			</div> <!-- /.modal fade -->
 
 	</section>
 	<!-- /.content -->
