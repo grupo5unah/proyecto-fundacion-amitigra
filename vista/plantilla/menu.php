@@ -159,9 +159,10 @@
                 <li><a href="mantNacionalidad"><i class=""></i>Tipos de <br> Nacionalidad</a></li>
                 <li><a href="mantHabiServ"><i class=""></i> Habitación Servicio</a></li>
                 <li><a href="mantEstados"><i class=""></i> Estados</a></li>
-                <li><a href="mantReservaciones"><i class=""></i> Mantenimiento <br> Reservaciones</a></li>
-                <li><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidad y <br> Tipo Producto</a></li>
-                <li><a href="mantProducto"><i class=""></i> Producto</a></li>
+                <li ><a href="mantReservaciones"><i class=""></i> Mantenimiento <br> Reservaciones</a></li>
+                <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidad y <br> Tipo Producto</a></li>
+                <li ><a href="mantProducto"><i class=""></i> Producto</a></li>
+                <li><a href="mantTipoMovimiento"><i class=""></i>Tipo Movimiento</a></li>
                 <li><a href="mantTipoBoletos"><i class=""></i> Tipo de Boletos</a></li>
                 <li><a href="mantNacionalidad"><i class=""></i> Tipo de Nacionalidad</a></li>
                 <li><a href="mantTipoSolicitudes"><i class=""></i>Tipo de Solicitudes</a></li>

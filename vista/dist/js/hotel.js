@@ -502,52 +502,6 @@ $(document).ready(function () {
     $('.extranjeros').slideDown();
   });
 
-  //VALIDAR SELECT DE TIPO TIENDA PARA CAMPING
-  $('#tipotienda').change(function(e) {
-    e.preventDefault();
-    var tienda = $(this).val();
-    //console.log(local);
-    if(tienda==1){
-      $('#tienda4').slideUp();
-      $('#tienda6').slideUp();
-    }else if (tienda == 2){
-      $('#tienda2').slideDown();
-      $('#tienda4').slideUp();
-      $('#tienda6').slideUp();
-    }else if(tienda == 3){
-      $('#tienda6').slideDown();
-      $('#tienda4').slideUp();
-      $('#tienda2').slideUp();
-    }
-  });
-  $('#tipotiendae').change(function(e) {
-    e.preventDefault();
-    var tiendae = $(this).val();
-    //console.log(local);
-    if(tiendae==1){
-      $('#tienda2e').slideDown();
-      $('#tienda4').slideUp();
-      $('#tienda6').slideUp();
-    }else if (tiendae == 2){
-      $('#tienda4').slideDown();
-      $('#tienda2e').slideUp();
-      $('#tienda6').slideUp();
-    }else if(tiendae == 3){
-      $('#tienda6').slideDown();
-      $('#tienda4').slideUp();
-      $('#tienda2e').slideUp();
-    }
-  });
-
-  //VALIDAR CHECKBOX PARA SLEEPING
-  $('#checks').on('click', function() {
-    //console.log('sleeping seleccionado');
-    if($("#checks").is(':checked')) {  
-      $('#sleeping').slideDown();
-    } else {  
-      $('#sleeping').slideUp();  
-    } 
-  });
 
   //VALIDAR BOTONES CUANDO LOS CAMPOS ESTEN LLENOS
   $('#identidad').keyup( function(e){
@@ -570,7 +524,17 @@ $(document).ready(function () {
       $('.siguiente1').attr('disabled','disabled');
     }
   });
+
   
+  $('#salida').change(function(e){
+    e.preventDefault();
+    //console.log('funciona');
+    salida= $(this).val();
+    console.log(salida);
+    if(salida){
+      $('.sigue2').removeAttr('disabled');
+    }
+  })
   //MOSTAR ALERTA SI DESEA CANCELAR 
   $('#cancelar').on('click', function(e){
     swal({
@@ -606,6 +570,49 @@ $(document).ready(function () {
     })
   });
 
+  $('#cancelarh').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "cancelar",
+      text: "¿Esta seguro que quiere ejecutar esta accion?",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        identidad = document.querySelector('#identidad').value = "";
+        nacio = document.querySelector('#nacionalidad').value = "";
+        locali = document.querySelector('#localidad').value = "";
+        clien = document.querySelector('#cliente').value = "";
+        tel = document.querySelector('#telefono').value = "";
+        entra = document.querySelector('#entrada').value = "";
+        sali = document.querySelector('#salida').value = "";
+        hab = document.querySelector('#habitacionN').value = "";
+        cadul = document.querySelector('#cantAN').value = "";
+        preA = document.querySelector('#precioAdultoN').value = "";
+        cani = document.querySelector('#cantNN').value = "";
+        preN = document.querySelector('#precioNinoN').value = "";
+        habe = document.querySelector('#habitacionE').value = "";
+        cadule = document.querySelector('#cantAE').value = "";
+        preAe = document.querySelector('#precioAdultoE').value = "";
+        canie = document.querySelector('#cantNE').value = "";
+        preNe = document.querySelector('#precioNinoE').value = "";
+        habr = document.querySelector('#hnr').value = "";
+        cadulr = document.querySelector('#anr').value = "";
+        preAr = document.querySelector('#pnar').value = "";
+        canir = document.querySelector('#nnr').value = "";
+        preNr = document.querySelector('#pnnr').value = "";
+        habre = document.querySelector('#her').value = "";
+        cadulre = document.querySelector('#aer').value = "";
+        preAre = document.querySelector('#paer').value = "";
+        canire = document.querySelector('#ner').value = "";
+        preNre = document.querySelector('#pner').value = "";
+      }else{
+        $('#modalReservaHotel').modal('show');
+      }
+    })
+  });
+
   //NUEVA RESERVACION
   $('.btnCrearReservacion ').on('click', function() {
     //mostrar el modal
@@ -617,13 +624,15 @@ $(document).ready(function () {
     e.preventDefault();
     //mostrar el modal
     $('#modalReservaHotel').modal('show');
+    $('#tipoReserva').modal('hide');
   });
   
   //MOSTRAR MODAL DETALLE (TABLA)
   // datos de la dela modal ver el detalle de los datos
   $('.btnDetalle').click(async function (e) {
     e.preventDefault();
-    let idReservacion = $(this).data('idreserva');
+    let idReservacion = $(this).data('iddetallereserva');
+    let numero =$(this).data('idreserva');
     const fechaReserva = $(this).data('fechreserva'); 
     const localidad = $(this).data('idlocal');
     const usuario= $(this).data('usuario');
@@ -639,7 +648,7 @@ $(document).ready(function () {
      info.append(
         `
          <div class="user col-6">
-         <p class="">Reservación N° ${idReservacion}</p>
+         <p class="">Reservación N° ${numero}</p>
          <label for="" id="fecha">Fecha de Reservacion: <span>${fechaReserva}</span></label>
          <img style=" width: 70px; height: 70px; transform: translate(250%, -50%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
          <span style="font-size:16px;" class="user"> Vendedor: ${usuario}</span>
@@ -712,7 +721,7 @@ $(document).ready(function () {
     const localidad = $(this).data('localidad');
 
     //$("#idreservacion").val(idreservacion),
-    $("#client").val(cliente),
+    $("#cli").val(cliente),
     $("#fReservacion").val(reservacion),
     $("#fEntrada").val(entrada),
     $("#fSalida").val(salida),
@@ -746,8 +755,6 @@ $(document).ready(function () {
                 buttons:false
             }).then(() => {
                 // Se limpia el formulario
-                console.log('Ya se cerro el alert');
-                $("#fReservacion").val('');
                 $("#fEntrada").val('');
                 $("#fSalida").val('');
                 location.reload(); 

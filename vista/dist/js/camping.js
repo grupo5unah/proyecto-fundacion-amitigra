@@ -5,8 +5,11 @@ function calcularCampingNacional()
     var cant_adultosNC=parseFloat(document.getElementById("anc").value)|| 0, 
         cant_niñosNC=parseFloat(document.getElementById("nnc").value)|| 0,
         precio_adultoNC=parseFloat(document.getElementById("pac").value)|| 0,
-        precio_niñosNC=parseFloat(document.getElementById("pnnc").value)|| 0;      
-        document.getElementById("totalNC").value= (cant_adultosNC*precio_adultoNC)+(cant_niñosNC*precio_niñosNC);
+        precio_niñosNC=parseFloat(document.getElementById("pnnc").value)|| 0;
+        cantiA=parseFloat(document.getElementById("canTi").value)|| 0;
+        precioA=parseFloat(document.getElementById("miprecio").value)|| 0;       
+        document.getElementById("totalNC").value= (cant_adultosNC*precio_adultoNC)+(cant_niñosNC*precio_niñosNC)+
+        (cantiA*precioA);
   }catch(e){
 
   }
@@ -18,8 +21,12 @@ function calcularCampingExtranjero()
     var cant_adultosEC=parseFloat(document.getElementById("aec").value)|| 0, 
         cant_niñosEC=parseFloat(document.getElementById("nec").value)|| 0,
         precio_adultoEC=parseFloat(document.getElementById("paec").value)|| 0,
-        precio_niñosEC=parseFloat(document.getElementById("pnec").value)|| 0;;        
-        document.getElementById("totalEC").value= (cant_adultosEC*precio_adultoEC)+(cant_niñosEC*precio_niñosEC)
+        precio_niñosEC=parseFloat(document.getElementById("pnec").value)|| 0;
+        cantiAe=parseFloat(document.getElementById("canTie").value)|| 0;
+        precioAe=parseFloat(document.getElementById("miprecioe").value)|| 0;  
+
+        document.getElementById("totalEC").value= (cant_adultosEC*precio_adultoEC)+(cant_niñosEC*precio_niñosEC)+
+        (cantiAe*precioAe);
   }catch(e){
 
   }
@@ -182,27 +189,74 @@ $(document).ready(function(){
         $('#modalArticulos').modal('show');
   });
 
-  //CARGAR PRECIOS DE ARTICULOS
+  //VALIDAR BOTONES CUANDO LOS CAMPOS ESTEN LLENOS
+  $('#identi').keyup( function(e){
+    e.preventDefault();
+    let identi = document.querySelector("#identi").value;
+    if(identi.length == 13){
+      $('.selectLocal').removeAttr('disabled');
+      $('.siguiente1').removeAttr('disabled');
+    }else if(identi.length < 13){
+      $('.selectLocal').attr('disabled','disabled');
+      $('.siguiente1').atte('disabled');
+    }
+   });
+
+   //BOTONES SIGUIENTES
+   $('#localidad').click(function() {
+    var locali = $(this).val();
+    //console.log(local);
+    if(locali){
+      $('#sigue').removeAttr('disabled');
+    }else{
+      $('#sigue').attr('disabled','disabled');
+    }
+  });
+
+  //CARGAR PRECIOS DE ARTICULOS nacionales
   $('#miprecio').val(0);
 
   $('#lista1').on("change",function(){
   
   let precio = document.querySelector("#lista1").value;
-  
+
+
+  console.log(precio);
   $.ajax({
     type:"POST",
     url:'./controlador/precioA.php',
     datatype:"json",
     data:{ precio:precio},
     success:function(json){
-
+      console.log(json);
       let convertir = JSON.parse(json)
 
       $('#miprecio').val(convertir.compra);
     }
   });
 })
+//CARGAR PRECIOS DE ARTICULOS extranjeros
+$('#miprecioe').val(0);
 
+$('#lista1e').on("change",function(){
+
+let precio = document.querySelector("#lista1e").value;
+
+
+console.log(precio);
+$.ajax({
+  type:"POST",
+  url:'./controlador/precioA.php',
+  datatype:"json",
+  data:{ precio:precio},
+  success:function(json){
+    console.log(json);
+    let convertir = JSON.parse(json)
+
+    $('#miprecioe').val(convertir.compra);
+  }
+});
+})
  //ESTO ES PARA QUE REALICE LA RESERVACION EN CAMPING
   //AGREGANDO NACIONALES A CAMPING
   $('#btnAgregarNC').click(function(e) {
@@ -246,13 +300,13 @@ $('#btnAgregarEC').click(function(e) {
   var preadultoEC = document.getElementById("paec").value;
   var ninoEC = document.getElementById("nec").value;
   var preninoEC = document.getElementById("pnec").value;
-  /*var tipoTe = document.getElementById("tipotiendae").value;
+  var tipoTe = document.getElementById("lista1e").value;
   var canTe = document.getElementById("canTie").value;
-  var precioTe = document.getElementById("precioT2e").value;*/
+  var precioTe = document.getElementById("miprecioe").value;
   var totalEC = document.getElementById("totalEC").value;
   //var j = 1; //contador para asignar id al boton que borrara la fila
   var filaEC = '<tr><td>' + areaEC + '</td><td>' + adultoEC + '</td><td>' + preadultoEC + '</td><td>'
-  + ninoEC + '</td><td>' + preninoEC +'</td><td>' +'</td><td>'+ '</td><td>'+'</td><td>'+ totalEC + 
+  + ninoEC + '</td><td>' + preninoEC +'</td><td>' +tipoTe+'</td><td>'+ canTe+'</td><td>'+precioTe+'</td><td>'+ totalEC + 
   '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingE glyphicon glyphicon-remove"></button></td></tr>' //esto seria lo que contendria la fila
   //j++;
 

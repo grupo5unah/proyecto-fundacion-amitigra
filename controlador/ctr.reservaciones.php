@@ -47,11 +47,12 @@ if(isset($_POST['action']) == 'registrarJutiapa'){
                     $id_reserva = $idr;
                 }
                 if($existe_reservacion){
+                    $articulo = 1;
                     //inserta en la tabla detalle de reservacion
                     $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
-                    total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?);");
-                    $insert->bind_param('iiiiiissss', $idr,$habitacion,$cantidad_adultos, $cantidad_ninos,$total,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                    inventario_id,total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                    $insert->bind_param('iiiiiiissss', $idr,$habitacion,$cantidad_adultos, $cantidad_ninos,$articulo,$total,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
                     $insert->execute();
 
                     //se captura el id de la tabla de habitacion servicio para cambiarle el estado
@@ -132,7 +133,7 @@ else if(isset($_POST['accion']) == 'registrarRosario'){
     ||!empty($id_usuario)||!empty($usuario_actual)){
 
         try{
-            $hotel = 'Hotel';
+            $hotel = 'hotel';
             $estado_eliminado = 1;
             date_default_timezone_set("America/Tegucigalpa");
             $fecha=date('Y-m-d H:i:s',time());
@@ -159,11 +160,13 @@ else if(isset($_POST['accion']) == 'registrarRosario'){
                     $id_reserva = $idr;
                 }
                 if($existe_reservacion){
+                    $articulor=1;
                     //inserta en la tabla detalle de reservacion
                     $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
-                    total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?);");
-                    $insert->bind_param('iiiiiissss', $idr,$habitacionR,$cantidad_adultosR, $cantidad_ninosR,$totalR,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                    inventario_id,total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                    $insert->bind_param('iiiiiiissss', $idr,$habitacionR,$cantidad_adultosR, $cantidad_ninosR,$articulor,
+                    $totalR,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
                     $insert->execute();
 
                     //se captura el id de la tabla de habitacion servicio para cambiarle el estado

@@ -241,7 +241,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<i aria-hidden="true">&times;</i>
+											<i aria-hidden="true" id="cerrar_act" >&times;</i>
 										</button>
 										<h3 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h3>
 									</div>
@@ -321,7 +321,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+									<button id="cerrar_actualizarU" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 									<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" onclick="validaemail(correoact.value);">Actualizar Usuario</button>
 								</div>
 							</div>
@@ -351,7 +351,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class="input-group col-sm-11 has-feedback">
 												<label for="">Nueva Contraseña</label>
-												<input id="Contraseña_reset" class="form-control" type="password" placeholder="Contraseña" required />
+												<input id="Contraseña_reset" style="width: 364px;" class="form-control" type="password" placeholder="Contraseña" required />
 
 											</div><br>
 
@@ -383,7 +383,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<i aria-hidden="true">&times;</i>
+											<i aria-hidden="true" id="cerrar_x">&times;</i>
 										</button>
 										<h3 class="modal-title" id="exampleModalLabel">Registrar Usuario</h3>
 									</div>
@@ -461,7 +461,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											</div>
 
 											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+												<button type="button" id="cerrar_r" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
 
 												<button id="" type="submit" name="ingresarProducto" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Usuario</button>
