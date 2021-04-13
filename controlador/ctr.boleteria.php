@@ -1,39 +1,27 @@
 <?php
 include "../modelo/conexionbd.php";
-//INSERTAR PARA JUTIAPA
-if(isset($_POST['action']) == 'registrarJutiapa'){
-    $habitacion = $_POST['habitacion'];
-    $cantidad_adultos = $_POST['cantidad_adultos'];
-    $cantidad_ninos = $_POST['cantidad_ninos'];
-    $total = $_POST['total'];
-    $fecha_reservacion = $_POST['fecha_reservacion'];
-    $fecha_entrada = $_POST['fecha_entrada'];
-    $fecha_salida = $_POST['fecha_salida'];
-    $nombre_cliente = $_POST['nombre_cliente'];
-    $telefono = $_POST['telefono'];
-    $nacionalidad = $_POST['nacionalidad'];
-    $identidad = $_POST['identidad'];
-    $idCliente = $_POST['idCliente'];
+//INSERTAR PARA BOLETOS
+if(isset($_POST['action']) == 'registrartickets'){
+    $localidad = $_POST['localidad'];
+    $cant_Badultos = $_POST['cantidadB'];    
+    $subtotal  = $_POST['SubTotal'];
+    $tipo_boleto = $_POST['tipoBoleto'];       
     $id_usuario = $_POST['idusuario'];
-    $usuario_actual= $_POST['usuario_actual'];
+    $usuario_actual= $_POST['usuario_actual'];           
+    date_default_timezone_set("America/Tegucigalpa");
+    $fecha=date('Y-m-d H:i:s',time());
+    $estado=1;
     
 
-    if(!empty($habitacion) || !empty($cantidad_adultos) ||!empty($cantidad_ninos) || !empty($total) ||!empty($nombre_cliente) ||!empty($idCliente)
-    ||!empty($fecha_reservacion)||!empty($fecha_entrada)||!empty($fecha_salida)||!empty($identidad)||!empty($telefono)||!empty($nacionalidad)
-    ||!empty($id_usuario)||!empty($usuario_actual)){
+    if(!empty($localidad) || !empty($cant_Badultos) ||!empty($subtotal) || !empty($tipo_boleto) 
+                            ||!empty($id_usuario)||!empty($usuario_actual)){
 
         try{
-            $estado_eliminado = 1;
-            date_default_timezone_set("America/Tegucigalpa");
-            $fecha=date('Y-m-d H:i:s',time());
-            $entra = $fecha_entrada ." ".date('H:i:s',time());
-            $salida = $fecha_salida ." ".date('H:i:s',time());
-
-            $inserta=$conn->prepare("INSERT INTO tbl_reservaciones (fecha_reservacion,fecha_entrada, fecha_salida,cliente_id, usuario_id,
-            estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-            VALUES (?,?,?,?,?,?,?,?,?,?);");
-            $inserta->bind_param('sssiiissss', $fecha_reservacion, $entra,$salida,$idCliente,$id_usuario,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
-            $inserta->execute();
+            
+            $inserta=$conn->prepare("INSERT INTO tbl_boletos (cantidad_total_boletos, total_cobrado, estado_eliminado, creado_por, fecha_creacion, modificado_por, 
+                                            fecha_modificacion) VALUES(?,?,?,?,?,?,?)");
+                    $inserta->bind_param('iiissss',$totalBNacional, $totalP, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $inserta->execute();
 
             //se captura el id de la tabla de reservaciones
             $capturar_reserva = $conn->prepare("SELECT id_reservacion FROM tbl_reservaciones
