@@ -218,6 +218,38 @@ $(document).ready(function () {
     $("#modalCrearUsuario").modal("show");
   });
 
+  $("#cerrar_r").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalCrearUsuario").modal("hide");
+      } else {
+        $("#modalCrearUsuario").modal("show");
+      }
+    });
+  });
+
+  $("#cerrar_x").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalCrearUsuario").modal("hide");
+      } else {
+        $("#modalCrearUsuario").modal("show");
+      }
+    });
+  });
+
   //FUNCION PARA EDITAR USUARIOS
   $(".btnEditarUsuario").on("click", function () {
 
@@ -233,7 +265,7 @@ $(document).ready(function () {
     var usuario_actual = $("#usuario_actual").val();
 
     //llena los campos
-    //$("#id").val(idObjeto),
+    
     $("#idusuario").val(idusuario),
       $("#nombrecompct").val(nombrecompleto),
       $("#nombreusuarioact").val(nombre_usuario);
@@ -243,8 +275,38 @@ $(document).ready(function () {
     $("#rolact").val(id_rol);
     $("#estadoact").val(id_estado);
 
-    //mostrar el modal
+    //mostrar el modal para la alerta al darle click a cerrar y a la x
     $("#modalEditarUsuario").modal("show");
+    $("#cerrar_act").on("click", function () {
+      swal({
+        icon: "warning",
+        title: "Saliendo...",
+        text: "Desea Salir?",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $("#modalEditarUsuario").modal("hide");
+        } else {
+          $("#modalEditarUsuario").modal("show");
+        }
+      });
+    });
+    $("#cerrar_actualizarU").on("click", function () {
+      swal({
+        icon: "warning",
+        title: "Saliendo...",
+        text: "Desea Salir?",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $("#modalEditarUsuario").modal("hide");
+        } else {
+          $("#modalEditarUsuario").modal("show");
+        }
+      });
+    });
 
     $(".btnEditarBD").on("click", async function () {
       var Idusuario = Number(idusuario);
@@ -279,7 +341,7 @@ $(document).ready(function () {
           buttons: false,
         }).then(() => {
           // Se limpia el formulario
-          console.log("Ya se cerro el alert");
+          
           $("#nombrecompct").val("");
           $("#nombreusuarioact").val("");
           $("#telefonoact").val("");
@@ -290,12 +352,59 @@ $(document).ready(function () {
           location.reload();
         });
       }
+
     });
   });
 
   //FUNCION PARA RESETEAR CONTRASEñA SIENDO ADMINISTRADOR
+$(".btnResetearClaves").on("click", function () {
+  // info previa
+  const idusuario = $(this).data("idusuario");
+  const contrasena = $(this).data("contrasena");
+  //const rep_nuevacontra=$(this).data("contrasena");
   
-  $("#formResetearcontra").submit(async function (e) {
+  //llena los campos
+  $("#idusuario").val(idusuario), 
+  $("Contraseña_reset").val(contrasena),
+  
+  //mostrar el modal
+  $("#modalResetearClave").modal("show");
+  $(".btnResetClave").on("click", async function () {
+    var Idusuario = Number(idusuario);
+    const formData = new FormData();
+    formData.append("id_usuario", Idusuario);
+    formData.append("contrasena", $("#Contraseña_reset").val());
+    //formData.append("contrasena", $("#rep_nuevacontra").val());
+    
+    console.log(formData);
+    const resp = await axios.post(
+      "./controlador/apiGusuarios.php?action=resetearClave",
+      formData
+    );
+    const data = resp.data;
+    console.log(data);
+    if (data.error) {
+      return swal("Error", data.msj, "error", {
+        timer: 3000,
+        buttons: false,
+      });
+    } else {
+      $("#modalResetearClave").modal("hide");
+      return swal("Exito!", data.msj, "success", {
+        timer: 3000,
+        buttons: false,
+      }).then(() => {
+        // Se limpia el formulario
+        $("#Contraseña_reset").val("");
+        $("#ConfirmarContraseña_reset").val("");
+        location.reload();
+      });
+    }
+  });
+});
+  //FUNCION PARA RESETEAR CONTRASEñA SIENDO ADMINISTRADOR
+  
+  /*$("#formResetearcontra").submit(async function (e) {
     e.preventDefault();
 
     const idusuario = $(this).data("idusuario");
@@ -341,7 +450,9 @@ $(document).ready(function () {
 
   $(".btnResetearClaves").on("click", function () {
     $("#modalResetearClave").modal("show");
-  })
+  })*/
+
+
       //para eliminar usuario
     $(".btnEliminarUsuario").on("click", function () {
       const idusuario = $(this).data("idusuario");
@@ -354,6 +465,7 @@ $(document).ready(function () {
         if (value) {
           const formData = new FormData();
           formData.append("id_usuario", idusuario);
+          formData.append("usuario_actual", usuario_actual);
           const resp = await axios.post(
             "./controlador/apiGusuarios.php?action=eliminarUsuario",
             formData

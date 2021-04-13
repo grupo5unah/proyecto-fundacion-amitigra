@@ -2,6 +2,29 @@
 
 include "../modelo/conexionbd.php";
 
+//BUSCAR CLIENTE
+
+if(isset($_POST['accion']) == 'buscarCliente'){
+    if(!empty($_POST['identidad'])){
+        $identidad = strval($_POST['identidad']);
+        //echo $identidad;
+
+        $resultado = 0;
+        $sql=mysqli_query($conn,"SELECT id_cliente,nombre_completo,identidad,telefono,tipo_nacionalidad
+        FROM tbl_clientes WHERE identidad = '$identidad'  AND estado_eliminado=1");
+        mysqli_close($conn);
+        $resultado = mysqli_num_rows($sql);
+            $data = '';
+        if ($resultado) {
+            $data= mysqli_fetch_assoc($sql);
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+        } 
+        
+    }
+    exit;
+    
+ }
+
 $res = array('error' => false);
 $action = '';
 

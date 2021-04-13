@@ -147,11 +147,11 @@ $(document).ready(function () {
   });
 
   
-
+//mantenimiento Solicitudes
   $("#formSolicitudes").submit(async function (e) {
     e.preventDefault();
 
-
+    
     var nombreCompleto = $("#nombreCompleto").val();
     var identidad = $("#identidad").val();
     var telefono = $("#telefono").val();
@@ -170,7 +170,7 @@ $(document).ready(function () {
       usuario_actual != undefined
     ) {
       const formData = new FormData();
-
+    
       formData.append("nombreCompleto", nombreCompleto);
       formData.append("identidad", identidad);
       formData.append("telefono", telefono);
@@ -193,6 +193,7 @@ $(document).ready(function () {
       return swal("Exito!", data.msj, "success").then((value) => {
         if (value) {
           // Se limpia el formulario de mantenimiento
+          
           $("#nombreCompleto").val("");
           $("#identidad").val("");
           $("#telefono").val("");
@@ -204,6 +205,7 @@ $(document).ready(function () {
       });
     } else {
       swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
+      
     }
   });
 
@@ -211,7 +213,93 @@ $(document).ready(function () {
     $("#modalCrearS").modal("show");
   });
 
-  //mantenimiento Solicitudes
+
+  $("#cerrar_rs").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalCrearS").modal("hide");
+      } else {
+        $("#modalCrearS").modal("show");
+      }
+    });
+  });
+  $("#cerrar_s").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalCrearS").modal("hide");
+      } else {
+        $("#modalCrearS").modal("show");
+      }
+    });
+  });
+  
+  //BUSCAR EL CLIENTE
+  $('#identidad').keyup(function (e) {
+    e.preventDefault();
+    
+    var ident = $(this).val();
+    var action = 'buscarCliente';
+    $.ajax({
+      url: './controlador/apiSolicitudes.php',
+      type:'POST',
+      async: true,
+    
+      data:{accion:action,identidad:ident},
+      success: function(response){
+       //console.log(response);
+       if(response == 0){
+         //si el cliente no existe no se llenaran los campos y permitira llenarlos
+         
+         $('#nombreCompleto').val('');
+         $('#telefono').val('');
+         $('#tipo_nac').val('');
+
+         
+        nombreCompleto.disabled = false;
+        telefono.disabled = false;
+        tipo_nac.disabled = false; 
+
+        //si el cliente existe se llenan los campos
+       }else{
+         var data = JSON.parse(response);
+        
+        
+         $('#nombreCompleto').val(data.nombre_completo);
+         $('#tipo_nac').val(data.tipo_nacionalidad);
+         $('#telefono').val(data.telefono);
+
+         
+         
+         //Bloquear campos
+         $('#nombreCompleto').attr('disabled','disabled');
+         $('#telefono').attr('disabled','disabled');
+         $('#tipo_nac').attr('disabled','disabled');
+        
+        
+        
+       }
+     },
+      error: function(error){
+        console.log(error);
+      }
+    });
+     
+ });
+  
+
+
   //eliminar una solicitud
   $(".btnEliminarSolicitud").on("click", function () {
     const idsolicitud = $(this).data("idsolicitud");
@@ -306,5 +394,37 @@ $(document).ready(function () {
         });
       }
     });
+
+    $("#cerrar_actualizar").on("click", function () {
+      swal({
+        icon: "warning",
+        title: "Saliendo...",
+        text: "Desea Salir?",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $("#modalEditarSolicitud").modal("hide");
+        } else {
+          $("#modalEditarSolicitud").modal("show");
+        }
+      });
+    });
+    $("#cerrar_act").on("click", function () {
+      swal({
+        icon: "warning",
+        title: "Saliendo...",
+        text: "Desea Salir?",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $("#modalEditarSolicitud").modal("hide");
+        } else {
+          $("#modalEditarSolicitud").modal("show");
+        }
+      });
+    });
+    
   });
 });

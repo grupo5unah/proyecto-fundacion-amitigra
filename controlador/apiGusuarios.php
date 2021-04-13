@@ -25,6 +25,7 @@ switch ($action) {
         $foto = "foto";
 
         $preguntas = 0;
+        $intentos = 0;
         $hashed_password = password_hash($Contraseña, PASSWORD_BCRYPT);
 
         //Fecha ACTUAL del sistema
@@ -55,18 +56,18 @@ switch ($action) {
                 //Validacion contrasenas iguales
                 if ($Contraseña == $ConfirmarContraseña) {
                     // insertar en la tabla tbl_usuarios
-                    if($genero === "femenino"){
+                    if ($genero === "femenino") {
                         $foto = "femenino.png";
                     } else {
                         $foto = "masculino.png";
                     }
                     try {
                         $sql = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario,foto, genero, telefono,correo,contrasena,
-                rol_id,estado_id,fecha_ult_conexion,preguntas_contestadas,primer_ingreso, fecha_mod_contrasena,fecha_vencimiento,creado_por,fecha_creacion,
+                intentos,rol_id,estado_id,fecha_ult_conexion,preguntas_contestadas,primer_ingreso, fecha_mod_contrasena,fecha_vencimiento,creado_por,fecha_creacion,
                 modificado_por, fecha_modificacion) 
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         $sql->bind_param(
-                            "sssssssiisisssssss",
+                            "sssssssiiisisssssss",
                             $nombreC,
                             $nombreusuario,
                             $foto,
@@ -74,6 +75,7 @@ switch ($action) {
                             $telefono,
                             $correo,
                             $hashed_password,
+                            $intentos,
                             $rol,
                             $estado,
                             $fecha,
@@ -147,75 +149,116 @@ switch ($action) {
 
         break;
 
+        case 'resetearClave':
+            if (
+                isset(($_POST['id_usuario'])) && isset($_POST['contrasena'])
+            ) {
+                $id_usuario = (int)$_POST['id_usuario'];
+                //clave encriptada
+                $contrasena = $_POST['contrasena'];
+                $repcontra = $_POST['rep_nuevacontra'];
 
-    case 'resetearClave':
-        //clave encriptada
-        $id_usuario = (int)$_POST['id_usuario'];
-        $contrasena = $_POST['Contraseña_reset'];
-        $repcontra = $_POST['ConfirmarContraseña_reset'];
-        $usuario_actual = $_POST['usuario_actual'];
-
-        $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
-        if (
-            empty(($_POST['id_usuario'])) && empty(($_POST['Contraseña_reset'])) && empty($_POST['ConfirmarContraseña_reset'])
-        ) {
-            $res['msj'] = 'Es necesario rellenar todos los campos';
-            $res['error'] = true;
-        } else {
-
-            $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash' 
+                $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
+                $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash' 
                     WHERE id_usuario=" . $id_usuario;
-            $resultado = $conn->query($sql);
+                $resultado = $conn->query($sql);
+                if ($resultado >0) {
+                    $res['msj'] = "La contraseña se Reseteo correctamente";
 
-            if ($resultado > 0) {
-                $res['msj'] = "La contraseña se Reseteo correctamente";
-
-
-                $accion_realizada = 'reseteo de contraseña';
-                $descripcion = 'se realizo reseteo de contraseña';
-                $objeto = 7;
-
-                //select para traer el id del usuario
-                require('modelo/conexionbd.php');
-                $consulid = mysqli_query($conn, "SELECT id_usuario
-                FROM tbl_usuarios
-                WHERE nombre_usuario='$usuario_actual'");
-                $resulta = mysqli_fetch_array($consulid);
-
-                if ($resulta > 0) {
-                    $id_user = $resulta['id_usuario'];
-
+                    $accion_realizada = 'reseteo de contraseña';
+                    $descripcion = 'se realizo reseteo de contraseña por parte';
+                    $usuario = $_SESSION['usuario'];
+                    $objeto = 7;
+                    //select para traer el id del usuario
+                    require('modelo/conexionbd.php');
+                    $consulid = mysqli_query($conn, "SELECT id_usuario
+                        FROM tbl_usuarios
+                        WHERE nombre_usuario='$usuario'");
+                    $resulta = mysqli_fetch_array($consulid);
+                    if ($resulta > 0) {
+                        $id_user = $resulta['id_usuario'];
+                    } else {
+                    }
                     //insertar en bitacora
                     $sql_insert = mysqli_query($conn, "INSERT INTO tbl_bitacora(accion,descripcion,fecha_accion,usuario_id,objeto_id)
-                    VALUES('$accion_realizada','$descripcion',now(),$id_user,$objeto)");
+                        VALUES('$accion_realizada','$descripcion',now(),$id_user,$objeto)");
                     if ($sql_insert) {
-                        $res['msj'] = "Se inserto Correctamente en bitacora";
+                        $res['msj'] = "se inserto Correctamente en bitacora";
                     } else {
                         $res['msj'] = "no se inserto en bitacora";
                         $res['error'] = true;
                     }
                 } else {
-                    $res['msj'] = "no setrajo el id del usuario";
+                    $res['msj'] = "Se produjo un error al momento de resetear la contraseña";
                     $res['error'] = true;
                 }
             } else {
-                $res['msj'] = "Se produjo un error al momento de resetear la contraseña";
+                $res['msj'] = "Las variables no estan definidas";
                 $res['error'] = true;
             }
-        }
-        break;
+            break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     case 'eliminarUsuario':
         if (isset($_POST['id_usuario'])) {
             $id_usuario = $_POST['id_usuario'];
-            $sql = "DELETE FROM tbl_usuarios WHERE id_usuario = " . $id_usuario;
-            $resultado = $conn->query($sql);
-            if ($resultado > 0) {
-                $res['msj'] = "Usuario Eliminado Correctamente";
-            } else {
-                $res['msj'] = "No se pudo eliminar el Usuario";
-                $res['error'] = true;
+            $usuario_actual = $_POST['usuario_actual'];
+            //consulta para traer el usuario que se desea eliminar
+
+            $consulta_usuario = mysqli_query($conn, "SELECT id_usuario,nombre_usuario FROM tbl_usuarios WHERE id_usuario=$id_usuario");
+            $resultado_usuario = mysqli_fetch_array($consulta_usuario);
+
+            if ($resultado_usuario > 0) {
+                $usuario_traido = $resultado_usuario['nombre_usuario'];
+
+
+                if ($usuario_traido == $usuario_actual) {
+                    $res['msj'] = "El usuario actual no se puede eliminar";
+                    $res['error'] = true;
+                } else {
+                    $sql = "DELETE FROM tbl_usuarios WHERE id_usuario = " . $id_usuario;
+                    $resultado = $conn->query($sql);
+                    if ($resultado > 0) {
+                        $res['msj'] = "Usuario Eliminado Correctamente";
+                    } else {
+                        $res['msj'] = "No se pudo eliminar el Usuario";
+                        $res['error'] = true;
+                    }
+                }
             }
         } else {
             $res['msj'] = "Las variables no estan definidas";

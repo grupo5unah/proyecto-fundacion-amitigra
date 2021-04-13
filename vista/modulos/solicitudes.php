@@ -184,12 +184,15 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                         try {
 
                           $consult_solicitud = "SELECT id_solicitud,recibo,cli.id_cliente,cli.nombre_completo,cli.identidad,
-                          cli.telefono,tips.id_tipo_solicitud,sol.fecha_creacion,
+                          cli.telefono,tiponac.id_tipo_nacionalidad,tips.id_tipo_solicitud,sol.fecha_creacion,
                       est.id_estatus_solicitud,tipo,tips.precio_solicitud,total,est.estatus
-                      FROM tbl_solicitudes sol INNER JOIN tbl_clientes cli
+                      FROM tbl_tipo_nacionalidad tiponac INNER JOIN tbl_clientes cli
+                      ON tiponac.id_tipo_nacionalidad=cli.tipo_nacionalidad INNER JOIN tbl_solicitudes sol
                       ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
-                      ON sol.tipo_solicitud=tips.id_tipo_solicitud JOIN tbl_estatus_solicitud est
-                      ON sol.estatus_solicitud=est.id_estatus_solicitud ORDER BY id_solicitud";
+                      ON sol.tipo_solicitud=tips.id_tipo_solicitud INNER JOIN tbl_estatus_solicitud est
+                      ON sol.estatus_solicitud=est.id_estatus_solicitud ORDER BY id_solicitud 
+                      
+                      ";
                           $resultado = $conn->query($consult_solicitud);
                         } catch (\Exception $e) {
                           $error = $e->getMessage();
@@ -203,6 +206,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                             'id_cliente' => $eventos['id_cliente'],
                             'nombre_completo' => $eventos['nombre_completo'],
                             'identidad' => $eventos['identidad'],
+                            'id_tipo_nacionalidad' => $eventos['id_tipo_nacionalidad'],                           
                             'telefono' => $eventos['telefono'],
                             'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],
                             'fecha_creacion' => $eventos['fecha_creacion'],
@@ -252,7 +256,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
             <div class="modal-dialog modal-sm" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" id="cerrar_act">&times;</span></button>
                   <h4 class="modal-title" id="myModalLabel">Actualizar Solicitud</h4>
                 </div>
                 <div class="modal-body">
@@ -330,7 +334,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                      <button id="cerrar_actualizar" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                       <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud">
                     </div>
                   </form>
@@ -351,7 +355,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
               <div class="modal-header">
                 <div class="d-flex justify-content-between">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i aria-hidden="true">&times;</i>
+                    <i aria-hidden="true" id="cerrar_s">&times;</i>
                   </button>
                   <h3 class="modal-title" id="exampleModalLabel">Registrar Solicitud</h3>
                 </div>
@@ -365,7 +369,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div>
 
                     <div class="campos form-group">
-                      <input id="identidad" maxlength="13" minlength="13" style="width:335px" onkeypress="return soloNumeros(event)" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad" /><br>
+                      <input id="identidad" name="identidad" maxlength="13" minlength="13" style="width:335px" onkeypress="return soloNumeros(event)" class="form-control modal-roles secundary" type="text" name="identidad" placeholder="Identidad" autofocus /><br>
 
                       <div class="campos form-group">
                         <input id="nombreCompleto" maxlength="40" minlength="40" style="width:335px" class="form-control modal-roles secundary" type="text" name="nombreCompleto" placeholder="Nombre Completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
@@ -431,7 +435,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                      <button id="cerrar_rs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                       <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
                     </div>
                 </form>
