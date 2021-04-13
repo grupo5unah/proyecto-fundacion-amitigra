@@ -80,6 +80,18 @@ switch ($action) {
                     $cantInicial =$valor->inicial;
                     $minimo =$valor->minimo;
                     $maximo =$valor->maximo;
+
+                    echo "<br>";
+                    echo $cantInicial;
+                    echo "<br>";
+                    echo $minimo;
+                    echo "<br>";
+                    echo $maximo;
+                    echo "<br>";
+                    echo $id;
+                    echo "<br>";
+                    echo $lastid;
+                    echo "<br>";
                  
                  
                  $sql->bind_param("iiiiiiissss", $cantInicial, $minimo,  $maximo, $cantInicial,  $estado, $lastid, $id,  $usuario_actual, $fecha, $usuario_actual, $fecha);
@@ -105,6 +117,7 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         $entrada = $_POST['entrada'];
         $descripcion = 'ENTRADA INICIAL';
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
         echo $lastid;
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
@@ -112,12 +125,22 @@ switch ($action) {
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad, fecha_movimiento, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
                 foreach ($cont as $valor) {
                     $cantInicial = $valor->inicial;
+                    echo "<br>";
+                    echo $entrada;
+                    echo "<br>";
+                    echo $descripcion;
+                    echo "<br>";
+                    echo $cantInicial;
+                    echo "<br>";
+                    echo $usuario_actual;
+                    echo "<br>";
+                    echo $lastid;
 
 
-                    $sql->bind_param("iisisssss", intval($lastid), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $sql->bind_param("iisisssss", $lastid, $entrada, $descripcion, $cantInicial, $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
                     $sql->execute();
                 }
 

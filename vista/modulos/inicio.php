@@ -1,34 +1,34 @@
-<?php
-include_once("./modelo/conexionbd.php");
-$id_objeto = 6;
-$id_usuario = $_SESSION['id'];
-global $columna;
-//$rol = $_SESSION['mi_rol'];
-$rol_id = $_SESSION['rol'];
-$stmt = $conn->prepare("SELECT fecha_ult_conexion, fecha_vencimiento, fecha_mod_contrasena, rol_id
-                        FROM tbl_usuarios
-                        INNER JOIN tbl_roles
-                        ON tbl_usuarios.rol_id = tbl_roles.id_rol 
-                        WHERE tbl_roles.rol = ? AND id_usuario = ?");
-$stmt->bind_Param("si",$rol_id, $id_usuario);
-$stmt->execute();
-$stmt->bind_Result($fecha_ult_conexion, $fecha_vencimiento, $fecha_mod_contrasena, $id_rol);
+  <?php
+  include_once("./modelo/conexionbd.php");
+  $id_objeto = 6;
+  $id_usuario = $_SESSION['id'];
+  global $columna;
+  //$rol = $_SESSION['mi_rol'];
+  $rol_id = $_SESSION['rol'];
+  $stmt = $conn->prepare("SELECT fecha_ult_conexion, fecha_vencimiento, fecha_mod_contrasena, rol_id
+                          FROM tbl_usuarios
+                          INNER JOIN tbl_roles
+                          ON tbl_usuarios.rol_id = tbl_roles.id_rol 
+                          WHERE tbl_roles.rol = ? AND id_usuario = ?");
+  $stmt->bind_Param("si",$rol_id, $id_usuario);
+  $stmt->execute();
+  $stmt->bind_Result($fecha_ult_conexion, $fecha_vencimiento, $fecha_mod_contrasena, $id_rol);
 
-if($stmt->affected_rows){
+  if($stmt->affected_rows){
 
-  $existe = $stmt->fetch();
-while($stmt->fetch()){
-  $mi_rol = $id_rol;
-  $fecha_conexion = $fecha_ult_conexion;
-}
+    $existe = $stmt->fetch();
+  while($stmt->fetch()){
+    $mi_rol = $id_rol;
+    $fecha_conexion = $fecha_ult_conexion;
+  }
 
-if($existe){
+  if($existe){
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
-WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto'");
-$columna = $stmt->fetch_assoc();
+  $stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+  WHERE rol_id = '$id_rol' AND objeto_id = '$id_objeto'");
+  $columna = $stmt->fetch_assoc();
 
-?>
+  ?>
   <div class="content-wrapper">
     
     <section class="content-header">
@@ -122,7 +122,7 @@ $columna = $stmt->fetch_assoc();
         <div class="row">
           <div class="col-md-4">
             <div class="box box-widget widget-user-2">
-              <div class="widget-user-header">
+              <div class="widget-user-header bg-green">
                 <div class="widget-user-image">
                   <img class="img-circle" src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" alt="User Avatar">
                 </div>
@@ -131,12 +131,121 @@ $columna = $stmt->fetch_assoc();
               </div>
               <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
-                  <li><a><strong>Último acceso:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $conexion = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></span></a></li>
-                  <li><a><strong>Últ. cambio contraseña:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $modificado = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_mod_contrasena)); echo $modificado;?></span></a></li>
-                  <li><a><strong>Próx. cambio contraseña:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d/%b/%G. hr %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>  
+                  <li><a><strong>Último acceso:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $conexion = strftime("%d/%b/%g. hr %I:%M %p", strtotime($fecha_ult_conexion)); echo $conexion;?></span></a></li>
+                  <li><a><strong>Últ. cambio contraseña:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $modificado = strftime("%d/%b/%g. hr %I:%M %p", strtotime($fecha_mod_contrasena)); echo $modificado;?></span></a></li>
+                  <li><a><strong>Próx. cambio contraseña:</strong><span class="pull-right"><?php setlocale(LC_ALL,"es_ES.UTF-8"); $vencimiento = strftime("%d/%b/%g. hr %I:%M %p", strtotime($fecha_vencimiento)); echo $vencimiento;?></span></a></li>  
                 </ul>
               </div>
             </div>
+
+            <?php
+
+                include "./modelo/conexionbd.php";
+
+                $solicitudes = "SELECT COUNT(*) solicitud FROM tbl_solicitudes;";
+                $resultadoSoli = mysqli_query($conn, $solicitudes);
+                
+                $solis = mysqli_fetch_assoc($resultadoSoli);
+
+                $solicitudes2 = "SELECT COUNT(estatus_solicitud) estatus FROM tbl_solicitudes WHERE estatus_solicitud = 1;";
+                $resultadoSoli2 = mysqli_query($conn, $solicitudes2);
+                
+                $solis2 = mysqli_fetch_assoc($resultadoSoli2);
+
+                $solicitudes3 = "SELECT COUNT(estatus_solicitud) estatus FROM tbl_solicitudes WHERE estatus_solicitud = 2;";
+                $resultadoSoli3 = mysqli_query($conn, $solicitudes3);
+                
+                $solis3 = mysqli_fetch_assoc($resultadoSoli3);
+
+                $solicitudes4 = "SELECT COUNT(estatus_solicitud) estatus FROM tbl_solicitudes WHERE estatus_solicitud = 3;";
+                $resultadoSoli4 = mysqli_query($conn, $solicitudes4);
+                
+                $solis4 = mysqli_fetch_assoc($resultadoSoli4);
+            ?>
+
+            <script type="text/javascript">
+            function informacion(){
+
+            }
+
+            setTimeout(informacion,1000);
+            </script>
+
+            <!-- INICIO INFORMACION DE SOLICITUDES -->
+            <?php if($_SESSION["rol"] === "administrador"):?>
+            <div class="box box-primary">
+              <div class="box-body box-profile">
+                <!-- <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture"> -->
+
+                
+                <h3 class="profile-username text-center"><strong><i class="fa fa-edit"></i> Solicitudes</strong></h3>
+                <p class="text-muted text-center">Resumen solicitudes</p>
+
+                <ul class="list-group list-group-unbordered">
+                  
+                  <li class="list-group-item">
+                  <label for="">Ultimas solicitudes:</label>
+                  <table class="display table table-hover table-condensed">
+                    <thead>
+                    <tr>
+                      <th>Nombre cliente</th>
+                      <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                  <?php
+                  include "./modelo/conexionbd.php";
+
+                  $mostrar = 2;
+                  $modo = "DESC";
+
+                  $solicitudes = "SELECT id_solicitud ,tbl_clientes.nombre_completo AS cliente, tbl_estatus_solicitud.estatus AS estado FROM tbl_solicitudes
+                                  INNER JOIN tbl_clientes
+                                  ON tbl_solicitudes.cliente_id = tbl_clientes.id_cliente
+                                  INNER JOIN tbl_estatus_solicitud
+                                  ON tbl_solicitudes.estatus_solicitud = tbl_estatus_solicitud.id_estatus_solicitud
+                                  ORDER BY cliente_id $modo limit $mostrar;";
+                  $resultadoSoli = mysqli_query($conn, $solicitudes);
+         
+                  $vertbl = array();
+                  while($ver = $resultadoSoli->fetch_assoc()){
+
+											$traer = $ver["id_solicitud"];
+											$evento = array(
+												'cliente' => $ver['cliente'],
+                        'estado' => $ver['estado']
+											);
+											$vertbl[$traer][] =  $evento;
+										}
+										foreach ($vertbl as $dia => $lista_articulo) {
+
+                    foreach ($lista_articulo as $evento) { ?>
+												<tr>
+													<td> <?php echo $evento['cliente']; ?></td>
+                          <td> <?php echo $evento['estado']; ?></td>
+												<?php }}?>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  </li>
+                  <li class="list-group-item">
+                    <b>En proceso:</b> <a class="pull-right label label-warning"><?php echo $solis2["estatus"];?></a><br>
+                    <!-- <span class="label label-success">Shipped</span> -->
+                    <b>Aprobadas:</b> <a class="pull-right label label-success"><?php echo $solis3["estatus"];?></a><br>
+                    <b>Canceladas:</b> <a class="pull-right label label-danger"><?php echo $solis4["estatus"];?></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Total solicitudes:</b> <a class="pull-right label label-primary"><?php echo $solis["solicitud"];?></a>
+                  </li>
+                </ul>
+
+                <a href="solicitudes" class="btn btn-block"><b>Ir a solicitudes</b></a>
+              </div>
+              <!-- FIN IFORMACION DE SOLICITUDES -->
+            </div>
+            <?php endif;?>
+
           </div>
           <!-- FIN INFORMACION ULTIMO ACCESO -->
           

@@ -92,7 +92,7 @@ include_once("./modelo/conexionbd.php");
                 <li><a><strong>Nombre de usuario: </strong><span class="pull-right"><?php echo strtoupper($usuario);?></span></a></li>
                 <li><a><strong>Correo: </strong><span class="pull-right"><?php echo $_SESSION['correo'];?></span></a></li>
                 <li><a><strong>Teléfono: </strong><span class="pull-right"><?php echo ucwords(strtolower($_SESSION['telefono']));?></span></a></li>
-                <li><a><strong>Contraseña caduca: </strong><span class="pull-right"><?php setlocale(LC_ALL,'es-ES'); $caduca = strftime('%d/%b/%G. a las %I:%M %p', strtotime($_SESSION['fecha_vencimiento'])); echo $caduca;?></span></a></li>
+                <li><a><strong>Contraseña caduca: </strong><span class="pull-right"><?php setlocale(LC_ALL,'es_ES.UTF-8'); $caduca = strftime('%d/%b/%g. hr %I:%M %p', strtotime($_SESSION['fecha_vencimiento'])); echo $caduca;?></span></a></li>
                 <li><a><strong>Días transcurridos: </strong><span class="pull-right"><?php echo $dias_transcurridos;?></span></a></li>
               </ul>
             </div>

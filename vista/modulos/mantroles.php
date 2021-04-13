@@ -44,7 +44,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									
-									<button class="btn btn-success btnCrearRol fa fa-plus text-uppercase" > Agregar Rol</button>
+									<button class="btn btn-success btnCrearRol"> <i class="fa fa-plus-circle"> </i> Crear rol</button>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerRoles">

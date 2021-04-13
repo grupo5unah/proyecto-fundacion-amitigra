@@ -89,10 +89,10 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="col-sm-offset-2 col-sm-8">
                   <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
                   <button type="button" id="guardarCopia" class="btn btn-success actualizar editar" data-toggle="modal" data-target="" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
-                  Guardar copia de seguridad</button><?php }?>
+                  <i class="glyphicon glyphicon-save"></i> Guardar copia de seguridad</button><?php }?>
                   </div>
                 </div>
-                <!-- INICIO BOTON DE COPIA DE SEGURIDAD -->
+                <!-- FIN BOTON DE COPIA DE SEGURIDAD -->
               </form>
             </div>
             <!-- FIN DEL PRIMER TAB -->
@@ -132,7 +132,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="modal-footer">
                     <button id="CancelarCopia" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
                     Cancelar</button>
-                    <button id="guardarCopiaModal" type="button" class="btn btn-primary"><i class="fa fa-user"></i>
+                    <button id="guardarCopiaModal" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-save"></i>
                     Crear copia</button>
                   </div>
                 </div>
@@ -194,6 +194,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="col-sm-offset-2 col-sm-8">
                   <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
                   <button type="button" id="restaurar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                  <i class="glyphicon glyphicon-repeat"></i>
                   Restaurar base de datos</button><?php }?>
                   </div>
                 </div>
@@ -214,30 +215,36 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                   <div class="modal-body">
                     <!-- AGREGAR CONTENIDO AQUI -->
                     <div class="form-group">
-                        <div class="alert alert-light" role="alert">
+                      <div class="alert alert-light" role="alert">
                         <h4><i class="fa fa-warning"> Importante:</i></h4>
                         El ingreso de la contraseña es necesario para poder hacer efectiva la actualización de sus datos personales.
-                        </div>
                       </div>
+                    </div>
                       
-                      <div class="form-group">
-                          <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+                    <div class="form-group">
+                      <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
 
-                          <div class="input-group col-sm-8">
-                          <input type="hidden" id="usuario" value="<?php echo $_SESSION['usuario'];?>">
-                            <input id="contraRestauracion" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
-                            <span class="input-group-btn" onclick="contraRestauracion()">
-                              <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_contraRest"></i></button>
-                            </span>
-                          </div>
-                        </div>
-                    
+                      <div class="input-group col-sm-8">
+                        <input type="hidden" id="usuario" value="<?php echo $_SESSION['usuario'];?>">
+                        <input id="contraRestauracion" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
+                        <span class="input-group-btn" onclick="contraRestauracion()">
+                          <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_contraRest"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  
+                    <div class="form-group text-center">
+                      <div class="input-group">
+                        <label class="control-label" for="">Restaurando...</label>
+                      </div>
+                    </div>
                     <!-- FIN CONTENIDO -->
                   </div>
+                  
                   <div class="modal-footer">
                     <button id="CancelarRestauracion" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
                     Cancelar</button>
-                    <button id="restaurarCopiaModal" type="button" class="btn btn-primary"><i class="fa fa-user"></i>
+                    <button id="restaurarCopiaModal" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-repeat"></i>
                     Restaurar</button>
                   </div>
                 </div>

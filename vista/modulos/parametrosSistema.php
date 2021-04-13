@@ -71,6 +71,23 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
     $Cadministrador = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[11]';");
     $resultCAdmin = mysqli_query($conn, $Cadministrador);
     $PCAdmin = mysqli_fetch_assoc($resultCAdmin);
+
+    $arreglo = ['INTENTOS_SESION','CANT_PREGUNTAS','VIGENCIA_CUENTA'];
+
+    //TRAE EL CORREO ELECTRONICO DE LA ORGANIZACION
+    $intentosSesion = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';");
+    $resultIntentos = mysqli_query($conn, $intentosSesion);
+    $PIntentos = mysqli_fetch_assoc($resultIntentos);
+
+    //TRAE EL PUERTO DEL CORREO DE LA ORGANIZACION
+    $cantPreguntas = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';");
+    $resultPreguntas = mysqli_query($conn, $cantPreguntas);
+    $PPreguntas = mysqli_fetch_assoc($resultPreguntas);
+
+    //TRAE EL MENSAJE QUE SE ENVIA POR CORREO ELECTRONICO
+    $vigCuenta = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[2]';");
+    $resultVigencia = mysqli_query($conn, $vigCuenta);
+    $PVigencia = mysqli_fetch_assoc($resultVigencia);
   
 ?>
 <div class="content-wrapper">
@@ -85,6 +102,56 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
 
     <section class="content">
       <div class="row">
+
+      <!-- SELECT2 EXAMPLE INICIO -->
+      <div class="col-xs-12">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <!-- <h3 class="box-title">Select2</h3> -->
+
+            <div class="box-tools pull-right">
+
+              <!-- INICIO INFOTMACION -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <h2 class="page-header">
+                  <i class="fa fa-exclamation"></i> Sobre esta Configuración.
+                  </h2>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <div class="form-group">
+                      <strong><i class="fa fa-gear"></i> Parámetros del Sistema</strong>
+                      <br><strong>Que tipo de parámetros puedes configurar</strong>
+                      <br>
+                      Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
+                      presentamos problemas podes reestablecer la informacion.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <div class="form-group">
+                      <strong><i class="fa fa-unlock-alt"></i> Parámetros de seguridad</strong>
+                      <br><strong>Que tipo de parámetros puedes configurar</strong>
+                      <br>
+                      Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
+                      presentamos problemas podes reestablecer la informacion.
+                    </div>
+                  </div>
+                </div>
+              <!-- FIN INFORMACION -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SELECT2 EXAMPLE FIN -->
+
+      <!-- TITULO PARAMETROS DEL SISTEMA -->
+      <h2 class="content-header"><small>Parametros del Sistema</small></h2>
 
         <!-- AJUSTE DE CORREO -->
         <div class="col-md-4">
@@ -280,14 +347,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
 
         <!-- INICIO AJUSTES DEL SISTEMA -->
         <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
                 <img class="img-circle" src="https://cdn.pixabay.com/photo/2016/10/19/03/59/socialmedia-1752079_960_720.png" alt="User Avatar">
               </div>
-              <!-- /.widget-user-image -->
               <h3 class="widget-user-username">Ajustes</h3>
               <h5 class="widget-user-desc"><strong>Sistema</strong></h5>
             </div>
@@ -335,8 +399,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                   </div></li>
               </ul>
             </div>
-          </div>
-        
+          </div> 
         </div>
         <!-- FIN AJUSTES DEL SISTEMA -->
 
@@ -381,6 +444,57 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
           <!-- /.modal-dialog -->
         </div>
         <!-- FINAL MODAL AJUSTES DEL SISTEMA -->
+
+
+        <!-- TITULO PARAMETROS DE SEGURIDAD -->
+        <h2 class="content-header"><small>Parametros de Seguridad</small></h2>
+        
+        
+        <!-- INICIO AJUSTES DE SEGURIDAD -->
+        <div class="col-md-4">
+          <div class="box box-widget widget-user-2">
+            <div class="widget-user-header bg-green">
+              <div class="widget-user-image">
+                <img class="img-circle" src="https://image.flaticon.com/icons/png/512/95/95454.png" alt="User Avatar">
+              </div>
+
+              <h3 class="widget-user-username">Ajustes</h3>
+              <h5 class="widget-user-desc"><strong>Parámetros de seguridad</strong></h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a><strong>Intentos inicio de sesión:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="intentosSesion" value="<?php echo $PIntentos['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                    </div>
+                  </div></a></li>
+                <li><a><strong>Cantidad preguntas de seguridad:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="cantPreguntas" value="<?php echo $PPreguntas['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                    </div>
+                  </div></a></li>
+                <li><a><strong>Vigencia cuenta usuarios: </strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="vigUsuario" value="<?php echo $PVigencia['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                    </div>
+                  </div></a></li>
+                <li><br><div class="text-center form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
+                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-seguridad" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    Guardar cambios</button>
+                    </div>
+                    <br>
+                  </div></li>
+                  <br>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- FIN AJUSTES DE SEGURIDAD -->
 
       </div>
     

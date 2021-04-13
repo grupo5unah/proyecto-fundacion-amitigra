@@ -104,7 +104,7 @@ require_once "../modelo/conexionbd.php";
                                         //Genera la fecha del proximo mes
                                         $fecha_actual = new DateTime($fecha);
                                         $fecha_actual->modify('next month');
-                                        $vencimiento = $fecha_actual->format('Y-m-d H:i:s');                                  
+                                        $vencimiento = $fecha_actual->format('Y-m-d H:i:s');                                 
 
                                         $insertar = $conn->prepare("INSERT INTO tbl_usuarios (nombre_completo, nombre_usuario, foto, genero, telefono,
                                                                                             correo, contrasena, token, intentos, rol_id, estado_id,
@@ -168,12 +168,7 @@ require_once "../modelo/conexionbd.php";
                                                 }
 
                                                 if($existe_registro){
-                                                    /*$pregunta1 = $_POST['pregunta1'];
-                                                    $pregunta2 = $_POST['pregunta2'];
-                                                    $pregunta3 = $_POST['pregunta3'];
-                                                    $id_preg1 = $_POST['id_pregunta1'];
-                                                    $id_preg2 = $_POST['id_pregunta2'];
-                                                    $id_preg3 = $_POST['id_pregunta3'];*/
+
                                                     date_default_timezone_set("America/Tegucigalpa");
                                                     $fecha_hoy = date("Y-m-d H:s:i",time());
     
@@ -191,15 +186,9 @@ require_once "../modelo/conexionbd.php";
                                                     $insertarRespuesta->bind_Param("iisssss",$id_preg3,$user_registro,$pregunta3,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
                                                     $insertarRespuesta->execute();
 
-                                                    if(!$insertarRespuesta->error){
-
-                                                        /*$respuesta = array(
-                                                            "respuesta" => "error_preguntas"
-                                                        );*/
-
-                                                    }else {
-
-                                                    }
+                                                    // if(!$insertarRespuesta->error){
+                                                    // }else {
+                                                    // }
                                                 }else{
 
                                                 }

@@ -25,7 +25,6 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 
 	<section class="content">
 
-		<!-- Default box -->
 		<div class="box">
 			<div class="box-header with-border">
 
@@ -38,12 +37,12 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Lista de acciones realizadas</div>
-							</div> <!-- /panel-heading -->
+							</div>
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 
-								</div> <!-- /div-action -->
+								</div>
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerBitacora">
 									<thead>
@@ -93,21 +92,18 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 
 
 											<?php foreach ($lista_articulo as $evento) { ?>
-												<?php	//echo $evento['nombre_arti']
+												<?php date_default_timezone_set("America/Tegucigalpa");
+												setlocale(LC_ALL,"es_ES.UTF-8");
+												$accion = strftime("%d-%b-%g %I:%M %p", strtotime($evento["fecha_accion"])); //echo $evento['nombre_arti']
 												?>
 												<tr>
 													<td> <?php echo $evento['accion']; ?></td>
 													<td> <?php echo $evento['descripcion']; ?></td>
-                          							<td> <?php echo $evento['fecha_accion']; ?></td>
+                          							<td> <?php  echo $accion; ?></td>
                         							<td> <?php echo $evento['usuario']; ?></td>
 													<td> <?php echo $evento['objeto']; ?></td>
 													<td>
 
-														<?php if($columna['permiso_eliminacion'] == 1):?>
-														<button class="btn btn-danger btnEliminarObjeto glyphicon glyphicon-remove" data-idobjeto="<?php //echo $evento['id_bitacora'];?>"></button>
-														<?php
-														else:
-														endif;?>
 													</td>
 												<?php }?>
 											<?php }?>
@@ -117,19 +113,16 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 										?>-->
 
 								</table>
-								<!-- /table -->
 
-							</div> <!-- /panel-body -->
-						</div> <!-- /panel -->
-					</div> <!-- /col-md-12 -->
+							</div>
+						</div>
+					</div>
 					<?php $conn->close(); ?>
-				</div> <!-- /row -->
-
+				</div>
 
 			</div>
-			<!-- /.box-body -->
 	</section>
-	<!-- /.content -->
+
 </div>
 <?php
 

@@ -149,7 +149,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <!-- <li><a href="bitacora"><i class=""></i> Bitácora</a></li> -->
+                <li><a href="mantenimiento"><i class=""></i> Usuario</a></li>
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
                 <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
                 <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
@@ -179,8 +179,8 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="mantpermisos"><i class=""></i> Permiso acceso <br> al sistema</a></li>
-                <li><a href="parametrosSeguridad"><i class=""></i> Parámetros seguridad</a></li>
-                <li><a href="parametrosSistema"><i class=""></i> Parámetros sistema</a></li>
+                <!-- <li><a href="parametrosSeguridad"><i class=""></i> Parámetros seguridad</a></li> -->
+                <li><a href="parametrosSistema"><i class=""></i> Parámetros<br>Sistema/Seguridad</a></li>
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
               </ul>
             </li>
