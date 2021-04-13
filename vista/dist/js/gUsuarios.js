@@ -39,10 +39,9 @@ $(document).ready(function () {
         },
           {
               extend: 'excelHtml5',
-              title: 'FUNDACION AMIGOS DE LA TIGRA',
+              title: 'REPORTE DE USUARIOS DEL SISTEMA',
               text:'<i class="fas fa-file-excel">',
               className:'btn btn-success',
-              messageTop: 'REPORTE DE USUARIOS.',
               exportOptions: {
                 columns: [ 0, ':visible' ]
             },
@@ -55,12 +54,11 @@ $(document).ready(function () {
             titleAttr: 'Exportara a PDF',
             orientation: 'portrait',
             pageSize: 'A4',
-            title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-            messageTop: ' REPORTE DE USUARIOS DEL SISTEMA.',
+            title:  'REPORTE DE USUARIOS DEL SISTEMA',
             Image:'fotoPerfil/foto1.png',
             download: 'open',
             exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6],
+                columns: [0, 1, 2, 3,4,5,6],
                 orthogonal: 'export'
              },
             customize: function(doc){
@@ -88,7 +86,7 @@ $(document).ready(function () {
                 };
 
                 var cols = [];
-                cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
+                cols[0] = {text: 'FUNDACION AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
                 cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:
 [10, 10, 15, 15] };
                 var objHeader = {};
@@ -96,13 +94,13 @@ $(document).ready(function () {
                 doc['header'] = objHeader;
                  doc['content']['1'].layout = 'lightHorizontalLines';
                  //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
-                 doc['content']['1'].style = 'Amitigra';
+                 doc['content']['1'].style = 'FUNDACION AMITIGRA';
                 var objFooter = {};
                 objFooter['alignment'] = 'center';
                 doc["footer"] = function(currentPage, pageCount) {
                     var footer = [
                         {
-                            text: 'AmiTigra',
+                            text: 'FUNDACION AMITIGRA',
                             alignment: 'left',
                             color: 'black',
                             margin:[15, 15, 0, 15]

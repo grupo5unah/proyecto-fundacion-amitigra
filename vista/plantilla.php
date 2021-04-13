@@ -45,13 +45,16 @@ if ($nombre->affected_rows) {
 
 ?>
 <head>
+
   <meta charset="utf-8">
+  <meta name="description" content="SAAT - Sistema Administrativo AmiTigra">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="fotoPerfil/favicon.ico">
   <title><?php echo $extraer;}}?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  
+
   <link rel="stylesheet" href="vista/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="vista/bower_components/font-awesome/css/font-awesome.min.css">
@@ -65,7 +68,7 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/dist/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="vista/dist/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="vista/dist/css/sweetalert.css">
+  <!-- <link rel="stylesheet" href="vista/dist/css/sweetalert.css"> -->
   <link rel="stylesheet" href="vista/dist/css/skins/_all-skins.min.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="vista/bower_components/morris.js/morris.css">
@@ -74,7 +77,6 @@ if ($nombre->affected_rows) {
   <link rel="stylesheet" href="vista/bower_components/jvectormap/jquery-jvectormap.css">  
   <!-- Date Picker -->
   <link rel="stylesheet" href="vista/dist/css/bootstrap-datepicker.min.css">
-  <link rel="stylesheet" href="vista/dist/css/bootstrap-datetimepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="vista/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   
@@ -109,7 +111,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantTipoSolicitudes" || 
         $_GET["ruta"] == "mantEstadosSolicitud" || 
         $_GET["ruta"] == "mantenimiento" ||
-        $_GET["ruta"] == "producto" ||
+        $_GET["ruta"] == "movimientos" ||
         $_GET["ruta"] == "existencia"||
         $_GET["ruta"] == "ordenes"||  
         $_GET["ruta"] == "perfil" ||
@@ -213,7 +215,7 @@ if ($nombre->affected_rows) {
 <script src="vista/dist/js/pdfmake.min.js"></script>
 <script src="vista/bower_components/moment/min/moment.min.js"></script>
 <script src="vista/dist/assets/js/jquery.validate.min.js"></script>
-<script src="vista/dist/js/bootstrap-datepicker.min.js"></script> 
+<!-- <script src="vista/dist/js/bootstrap-datepicker.min.js"></script>  -->
 <script src="vista/bower_components/select2/dist/js/select2.min.js"></script>
 <script src="vista/bower_components/select2/dist/js/select2.full.min.js"></script>
  <!-- datepicker -->
@@ -236,6 +238,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/reportes.js"></script>
 <script src="vista/dist/js/ordenes.js"></script>
 <script src="vista/dist/js/hotel.js"></script>
+<script src="vista/dist/js/camping.js"></script>
 <script src="vista/dist/js/tablaReserva.js"></script>
 <script src="vista/dist/js/clientes.js"></script>
 <script src="vista/dist/js/reservaciones.js"></script>
@@ -244,6 +247,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/gUsuarios.js"></script>
 <script src="vista/dist/js/infoperfil.js"></script>
 <script src="vista/dist/js/copiaSeguridad.js"></script>
+<script src="vista/dist/js/restaurarCSeguridad.js"></script>
 <script src="vista/dist/js/app.login.js"></script>
 <script src="vista/dist/js/reloj.js"></script>
 <script src="vista/dist/js/actualizarParametros.js"></script>
@@ -255,7 +259,10 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/tipoBoletos.js"></script>
 <script src="vista/dist/js/tipoSolicitudes.js"></script>
 <script src="vista/dist/js/EstadosSolicitud.js"></script>
-<script src="vista/dist/js/sweetalert.min.js"></script>
+<script src="vista/dist/js/movimientos.js"></script>
+<script src="vista/dist/js/validaciones.js"></script>
+<script src="vista/dist/js/validacionesProducto.js"></script>
+<!-- <script src="vista/dist/js/sweetalert.min.js"></script> -->
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="vista/dist/js/pages/dashboard.js"></script>

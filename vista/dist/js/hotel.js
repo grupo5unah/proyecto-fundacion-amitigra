@@ -25,6 +25,32 @@ function calcular2()
 
   }
 }
+//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO NACIONALES ROSARIO
+function calculaRosario()
+{
+  try {
+    var cantAdultosNR=parseFloat(document.getElementById("anr").value)|| 0, 
+        cantNiNR=parseFloat(document.getElementById("nnr").value)|| 0,
+        PadultR=parseFloat(document.getElementById("pnar").value)|| 0,
+        PninoR=parseFloat(document.getElementById("pnnr").value)|| 0;          
+        document.getElementById("totalNR").value= (cantAdultosNR*PadultR)+(cantNiNR*PninoR);
+  }catch(e){
+
+  }
+}
+//FUNCION PARA CALCULAR EL TOTAL EN HOTEL SOLO EXTRANJEROS ROSARIO
+function calculaRosarioE()
+{
+  try {
+    var cantAdultosER=parseFloat(document.getElementById("aer").value)|| 0, 
+        cantNiER=parseFloat(document.getElementById("ner").value)|| 0,
+        PadultER=parseFloat(document.getElementById("paer").value)|| 0,
+        PninoER=parseFloat(document.getElementById("pner").value)|| 0;          
+        document.getElementById("totalER").value= (cantAdultosER*PadultER)+(cantNiER*PninoER);
+  }catch(e){
+
+  }
+}
 //FUNCION PARA CALCULAR EL TOTAL TIENDA PARA 2 PERSDONAS
 function calcularCamping()
 {
@@ -58,49 +84,6 @@ function calcularSleeping()
 
   }
 }
-//FUNCION PARA CALCULAR EL TOTAL EN NACIONALES CAMPING
-function calcularCampingNacional()
-{
-  try {
-    var cant_adultosNC=parseFloat(document.getElementById("anc").value)|| 0, 
-        cant_niñosNC=parseFloat(document.getElementById("nnc").value)|| 0,
-        precio_adultoNC=parseFloat(document.getElementById("pac").value)|| 0,
-        precio_niñosNC=parseFloat(document.getElementById("pnnc").value)|| 0;         
-        document.getElementById("totalNC").value= (cant_adultosNC*precio_adultoNC)+(cant_niñosNC*precio_niñosNC);
-  }catch(e){
-
-  }
-}
-//FUNCION PARA CALCULAR EL TOTAL EN EXTRANJEROS CAMPING
-function calcularCampingExtranjero()
-{
-  try {
-    var cant_adultosEC=parseFloat(document.getElementById("aec").value)|| 0, 
-        cant_niñosEC=parseFloat(document.getElementById("nec").value)|| 0,
-        precio_adultoEC=parseFloat(document.getElementById("paec").value)|| 0,
-        precio_niñosEC=parseFloat(document.getElementById("pnec").value)|| 0;         
-        document.getElementById("totalEC").value= (cant_adultosEC*precio_adultoEC)+(cant_niñosEC*precio_niñosEC);
-  }catch(e){
-
-  }
-}
-
-
-//FUNCION PARA CALCULAR EL TOTAL EN CAMPING
-// function calcularTotalesCamping()
-// {
-//   try {
-//     var totalNacional= parseFloat(document.getElementById("totalNC").value) || 0,
-//       totalExtranjeros= parseFloat(document.getElementById("totalEC").value) || 0,
-//       totalTienda2 = parseFloat(document.getElementById("totaltienda2").value) || 0,
-//       totalSleeping= parseFloat(document.getElementById("totalSleep").value) || 0;
-//         //document.getElementById("TboletosE").value= e+f;
-//         //console.log(document.getElementById("TboletosE").value);                 
-//         document.getElementById("totalCamping").value=  (totalNacional)+ (totalExtranjeros)+ (totalTienda2)+(totalSleeping);
-//   }catch(e){
-
-//   }
-// }
 
 function soloLetra(e){
   key=e.keycode || e.which;
@@ -391,7 +374,7 @@ $(document).ready(function () {
   })
   
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
-  $("#regisClientes").submit(async function(e){
+  $(".btnGuardarCliente").click(async function(e){
     e.preventDefault();
     console.log('funciona');
     var identidad = $("#identidad").val();
@@ -479,7 +462,7 @@ $(document).ready(function () {
          }
        });
         
-     });
+    });
      //ACTIVAR CAMPOS PARA REGISTRAR CLIENTES
      $('.btnCrearCliente').click(function(e){
       e.preventDefault();
@@ -490,6 +473,7 @@ $(document).ready(function () {
       $('#guardarCliente').slideDown();
       $()
      });
+
   //REGISTRAR UNA RESERVACION PARA HOTEL (MODAL)
   $('#localidad').change(function() {
     var local = $(this).val();
@@ -499,24 +483,6 @@ $(document).ready(function () {
       $('.rosario').slideUp();
     }else{
       $('.rosario').slideDown();
-      $('.jutiapa').slideUp();
-    }
-  });
-   
-  //VALIDAR RADIO BUTTON
-  $( '#radio input:radio' ).on( 'click', function() {
-    if($(this).val() === '1'){
-      $('.hotel').slideDown();
-      $('.camping').slideUp();
-    }else if($(this).val() === '2'){
-      $('.camping').slideDown();
-      $('.hotel').slideUp();
-    }
-  });
-  //VALIDAR LOCALIDAD CUANDO ES JUTIAPA Y ES PARA CAMPING
-  $( '#radio input:radio' ).on( 'click', function() {
-    if($(this).val() == '2' && $('#localidad').val() == 1 ){
-      $('.camping').slideDown();
       $('.jutiapa').slideUp();
     }
   });
@@ -535,10 +501,6 @@ $(document).ready(function () {
     $('.nacionales').slideUp();
     $('.extranjeros').slideDown();
   });
-  $('.btnArticulos').on('click', function (e){
-    e.preventDefault();
-        $('#modalArticulos').modal('show');
-  });
 
   //VALIDAR SELECT DE TIPO TIENDA PARA CAMPING
   $('#tipotienda').change(function(e) {
@@ -546,17 +508,34 @@ $(document).ready(function () {
     var tienda = $(this).val();
     //console.log(local);
     if(tienda==1){
-      $('#tienda2').slideDown();
       $('#tienda4').slideUp();
       $('#tienda6').slideUp();
     }else if (tienda == 2){
-      $('#tienda4').slideDown();
-      $('#tienda2').slideUp();
+      $('#tienda2').slideDown();
+      $('#tienda4').slideUp();
       $('#tienda6').slideUp();
     }else if(tienda == 3){
       $('#tienda6').slideDown();
       $('#tienda4').slideUp();
       $('#tienda2').slideUp();
+    }
+  });
+  $('#tipotiendae').change(function(e) {
+    e.preventDefault();
+    var tiendae = $(this).val();
+    //console.log(local);
+    if(tiendae==1){
+      $('#tienda2e').slideDown();
+      $('#tienda4').slideUp();
+      $('#tienda6').slideUp();
+    }else if (tiendae == 2){
+      $('#tienda4').slideDown();
+      $('#tienda2e').slideUp();
+      $('#tienda6').slideUp();
+    }else if(tiendae == 3){
+      $('#tienda6').slideDown();
+      $('#tienda4').slideUp();
+      $('#tienda2e').slideUp();
     }
   });
 
@@ -569,30 +548,158 @@ $(document).ready(function () {
       $('#sleeping').slideUp();  
     } 
   });
-  //ACTIVAR RADIO BUTTONS 
-  $('#identidad').click(function(e){
+
+  //VALIDAR BOTONES CUANDO LOS CAMPOS ESTEN LLENOS
+  $('#identidad').keyup( function(e){
     e.preventDefault();
-    $('#hotel').removeAttr('disabled');
-    $('#camping').removeAttr('disabled');
-    
+    let identi = document.querySelector("#identidad").value;
+    if(identi.length == 10){
+      $('.selectLocalidad').removeAttr('disabled');
+    }else if(identi.length < 10){
+      $('.selectLocalidad').attr('disabled','disabled');
+    }
    });
 
-  //ACTIVAR BOTONES SIGUIENTES
-  if($()){
-
-  }
+   //BOTONES SIGUIENTES
+   $('#localidad').change(function() {
+    var local = $(this).val();
+    //console.log(local);
+    if(local){
+      $('.siguiente1').removeAttr('disabled');
+    }else{
+      $('.siguiente1').attr('disabled','disabled');
+    }
+  });
+  
+  //MOSTAR ALERTA SI DESEA CANCELAR 
+  $('#cancelar').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "cancelar",
+      text: "¿Esta seguro que quiere ejecutar esta accion?",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        identidad = document.querySelector('#identidad').value = "";
+      }else{
+        $('#modalNuevaReserva').modal('show');
+      }
+    })
+  });
+  //MOSTAR ALERTA SI DESEA CANCELAR desde la x de la ventana modal
+  $('#cancelar2').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "cancelar",
+      text: "¿Esta seguro que quiere ejecutar esta accion?",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        identidad = document.querySelector('#identidad').value = "";
+      }else{
+        $('#tipoReserva').modal('show');
+      }
+    })
+  });
 
   //NUEVA RESERVACION
   $('.btnCrearReservacion ').on('click', function() {
-    
     //mostrar el modal
-    $('#modalNuevaReserva').modal('show');
+    $('#tipoReserva').modal('show');
   });
 
+  //BOTON HOTEL
+  $('#Hotel').on('click', function(e) {
+    e.preventDefault();
+    //mostrar el modal
+    $('#modalReservaHotel').modal('show');
+  });
+  
   //MOSTRAR MODAL DETALLE (TABLA)
-  $('.btnDetalle').on('click', function() {
-    $('#modalDetalle').modal('show');
-  })
+  // datos de la dela modal ver el detalle de los datos
+  $('.btnDetalle').click(async function (e) {
+    e.preventDefault();
+    let idReservacion = $(this).data('idreserva');
+    const fechaReserva = $(this).data('fechreserva'); 
+    const localidad = $(this).data('idlocal');
+    const usuario= $(this).data('usuario');
+    const fecha = $(this).data('fecha');
+    const cliente = $(this).data('cliente');
+    const identidad = $(this).data('identidad');
+    const tel = $(this).data('telefono');
+    const nacion = $(this).data('nacion');
+    const total = $(this).data('total');
+     const info =$('#contenido');
+     const tot = $('#total')
+     $('#contenido div ').remove();
+     info.append(
+        `
+         <div class="user col-6">
+         <p class="">Reservación N° ${idReservacion}</p>
+         <label for="" id="fecha">Fecha de Reservacion: <span>${fechaReserva}</span></label>
+         <img style=" width: 70px; height: 70px; transform: translate(250%, -50%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
+         <span style="font-size:16px;" class="user"> Vendedor: ${usuario}</span>
+         <div style=" font-size:16px; transform: translate(30%, -100%);"><span class="local col-6">Localidad: ${localidad}</span>
+         </div>
+         
+         <p class="">Datos del Cliente:</p>
+         <div class="col-md-6" >
+         <span class="client" style=" font-size:16px;"> identidad: ${identidad}</span>
+         <span class="client" style=" font-size:16px;"> Naconalidad: ${nacion}</span>
+         </div>
+         <div>
+         <span class="client" style=" font-size:16px;"> Cliente: ${cliente}</span>
+         
+         <p class="client" style=" font-size:16px;"> Telefono: <span>${tel}</span></p>
+         </div>
+         
+     
+        `
+        );
+        
+    if(idReservacion){
+        try{
+            const data = (await axios.get(`./controlador/ctrhotel.php?action=traerDetalle&idReservacion=${Number(idReservacion)}`)).data;
+            const detalle= $('#detalle');
+            $('#detalle tr').remove();
+            data.reserva.forEach((r, index) => detalle.append(`
+              
+            <tr>
+                <td>${index+1}</td>
+                <td>${r.habitacionArea}</td>
+                <td>${r.adultos}</td>
+                <td>${r.padulto}</td>
+                <td>${r.niños}</td>
+                <td>${r.pniño}</td>
+                <td>${r.articulos}</td>
+            </tr>
+            `));
+            $('#total div ').remove();
+              tot.append(
+                  `
+                
+                  <div class="user col-6">
+                  <span id="total" class="text-center">TOTAL: ${total}</span>
+                  </div>
+                  `
+                  );
+            $("#total span").val(total);
+            $(".user span").val(usuario);
+            $(".local span").val(localidad);
+            $("#fecha span").val(fecha);
+            $(".client span").val(cliente);
+            $('#modalDetalle').modal('show');
+            
+        }catch(err){
+            console.log('Error - ', err);
+        }
+    }
+});
+  
    //BOTON EDITAR MODAL (TABLA HOTEL)
    $('.btnEditarReservacion').on('click', function() {
     // info previa

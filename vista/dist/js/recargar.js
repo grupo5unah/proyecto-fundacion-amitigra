@@ -6,13 +6,14 @@ $(document).ready(function () {
   //Verifica la existencia del nombre de usuario
   $('#usuario').keyup(function(e){
     if($('#usuario').val()){
-      let usuario = $('#usuario').val();
+      let usuarioBuscar = $('#usuario').val();
       //let correo = $('#correo').val();
-    
+  
       $.ajax({
         url:'../../controlador/buscar.php',
         type:'POST',
-        data: { usuario:usuario },
+        datatype:"json",
+        data: { usuarioBuscar:usuarioBuscar },
         success: function(response){
           //console.log(response)
           let existe = JSON.parse(response);
@@ -36,14 +37,15 @@ $(document).ready(function () {
 
   
   //Verifica la existencia del correo
-  $('#correo').keyup(function(e){
+  /*$('#correo').keyup(function(e){
     if($('#correo').val()){
-      let correo = $('#correo').val();
+      let correoBuscar = $('#correo').val();
     
       $.ajax({
         url:'../../controlador/buscar.php',
         type:'POST',
-        data: { correo:correo },
+        datatype:"json",
+        data: { correoBuscar:correoBuscar },
         success: function(response){
           //console.log(response)
           let existente = JSON.parse(response);
@@ -64,11 +66,6 @@ $(document).ready(function () {
       
       $('#notificacion2').hide();
     }
-  });
+  });*/
 
-
-  $(document).on('change','#pregunta',function(){
-    $(this).closest('.form-group').siblings().find('#pregunta option[value="'+$(this).val()+'"]').remove();
-  });
-  
 });

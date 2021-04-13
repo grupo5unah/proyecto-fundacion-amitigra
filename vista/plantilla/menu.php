@@ -79,7 +79,7 @@ if($existe){
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">
           <!-- MUESTRA RESERVACIONES SOLO PARA ADMINISTRADOR Y COLABORADOR -->
-            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
+            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente") {?>
             <?php if($columna["permiso_consulta"] == 1){?>
               <a href="#">
                 <i class="fa fa-calendar-check-o"></i>
@@ -109,9 +109,9 @@ if($existe){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="producto"><i class=""></i> Producto</a></li>
-            <li><a href="existencia"><i class=""></i> Existencia</a></li>
-            <li><a href="ordenes"><i class=""></i>Ordenes</a></li>
+            <li><a href="movimientos"><i class=""></i>Movimientos</a></li>
+            <li><a href="existencia"><i class=""></i> Inventario General</a></li>
+            <!-- <li><a href="ordenes"><i class=""></i>Ordenes</a></li> -->
           </ul>
         </li>
         <?php
@@ -195,7 +195,7 @@ if($existe){
 
         <?php }}?>
         <?php }?>
-        <?php }}?>
+        <!-- <?php }}?> -->
 
 
   </section>

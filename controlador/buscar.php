@@ -1,12 +1,12 @@
 <?php
 include ('../modelo/conexionbd.php');
 
-$usuario = $_POST['usuario'];
-$correo = $_POST['correo'];
+$usuarioBuscar = $_POST['usuarioBuscar'];
+//$correoBuscar = $_POST['correoBuscar'];
 
-if(!empty($usuario) || !empty($correo)){
+if(!empty($usuarioBuscar)){
 
-    $query = "SELECT nombre_completo FROM tbl_usuarios WHERE nombre_usuario = '$usuario' OR correo = '$correo'";
+    $query = "SELECT nombre_completo FROM tbl_usuarios WHERE nombre_usuario = '$usuarioBuscar';";
     $resultado = mysqli_query($conn, $query);
 
     $json = array();
@@ -16,6 +16,5 @@ if(!empty($usuario) || !empty($correo)){
         );
     }
 
-    echo json_encode($json);
-
 }
+echo json_encode($json);

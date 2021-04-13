@@ -99,37 +99,21 @@ $contrasena = $_POST['contrasena'];
                                             "respuesta" => "inicio_sesion"
                                         );
     
-                                        //sleep(2);
-                                        //header('location:../../index.php');
                                     }else {
 
                                         $respuesta = array(
                                             "respuesta" => "cambio_estado"
                                         );
 
-                                        /*echo "<script>
-                                        if (window.history.replaceState) { // verificamos disponibilidad
-                                            window.history.replaceState(null, null, window.location.href);
-                                        }
-                                        location.reload();
-                                        </script>";*/
-                                            //Su usuario a sido bloqueado
+                                        $cambio_estado_usuario = 2;
 
-                                            $cambio_estado_usuario = 2;
-    
-                                            require_once("../modelo/conexionbd.php");
+                                        require_once("../modelo/conexionbd.php");
 
-                                            $bloqueo = $conn->prepare("UPDATE tbl_usuarios
-                                                                        SET estado_id = ?
-                                                                        WHERE nombre_usuario = ?;");
-                                            $bloqueo->bind_Param("is",$cambio_estado_usuario ,$usuario);
-                                            $bloqueo->execute();
-    
-                                        /*if($bloqueo->error){
-                                            echo "se produjo un error en la actualizacion";
-                                        } else{
-                                            echo "El estado del usuario se actualizo con exito";
-                                        }*/
+                                        $bloqueo = $conn->prepare("UPDATE tbl_usuarios
+                                                                    SET estado_id = ?
+                                                                    WHERE nombre_usuario = ?;");
+                                        $bloqueo->bind_Param("is",$cambio_estado_usuario ,$usuario);
+                                        $bloqueo->execute();
     
                                     }
     
@@ -152,13 +136,6 @@ $contrasena = $_POST['contrasena'];
                                                 $respuesta = array(
                                                     "respuesta" => "bloqueado_intentos"
                                                 );
-
-                                                    /*echo "<script>
-                                                    if (window.history.replaceState) { // verificamos disponibilidad
-                                                        window.history.replaceState(null, null, window.location.href);
-                                                    }
-                                                    
-                                                    </script>";*/
                                                     
                                                 require "../modelo/conexionbd.php";
 
@@ -188,12 +165,6 @@ $contrasena = $_POST['contrasena'];
                                                 $respuesta = array(
                                                     "respuesta" => "error_contrasena"
                                                 );
-
-                                                /*echo "<script>
-                                                if (window.history.replaceState) { // verificamos disponibilidad
-                                                    window.history.replaceState(null, null, window.location.href);
-                                                }
-                                                </script>";*/
 
                                                 require "../modelo/conexionbd.php";
 
@@ -284,7 +255,6 @@ $contrasena = $_POST['contrasena'];
                                     }
                                 }
 
-                                //header("location:../vista/modulos/conf_preguntas.php");
                                 break;
 
                             default:
@@ -319,9 +289,6 @@ $contrasena = $_POST['contrasena'];
                 //$stmt->close();
                 $conn = null;
             }
-            //header('Content-Type: application/json');
-    //print_r(json_encode($respuesta));
-
                 
         } catch(Exception $e) {
             die("se produjo un error". $e->getMessage());

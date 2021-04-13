@@ -23,8 +23,6 @@ $usuario = $_POST['usuario2'];
                 
                 if($siExiste){
 
-                    /*$respuesta = array(
-                        "respuesta" => "exito");*/
                     if(password_verify($contrasenaActual, $contrasena)){
                     
                         if( $contrasenaNueva == $confirmarContrasena){

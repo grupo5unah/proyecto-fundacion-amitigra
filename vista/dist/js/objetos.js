@@ -149,6 +149,8 @@ $(document).ready(function(){
     $('.btnEditarP').on('click', function() {
         // info previa
         console.log('hola');
+        const rol = $(this).data('rol');
+        const mi_objeto = $(this).data('objeto');
         const idpermiso = $(this).data('idpermiso'); 
         const Insercion = $(this).data('insercion');
         const Eliminacion = $(this).data('eliminar');
@@ -158,6 +160,8 @@ $(document).ready(function(){
         //llena los campos
         console.log(idpermiso);
         //$("#id").val(idObjeto),
+        $("#Rol").val(rol);
+        $("#Objeto").val(mi_objeto);
         $("#Insertar").val(Insercion);
         $("#Eliminar").val(Eliminacion);
         $("#Actualizar").val(Actualizacion);

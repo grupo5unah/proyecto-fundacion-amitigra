@@ -25,7 +25,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Reservaciones Hotel</div>
+								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Reservaciones Hotel y Camping</div>
 							</div> <!-- /panel-heading -->
 							<div class="panel-body">
 								<div class="remove-messages"></div>
@@ -42,6 +42,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantDetReservaTable">
 									<thead style="background-color: #222d32; color: white;">
 										<tr>
+											<th class="text-center">N°</th>
 											<th class="text-center">Cliente</th>
 											<th class="text-center">Reservacion</th>
 											<th class="text-center">Entrada</th>
@@ -62,12 +63,16 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										<?php
 										try{
 											$sql = "SELECT id_detalle_reservacion, tbl_reservaciones.fecha_reservacion,tbl_reservaciones.fecha_entrada,
-													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_localidad.nombre_localidad  
+													tbl_reservaciones.fecha_salida,tbl_clientes.nombre_completo, tbl_clientes.identidad, tbl_clientes.telefono,
+													tbl_tipo_nacionalidad.nacionalidad,tbl_localidad.nombre_localidad, reservacion_id,
+													tbl_detalle_reservacion.total_pago, tbl_detalle_reservacion.creado_por, tbl_reservaciones.tipo_reservacion 
 													FROM tbl_detalle_reservacion 
 													INNER JOIN tbl_reservaciones 
 													ON tbl_detalle_reservacion.reservacion_id = tbl_reservaciones.id_reservacion 
 													INNER JOIN tbl_clientes 
 													ON tbl_reservaciones.cliente_id=tbl_clientes.id_cliente 
+													INNER JOIN tbl_tipo_nacionalidad
+													ON tbl_clientes.tipo_nacionalidad = tbl_tipo_nacionalidad.id_tipo_nacionalidad
 													INNER JOIN tbl_habitacion_servicio 
 													ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio 
 													INNER JOIN tbl_localidad
@@ -83,11 +88,18 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										while($mostrar = $resultado->fetch_assoc()){
 											$captura = $mostrar['nombre_completo'];
 											$mostrar = array(
+												'numreserva'=>$mostrar['reservacion_id'],
 												'cliente'=>$mostrar['nombre_completo'],
+												'identidad'=>$mostrar['identidad'],
+												'telefono'=>$mostrar['telefono'],
+												'nacion'=>$mostrar['nacionalidad'],
 												'fecha_reservacion'=>$mostrar['fecha_reservacion'],
 												'fecha_entrada'=>$mostrar['fecha_entrada'],
 												'fecha_salida'=>$mostrar['fecha_salida'],
 												'localidad'=>$mostrar['nombre_localidad'],
+												'usuario'=>$mostrar['creado_por'],
+												'tipo_reservacion'=>$mostrar['tipo_reservacion'],
+												'total'=>$mostrar['total_pago'],
 												'id_reservacion' =>$mostrar['id_detalle_reservacion']
 											);
 											$ver[$captura][] =  $mostrar;
@@ -96,15 +108,19 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										
 											<?php foreach ($lista as $mostrar) { ?>
 												<tr>
+													<td class="text-center"><?php echo $mostrar['numreserva'];?></td>
 													<td class="text-center"><?php echo $mostrar['cliente'];?></td>
 													<td class="text-center"><?php echo $mostrar['fecha_reservacion'];?></td>
 													<td class="text-center"><?php echo $mostrar['fecha_entrada'];?></td>
 													<td class="text-center"><?php echo $mostrar['fecha_salida'];?></td>
 													<td class="text-center"><?php echo $mostrar['localidad'];?></td>
-													<td class="text-center"><?php echo "camping";?></td>
+													<td class="text-center"><?php echo $mostrar['tipo_reservacion'];?></td>
 													<td class="text-center">
 								
-													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['id_reservacion'] ?>"></button>
+													<button class="btn btn-default btnDetalle glyphicon glyphicon-eye-open" data-idreserva="<?= $mostrar['numreserva'] ?>"
+													data-fechreserva="<?= $mostrar['fecha_reservacion'] ?>" data-idlocal="<?= $mostrar['localidad'] ?>" data-usuario="<?= $mostrar['usuario'] ?>"
+													data-total="<?= $mostrar['total'] ?>" data-cliente="<?= $mostrar['cliente'] ?>" data-identidad="<?= $mostrar['identidad'] ?>"
+													data-telefono="<?= $mostrar['telefono'] ?>" data-nacion="<?= $mostrar['nacion'] ?>"></button>
 													<?php
 													if($columna["permiso_actualizacion"] == 1):
 													?>
@@ -117,7 +133,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 
 													if($columna["permiso_eliminacion"] == 1):
 													?>
-													<button class="btn btn-danger btnEliminarReservacion glyphicon glyphicon-remove" data-idreser="<?= $mostrar['id_reservacion'] ?>"></button>
+													<button class="btn btn-danger btnEliminarReservacion glyphicon glyphicon-remove" data-idreser="<?= $mostrar['numreserva'] ?>"></button>
 													<?php
 													else:
 													endif;
@@ -138,21 +154,58 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 			</div>
 			<!-- /.box-body -->
 			<!-- /.box-footer-->
-			<!-- MODAL NUEVA RESERVACIÓN -->
-			<div class="modal fade" id="modalNuevaReserva" tabindex="-1"  data-backdrop="static" data-keyboard="false"
+
+			<!-- MODAL Tipo de reservacion -->
+			<div class="modal fade" id="tipoReserva" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"data-backdrop="static" data-keyboard="false">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" id="cancelar2" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Tipo de Reservación</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+						 	<form method="POST" id="">
+							 	<div class="box-body">
+									<div class="row">
+										<p class="text-center">¿Que tipo de reservación desea realizar?</p>
+									</div><br>
+									<div class="text-center">
+										<button id="Hotel" class="btn btn-primary  glyphicon glyphicon-bed"> HOTEL</button>
+										<button id="Camping" class="btn btn-success  glyphicon glyphicon-tent"> CAMPING</button>
+									</div>
+								</div>
+							</form> <!-- /.cierre de formulario -->
+						</div> <!-- /.modal-body -->
+						<?php 
+						if(isset($_GET['msg'])){
+						$mensaje = $_GET['msg'];
+						print_r($mensaje);
+						//echo "<script>alert(".$mensaje.");</script>";  
+						}
+						?>
+					</div> <!-- /.modal content -->
+				</div> <!-- /.modal-dialog -->
+			</div> <!-- /.modal fade -->
+			<!-- MODAL NUEVA RESERVACIÓN PARA HOTEL -->
+			<div class="modal fade" id="modalReservaHotel" tabindex="-1"  data-backdrop="static" data-keyboard="false"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content modal-reserva">
 						<div class="modal-header">
 							<div class="d-flex justify-content-between">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" id="cancelar2" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
 								<h3 class="modal-title" id="exampleModalLabel">Registrar reservaión</h3>
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formReserva" onpaste="return false" >
+						 	<form method="POST" id="formReserva" onpaste="return false" autocomplete="off">
 								<div class="nav-tabs-custom">
 									<ul class="nav nav-tabs">
 										<li><a></a></li>               
@@ -162,7 +215,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										<div class="active tab-pane" id="activity">
 											<div class="post"><br>
 												
-												<div class="box-body" >
+												<div class="box-body" id="regitroClientes" >
 													<div class="box-header with-border">
 													<h3 class="box-title">Datos Cliente</h3>
 													</div> 
@@ -175,7 +228,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 														<!-- <h3 class="box-title">Datos Cliente</h3> -->
 													</div>
 													<div class="box-body">
-														<div class="row clientes" id="regitroClientes">
+														<div class="row clientes">
 															
 																<div class="col-md-6">
 																	<div class="form-group">
@@ -199,39 +252,14 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		</select>
 																	</div>
 																	<br><br>
-																	<!-- radio -->
-																	<div class="form-group" id="radio">
-																		<label>
-																		<input type="radio" id="hotel" name="r1" class="minimal" value="1" disabled> Hotel
-																		</label>
-																		<label>
-																		<input type="radio" id="camping" name="r1" class="minimal" value="2" disabled> Camping
-																		</label>
-																	</div>
-																	<div class="form-group hotel">
+																	<div class="form-group">
 																		<label for="">localidad</label><br>
-																		<select class="form-control selectLocalidad" name="localidad" id="localidad">
+																		<select class="form-control selectLocalidad" name="localidad" id="localidad" disabled>
 																		<option value="" disabled selected>Selecione...</option>
 																		<?php
 																		require ('./modelo/conexionbd.php');
 
 																		$stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
-																		$resultado = mysqli_query($conn,$stmt);
-																		?>
-																		<?php foreach($resultado as $opciones):?>
-																		<option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
-																		<?php endforeach;?>
-																		</select>
-																	</div>
-																	<div class="form-group camping">
-																		<label for="">localidad</label><br>
-																		<select class="form-control selectLocalidad" name="localidad" id="localidad">
-																		<option value="" disabled selected>Selecione...</option>
-																		<?php
-																		require ('./modelo/conexionbd.php');
-
-																		$stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad
-																		WHERE nombre_localidad LIKE '%JU%'";
 																		$resultado = mysqli_query($conn,$stmt);
 																		?>
 																		<?php foreach($resultado as $opciones):?>
@@ -245,7 +273,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	<div class="form-group">
 																		<label>Cliente:</label>
 																		<input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this);"
-																		disabled required>
+																		disabled required maxlength="60">
 																	</div>
 																</div>
 																<div class="col-md-6">
@@ -257,6 +285,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<div class="col-md-6">
 																<div id="guardarCliente">
 																	<button type="submit" class="btnGuardarCliente" ><i class="glyphicon glyphicon-floppy-save"></i> Guardar Cliente</button>
+																	<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
 																</div>
 																
 															</div>
@@ -264,9 +293,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+													<button type="button" class="btn btn-secondary" id="cancelar" data-dismiss="modal">Cerrar </button>
 													<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
-													<button id=""type="button" href="#timeline" class="btn btn-primary" data-toggle="tab">Siguiente</button>
+													<button id=""type="button" href="#timeline" class="btn btn-primary siguiente1" data-toggle="tab" disabled>Siguiente</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->
@@ -370,7 +399,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<input name="cantNN" id="cantNN" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calculo();">
 																</div>
-																<div class="form-group col-xs-4 precio">
+																<div class="form-group col-xs-4 precioh">
 																	<label>Precio (N):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">L.</span>
@@ -433,7 +462,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<input name="cantNE" id="cantNE" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calcular2();">
 																</div>
-																<div class="form-group col-xs-4 precio">
+																<div class="form-group col-xs-4 precioh">
 																	<label>Precio (N):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">$.</span>
@@ -452,7 +481,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<button id="btnAgregarE" class="btn btn-success   glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row extranjeros-->
 														</div>
-														<div id="lista"></div>
+														<!-- <div id="lista"></div> -->
 															<table id="tableJutiapa" data-page-length='10' class=" table table-hover table-condensed table-bordered">
 																<thead>
 																	<tr>
@@ -495,7 +524,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2" >
 																	<label>Adulto:</label>
-																	<input name="anr" id="anr" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="anr" id="anr" class="form-control col-md-2" type="number" min="0" placeholder="0" require 
+																	oninput="calculaRosario();">
 															</div>
 															<div class="form-group col-xs-4">
 																<label>Precio (A):</label>
@@ -514,9 +544,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2 reserva" >
 																	<label>Niños:</label>
-																	<input name="nnr" id="nnr" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="nnr" id="nnr" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calculaRosario();">
 															</div>
-															<div class="form-group col-xs-4 precio">
+															<div class="form-group col-xs-4 precioh">
 																<label>Precio (N):</label>
 																<div class="input-group col-xs-4">
 																	<span class="input-group-addon">L.</span>
@@ -556,7 +586,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2" >
 																	<label>Adulto:</label>
-																	<input name="aer" id="aer" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="aer" id="aer" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																	oninput="calculaRosarioE();">
 															</div>
 															<div class="form-group col-xs-4">
 																<label>Precio (A):</label>
@@ -575,9 +606,10 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="form-group col-md-2 reserva" >
 																	<label>Niños:</label>
-																	<input name="ner" id="ner" class="form-control col-md-2" type="number" min="0" placeholder="0" require>
+																	<input name="ner" id="ner" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																	oninput="calculaRosarioE();">
 															</div>
-															<div class="form-group col-xs-4 precio">
+															<div class="form-group col-xs-4 precioh">
 																<label>Precio (N):</label>
 																<div class="input-group col-xs-4">
 																	<span class="input-group-addon">$.</span>
@@ -595,26 +627,210 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															<input type="hidden" name="totalER" id="totalER" value="">
 															<button id="btnAgregarER" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 														</div><!-- row extranjeros-->
-														<div id="lista">
-															<table id="tableRosario" data-page-length='10' class=" table table-hover table-condensed table-bordered">
-																<thead>
-																	<tr>
-																		<td class="tablaRosario">Habitaciones</td>
-																		<td class="tablaRosario">Adultos</td>
-																		<td class="tablaRosario">P.Adultos</td>
-																		<td class="tablaRosario">Niños</td>
-																		<td class="tablaRosario">P.Niños</td>
-																		<td class="tablaRosario">Total</td>
-																		<td class="tablaRosario">Acciones</td>
-																	</tr>
-																</thead>
-																<tbody>
-																</tbody>
-															</table>
-														</div>
+														<!-- <div id="listados"></div> -->
+														<table id="tableRosario" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+															<thead>
+																<tr>
+																	<td class="tablaRosario">Habitaciones</td>
+																	<td class="tablaRosario">Adultos</td>
+																	<td class="tablaRosario">P.Adultos</td>
+																	<td class="tablaRosario">Niños</td>
+																	<td class="tablaRosario">P.Niños</td>
+																	<td class="tablaRosario">Total</td>
+																	<td class="tablaRosario">Acciones</td>
+																</tr>
+															</thead>
+															<tbody>
+															</tbody>
+														</table>
 													</div><!-- box-body -->
-													<div class="box-body camping">
-														<button class="btn btn-warning btnArticulos fa fa-list"> Articulos</button><br>
+												</div><!-- box-body principal -->
+												<div class="modal-footer">
+													<input type="hidden" name="tipo_hotel" id="tipo_hotel" value="Hotel">
+													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
+													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
+													<button class="btn btn-default" href="#timeline" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary" id="registro" data-toggle="tab">Registrar Reservación</button>
+												</div>
+											</div> <!-- /.post -->	
+										</div> <!-- /.tab-pane -->	
+									</div> <!-- /.tab-content -->	
+								</div> <!-- /.tabs-custom -->	
+							</form> <!-- /.cierre de formulario -->
+						</div> <!-- /.modal-body -->
+						<?php 
+						if(isset($_GET['msg'])){
+						$mensaje = $_GET['msg'];
+						print_r($mensaje);
+						//echo "<script>alert(".$mensaje.");</script>";  
+						}
+						?>
+					</div> <!-- /.modal content -->
+				</div> <!-- /.modal-dialog -->
+			</div> <!-- /.modal fade -->
+
+			<!-- MODAL NUEVA RESERVACION CAMPING -->
+			<div class="modal fade" id="modalReservaCamping" tabindex="-1"  data-backdrop="static" data-keyboard="false"
+				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content modal-reserva">
+						<div class="modal-header">
+							<div class="d-flex justify-content-between">
+								<button type="button" id="cancelar2" class="close" data-dismiss="modal" aria-label="Close">
+									<i aria-hidden="true">&times;</i>
+								</button>
+								<h3 class="modal-title" id="exampleModalLabel">Registrar reservación Camping</h3>
+							</div>
+						</div>
+						<div class="modal-body">
+						 	<form method="POST" onpaste="return false" autocomplete="off">
+								<div class="nav-tabs-custom">
+									<ul class="nav nav-tabs">
+										<li><a></a></li>               
+										<li><a></a></li>
+									</u>
+									<div class="tab-content" >
+										<div class="active tab-pane" id="activity3">
+											<div class="post"><br>
+												
+												<div class="box-body" id="regitroClientes" >
+													<div class="box-header with-border">
+													<h3 class="box-title">Datos Cliente</h3>
+													</div> 
+													<div class="col-xs-3">
+														<button class="btn btn-default btnCrearClient glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
+													</div><br>
+													<input type="hidden" name="action" value="addCliente">
+													<input type="hidden" id="idClient" name="idClient" value="" required>
+													<div class="box-header with-border">
+														<!-- <h3 class="box-title">Datos Cliente</h3> -->
+													</div>
+													<div class="box-body">
+														<div class="row clientes">
+															
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label>Identidad:</label>
+																		<input type="text" class="form-control" name="identi" id="identi" placeholder="Identidad"  required
+																		maxlength="13" onkeypress="return soloNumero(event)"> 
+																	</div>
+																	<div class="form-group">
+																		<label for="">Nacionalidad: </label>
+																		<select class="form-control" name="nacion" id="nacion" disabled required>
+																			<option value="" disabled selected>Selecione...</option>
+																			<?php 
+																			include ('./modelo/conexionbd.php');
+
+																			$stmt = "SELECT id_tipo_nacionalidad, nacionalidad FROM tbl_tipo_nacionalidad";
+																			$resultado = mysqli_query($conn,$stmt);
+																			?>
+																			<?php foreach($resultado as $opciones):?>
+																			<option value="<?php echo $opciones['id_tipo_nacionalidad']?>"><?php echo $opciones['nacionalidad']?></option>
+																			<?php endforeach;?>
+																		</select>
+																	</div>
+																	<br><br>
+																	<div class="form-group">
+																		<label for="">localidad</label><br>
+																		<select class="form-control selectLocalidad" name="localidad" id="localidad">
+																		<option value="" disabled selected>Selecione...</option>
+																		<?php
+																		require ('./modelo/conexionbd.php');
+
+																		$stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad
+																		WHERE nombre_localidad LIKE '%JU%'";
+																		$resultado = mysqli_query($conn,$stmt);
+																		?>
+																		<?php foreach($resultado as $opciones):?>
+																		<option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
+																		<?php endforeach;?>
+																		</select>
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label>Cliente:</label>
+																		<input type="text" class="form-control" name="client" id="client" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this);"
+																		disabled required maxlength="60">
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<div class="campos form-group">
+																		<label for="">Telefeno: </label>
+																		<input id="tele" maxlength="15"  name="tele" class="form-control" type="tex"  placeholder="Telefono" onkeypress="return soloNumero(event)" disabled required>
+																	</div>
+																</div>
+																<div class="col-md-6">
+																<div id="guardarClient">
+																	<button type="submit" class="btnGuardarCliente" ><i class="glyphicon glyphicon-floppy-save"></i> Guardar Cliente</button>
+																	<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
+																</div>
+																
+															</div>
+														</div><!-- row -->
+													</div><!-- box-body -->
+												</div><!-- box-body principal -->
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" id="cancelar3" data-dismiss="modal">Cerrar </button>
+													<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
+													<button id=""type="button" href="#timeline3" class="btn btn-primary" data-toggle="tab">Siguiente</button>
+												</div>
+											</div> <!-- /.post -->	
+										</div> <!-- /.tab-pane -->
+										<div class="tab-pane" id="timeline3">
+											<div class="post"><br>
+												
+												<div class="box-body">
+													<div class="box-header with-border">
+													<h3 class="box-title"> Fechas</h3>
+													</div>
+													<div class="box-body">
+														<div class="row">
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label>Fecha de reservación:</label>
+																	<input type="text" class="form-control" name="reserva" id="reserva" required
+																	maxlength="13" 
+																	<?php
+																		date_default_timezone_set("America/Tegucigalpa");
+																		$fecha=date('Y-m-d H:i:s',time());
+																	?> value="<?php echo $fecha;?>" disabled="true"> 
+																</div>
+																<div class="form-group">
+																	<label>Fecha Entrada:</label>
+																	<input type="text" class="form-control" name="entra" id="entra" required>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label></label>
+																	<input type="hidden" class="form-control" name="" id="" required>
+																</div>
+															</div>
+															<div class="col-md-6 salida">
+																<div class="form-group">
+																	<label>Fecha Salida:</label>
+																	<input type="text" class="form-control" name="sale" id="sale" required>
+																</div>
+															</div>	
+														</div><!-- row -->
+													</div><!-- box-body -->
+												</div><!-- box-body principal -->
+												<div class="modal-footer">
+													<button class="btn btn-default" href="#activity2" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary" href="#settings4" data-toggle="tab">Siguiente</button>
+												</div>
+											</div> <!-- /.post -->	
+										</div> <!-- /.tab-pane -->
+										<div class="tab-pane" id="settings4">
+											<div class="post"><br>
+												
+												<div class="box-body">
+													<button class="btn btn-primary  fa fa-user" id="naci"> Nacionales</button>
+													<button class="btn btn-primary  fa fa-user" id="extra"> Extranjeros</button>
+													<!-- <input type="checkbox" id="check" name="check">Extranjeros -->
+													<div class="box-body">
+														<!-- <button class="btn btn-warning btnArticulos fa fa-list"> Articulos</button><br> -->
 														<div class="row nacional">
 																<div class="col-md-4">
 																	<div class="form-group">
@@ -632,8 +848,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																			<option value="<?php echo $opciones['id_habitacion_servicio']?>"><?php echo $opciones['habitacion_area']?></option>
 																			<?php endforeach;?>
 																		</select> 
-																	</div>
-																	
+																	</div><br><br>
 																</div>
 																<div class="form-group col-md-2" >
 																		<label>Adulto:</label>
@@ -675,6 +890,28 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<?php endforeach;?>
 																	</div>
 																</div>
+																<div class="form-group col-md-4 canT">
+																	<label>Tipo Tienda:</label>
+																	<select id="lista1" name="lista1">
+																	<?php
+																		include_once ('./modelo/conexionbd.php');
+																	$stmt = "SELECT id_producto, nombre_producto FROM tbl_producto
+																				WHERE nombre_producto LIKE '%Ti%' OR nombre_producto LIKE '%ninguno%'";
+																	$resultado = mysqli_query($conn,$stmt);
+																	?>
+																	<?php foreach($resultado as $opciones):?>
+																	<option value="<?php echo $opciones['id_producto']?>"><?php echo $opciones['nombre_producto']?></option>
+																	<?php endforeach;?>
+																	</select>
+																	<br>
+																	<input type="text" id="miprecio" value="">
+																</div>
+																<div class="form-group col-md-2 canT" >
+																			<label>Cantidad:</label>
+																			<input name="canTie" id="canTi" class="form-control col-md-2" type="number" min="0" placeholder="0" require
+																			oninput="calcularCampingExtranjero();">
+																	</div>
+																
 																<input type="hidden" name="totalNC" id="totalNC" value="" oninput="calcularTotalesCamping();">
 																<button id="btnAgregarNC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row nacionales -->
@@ -695,12 +932,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																			<option value="<?php echo $opciones['id_habitacion_servicio']?>"><?php echo $opciones['habitacion_area']?></option>
 																			<?php endforeach;?>
 																		</select> 
-																	</div>
-																	
+																	</div><br><br>
 																</div>
 																<div class="form-group col-md-2" >
 																		<label>Adulto:</label>
-																		<input name="aec" id="aec" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calcularCampingExtranjero();">
+																		<input name="aec" id="aec" class="form-control col-md-2" type="number" min="0" placeholder="0" require 
+																		oninput="calcularCampingExtranjero();">
 																</div>
 																<div class="form-group col-xs-4">
 																	<label>Precio (A):</label>
@@ -737,42 +974,38 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<?php endforeach;?>
 																	</div>
 																</div>
-																<input type="hidden" name="totalEC" id="totalEC" value="" oninput="calcularTotalesCamping();">
+																
+																<input type="hidden" name="totalEC" id="totalEC" value="">
 																<button id="btnAgregarEC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row extranjeros-->
-															<div id="lista">
-																<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered">
-																	<thead>
-																		<tr>
-																			<td class="tablaCamping">Descripcion</td>
-																			<td class="tablaCamping">Adultos</td>
-																			<td class="tablaCamping">P.Adultos</td>
-																			<td class="tablaCamping">Niños</td>
-																			<td class="tablaCamping">P.Niños</td>
-																			<td class="tablaCamping">cantidad Articulo</td>
-																			<td class="tablaCamping">P.Articulo</td>
-																			<td class="tablaCamping"> Sub-Total</td>
-																			<td class="tablaCamping">Acciones</td>
-																		</tr>
-																	</thead>
-																	<tbody>
-																	</tbody>
-																	<!-- <div class="total-camping input-group col-xs-4">
-																		<label for="">Total:</label>
-																		<input type="text" class="form-control" id="totalCamping" disabled>
-																	</div> -->
-																</table>
-															</div>
+															<!-- <div id="listaC"></div> -->
+															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+																<thead>
+																	<tr>
+																		<td class="tablaCamping">Área</td>
+																		<td class="tablaCamping">Adultos</td>
+																		<td class="tablaCamping">P.Adultos</td>
+																		<td class="tablaCamping">Niños</td>
+																		<td class="tablaCamping">P.Niños</td>
+																		<td class="tablaCamping">Articulo</td>
+																		<td class="tablaCamping">cant Articulo</td>
+																		<td class="tablaCamping">P.Articulo</td>
+																		<td class="tablaCamping"> Sub-Total</td>
+																		<td class="tablaCamping">Acciones</td>
+																	</tr>
+																</thead>
+																<tbody>
+																</tbody>
+															</table>
+															
 													</div><!-- box-body -->
-													
-														
-													
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
+													
 													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
-													<button class="btn btn-default" href="#timeline" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" id="registro" data-toggle="tab">Registrar Reservación</button>
+													<button class="btn btn-default" href="#timeline3" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary" id="registrar" data-toggle="tab">Registrar Reservación</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
@@ -790,6 +1023,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 					</div> <!-- /.modal content -->
 				</div> <!-- /.modal-dialog -->
 			</div> <!-- /.modal fade -->
+			</div>
 			<!-- MODAL ARTICULOS -->
 			<div class="modal fade" id="modalArticulos" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"data-backdrop="static" data-keyboard="false">
@@ -808,47 +1042,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							 	<div class="box-body">
 									<div class="row">
 										<div class="col-md-4">
-											<div class="form-group">
-												<label>Tipo Tienda:</label>
-												<select class="form-control col-md-2" name="tipotienda" id="tipotienda">
-													<option value="" disabled selected>Selecione...</option>
-													<?php 
-													//include_once ('./modelo/conexionbd.php');
-
-													$stmt = "SELECT id_producto, nombre_producto FROM tbl_producto
-																WHERE nombre_producto LIKE '%Ti%'";
-													$resultado = mysqli_query($conn,$stmt);
-													?>
-													<?php foreach($resultado as $opciones):?>
-													<option value="<?php echo $opciones['id_producto']?>"><?php echo $opciones['nombre_producto']?></option>
-													<?php endforeach;?>
-												</select> 
-											</div>
+											
 											
 										</div>
 										<!-- este div es para cuando sellecione la tienda para 2 personas -->
-										<div id="tienda2">
-											<div class="form-group col-md-2" >
-													<label>Cantidad:</label>
-													<input name="canTi" id="canTi" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calcularCamping();">
-											</div>
-											<div class="form-group col-xs-5">
-												<label>Precio Tienda:</label>
-												<div class="input-group col-xs-6">
-													<span class="input-group-addon">L.</span>
-													<input type="text" class="form-control" name="precioT2" id="precioT2" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
-													maxlength="4"  requiered disabled="true"
-													<?php
-													$stmt = "SELECT id_producto, precio_alquiler FROM tbl_producto WHERE id_producto = 1";
-													$resultado1 = mysqli_query($conn,$stmt);
-													?>
-													<?php foreach($resultado1 as $opcion):?>
-													value="<?php echo $opcion['precio_alquiler']?>"> 
-													<?php endforeach;?>
-												</div>
-											</div>
-											<input type="hidden" name="totaltienda2" id="totaltienda2" value="">
-										</div>
+										
 										<!-- este div es para cuando sellecione la tienda para 4 personas -->
 										<div id="tienda4">
 											<div class="form-group col-md-2" >
@@ -941,7 +1139,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 					</div> <!-- /.modal content -->
 				</div> <!-- /.modal-dialog -->
 			</div> <!-- /.modal fade -->
-			
 			<!-- MODAL DETALLE RESERVACION -->
 			<div class="modal fade" id="modalDetalle" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -958,110 +1155,37 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 						<div class="modal-body">
 						 	<form method="POST" id="formDetalle">
 							 	<div class="box-body">
-								 	<h3 class="text-center">Detalle de reservación</h3>
 								 	
-									<strong>Fecha: <?php
-										date_default_timezone_set("America/Tegucigalpa");
-										$fecha=date('Y-m-d H:i:s',time());
-										echo $fecha;?>
-											
-									</strong><br>
-									<strong>Usuario: <?php
-										echo $usuario ?>
-									</strong><br><br>
-									
-									<!-- <img src="vista/dist/img/logo.png" alt="imagen" class="imagen"><br> -->
-									
-										<?php
-											try{
-												$sql = "SELECT id_cliente, nombre_completo,identidad,telefono, tbl_tipo_nacionalidad.nacionalidad FROM tbl_clientes
-														INNER JOIN tbl_tipo_nacionalidad
-														ON tbl_clientes.tipo_nacionalidad = tbl_tipo_nacionalidad.id_tipo_nacionalidad
-														WHERE id_cliente = 2 ";
-												$resultado = $conn->query($sql);
-											}catch (Exception $e){
-												echo  $e->getMessage();
-											}
-											$cliente = array();
-											while($ver = $resultado->fetch_assoc()){
-												$captura = $ver['nombre_completo'];
-												$mostrar = array(
-													'nombre'=>$ver['nombre_completo'],
-													'identidad'=>$ver['identidad'],
-													'telefono'=>$ver['telefono'],
-													'nacionalidad'=>$ver['nacionalidad'],
-													'id_cliente' =>$ver['id_cliente']
-												);
-												$cliente[$captura][] =  $ver;
-											}
-											foreach ($cliente as $cli => $lista) { ?>
-											
-												<?php foreach ($lista as $ver) { ?>
-													<div class="">
-														<div class="col-md-6">
-															<strong>Identidad:</strong> <span class=""><?php echo $ver['identidad'];?></span><br>
-															<strong>Telefono:</strong> <span class=""><?php echo $ver['telefono'];?></span><br>
-															
-														</div>
-															<strong class="">Cliente:</strong> <span class="cliente"><?php echo $ver['nombre_completo'];?></span> <br>
-															<strong>Nacionalidad:</strong> <span class=""><?php echo $ver['nacionalidad'];?></span><br>
-													</div>
-												<?php  } ?>
-											<?php  } ?>
-									
+									 
+									 <div id="contenido">
+
+									 </div>
 									<table class="table table-striped">
 										<thead>
 										<tr>
-											<th>Habitacion/Area</th>
-											<th>Articulo</th>
+											<th>N°</th>
+											<th>Descripción</th>
 											<th>Adultos</th>
+											<th>P.Adulto</th>
 											<th>Niños</th>
-											<th>Total</th>
+											<th>P.Niños</th>
+											<th>Articulos</th>
+											
 										</tr>
 										</thead>
-										<tbody>
-											<?php
-											try{
-												$sql = "SELECT id_detalle_reservacion, tbl_habitacion_servicio.habitacion_area,cantidad_persona,cantidad_ninos,inventario_id, total_pago FROM tbl_detalle_reservacion
-														INNER JOIN tbl_habitacion_servicio
-														ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio
-														WHERE id_detalle_reservacion = 1 ";
-												$resultado = $conn->query($sql);
-											}catch (Exception $e){
-												echo  $e->getMessage();
-											}
-											//esta variable es para realizar un arreglo que permita mostar los resultados en la modal
-											$ver = array();
-											while($mostrar = $resultado->fetch_assoc()){
-												$captura = $mostrar['habitacion_area'];
-												$mostrar = array(
-													'habitacion_area'=>$mostrar['habitacion_area'],
-													'articulo'=>$mostrar['inventario_id'],
-													'adultos'=>$mostrar['cantidad_persona'],
-													'ninos'=>$mostrar['cantidad_ninos'],
-													'total'=>$mostrar['total_pago'],
-													'id_reservacion' =>$mostrar['id_detalle_reservacion']
-												);
-												$ver[$captura][] =  $mostrar;
-											} 
-											foreach ($ver as $reserva => $lista) { ?>
-											
-												<?php foreach ($lista as $mostrar) { ?>
-													<tr>
-														<td class="text-center"><?php echo $mostrar['habitacion_area'];?></td>
-														<td class="text-center"><?php echo $mostrar['articulo'];?></td>
-														<td class="text-center"><?php echo $mostrar['adultos'];?></td>
-														<td class="text-center"><?php echo $mostrar['ninos'];?></td>
-														<td class="text-center"><?php echo $mostrar['total'];?></td>
-												<?php  } ?>
-											<?php  } ?>
-													</tr>
-										
+										<tbody id="detalle">
 										</tbody>
+										
 									</table>
+								</div><br>
+								<div id="total">
+
 								</div>
 							</form> <!-- /.cierre de formulario -->
-							<!-- <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a> -->
+							<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+									<!-- <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a> -->
+							</div>
 						</div> <!-- /.modal-body -->
 						<?php 
 						if(isset($_GET['msg'])){

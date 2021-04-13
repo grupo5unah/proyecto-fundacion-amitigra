@@ -84,19 +84,19 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <li><a><strong>Intentos inicio de sesión:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="intentosSesion" value="<?php echo $PIntentos['valor'];?>" placeholder="Nombre">
+                      <input type="text" name="nombre" class="form-control" id="intentosSesion" value="<?php echo $PIntentos['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
                     </div>
                   </div></a></li>
                 <li><a><strong>Cantidad preguntas de seguridad:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="cantPreguntas" value="<?php echo $PPreguntas['valor'];?>" placeholder="Nombre">
+                      <input type="text" name="nombre" class="form-control" id="cantPreguntas" value="<?php echo $PPreguntas['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
                     </div>
                   </div></a></li>
                 <li><a><strong>Vigencia cuenta usuarios: </strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="vigUsuario" value="<?php echo $PVigencia['valor'];?>" placeholder="Nombre">
+                      <input type="text" name="nombre" class="form-control" id="vigUsuario" value="<?php echo $PVigencia['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
                     </div>
                   </div></a></li>
                 <li><br><div class="text-center form-group">
