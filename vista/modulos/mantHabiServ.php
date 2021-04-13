@@ -86,8 +86,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											$evento = array(
 												'descripcion' => $eventos['descripcion'],
 												'habitacion_area' => $eventos['habitacion_area'],
-												'nombre_localidad' => $eventos['nombre_localidad'],
-												'nombre_estado' => $eventos['nombre_estado'],
+												'localidad' => $eventos['nombre_localidad'],
+												'estado' => $eventos['nombre_estado'],
                                                 'precio_adulto_nacional' => $eventos['precio_adulto_nacional'],
                                                 'precio_nino_nacional' => $eventos['precio_nino_nacional'],
                                                 'precio_adulto_extranjero' => $eventos['precio_adulto_extranjero'],
@@ -108,8 +108,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 												<tr> 
 													<td class="text-center"> <?php echo $evento['descripcion']; ?></td>
 													<td class="text-center"> <?php echo $evento['habitacion_area']; ?></td>
-													<td class="text-center"> <?php echo $evento['nombre_localidad']; ?></td>
-													<td class="text-center"> <?php echo $evento['nombre_estado']; ?></td>
+													<td class="text-center"> <?php echo $evento['localidad']; ?></td>
+													<td class="text-center"> <?php echo $evento['estado']; ?></td>
                                                     <td class="text-center"> <?php echo $evento['precio_adulto_nacional']; ?></td>
                                                     <td class="text-center"> <?php echo $evento['precio_nino_nacional']; ?></td>
                                                     <td class="text-center"> <?php echo $evento['precio_adulto_extranjero']; ?></td>
@@ -121,10 +121,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<?php
 														if($columna['permiso_actualizacion'] == 1):
 														?>
-														<button class="btn btn-warning btnEditarHabServ glyphicon glyphicon-pencil"  data-idhs="<?= $evento['id_habitacion_servicio'] ?>" data-nombreha="<?= $evento['habitacion_area'] ?>" 
-														data-descripcion="<?= $evento['descripcion'] ?>" data-local="<?= $evento['nombre_localidad'] ?>" data-pan="<?= $evento['precio_adulto_nacional'] ?>"
+														<button class="btn btn-warning btnEditarHabServ glyphicon glyphicon-pencil"  data-idhs="<?= $evento['id_habitacion_servicio'] ?>" data-habiare="<?= $evento['habitacion_area'] ?>" 
+														data-descripcion="<?= $evento['descripcion'] ?>" data-local="<?= $evento['localidad'] ?>" data-pan="<?= $evento['precio_adulto_nacional'] ?>"
 														data-pnn="<?= $evento['precio_nino_nacional'] ?>" data-pae="<?= $evento['precio_adulto_extranjero'] ?>" data-prne="<?= $evento['precio_nino_extranjero'] ?>"
-														data-estad="<?= $evento['nombre_estado'] ?>"></button>
+														data-estado="<?= $evento['estado'] ?>"></button>
 
 														<?php
 														else:
@@ -194,18 +194,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div>
 									<div class="campos">
 										<label for="">localidad</label><br>
-										<select class="form-control modal-roles secundary " name="local" id="local">
-											<option value="" disabled selected>Selecione...</option>
-											<?php
-											require ('./modelo/conexionbd.php');
-
-											$stmt = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
-											$resultado = mysqli_query($conn,$stmt);
-											?>
-											<?php foreach($resultado as $opciones):?>
-											<option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
-											<?php endforeach;?>
-										</select>
+										<input id="local" class="form-control modal-roles secundary" type="text" name="local" required disabled>
+										
 									</div>
 									<div class="campos">
 										<label for="">Estado:</label><br>
@@ -288,7 +278,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="modal-footer">
 									<button class="btn btn-default" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
 									<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-									<button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar</button>
+									<button id="btnEditarBD"type="submit" class="btn btn-primary ">Registrar</button>
 								</div>
 								
 								</div> <!-- /.post -->	
