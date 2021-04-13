@@ -11,6 +11,31 @@ function mostrarPassSeguridad(){
 	}
 }
 
+//SCRIPT MOSTRAR CONTRASENA RECUPERACION POR PREGUNTA
+function mostrarPassPregunta(){
+	
+	let cambioPregunta = document.querySelector("#PassPregunta");
+
+	if(cambioPregunta.type == "password"){
+		cambioPregunta.type = "text";
+		$(".icon_pregunta").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioPregunta.type = "password";
+		$(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+
+	let cambioPregungaConfirmacion = document.querySelector("#ConfPassPregunta");
+
+	if(cambioPregungaConfirmacion.type == "password"){
+		cambioPregungaConfirmacion.type = "text";
+		$(".icon_pregunta").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+	}else{
+		cambioPregungaConfirmacion.type = "password";
+		$(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+	}
+
+}
+
 //SCRIPT MOSTRAR CONTRASENA PARAMETROS CORREO
 function mostrarPassCorreo(){
 	let cambioCorreo = document.querySelector("#contrasenaCorreo");

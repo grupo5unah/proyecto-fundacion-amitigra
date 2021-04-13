@@ -126,4 +126,29 @@ $(document).ready( function(){
 
     });
 
+    //FUNCION PARA CERRAR LA VENTANA CREACION DE ROLES
+    $("#cerrarModalPermisos").on("click", function(){
+
+        swal({
+            icon:"warning",
+            text: "Seguro que quieres salir?",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                // contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
+                // $("#contraRestauracion").val("");
+                $("#modalPermisos").modal("close");
+            $("#modalRegistrarRol").modal("close");
+            } else {
+
+                $("#modalPermisos").modal("show");
+            // $("#modalRegistrarRol").modal("show");
+
+            }
+        });
+
+    });
+
 });

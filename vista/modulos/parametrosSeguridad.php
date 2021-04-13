@@ -12,22 +12,12 @@ $columna = $stmt->fetch_assoc();
 if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" ){
   if($columna["permiso_consulta"] == 1){
 
-    $arreglo = ['INTENTOS_SESION','CANT_PREGUNTAS','VIGENCIA_CUENTA'];
+    $arreglo = ['MOSTRAR_SOLICITUDES'];
 
-    //TRAE EL CORREO ELECTRONICO DE LA ORGANIZACION
-    $intentosSesion = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';");
-    $resultIntentos = mysqli_query($conn, $intentosSesion);
-    $PIntentos = mysqli_fetch_assoc($resultIntentos);
-
-    //TRAE EL PUERTO DEL CORREO DE LA ORGANIZACION
-    $cantPreguntas = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';");
-    $resultPreguntas = mysqli_query($conn, $cantPreguntas);
-    $PPreguntas = mysqli_fetch_assoc($resultPreguntas);
-
-    //TRAE EL MENSAJE QUE SE ENVIA POR CORREO ELECTRONICO
-    $vigCuenta = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[2]';");
-    $resultVigencia = mysqli_query($conn, $vigCuenta);
-    $PVigencia = mysqli_fetch_assoc($resultVigencia);
+    //TRAE EL LA CANTIDAD QUE SE PUEDE MOSTRAR EN EL INICIO DE LA PANTALLA
+    $mostarSolicitudes = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';");
+    $resultSolicitudes = mysqli_query($conn, $mostarSolicitudes);
+    $PMostrar = mysqli_fetch_assoc($resultSolicitudes);
 
 ?>
 <div class="content-wrapper">
@@ -81,28 +71,17 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a><strong>Intentos inicio de sesión:</strong>
+                <li><a><strong>Mostrar cantidad inicio:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="intentosSesion" value="<?php echo $PIntentos['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                      <input type="text" name="" class="form-control" id="mostrarSolicitudes" value="<?php echo $PMostrar['valor'];?>" placeholder="Ingrese cantidad de elementos a mostrar" onkeypress="return soloNumeros(event)">
                     </div>
-                  </div></a></li>
-                <li><a><strong>Cantidad preguntas de seguridad:</strong>
-                <div class="form-group">
-                    <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="cantPreguntas" value="<?php echo $PPreguntas['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
-                    </div>
-                  </div></a></li>
-                <li><a><strong>Vigencia cuenta usuarios: </strong>
-                <div class="form-group">
-                    <div class="input-group col-sm-12">
-                      <input type="text" name="nombre" class="form-control" id="vigUsuario" value="<?php echo $PVigencia['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
-                    </div>
-                  </div></a></li>
+                </div></a></li>
+
                 <li><br><div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
-                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-seguridad" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    <button type="button" id="editarSolicitudes" class="btn btn-success actualizar" data-toggle="modal" data-target="#modal-solicitudes" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
                     Guardar cambios</button>
                     </div>
                     <br>
@@ -116,7 +95,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
         <!-- FIN AJUSTES DE LA BASE DE DATOS -->
 
         <!-- INICIO MODAL AJUSTES DE LA BASE DE DATOS -->
-        <div class="modal fade" id="modal-seguridad" data-backdrop="static" data-keyboard="false">
+        <div class="modal fade" id="modal-solicitudes" data-backdrop="static" data-keyboard="false">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -137,7 +116,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                       <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
 
                       <div class="input-group col-sm-8">
-                        <input id="contrasenaSeguridad" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
+                        <input id="contrasenaSolicitudes" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
                         <span class="input-group-btn" onclick="mostrarPassSeguridad()">
                           <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_seguridad"></i></button>
                         </span>
@@ -147,8 +126,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <!-- AQUI FINAL CODIGO -->
               </div>
               <div class="modal-footer">
-                <button type="button" id="borrarSeguridad" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="InformacionSeguridad" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" id="borrarSolicitudes" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="InformacionSolicitudes" class="btn btn-primary">Guardar cambios</button>
               </div>
             </div>
             <!-- /.modal-content -->

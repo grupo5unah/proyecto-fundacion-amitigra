@@ -163,13 +163,6 @@
                 $solis4 = mysqli_fetch_assoc($resultadoSoli4);
             ?>
 
-            <script type="text/javascript">
-            function informacion(){
-
-            }
-
-            setTimeout(informacion,1000);
-            </script>
 
             <!-- INICIO INFORMACION DE SOLICITUDES -->
             <?php if($_SESSION["rol"] === "administrador"):?>
@@ -185,48 +178,9 @@
                   
                   <li class="list-group-item">
                   <label for="">Ultimas solicitudes:</label>
-                  <table class="display table table-hover table-condensed">
-                    <thead>
-                    <tr>
-                      <th>Nombre cliente</th>
-                      <th>Estado</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                  <?php
-                  include "./modelo/conexionbd.php";
-
-                  $mostrar = 2;
-                  $modo = "DESC";
-
-                  $solicitudes = "SELECT id_solicitud ,tbl_clientes.nombre_completo AS cliente, tbl_estatus_solicitud.estatus AS estado FROM tbl_solicitudes
-                                  INNER JOIN tbl_clientes
-                                  ON tbl_solicitudes.cliente_id = tbl_clientes.id_cliente
-                                  INNER JOIN tbl_estatus_solicitud
-                                  ON tbl_solicitudes.estatus_solicitud = tbl_estatus_solicitud.id_estatus_solicitud
-                                  ORDER BY cliente_id $modo limit $mostrar;";
-                  $resultadoSoli = mysqli_query($conn, $solicitudes);
-         
-                  $vertbl = array();
-                  while($ver = $resultadoSoli->fetch_assoc()){
-
-											$traer = $ver["id_solicitud"];
-											$evento = array(
-												'cliente' => $ver['cliente'],
-                        'estado' => $ver['estado']
-											);
-											$vertbl[$traer][] =  $evento;
-										}
-										foreach ($vertbl as $dia => $lista_articulo) {
-
-                    foreach ($lista_articulo as $evento) { ?>
-												<tr>
-													<td> <?php echo $evento['cliente']; ?></td>
-                          <td> <?php echo $evento['estado']; ?></td>
-												<?php }}?>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div class="form-group">
+                  <div id="miTabla" class="input-group col-sm-12"></div>
+                  </div>
 
                   </li>
                   <li class="list-group-item">

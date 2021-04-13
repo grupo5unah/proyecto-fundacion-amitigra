@@ -47,30 +47,44 @@
                 <div class="active tab-pane" id="activity">
                     <div class="columna">
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="50" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); verificar(this.value)">
+                      <div class="input-group">
+                        <input autocomplete="off" type="text" maxlength="50" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); verificar(this.value)">
                         <span class="fa fa-user form-control-feedback"></span>
+                        </div>
                       </div>
+
                         <div class="form-group has-feedback">
-                          <input type="text" maxlength="15" id="usuario" class="form-control" name="usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <div class="input-group">
+                          <input autocomplete="off" type="text" maxlength="15" id="usuario" class="form-control" name="usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                           <span class="fa fa-user form-control-feedback"></span>
                           <p id="notificacion" class="msj_error"></p>
                           <!-- <input type="text" id="notificacion" value=""> -->
+                          </div>
                         </div>
+                        
                         <div class="form-group has-feedback">
-                          <input type="text" maxlength="50" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this); verificar(this.value)">
+                        <div class="input-group">
+                          <input autocomplete="off" type="text" maxlength="50" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this); verificar(this.value)">
                           <span class="fa fa-envelope form-control-feedback"></span>
                           <p id="notificacion2" class="msj_error"></p>
+                          </div>
                         </div>
+                        
                         <div class="form-group has-feedback">
-                          <select class="form-control" name="genero" id="genero">
-                            <option disabled selected>Seleccione genero</option>
-                            <option value="masculino">Masculino</option>
-							              <option value="femenino">Femenino</option>
-                          </select>
+                          <div class="input-group col-sm-10">
+                            <select class="form-control" name="genero" id="genero">
+                              <option disabled selected>Seleccione genero</option>
+                              <option value="masculino">Masculino</option>
+                              <option value="femenino">Femenino</option>
+                            </select>
+                          </div>
                         </div>
+
                         <div class="form-group has-feedback">
-                          <input type="text" id="telefono" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeyup="verificar2(this.value)" onkeypress="return soloNumeros(event)">
-                          <span class="fa fa-phone-square form-control-feedback"></span>
+                          <div class="input-group">
+                            <input autocomplete="off" type="text" id="telefono" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeyup="verificar2(this.value)" onkeypress="return soloNumeros(event)">
+                            <span class="fa fa-phone-square form-control-feedback"></span>
+                          </div>
                         </div>
                         <br>
 
@@ -169,6 +183,7 @@
                             <?php while($opciones = mysqli_fetch_assoc($resultado)):?>
                                 <option <?php //echo $pregid === $opciones['id_pregunta'] ? 'selected' : '';?> value="<?php echo $opciones['id_pregunta'];?>"><?php echo $opciones['pregunta'];?></option>
                             <?php endwhile;?>
+                            </select>
                     </div>
                       <div class="form-group has-feedback">
                         <input autocomplete="off" type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
@@ -185,17 +200,24 @@
                 <!--CONFIGURACION DE LA CONTRASENA-->
                 <div class="tab-pane" id="settings2">
                   <div class="post text-center">
-                    <div class="input-group col-sm-11 has-feedback">
-                        <label for="inputSkills" class="col-sm-6 control-label">Ingresa tu contraseña</label>
-                        <input id="PassRegistro" type="password" class="form-control" name="password" placeholder="Contraseña">
+                    <div class="form-group has-feedback">
+                      <div class="input-group">
+                        <label for="inputSkills" class="control-label color-enlaces">Ingresa tu contraseña:</label>
+                      </div>
+                      <input autocomplete="off" id="PassRegistro" type="password" class="form-control" name="password" placeholder="Contraseña">
                         
                     </div>
                       <br>
-                      <div class="input-group has-feedback">
-                        <input id="ConfPassR" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
-                        <span class="input-group-btn" onclick="VerPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
-                        </span>
+                      <div class="form-group has-feedback">
+                        <div class="input-group">
+                          <label for="inputSkills" class="control-label color-enlaces">Confirme su contraseña:</label>
+                        </div>
+                        <div class="input-group">
+                          <input autocomplete="off" id="ConfPassR" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
+                          <span class="input-group-btn" onclick="VerPassword()">
+                            <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
+                          </span>
+                        </div>
                       </div>
                       <br>
                       <div class="columna">

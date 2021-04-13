@@ -115,7 +115,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
               <div class="row">
                 <div class="col-xs-12">
                   <h2 class="page-header">
-                  <i class="fa fa-exclamation"></i> Sobre esta Configuración.
+                  Sobre esta Configuración.
                   </h2>
                 </div>
 
@@ -446,9 +446,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
         <!-- FINAL MODAL AJUSTES DEL SISTEMA -->
 
 
+        <!-- AJUSTES DE SEGURIDAD -->
         <!-- TITULO PARAMETROS DE SEGURIDAD -->
         <h2 class="content-header"><small>Parametros de Seguridad</small></h2>
-        
         
         <!-- INICIO AJUSTES DE SEGURIDAD -->
         <div class="col-md-4">

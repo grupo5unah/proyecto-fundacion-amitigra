@@ -21,6 +21,7 @@ $usuario = $_SESSION['usuario'];
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="../../fotoPerfil/favicon.ico">
   <title>AdminLTE 2 | Registration Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -61,22 +62,32 @@ $usuario = $_SESSION['usuario'];
                 <!--TERCER PREGUNTA-->
                 <div class="active tab-pane" id="activity">
                   <div class="post text-center">
+
+                    <div class="formn-group text-center">
+                      <div class="input-group">
+                      <label class="color-enlaces" for="">Pregunta de recuperación</label>
+                      </div>
+                    </div>
+
                     <div class="form-group">
-                    <label class="color-enlaces" for="">Pregunta de recuperación</label>
-                    <input type="text" value="<?php echo $usuario;?>">
-                    <br>
-                      <label class="color-enlaces">Selecciona su pregunta</label>
+                      <div class="input-group">
+                        <label class="color-enlaces label-form">Selecciona su pregunta</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                                         
                       <select id="id_pregunta" name = "pregunta_id" class="form-control">
-                      <option>Seleccione una pregunta...</option>
-                        <?php
-                             include_once '../../modelo/conexionbd.php';
+                        <option>Seleccione una pregunta...</option>
+                          <?php
+                            include_once '../../modelo/conexionbd.php';
       
-                             $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
-                             $resultado = mysqli_query($conn,$stmt);
-                            ?>
-                            <?php foreach($resultado as $opciones):?>
-                                <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
-                            <?php endforeach;?>
+                            $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
+                            $resultado = mysqli_query($conn,$stmt);
+                          ?>
+                          <?php foreach($resultado as $opciones):?>
+                        <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
+                          <?php endforeach;?>
                       </select>
                     </div>
                       <div class="form-group has-feedback">
@@ -101,8 +112,8 @@ $usuario = $_SESSION['usuario'];
                       <br>
                       <div class="input-group has-feedback">
                         <input id="ConfPassPregunta" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
-                        <span class="input-group-btn" onclick="mostPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_confi"></i></button>
+                        <span class="input-group-btn" onclick="mostrarPassPregunta()">
+                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
                         </span>
                       </div>
                       <br>

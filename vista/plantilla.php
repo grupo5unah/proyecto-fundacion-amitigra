@@ -252,6 +252,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/reloj.js"></script>
 <script src="vista/dist/js/actualizarParametros.js"></script>
 <script src="vista/dist/js/asignarPermisos.js"></script>
+<script src="vista/dist/js/consultaTiempoReal.js"></script>
 <!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <script src="vista/dist/js/recargar.js"></script>
 <script src="vista/dist/js/senderos.js"></script>
