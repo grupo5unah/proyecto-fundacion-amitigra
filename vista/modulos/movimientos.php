@@ -71,7 +71,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                             <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
 
                             else : ?>
-                              <th>Acciones</th>
+                              <!-- <th>Acciones</th> -->
                             <?php
                             endif;
                             ?>
@@ -114,22 +114,22 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                                 <td> <?php echo $evento['descripcionM']; ?></td>
                                 <td> <?php echo $evento['cantidadM']; ?></td>
                                 <td> <?php echo $evento['fecha_movimiento']; ?></td>
-                                <td>
+                                <!-- <td> -->
 
                                   <?php if ($columna["permiso_actualizacion"] == 1) : ?>
-                                    <button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento[''] ?>" data-nomProducto="<?= $evento[''] ?>" data-precioP="<?= $evento[''] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento[''] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento[''] ?>"></button>
+                                    <!-- <button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento[''] ?>" data-nomProducto="<?= $evento[''] ?>" data-precioP="<?= $evento[''] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento[''] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento[''] ?>"></button> -->
                                   <?php
                                   else :
                                   endif;
 
                                   if ($columna["permiso_eliminacion"] == 1) :
                                   ?>
-                                    <button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento[''] ?>"></button>
+                                    <!-- <button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento[''] ?>"></button> -->
                                   <?php
                                   else :
                                   endif;
                                   ?>
-                                </td>
+                                <!-- </td> -->
                               <?php  } ?>
                             <?php  } ?>
                               </tr>

@@ -131,6 +131,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantLocalidad" ||
         $_GET["ruta"] == "mantroles" ||
         $_GET["ruta"] == "mantProducto" ||
+        $_GET["ruta"] == "mantTipoMovimiento" ||
         $_GET["ruta"] == "rol" ||
         $_GET["ruta"] == "parametrosSeguridad" ||
         $_GET["ruta"] == "mantObjetos" ||
