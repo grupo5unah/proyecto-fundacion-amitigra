@@ -459,7 +459,28 @@ $(document).ready(function() {
     
      
     //manager producto
-    $('#managerInventario').DataTable({
+    $('#managerInventarios').DataTable({
+        "createdRow":function(row,data,index){
+          
+            var prueba=$(".evaluar").data("minimo");       
+            if(data[1] == prueba){
+             
+                $('td', row).eq(1).css({
+                    'background-color':' #dd4b39',
+                    'color':'white',
+                    'text-align':'center',
+                });
+            }
+            if(data[1] > prueba){
+              $('td', row).eq(1).css({
+                  'background-color':' #00a65a',
+                  'color':'white',
+                  'text-align':'center',
+              });
+             };
+            
+            
+          },
      
      
         columnDefs: [

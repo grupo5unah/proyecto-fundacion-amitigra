@@ -164,13 +164,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 										<div class="campos">
 											<label for="">Nombre rol </label>
-											<input id="nombreRol" disabled class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+											<input id="nombreRol" disabled class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
+<<<<<<< HEAD
 											<textarea autocomplete="off" id="descripcionRol" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"></textarea>
 											<!-- <input id="descripcionRol" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/> -->
+=======
+											<input id="descripcionRol" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+>>>>>>> 3c21ed57666770a03e1387d4146b113ab30ec196
 										</div>										
 										
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -207,14 +211,15 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 										<div class="campos">
 											<label for="">Nombre rol </label>
-											<input autocomplete="off" id="nombre" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="rol" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input autocomplete="off" id="nombre" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
-											<textarea autocomplete="off" id="descripcion" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion"></textarea>
+											<textarea autocomplete="off" id="descripcion" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion"  required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"></textarea>
 											<!-- <input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholder="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/> -->
+											<!-- <input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" autocomplete="off"/> -->
 
 										</div>
 

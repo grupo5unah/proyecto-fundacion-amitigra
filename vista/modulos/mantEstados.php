@@ -46,96 +46,96 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<button class="btn btn-default btnCrearEstado glyphicon glyphicon-plus-sign" >Agregar Nuevo Estado</button>
 
 								</div> <!-- /div-action -->
+								<div class="table-resposive">
+									<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantEstadoTable">
+										<thead style="background-color: #222d32; color: white;">
+											<tr>
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantEstadoTable">
-									<thead style="background-color: #222d32; color: white;">
-										<tr>
-
-											<th class="text-center">Nombre Estado</th>
-											<th class="text-center">Descripción</th>
-											<th class="text-center">Creado por</th>
-											<th class="text-center">Fecha creación</th>
-											<th class="text-center">Modificado por</th>
-											<th class="text-center">Fecha Modificación</th>
-											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
-											
-											else:?>
-											<th class="text-center">Acciones</th>
-											<?php
-											endif;
-											?>
-
-										</tr>
-									</thead>
-									<tbody>
-										<?php
-										try {
-
-
-											$sql = "SELECT id_estado,nombre_estado,descripcion,creado_por,fecha_creacion,
-                                                    modificado_por,fecha_modificacion
-													FROM tbl_estado
-                                                    WHERE estado_eliminado = 1";
-											$resultado = $conn->query($sql);
-										} catch (Exception $e) {
-											echo $e->getMessage();
-										}
-
-										$vertbl = array();
-										while ($eventos = $resultado->fetch_assoc()) {
-
-											$traer = $eventos['nombre_estado'];
-											$evento = array(
-												'nombre_estado' => $eventos['nombre_estado'],
-												'descripcion' => $eventos['descripcion'],
-												'creado_por' => $eventos['creado_por'],
-												'fecha_creacion' => $eventos['fecha_creacion'],
-												'modificado_por' => $eventos['modificado_por'],
-												'fecha_modificacion' => $eventos['fecha_modificacion'],
-                                                'id_estado' => $eventos['id_estado']
-
-											);
-											$vertbl[$traer][] =  $evento;
-										}
-										foreach ($vertbl as $dia => $lista_articulo) { ?>
-
-
-											<?php foreach ($lista_articulo as $evento) { ?>
-												<?php	//echo $evento['nombre_arti']
+												<th class="text-center">Nombre Estado</th>
+												<th class="text-center">Descripción</th>
+												<th class="text-center">Creado por</th>
+												<th class="text-center">Fecha creación</th>
+												<th class="text-center">Modificado por</th>
+												<th class="text-center">Fecha Modificación</th>
+												<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
+												
+												else:?>
+												<th class="text-center">Acciones</th>
+												<?php
+												endif;
 												?>
-												<tr>
-													<td class="text-center"> <?php echo $evento['nombre_estado']; ?></td>
-													<td> <?php echo $evento['descripcion']; ?></td>
-													<td class="text-center"> <?php echo $evento['creado_por']; ?></td>
-													<td class="text-center"> <?php echo $evento['fecha_creacion']; ?></td>
-													<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
-													<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
-													<td>
-													<?php if($columna['permiso_actualizacion'] == 1):?>
-														<button class="btn btn-warning btnEditarEstado glyphicon glyphicon-pencil"  data-idestado="<?= $evento['id_estado'] ?>" data-nombre="<?= $evento['nombre_estado'] ?>" 
-														data-descripcion="<?= $evento['descripcion'] ?>"></button>
-														<?php
-														else:
-														endif;
 
-														if($columna['permiso_eliminacion'] == 1):
-														?>
-														<button class="btn btn-danger btnEliminarEstado glyphicon glyphicon-remove" data-idestad="<?php echo $evento['id_estado'] ?>"></button>
-														<?php
-														else:
-														endif;
-														?>
-													</td>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											try {
+
+
+												$sql = "SELECT id_estado,nombre_estado,descripcion,creado_por,fecha_creacion,
+														modificado_por,fecha_modificacion
+														FROM tbl_estado
+														WHERE estado_eliminado = 1";
+												$resultado = $conn->query($sql);
+											} catch (Exception $e) {
+												echo $e->getMessage();
+											}
+
+											$vertbl = array();
+											while ($eventos = $resultado->fetch_assoc()) {
+
+												$traer = $eventos['nombre_estado'];
+												$evento = array(
+													'nombre_estado' => $eventos['nombre_estado'],
+													'descripcion' => $eventos['descripcion'],
+													'creado_por' => $eventos['creado_por'],
+													'fecha_creacion' => $eventos['fecha_creacion'],
+													'modificado_por' => $eventos['modificado_por'],
+													'fecha_modificacion' => $eventos['fecha_modificacion'],
+													'id_estado' => $eventos['id_estado']
+
+												);
+												$vertbl[$traer][] =  $evento;
+											}
+											foreach ($vertbl as $dia => $lista_articulo) { ?>
+
+
+												<?php foreach ($lista_articulo as $evento) { ?>
+													<?php	//echo $evento['nombre_arti']
+													?>
+													<tr>
+														<td class="text-center"> <?php echo $evento['nombre_estado']; ?></td>
+														<td> <?php echo $evento['descripcion']; ?></td>
+														<td class="text-center"> <?php echo $evento['creado_por']; ?></td>
+														<td class="text-center"> <?php echo $evento['fecha_creacion']; ?></td>
+														<td class="text-center"> <?php echo $evento['modificado_por']; ?></td>
+														<td class="text-center"> <?php echo $evento['fecha_modificacion']; ?></td>
+														<td>
+														<?php if($columna['permiso_actualizacion'] == 1):?>
+															<button class="btn btn-warning btnEditarEstado glyphicon glyphicon-pencil"  data-idestado="<?= $evento['id_estado'] ?>" data-nombre="<?= $evento['nombre_estado'] ?>" 
+															data-descripcion="<?= $evento['descripcion'] ?>"></button>
+															<?php
+															else:
+															endif;
+
+															if($columna['permiso_eliminacion'] == 1):
+															?>
+															<button class="btn btn-danger btnEliminarEstado glyphicon glyphicon-remove" data-idestad="<?php echo $evento['id_estado'] ?>"></button>
+															<?php
+															else:
+															endif;
+															?>
+														</td>
+													<?php }?>
 												<?php }?>
-											<?php }?>
-												</tr>
-									</tbody>
-									<!--<?php //}
-										?>-->
+													</tr>
+										</tbody>
+										<!--<?php //}
+											?>-->
 
-								</table>
-								<!-- /table -->
-
+									</table>
+									<!-- /table -->
+								</div>
 							</div> <!-- /panel-body -->
 						</div> <!-- /panel -->
 					</div> <!-- /col-md-12 -->

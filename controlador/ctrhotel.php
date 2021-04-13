@@ -102,13 +102,17 @@ switch ($action){
         $DetReserva = $_GET['idReservacion'];
         try {
 
-            $sql = "SELECT id_detalle_reservacion,reservacion_id, tbl_habitacion_servicio.habitacion_area, tbl_habitacion_servicio.precio_adulto_nacional,
-             tbl_habitacion_servicio.precio_nino_nacional,cantidad_persona,cantidad_ninos,
-            inventario_id
-            FROM tbl_detalle_reservacion
-            INNER JOIN tbl_habitacion_servicio
-            ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio
-            WHERE reservacion_id= $DetReserva";
+            $sql = "SELECT id_detalle_reservacion, reservacion_id, tbl_habitacion_servicio.habitacion_area, tbl_habitacion_servicio.precio_adulto_nacional,
+            tbl_habitacion_servicio.precio_nino_nacional,cantidad_persona,cantidad_ninos,
+           tbl_producto.nombre_producto as producto
+           FROM tbl_detalle_reservacion
+           INNER JOIN tbl_habitacion_servicio
+           ON tbl_detalle_reservacion.habitacion_id = tbl_habitacion_servicio.id_habitacion_servicio
+           INNER JOIN tbl_inventario
+           ON tbl_detalle_reservacion.inventario_id = tbl_inventario.id_inventario
+           INNER JOIN tbl_producto
+           ON tbl_inventario.producto_id = tbl_producto.id_producto
+           WHERE reservacion_id = '$DetReserva'";
             $result = $conn->query($sql);
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -123,7 +127,7 @@ switch ($action){
                 'padulto' => $eventos['precio_adulto_nacional'],
                 'niños' => $eventos['cantidad_ninos'],
                 'pniño' => $eventos['precio_nino_nacional'],
-                'articulos' => $eventos['inventario_id'],
+                'articulos' => $eventos['producto'],
                 
             );
             array_push($vertbl, $evento);

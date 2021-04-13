@@ -173,7 +173,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                         </div>
                       </div>
                       <div class="modal-body">
-
+                          
                         <form method="POST" id="formM" role="form" class="validarFORM" style="text-align:center;">
                           <div class="row d-flex">
                             <?php
@@ -189,7 +189,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                             ?>
                                 
                                 <div class="form-check form-check-inline col-sm-2 form-group movimiento">
-                                  <input data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>" >
+                                  <input data-movi="<?php echo ($movimiento); ?>" data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>" >
                                   <label class="form-check-label" for="exampleRadios1">
                                   <?php echo ($movimiento); ?>
                                   </label>
@@ -209,7 +209,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                             <div class="col-sm-3  justify-content-between">
                               <label for=""> PRODUCTO</label>
-                              <select name="tipoProducto" id="" class="js-example-basic-multiple js-states  movimientoProducto " style="width: 150px; margin-left:.5rem;">
+                              <select name="tipoProducto" id="p" class="js-example-basic-multiple js-states  movimientoProducto " style="width: 150px; margin-left:.5rem;">
                               <option value="0">Selecciona una opción...</option>
 
                                 <?php
@@ -263,9 +263,9 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                               </select>
 
                             </div>
-                            <div class="col-sm-1 form-group justify-content-between">
-                              <input id="btnMO" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+">
-                              <input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table" value="■">
+                            <div class="col-sm-1 form-group justify-content-between ">
+                              <input disabled id="btnMO" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign  " value="+" >
+                              <input type="hidden" id="btnProductMovimiento" class=" glyphicon glyphicon-saved btn btn-primary agregar-table" value="■">
                             </div>
                           </div>
 
@@ -314,7 +314,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                       <div class="modal-footer">
                         <button type="button" class="btn btn-Danger" id="cerrarM">Close</button>
-                        <button type="button" id="registrarMovimiento" class=" btn btn-primary">Registrar </button>
+                        <button type="button" id="registrarMovimiento" class=" btn btn-primary" disabled >Registrar </button>
                       </div>
                     </div>
 

@@ -13,11 +13,7 @@ $(document).ready(function () {
         );
         const data = resp.data;
         if (data.producto.length > 0) {
-          console.log(data.producto[0]);
-          $("#cantProducto");
-          $("#precioProducto");
-          $("#tipoProducto");
-          $("#cantProducto");
+          listaProduct.prop('disabled', true);
           return swal("Este producto ya existe en el inventario");
         } else {
           //return swal('NO existe este producto');
@@ -27,20 +23,14 @@ $(document).ready(function () {
       }
     }
   });
-
+  const registrar=$('#registrarInventario');
   const contenedorProducto = $("#productTable  .tbody");
   const formulario = document.querySelector("#formProducto");
   const listaProduct = $("#btnAddList");
   let articulosProducto = [];
   let idProductoTemporal = null;
 
-  // $("#tipoProducto").change( function() {
-  //     if ($(this).val() !== '3') {
-  //         $("#precioAlquiler").prop("disabled", true);
-  //     } else {
-  //         $("#precioAlquiler").prop("disabled", false);
-  //     }
-  // });
+
 
   // funciones de producto
   function agregarProducto(e) {
@@ -62,7 +52,8 @@ $(document).ready(function () {
     articulosProducto = [...articulosProducto, infoProducto];
     // if(articulosProducto.length > 0) sincronizarStorage(articulosProducto)
     //agrega  art a la tabla
-
+    listaProduct.prop('disabled', true);
+    registrar.prop('disabled', false);
     llenarTabla();
     resetearFormulario();
   }
@@ -152,9 +143,9 @@ $(document).ready(function () {
                                 timer: 3000
                             }).then(() =>{ 
                                 $("#modalCrearProducto").modal("hide");
-                             //$('.tbody tr').remove();
+                              $('.tbody tr').remove();
                              //desabilita el boton registrar
-                             //registrar.prop('disabled', true);
+                             registrar.prop('disabled', true);
                              location.reload();
                                
                             });
@@ -269,59 +260,7 @@ $(document).ready(function () {
     formulario.reset();
   }
 
-  ///// prueba
-  $(".btnSumarI").on("click", function () {
-    // info previa
-    const idInventario = $(this).data("idinve");
-    const nombreP = $(this).data("nombre");
-    const stock = $(this).data("stock");
-    const usuario_actual = $("#usuario_actual").val();
-
-    let pro = $("#pro");
-    $("#pro p").remove();
-    pro.append(`
-                    <p> Agregar: <span>${nombreP}</span></p>
-                    `);
-
-    $("#agregarProducto").modal("show");
-
-    $(".idStock").on("click", async function () {
-      const valor = $("#nuevo").val();
-      let nuevoStock = Number(stock) + Number(valor);
-      console.log(nuevoStock);
-
-      var id_stock = Number(idInventario);
-      console.log(id_stock);
-      const formData = new FormData();
-      formData.append("id_inventario", id_stock),
-        formData.append("stock", nuevoStock),
-        formData.append("usuario_actual", usuario_actual),
-        console.log(formData);
-      //console.log(formData.append('usuario_actual', usuario_actual));
-      const resp = await axios.post(
-        "./controlador/api.php?action=actualizarInventario",
-        formData
-      );
-      const data = resp.data;
-      console.log(data);
-      if (data.error) {
-        return swal("Error", data.msj, "error", {
-          timer: 3000,
-          buttons: false,
-        });
-      } else {
-        $("#agregarProducto").modal("hide");
-        return swal("Exito!", data.msj, "success", {
-          timer: 3000,
-          buttons: false,
-        }).then(() => {
-          // Se limpia el formulario
-
-          location.reload();
-        });
-      }
-    });
-  });
+ 
 
   // llamar ala modal producto
   $("#addProductModalBtn").on("click", function () {
@@ -365,4 +304,49 @@ $(document).ready(function () {
       }
     });
   });
+
+  ///////////////
+  $('.btnVer').click(async function () {
+
+    let id_producto = $(this).data('idinve');
+    //const usuario = $(this).data('usuario'); 
+    const nombre_producto = $(this).data('nombre');
+    const fecha_movimiento = $(this).data('fecha');
+    //const fecha = $(this).data('fecha');
+     const info =$('#cont');
+     $('#cont div ').remove();
+     info.append(
+        `
+         <div class="6" >
+         <P class="local col-6"> PRODUCTO: ${nombre_producto}</P>
+         </div>
+        `
+        );
+  
+    if(id_producto){
+        try{
+            const data = (await axios.get(`./controlador/api.php?action=traerMovimientos&id_producto=${Number(id_producto)}`)).data;
+            const listaDeProductosTabla = $('#listaDeProductosTabla');
+            $('#listaDeProductosTabla tr').remove();
+            data.movimiento.forEach((p, index) => listaDeProductosTabla.append(`
+              
+            <tr>
+                <td>${index+1}</td>
+                <td>${p.movimiento}</td>
+                <td>${p.descripcion}</td>
+                <td>${p.cantidad}</td>
+                <td>${p.fecha}</td>
+            </tr>
+            `));
+           
+            $('#modalVerDetalleP').modal('show');
+        }catch(err){
+            console.log('Error - ', err);
+        }
+    }
+  });
+
+
+
+
 });

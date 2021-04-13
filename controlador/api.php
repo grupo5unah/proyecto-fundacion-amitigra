@@ -224,13 +224,7 @@ switch ($action) {
 
                     $sql->bind_param("iisisssss", intval($id_producto), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
                     $sql->execute();
-
-                    if ($sql->error) {
-                        $res['msj'] = "Se produjo un error al momento de registrar el movimiento";
-                        $res['error'] = true;
-                    } else {
-                        $res['msj'] = "movimiento Registrado Correctamente";
-                    }
+                   
                 }
 
                 //$sql->close();
@@ -239,7 +233,7 @@ switch ($action) {
                 echo $e->getMessage();
             }
         }
-        break;
+    break;
         //actualiza el inventario
     case 'actualizarInventario':
         if (
@@ -268,9 +262,9 @@ switch ($action) {
                     $sql = "UPDATE tbl_inventario SET existencias = '$nuevoStock', stock = '$nuevoStock', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario=". $id_inventario;
                     $resultado = $conn->query($sql);
                     if ($resultado == 1) {
-                        $res['msj'] = "Producto Edito  Correctamente";
+                        $res['msj'] = "Producto adicionado  Correctamente";
                     } else {
-                        $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                        $res['msj'] = "Se produjo un error al momento de adicion el producto ";
                         $res['error'] = true;
                     }
                   }
@@ -280,9 +274,9 @@ switch ($action) {
                     $sql = "UPDATE tbl_inventario SET existencias = '$stockTotal', stock = '$stockTotal', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario= ". $id_inventario;
                     $resultado = $conn->query($sql);
                     if ($resultado == 1) {
-                        $res['msj'] = "Producto Edito  Correctamente";
+                        $res['msj'] = "Producto adicionado  Correctamente";
                     } else {
-                        $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                        $res['msj'] = "Se produjo un error al momento de laadicion el producto ";
                         $res['error'] = true;
                     }
                 }
@@ -294,11 +288,30 @@ switch ($action) {
         }
 
 
-        break;
+    break;
+    case 'traerMovimientos':
+        $id_producto = $_GET['id_producto'];
+        $fecha=$fecha = date('Y-m-d ', time());
+        try {
 
+            $sql = "SELECT t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento from tbl_movimientos m INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento INNER JOIN tbl_producto p on p.id_producto= m.producto_id where p.id_producto= $id_producto AND MONTH('$fecha') ORDER BY fecha_movimiento DESC LIMIT 15 ";
+            $result = $conn->query($sql);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
 
-
-
+        $vertbl = array();
+        while ($eventos = $result->fetch_assoc()) {
+            $evento = array(
+                'movimiento' => $eventos['movimiento'],
+                'cantidad' => $eventos['cantidad'],
+                'descripcion' => $eventos['descripcion'],
+                'fecha' => $eventos['fecha_movimiento']
+                
+            );
+            array_push($vertbl, $evento);
+        }
+        $res['movimiento'] = $vertbl;
 
 
     default:

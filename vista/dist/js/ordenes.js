@@ -37,6 +37,7 @@ function soloNumero(e){
   
 $(document).ready(function(){
     //const contenedorPro =$('#contClone');
+    const formulario=document.querySelector('#formOrden');
     const contenedorOrden= $('#ordenTable  .tbody');
     const local =$('#localidadO').val();
     const nombre = $('#productoOrden').val();
@@ -115,7 +116,7 @@ $(document).ready(function(){
         } 
          // agrergo el producto al arreglo
          contOrden = [...contOrden, orden];
-        //if(contOrden.length > 0) sincronizarStorage(contOrden)
+       
         //agrega  art a la tabla
         $('.tbody tr').remove();
         listaOrden.prop('disabled', true);
@@ -125,11 +126,9 @@ $(document).ready(function(){
         registrar.prop('disabled',false);
     }
     function llenarTabla(){
-        console.log('holaaa')
         //resetearFormulario();
         $('.tbody tr').remove();
         contOrden.forEach((orden, index) => agregarFila(orden, index));
-        console.log('hola0')
     }
     //agregar producto a la orden
     
@@ -197,7 +196,7 @@ $(document).ready(function(){
         $('#btnOrdenUpdate').attr('type','hidden');
         $('.btnAgregarFila').attr('type','button');
         llenarTabla();
-        //resetearFormulario();
+        resetearFormulario();
         swal('Producto actualizado','El producto se actualizo con exito','success',{
           
           buttons:false,
@@ -214,7 +213,7 @@ $(document).ready(function(){
      
      
      function resetearFormulario(){
-         const formulario = document.querySelector('#formOrden');
+         
          formulario.reset();
      }
      
@@ -234,23 +233,23 @@ $(document).ready(function(){
    };
    //validaciones de cada orden
    
-     function validarCampos(){
-         if(local !== undefined ){
-            listaOrden.prop("disabled", true);
-             if( nombre !== undefined){
-                listaOrden.prop("disabled", true);
-                 if(cantidad !== undefined){
-                    listaOrden.prop("disabled", true);
-                     if(descripcion !== undefined){
-                         listaOrden.prop("disabled", false);
-                    }
-                }
-             }  
+    //  function validarCampos(){
+    //      if(local.length>0){
+    //         listaOrden.prop("disabled", true);
+    //          if( nombre.length>0){
+    //             listaOrden.prop("disabled", true);
+    //              if(cantidad.length>0){
+    //                 listaOrden.prop("disabled", true);
+    //                  if(descripcion.length>0){
+    //                      listaOrden.prop("disabled", false);
+    //                 }
+    //             }
+    //          }  
               
-        }else{
-            listaOrden.prop("disabled", true);  
-        }
-    };
+    //     }else{
+    //         listaOrden.prop("disabled", true);  
+    //     }
+    // };
     // registra la orden y el  detalle 
      $('#btnRegistrar').on('click', function(){
 
@@ -275,11 +274,28 @@ $(document).ready(function(){
                 formData1.append('contOrden', JSON.stringify(contOrden.map(p => ({id: p.proOrden.id, cantidad: p.cantidadO, descripcion: p.descripcionO }))));
                 formData1.append('usuario_actual',usuario_actual);
                
-                const resp = axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1);
-                const data =resp; 
-                             
-  
+                const resp = axios.post('./controlador/contOrden.php?action=registrarDetalleOrden', formData1).then(res=>{
+                    const data = res.data;
+                        if(data.error){
+                            return swal("Error", data.msj, "error",{
+                                buttons: false,
+                                timer: 3000
+                            });
+                        }
+                        return swal("Exito!", data.msj, "success",{
+                            buttons: false,
+                            timer: 3000
+                        }).then(() =>{ 
+                            //$("#modalCrearProducto").modal("hide");
+                         $('.tbody tr').remove();
+                         //desabilita el boton registrar
+                         registrar.prop('disabled', true);
+                         location.reload();
+                           
+                        });
+                });
                 
+
             }
             }).catch(err=>console.log(err));
                        
@@ -290,8 +306,7 @@ $(document).ready(function(){
         }
         $('.tbody tr').remove();
         //desabilita el boton registrar
-       registrar.prop('disabled', true);
-       location.reload(); 
+      
      
     });
 
@@ -401,8 +416,7 @@ $(document).ready(function(){
             }
         
     });
-    // funcion para hacer la resta en el inventario general
-    /*el inventario solo se actualizara cuando la opcion se enviado, por lo que debe confirmar con el usuario si quiere realizar la accion */
+    
     
     $('.rowO ').on('change',function (){
        const idOrden=$(this).attr('id')
@@ -443,7 +457,7 @@ $(document).ready(function(){
         
        
     });
-    // funcion para sumar al inventario
+    
    
 
     

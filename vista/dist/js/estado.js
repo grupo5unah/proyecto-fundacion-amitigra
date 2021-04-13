@@ -39,6 +39,7 @@ $(document).ready(function(){
               {
                   extend: 'excelHtml5',
                   title: 'FUNDACION AMIGOS DE LA TIGRA',
+                  titleAttr:'Exportar a Excel',
                   text:'<i class="fas fa-file-excel">',
                   className:'btn btn-success',
                   messageTop: 'REPORTE DE ESTADOS.',
@@ -54,8 +55,8 @@ $(document).ready(function(){
                 titleAttr: 'Exportara a PDF',
                 orientation: 'portrait',
                 pageSize: 'A4',
-                title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                messageTop: ' REPORTE DE ESTADOS.',
+                title:  'REPORTE DE ESTADOS',
+                // messageTop: ' REPORTE DE ESTADOS',
                 Image:'fotoPerfil/foto1.png',
                 download: 'open',
                 exportOptions: {
@@ -68,7 +69,7 @@ $(document).ready(function(){
                           bold: !0,
                           fontSize: 10,
                           color: 'black',
-                          fillColor: '#F0F8FF',
+                          fillColor: '#a7a8a8',
                           alignment: 'center'
                          },
                         // athleteTable: {
@@ -80,14 +81,15 @@ $(document).ready(function(){
                        
                         title: {
                             fontSize: 10,
+                            column: 4,
                             bold: true,
                             margin: [0, 0, 0, 10],
                             alignment: 'center'
-                        }
+                        },
                     };
     
                     var cols = [];
-                    cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
+                    cols[0] = {text: 'Fundacion Amitigra', alignment: 'left', margin:[15, 10, 10, 10,10] };
                     cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
                     var objHeader = {};
                     objHeader['columns'] = cols;
@@ -102,7 +104,7 @@ $(document).ready(function(){
                     doc["footer"] = function(currentPage, pageCount) {
                         var footer = [
                             {
-                                text: 'AmiTigra',
+                                text: '',
                                 alignment: 'left',
                                 color: 'black',
                                 margin:[15, 15, 0, 15]
@@ -123,7 +125,7 @@ $(document).ready(function(){
                         return objFooter;
                     };
                     doc.content.splice( 1, 0, {
-                        margin: [ 0, 0, 0, 12 ],
+                        margin: [ 0, 0, 12, 15 ],
                         width: 50,
                         height: 50,
                         alignment: 'right',

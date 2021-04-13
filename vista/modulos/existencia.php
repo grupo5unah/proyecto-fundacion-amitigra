@@ -12,6 +12,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 	if ($columna["permiso_consulta"] == 1) {
 
 ?>
+
 		<div class="content-wrapper">
 			<section class="content-header">
 				<h1>
@@ -21,7 +22,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 					<li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 					<li class="btn btn-success uppercase fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
 					<li class="btn btn-success uppercase fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
-					<li class="btn btn-success active uppercase fw-bold "><a href="#"></a><i class="fa fa-users"></i> Producto</a></li>
+					
 				</ol>
 			</section>
 			<!-- Main content -->
@@ -40,7 +41,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Movimientos</div>
+										<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Inventario General</div>
 									</div>
 									<div class="panel-body">
 										<div class="remove-messages"></div>
@@ -50,7 +51,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 											else : ?>
 												<button class="btn btn-success button1 text-uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </button>
-												<button class="btn btn-success button1 text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> movimientos </button>
+												<a href="movimientos "class="btn btn-success button1 text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> movimientos </a>
 
 											<?php
 											endif;
@@ -58,21 +59,20 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 										</div>
 
-										<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerInventario">
+										<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerInventarios">
 											<thead>
 												<tr>
-													<th style="background-color:#f0ff33" COLSPAN=3>INVENTARIO GENERAL</th>
-													<th style="background-color:#33ffc1" COLSPAN=2>ENTRADA</th>
-													<th style="background-color:#ffb533" COLSPAN=3>SALIDA</th>
+													<th style="background-color:#f0ff33" COLSPAN=2>INVENTARIO GENERAL</th>
+													<th style="background-color:#33ffc1" COLSPAN=6>Moviemientos</th>
+													
 												</tr>
 												<tr>
 													<th>Nombre del producto</th>
-													<th>Incial</th>
-													<th>Stock</th>
-													<th>FECHA ENTRADA</th>
+													<th>STOCK</th>
+													<th>MOVIMIENTO</th>
+													<th>DESCRIPCIÓN</th>
 													<th>CANTIDAD</th>
-													<th>FECHA SALIDA</th>
-													<th>CANTIDAD</th>
+													<th>FECHA MOVIMIENTO</th>	
 													<th>Estado</th>
 												</tr>
 
@@ -81,7 +81,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 												<?php
 												try {
 
-													$sql = "SELECT  tbl_inventario.id_inventario, tbl_producto.nombre_producto, tbl_inventario.existencias from tbl_inventario INNER JOIN tbl_producto on tbl_inventario.producto_id= tbl_producto.id_producto  WHERE estado_eliminar=1";
+													$sql = "SELECT p.id_producto, p.nombre_producto, i.stock, i.minimo,i.maximo, m.cantidad, m.descripcion, m.fecha_movimiento, t.movimiento, m.tipo_movimiento_id from tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto = m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento= m.tipo_movimiento_id INNER JOIN tbl_inventario i on i.movimiento_id= m.id_movimiento ORDER BY i.id_inventario, t.movimiento";
 													$resultado = $conn->query($sql);
 												} catch (\Exception $e) {
 													echo $e->getMessage();
@@ -90,11 +90,18 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 												$vertbl = array();
 												while ($eventos = $resultado->fetch_assoc()) {
 
-													$traer = $eventos['existencias'];
+													$traer = $eventos['stock'];
 													$evento = array(
 														'nombre_arti' => $eventos['nombre_producto'],
-														'existencia' => $eventos['existencias'],
-														'id_inventario' => $eventos['id_inventario'],
+														'stock' => $eventos['stock'],
+														'movimiento' => $eventos['movimiento'],
+														'descripcion' => $eventos['descripcion'],
+														'cantidad' => $eventos['cantidad'],
+														'fecha_movimiento' => $eventos['fecha_movimiento'],				
+														'id_producto' => $eventos['id_producto'],
+														'minimo' => $eventos['minimo'],
+														'maximo' => $eventos['maximo'],
+
 
 													);
 													$vertbl[$traer][] =  $evento;
@@ -102,21 +109,19 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 												foreach ($vertbl as $dia => $lista_articulo) { ?>
 
 
-													<?php foreach ($lista_articulo as $evento) { ?>
-														<tr>
-															<td> <?php echo $evento['nombre_arti']; ?></td>
-															<td class="exis"><?php echo $evento['existencia']; ?></td>
-															<td> <?php echo $evento['nombre_arti']; ?></td>
-															<td> <?php echo $evento['nombre_arti']; ?></td>
-															<td><?php echo $evento['existencia']; ?></td>
-															<td> <?php echo $evento['nombre_arti']; ?></td>
-															<td> <?php echo $evento['nombre_arti']; ?></td>
-
-															<td> <button class="btn btn-success btnSumarI glyphicon glyphicon-plus" data-idinve="<?php echo $evento['id_inventario']; ?>" data-nombre="<?= $evento['nombre_arti'] ?>" data-stock="<?= $evento['existencia'] ?>"></button> </td>
-
-														<?php  } ?>
-														</tr>
-													<?php  } ?>
+													<?php foreach ($lista_articulo as $evento) { 
+													echo '<tr>
+															<td>'.$evento['nombre_arti'].'</td>
+															<td class="evaluar" data-minimo='.$evento['minimo'].' data-maximo='.$evento['maximo'].'>'.$evento['stock'].'</td>
+															<td>' . $evento['movimiento'] .'</td>
+															<td>' . $evento['descripcion'].'</td>
+															<td>'.$evento['cantidad'].'</td>
+															<td>'. $evento['fecha_movimiento'] .'</td>
+															<td> <button class="btn btn-success btnVer glyphicon glyphicon-plus" data-idinve="'.$evento['id_producto'] .'" data-nombre="'.$evento['nombre_arti'] .'" data-fecha="'.$evento['fecha_movimiento'] .'"></button> </td>
+															</tr>';
+														} 
+														
+													  }; ?>
 
 											</tbody>
 										</table>
@@ -125,8 +130,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 									</div>
 								</div>
 							</div>
-							<!-- <?php //$conn->close(); 
-									?> -->
+							
 						</div> <!-- /row -->
 
 
@@ -137,42 +141,43 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 				</div>
 				<!-- /.box -->
-				<!-- //modal para agregar stock -->
-				<div class="modal fade" id="agregarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<div class="d-flex justify-content-between">
+				<!-- //modal para ver el moviemiento de cada producto -->
+				<div  class="modal fade" id="modalVerDetalleP" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" >
+						<div class="modal-dialog modal-dialog-scrollable" role="document" >
+							<div class="modal-content"  >
+								<div class="modal-header">
+									<h5 class="modal-title text-uppercase" id="exampleModalScrollableTitle">Ultimos Movimientos</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<i aria-hidden="true">&times;</i>
+										<span aria-hidden="true">&times;</span>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Actualizar</h3>
+								</div>
+								<div class="modal-body" style="height: 300px; width: 100%; overflow-y: auto;">
+
+									<div class="cont dflex" id="cont">
+									</div>
+									<table class="table">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Movimiento</th>
+												<th scope="col">Descripción</th>
+												<th scope="col">cantidad</th>
+												<th scope="col">Fecha Movimiento</th>
+											</tr>
+										</thead>
+										<tbody id="listaDeProductosTabla">
+
+										</tbody>
+									</table>
+
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
 								</div>
 							</div>
-							<div class="modal-body">
-								<form name="" id="">
-									<div id="pro"> </div>
-									<div class=" form-group">
-
-										<div class="campos form-group">
-											<input type="text" id="nuevo">
-
-										</div>
-
-
-										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-									</div>
-
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="" type="button" name="idStock" class="idStock btn btn-success ">Actualizar</button>
-							</div>
-							</form>
 						</div>
 					</div>
-				</div>
 
 				<!-- modal para ingresar un producto nuevo -->
 
@@ -195,7 +200,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 										<div class="col-sm-3 form-group " id="groupP">
 											<label for=""> PRODUCTO </label>
-											<input id="nombreP" class="form-control   secundary text-uppercase" type="text" name="nombreP" min="0" maxlength="10" minlength="3" placeholder="Escriba el producto" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+											<input id="nombreP" class="form-control   secundary text-uppercase" type="text" name="nombreP" min="0" maxlength="10" minlength="3" placeholder="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 										</div>
 
 										<div class="col-sm-3 m-auto form-group ">
@@ -208,7 +213,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 										</div>
 										<div class="col-sm-2 form-group ">
 											<label>DESCRIPCION </label>
-											<input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder="Escriba la descripcion(lbs,uds)" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+											<input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder="Descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 										</div>
 										<div class="col-sm-2 form-group justify-content-between">
 											<label for=""> TIPO PRODUCTO</label>
@@ -259,7 +264,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											</div>
 										</div>
 
-										<input id="btnAddList" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+">
+										<input disabled id="btnAddList" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+" >
 										<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table">
 									</div>
 									<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
@@ -336,7 +341,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 								<div class="modal-footer">
 									<button type="button" class="btn btn-Danger" id="cerrar" >Close</button>
-									<button type="button" id="registrarInventario" class=" btn btn-primary">Registrar </button>
+									<button type="button" id="registrarInventario" class=" btn btn-primary" disabled>Registrar </button>
 								</div>
 							</div>
 
@@ -361,4 +366,4 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
   window.location.href='index.php';
   </script>";
 	}
-} ?>
+}; ?>
