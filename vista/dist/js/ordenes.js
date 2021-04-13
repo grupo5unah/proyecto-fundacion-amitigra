@@ -37,7 +37,7 @@ function soloNumero(e){
   
 $(document).ready(function(){
     //const contenedorPro =$('#contClone');
-    const formulario=$('#formOrden');
+    const formulario=document.querySelector('#formOrden');
     const contenedorOrden= $('#ordenTable  .tbody');
     const local =$('#localidadO').val();
     const nombre = $('#productoOrden').val();

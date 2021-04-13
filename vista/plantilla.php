@@ -131,6 +131,7 @@ if ($nombre->affected_rows) {
         $_GET["ruta"] == "mantLocalidad" ||
         $_GET["ruta"] == "mantroles" ||
         $_GET["ruta"] == "mantProducto" ||
+        $_GET["ruta"] == "mantTipoMovimiento" ||
         $_GET["ruta"] == "rol" ||
         $_GET["ruta"] == "parametrosSeguridad" ||
         $_GET["ruta"] == "mantObjetos" ||
@@ -260,6 +261,8 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/tipoSolicitudes.js"></script>
 <script src="vista/dist/js/EstadosSolicitud.js"></script>
 <script src="vista/dist/js/movimientos.js"></script>
+<script src="vista/dist/js/validaciones.js"></script>
+<script src="vista/dist/js/validacionesProducto.js"></script>
 <!-- <script src="vista/dist/js/sweetalert.min.js"></script> -->
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

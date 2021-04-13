@@ -108,7 +108,7 @@ $(document).ready(function(){
                     buttons:false
                 }).then(() => {
                     // Se limpia el formulario
-                    console.log('Ya se cerro el alert');
+                    
                     $("#nombre_Objeto").val('');
                     $("#tipo_Objeto").val('');
                     $("#descripcion").val('');

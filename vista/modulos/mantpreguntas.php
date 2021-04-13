@@ -158,7 +158,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									<div class="ingreso-producto form-group">
 										<div class="campos">
 											<label for="">Pregunta: </label>
-											<input id="pregunta1" class="form-control secundary text-uppercase" type="text" name="" placeholder="Escriba la pregunta" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+											<input id="pregunta1" class="form-control secundary text-uppercase" type="text" name="" placeholder="Escriba la pregunta" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 					
@@ -199,7 +199,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
                           <div class="campos">
                           <label for="">Nombre de la Pregunta </label>
-                          <input id="pregunta" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba la pregunta" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+                          <input id="pregunta" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba la pregunta" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
                           </div>
                                 

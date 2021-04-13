@@ -172,17 +172,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										
 										<div class="campos">
 											<label for="">Nombre objeto: </label>
-											<input id="nombre_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="objeto" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+											<input id="nombre_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="objeto" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Tipo objeto: </label>
-											<input id="tipo_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="tipo_objeto" autocomplete="off" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input id="tipo_Objeto" class="form-control  modal-roles secundary text-uppercase" type="text" name="tipo_objeto" autocomplete="off" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion objeto: </label>
-											<input autocomplete="off" id="descripcionObjeto" class="form-control  modal-roles secundary text-uppercase" type="tel" name="descripcion" placeholde="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input autocomplete="off" id="descripcionObjeto" class="form-control  modal-roles secundary text-uppercase" type="tel" name="descripcion" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 										
@@ -220,17 +220,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											
 											<div class="campos">
 												<label for="">Nombre objeto: </label>
-												<input autocomplete="off" id="nombreObjeto" class="form-control modal-roles secundary text-uppercase" type="text" name="Objeto" placeholder="Escriba el objeto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+												<input autocomplete="off" id="nombreObjeto" class="form-control modal-roles secundary text-uppercase" type="text" name="Objeto" placeholder="Escriba el objeto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Tipo objeto: </label>
-												<input id="tObjeto" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="tipo del objeto" required  autocomplete="off" onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+												<input id="tObjeto" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="tipo del objeto" required  autocomplete="off" onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
 												<label for="">Descripcion objeto: </label>
-												<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+												<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 											</div>
 											
