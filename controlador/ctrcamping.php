@@ -15,7 +15,7 @@ if(isset($_POST['action']) == 'registroCamping'){
     $id_usuario = $_POST['idusuario'];
     $usuario_actual= $_POST['usuario_actual'];
     
-
+ 
     if(!empty($descripcionC) || !empty($cantidad_adultosC)  || !empty($totalC)  ||!empty($idCliente)
         ||!empty($fecha_reservacion)||!empty($fecha_entrada)||!empty($fecha_salida)
         ||!empty($id_usuario)||!empty($usuario_actual)){
@@ -57,39 +57,114 @@ if(isset($_POST['action']) == 'registroCamping'){
                     $insert->bind_param('iiiiiiiissss', $idr,$descripcionC,$cantidad_adultosC, $cantidad_ninosC,$articulo,$cantarti,
                     $totalC,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
                     $insert->execute();
-                    //se captura el id de la tabla de habitacion servicio para cambiarle el estado
-                    $captura_a = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
-                    WHERE habitacion_id = ?;");
-                    $captura_a->bind_Param("s", $descripcionC);
-                    $captura_a->execute();
-                    $captura_a->bind_result($idA);
 
-                    if($captura_a->affected_rows){
-                        $existe_a = $captura_a->fetch();
+                    //capturar el el articulo para registrar la salida
+                    $cap_articulo = $conn->prepare("SELECT inventario_id FROM tbl_detalle_reservacion
+                    WHERE inventario_id = ?;");
+                    $cap_articulo ->bind_Param("s",$articulo);
+                    $cap_articulo ->execute();
+                    $cap_articulo-> bind_result($idarti);
+                    if($cap_articulo->affected_rows){
+                        $existe_articulo = $cap_articulo->fetch();
 
-                        while ($captura_a->fetch()) {
-                            $id_area = $idA;
+                        while($cap_articulo -> fetch()){
+                            $arti_id = $idarti;
                         }
-                        if($existe_a){
-                            $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 5
-                            WHERE id_habitacion_servicio = ?;");
 
-                            $actulizar_estado -> bind_param('i', $idA);
-                            $actulizar_estado -> execute();
+                        if($existe_articulo){
 
-                            if(!$actulizar_estado -> error){
-                                $respuesta = array (
-                                    "respuesta"=>"exito"
-                                );
-                            }else{
-                                $respuesta = array (
-                                    "respuesta"=>"error"
-                                );
+                            //$arti = 2;
+                            $tipoMovimiento = 2;
+                            $descp = "UND";
+                            //$cantarti = $_POST['cantarti'];
+                            //$cant =1;
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaM=date('Y-m-d H:i:s',time());
+                            $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  
+                            creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
+                            VALUES (?,?,?,?,?,?,?,?,?)");
+                            $sql->bind_Param("iisisssss",$idarti,$tipoMovimiento,$descp,$cantarti,$fechaM,$usuario_actual,$fechaM,$usuario_actual,$fechaM);
+                            $sql->execute();
+
+                            
+                            //capturar el tipo de movimiento para actualizar el inventario
+                            $cap_mov = $conn->prepare("SELECT id_movimiento FROM tbl_movimientos
+                            WHERE tipo_movimiento_id = ?;");
+                            $cap_mov ->bind_Param("i",$tipoMovimiento);
+                            $cap_mov ->execute();
+                            $cap_mov-> bind_result($idmov);
+
+                            if($cap_mov->affected_rows){
+                                $existe_mov = $cap_mov->fetch();
+
+                                while($cap_mov -> fetch()){
+                                    $mov_id = $idmov;
+                                }
+
+                                if($existe_mov){
+                                    
+                                    $actulizar_inventario = $conn -> prepare( "UPDATE tbl_inventario SET movimiento_id = '$idmov'
+                                        WHERE producto_id = ? ;");
+                                    $actulizar_inventario -> bind_param('i', $idarti);
+                                    $actulizar_inventario -> execute();
+
+                                    //se captura el id de la tabla de habitacion servicio para cambiarle el estado
+                                    $captura_a = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
+                                    WHERE habitacion_id = ?;");
+                                    $captura_a->bind_Param("s", $descripcionC);
+                                    $captura_a->execute();
+                                    $captura_a->bind_result($idA);
+
+                                    if($captura_a->affected_rows){
+                                        $existe_a = $captura_a->fetch();
+
+                                        while ($captura_a->fetch()) {
+                                            $id_area = $idA;
+                                        }
+                                        if($existe_a){
+                                            $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 5
+                                            WHERE id_habitacion_servicio = ?;");
+
+                                            $actulizar_estado -> bind_param('i', $idA);
+                                            $actulizar_estado -> execute();
+
+                                            if(!$actulizar_estado -> error){
+                                                $respuesta = array (
+                                                    "respuesta"=>"exito"
+                                                );
+                                            }else{
+                                                $respuesta = array (
+                                                    "respuesta"=>"error"
+                                                );
+                                            }
+
+                                            //CREALIZA CAMBIO DE ESTADO DE HABITACION
+                                            $sql = "SELECT fecha_salida from tbl_reservaciones
+                                            where id_reservacion = 69";
+                                            $resultado = mysqli_query($conn,$sql);
+                                            $ver = mysqli_fetch_assoc($resultado);
+                                            // echo $ver["fecha_salida"];
+
+                                            date_default_timezone_set("America/Tegucigalpa");
+                                            $fechaHoy = date("Y-m-d H:i:s", time());
+
+                                            if($ver >= $fechaHoy){
+                                                $actulizar = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
+                                                WHERE id_habitacion_servicio = 14");
+                                                $actulizar -> execute();
+                                            }
+                                            
+                                        }
+
+                                    }
+                                }
                             }
-                            // FALTA QUE ACTUALICE EL ESTADO A DISPONIBLE  
+                                
+                            
                         }
-
+                        
                     }
+                    
                     
                     
                 }

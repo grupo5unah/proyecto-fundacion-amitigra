@@ -36,23 +36,29 @@
     transform: translate(140%, -125%);
 }
 .canT{
-    transform: translate(-200%, 11%);
+    transform: translate(0%, -130%);
 }
+ .canA{
+    transform: translate(-100%, 0%);
+} 
 .precioT{
     transform: translate(150%, -112%);
 }
 .precioh{
     transform: translate(240%, -125%);
 }
-
-#btnAgregarEC{
-    transform: translate(-80%, 95%);
-   
-}
+#btnAgregarEC,
 #btnAgregarNC{
-    transform: translate(0%, -100%);
+    transform: translate(-100%, 70%);
    
 }
+ 
+ #miprecio{
+    transform: translate(0%, -150%);
+}
+#miprecioe{
+    transform: translate(0%, -150%);
+} 
 #btnAgregarN,
 #btnAgregarE,
 #btnAgregarNR,

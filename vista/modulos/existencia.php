@@ -184,8 +184,8 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 
 				<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-					<div class="modal-dialog">
-						<div class="modal-content" style="width: 900px;">
+					<div class="modal-dialog" >
+						<div class="modal-content" style="width: 900px; text-align:center;">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">

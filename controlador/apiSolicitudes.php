@@ -2,6 +2,29 @@
 
 include "../modelo/conexionbd.php";
 
+//BUSCAR CLIENTE
+
+if(isset($_POST['accion']) == 'buscarCliente'){
+    if(!empty($_POST['identidad'])){
+        $identidad = strval($_POST['identidad']);
+        //echo $identidad;
+
+        $resultado = 0;
+        $sql=mysqli_query($conn,"SELECT id_cliente,nombre_completo,identidad,telefono,tipo_nacionalidad
+        FROM tbl_clientes WHERE identidad = '$identidad'  AND estado_eliminado=1");
+        mysqli_close($conn);
+        $resultado = mysqli_num_rows($sql);
+            $data = '';
+        if ($resultado) {
+            $data= mysqli_fetch_assoc($sql);
+            echo json_encode($data,JSON_UNESCAPED_UNICODE);
+        } 
+        
+    }
+    exit;
+    
+ }
+
 $res = array('error' => false);
 $action = '';
 
@@ -240,14 +263,6 @@ switch ($action) {
             $usuario_actual = $_POST['usuario_actual'];
             $fecha = date('Y-m-d H:i:s', time());
 
-            //ver si se repite el numero de deposito
-            $consulta_id = mysqli_query($conn, "SELECT id_solicitud,recibo FROM tbl_solicitudes   
-            WHERE recibo=$nuevo_recibo");
-            $resultado_deposito = mysqli_fetch_array($consulta_id);
-            if ($resultado_deposito > 0) {
-                $res['msj'] = "Por favor verifique el número de deposito ingresado";
-                $res['error'] = true;
-            } else {
 
                 //consulta para traer el precio de la solicitud
                 if (isset($_POST['tipo_solicitud'])) {
@@ -275,7 +290,7 @@ switch ($action) {
                     $res['msj'] = "Se produjo un error al momento de editar la solicitud ";
                     $res['error'] = true;
                 }
-            }
+            
         } else {
 
             $res['msj'] = "Las variables no estan definidas";

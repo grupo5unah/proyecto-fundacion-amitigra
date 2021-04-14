@@ -112,7 +112,7 @@ switch ($action){
            ON tbl_detalle_reservacion.inventario_id = tbl_inventario.id_inventario
            INNER JOIN tbl_producto
            ON tbl_inventario.producto_id = tbl_producto.id_producto
-           WHERE reservacion_id = '$DetReserva'";
+           WHERE id_detalle_reservacion = '$DetReserva'";
             $result = $conn->query($sql);
         } catch (Exception $e) {
             echo $e->getMessage();
