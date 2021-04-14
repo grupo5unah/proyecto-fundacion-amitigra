@@ -385,7 +385,7 @@ $('.btnCrearBoleteria').on('click', function() {
 });
 
 //CARGAR PRECIOS DE BOLETOS EN LA BASE DE DATOS
-$('#miprecio').val(0);
+$('#miprecio').val();
 
 $('#lista1').on("change",function(){
 
@@ -408,39 +408,52 @@ let precio = document.querySelector("#lista1").value;
 
 $('#btnAgregarS').click(function(e) {
   e.preventDefault();
-  var tabla =document.querySelector('#tableBoletos');
+  //var tabla =document.querySelector('#tableBoletos');
   var localidad = document.getElementById("localidad").value;
   var lista1 = document.getElementById("lista1").value;
   var CantBoleto = document.getElementById("CantBoleto").value;
   var miprecio = document.getElementById("miprecio").value;  
   var totalPB = document.getElementById("totalPB").value;
-  var fila1 = '<tr class="tabletotal"><td>' + CantBoleto + '</td><td>' + lista1 + '</td><td>' + miprecio + '</td><td>'
-  + totalPB + '</td><td>' + localidad +'</td><td><button type="button" name="remove"  class="btn btn-danger btn_eliminarBoleto glyphicon glyphicon-remove"></button></td></tr>'; //esto seria lo que contendria la fila  
-  
 
-  $('#tableBoletos tr:first').after(fila1);
-    $("#listaBoletos").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-    var nFilas = $("#tableBoletos tr").length;
-    $("#listaBoletos").append(nFilas - 1);
-   
+  if(localidad==''|| lista1==''|| CantBoleto==''|| miprecio==''|| totalPB==''){
+    swal({
+      icon:"error",
+      title:"Error",
+      text:"Todos los Campos son requeridos"
+    })
+  }else{
+    var fila1 = '<tr class="tabletotal"><td>' + CantBoleto + '</td><td>' + lista1 + '</td><td>' + miprecio + '</td><td>'
+    + totalPB + '</td><td>' + localidad +'</td></tr>'; //esto seria lo que contendria la fila  
     
-    //le resto 1 para no contar la fila del header
-    document.getElementById("localidad").value ="";
-    document.getElementById("lista1").value ="";
-    document.getElementById("CantBoleto").value = "";
-    document.getElementById("miprecio").value = "";
-    document.getElementById("totalPB").value = "";
-    // document.getElementById("nombre").focus();
-     //var tot = tabla.column(0).data().sum();
-    //$("#total").text(tot); 
 
-    var data = [];
-$("td.tabletotal").each(function(){
-  data.push(parseFloat($(this).text()));
-});
-var suma = data.reduce(function(a,b){ return a+b; },0);
-    $("#total").html(suma);
-     
+    $('#tableBoletos tr:first').after(fila1);
+      $("#listaBoletos").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+      var nFilas = $("#tableBoletos tr").length;
+      $("#listaBoletos").append(nFilas - 1);
+    
+      
+      //le resto 1 para no contar la fila del header
+      document.getElementById("localidad").value ="";
+      document.getElementById("lista1").value ="";
+      document.getElementById("CantBoleto").value = "";
+      document.getElementById("miprecio").value = "";
+      document.getElementById("totalPB").value = "";
+      // document.getElementById("nombre").focus();
+      //var tot = tabla.column(0).data().sum();
+      //$("#total").text(tot); 
+
+      var sum=0;
+      $('.tabletotal').each(function() {  
+      sum += parseFloat($(this).find('td').eq(0).text());  
+      }); 
+      $('#resultado_total').val(sum.toFixed(0));
+
+      var sum2=0;
+      $('.tabletotal').each(function() {  
+      sum2 += parseFloat($(this).find('td').eq(3).text());  
+      }); 
+      $('#totalPagar').val(sum2.toFixed(0));
+  } 
 
 });
 
@@ -456,15 +469,23 @@ $('#registroBoletos').on('click', function(){
       const cantidadB = $(this).find('td').eq(0).html();
       const tipoBoleto = $(this).find('td').eq(1).html();
       const SubTotal = $(this).find('td').eq(3).html();
-      const localidad = $(this).find('td').eq(4).html();      
+      const localidad = $(this).find('td').eq(4).html();  
+      const TotalBoletos = document.querySelector('#resultado_total').value;
+      const TotalPagar = document.querySelector('#totalPagar').value;
       const idusuario = document.querySelector('#id_usuario').value;
       const usuario_actual = document.querySelector('#usuario_actual').value;
-
+     if(TotalPagar==0){
+      swal({
+        icon:"error",
+        title:"Error",
+        text:"Todos los Campos son requeridos"
+      })
+     }else{
       $.ajax({
           type: "POST",
           datatype: 'json',
           url: './controlador/ctr.boleteria.php',
-          data: {action:action,cantidadB:cantidadB, tipoBoleto:tipoBoleto,SubTotal:SubTotal,localidad:localidad,idusuario:idusuario,
+          data: {action:action,cantidadB:cantidadB, tipoBoleto:tipoBoleto,SubTotal:SubTotal,localidad:localidad, TotalBoletos:TotalBoletos, TotalPagar:TotalPagar, idusuario:idusuario,
                 usuario_actual:usuario_actual},
           success: function(response){
               var data = JSON.parse(response);
@@ -478,18 +499,40 @@ $('#registroBoletos').on('click', function(){
                   }).then(()=>{
                       location.reload();
                   })
-              }else if (data.respuesta == 'error'){
+              }else if (data.respuesta == 'fallo'){
+                swal({
+                    icon:"error",
+                    title:"Error",
+                    text:"No se pudo Registrar el Boleto"
+                })
+            }else if (data.respuesta == 'error'){
                   swal({
                       icon:"error",
                       title:"Error",
-                      text:"se produjo un error"
+                      text:"Todos los Campos son requeridos"
                   })
               }
           }
       });
-      
+    } 
   });
 });
 
+$("#cerrarboletos").on("click", function(){
 
+  swal({
+      icon:"warning",
+      text: "Seguro que quieres salir?",
+      buttons: true,
+      dangerMode: true,
+  })
+  .then((willDelete) => {
+      if (willDelete) {
+          window.reload();
+      } else {
+      $("#modalNuevaBoleteria").modal("show");
+      }
+  });
+  
+});
 });
