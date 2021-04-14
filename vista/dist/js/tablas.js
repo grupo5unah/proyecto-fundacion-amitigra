@@ -22,7 +22,7 @@ $(document).ready(function () {
         text: '<i class="fas fa-print">',
         titleAttr: "Imprimir",
         title: "REPORTE DE MOVIMIENTOS DE INVENTARIO",
-        //messageTop: "REPORTE DE MOVIMIENTOS DE INVENTARIO",
+        messageTop: "REPORTE DE MOVIMIENTOS DE INVENTARIO",
         className: "btn btn-dark",
         exportOptions: {
           modifier: {
@@ -48,8 +48,8 @@ $(document).ready(function () {
         titleAttr: "Exportara a PDF",
         orientation: "portrait",
         pageSize: "A4",
-        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
-        messageTop: "REPORTE DE MOVIMIENTOS DE INVENTARIO",
+        title: "REPORTE DE MOVIMIENTOS DE INVENTARIO",
+        //messageTop: "REPORTE DE MOVIMIENTOS DE INVENTARIO",
         Image: "fotoPerfil/foto1.png",
         download: "open",
         exportOptions: {
@@ -74,9 +74,9 @@ $(document).ready(function () {
             // athleteTable: {
             //     //salignment: 'center'
             // },
-            column: {
-              alignment: "center",
-            },
+            // column: {
+            //   alignment: "center",
+            // },
 
             title: {
               fontSize: 10,
@@ -144,7 +144,7 @@ $(document).ready(function () {
               },
               {
                 text: "",
-                alignment: "center",
+                alignment: "rigth",
                 color: "blsck",
                 margin: [0, 15, 15, 15],
               },
@@ -200,7 +200,7 @@ $(document).ready(function () {
         text: '<i class="fas fa-print">',
         titleAttr: "Imprimir",
         title: "REPORTE DE PARAMETROS DEL SISTEMA",
-        //messageTop: " REPORTE DE PARAMETROS DEL SISTEMA.",
+        messageTop: " REPORTE DE PARAMETROS DEL SISTEMA.",
         className: "btn btn-dark",
         exportOptions: {
           modifier: {
@@ -226,8 +226,8 @@ $(document).ready(function () {
         titleAttr: "Exportara a PDF",
         orientation: "portrait",
         pageSize: "A4",
-        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
-        messageTop: " REPORTE DE PARAMETROS DEL SISTEMA.",
+        title: "REPORTE DE PARAMETROS DEL SISTEMA",
+        //messageTop: " REPORTE DE PARAMETROS DEL SISTEMA.",
         Image: "fotoPerfil/foto1.png",
         download: "open",
         exportOptions: {
