@@ -341,7 +341,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
 													<button class="btn btn-default" href="#activity" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" href="#settings sigue2" data-toggle="tab" disabled>Siguiente</button>
+													<button class="btn btn-primary" href="#settings" data-toggle="tab">Siguiente</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->

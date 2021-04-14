@@ -139,8 +139,10 @@ $(document).ready( function(){
             if (willDelete) {
                 // contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
                 // $("#contraRestauracion").val("");
-                $("#modalPermisos").modal("close");
-            $("#modalRegistrarRol").modal("close");
+                $("#modalPermisos").modal("hide");
+                $("#modalRegistrarRol").modal("hide");
+                $("#nombre").val("");
+                $("#descripcion").val("");
             } else {
 
                 $("#modalPermisos").modal("show");

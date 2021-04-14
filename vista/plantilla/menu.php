@@ -179,7 +179,7 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="mantpermisos"><i class=""></i> Permiso acceso <br> al sistema</a></li>
+                <li><a href="mantpermisos"><i class=""></i> Permiso de acceso <br> al sistema</a></li>
                 <li><a href="parametrosSistema"><i class=""></i> Parámetros<br>Sistema/Seguridad</a></li>
                 <li><a href="parametrosSeguridad"><i class=""></i> Otros Parámetros</a></li>
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
