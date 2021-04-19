@@ -103,7 +103,7 @@ $(document).ready(function () {
                             timer: 3000
                         });
                     }
-                    return swal("Exito!", data, "success",{
+                    return swal("Exito!", data.msj, "success",{
                         buttons: false,
                         timer: 3000
                     }).then(() =>{ 
