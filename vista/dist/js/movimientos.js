@@ -39,13 +39,13 @@ $(document).ready(function () {
     listaProduct.prop('disabled', true);
     registrar.prop('disabled', false);
     
-
+  }
   function llenarTabla() {
     $(".tbody tr").remove();
     contMov.forEach((producto, index) => agregarFila(producto, index));
     
   }
-  }
+  
 
   // btnRegistrarMovimiento
   $("#registrarMovimiento").click(async function (e) {

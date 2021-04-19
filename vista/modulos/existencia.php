@@ -22,7 +22,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 					<li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 					<li class="btn btn-success uppercase fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
 					<li class="btn btn-success uppercase fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
-					
+
 				</ol>
 			</section>
 			<!-- Main content -->
@@ -35,103 +35,168 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 					</div>
 					<div class="box-body">
+						<div class="div-action pull pull-right" style="padding-bottom:20px;">
+
+							<?php if ($columna["permiso_insercion"] == 0) :
+
+							else : ?>
+								<button class="btn btn-success button1 text-uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </button>
+
+								<a href="movimientos " class="btn btn-success button1 text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> movimientos </a>
+
+							<?php
+							endif;
+							?>
+
+						</div>
 						<!--LLamar al formulario aqui-->
 						<div class="row">
 							<div class="col-md-12">
 
 								<div class="panel panel-default">
-									<div class="panel-heading">
-										<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Inventario General</div>
-									</div>
+									
 									<div class="panel-body">
-										<div class="remove-messages"></div>
-										<div class="div-action pull pull-right" style="padding-bottom:20px;">
+										
+										<div class="row d-flex  justify-content-around" style="margin-left:50px;">
+											<div  class="col-sm-3 m-3px" style=" width:30%; margin-left:25px;">
+												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerInventarios">
+													<thead>
 
-											<?php if ($columna["permiso_insercion"] == 0) :
+														<tr style="background-color:#222d32; color:white">
+															<th>Nombre del producto</th>
+															<th>STOCK</th>
+														</tr>
 
-											else : ?>
-												<button class="btn btn-success button1 text-uppercase" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar producto </button>
-												<a href="movimientos "class="btn btn-success button1 text-uppercase" id=""> <i class="glyphicon glyphicon-plus-sign"></i> movimientos </a>
+													</thead>
+													<tbody>
+														<?php
+														try {
 
-											<?php
-											endif;
-											?>
+															$sql = "SELECT p.id_producto, p.nombre_producto, i.stock, i.minimo,i.maximo from tbl_inventario i INNER JOIN tbl_producto p on p.id_producto = i.producto_id  ORDER BY i.id_inventario, p.nombre_producto;";
+														} catch (\Exception $e) {
+															echo $e->getMessage();
+														}
+														$conn->multi_query($sql);
 
-										</div>
+														global $inventario;
+														$inventario = array();
+														do {
+															$resultado = $conn->store_result();
+															$row = $resultado->fetch_all(MYSQLI_ASSOC);
 
-										<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerInventarios">
-											<thead>
-												<tr>
-													<th style="background-color:#f0ff33" COLSPAN=2>INVENTARIO GENERAL</th>
-													<th style="background-color:#33ffc1" COLSPAN=6>Moviemientos</th>
-													
-												</tr>
-												<tr>
-													<th>Nombre del producto</th>
-													<th>STOCK</th>
-													<th>MOVIMIENTO</th>
-													<th>DESCRIPCIÓN</th>
-													<th>CANTIDAD</th>
-													<th>FECHA MOVIMIENTO</th>	
-													<th>Estado</th>
-												</tr>
-
-											</thead>
-											<tbody>
-												<?php
-												try {
-
-													$sql = "SELECT p.id_producto, p.nombre_producto, i.stock, i.minimo,i.maximo, m.cantidad, m.descripcion, m.fecha_movimiento, t.movimiento, m.tipo_movimiento_id from tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto = m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento= m.tipo_movimiento_id INNER JOIN tbl_inventario i on i.movimiento_id= m.id_movimiento ORDER BY i.id_inventario, t.movimiento";
-													$resultado = $conn->query($sql);
-												} catch (\Exception $e) {
-													echo $e->getMessage();
-												}
-
-												$vertbl = array();
-												while ($eventos = $resultado->fetch_assoc()) {
-
-													$traer = $eventos['stock'];
-													$evento = array(
-														'nombre_arti' => $eventos['nombre_producto'],
-														'stock' => $eventos['stock'],
-														'movimiento' => $eventos['movimiento'],
-														'descripcion' => $eventos['descripcion'],
-														'cantidad' => $eventos['cantidad'],
-														'fecha_movimiento' => $eventos['fecha_movimiento'],				
-														'id_producto' => $eventos['id_producto'],
-														'minimo' => $eventos['minimo'],
-														'maximo' => $eventos['maximo'],
+															//print_r($row);
+															foreach ($row as $valor ) {
+																echo '<tr>
+													  	     	<td>' . $valor['nombre_producto'] . '</td>
+														     	<td  data-maximo="'. $valor['maximo'] . '"data-minimo="'. $valor['minimo'] . '">' . $valor['stock'] . '</td>
+													            </tr>';
+															}
+														} while ($conn->more_results() && $conn->next_result());
 
 
-													);
-													$vertbl[$traer][] =  $evento;
-												}
-												foreach ($vertbl as $dia => $lista_articulo) { ?>
+														?>
 
+													</tbody>
+												</table>
+											</div>
+											<div style="width:30%;" class="col-sm-3 m-3px">
+												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerEntrada">
+													<thead>
 
-													<?php foreach ($lista_articulo as $evento) { 
-													echo '<tr>
-															<td>'.$evento['nombre_arti'].'</td>
-															<td class="evaluar" data-minimo='.$evento['minimo'].' data-maximo='.$evento['maximo'].'>'.$evento['stock'].'</td>
-															<td>' . $evento['movimiento'] .'</td>
-															<td>' . $evento['descripcion'].'</td>
-															<td>'.$evento['cantidad'].'</td>
-															<td>'. $evento['fecha_movimiento'] .'</td>
-															<td> <button class="btn btn-success btnVer glyphicon glyphicon-plus" data-idinve="'.$evento['id_producto'] .'" data-nombre="'.$evento['nombre_arti'] .'" data-fecha="'.$evento['fecha_movimiento'] .'"></button> </td>
-															</tr>';
-														} 
+														<tr style="background-color:#222d32; color:white">
+															<th>Producto</th>
+															<th>Entrada</th>
+															<th>Fecha_Entrada</th>
+
+														</tr>
+
+													</thead>
+													<tbody>
+														<?php
+														try {
+															
+															$sql = "SELECT p.nombre_producto, sum(cantidad) as entrada, fecha_movimiento as fecha_entrada FROM tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto=m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento=m.tipo_movimiento_id where t.movimiento='entrada' GROUP by p.nombre_producto;";
 														
-													  }; ?>
+														} catch (\Exception $e) {
+															echo $e->getMessage();
+														}
+														$conn->multi_query($sql);
 
-											</tbody>
-										</table>
+														global $inventario;
+														$inventario = array();
+														do {
+															$resultado = $conn->store_result();
+															$row = $resultado->fetch_all(MYSQLI_ASSOC);
 
+															//print_r($row);
+															foreach ($row as $valor) {
+																echo '<tr>
+															    <td>' . $valor['nombre_producto'] . '</td>
+													  		    <td>' . $valor['entrada'] . '</td>
+														     	<td>' . $valor['fecha_entrada'] . '</td>
+													          </tr>';
+															}
+														} while ($conn->more_results() && $conn->next_result());
 
+														//$inventario_final=array();
+														
+
+														?>
+
+													</tbody>
+												</table>
+											</div>
+											<div style="width:30%;" class="col-sm-3 m-3px">
+												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerSalida">
+													<thead>
+
+														<tr style="background-color:#222d32; color:white">
+														    <th>Producto</th>
+														    <th>Salida</th>
+															<th>Fecha_Salida</th>
+
+														</tr>
+
+													</thead>
+													<tbody>
+														<?php
+														try {
+
+															$sql = "SELECT p.nombre_producto, sum(cantidad) as salida, fecha_movimiento as fecha_salida FROM tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto=m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento=m.tipo_movimiento_id where t.movimiento='salida' GROUP by p.nombre_producto, p.id_producto;";
+														} catch (\Exception $e) {
+															echo $e->getMessage();
+														}
+														$conn->multi_query($sql);
+
+														global $inventario;
+														$inventario = array();
+														do {
+															$resultado = $conn->store_result();
+															$row = $resultado->fetch_all(MYSQLI_ASSOC);
+
+															//print_r($row);
+															foreach ($row as $valor ) {
+																echo '<tr>
+															    <td>' . $valor['nombre_producto'] . '</td>
+													  		    <td>' . $valor['salida'] . '</td>
+															    <td>' . $valor['fecha_salida'] . '</td>
+													            </tr>';
+															}
+														} while ($conn->more_results() && $conn->next_result());
+
+														//$inventario_final=array();
+
+														?>
+
+													</tbody>
+												</table>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-							
-						</div> <!-- /row -->
+
+						</div>
 
 
 
@@ -142,49 +207,49 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 				</div>
 				<!-- /.box -->
 				<!-- //modal para ver el moviemiento de cada producto -->
-				<div  class="modal fade" id="modalVerDetalleP" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" >
-						<div class="modal-dialog modal-dialog-scrollable" role="document" >
-							<div class="modal-content"  >
-								<div class="modal-header">
-									<h5 class="modal-title text-uppercase" id="exampleModalScrollableTitle">Ultimos Movimientos</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
+				<div class="modal fade" id="modalVerDetalleP" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title text-uppercase" id="exampleModalScrollableTitle">Ultimos Movimientos</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" style="height: 300px; width: 100%; overflow-y: auto;">
+
+								<div class="cont dflex" id="cont">
 								</div>
-								<div class="modal-body" style="height: 300px; width: 100%; overflow-y: auto;">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Movimiento</th>
+											<th scope="col">Descripción</th>
+											<th scope="col">cantidad</th>
+											<th scope="col">Fecha Movimiento</th>
+										</tr>
+									</thead>
+									<tbody id="listaDeProductosTabla">
 
-									<div class="cont dflex" id="cont">
-									</div>
-									<table class="table">
-										<thead>
-											<tr>
-												<th scope="col">#</th>
-												<th scope="col">Movimiento</th>
-												<th scope="col">Descripción</th>
-												<th scope="col">cantidad</th>
-												<th scope="col">Fecha Movimiento</th>
-											</tr>
-										</thead>
-										<tbody id="listaDeProductosTabla">
-
-										</tbody>
-									</table>
+									</tbody>
+								</table>
 
 
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
 							</div>
 						</div>
 					</div>
+				</div>
 
 				<!-- modal para ingresar un producto nuevo -->
 
 
 
-				<div class="modal fade" id="modalCrearProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-					<div class="modal-dialog" >
+				<div class="modal fade con" id="modalCrearProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+					<div class="modal-dialog mo">
 						<div class="modal-content" style="width: 900px; text-align:center;">
 							<div class="modal-header">
 								<div class="d-flex justify-content-between">
@@ -206,7 +271,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 										<div class="col-sm-3 m-auto form-group ">
 											<label for="">PRECIO </label>
 											<div class="input-group">
-												<span class="input-group-addon">$</span>
+												<span class="input-group-addon">Lps</span>
 												<input id="precioProducto" class="form-control  secundary " type="number" name="precioProducto" placeholder="Lps:1.00" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
 
 											</div>
@@ -244,7 +309,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<label for="">CANTIDAD INICIAL </label>
 											<div class="input-group">
 
-												<input id="inicial" class="form-control  secundary " type="number" name="precioProducto" placeholder="Lps:1.00" onkeypress="return soloNumero(event)" autocomplete="off" min="1" minlength="1" required />
+												<input id="inicial" class="form-control  secundary " type="number" name="precioProducto" placeholder="0" onkeypress="return soloNumero(event)" autocomplete="off" min="1" minlength="1" required />
 
 											</div>
 										</div>
@@ -264,42 +329,43 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											</div>
 										</div>
 
-										<input disabled id="btnAddList" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign" value="+" >
-										<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table">
-									</div>
-									<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
-									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-									<?php
+										<div>
+											<input disabled id="btnAddList" type="button" class=" input-group btn  btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas" value="+">
+											<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table bmas">
+										</div>
+										<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
+										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+										<?php
 
-									$sql = "SELECT id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA'";
-									$result = $conn->query($sql);
+										$sql = "SELECT id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA'";
+										$result = $conn->query($sql);
 
-									if ($result->num_rows > 0) {
-										// output data of each row
-										while ($row = $result->fetch_assoc()) {
-											$id = ($row['id_tipo_movimiento']); ?>
-											<input type="hidden" name="" id="entrada" value="<?php echo ($id); ?>">
-									<?php	}
-									} else {
-										echo "0 results";
-									}
-								
+										if ($result->num_rows > 0) {
+											// output data of each row
+											while ($row = $result->fetch_assoc()) {
+												$id = ($row['id_tipo_movimiento']); ?>
+												<input type="hidden" name="" id="entrada" value="<?php echo ($id); ?>">
+											<?php	}
+										} else {
+											echo "0 results";
+										}
 
-									$sql = "SELECT id_localidad FROM tbl_localidad where nombre_localidad = 'TEGUCIGALPA'";
-									$result = $conn->query($sql);
 
-									if ($result->num_rows > 0) {
-										// output data of each row
-										while ($row = $result->fetch_assoc()) {
-											$id = ($row['id_localidad']); ?>
-											<input type="hidden" name="" id="id_local" value="<?php echo ($id); ?>">
-									<?php	}
-									} else {
-										echo "0 results";
-									}
-									$conn->close();
-									?>
-									<!-- <input type="hidden" name="" id="tipo_movimiento" value="<?= $usuario ?>"> -->
+										$sql = "SELECT id_localidad FROM tbl_localidad where nombre_localidad = 'TEGUCIGALPA'";
+										$result = $conn->query($sql);
+
+										if ($result->num_rows > 0) {
+											// output data of each row
+											while ($row = $result->fetch_assoc()) {
+												$id = ($row['id_localidad']); ?>
+												<input type="hidden" name="" id="id_local" value="<?php echo ($id); ?>">
+										<?php	}
+										} else {
+											echo "0 results";
+										}
+										$conn->close();
+										?>
+										<!-- <input type="hidden" name="" id="tipo_movimiento" value="<?= $usuario ?>"> -->
 								</form>
 								<div id="producto">
 									<table id="productTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
@@ -340,7 +406,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 								?>
 
 								<div class="modal-footer">
-									<button type="button" class="btn btn-Danger" id="cerrar" >Close</button>
+									<button type="button" class="btn btn-Danger" id="cerrar">Close</button>
 									<button type="button" id="registrarInventario" class=" btn btn-primary" disabled>Registrar </button>
 								</div>
 							</div>
@@ -350,14 +416,14 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 				</div>
 
 
-		</div>
 
 
 
-		<!-- /.box-footer-->
 
-		</section>
-		<!-- /.content -->
+				<!-- /.box-footer-->
+
+			</section>
+			<!-- /.content -->
 		</div>
 <?php
 

@@ -237,6 +237,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
+										<div class="modal-footer">
+								       <button type="button" class="btn btn-danger" id="close" data-dismiss="modal">Cerrar</button>
+								       <button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Objeto</button>
+							           </div>
 										
 										
 									</form>
