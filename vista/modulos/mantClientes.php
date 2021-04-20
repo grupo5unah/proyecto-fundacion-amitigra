@@ -73,7 +73,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 										try {
 
 
-											$sql = "SELECT id_cliente,nombre_completo,identidad,telefono,tbl_tipo_nacionalidad.nacionalidad, 
+											$sql = "SELECT id_cliente,nombre_completo,identidad,telefono,tbl_clientes.tipo_nacionalidad,tbl_tipo_nacionalidad.nacionalidad, 
 													tbl_clientes.modificado_por,tbl_clientes.fecha_modificacion
 													FROM tbl_clientes
                                                     INNER JOIN tbl_tipo_nacionalidad
@@ -93,6 +93,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 												'identidad' => $eventos['identidad'],
 												'telefono' => $eventos['telefono'],
 												'nacionalidad' => $eventos['nacionalidad'],
+												'tipo_nacionalidad' => $eventos['tipo_nacionalidad'],
 												'modificado_por' => $eventos['modificado_por'],
 												'fecha_modificacion' => $eventos['fecha_modificacion'],
                                                 'id_cliente' => $eventos['id_cliente']
@@ -117,7 +118,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 													<?php
 													if($columna["permiso_actualizacion"] == 1):?>
 														<button class="btn btn-warning btnEditarCliente glyphicon glyphicon-pencil"  data-idcliente="<?= $evento['id_cliente'] ?>" data-nombrecliente="<?= $evento['nombre_completo'] ?>" 
-														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
+														data-identidad="<?= $evento['identidad'] ?>" data-telefono="<?= $evento['telefono'] ?>" data-tipo_nacionalidad="<?= $evento['tipo_nacionalidad'] ?>"data-nacionalidad="<?= $evento['nacionalidad'] ?>"></button>
 													<?php
 													else:
 													endif;

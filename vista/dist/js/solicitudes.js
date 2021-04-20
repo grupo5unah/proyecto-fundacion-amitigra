@@ -9,6 +9,29 @@ $(document).ready(function () {
       { className: "text-center ", targets: [4] },
       { className: "text-center ", targets: [6] },
     ],
+    "createdRow":function(row,data,index){
+      if(data[6] == "PROCESO"){
+        $('td', row).eq(6).css({
+          'background-color': '#F08080',
+          'color': 'white',
+          'text-align': 'center'
+        });
+      }
+      if(data[6] == "RECHAZADA"){
+        $('td', row).eq(6).css({
+          'background-color': ' #E81313',
+          'color': 'white',
+          'text-align': 'center'
+        });
+      }
+      if(data[6] == "APROBADA"){
+        $('td', row).eq(6).css({
+          'background-color': '#00a65a',
+          'color': 'white',
+          'text-align': 'center'
+        });
+      }
+    },
 
     //para usar los botones
     responsive: "true",
