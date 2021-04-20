@@ -219,7 +219,7 @@ $('.btnEditarMovimiento').on('click', function() {
     });
     
 })
-//eliminar roles
+//eliminar 
 $('.btnEliminarmovimiento ').on('click', function (){
     const id_mo = $(this).data('idmovimiento');
     swal("Eliminar Tipo Movimiento", "Esta seguro de eliminar este Tipo de Movimiento?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
@@ -243,7 +243,12 @@ $('.btnEliminarmovimiento ').on('click', function (){
             });
         }
     });
-})
+});
+
+
+
+
+
 
      
    
