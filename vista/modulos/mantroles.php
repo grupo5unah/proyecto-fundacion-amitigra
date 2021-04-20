@@ -44,7 +44,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									
-									<button class="btn btn-success btnCrearRol fa fa-plus text-uppercase" > Agregar Rol</button>
+									<button class="btn btn-default btnCrearRol"> <i class="fa fa-plus-circle"> </i> Crear rol</button>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerRoles">
@@ -120,7 +120,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														else:
 														endif;
 														?>
-														<button class="btn btn-success glyphicon glyphicon-ok-sign"></button>
+														<button class="btn btn-success btnPermisos glyphicon glyphicon-ok-sign" data-idrol="<?php echo $evento['id_rol'] ?>"></button>
 													</td>
 												<?php  } ?>
 											<?php  } ?>
@@ -140,8 +140,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 
 			</div>
-			<!-- /.box-body -->
-	
+
+				<!-- INICIO MODAL PARA EDITAR ROL -->
 				<div class="modal fade" id="modalEditarRol" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
@@ -169,7 +169,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										</div>
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
-											<input id="descripcionRol" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+											<textarea autocomplete="off" id="descripcionRol" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"></textarea>
 										</div>										
 										
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -184,8 +184,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 						</div>
 					</div>
 				</div>
+				<!-- FIN MODAL EDITAR ROL -->
 
-				<!-- modal registrar rol -->
+				<!-- INICIO MODAL REGISTRO ROL -->
 				<div class="modal fade" id="modalRegistrarRol" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 					<div class="modal-dialog">
@@ -199,7 +200,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</div>
 							</div>
 							<div class="modal-body">
-								<form name="" id="formRol">
+								<form role="form" name="" id="formRol">
 									<div class=" form-group">
 										
 
@@ -211,19 +212,32 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 										<div class="campos form-group">
 											<label for="">Descripcion </label>
-											<input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
+											<textarea autocomplete="off" id="descripcion" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion"  required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"></textarea>
+											<!-- <input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholder="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/> -->
+											<!-- <input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" autocomplete="off"/> -->
 
 										</div>
 
-										<div class="campos form-group">
+										<!-- <div class="campos form-group">
 											<div class="input-group col-sm-12">
 												<label class="" for="">Estado: </label>
 												<select class="form-control" name="" id="">
-													<option selected disabled="disabled">Seleccione un estado</option>
-													
+													<option selected disabled>Seleccione un estado</option>
+
+													<?php
+													/*include "./modelo/conexionbd.php";
+
+													$stmts = "SELECT id_estado, nombre_estado FROM tbl_estado WHERE id_estado IN(1,2,3);";
+													$result = mysqli_query($conn,$stmts);
+
+													while($opcion = mysqli_fetch_assoc($result)){*/
+													?>
+													<option value="1">ACTIVO</option>
+													<option value="0">INACTIVO</option>
+													<?php //}?>
 												</select>
 											</div>
-										</div>
+										</div> -->
 
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 									</div>
@@ -232,18 +246,126 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-primary">Registrar rol</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-primary">Guardar rol</button>
 							</div>
 							</form>
 						</div>
 					</div>
 				</div>
+				<!-- FIN MODAL REGISTRO ROL -->
+
+				<!-- INICIO MODAL ASIGNAR PERMISOS -->
+				<div class="modal fade" id="modalPermisos" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="d-flex justify-content-between">
+                					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<i aria-hidden="true">&times;</i>
+									</button>
+									<h3 class="modal-title" id="exampleModalLabel">Asignar permisos</h3>
+								</div>
+							</div>
+							<div class="modal-body">
+								<form role="form" name="formEditarProducto">
+									<div class="ingreso-producto form-group">
+										<div class="campos" type="hidden">
+											<label for=""> </label>
+											<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
+										</div>
+
+										<div class="form-group campos">
+											<div class="input-group col-sm-12">
+												<label for="">Elegir objeto:</label>
+											<select class="form-control" name="" id="objeto">
+												<option selected disabled>Seleccionar un obejto</option>
+											<?php
+
+											include "./modelo/conexionbd.php";
+
+											$objetos = "SELECT id_objeto, objeto FROM tbl_objeto WHERE estado_eliminado = 1;";
+											$objetos = mysqli_query($conn, $objetos);
+
+											while($objeto = mysqli_fetch_assoc($objetos)):
+											?>
+											<option value="<?php echo $objeto['id_objeto']?>"><?php echo $objeto["objeto"]?></option>
+											<?php endwhile;?>
+											</select>
+											</div>
+										</div>
+
+
+										<div class="campos form-group">
+											<label for="">Permisos:</label>
+										</div>
+
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="input-group">
+													<div class="checkbox">
+													<!-- <input type="text" name="" id="insertar" value=""> -->
+														<input type="hidden" name="checkboxInsertar" value="0">
+														<label>
+															<input id="insertar" value="1" name="checkboxInsertar" type="checkbox"> Insertar
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div class="input-group">
+													<div class="checkbox">
+													<!-- <input type="text" name="" id="eliminar" value=""> -->
+														<input type="hidden" name="checkboxEliminar" value="0">
+														<label>
+															<input id="eliminar" value="1" name="checkboxEliminar" type="checkbox"> Eliminar
+														</label>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-lg-6">
+												<div class="input-group">
+													<div class="checkbox">
+													<!-- <input type="text" name="" id="actualizar" value=""> -->
+														<input type="hidden" name="checkboxActualizar" value="0">
+														<label>
+															<input id="actualizar" value="1" name="checkboxActualizar" type="checkbox"> Actualizar
+														</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div class="input-group">
+													<div class="checkbox">
+													<!-- <input type="text" name="" id="consultar" value=""> -->
+													<input type="hidden" name="checkboxConsultar" value="0">
+														<label>
+															<input id="consultar" value="1" name="checkboxConsultar" type="checkbox"> Consultar
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<input type="hidden" name="usuario_actual" id="usuario" value="<?= $usuario ?>">
+									</div>
+									
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button id="cerrarModalPermisos" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+								<button id="btnAsignarPermisos" type="button" class="btnEditarBD btn btn-primary">Asignar rol</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- FINAL MODAL ASIGNAR PERMISOS -->
 				
-			<!-- /.box-footer-->
-		</div>
-		<!-- /.box -->
+			</div>
 	</section>
-	<!-- /.content -->
 </div>
 
 <?php

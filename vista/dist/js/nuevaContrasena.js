@@ -4,6 +4,7 @@ $(document).ready(function (){
     
         let contrasena = document.querySelector("#InputNuevaContrasena").value;
         let confirmarContrasena = document.querySelector("#InputConfirmarNuevaContrasena").value;
+        let idObjeto = document.querySelector("#idObjeto").value;
         let tkn = document.querySelector("#imputTkn").value;
         let eid = document.querySelector("#imputEid").value;
         let exd = document.querySelector("#imputExd").value;
@@ -27,7 +28,8 @@ $(document).ready(function (){
                 url:"../../controlador/nuevaContrasena.php",
                 type:"POST",
                 datatype:"json",
-                data: { contrasena:contrasena, confirmarContrasena:confirmarContrasena, tkn:tkn, eid:eid, exd:exd },
+                data: { contrasena:contrasena, confirmarContrasena:confirmarContrasena, tkn:tkn,
+                        eid:eid, exd:exd, idObjeto:idObjeto },
                 success: function(response){
 
                     let nuevaContrasena = JSON.parse(response);

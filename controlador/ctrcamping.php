@@ -1,7 +1,7 @@
 <?php
-include "../modelo/conexionbd.php";
+include_once "../modelo/conexionbd.php";
 //INSERTAR PARA CAMPING
-if(isset($_POST['action']) == 'registroCamping'){
+// if(isset($_POST['action']) == 'registroCamping'){
     $descripcionC = $_POST['descripcion'];
     $cantidad_adultosC = $_POST['cantidad_adultosC'];
     $cantidad_ninosC = $_POST['cantidad_ninosC'];
@@ -28,12 +28,12 @@ if(isset($_POST['action']) == 'registroCamping'){
             $entrar = $fecha_entrada ." ".date('H:i:s',time());
             $salir = $fecha_salida ." ".date('H:i:s',time());
 
+            include_once ("../modelo/conexionbd.php");
             $inserta=$conn->prepare("INSERT INTO tbl_reservaciones (fecha_reservacion,fecha_entrada, fecha_salida,cliente_id, usuario_id,
             tipo_reservacion,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
             VALUES (?,?,?,?,?,?,?,?,?,?,?);");
             $inserta->bind_param('sssiisissss', $fecha_reservacion, $entrar,$salir,$idCliente,$id_usuario,$camping,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
             $inserta->execute();
-
             
             //se captura el id de la tabla de reservaciones
             $capturar_reserva = $conn->prepare("SELECT id_reservacion FROM tbl_reservaciones
@@ -168,7 +168,11 @@ if(isset($_POST['action']) == 'registroCamping'){
                     
                     
                 }
-            }                          
+            }        
+            
+            $inserta->close();
+            $conn->close();
+            
         }catch(Exception $e){
         echo $e->getMessage();
         }
@@ -178,4 +182,4 @@ if(isset($_POST['action']) == 'registroCamping'){
         );
     }
     echo json_encode($respuesta);
-}
+//}

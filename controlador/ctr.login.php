@@ -1,45 +1,27 @@
 <?php
-//Clase inicio de sesión
 
-//namespace app;
-global $cambio_estado_bloqueo;
-global $reiniciar_intentos;
-global $estado_bloqueo;
-global $valor;
-global $conn;
-global $nombre_estado;
-//require '../../modelo/conexionbd.php';
+include "../modelo/conexionbd.php";
 
-class Login{
+$usuario = $_POST['usuario'];
+$contrasena = $_POST['contrasena'];
 
-    public function ctrLogin(){
     //verifica la informacion que viene por el metodo $_POST
-    if(isset($_POST['tipo']) == 'login') {
-        $usuario = $_POST['usuario'];
-        $password = $_POST['password'];
+    if(!empty($usuario) || !empty($contrasena)) {
 
         $parametro = 'INTENTOS_SESION';
         $respuesta = array();
-
+        
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date("Y-m-d H:i:s", time());
 
         try {
 
-            if(empty($usuario) && empty($password)){
-                echo "<div class='text-center alert alert-danger' role='alert'>
-                    <strong>No haz ingresado tus credenciales</strong>.
-                    </div>
-                    <script>
-                    window.setTimeout(function(){
-                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                    function(){
-                    $(this).remove();
-                    });
-                    }, 3000);
-                    </script>";
+            if(empty($usuario) || empty($contrasena)){
+                $respuesta = array(
+                    "respuesta" => "noCredenciales"
+                );
             }else {
-                require_once "../../modelo/conexionbd.php";
+                //require_once "../../modelo/conexionbd.php";
                 $stmt = $conn->prepare("SELECT id_usuario, contrasena FROM tbl_usuarios WHERE nombre_usuario = ?; ");
                 $stmt->bind_Param("s", $usuario);
                 $stmt->execute();
@@ -53,9 +35,8 @@ class Login{
                     }
 
                     if($existe){
-                        //$respuesta['respuesta'] = 'exito';
 
-                        $stmt1 = $conn->prepare("SELECT id_usuario, primer_ingreso, intentos, tbl_estado.nombre_estado, rol_id, tbl_roles.rol
+                        $stmt1 = $conn->prepare("SELECT id_usuario, fecha_mod_contrasena, intentos, tbl_estado.nombre_estado, rol_id, tbl_roles.rol
                                                 FROM tbl_usuarios
                                                 INNER JOIN tbl_roles
                                                 ON tbl_usuarios.rol_id = tbl_roles.id_rol
@@ -72,281 +53,264 @@ class Login{
                             $rol_usuario = $rol_id;
                             $primer_ingreso = $ingreso;
                         }
-                            $fecha_registro = new DateTime($ingreso);
-                            date_default_timezone_set("America/Tegucigalpa");
-                            $fecha_hoy = date('Y-m-d H:i:s', time());
-                            $fecha_actual = new DateTime($fecha_hoy);
-                            $diff = $fecha_registro->diff($fecha_actual);
-                            $dias_transcurridos = $diff->days;
 
-                            //ACTUALIZACIÓN A SWITCH
-                            switch($nombre_estado){
-                                case 'ACTIVO':
+                        $fecha_registro = new DateTime($ingreso);
+                        date_default_timezone_set("America/Tegucigalpa");
+                        $fecha_hoy = date('Y-m-d H:i:s', time());
+                        $fecha_actual = new DateTime($fecha_hoy);
+                        $diff = $fecha_registro->diff($fecha_actual);
+                        $dias_transcurridos = $diff->days;
 
-                                    if(password_verify($password, $password_usuario)){    
+                        //ACTUALIZACIÓN A SWITCH
+                        switch($nombre_estado){
+                            case "ACTIVO":
 
-                                        if($dias_transcurridos <= 30){
-                                            
-                                            /*echo "<div class='text-center alert alert-success' role='alert'>
-                                                    Te estamos redirigiendo
-                                                    </div>
-                                                    <script>
-                                                    window.setTimeout(function(){
-                                                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                        function(){
-                                                        $(this).remove();
-                                                        });
-                                                        }, 3000).then((result) =>{
-                                                            if(result.value){
-                                                            window.location.href='../../index.php';
-                                                            }
-                                                        });
-                                                        </script>";*/
+                                if(password_verify($contrasena, $password_usuario)){
+
+                                    if($dias_transcurridos <= 30){
+
+                                        session_start();
+                                        session_encode();
+    
+                                        $_SESSION['usuario'] = strtolower($usuario);
+                                        $_SESSION['rol'] = $rol;
+                                        $_SESSION['idRol'] = $rol_id;
+                                        $_SESSION['primer_ingreso'] = $primer_ingreso;
+                                        $_SESSION['id'] = $id_usuario_bitacora;
+
+                                        //Ultima conexion
+                                        $upd_conexion = $conn->prepare('UPDATE tbl_usuarios
+                                                                        SET fecha_ult_conexion = ?
+                                                                        WHERE id_usuario = ?;');
+                                        $upd_conexion->bind_Param('si',$fecha_hoy, $id_usuario_bitacora);
+                                        $upd_conexion->execute();
+
+                                        //Registra en la BITACORA la accion realizada
+                                        $objeto = 1;
+                                        $acciones = "Inicio de sesion";
+                                        $descp = "Inicio de sesion correctamente";
+                                        require_once("../modelo/conexionbd.php");
+                                        $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
+                                        $llamar->execute();
+                                        $llamar->close();
+
+                                        $respuesta =array(
+                                            "respuesta" => "inicio_sesion"
+                                        );
+    
+                                    }else {
+
+                                        $respuesta = array(
+                                            "respuesta" => "cambio_estado"
+                                        );
+
+                                        $cambio_estado_usuario = 2;
+
+                                        require_once("../modelo/conexionbd.php");
+
+                                        $bloqueo = $conn->prepare("UPDATE tbl_usuarios
+                                                                    SET estado_id = ?
+                                                                    WHERE nombre_usuario = ?;");
+                                        $bloqueo->bind_Param("is",$cambio_estado_usuario ,$usuario);
+                                        $bloqueo->execute();
+    
+                                    }
+    
+                                } else {
+                                    //NOTA: El codigo comentado no funciona, hace la consulta pero no actualiza los intentos
+                                    
+                                    require '../modelo/conexionbd.php';
+                                    $intentos_parameter = $conn->prepare("SELECT valor FROM tbl_parametros WHERE parametro = ?;");
+                                    $intentos_parameter->bind_Param("s",$parametro);
+                                    $intentos_parameter->execute();
+                                    $intentos_parameter->bind_Result($valor);
+
+                                    if($intentos_parameter->affected_rows){                                     
+                                        $intento_existe = $intentos_parameter->fetch();
+
+                                        if($intento_existe){
+
+                                            if($intentos_usuario == intval($valor)){
+                                                
+                                                $respuesta = array(
+                                                    "respuesta" => "bloqueado_intentos"
+                                                );
+                                                    
+                                                require "../modelo/conexionbd.php";
+
+                                                $estado_bloqueo = 2;
+                                                $reiniciar_intentos = 0;
+            
+                                                $bloqueo_intento = $conn->prepare("UPDATE tbl_usuarios 
+                                                                                    SET intentos = ?, estado_id = ? WHERE nombre_usuario = ?;");
+                                                $bloqueo_intento->bind_Param("iis", $reiniciar_intentos, $estado_bloqueo, $usuario);
+                                                $bloqueo_intento->execute();
+                                                //HASTA ACA
+
+                                                date_default_timezone_set("America/Tegucigalpa");
+                                                $fecha_bloqueo = date('Y-m-d H:i:s',time());
+                                                $objeto =1;
+                                                $acciones = "usuario bloqueado";
+                                                $descp = "Usuario bloqueado, realizó los 3 intentos permitidos para acceder al sistema";
+            
+                                                require_once("../modelo/conexionbd.php");
+                                                $IntentosBitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                                                $IntentosBitacora->bind_Param("sssii", $acciones, $descp, $fecha_bloqueo, $id_usuario_bitacora, $objeto);
+                                                $IntentosBitacora->execute();        
+            
+                                            } else {
+            
+                                                //Muesta un mensaje cuando el usuario ingresa mal su contrasena
+                                                $respuesta = array(
+                                                    "respuesta" => "error_contrasena"
+                                                );
+
+                                                require "../modelo/conexionbd.php";
+
+                                                $int = $intentos_usuario + 1;
+            
+                                                $bloqueo_intentos = $conn->prepare("UPDATE tbl_usuarios SET intentos = ? WHERE nombre_usuario = ?;");
+                                                $bloqueo_intentos->bind_Param("is", $int ,$usuario);
+                                                $bloqueo_intentos->execute();
+
+                                                if(!$bloqueo_intentos->error){
+                                                    /*Genera un registro de error en la tbl_bitacora al no ingresar
+                                                    correctamente su correo y contrasena*/ 
+                                                    $objeto = 1;
+                                                    $acciones = "Error de sesion";
+                                                    $descp = "ERROR: fallo al iniciar sesión: contraseña o nombre de usuario incorrectos";
+                                                    require_once("../modelo/conexionbd.php");
+                                                    $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                                                    $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
+                                                    $llamar->execute();
+                                                    $llamar->close();
+                                                }
+                                                
+                                            }
+
+                                        }
+                                    }
+                                    
+                                }
+                        
+                                break;
+
+                            case "BLOQUEADO":
+
+                                /*Genera un registro de error en la tbl_bitacora por intento de acceso al sistema
+                                    con usuario bloqueado*/
+
+                                $respuesta = array(
+                                    "respuesta" => "bloqueado"
+                                );
+
+                                $objeto = 1;
+                                $acciones = "usuario bloqueado";
+                                $descp = "ERROR: intento de inicio de sesión con usuario bloqueado";
+                                require_once '../modelo/conexionbd.php';
+                                $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                                $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
+                                $llamar->execute();
+                                $llamar->close();
+                                break;
+
+                            case "NUEVO":
+                                /*Cuando el usuario es nuevo (el cual no se auto-registro sino que fue el administrador
+                                quien realizo el registro) se redirige a la pantalla preguntas para que las pueda configurar
+                                para el proximo intento de inicio de sesion lo podra hacer sin ningun problema*/
+                                $objeto = 1;
+                                $acciones = "Usuario nuevo";
+                                $descp = "Usuario nuevo, se redirige a la pantalla de configuracion de preguntas de seguridad";
+                                require_once("../modelo/conexionbd.php");
+                                $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                                $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
+                                $llamar->execute();
+                                $llamar->close();
+
+                                $contrasenaCorrecta = $conn->prepare("SELECT contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
+                                $contrasenaCorrecta->bind_Param("s",$usuario);
+                                $contrasenaCorrecta->execute();
+                                $contrasenaCorrecta->bind_Result($contrasenaVerificar);
+
+                                if($contrasenaCorrecta->affected_rows){
+                                    $existeContrasena = $contrasenaCorrecta->fetch();
+
+                                    if($existeContrasena){
+
+                                        if(password_verify($contrasena, $contrasenaVerificar)){
+                                            session_start();
+                                            session_encode();
+                
+                                            $_SESSION['usuario'] = strtolower($usuario);
+
+                                            $respuesta = array(
+                                                "respuesta" => "redirigiendo"
+                                            );
+                                        }else{
+                                            $respuesta = array(
+                                                "respuesta" => "no_verificada"
+                                            );
+                                        }
+                                    }
+                                }
+
+                                break;
+                            case "NO_ACTIVO":
+                                /*Redirige a una nueva pantalla cuando el usuario se auto-registro y
+                                esta pendiente de recibir alta*/
+
+                                require "../modelo/conexionbd.php";
+                                $verificarContrasena = $conn->prepare("SELECT contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
+                                $verificarContrasena->bind_Param("s", $usuario);
+                                $verificarContrasena->execute();
+                                $verificarContrasena->bind_Result($ContrasenaUsusario);
+
+                                if($verificarContrasena->affected_rows){
+                                    $existePass = $verificarContrasena->fetch();
+
+                                    if($existePass){
+
+                                        if(password_verify($contrasena, $ContrasenaUsusario)){
+                                            //Si la contrasena es correcta accede a la pantalla de pendientes
 
                                             session_start();
                                             session_encode();
-        
+                
                                             $_SESSION['usuario'] = strtolower($usuario);
-                                            $_SESSION['rol'] = $rol;
-                                            $_SESSION['primer_ingreso'] = $primer_ingreso;
-                                            $_SESSION['id'] = $id_usuario_bitacora;
 
-                                            //Ultima conexion
-                                            $upd_conexion = $conn->prepare('UPDATE tbl_usuarios
-                                                                            SET fecha_ult_conexion = ?
-                                                                            WHERE id_usuario = ?;');
-                                            $upd_conexion->bind_Param('si',$fecha_hoy, $id_usuario_bitacora);
-                                            $upd_conexion->execute();
+                                            $respuesta = array(
+                                                "respuesta" => "no_activo"
+                                            );
 
-                                            //Registra en la BITACORA la accion realizada
-                                            $objeto = 1;
-                                            $acciones = "Inicio de sesion";
-                                            $descp = "Inicio de sesion correctamente";
-                                            require_once("../../modelo/conexionbd.php");
-                                            $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
-                                            $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
-                                            $llamar->execute();
-                                            $llamar->close();
-        
-                                            sleep(2);
-                                            header('location:../../index.php');
-                                        }else {
-        
-                                            echo "<div class='text-center alert alert-danger' role='alert'>
-                                                    <strong>El usuario a sido bloqueado.</strong>
-                                                    </div>
-                                                    <script>
-                                                    window.setTimeout(function(){
-                                                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                    function(){
-                                                    $(this).remove();
-                                                    });
-                                                    }, 3000);
-                                                    </script>";
+                                        }else{
 
-                                                    echo "<script>
-                                            if (window.history.replaceState) { // verificamos disponibilidad
-                                                window.history.replaceState(null, null, window.location.href);
-                                            }
-                                            location.reload();
-                                            </script>";
-                                                //Su usuario a sido bloqueado
-
-                                                $cambio_estado_usuario = 2;
-        
-                                                require_once("../../modelo/conexionbd.php");
-
-                                                $bloqueo = $conn->prepare("UPDATE tbl_usuarios
-                                                                            SET estado_id = ?
-                                                                            WHERE nombre_usuario = ?;");
-                                                $bloqueo->bind_Param("is",$cambio_estado_usuario ,$usuario);
-                                                $bloqueo->execute();
-        
-                                            /*if($bloqueo->error){
-                                                echo "se produjo un error en la actualizacion";
-                                            } else{
-                                                echo "El estado del usuario se actualizo con exito";
-                                            }*/
-        
+                                            $respuesta = array (
+                                                "respuesta" => "error_no_activo"
+                                            );
                                         }
-        
-                                    } else {
-                                        //NOTA: El codigo comentado no funciona, hace la consulta pero no actualiza los intentos
-                                        
-                                        require '../../modelo/conexionbd.php';
-                                        $intentos_parameter = $conn->prepare("SELECT valor FROM tbl_parametros WHERE parametro = ?;");
-                                        $intentos_parameter->bind_Param("s",$parametro);
-                                        $intentos_parameter->execute();
-                                        $intentos_parameter->bind_Result($valor);
-
-                                        if($intentos_parameter->affected_rows){                                     
-                                            $intento_existe = $intentos_parameter->fetch();
-
-                                            if($intento_existe){
-
-                                                if($intentos_usuario == intval($valor)){
-                                                    
-                                                    echo "<div class='alert alert-danger text-center' role='alert'>
-                                                        El usuario a sido bloqueado ya que realizó los 3 intentos permitidos.
-                                                        </div>
-                                                        <script>
-                                                        window.setTimeout(function(){
-                                                        $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                        function(){
-                                                        $(this).remove();
-                                                        });
-                                                        }, 3000);
-                                                        </script>";
-                                                        echo "<script>
-                                            if (window.history.replaceState) { // verificamos disponibilidad
-                                                window.history.replaceState(null, null, window.location.href);
-                                            }
-                                            
-                                            </script>";
-                                                        
-                                                    require "../../modelo/conexionbd.php";
-
-                                                    $estado_bloqueo = 2;
-                                                    $reiniciar_intentos = 0;
-                
-                                                    $bloqueo_intento = $conn->prepare("UPDATE tbl_usuarios 
-                                                                                        SET intentos = ?, estado_id = ? WHERE nombre_usuario = ?;");
-                                                    $bloqueo_intento->bind_Param("iis", $reiniciar_intentos, $estado_bloqueo, $usuario);
-                                                    $bloqueo_intento->execute();
-                                                    //HASTA ACA
-
-                                                    date_default_timezone_set("America/Tegucigalpa");
-                                                    $fecha_bloqueo = date('Y-m-d H:i:s',time());
-                                                    $objeto =1;
-                                                    $acciones = "usuario bloqueado";
-                                                    $descp = "Usuario bloqueado, realizó los 3 intentos permitidos para acceder al sistema";
-                
-                                                    require_once("../../modelo/conexionbd.php");
-                                                    $IntentosBitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
-                                                    $IntentosBitacora->bind_Param("sssii", $acciones, $descp, $fecha_bloqueo, $id_usuario_bitacora, $objeto);
-                                                    $IntentosBitacora->execute();        
-                
-                                                } else {
-                
-                                                    //Muesta un mensaje cuando el usuario ingresa mal su contrasena
-                                                    echo "<div class='text-center alert alert-danger' role = 'alert'>
-                                                    <strong>La contraseña o nombre de usuario son incorrectos.</strong>
-                                                    </div>
-                                                    <script>
-                                                    window.setTimeout(function(){
-                                                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                                                    function(){
-                                                    $(this).remove();
-                                                    });
-                                                    }, 3000);
-                                                    </script>";
-                                                    echo "<script>
-                                            if (window.history.replaceState) { // verificamos disponibilidad
-                                                window.history.replaceState(null, null, window.location.href);
-                                            }
-                                            </script>";
-
-                                                    require "../../modelo/conexionbd.php";
-
-                                                    $int = $intentos_usuario + 1;
-                
-                                                    $bloqueo_intentos = $conn->prepare("UPDATE tbl_usuarios SET intentos = ? WHERE nombre_usuario = ?;");
-                                                    $bloqueo_intentos->bind_Param("is", $int ,$usuario);
-                                                    $bloqueo_intentos->execute();
-
-                                                    if(!$bloqueo_intentos->error){
-                                                        /*Genera un registro de error en la tbl_bitacora al no ingresar
-                                                        correctamente su correo y contrasena*/ 
-                                                        $objeto = 1;
-                                                        $acciones = "Error de sesion";
-                                                        $descp = "ERROR: fallo al iniciar sesión: contraseña o nombre de usuario incorrectos";
-                                                        require_once("../../modelo/conexionbd.php");
-                                                        $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
-                                                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
-                                                        $llamar->execute();
-                                                        $llamar->close();
-                                                    }
-                                                    
-                                                }
-
-                                            }
-                                        }
-                                        
                                     }
-                            
-                                    break;
+                                }
+                                break;
 
-                                case 'BLOQUEADO':
-                                    //Muestra un mensaje de que el usuario fue bloqueado (el bloqueo se produjo previamente)
-                                    echo "<div class='text-center alert alert-danger' role = 'alert'>
-                                    Su usuario se encuentra bloqueado.
-                                    </div>
-                                    <script>
-                                    window.setTimeout(function(){
-                                    $('.alert').fadeTo(1500,00).slideDown(1000,
-                                    function(){
-                                    $(this).remove();
-                                    });
-                                    }, 3000);
-                                    </script>";
+                            default:
 
-                                    
-
-                                    /*Genera un registro de error en la tbl_bitacora por intento de acceso al sistema
-                                        con usuario bloqueado*/
-                                    $objeto = 1;
-                                    $acciones = "usuario bloqueado";
-                                    $descp = "ERROR: intento de inicio de sesión con usuario bloqueado";
-                                    require_once '../../modelo/conexionbd.php';
-                                    $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
-                                    $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
-                                    $llamar->execute();
-                                    $llamar->close();
-                                    break;
-
-                                case 'NUEVO':
-                                    /*Cuando el usuario es nuevo (el cual no se auto-registro sino que fue el administrador
-                                    quien realizo el registro) se redirige a la pantalla preguntas para que las pueda configurar
-                                    para el proximo intento de inicio de sesion lo podra hacer sin ningun problema*/
-                                    $objeto = 1;
-                                    $acciones = "Usuario nuevo";
-                                    $descp = "Usuario nuevo, se redirige a la pantalla de configuracion de preguntas de seguridad";
-                                    require_once("../../modelo/conexionbd.php");
-                                    $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
-                                    $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
-                                    $llamar->execute();
-                                    $llamar->close();
-
-                                    header("location:conf_preguntas.php");
-                                    break;
-
-                                default:
-
-                                    break;
-                            }
-
-                            
+                                break;
+                        }       
 
                     } else {
                         /*Muestra mensaje de usuario no existente*/
-                        echo "<div class='text-center alert alert-danger' role = 'alert'>
-                            El usuario no existe.
-                            </div>
-                            <script>
-                            window.setTimeout(function(){
-                            $('.alert').fadeTo(1500,00).slideDown(1000,
-                            function(){
-                            $(this).remove();
-                            });
-                            }, 3000);
-                            </script>";
+
+                        $respuesta =array(
+                            "respuesta" => "usuario_noExiste"
+                        );
 
                             
                         /*Genera registro de intento de inicio de sesion con usuario no existente*/
                         $objeto = 1;
                         $acciones = "No existe";
                         $descp = "Intentó de ingreso al sistema con usuario no registrado";
-                        require "../../modelo/conexionbd.php";
+                        require "../modelo/conexionbd.php";
                         $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                         $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
                         $llamar->execute();
@@ -361,15 +325,17 @@ class Login{
                 //$stmt->close();
                 $conn = null;
             }
-            //header('Content-Type: application/json');
-    //print_r(json_encode($respuesta));
-
                 
         } catch(Exception $e) {
             die("se produjo un error". $e->getMessage());
         }
+
+
           
-    }  
-    
+    } else{
+        $respuesta = array(
+            "respuesta" => "noCredenciales"
+        );
     }
-}
+
+    echo json_encode($respuesta);

@@ -5,7 +5,7 @@
         var hora = hora_dia.getHours();
         var minutos = hora_dia.getMinutes();
         var segundos = hora_dia.getSeconds();
-        ampm = (hora < 12) ? "<span>AM</span>" : "<span>PM</span>";
+        ampm = (hora < 12) ? "<span>a. m.</span>" : "<span>p. m.</span>";
         hora = (hora == 0) ? 12 : hora;
         hora = (hora > 12) ? hora - 12 : hora;
         //Add a zero in front of numbers<10

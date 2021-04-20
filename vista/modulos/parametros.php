@@ -71,26 +71,90 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
     $Cadministrador = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[11]';");
     $resultCAdmin = mysqli_query($conn, $Cadministrador);
     $PCAdmin = mysqli_fetch_assoc($resultCAdmin);
+
+    $arreglo = ['INTENTOS_SESION','CANT_PREGUNTAS','VIGENCIA_CUENTA'];
+
+    //TRAE EL CORREO ELECTRONICO DE LA ORGANIZACION
+    $intentosSesion = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[0]';");
+    $resultIntentos = mysqli_query($conn, $intentosSesion);
+    $PIntentos = mysqli_fetch_assoc($resultIntentos);
+
+    //TRAE EL PUERTO DEL CORREO DE LA ORGANIZACION
+    $cantPreguntas = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[1]';");
+    $resultPreguntas = mysqli_query($conn, $cantPreguntas);
+    $PPreguntas = mysqli_fetch_assoc($resultPreguntas);
+
+    //TRAE EL MENSAJE QUE SE ENVIA POR CORREO ELECTRONICO
+    $vigCuenta = ("SELECT valor FROM tbl_parametros WHERE parametro = '$arreglo[2]';");
+    $resultVigencia = mysqli_query($conn, $vigCuenta);
+    $PVigencia = mysqli_fetch_assoc($resultVigencia);
   
 ?>
-<div class="content-wrapper">
+  <div class="content-wrapper">
 
     <section class="content-header">
-      <h1>Configuración <small>Parámetros del sistema</small></h1>      
+      <h1>Configuración <small>Parámetros del Sistema/Seguridad</small></h1>      
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-        <li class="active"><i class="fa fa-cog"></i> Parámetros del sistema</li>
+        <li class="active"><i class="fa fa-cog"></i> Parámetros del Sistema/Seguridad</li>
       </ol>
     </section>
 
     <section class="content">
       <div class="row">
 
+        <!-- SELECT2 INICIO -->
+        <div class="col-xs-12">
+          <div class="box box-default">
+            <div class="box-header with-border">
+
+              <div class="box-tools pull-right">
+
+                <!-- INICIO INFOTMACION -->
+                <div class="row">
+                  <div class="col-xs-12">
+                    <h2 class="page-header">
+                    Sobre esta Configuración.
+                    </h2>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="form-group">
+                        <strong><i class="fa fa-gear"></i> Parámetros del Sistema</strong>
+                        <br><strong>Que tipo de parámetros puedes configurar</strong>
+                        <br>
+                        Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
+                        presentamos problemas podes reestablecer la informacion.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="form-group">
+                        <strong><i class="fa fa-unlock-alt"></i> Parámetros de seguridad</strong>
+                        <br><strong>Que tipo de parámetros puedes configurar</strong>
+                        <br>
+                        Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
+                        presentamos problemas podes reestablecer la informacion.
+                      </div>
+                    </div>
+                  </div>
+                <!-- FIN INFORMACION -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- SELECT2 FIN -->
+
+        <!-- TITULO PARAMETROS DEL SISTEMA -->
+        <h2 class="content-header"><small>Parametros del Sistema</small></h2>
+
         <!-- AJUSTE DE CORREO -->
         <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
                 <img class="img-circle" src="https://ngnoticias.com/wp-content/uploads/2020/07/correo-electronico.png" alt="User Avatar">
@@ -188,14 +252,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
 
         <!-- INICIO AJUSTES DE LA BASE DE DATOS -->
         <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
                 <img class="img-circle" src="https://cdn.pixabay.com/photo/2020/03/17/17/46/database-4941338_960_720.png" alt="User Avatar">
               </div>
-              <!-- /.widget-user-image -->
               <h3 class="widget-user-username">Ajustes</h3>
               <h5 class="widget-user-desc"><strong>Base de datos</strong></h5>
             </div>
@@ -223,7 +284,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <li><br><div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                     <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
-                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-bd" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    <button type="button" id="editarBD" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-bd" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
                     Guardar cambios</button>
                     </div>
                     <br>
@@ -280,14 +341,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
 
         <!-- INICIO AJUSTES DEL SISTEMA -->
         <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
                 <img class="img-circle" src="https://cdn.pixabay.com/photo/2016/10/19/03/59/socialmedia-1752079_960_720.png" alt="User Avatar">
               </div>
-              <!-- /.widget-user-image -->
               <h3 class="widget-user-username">Ajustes</h3>
               <h5 class="widget-user-desc"><strong>Sistema</strong></h5>
             </div>
@@ -324,19 +382,21 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                     </div>
                   </div>
                   </a></li>
-                <li><br><div class="text-center form-group">
+                <li>
+                  <br>
+                  <div class="text-center form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
-                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-sistema" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
-                    Guardar cambios</button>
+                      <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
+                      <button type="button" id="editarSS" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-sistema" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                      Guardar cambios</button>
                     </div>
                     <br>
                     <br>
-                  </div></li>
+                  </div>
+                </li>    
               </ul>
             </div>
-          </div>
-        
+          </div> 
         </div>
         <!-- FIN AJUSTES DEL SISTEMA -->
 
@@ -376,17 +436,104 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                 <button type="button" id="InformacionSistema" class="btn btn-primary">Guardar cambios</button>
               </div>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
         </div>
         <!-- FINAL MODAL AJUSTES DEL SISTEMA -->
 
+        
+        <!-- AJUSTES DE SEGURIDAD -->
+        <!-- TITULO PARAMETROS DE SEGURIDAD -->
+        <h2 class="content"><small>Parametros de Seguridad</small></h2>
+        
+        <!-- INICIO AJUSTES DE SEGURIDAD -->
+        <div class="col-md-4">
+          <div class="box box-widget widget-user-2">
+            <div class="widget-user-header bg-green">
+              <div class="widget-user-image">
+                <img class="img-circle" src="https://image.flaticon.com/icons/png/512/95/95454.png" alt="User Avatar">
+              </div>
+
+              <h3 class="widget-user-username">Ajustes</h3>
+              <h5 class="widget-user-desc"><strong>Parámetros de seguridad</strong></h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a><strong>Intentos inicio de sesión:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="intentosSesion" value="<?php echo $PIntentos['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                    </div>
+                  </div></a></li>
+                <li><a><strong>Cantidad preguntas de seguridad:</strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="cantPreguntas" value="<?php echo $PPreguntas['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                    </div>
+                  </div></a></li>
+                <li><a><strong>Vigencia cuenta usuarios: </strong>
+                <div class="form-group">
+                    <div class="input-group col-sm-12">
+                      <input type="text" name="nombre" class="form-control" id="vigUsuario" value="<?php echo $PVigencia['valor'];?>" placeholder="Nombre" onkeypress="return soloNumeros(event)">
+                    </div>
+                  </div></a></li>
+                <li><br><div class="text-center form-group">
+                    <div class="col-sm-offset-2 col-sm-8">
+                    <input type="hidden" id="tipo" name="cambio_info" value="cambio_info">
+                    <button type="button" id="editar" class="btn btn-success actualizar editar" data-toggle="modal" data-target="#modal-seguridad" data-idusuario="<?= $_SESSION['id'];?>" data-nombreusuario="<?= $_SESSION['usuario'] ?>">
+                    Guardar cambios</button>
+                    </div>
+                    <br>
+                  </div></li>
+                  <br>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- FIN AJUSTES DE SEGURIDAD -->
+
+        <!-- INICIO MODAL AJUSTES DE SEGURIDAD -->
+        <div class="modal fade" id="modal-seguridad" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Parámetros de Seguridad</h4>
+              </div>
+              <div class="modal-body">
+                <!-- AQUI INICIO CODIGO -->
+                  <div class="form-group">
+                    <div class="alert alert-light" role="alert">
+                     <h4><i class="fa fa-warning"> Importante:</i></h4>
+                     El ingreso de la contraseña es necesario para poder hacer efectiva la actualización de la informacion.
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+
+                      <div class="input-group col-sm-8">
+                        <input id="contrasenaSeguridad" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">
+                        <span class="input-group-btn" onclick="mostrarPassSeguridad()">
+                          <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_seguridad"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                <!-- AQUI FINAL CODIGO -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="borrarSeguridad" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="InformacionSeguridad" class="btn btn-primary">Guardar cambios</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FINAL MODAL AJUSTES DE SEGURIDAD -->
+
       </div>
-    
     </section>
     
-    <!-- /.content -->
   </div>
   <?php
 

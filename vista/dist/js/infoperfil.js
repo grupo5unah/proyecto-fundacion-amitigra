@@ -10,8 +10,6 @@ $(document).ready(function(){
       let usuario = document.querySelector('#usuario').value;
       let telefono = document.querySelector('#telefono').value;
       let correo = document.querySelector('#correo').value;
-      //let contrasenas = document.querySelector("#passConf").value;
-      //let imagen = document.querySelector("#imagen").value;
 
       if(nombre === '' || usuario === '' || telefono ==='' || correo === ''){
         Notificacion("error","Parece que hubo un error","Todos los campos son requeridos");
@@ -103,7 +101,47 @@ $(document).ready(function(){
       }
 
     });
-    
+
+
+    $("#cancelarActualizacion").on("click", function(){
+
+      swal({
+          icon:"warning",
+          text: "Seguro que quieres salir?",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              // contrasena4 = document.querySelector("#contraRestauracion").val("");
+              $("#passConf").val("");
+          } else {
+          $("#modal-restauracion").modal("show");
+          }
+      });
+      
+    });
+
+
+    $("#cerrarActualizacion").on("click", function(){
+
+      swal({
+          icon:"warning",
+          text: "Seguro que quieres salir?",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          if (willDelete) {
+              // contrasena4 = document.querySelector("#contraRestauracion").val("");
+              $("#passConf").val("");
+          } else {
+          $("#modal-restauracion").modal("show");
+          }
+      });
+      
+    });    
+
 
     //FUNCION PARA ACTUALIZAR LA CONTRASENA DEL USUARIO
     $('#cambioContrasena').on('click', function () {

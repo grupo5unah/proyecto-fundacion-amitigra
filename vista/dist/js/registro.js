@@ -23,7 +23,7 @@ $(document).ready(function () {
     }else{
 
       $.ajax({
-        url:"../../controlador/registros.php",
+        url:"../../controlador/ctr.registro.php",
         type:"POST",
         datatype:"json",
         data: { Nombre:Nombre, Usuario:Usuario, Correo:Correo, Genero:Genero, Telefono:Telefono, Contrasena:Contrasena, ConfirmarContrasena:ConfirmarContrasena, Pregunta_1:Pregunta_1, Pregunta_2:Pregunta_2, Pregunta_3:Pregunta_3, Id_preg1:Id_preg1, Id_preg2:Id_preg2, Id_preg3:Id_preg3 },

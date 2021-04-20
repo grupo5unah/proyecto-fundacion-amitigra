@@ -15,18 +15,16 @@
     if($existe){
       $extraer = substr($valor,5,8);
       $extraer2 = substr($valor,28,35);
+
 ?>
-<header class="main-header">
+  <header class="main-header">
     <!-- Logo -->
     <a href="inicio" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>SA</b>AT</span>
-      <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b><?php echo $extraer;?> </b><?php echo $extraer2;}}?></span>
     </a>
-    <!-- Header Navbar: style can be found in header.less -->
+    
     <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
@@ -55,7 +53,7 @@
               <span class="hidden-xs"><strong>Cuenta:</strong> <?php echo ucwords($usuario);?></span>
             </a>
             <ul class="dropdown-menu">
-              <!-- User image -->
+
               <li class="user-header">
                 <img src="fotoPerfil/<?php echo $imagen['foto']; endwhile;?>" class="img-circle" alt="User Image">
 
@@ -66,12 +64,10 @@
                 </p>
               </li>
 
-              <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
                   <form method="POST">
-                  <a href="perfil" class="btn btn-primary btn-flat"><i class="fa fa-user"></i> Perfil</a> <!--Boton que redirige al perfil o configuracion de usuario-->
-                  
+                    <a href="perfil" class="btn btn-primary btn-flat"><i class="fa fa-user"></i> Perfil</a> <!--Boton que redirige al perfil o configuracion de usuario--> 
                   </form>
                 </div>
                 
@@ -81,7 +77,8 @@
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
           <li>
+      </div>
+    </nav>
           
   </header>

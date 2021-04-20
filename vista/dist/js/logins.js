@@ -26,7 +26,7 @@ $(document).ready(function(){
             });
         }else{
             $.ajax({
-                url:"../../controlador/logiin.php",
+                url:"../../controlador/ctr.login.php",
                 type:"POST",
                 datatype:'json',
                 data:{ usuario:usuario, contrasena:contrasena },
@@ -118,6 +118,22 @@ $(document).ready(function(){
                             icon:"error",
                             title: "Contraseña incorrecta",
                             text:"Su contraseña es incorrecta."
+                        });
+                    } else if(usuario_existe.respuesta == "no_activo"){
+                        swal({
+                            icon: "success",
+                            title: "Redirigiendo",
+                            text: "Espera un momento, te estamos redirigiendo",
+                            timer: 3000,
+                            buttons: false
+                        }).then(() =>{
+                            window.location.href="pendiente.php";
+                        })
+                    } else if(usuario_existe.respuesta == "error_no_activo"){
+                        swal({
+                            icon:"error",
+                            title: "Contraseña",
+                            text: "La contraseña es incorrecta"
                         });
                     }
                 }

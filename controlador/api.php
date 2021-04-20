@@ -39,6 +39,7 @@ switch ($action) {
         $cont = json_decode($_POST['contProducto']);
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
@@ -68,23 +69,25 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         $local = $_POST['local'];
         $idorden = 0;
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
         } else {
-            try {
-                $sql = $conn->prepare("INSERT INTO tbl_inventario (existencias, minimo,  	maximo, stock , estado_eliminar , producto_id, movimiento_id,  creado_por, fecha_creacion, modificado_por , fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                foreach ($cont as $valor) {
-                    $cantInicial = $valor->inicial;
-                    $minimo = $valor->minimo;
-                    $maximo = $valor->maximo;
+             try {
+                 $sql = $conn->prepare("INSERT INTO tbl_inventario (existencias, minimo, maximo, stock , estado_eliminar , producto_id, movimiento_id,  creado_por, fecha_creacion, modificado_por , fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                 foreach ($cont as $valor) {
+                    $cantInicial =$valor->inicial;
+                    $minimo =$valor->minimo;
+                    $maximo =$valor->maximo;
 
-
-                    $sql->bind_param("iiiiiiissss", intval($cantInicial), intval($minimo),  intval($maximo), intval($cantInicial),  intval($estado), intval($lastid), intval($id),  $usuario_actual, $fecha, $usuario_actual, $fecha);
-                    $sql->execute();
-                }
+                 
+                 
+                 $sql->bind_param("iiiiiiissss", $cantInicial, $minimo,  $maximo, $cantInicial,  $estado, $lastid, $id,  $usuario_actual, $fecha, $usuario_actual, $fecha);
+                 $sql->execute();
+               }
                 if ($sql->error) {
                     $res['msj'] = "Se produjo un error al momento de registrar el producto";
                     $res['error'] = true;
@@ -105,6 +108,7 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         $entrada = $_POST['entrada'];
         $descripcion = 'ENTRADA INICIAL';
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
         echo $lastid;
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
@@ -112,12 +116,13 @@ switch ($action) {
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad, fecha_movimiento, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
                 foreach ($cont as $valor) {
                     $cantInicial = $valor->inicial;
+                    
 
 
-                    $sql->bind_param("iisisssss", intval($lastid), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $sql->bind_param("iisisssss", $lastid, $entrada, $descripcion, $cantInicial, $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
                     $sql->execute();
                 }
 
@@ -156,6 +161,7 @@ switch ($action) {
             $desc = $_POST['desc'];
             $tipoP = $_POST['typeP'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
 
             $sql = "UPDATE tbl_producto 
@@ -180,6 +186,7 @@ switch ($action) {
             $minimo = $_POST['minimo'];
             $maximo = $_POST['maximo'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
             
             $sql = "UPDATE tbl_inventario 
@@ -207,6 +214,7 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         //$entrada = $_POST['entrada'];
         //$descripcion= 'ENTRADA INICIAL';
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
         echo $lastid;
         if (empty($_POST['contMovi']) || empty($_POST['usuario_actual'])) {
@@ -242,6 +250,7 @@ switch ($action) {
             //$id_inventario = $_POST['id_inventario'];
            // $stock = $_POST['stock'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
             //$movimiento = $_POST['nombre_movimiento'];
             
@@ -257,29 +266,28 @@ switch ($action) {
                 if ($pos === false) {
                    if($stock > $cantInicial) {
                    $nuevoStock=intval($stock) - intval($cantInicial);    
-                   echo $nuevoStock;
+                  
                     $sql = "UPDATE tbl_inventario SET existencias = '$nuevoStock', stock = '$nuevoStock', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario=". $id_inventario;
                     $resultado = $conn->query($sql);
-                    if ($resultado == 1) {
-                        $res['msj'] = "Producto adicionado  Correctamente";
-                    } else {
-                        $res['msj'] = "Se produjo un error al momento de adicion el producto ";
-                        $res['error'] = true;
-                    }
+                    
                   }
                 } else{
                     $stockTotal=$stock+$cantInicial;
-                    echo $stockTotal;
+                   
                     $sql = "UPDATE tbl_inventario SET existencias = '$stockTotal', stock = '$stockTotal', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario= ". $id_inventario;
                     $resultado = $conn->query($sql);
-                    if ($resultado == 1) {
-                        $res['msj'] = "Producto adicionado  Correctamente";
-                    } else {
-                        $res['msj'] = "Se produjo un error al momento de laadicion el producto ";
-                        $res['error'] = true;
-                    }
+                    
+                   
                 }
+   
             }
+            if ($resultado == 1) {
+                $res['msj'] = "Producto adicionado  Correctamente";
+            } else {
+                $res['msj'] = "Se produjo un error al momento de adicion el producto ";
+                $res['error'] = true;
+            }
+
         } else {
 
             $res['msj'] = "Las variables no estan definidas";
@@ -290,15 +298,16 @@ switch ($action) {
     break;
     case 'traerMovimientos':
         $id_producto = $_GET['id_producto'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha=$fecha = date('Y-m-d ', time());
         try {
 
-            $sql = "SELECT t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento from tbl_movimientos m INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento INNER JOIN tbl_producto p on p.id_producto= m.producto_id where p.id_producto= $id_producto AND MONTH('$fecha') ORDER BY fecha_movimiento DESC LIMIT 15 ";
+            $sql = "SELECT t.movimiento, m.cantidad, m.descripcion, m.fecha_movimiento from tbl_movimientos m INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento=m.tipo_movimiento_id INNER JOIN tbl_producto p on p.id_producto= m.producto_id where p.id_producto= $id_producto AND MONTH('$fecha') ORDER BY fecha_movimiento DESC LIMIT 15 ";
             $result = $conn->query($sql);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
-
+        // select p.nombre_producto, cantidad, t.movimiento, m.descripcion, fecha_movimiento from tbl_movimientos m INNER JOIN tbl_producto p on p.id_producto=m.producto_id INNER JOIN tbl_tipo_movimiento t on t.id_tipo_movimiento=m.tipo_movimiento_id WHERE p.id_producto= 84 
         $vertbl = array();
         while ($eventos = $result->fetch_assoc()) {
             $evento = array(
@@ -331,6 +340,7 @@ switch ($action) {
         $movimiento = $_POST['movimiento'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['movimiento'])   || empty($_POST['usuario_actual'])) {
@@ -363,6 +373,7 @@ switch ($action) {
             $id_mo = (int)$_POST['id_movimiento'];
             $nombre = $_POST['movimiento'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
            
             $sql = "UPDATE tbl_tipo_movimiento SET movimiento = '$nombre', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_tipo_movimiento=" .$id_mo;          
