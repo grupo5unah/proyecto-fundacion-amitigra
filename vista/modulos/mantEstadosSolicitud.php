@@ -1,106 +1,4 @@
-<script>
-  function soloNumeros(e) {
-    var key = window.event ? e.which : e.keyCode
-    return ((key >= 48 && key <= 57) || (key == 8))
-    e.preventDefault();
 
-  }
-
-  function soloNumeros(e) {
-    var key = window.event ? e.which : e.keyCode;
-    if (key < 48 || key > 57) {
-      e.preventDefault();
-    }
-  }
-
-
-  function soloLetras(e) {
-    var key = e.keyCode || e.which,
-      tecla = String.fromCharCode(key).toLowerCase(),
-      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-      especiales = [8, 37, 39, 46],
-      tecla_especial = false;
-    for (var i in especiales) {
-      if (key == especiales[i]) {
-        tecla_especial = true;
-        break;
-      }
-    }
-    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-      return false;
-    }
-  }
-  SinEspacio = function(input) {
-    input.value = input.value.replace(' ', '');
-  }
-
-  //Permitir solo un ESPACIO
-  espacio_Letras = function(input) {
-    input.value = input.value.replace('  ', ' ');
-  }
-
-
-  function validaemail(valor) {
-    re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-    if (!re.exec(valor)) {
-      $res['msj'] = "Email no valido";
-    }
-
-  }
-
-  function limpia() {
-    var val = document.getElementById("telefono").value;
-    var tam = val.length;
-    for (i = 0; i < tam; i++) {
-      if (isNaN(val[i]))
-        document.getElementById("telefono").value = '';
-    }
-  }
-
-  function mostrarPassword() {
-    var cambio = document.getElementById("Contraseña");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-
-  function mostrarPassword2() {
-    var cambio = document.getElementById("ConfirmarContraseña");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-
-  function mostrarPasswordreset() {
-    var cambio = document.getElementById("Contraseña_reset");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-
-  function mostrarPassword2reset() {
-    var cambio = document.getElementById("ConfirmarContraseña_reset");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-</script>
 
 <?php
 include "./modelo/conexionbd.php";
@@ -154,11 +52,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 <div class="div-action pull pull-right" style="padding-bottom:20px;">
                   <!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphi
 	</button> -->
-                  <button class="btn btn-default btnCrearEstadoSolicitud glyphicon glyphicon-plus-sign">Agregar Estado</button>
+                  <button class="btn btn-default btnCrearEstadoSolicitud glyphicon glyphicon-plus-sign">Agregar Estado Solicitud</button>
                 </div> <!-- /div-action -->
                 <table id="mantEstadosSolicitudes" class="display responsive nowrap">
                   <thead>
-                    <tr>
+                    <tr style="background-color: #222d32; color: white;">
                       <th>Estado de Solicitud</th>
                       <th>Creado Por</th>
                       <th>Fecha Creación</th>
@@ -249,7 +147,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" id="cerrarACTES">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">Actualizar Estado de Solicitud</h4>
             </div>
             <div class="modal-body">
@@ -270,7 +168,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarAct">Cerrar</button>
               <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Estado Solicitud">
             </div>
           </div>
@@ -288,7 +186,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
             <div class="modal-header">
               <div class="d-flex justify-content-between">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <i aria-hidden="true">&times;</i>
+                  <i aria-hidden="true" id="cerrarES">&times;</i>
                 </button>
                 <h3 class="modal-title" id="exampleModalLabel">Registrar Estado de Solicitud</h3>
               </div>
@@ -309,7 +207,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                     <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="CerrarCrearES" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Estado</button>
                   </div>
               </form>

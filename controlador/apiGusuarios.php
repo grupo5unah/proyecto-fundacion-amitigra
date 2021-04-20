@@ -128,7 +128,6 @@ switch ($action) {
             $fecha = date('Y-m-d H:i:s', time());
 
 
-
             $sql = "UPDATE tbl_usuarios SET nombre_completo = '$nombrec', nombre_usuario = '$nombreu',
             telefono='$telefono', correo='$correo', rol_id=$rol_id, estado_id=$estado_id,modificado_por='$usuario_actual',
             fecha_modificacion=' $fecha'
@@ -149,97 +148,68 @@ switch ($action) {
 
         break;
 
-        case 'resetearClave':
-            if (
-                isset(($_POST['id_usuario'])) && isset($_POST['contrasena'])
-            ) {
-                $id_usuario = (int)$_POST['id_usuario'];
-                //clave encriptada
-                $contrasena = $_POST['contrasena'];
-                $repcontra = $_POST['rep_nuevacontra'];
+    case 'resetearClave':
+        if (
+            isset(($_POST['id_usuario'])) && isset($_POST['contrasena'])
+        ) {
+            $id_usuario = $_POST['id_usuario'];
 
+            $contrasena = $_POST['contrasena'];
+            $confirmacontra = $_POST['confirmacontrasena'];
+            $usuario_actual = $_POST['usuario_actual'];
+
+            if ($contrasena == $confirmacontra) {
                 $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
                 $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash' 
-                    WHERE id_usuario=" . $id_usuario;
+                WHERE id_usuario=" . $id_usuario;
                 $resultado = $conn->query($sql);
-                if ($resultado >0) {
-                    $res['msj'] = "La contraseña se Reseteo correctamente";
+
+
+                if ($resultado > 0) {
+                    $res['msj'] = "La contraseña se ha cambiado correctamente";
 
                     $accion_realizada = 'reseteo de contraseña';
-                    $descripcion = 'se realizo reseteo de contraseña por parte';
-                    $usuario = $_SESSION['usuario'];
+                    $descripcion = 'se realizo reseteo de contraseña por parte del administrador';
                     $objeto = 7;
+
                     //select para traer el id del usuario
-                    require('modelo/conexionbd.php');
-                    $consulid = mysqli_query($conn, "SELECT id_usuario
-                        FROM tbl_usuarios
-                        WHERE nombre_usuario='$usuario'");
+                    $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                    WHERE nombre_usuario='$usuario_actual'");
                     $resulta = mysqli_fetch_array($consulid);
                     if ($resulta > 0) {
                         $id_user = $resulta['id_usuario'];
-                    } else {
-                    }
-                    //insertar en bitacora
-                    $sql_insert = mysqli_query($conn, "INSERT INTO tbl_bitacora(accion,descripcion,fecha_accion,usuario_id,objeto_id)
+
+                        //insertar en bitacora el reseteo de contraseña
+                        $sql_insert = mysqli_query($conn, "INSERT INTO tbl_bitacora(accion,descripcion,fecha_accion,usuario_id,objeto_id)
                         VALUES('$accion_realizada','$descripcion',now(),$id_user,$objeto)");
-                    if ($sql_insert) {
-                        $res['msj'] = "se inserto Correctamente en bitacora";
-                    } else {
-                        $res['msj'] = "no se inserto en bitacora";
-                        $res['error'] = true;
                     }
                 } else {
                     $res['msj'] = "Se produjo un error al momento de resetear la contraseña";
                     $res['error'] = true;
                 }
-            } else {
-                $res['msj'] = "Las variables no estan definidas";
+            }else{
+                $res['msj'] = "Las contraseñas no coinciden";
                 $res['error'] = true;
             }
-            break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        } else {
+            $res['msj'] = "Las variables no estan definidas";
+            $res['error'] = true;
+        }
+        break;
 
     case 'eliminarUsuario':
         if (isset($_POST['id_usuario'])) {
             $id_usuario = $_POST['id_usuario'];
             $usuario_actual = $_POST['usuario_actual'];
+
+            //convertir el usuario actual a mayuscula
+            $usuario_actual = strtoupper($usuario_actual);
+
+
             //consulta para traer el usuario que se desea eliminar
 
-            $consulta_usuario = mysqli_query($conn, "SELECT id_usuario,nombre_usuario FROM tbl_usuarios WHERE id_usuario=$id_usuario");
+            $consulta_usuario = mysqli_query($conn, "SELECT id_usuario,nombre_usuario FROM tbl_usuarios 
+            WHERE id_usuario=$id_usuario");
             $resultado_usuario = mysqli_fetch_array($consulta_usuario);
 
             if ($resultado_usuario > 0) {
@@ -247,9 +217,11 @@ switch ($action) {
 
 
                 if ($usuario_traido == $usuario_actual) {
+
                     $res['msj'] = "El usuario actual no se puede eliminar";
                     $res['error'] = true;
                 } else {
+
                     $sql = "DELETE FROM tbl_usuarios WHERE id_usuario = " . $id_usuario;
                     $resultado = $conn->query($sql);
                     if ($resultado > 0) {

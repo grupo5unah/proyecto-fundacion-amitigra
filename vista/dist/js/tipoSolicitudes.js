@@ -195,7 +195,38 @@ $(document).ready(function () {
     $(".btnCreartipoSolicitud").on("click", function () {
       $("#modalCreartipoSolicitud").modal("show");
     });
-  
+
+
+    $("#cerrarTs").on("click", function () {
+      swal({
+        icon: "warning",
+        title: "Saliendo...",
+        text: "Desea Salir?",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $("#modalCreartipoSolicitud").modal("hide");
+        } else {
+          $("#modalCreartipoSolicitud").modal("show");
+        }
+      });
+    });
+    $("#cerrarTso").on("click", function () {
+      swal({
+        icon: "warning",
+        title: "Saliendo...",
+        text: "Desea Salir?",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          $("#modalCreartipoSolicitud").modal("hide");
+        } else {
+          $("#modalCreartipoSolicitud").modal("show");
+        }
+      });
+    });
   
   
     //mantenimiento Solicitudes
@@ -285,6 +316,39 @@ $(document).ready(function () {
        }
      });
    });
+
+
+   //cerrar formulario crear tipo de solicitud
+   $("#cerrar_tipo").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalEditarTipoSolicitud").modal("hide");
+      } else {
+        $("#modalEditarTipoSolicitud").modal("show");
+      }
+    });
+  });
+  $("#cerrartiposol").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalEditarTipoSolicitud").modal("hide");
+      } else {
+        $("#modalEditarTipoSolicitud").modal("show");
+      }
+    });
+  });
   
    
   });

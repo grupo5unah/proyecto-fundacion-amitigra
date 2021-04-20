@@ -214,7 +214,7 @@ $(document).ready(function () {
   });
 
 
-  $("#cerrar_rs").on("click", function () {
+  $("#cerrar_s").on("click", function () {
     swal({
       icon: "warning",
       title: "Saliendo...",
@@ -229,7 +229,7 @@ $(document).ready(function () {
       }
     });
   });
-  $("#cerrar_s").on("click", function () {
+  $("#cerrar_rs").on("click", function () {
     swal({
       icon: "warning",
       title: "Saliendo...",
@@ -270,6 +270,7 @@ $(document).ready(function () {
         nombreCompleto.disabled = false;
         telefono.disabled = false;
         tipo_nac.disabled = false; 
+        
 
         //si el cliente existe se llenan los campos
        }else{
@@ -286,6 +287,8 @@ $(document).ready(function () {
          $('#nombreCompleto').attr('disabled','disabled');
          $('#telefono').attr('disabled','disabled');
          $('#tipo_nac').attr('disabled','disabled');
+         
+         
         
         
         
@@ -386,7 +389,7 @@ $(document).ready(function () {
           buttons: false,
         }).then(() => {
           // Se limpia el formulario
-
+          $("#recibo").val("");
           $("#estatus_solicitud").val("");
           $("#tipo").val("");
 
@@ -394,37 +397,37 @@ $(document).ready(function () {
         });
       }
     });
-
-    $("#cerrar_actualizar").on("click", function () {
-      swal({
-        icon: "warning",
-        title: "Saliendo...",
-        text: "Desea Salir?",
-        buttons: true,
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          $("#modalEditarSolicitud").modal("hide");
-        } else {
-          $("#modalEditarSolicitud").modal("show");
-        }
-      });
-    });
-    $("#cerrar_act").on("click", function () {
-      swal({
-        icon: "warning",
-        title: "Saliendo...",
-        text: "Desea Salir?",
-        buttons: true,
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          $("#modalEditarSolicitud").modal("hide");
-        } else {
-          $("#modalEditarSolicitud").modal("show");
-        }
-      });
-    });
-    
   });
+
+  $("#cerrar_act").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalEditarSolicitud").modal("hide");
+      } else {
+        $("#modalEditarSolicitud").modal("show");
+      }
+    });
+  });
+  $("#cerrarFormact").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalEditarSolicitud").modal("hide");
+      } else {
+        $("#modalEditarSolicitud").modal("show");
+      }
+    });
+  });
+  
 });

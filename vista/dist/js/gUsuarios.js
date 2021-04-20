@@ -277,6 +277,8 @@ $(document).ready(function () {
 
     //mostrar el modal para la alerta al darle click a cerrar y a la x
     $("#modalEditarUsuario").modal("show");
+
+
     $("#cerrar_act").on("click", function () {
       swal({
         icon: "warning",
@@ -361,22 +363,27 @@ $(".btnResetearClaves").on("click", function () {
   // info previa
   const idusuario = $(this).data("idusuario");
   const contrasena = $(this).data("contrasena");
-  //const rep_nuevacontra=$(this).data("contrasena");
+  var usuario_actual = $("#usuario_actual").val();
+  var confirma_contra = $("#ConfirmarContraseña_reset").val();
+  
   
   //llena los campos
   $("#idusuario").val(idusuario), 
   $("Contraseña_reset").val(contrasena),
-  
+  $("ConfirmarContraseña_reset").val(confirma_contra),
+
   //mostrar el modal
   $("#modalResetearClave").modal("show");
   $(".btnResetClave").on("click", async function () {
     var Idusuario = Number(idusuario);
+
     const formData = new FormData();
     formData.append("id_usuario", Idusuario);
+    formData.append('usuario_actual', usuario_actual);
     formData.append("contrasena", $("#Contraseña_reset").val());
-    //formData.append("contrasena", $("#rep_nuevacontra").val());
+    formData.append("confirmacontrasena",$("#ConfirmarContraseña_reset").val());
     
-    console.log(formData);
+   
     const resp = await axios.post(
       "./controlador/apiGusuarios.php?action=resetearClave",
       formData
@@ -401,61 +408,49 @@ $(".btnResetearClaves").on("click", function () {
       });
     }
   });
-});
-  //FUNCION PARA RESETEAR CONTRASEñA SIENDO ADMINISTRADOR
-  
-  /*$("#formResetearcontra").submit(async function (e) {
-    e.preventDefault();
 
-    const idusuario = $(this).data("idusuario");
-    console.log(idusuario)
-    var Contra_reset = $("#Contraseña_reset").val();
-    var confContra_reset = $("#ConfirmarContraseña_reset").val();
-    var usuario_actual = $("#usuario_actual").val();
 
-    if (
-      Contra_reset != undefined &&
-      confContra_reset != undefined &&
-      usuario_actual != undefined
-    ) {
-      const formData = new FormData();
-      formData.append("id_usuario", idusuario);
-      formData.append("Contraseña_reset", Contra_reset);
-      formData.append("ConfirmarContraseña_reset", confContra_reset);
-      formData.append("usuario_actual", usuario_actual);
+  //cerrar formulario de resetear contraseña
 
-      const resp = await axios.post(
-        "./controlador/apiGusuarios.php?action=resetearClave",
-        formData
-      );
-
-      const data = resp.data;
-
-      if (data.error) {
-        return swal("Error", data.msj, "error");
+  $("#cerrar_reseteox").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalResetearClave").modal("hide");
+      } else {
+        $("#modalResetearClave").modal("show");
       }
-
-      return swal("Exito!", data.msj, "success").then((value) => {
-        if (value) {
-          // Se limpia el formulario de mantenimiento
-          $("#Contraseña_reset").val("");
-          $("#ConfirmarContraseña_reset").val("");
-          location.reload();
-        }
-      });
-    } else {
-      swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-    }
+    });
+  });
+  $("#cerrar_reseteo").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea Salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalResetearClave").modal("hide");
+      } else {
+        $("#modalResetearClave").modal("show");
+      }
+    });
   });
 
-  $(".btnResetearClaves").on("click", function () {
-    $("#modalResetearClave").modal("show");
-  })*/
+  
+});
 
 
       //para eliminar usuario
     $(".btnEliminarUsuario").on("click", function () {
       const idusuario = $(this).data("idusuario");
+      var usuario_actual = $("#usuario_actual").val();
       swal(
         "Eliminar Usuario",
         "Esta seguro de eliminar este Usuario",

@@ -160,7 +160,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div> <!-- /div-action -->
                     <table id="tablaSolicitudes" class="display responsive nowrap">
                       <thead>
-                        <tr>
+                        <tr style="background-color: #222d32; color: white;">
+                          
                           <th>Nombre</th>
                           <th>Identidad</th>
                           <th>Telefono</th>
@@ -190,7 +191,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       ON tiponac.id_tipo_nacionalidad=cli.tipo_nacionalidad INNER JOIN tbl_solicitudes sol
                       ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
                       ON sol.tipo_solicitud=tips.id_tipo_solicitud INNER JOIN tbl_estatus_solicitud est
-                      ON sol.estatus_solicitud=est.id_estatus_solicitud ORDER BY id_solicitud 
+                      ON sol.estatus_solicitud=est.id_estatus_solicitud order BY id_solicitud
                       
                       ";
                           $resultado = $conn->query($consult_solicitud);
@@ -221,6 +222,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                         foreach ($vertbl as $dia => $lista_sol) { ?>
                           <?php foreach ($lista_sol as $evento) { ?>
                             <tr>
+                              
                               <td> <?php echo $evento["nombre_completo"]; ?></td>
                               <td> <?php echo $evento["identidad"]; ?></td>
                               <td> <?php echo $evento["telefono"]; ?></td>
@@ -229,7 +231,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                               <td> <?php echo $evento["total"]; ?></td>
                               <td> <?php echo $evento["estatus"]; ?></td>
                               <td>
-                                <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-recibo="<?= $evento["recibo"] ?>" data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" data-fechacreacion="<?= $evento["fecha_creacion"] ?>" data-precio_solicitud="<?= $evento["precio_solicitud"] ?>" data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus_solicitud="<?= $evento["estatus"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
+                                <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-recibo="<?= $evento["recibo"] ?>" data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" data-fechacreacion="<?= $evento["fecha_creacion"] ?>" data-precio_solicitud="<?= $evento["precio_solicitud"] ?>" data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
                                 <button class="btn btn-danger btnEliminarSolicitud glyphicon glyphicon-remove" data-idsolicitud="<?php echo $evento['id_solicitud'] ?>">
                               </td>
                             <?php } ?>
@@ -268,7 +270,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
                       <div class="campos ">
                         <label for="">Deposito</label>
-                        <input id="recibo" autocomplete="off" style="width:365px" maxlength="30" minlength="8" class="form-control modal-roles 
+                        <input id="recibo" autocomplete="off" style="width:365px"  minlength="1" class="form-control modal-roles 
                       	secundary" type="text" onpaste="return false" placeholder="Recibo" onkeypress="return soloNumeros(event)" required/>
                       </div><br>
 
@@ -334,9 +336,12 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 
                     <div class="modal-footer">
-                      <button id="cerrar_actualizar" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud">
+                   
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarFormact">Cerrar</button>
+                      <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud"><br>
+                     
                     </div>
+                   
                   </form>
                 </div>
               </div>
@@ -436,7 +441,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div>
                     <div class="modal-footer">
                       <button id="cerrar_rs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
+                      <button id="r_solicitud" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
                     </div>
                 </form>
               </div>
