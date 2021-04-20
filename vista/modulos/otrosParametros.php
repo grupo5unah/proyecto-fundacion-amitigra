@@ -20,58 +20,52 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
     $PMostrar = mysqli_fetch_assoc($resultSolicitudes);
 
 ?>
-<div class="content-wrapper">
+  <div class="content-wrapper">
 
     <section class="content-header">
-      <h1>Configuración <small>Parámetros de seguridad</small></h1>
+      <h1>Configuración <small>Otros Parámetros</small></h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-        <li class="active"><i class="fa fa-cog"></i> Parámetros de seguridad</li>
+        <li class="active"><i class="fa fa-cog"></i> Otros Parámetros</li>
       </ol>
     </section>
 
     <section class="content">
       <div class="row">
+        <div class="col-md-4">
+          <div class="box box-primary">
+            <div class="box-body box-profile">
 
-
-      <div class="col-md-4">
-        <!-- Profile Image -->
-        <div class="box box-primary">
-          <div class="box-body box-profile">
-
-            <div class="form-group">
-              <div class="alert alert-light" role="alert">
-                <h4><i class="fa fa-unlock-alt"> Importante:</i></h4>
-                <strong>Parámetros de seguridad</strong>
-                <br><strong>Que tipo de parámetros puedes configurar</strong>
-                <br>
-                Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
-                presentamos problemas podes reestablecer la informacion.
+              <div class="form-group">
+                <div class="alert alert-light" role="alert">
+                  <h4><i class="fa fa-unlock-alt"> Importante:</i></h4>
+                  <strong>Parámetros de seguridad</strong>
+                  <br><strong>Que tipo de parámetros puedes configurar</strong>
+                  <br>
+                  Es muy importante el poder contar con una copia de nuestra base de datos, ya que si en algun momento
+                  presentamos problemas podes reestablecer la informacion.
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
         <input type="hidden" id="idUsuario" value="<?php echo $_SESSION["id"];?>">
         <input type="hidden" id="usuario" value="<?php echo $_SESSION["usuario"];?>">
 
         <!-- INICIO AJUSTES DE LA BASE DE DATOS -->
         <div class="col-md-4">
-          <!-- Widget: user widget style 1 -->
           <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-green">
               <div class="widget-user-image">
                 <img class="img-circle" src="https://image.flaticon.com/icons/png/512/95/95454.png" alt="User Avatar">
               </div>
-              <!-- /.widget-user-image -->
               <h3 class="widget-user-username">Ajustes</h3>
-              <h5 class="widget-user-desc"><strong>Parámetros de seguridad</strong></h5>
+              <h5 class="widget-user-desc"><strong>Otros Parámetros</strong></h5>
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a><strong>Mostrar cantidad inicio:</strong>
+                <li><a><strong>Mostrar cantidad de solicitudes:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
                       <input type="text" name="" class="form-control" id="mostrarSolicitudes" value="<?php echo $PMostrar['valor'];?>" placeholder="Ingrese cantidad de elementos a mostrar" onkeypress="return soloNumeros(event)">
@@ -90,7 +84,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
               </ul>
             </div>
           </div>
-          <!-- /.widget-user -->
         </div>
         <!-- FIN AJUSTES DE LA BASE DE DATOS -->
 
@@ -137,10 +130,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
         <!-- FINAL MODAL AJUSTES DE LA BASE DE DATOS -->
 
       </div>
-
     </section>
     
-    <!-- /.content -->
   </div>
   <?php
 

@@ -12,12 +12,12 @@
 
         date_default_timezone_set("America/Tegucigalpa");
         
-        $VerificarUsuario = $conn->prepare("SELECT id_usuario
+        $VerificarUsuario = $conn->prepare("SELECT id_usuario, nombre_usuario
                                             FROM tbl_usuarios
                                             WHERE correo = ?; ");
         $VerificarUsuario->bind_param("s", $correo);
         $VerificarUsuario->execute();
-        $VerificarUsuario->bind_Result($id_usuario);
+        $VerificarUsuario->bind_Result($id_usuario, $usuario);
         //$id = $stmt->bind_Result($id_usuario);
 
         if($VerificarUsuario->affected_rows) {
@@ -49,11 +49,11 @@
                         die("error en la conexion" . mysqli_error($conn));
                     } else {
                         $mail->Subject = "Confirmacion cambio de contrasena AMITIGRA";
-                        $mail->Body = "<h4>Se solicitó recientemente cambiar la contraseña de su cuenta.</h4>
+                        $mail->Body = "<h3>Hola: {$usuario}.</h3><h4>Se solicitó recientemente cambio de su contraseña.</h4>
                                     <p>Si usted ha solicitado el cambio de contraseña, pulse el siguiente enlace para establecer una nueva contraseña:</p>
                                     <a href='http://fundacionamitigra.com/vista/modulos/nueva_contrasena.php?eid={$correo}&tkn={$encode_token}&exd={$expire_date}'>Haga clic aquí para cambiar su contraseña</a>
-                                    <p>De no ser asi ignore el enlace</p>
-                                    <p> <spam><strong>Nota:<strong></spam> este enlace es válido por 24 horas, puedes solicitar otro cambio de contraseña una vez a pasado el tiempo estipulado.</p>";
+                                    <p>De no ser asi ignore el enlace.</p>
+                                    <p> <spam><strong>Nota:<strong></spam> este enlace es válido por 24 horas, puedes solicitar otro cambio de contraseña una vez a pasado el tiempo establecido.</p>";
 
                         if($mail->send()) {
                             /*echo '<script>

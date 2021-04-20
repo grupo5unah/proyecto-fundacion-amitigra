@@ -1,5 +1,5 @@
 <?php
-//include_once()
+
 include_once('funciones/sesiones.php');
 $usuario = $_SESSION['usuario'];
 
@@ -259,7 +259,6 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
       <!--FIN DE LA TABLA-->
   </section>
 
-  <!-- /.content -->
   </div>
 <?php
 

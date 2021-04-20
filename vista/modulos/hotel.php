@@ -902,7 +902,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<?php
 																			include_once ('./modelo/conexionbd.php');
 																		$stmt = "SELECT id_producto, nombre_producto FROM tbl_producto
-																		WHERE nombre_producto LIKE '%Ti%' OR nombre_producto LIKE '%ninguno%' 
+																		WHERE nombre_producto LIKE '%Tienda%' OR nombre_producto LIKE '%ninguno%' 
 																		OR nombre_producto LIKE '%sleeping%'";
 																		$resultado = mysqli_query($conn,$stmt);
 																		?>
@@ -1003,8 +1003,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<input type="hidden" name="totalEC" id="totalEC" value="">
 																<button id="btnAgregarEC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row extranjeros-->
-															<!-- <div id="listaC"></div> -->
-															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+															 <div id="listaC"></div>
+															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered" >
 																<thead>
 																	<tr>
 																		<td class="tablaCamping">Área</td>

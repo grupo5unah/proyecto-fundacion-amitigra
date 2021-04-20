@@ -138,17 +138,15 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 										?>-->
 
 								</table>
-								<!-- /table -->
 
-							</div> <!-- /panel-body -->
-						</div> <!-- /panel -->
-					</div> <!-- /col-md-12 -->
+							</div>
+						</div>
+					</div>
 					<?php $conn->close(); ?>
-				</div> <!-- /row -->
+				</div>
 
 
 			</div>
-			<!-- /.box-body -->
 	
 			<div class="modal fade" id="modalEditarCliente" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -211,7 +209,6 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 				</div>
 			</div>
 
-			<!-- /.box-footer-->
 			<!-- crear nuevo Cliente -->
 				<div class="modal fade" id="modalCrearCliente" tabindex="-1"
 					role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -277,10 +274,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 
 				
 				</div>
-		<!-- /.box -->
 
 	</section>
-	<!-- /.content -->
 </div>
 
 <?php

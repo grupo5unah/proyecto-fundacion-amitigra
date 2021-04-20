@@ -308,7 +308,7 @@ $(document).ready(function(){
         
     });
 
-    //FUNCION PARA ACTUALIZAR PARAMETROS DE SEGURIDAD
+    //FUNCION PARA ACTUALIZAR PARAMETROS DE SOLICITUDES
     $("#InformacionSolicitudes").on("click", function(){
 
         let mostrarSolicitudes = document.querySelector("#mostrarSolicitudes").value;

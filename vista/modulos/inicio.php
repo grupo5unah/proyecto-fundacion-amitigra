@@ -48,7 +48,10 @@
             $fila = mysqli_fetch_assoc($result);
           ?>
 
-          <?php $reservaciones = "SELECT COUNT(*) reserva FROM tbl_detalle_reservacion";
+          <?php $reservaciones = "SELECT COUNT(tbl_reservaciones.tipo_reservacion) AS reserva FROM tbl_detalle_reservacion
+                                  JOIN tbl_reservaciones
+                                  ON tbl_detalle_Reservacion.reservacion_id = tbl_reservaciones.id_reservacion
+                                  WHERE tbl_reservaciones.tipo_reservacion = 'hotel';";
           $result2 = mysqli_query($conn, $reservaciones);
           $fila2 = mysqli_fetch_assoc($result2);
           ?>
@@ -58,40 +61,46 @@
           $fila3 = mysqli_fetch_assoc($result3);
           ?>
 
-          <?php $roles = "SELECT COUNT(*) roles FROM tbl_roles";
+          <?php $roles = "SELECT count(tbl_reservaciones.tipo_reservacion) AS reservacion FROM tbl_detalle_reservacion
+                          JOIN tbl_reservaciones
+                          ON tbl_detalle_reservacion.reservacion_id = tbl_reservaciones.id_reservacion
+                          WHERE tbl_reservaciones.tipo_reservacion = 'camping';";
           $result4 = mysqli_query($conn, $roles);
           $fila4 = mysqli_fetch_assoc($result4);
           ?>
 
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-              <span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span>
+              <a href="hotel"><span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span></a>
 
               <div class="info-box-content">
                 <span class="info-box-text">Reservacion hotel</span>
                 <span class="info-box-number"><strong>Total: </strong><?php echo $fila2['reserva'];?><br></span>
+                <!-- <strong><a href="hotel">Ir a reservaciones</a></strong> -->
               </div>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-              <span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span>
+              <a href="hotel"><span class="info-box-icon bg-green"><i class="fa fa-calendar"></i></span></a>
 
               <div class="info-box-content">
                 <span class="info-box-text">Reservación camping</span>
-                <span class="info-box-number"><strong>Total: </strong><?php //echo $fila4['roles'];?></span>
+                <span class="info-box-number"><strong>Total: </strong><?php echo $fila4['reservacion'];?></span>
+                <!-- <strong><a href="hotel">Ir a reservaciones</a></strong> -->
               </div>
             </div>
           </div>
             
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-              <span class="info-box-icon bg-red"><i class="fa fa-ticket"></i></span>
+              <a href="senderos"><span class="info-box-icon bg-red"><i class="fa fa-ticket"></i></span></a>
 
               <div class="info-box-content">
                 <span class="info-box-text">Boleteria</span>
                 <span class="info-box-number"><strong>Total: </strong><?php echo $fila3['boleto'];?></span>
+                <!-- <strong><a href="senderos">Ir a senderos</a></strong> -->
               </div>
             </div>
           </div>
@@ -99,11 +108,12 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
               <?php $visible = false;?>
-              <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+              <a href="mantenimiento"><span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span></a>
 
               <div class="info-box-content">
                 <span class="info-box-text">Usuarios registrados</span>
                 <span class="info-box-number"><strong>Total: </strong><?php echo $fila['total'];?></span>
+                <!-- <strong><a href="mantenimiento">Ir a Mantenimiento Usuarios</a></strong> -->
               </div>
             </div>
           </div>
@@ -168,7 +178,6 @@
             <?php if($_SESSION["rol"] === "administrador"):?>
             <div class="box box-primary">
               <div class="box-body box-profile">
-                <!-- <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture"> -->
 
                 
                 <h3 class="profile-username text-center"><strong><i class="fa fa-edit"></i> Solicitudes</strong></h3>

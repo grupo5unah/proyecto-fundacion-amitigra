@@ -39,6 +39,7 @@ switch ($action) {
         $cont = json_decode($_POST['contProducto']);
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
@@ -68,6 +69,7 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         $local = $_POST['local'];
         $idorden = 0;
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
@@ -81,17 +83,6 @@ switch ($action) {
                     $minimo =$valor->minimo;
                     $maximo =$valor->maximo;
 
-                    echo "<br>";
-                    echo $cantInicial;
-                    echo "<br>";
-                    echo $minimo;
-                    echo "<br>";
-                    echo $maximo;
-                    echo "<br>";
-                    echo $id;
-                    echo "<br>";
-                    echo $lastid;
-                    echo "<br>";
                  
                  
                  $sql->bind_param("iiiiiiissss", $cantInicial, $minimo,  $maximo, $cantInicial,  $estado, $lastid, $id,  $usuario_actual, $fecha, $usuario_actual, $fecha);
@@ -128,16 +119,7 @@ switch ($action) {
                 $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad, fecha_movimiento, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
                 foreach ($cont as $valor) {
                     $cantInicial = $valor->inicial;
-                    echo "<br>";
-                    echo $entrada;
-                    echo "<br>";
-                    echo $descripcion;
-                    echo "<br>";
-                    echo $cantInicial;
-                    echo "<br>";
-                    echo $usuario_actual;
-                    echo "<br>";
-                    echo $lastid;
+                    
 
 
                     $sql->bind_param("iisisssss", $lastid, $entrada, $descripcion, $cantInicial, $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
@@ -179,6 +161,7 @@ switch ($action) {
             $desc = $_POST['desc'];
             $tipoP = $_POST['typeP'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
 
             $sql = "UPDATE tbl_producto 
@@ -203,6 +186,7 @@ switch ($action) {
             $minimo = $_POST['minimo'];
             $maximo = $_POST['maximo'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
             
             $sql = "UPDATE tbl_inventario 
@@ -230,6 +214,7 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         //$entrada = $_POST['entrada'];
         //$descripcion= 'ENTRADA INICIAL';
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
         echo $lastid;
         if (empty($_POST['contMovi']) || empty($_POST['usuario_actual'])) {
@@ -265,6 +250,7 @@ switch ($action) {
             //$id_inventario = $_POST['id_inventario'];
            // $stock = $_POST['stock'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
             //$movimiento = $_POST['nombre_movimiento'];
             
@@ -313,6 +299,7 @@ switch ($action) {
     break;
     case 'traerMovimientos':
         $id_producto = $_GET['id_producto'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha=$fecha = date('Y-m-d ', time());
         try {
 
@@ -354,6 +341,7 @@ switch ($action) {
         $movimiento = $_POST['movimiento'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['movimiento'])   || empty($_POST['usuario_actual'])) {
@@ -386,6 +374,7 @@ switch ($action) {
             $id_mo = (int)$_POST['id_movimiento'];
             $nombre = $_POST['movimiento'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
            
             $sql = "UPDATE tbl_tipo_movimiento SET movimiento = '$nombre', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_tipo_movimiento=" .$id_mo;          

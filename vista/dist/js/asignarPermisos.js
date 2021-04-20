@@ -23,30 +23,30 @@ $(document).ready( function(){
             //VALIDAR EL ESTADO DEL CHECKBOX INSERTAR
             if($("#insertar").is(':checked')) {  
                 insertar = 1;
-              } else {
+            } else {
                 insertar = 0;  
-              }
+            }
             
-              //VALIDAR EL ESTADO DEL CHECKBOX ACTUALIZAR
-              if($("#actualizar").is(':checked')) {  
+            //VALIDAR EL ESTADO DEL CHECKBOX ACTUALIZAR
+            if($("#actualizar").is(':checked')) {  
                 actualizar = 1;
-              } else {
+            } else {
                 actualizar = 0;  
-              }
+            }
     
-              //VALIDAR EL ESTADO DEL CHECKBOX ELIMINAR
-              if($("#eliminar").is(':checked')) {  
+            //VALIDAR EL ESTADO DEL CHECKBOX ELIMINAR
+            if($("#eliminar").is(':checked')) {  
                 eliminar = 1;
-              } else {
+            } else {
                 eliminar = 0;  
-              }
+            }
     
-              //VALIDAR EL ESTADO DEL CHECKBOX CONSULTAR
-              if($("#consultar").is(':checked')) {  
+            //VALIDAR EL ESTADO DEL CHECKBOX CONSULTAR
+            if($("#consultar").is(':checked')) {  
                 consultar = 1;
-              } else {
+            } else {
                 consultar = 0;  
-              }
+            }
 
             $.ajax({
                 url:"./controlador/ctr.asignarPermisos.php",

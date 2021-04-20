@@ -62,6 +62,15 @@
         <!--ROL DE ADMINISTRACION-->
         <?php if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador"){?>
           
+          <!-- BOTON PANTALLA INICIO -->
+          <li class="">
+              <a href="inicio">
+                <i class="fa fa-home"></i>
+                <span>Inicio</span>
+              </a>
+            </li>
+          <!-- FIN BOTON PANTALLA INICIO -->
+
           <!--Inicio SOLICITUDES-->
           <!-- MUESTRA SOLICITUDES SOLO A ADMINISTRACION -->
           <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente") {?>
@@ -120,7 +129,7 @@
         <!--Inicio panel de ADMINISTRACION-->
         <!-- MUESTRA EL AREA DE CONFIGURACION DEL SISTEMA SOLO A ADMINISTRACION -->
         <li name="admin" id= "admin" class="treeview">
-        <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador") {?>
+        <?php if ($_SESSION["rol"] === "administrador") {?>
           <?php if($columna["permiso_consulta"] == 1){?>
           <a href="#">
             <i class="fa fa-gear"></i> <span>Panel de control</span>
@@ -180,8 +189,8 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="mantpermisos"><i class=""></i> Permiso de acceso <br> al sistema</a></li>
-                <li><a href="parametrosSistema"><i class=""></i> Parámetros<br>Sistema/Seguridad</a></li>
-                <li><a href="parametrosSeguridad"><i class=""></i> Otros Parámetros</a></li>
+                <li><a href="parametros"><i class=""></i> Parámetros<br>Sistema/Seguridad</a></li>
+                <li><a href="otrosParametros"><i class=""></i> Otros Parámetros</a></li>
                 <li><a href="mantroles"><i class=""></i> Roles</a></li>
               </ul>
             </li>
@@ -195,5 +204,4 @@
 
 
   </section>
-  <!-- /.sidebar -->
 </aside>

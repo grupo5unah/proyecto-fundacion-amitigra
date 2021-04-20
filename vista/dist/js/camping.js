@@ -287,50 +287,58 @@ $.ajax({
     document.getElementById("lista1").value = "";
     document.getElementById("totalNC").value = "";
     // document.getElementById("nombre").focus();
-});
-$(document).on('click', '.btn_eliminarCampingN', function(e) {
-      e.preventDefault();
-      $(this).closest('tr').remove();
   });
-//AGREGANDO A EXTRANJEROS EN CAMPING
-$('#btnAgregarEC').click(function(e) {
-  e.preventDefault();
-  var areaEC = document.getElementById("areae").value ;
-  var adultoEC = document.getElementById("aec").value;
-  var preadultoEC = document.getElementById("paec").value;
-  var ninoEC = document.getElementById("nec").value;
-  var preninoEC = document.getElementById("pnec").value;
-  var tipoTe = document.getElementById("lista1e").value;
-  var canTe = document.getElementById("canTie").value;
-  var precioTe = document.getElementById("miprecioe").value;
-  var totalEC = document.getElementById("totalEC").value;
-  //var j = 1; //contador para asignar id al boton que borrara la fila
-  var filaEC = '<tr><td>' + areaEC + '</td><td>' + adultoEC + '</td><td>' + preadultoEC + '</td><td>'
-  + ninoEC + '</td><td>' + preninoEC +'</td><td>' +tipoTe+'</td><td>'+ canTe+'</td><td>'+precioTe+'</td><td>'+ totalEC + 
-  '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingE glyphicon glyphicon-remove"></button></td></tr>' //esto seria lo que contendria la fila
-  //j++;
-
-  $('#tableCamping tr:first').after(filaEC);
-      $("#listaC").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-      var nFilasEC = $("#tableCamping tr").length;
-      $("#listaC").append(nFilasEC - 1);
-      //le resto 1 para no contar la fila del header
-      document.getElementById("areae").value ="";
-      document.getElementById("aec").value = "";
-      document.getElementById("nec").value = "";
-      document.getElementById("totalEC").value = "";
-      // document.getElementById("nombre").focus();
-});
-$(document).on('click', '.btn_eliminarCampingE ', function(e) {
+  
+  $(document).on('click', '.btn_eliminarCampingN', function(e) {
     e.preventDefault();
     $(this).closest('tr').remove();
-});
+  });
+
+
+  //AGREGANDO A EXTRANJEROS EN CAMPING
+  $('#btnAgregarEC').click(function(e) {
+    e.preventDefault();
+    var areaEC = document.getElementById("areae").value;
+    var adultoEC = document.getElementById("aec").value;
+    var preadultoEC = document.getElementById("paec").value;
+    var ninoEC = document.getElementById("nec").value;
+    var preninoEC = document.getElementById("pnec").value;
+    var tipoTe = document.getElementById("lista1e").value;
+    var canTe = document.getElementById("canTie").value;
+    var precioTe = document.getElementById("miprecioe").value;
+    var totalEC = document.getElementById("totalEC").value;
+    //var j = 1; //contador para asignar id al boton que borrara la fila
+    var filaEC = '<tr><td>' + areaEC + '</td><td>' + adultoEC + '</td><td>' + preadultoEC + '</td><td>'
+    + ninoEC + '</td><td>' + preninoEC +'</td><td>' +tipoTe+'</td><td>'+ canTe+'</td><td>'+precioTe+'</td><td>'+ totalEC + 
+    '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingE glyphicon glyphicon-remove"></button></td></tr>' //esto seria lo que contendria la fila
+    //j++;
+
+  $('#tableCamping tr:first').after(filaEC);
+    $("#listaC").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+    var nFilasEC = $("#tableCamping tr").length;
+    $("#listaC").append(nFilasEC - 1);
+
+    //le resto 1 para no contar la fila del header
+    document.getElementById("areae").val("");
+    document.getElementById("aec").val("");
+    document.getElementById("nec").val("");
+    document.getElementById("totalEC").val("");
+    // document.getElementById("nombre").focus();
+
+  });
+
+
+  $(document).on('click', '.btn_eliminarCampingE ', function(e) {
+    e.preventDefault();
+    $(this).closest('tr').remove();
+  });
 
   //MANDAR LOS DATOS AL ARCHIVO PHP
   $('#registrar').on('click', function(){
       //falta que registre y agregar el elssleping bag
-      $('#tableCamping tr').each(function () {
-          var action = 'registroCamping';
+      $('#tableCamping tr').each(function (e) {
+      
+          // var action = 'registroCamping';
           const descripcion = $(this).find('td').eq(0).html();
           const cantidad_adultosC = $(this).find('td').eq(1).html();
           const cantidad_ninosC = $(this).find('td').eq(3).html();
@@ -351,7 +359,7 @@ $(document).on('click', '.btn_eliminarCampingE ', function(e) {
               type: "POST",
               datatype: 'json',
               url: './controlador/ctrcamping.php',
-              data: {action:action,descripcion:descripcion,cantidad_adultosC:cantidad_adultosC,articulo:articulo,cantarti:cantarti,
+              data: { descripcion:descripcion,cantidad_adultosC:cantidad_adultosC,articulo:articulo,cantarti:cantarti,
                 cantidad_ninosC:cantidad_ninosC,totalC:totalC,idCliente:idCliente,reservacion:reservacion,entrada:entrada,
               salida:salida, idusuario:idusuario,usuario_actual:usuario_actual},
               success: function(response){

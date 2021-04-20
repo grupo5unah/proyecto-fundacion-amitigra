@@ -203,7 +203,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-									<button type="button" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button>
+									<!-- <button type="button" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button> -->
 								</div>
 							</div>
 						</div>
@@ -284,8 +284,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																<div class="col-md-6">																
 																	<div class="campos form-group">
 																		<label for="precioN">Precio de Boleto:</label>
-																		<div class="input-group col-xs-8">																																		
-																			<input type="text" class="form-control" id="miprecio" disabled="true" placeholder="Cantidad Personas Adultas" value=""> 
+																		<div class="input-group col-sm-8">																																		
+																			<input type="text" class="form-control estilo" id="miprecio" disabled="true" placeholder="Precio del boleto" value=""> 
 																		</div>
 																	</div>
 																</div>

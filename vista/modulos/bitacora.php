@@ -109,8 +109,6 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 											<?php }?>
 												</tr>
 									</tbody>
-									<!--<?php //}
-										?>-->
 
 								</table>
 
