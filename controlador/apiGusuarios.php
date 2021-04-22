@@ -5,6 +5,12 @@ include "../modelo/conexionbd.php";
 $res = array('error' => false);
 $action = '';
 
+
+
+
+
+
+
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
@@ -157,10 +163,13 @@ switch ($action) {
             $contrasena = $_POST['contrasena'];
             $confirmacontra = $_POST['confirmacontrasena'];
             $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
 
             if ($contrasena == $confirmacontra) {
                 $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
-                $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash' 
+                
+                $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash',fecha_mod_contrasena='$fecha', 
+                modificado_por='$usuario_actual',fecha_modificacion=' $fecha'
                 WHERE id_usuario=" . $id_usuario;
                 $resultado = $conn->query($sql);
 
@@ -196,6 +205,10 @@ switch ($action) {
             $res['error'] = true;
         }
         break;
+
+
+
+        
 
     case 'eliminarUsuario':
         if (isset($_POST['id_usuario'])) {

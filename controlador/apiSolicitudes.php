@@ -42,7 +42,7 @@ switch ($action) {
         $tipo = $_POST['tipo_sol'];
 
         $usuario_actual = $_POST['usuario_actual'];
-
+        $estado_eliminado=1;
         //Fecha ACTUAL del sistema
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
@@ -126,14 +126,15 @@ switch ($action) {
                                 $res['error'] = true;
                             } else {
 
-
+                             
                                 //Insertamos en la tabla solicitudes
-                                $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
+                                $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,estado_eliminado,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                                 tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
-                                VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
                                 $sql->bind_param(
-                                    "ssiiiiissss",
+                                    "sisiiiiissss",
                                     $fecha,
+                                    $estado_eliminado,
                                     $recibo,
                                     $tot_a_pagar,
                                     $id_clientecap,
@@ -160,7 +161,7 @@ switch ($action) {
                     //si no existe el cliente
                 } else {
 
-
+                    
                     //ver si se repite el numero de deposito
                     $consulta_id = mysqli_query($conn, "SELECT id_solicitud,recibo FROM tbl_solicitudes   
                     WHERE recibo=$recibo");
@@ -170,8 +171,8 @@ switch ($action) {
                         $res['msj'] = "Este número de deposito ya se encuentra registrado";
                         $res['error'] = true;
                     } else {
-                        $estado_elim = 1;
-
+                        
+                        $estado_elim=1;
                         $sql = $conn->prepare("INSERT INTO tbl_clientes(nombre_completo,identidad,telefono,tipo_nacionalidad,estado_eliminado,
                             creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                         VALUES (?,?,?,?,?,?,?,?,?)");
@@ -230,15 +231,16 @@ switch ($action) {
                                     $res['msj'] = "Este cliente ya solicitó esta solicitud";
                                     $res['error'] = true;
                                 } else {
+                                    $estado_eliminado=1;
 
-
-                                    $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,
+                                    $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,estado_eliminado,recibo,total,cliente_id,usuario_id,
                                                    estatus_solicitud,
                                                    tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
-                                                   VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                                                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
                                     $sql->bind_param(
-                                        "ssiiiiissss",
+                                        "sisiiiiissss",
                                         $fecha,
+                                        $estado_eliminado,
                                         $recibo,
                                         $tot_a_pagar,
                                         $cliente_capturado,
@@ -344,8 +346,14 @@ switch ($action) {
     case 'eliminarSolicitud':
         if (isset($_POST['id_solicitud'])) {
             $id_solicitud = $_POST['id_solicitud'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $estado_eliminar=0;
+            $fecha = date('Y-m-d H:i:s', time());
 
-            $sql = " DELETE FROM tbl_solicitudes WHERE id_solicitud = " . $id_solicitud;
+            
+
+            $sql = " UPDATE tbl_solicitudes SET estado_eliminado= $estado_eliminar, modificado_por='$usuario_actual', fecha_modificacion='$fecha'
+            WHERE id_solicitud = " . $id_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "La solicitud se ha eliminado correctamente";

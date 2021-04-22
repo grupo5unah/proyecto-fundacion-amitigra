@@ -166,7 +166,6 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                           <th>Identidad</th>
                           <th>Telefono</th>
                           <th>Tipo de Solicitud</th>
-                          <th>Precio</th>
                           <th>Total</th>
                           <th>Estado</th>
                           <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
@@ -191,7 +190,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       ON tiponac.id_tipo_nacionalidad=cli.tipo_nacionalidad INNER JOIN tbl_solicitudes sol
                       ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
                       ON sol.tipo_solicitud=tips.id_tipo_solicitud INNER JOIN tbl_estatus_solicitud est
-                      ON sol.estatus_solicitud=est.id_estatus_solicitud order BY id_solicitud
+                      ON sol.estatus_solicitud=est.id_estatus_solicitud  where sol.estado_eliminado=1 order BY fecha_creacion desc
                       
                       ";
                           $resultado = $conn->query($consult_solicitud);
@@ -209,7 +208,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                             'identidad' => $eventos['identidad'],
                             'id_tipo_nacionalidad' => $eventos['id_tipo_nacionalidad'],                           
                             'telefono' => $eventos['telefono'],
-                            'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],
+                            'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],                       
                             'fecha_creacion' => $eventos['fecha_creacion'],
                             'tipo' => $eventos['tipo'],
                             'precio_solicitud' => $eventos['precio_solicitud'],
@@ -227,7 +226,6 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                               <td> <?php echo $evento["identidad"]; ?></td>
                               <td> <?php echo $evento["telefono"]; ?></td>
                               <td> <?php echo $evento["tipo"]; ?></td>
-                              <td> <?php echo $evento["precio_solicitud"]; ?></td>
                               <td> <?php echo $evento["total"]; ?></td>
                               <td> <?php echo $evento["estatus"]; ?></td>
                               <td>
