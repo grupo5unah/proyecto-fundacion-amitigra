@@ -49,6 +49,26 @@ $(document).ready(function(){
                     } else if(recuPregunta.respuesta == "respuesta_incorrecta"){
                         Notificacion("warning", "Error Respuesta", "La respuesta es incorrecta.");
 
+                    } else if(recuPregunta.respuesta == "repetida"){
+                        swal({
+                            icon:"error",
+                            title: "Contraseña",
+                            text:"No se puede registrar una contraseña ya utilizada."
+                        }).then(() => {
+
+                            //LIMPIA LOS INPUTS DE CONTRASENA Y CONFIRMAR CONTRASENA
+                            $("#PassPregunta").val("");
+                            $("#ConfPassPregunta").val("");
+
+                            //CAMBIO EL TIPO DE INPUT DE TEXTO A CONTRASENA (PASSWORD)
+                            let cambio1 = document.querySelector("#PassPregunta");
+                            cambio1.type = "password";
+                            $(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+
+                            let cambio2 = document.querySelector("#ConfPassPregunta");
+                            cambio2.type = "password";
+                            $(".icon_pregunta").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+                        });
                     }
                 }
             });
