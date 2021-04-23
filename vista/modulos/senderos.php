@@ -203,7 +203,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-									<button type="button" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button>
+									<!-- <button type="button" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button> -->
 								</div>
 							</div>
 						</div>
@@ -284,8 +284,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																<div class="col-md-6">																
 																	<div class="campos form-group">
 																		<label for="precioN">Precio de Boleto:</label>
-																		<div class="input-group col-xs-8">																																		
-																			<input type="number" class="form-control" id="miprecio" disabled="true" value=" "> 
+																		<div class="input-group col-sm-8">																																		
+																			<input type="text" class="form-control estilo" id="miprecio" disabled="true" placeholder="Precio del boleto" value=""> 
 																		</div>
 																	</div>
 																</div>
@@ -296,7 +296,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																</div>
 																
 															</div>
-																<input type="hidden" name="totalBVendido" id="totalBVendido" value="">
+																
 																<input type="hidden" name="totalPB" id="totalPB" value="">
 																<div>
 																<button id="btnAgregarS" class="btn btn-success btnAgregarS addnacional glyphicon glyphicon-plus-sign">Agregar</button>
@@ -311,24 +311,30 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																		<td class="text-center tableBoletos">Precio</td>
 																		<td class="text-center tableBoletos">Sub-Total</td>
 																		<td class="text-center tableBoletos">Localidad</td>
-																		<td class="text-center tableBoletos">Acciones</td>
+																		<!-- <td class="text-center tableBoletos">Acciones</td> -->
 																	</tr>
 																</thead>																
 																<tbody>
 																</tbody>
 																<tfoot>
 																	<tr class="total">
-																		<th>Total</th>
+																		<th>Total Vendidos:</th>
+																		<th></th>
+																		<th></th>
+																		<th>Total a Pagar:</th>
 																	</tr>
 																</tfoot>
 															</table>
-															<label id="total" for=""></label>
+															<input type="text" id="totalPagar" disabled="true"></input>
+															<div class="col-md-6">
+															<input type="text" id="resultado_total" disabled="true"></input>
+															</div>
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
 												<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
-													<button type="button"  class="btn btn-secondary" data-dismiss="modal">Cerrar </button>	
+													<button type="button"  id="cerrarboletos"class="btn btn-secondary" data-dismiss="modal">Cerrar </button>	
 													<button type="button" id="registroBoletos" class="btn btn-primary" data-toggle="tab">REGISTRAR BOLETOS</button>
 												</div>
 											</div> <!-- /.post -->	

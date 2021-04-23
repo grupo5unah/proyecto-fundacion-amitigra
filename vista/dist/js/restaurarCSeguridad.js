@@ -33,13 +33,21 @@ $(document).ready( function() {
                             swal({
                                 icon:"success",
                                 title:"Exito",
-                                text:"Copia de seguridad creada correctamente"
+                                text:"Copia de seguridad creada correctamente",
+                                timer:3500,
+                                buttons:false
                             }).then(() => {
                                 location.reload();
                             });
 
                         //SI LA CONTRASENA NO COINCIDE CON LA DE LA BD
-                        }else if(copia.respuesta == "incorrecta"){
+                        } else if(copia.respuesta == "ubicacion"){
+
+                            Notificacion("error", "Ubicacion", "La ubicacion no existe");
+                        
+                        //SI LA CONTRASENA NO CUMPLE CON LOS PARAMETROS
+                        }
+                        else if(copia.respuesta == "incorrecta"){
 
                             Notificacion("error", "Error contrasena", "La contrasena ingresada es incorrecta");
                         
@@ -73,13 +81,15 @@ $(document).ready( function() {
         })
         .then((willDelete) => {
             if (willDelete) {
-                contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
+                // contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
+                $("#contraRestauracion").val("");
             } else {
             $("#modal-restauracion").modal("show");
             }
         });
         
     });
+
 
     $("#cerrarRest").on("click", function(){
 
@@ -91,7 +101,8 @@ $(document).ready( function() {
         })
         .then((willDelete) => {
             if (willDelete) {
-                contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
+                // contrasena4 = document.querySelector("#contraRestauracion").val("");
+                $("#contraRestauracion").val("");
             } else {
             $("#modal-restauracion").modal("show");
             }

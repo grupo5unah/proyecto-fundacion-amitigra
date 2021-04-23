@@ -75,7 +75,7 @@
                                 mkdir($ruta,777,true);
                             }
 
-                            $nombre_copia=$nombre_base_datos.'_CSBD_'.date("Y-m-d_H_i_s").'.sql';
+                            $nombre_copia=$nombre_base_datos.'_CSBD_fecha_'.date("Y-m-d").'_hora_'.date("H_i_s").'.sql';
                             $fileHandler=fopen($ruta.$nombre_copia,'w+');
                             $number_of_lines=fwrite($fileHandler,$backupSQL);
                             fclose($fileHandler);

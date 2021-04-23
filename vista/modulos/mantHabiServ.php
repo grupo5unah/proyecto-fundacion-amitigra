@@ -65,8 +65,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										try {
 
 
-											$sql = "SELECT id_habitacion_servicio,tbl_habitacion_servicio.descripcion,habitacion_area,tbl_localidad.nombre_localidad,tbl_estado.nombre_estado,precio_adulto_nacional 
-													estado_id, localidad_id,precio_adulto_nacional,precio_nino_nacional,precio_adulto_extranjero,precio_nino_extranjero,tbl_habitacion_servicio.modificado_por,tbl_habitacion_servicio.fecha_modificacion  
+											$sql = "SELECT id_habitacion_servicio,tbl_habitacion_servicio.descripcion,habitacion_area,tbl_localidad.nombre_localidad,tbl_habitacion_servicio.estado_id,tbl_estado.nombre_estado,precio_adulto_nacional 
+													,precio_nino_nacional,precio_adulto_extranjero,precio_nino_extranjero,tbl_habitacion_servicio.modificado_por,tbl_habitacion_servicio.fecha_modificacion  
 													FROM tbl_habitacion_servicio
 													inner join tbl_localidad
 													ON tbl_habitacion_servicio.localidad_id = tbl_localidad.id_localidad
@@ -88,7 +88,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 												'habitacion_area' => $eventos['habitacion_area'],
 												'id_localidad' => $eventos['localidad_id'],
 												'localidad' => $eventos['nombre_localidad'],
-												'estado_id' => $eventos['estado_id'],
+												'estado_id' => $eventos['estado_id'],										
 												'estado' => $eventos['nombre_estado'],
                                                 'precio_adulto_nacional' => $eventos['precio_adulto_nacional'],
                                                 'precio_nino_nacional' => $eventos['precio_nino_nacional'],
@@ -126,7 +126,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<button class="btn btn-warning btnEditarHabServ glyphicon glyphicon-pencil"  data-idhs="<?= $evento['id_habitacion_servicio'] ?>" data-habiare="<?= $evento['habitacion_area'] ?>" 
 														data-descripcion="<?= $evento['descripcion'] ?>" data-local="<?= $evento['localidad'] ?>" data-pan="<?= $evento['precio_adulto_nacional'] ?>"
 														data-pnn="<?= $evento['precio_nino_nacional'] ?>" data-pae="<?= $evento['precio_adulto_extranjero'] ?>" data-prne="<?= $evento['precio_nino_extranjero'] ?>"
-														data-estado="<?= $evento['estado'] ?>"></button>
+														data-estado_id="<?= $evento['estado_id'] ?>" data-estado="<?= $evento['estado'] ?>"></button>
 
 														<?php
 														else:

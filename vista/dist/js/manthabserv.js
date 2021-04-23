@@ -253,6 +253,7 @@ $(document).ready(function(){
         const precioNN = $(this).data('pnn');
         const precioAE = $(this).data('pae');
         const precioNE = $(this).data('prne');
+        const estadoid = $(this).data('estado_id');
         const estado = $(this).data('estado');
         var usuario = $(this).data('#usuario_actual');
         console.log(idhabserv,habserv,descripcion,localidad,precioAN,precioNN,precioAE,precioNE,estado,usuario);
@@ -260,7 +261,7 @@ $(document).ready(function(){
         //$("#id").val(idObjeto),
         $("#habi").val(habserv),
         $("#local").val(localidad),
-        $("#estad").val(estado),
+        $("#estad").val(estadoid),
         $("#descripcion").val(descripcion),
         $("#precioNinoN").val(precioNN),
         $("#precioAdultoN").val(precioAN),

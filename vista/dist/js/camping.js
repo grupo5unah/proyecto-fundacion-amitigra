@@ -311,26 +311,31 @@ $('#btnAgregarEC').click(function(e) {
   //j++;
 
   $('#tableCamping tr:first').after(filaEC);
-      $("#listaC").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-      var nFilasEC = $("#tableCamping tr").length;
-      $("#listaC").append(nFilasEC - 1);
-      //le resto 1 para no contar la fila del header
-      document.getElementById("areae").value ="";
-      document.getElementById("aec").value = "";
-      document.getElementById("nec").value = "";
-      document.getElementById("totalEC").value = "";
-      // document.getElementById("nombre").focus();
-});
-$(document).on('click', '.btn_eliminarCampingE ', function(e) {
+    $("#listaC").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+    var nFilasEC = $("#tableCamping tr").length;
+    $("#listaC").append(nFilasEC - 1);
+
+    //le resto 1 para no contar la fila del header
+    document.getElementById("areae").val("");
+    document.getElementById("aec").val("");
+    document.getElementById("nec").val("");
+    document.getElementById("totalEC").val("");
+    // document.getElementById("nombre").focus();
+
+  });
+
+
+  $(document).on('click', '.btn_eliminarCampingE ', function(e) {
     e.preventDefault();
     $(this).closest('tr').remove();
-});
+  });
 
   //MANDAR LOS DATOS AL ARCHIVO PHP
   $('#registrar').on('click', function(){
       //falta que registre y agregar el elssleping bag
-      $('#tableCamping tr').each(function () {
-          var action = 'registroCamping';
+      $('#tableCamping tr').each(function (e) {
+      
+          // var action = 'registroCamping';
           const descripcion = $(this).find('td').eq(0).html();
           const cantidad_adultosC = $(this).find('td').eq(1).html();
           const cantidad_ninosC = $(this).find('td').eq(3).html();
@@ -351,7 +356,7 @@ $(document).on('click', '.btn_eliminarCampingE ', function(e) {
               type: "POST",
               datatype: 'json',
               url: './controlador/ctrcamping.php',
-              data: {action:action,descripcion:descripcion,cantidad_adultosC:cantidad_adultosC,articulo:articulo,cantarti:cantarti,
+              data: { descripcion:descripcion,cantidad_adultosC:cantidad_adultosC,articulo:articulo,cantarti:cantarti,
                 cantidad_ninosC:cantidad_ninosC,totalC:totalC,idCliente:idCliente,reservacion:reservacion,entrada:entrada,
               salida:salida, idusuario:idusuario,usuario_actual:usuario_actual},
               success: function(response){

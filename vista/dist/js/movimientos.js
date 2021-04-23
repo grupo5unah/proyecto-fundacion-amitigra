@@ -39,13 +39,13 @@ $(document).ready(function () {
     listaProduct.prop('disabled', true);
     registrar.prop('disabled', false);
     
-
+  }
   function llenarTabla() {
     $(".tbody tr").remove();
     contMov.forEach((producto, index) => agregarFila(producto, index));
     
   }
-  }
+  
 
   // btnRegistrarMovimiento
   $("#registrarMovimiento").click(async function (e) {
@@ -103,7 +103,7 @@ $(document).ready(function () {
                             timer: 3000
                         });
                     }
-                    return swal("Exito!", data, "success",{
+                    return swal("Exito!", data.msj, "success",{
                         buttons: false,
                         timer: 3000
                     }).then(() =>{ 
@@ -128,8 +128,8 @@ $(document).ready(function () {
               <td>${index + 1}</td>
               <td>${nombrep.nombre}</td>
               <td>${movimiento}</td>
-              <td>${descripcion}</td>
               <td>${cantidad}</td>
+              <td>${descripcion}</td>
               <td>${localidad.nombreL}</td>
               
               <td>

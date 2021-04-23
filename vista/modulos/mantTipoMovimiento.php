@@ -42,9 +42,9 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<div class="remove-messages"></div>
 										<div class="div-action pull pull-right" style="padding-bottom:20px;">
 											<a class="btn btn-success btnMovimiento glyphicon glyphicon-plus-sign text-uppercase"> Nuevo Movimiento </i></a>
-										</div> <!-- /div-action -->
-										<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
-								porque tambien se aplica a todos los mantenimientos -->
+										</div>
+										<!-- <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>"> -->
+										
 										<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantMovimiento">
 											<thead>
 												<tr>

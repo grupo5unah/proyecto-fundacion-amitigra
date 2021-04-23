@@ -1,7 +1,7 @@
 <?php
-include "../modelo/conexionbd.php";
+include_once "../modelo/conexionbd.php";
 //INSERTAR PARA CAMPING
-if(isset($_POST['action']) == 'registroCamping'){
+// if(isset($_POST['action']) == 'registroCamping'){
     $descripcionC = $_POST['descripcion'];
     $cantidad_adultosC = $_POST['cantidad_adultosC'];
     $cantidad_ninosC = $_POST['cantidad_ninosC'];
@@ -204,4 +204,4 @@ if(isset($_POST['action']) == 'registroCamping'){
         );
     }
     echo json_encode($respuesta);
-}
+//}
