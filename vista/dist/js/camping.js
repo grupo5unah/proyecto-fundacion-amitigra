@@ -261,12 +261,12 @@ $.ajax({
   //AGREGANDO NACIONALES A CAMPING
   $('#btnAgregarNC').click(function(e) {
     e.preventDefault();
-  var areaN = document.getElementById("area").value;
+  var areaN = $('#area option:selected').text();
   var adulNC = document.getElementById("anc").value;
   var padultoNC = document.getElementById("pac").value;
   var ninNC = document.getElementById("nnc").value;
   var pninoNC = document.getElementById("pnnc").value;
-  var tipoT = document.getElementById("lista1").value;
+  var tipoT = $('#lista1 option:selected').text();
   var canT = document.getElementById("canTi").value;
   var precioT = document.getElementById("miprecio").value;
   var totNC = document.getElementById("totalNC").value;
@@ -280,13 +280,13 @@ $.ajax({
     var nFilasNC = $("#tableCamping tr").length;
     $("#listaC").append(nFilasNC - 1);
     //le resto 1 para no contar la fila del header
-    document.getElementById("area").value ="";
+    document.getElementById("area").value = "";
     document.getElementById("anc").value = "";
     document.getElementById("nnc").value = "";
     document.getElementById("canTi").value = "";
     document.getElementById("lista1").value = "";
     document.getElementById("totalNC").value = "";
-    // document.getElementById("nombre").focus();
+    //document.getElementById("area").focus();
 });
 $(document).on('click', '.btn_eliminarCampingN', function(e) {
       e.preventDefault();
@@ -295,12 +295,12 @@ $(document).on('click', '.btn_eliminarCampingN', function(e) {
 //AGREGANDO A EXTRANJEROS EN CAMPING
 $('#btnAgregarEC').click(function(e) {
   e.preventDefault();
-  var areaEC = document.getElementById("areae").value ;
+  var areaEC =  $('#areae option:selected').text();
   var adultoEC = document.getElementById("aec").value;
   var preadultoEC = document.getElementById("paec").value;
   var ninoEC = document.getElementById("nec").value;
   var preninoEC = document.getElementById("pnec").value;
-  var tipoTe = document.getElementById("lista1e").value;
+  var tipoTe = $('#lista1e option:selected').text();
   var canTe = document.getElementById("canTie").value;
   var precioTe = document.getElementById("miprecioe").value;
   var totalEC = document.getElementById("totalEC").value;
@@ -344,8 +344,8 @@ $(document).on('click', '.btn_eliminarCampingE ', function(e) {
           const idCliente= document.querySelector('#idClient').value;
           const idusuario = document.querySelector('#id_usuario').value;
           const usuario_actual = document.querySelector('#usuario_actual').value;
-          //  console.log(descripcion,cantidad_adultosC,cantidad_ninosC,totalC,
-          //   reservacion,entrada,salida,idCliente,idusuario,usuario_actual);
+           console.log(descripcion,cantidad_adultosC,cantidad_ninosC,totalC,
+          reservacion,entrada,salida,idCliente,idusuario,usuario_actual);
 
           $.ajax({
               type: "POST",

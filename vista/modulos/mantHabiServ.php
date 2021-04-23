@@ -1,6 +1,6 @@
 <?php
 
-include("./modelo/conexionbd.php");
+include "./modelo/conexionbd.php";
 $id_objeto = 24;
 $rol_id = $_SESSION['idRol'];
 
@@ -66,7 +66,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 
 											$sql = "SELECT id_habitacion_servicio,tbl_habitacion_servicio.descripcion,habitacion_area,tbl_localidad.nombre_localidad,tbl_estado.nombre_estado,precio_adulto_nacional 
-													,precio_nino_nacional,precio_adulto_extranjero,precio_nino_extranjero,tbl_habitacion_servicio.modificado_por,tbl_habitacion_servicio.fecha_modificacion  
+													estado_id, localidad_id,precio_adulto_nacional,precio_nino_nacional,precio_adulto_extranjero,precio_nino_extranjero,tbl_habitacion_servicio.modificado_por,tbl_habitacion_servicio.fecha_modificacion  
 													FROM tbl_habitacion_servicio
 													inner join tbl_localidad
 													ON tbl_habitacion_servicio.localidad_id = tbl_localidad.id_localidad
@@ -86,7 +86,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											$evento = array(
 												'descripcion' => $eventos['descripcion'],
 												'habitacion_area' => $eventos['habitacion_area'],
+												'id_localidad' => $eventos['localidad_id'],
 												'localidad' => $eventos['nombre_localidad'],
+												'estado_id' => $eventos['estado_id'],
 												'estado' => $eventos['nombre_estado'],
                                                 'precio_adulto_nacional' => $eventos['precio_adulto_nacional'],
                                                 'precio_nino_nacional' => $eventos['precio_nino_nacional'],
@@ -173,127 +175,120 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 					</div>
 					<div class="modal-body">
 						<form method="POST" id="formHabServ" onpaste="return false">
-						<div class="nav-tabs-custom">
-							<ul class="nav nav-tabs">
-							<li><a></a></li>               
-							<li><a></a></li>
-							</u>
-							<div class="tab-content">
-							<div class="active tab-pane" id="activity2">
-								<div class="post"><br>
-								
-								<div class="ingreso-producto form-group">
-									<div class="campos" type="hidden">
-									<label for=""> </label>
-									<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
-									</div>
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs">
+								<li><a></a></li>               
+								<li><a></a></li>
+								</u>
+								<div class="tab-content">
+								<div class="active tab-pane" id="activity2">
+									<div class="post"><br>
 									
-									<div class="campos">
-										<label for="">Habitación-Área: </label>
-										<input id="habi" class="form-control modal-roles secundary" type="text" name="habi" required>
-									</div>
-									<div class="campos">
-										<label for="">localidad</label><br>
-										<input id="local" class="form-control modal-roles secundary" type="text" name="local" required disabled>
+									<div class="ingreso-producto form-group">
+										<div class="campos" type="hidden">
+										<label for=""> </label>
+										<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+										</div>
 										
-									</div>
-									<div class="campos">
-										<label for="">Estado:</label><br>
-										<select class="form-control modal-roles secundary" name="estad" id="estad">
-											<option value="" disabled selected>Selecione...</option>
-											<?php
-											require ('./modelo/conexionbd.php');
+										<div class="campos">
+											<label for="">Habitación-Área: </label>
+											<input id="habi" class="form-control modal-roles secundary" type="text" name="habi" required>
+										</div>
+										<div class="campos">
+											<label for="">localidad</label><br>
+											<input id="local" class="form-control modal-roles secundary" type="text" name="local" required disabled>
+											
+										</div>
+										<div class="campos">
+											<label for="">Estado:</label><br>
+											<select class="form-control modal-roles secundary" name="estad" id="estad">
+												<option value="" disabled selected>Selecione...</option>
+												<?php
+												require ('./modelo/conexionbd.php');
 
-											$stmt = "SELECT id_estado, nombre_estado FROM tbl_estado
-											WHERE nombre_estado = 'DISPONIBLE' OR nombre_estado = 'RESERVADO'";
-											$resultado = mysqli_query($conn,$stmt);
-											?>
-											<?php foreach($resultado as $opciones):?>
-											<option value="<?php echo $opciones['id_estado']?>"><?php echo $opciones['nombre_estado']?></option>
-											<?php endforeach;?>
-										</select>
-									</div>
-									<div class="campos">
-										<label for="area">Descripción:</label><br>
-										<textarea name="descripcion" id="descripcion" cols="55" rows="3"></textarea>
+												$stmt = "SELECT id_estado, nombre_estado FROM tbl_estado
+												WHERE nombre_estado = 'DISPONIBLE' OR nombre_estado = 'RESERVADO'";
+												$resultado = mysqli_query($conn,$stmt);
+												?>
+												<?php foreach($resultado as $opciones):?>
+												<option value="<?php echo $opciones['id_estado']?>"><?php echo $opciones['nombre_estado']?></option>
+												<?php endforeach;?>
+											</select>
+										</div>
+										<div class="campos">
+											<label for="area">Descripción:</label><br>
+											<textarea name="descripcion" id="descripcion" cols="55" rows="3"></textarea>
+										</div>
+										
+									</div> <!-- /.modal form-group -->
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+										
+										<button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
 									</div>
 									
-								</div> <!-- /.modal form-group -->
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-									<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
-									<button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
-								</div>
-								
-								
-								</div> <!-- /.post -->	
-							</div> <!-- /.tab-pane -->
-							<div class="tab-pane" id="timeline">
-								<div class="post"> <br>
-								
-								<div class="ingreso-producto form-group">
-									<div class="campos" type="hidden">
-									<label for=""> </label>
-									<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
-									</div>
-									<!-- <input type="hide"> -->
-									<div class="col-md-7">
-										<div class="campos form-group">
-											<label>Precio Adulto (N):</label>
-											<div class="input-group col-xs-6">
-												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control" name="precioAdulotN" id="precioAdultoN" placeholder="Ingrese el precio" onkeypress="return soloNumeros(event)"
-												maxlength="4">
+									
+									</div> <!-- /.post -->	
+								</div> <!-- /.tab-pane -->
+								<div class="tab-pane" id="timeline">
+									<div class="post"> <br>
+									
+									<div class="ingreso-producto form-group">
+										<div class="campos" type="hidden">
+										<label for=""> </label>
+										<!-- <input autocomplete="off" class="form-control secundary" type="hidden" name="idProducto" value="0" disabled> -->
+										</div>
+										<!-- <input type="hide"> -->
+										<div class="col-md-7">
+											<div class="campos form-group">
+												<label>Precio Adulto (N):</label>
+												<div class="input-group col-xs-6">
+													<span class="input-group-addon">L.</span>
+													<input type="text" class="form-control" name="precioAdulotN" id="precioAdultoN" placeholder="Ingrese el precio" onkeypress="return soloNumeros(event)"
+													maxlength="4">
+												</div>
+											</div>
+											<div class="campos form-group">
+												<label>Precio Niño (N):</label>
+												<div class="input-group col-xs-6">
+													<span class="input-group-addon">L.</span>
+													<input type="text" class="form-control " name="precioNiN" id="precioNinoN" onkeypress="return soloNumeros(event)" placeholder="Ingrese el precio"
+													maxlength="4" requiered/>
+												</div>
 											</div>
 										</div>
 										<div class="campos form-group">
-											<label>Precio Niño (N):</label>
-											<div class="input-group col-xs-6">
-												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control " name="precioNiN" id="precioNinoN" onkeypress="return soloNumeros(event)" placeholder="Ingrese el precio"
-												maxlength="4" requiered/>
+											<label>Precio Adulto (E):</label>
+											<div class="input-group col-xs-3">
+												<span class="input-group-addon">$.</span>
+												<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Ingrese el precio" onkeydown="return soloNumeros(event)"
+												maxlength="3">
 											</div>
 										</div>
-									</div>
-									<div class="campos form-group">
-										<label>Precio Adulto (E):</label>
-										<div class="input-group col-xs-3">
-											<span class="input-group-addon">$.</span>
-											<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Ingrese el precio" onkeydown="return soloNumeros(event)"
-											maxlength="3">
+										<div class="campos form-group ">
+											<label>Precio Niño (E):</label>
+											<div class="input-group col-xs-3">
+												<span class="input-group-addon">$.</span>
+												<input type="text" class="form-control" name="precNiE" id="precNiE" onkeydown="return soloNumeros(event)" placeholder="Ingrese el precio"
+												maxlength="3" requiered>
+											</div>
 										</div>
-									</div>
-									<div class="campos form-group ">
-										<label>Precio Niño (E):</label>
-										<div class="input-group col-xs-3">
-											<span class="input-group-addon">$.</span>
-											<input type="text" class="form-control" name="precNiE" id="precNiE" onkeydown="return soloNumeros(event)" placeholder="Ingrese el precio"
-											maxlength="3" requiered>
-										</div>
-									</div>
-									
-									
+										
+									</div> <!-- /.modal form-group -->
 									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
-								</div> <!-- /.modal form-group -->
-								<div class="modal-footer">
-									<button class="btn btn-default" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
-									<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-									<button id="btnEditarBD"type="submit" class="btn btn-primary ">Registrar</button>
-								</div>
-								
-								</div> <!-- /.post -->	
-							</div> <!-- /.tab-pane -->	
-							</div> <!-- /.tab-content -->	
-						</div> <!-- /.tabs-custom -->	
+									<div class="modal-footer">
+										<button class="btn btn-default" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
+										<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
+										<button id="btnEditarBD"type="submit" class="btn btn-primary ">Registrar</button>
+									</div>
+									
+									</div> <!-- /.post -->	
+								</div> <!-- /.tab-pane -->	
+								</div> <!-- /.tab-content -->	
+							</div> <!-- /.tabs-custom -->	
 						</form> <!-- /.cierre de formulario -->
 					</div> <!-- /.modal-body -->
-					<?php 
-					if(isset($_GET['msg'])){
-					$mensaje = $_GET['msg'];
-					print_r($mensaje);
-					//echo "<script>alert(".$mensaje.");</script>";  
-					}
-					?>
+				
 					</div> <!-- /.modal content -->
 				</div> <!-- /.modal-dialog -->
 			</div> <!-- /.modal fade --> 
@@ -372,7 +367,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div> <!-- /.modal form-group -->
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-										<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
+									
 										<button class="btn btn-primary" href="#timeline1" data-toggle="tab">Siguiente</button>
 									</div>
 								
