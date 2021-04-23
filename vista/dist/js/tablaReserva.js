@@ -3,7 +3,7 @@ $(document).ready(function() {
     //AGREGANDO A NACIONALES JUTIAPA
   $('#btnAgregarN').click(function(e) {
       e.preventDefault();
-    var habitacionN = document.getElementById("habitacionN").value;
+    var habitacionN = $('#habitacionN option:selected').text();
     var adultoN = document.getElementById("cantAN").value;
     var preadultoN = document.getElementById("precioAdultoN").value;
     var ninoN = document.getElementById("cantNN").value;
@@ -32,7 +32,7 @@ $(document).ready(function() {
     //AGREGANDO A EXTRANJEROS EN JUTIAPA
     $('#btnAgregarE').click(function(e) {
         e.preventDefault();
-      var habitacionE = document.getElementById("habitacionE").value;
+      var habitacionE = $('#habitacionE option:selected').text();
       var adultoE = document.getElementById("cantAE").value;
       var preadultoE = document.getElementById("precioAdultoE").value;
       var ninoE = document.getElementById("cantNE").value;
@@ -113,7 +113,7 @@ $(document).ready(function() {
     //AGREGANDO A NACIONALES ROSARIO
   $('#btnAgregarNR').click(function(e) {
     e.preventDefault();
-  var habitaNR = document.getElementById("hnr").value;
+  var habitaNR = $('#hnr option:selected').text();
   var adulNR = document.getElementById("anr").value;
   var padultoNR = document.getElementById("pnar").value;
   var ninNR = document.getElementById("nnr").value;
@@ -142,7 +142,7 @@ $(document).on('click', '.btn_eliminarRosarioN', function(e) {
   //AGREGANDO A EXTRANJEROS EN ROSARIO
   $('#btnAgregarER').click(function(e) {
     e.preventDefault();
-    var habitacionER = document.getElementById("her").value ;
+    var habitacionER = $('#her option:selected').text();
     var adultoER = document.getElementById("aer").value;
     var preadultoER = document.getElementById("paer").value;
     var ninoER = document.getElementById("ner").value;

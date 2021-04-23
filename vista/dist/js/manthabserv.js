@@ -17,14 +17,14 @@ $(document).ready(function(){
         "createdRow":function(row,data,index){
           if(data[3] == "RESERVADO"){
             $('td', row).eq(3).css({
-              'background-color': ' #E81313',
+              'background-color': '#dd4b39',
               'color': 'white',
               'text-align': 'center'
             });
           }
           if(data[3] == "DISPONIBLE"){
             $('td', row).eq(3).css({
-              'background-color': '#1F9804',
+              'background-color': '#00a65a',
               'color': 'white',
               'text-align': 'center'
             });
@@ -226,7 +226,7 @@ $(document).ready(function(){
         $('#modalCrearHabServ').modal('show');
     } );
     //BUSCAR HABITACION   
-    $('#habi').blur(async function () {
+    /*$('#habi').blur(async function () {
         console.log(this.value);
         if(this.value.length > 0 ){
             try{
@@ -241,7 +241,7 @@ $(document).ready(function(){
                 console.log('Error - ', err);
             }
         }
-    })
+    }) */
     //FUNCION EDITAR HABITACION O ÁREA
     $('.btnEditarHabServ').on('click', function() {
         // info previa
@@ -253,13 +253,15 @@ $(document).ready(function(){
         const precioNN = $(this).data('pnn');
         const precioAE = $(this).data('pae');
         const precioNE = $(this).data('prne');
+        const estadoid = $(this).data('estado_id');
         const estado = $(this).data('estado');
-        var usuario =$(this).data('#usuario_actual');
+        var usuario = $(this).data('#usuario_actual');
+        console.log(idhabserv,habserv,descripcion,localidad,precioAN,precioNN,precioAE,precioNE,estado,usuario);
         //muestra la informacion en los inputs
         //$("#id").val(idObjeto),
         $("#habi").val(habserv),
         $("#local").val(localidad),
-        $("#estad").val(estado),
+        $("#estad").val(estadoid),
         $("#descripcion").val(descripcion),
         $("#precioNinoN").val(precioNN),
         $("#precioAdultoN").val(precioAN),
@@ -305,6 +307,12 @@ $(document).ready(function(){
                     console.log('Ya se cerro el alert');
                     $("#habi").val('');
                     $("#descripcion").val('');
+                    $("#local").val('');
+                    $("#estad").val('');
+                    $("#precioNinoN").val('');
+                    $("#precioAdultoN").val('');
+                    $("#precioAdultoE").val('');
+                    $("#precNiE").val('');
                     location.reload(); 
                 })
             }

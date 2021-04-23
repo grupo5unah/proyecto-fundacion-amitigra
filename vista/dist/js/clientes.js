@@ -221,6 +221,7 @@ $(document).ready(function(){
         const nombre = $(this).data('nombrecliente');
         const identidadC = $(this).data('identidad');
         const telefono = $(this).data('telefono');
+        const tipo_nacionalidad = $(this).data('tipo_nacionalidad');
         const nacionalidad = $(this).data('nacionalidad');
         var usuario_actual = $("#usuario_actual").val();
         //llena los campos
@@ -228,7 +229,7 @@ $(document).ready(function(){
         $("#nombre_cliente").val(nombre),
         $("#identidad").val(identidadC),
         $("#telefono").val(telefono),
-        $("#nacionalidad").val(nacionalidad),
+        $("#nacionalidad").val(tipo_nacionalidad),
         $("#usuario_actual").val(usuario_actual)
         
         //console.log(idrol,nombrerol,descripcion);
