@@ -9,7 +9,7 @@ if (isset($_GET['action'])) {
 }
 
 switch ($action) {
-    case 'obtenerhabserv': 
+   /* case 'obtenerhabserv': 
         $idhabser = $_GET['habser'];
         $sql = "SELECT 
          id_habitacion_servicio, habitacion_area
@@ -20,7 +20,7 @@ switch ($action) {
             array_push($habiser_db, $row);
         }
         $res['habser'] = $habiser_db;
-    break;
+    break;*/
     // REGISTRA UN CLIENTE
      case 'registrarhabserv': 
         $habserv = $_POST['habitacion_area'];
@@ -68,8 +68,8 @@ switch ($action) {
 
         if (isset(($_POST['id_habserv']))&& isset($_POST['hab_are']) 
         && isset($_POST['estad'])&& isset($_POST['preNN']) && isset($_POST['preAN'])&& isset($_POST['preAE'])
-        && isset($_POST['preNE'])  && isset($_POST['descrip'])&& isset($_POST['usuario_actual'])) {
-            $id_hab_are = (int)$_POST['id_habiser'];
+         && isset($_POST['preNE'])  && isset($_POST['descrip'])&& isset($_POST['usuario_actual'])) {
+            $id_hab_are = (int)$_POST['id_habserv'];
             $hab_are = $_POST['hab_are'];
             $estad = $_POST['estad'];
             $descrip = $_POST['descrip'];
@@ -82,7 +82,7 @@ switch ($action) {
             $fech=date('Y-m-d H:i:s',time());
            
             $sql = "UPDATE tbl_habitacion_servicio SET habitacion_area = '$hab_are', descripcion  = '$descrip', 
-            estado_id= '$estad', precio_adulto_nacional= '$preAN', precio_nino_nacional ='$preNN', precio_adulto_extranjero = '$preAE',
+             estado_id= '$estad', precio_adulto_nacional= '$preAN', precio_nino_nacional ='$preNN', precio_adulto_extranjero = '$preAE',
             precio_nino_extranjero = '$preNE', modificado_por='$usuario',fecha_modificacion = '$fech'
              WHERE id_habitacion_servicio=" .$id_hab_are;          
             $resultado = $conn->query($sql);
