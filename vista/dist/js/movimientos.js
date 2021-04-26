@@ -238,7 +238,7 @@ $(document).ready(function () {
     const nombre_movimiento = $("input:radio[name=entrada]:checked ").data("movi");
     const idP = $(".movimientoProducto").val();
     const nombre = $(".movimientoProducto option:selected").text();
-    console.log(nombre_movimiento);
+    
     if (nombre_movimiento.indexOf("SALIDA") > -1) {
       
       try {
@@ -271,7 +271,7 @@ $(document).ready(function () {
     }
   });
    
-    // }
+  
   
   
  
