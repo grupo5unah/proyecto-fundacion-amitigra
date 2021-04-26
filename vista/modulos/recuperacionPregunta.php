@@ -2,12 +2,26 @@
 <html>
 <?php
 include "../../funciones/sesiones.php"; 
+include "../../modelo/conexionbd.php";
+
 $usuario = $_SESSION['usuario'];
 //$id_usuario = $_SESSION['id'];
+
+  $objeto = 50;
+
+  $permiso = "SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+              FROM tbl_permisos
+              WHERE objeto_id = '$objeto';";
+
+  $resultado = mysqli_query($conn, $permiso);
+
+  while($mipermiso = mysqli_fetch_assoc($resultado)):
+
 ?>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="../../fotoPerfil/favicon.ico">
   <title>AdminLTE 2 | Registration Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -48,22 +62,32 @@ $usuario = $_SESSION['usuario'];
                 <!--TERCER PREGUNTA-->
                 <div class="active tab-pane" id="activity">
                   <div class="post text-center">
+
+                    <div class="formn-group text-center">
+                      <div class="input-group">
+                      <label class="color-enlaces" for="">Pregunta de recuperación</label>
+                      </div>
+                    </div>
+
                     <div class="form-group">
-                    <label class="color-enlaces" for="">Pregunta de recuperación</label>
-                    <input type="text" value="<?php echo $usuario;?>">
-                    <br>
-                      <label class="color-enlaces">Selecciona su pregunta</label>
+                      <div class="input-group">
+                        <label class="color-enlaces label-form">Selecciona su pregunta</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                                         
                       <select id="id_pregunta" name = "pregunta_id" class="form-control">
-                      <option>Seleccione una pregunta...</option>
-                        <?php
-                             include_once '../../modelo/conexionbd.php';
+                        <option>Seleccione una pregunta...</option>
+                          <?php
+                            include_once '../../modelo/conexionbd.php';
       
-                             $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
-                             $resultado = mysqli_query($conn,$stmt);
-                            ?>
-                            <?php foreach($resultado as $opciones):?>
-                                <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
-                            <?php endforeach;?>
+                            $stmt = "SELECT id_pregunta, pregunta FROM tbl_preguntas";
+                            $resultado = mysqli_query($conn,$stmt);
+                          ?>
+                          <?php foreach($resultado as $opciones):?>
+                        <option value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
+                          <?php endforeach;?>
                       </select>
                     </div>
                       <div class="form-group has-feedback">
@@ -88,14 +112,15 @@ $usuario = $_SESSION['usuario'];
                       <br>
                       <div class="input-group has-feedback">
                         <input id="ConfPassPregunta" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
-                        <span class="input-group-btn" onclick="mostPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_confi"></i></button>
+                        <span class="input-group-btn" onclick="mostrarPassPregunta()">
+                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
                         </span>
                       </div>
                       <br>
                       <div class="columna">
                         <button class="btn btn-primary" href="#activity" data-toggle="tab">Anterior</button>
                         <input type="hidden" id="usuario" value="<?php echo $usuario;?>">
+                        <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
                         <button type="button" id="confirmarCambio" name="submit" class="btn btn-success">Actualizar</button>
                       </div>
                     
@@ -109,17 +134,10 @@ $usuario = $_SESSION['usuario'];
           <!--FIN FORM-->
         </div>   
       </div>
-      <?php
-        //include("../../controlador/ctr.nuevaPassPregunta.php");
-
-        //$AtualizarPassword = new NuevaPassPregunta();
-        //$AtualizarPassword->ctrNuevaPassPregunta();
-      ?>
     </form>
   </div>
   <!-- /.form-box -->
 </div>
-
 
 <script type="text/javascript">
 
@@ -170,3 +188,4 @@ window.onload = function(){
 <script src="../plugins/iCheck/icheck.min.js"></script>
 </body>
 </html>
+<?php endwhile;?>

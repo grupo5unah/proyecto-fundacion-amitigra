@@ -1,106 +1,4 @@
-<script>
-  function soloNumeros(e) {
-    var key = window.event ? e.which : e.keyCode
-    return ((key >= 48 && key <= 57) || (key == 8))
-    e.preventDefault();
 
-  }
-
-  function soloNumeros(e) {
-    var key = window.event ? e.which : e.keyCode;
-    if (key < 48 || key > 57) {
-      e.preventDefault();
-    }
-  }
-
-
-  function soloLetras(e) {
-    var key = e.keyCode || e.which,
-      tecla = String.fromCharCode(key).toLowerCase(),
-      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
-      especiales = [8, 37, 39, 46],
-      tecla_especial = false;
-    for (var i in especiales) {
-      if (key == especiales[i]) {
-        tecla_especial = true;
-        break;
-      }
-    }
-    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-      return false;
-    }
-  }
-  SinEspacio = function(input) {
-    input.value = input.value.replace(' ', '');
-  }
-
-  //Permitir solo un ESPACIO
-  espacio_Letras = function(input) {
-    input.value = input.value.replace('  ', ' ');
-  }
-
-
-  function validaemail(valor) {
-    re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-    if (!re.exec(valor)) {
-      $res['msj'] = "Email no valido";
-    }
-
-  }
-
-  function limpia() {
-    var val = document.getElementById("telefono").value;
-    var tam = val.length;
-    for (i = 0; i < tam; i++) {
-      if (isNaN(val[i]))
-        document.getElementById("telefono").value = '';
-    }
-  }
-
-  function mostrarPassword() {
-    var cambio = document.getElementById("Contraseña");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-
-  function mostrarPassword2() {
-    var cambio = document.getElementById("ConfirmarContraseña");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-
-  function mostrarPasswordreset() {
-    var cambio = document.getElementById("Contraseña_reset");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-
-  function mostrarPassword2reset() {
-    var cambio = document.getElementById("ConfirmarContraseña_reset");
-    if (cambio.type == "password") {
-      cambio.type = "text";
-      $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-    } else {
-      cambio.type = "password";
-      $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-    }
-  }
-</script>
 
 <?php
 
@@ -109,7 +7,7 @@ include "./modelo/conexionbd.php";
 $id_objeto = 36;
 $rol_id = $_SESSION['idRol'];
 
-$stmt = $conn->query("SELECT permiso_consulta FROM tbl_permisos
+$stmt = $conn->query("SELECT permiso_insercion, permiso_actualizacion, permiso_eliminacion, permiso_consulta FROM tbl_permisos
 WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
@@ -151,7 +49,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 </div> <!-- /div-action -->
                 <table id="tablaTipoSolicitudes" class="display responsive nowrap">
                   <thead>
-                    <tr>
+                    <tr style="background-color: #222d32; color: white;">
                       <th>Tipo de Solicitud</th>
                       <th>Precio</th>
                       <th>Creado Por</th>
@@ -231,11 +129,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" id="cerrar_tipo">&times;</span></button>
               <h4 class="modal-title" id="myModalLabel">Actualizar Tipo de Solicitud</h4>
             </div>
             <div class="modal-body">
-              <form name="formEditarParametro" action="">
+              <form name="formEditarParametro" action="" autocomplete="off">
                 <div class="ingreso-producto form-group">
                   <div class="campos" type="hidden">
                     <input autocomplete="off" class="form-control secundary" type="hidden" name="idSolcitud" value="0" disabled>
@@ -256,7 +154,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button id="cerrartiposol" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Tipo Solicitud">
             </div>
           </div>
@@ -274,13 +172,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
             <div class="modal-header">
               <div class="d-flex justify-content-between">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <i aria-hidden="true">&times;</i>
+                  <i aria-hidden="true" id="cerrarTso">&times;</i>
                 </button>
                 <h3 class="modal-title" id="exampleModalLabel">Registrar Tipo Solicitud</h3>
               </div>
             </div>
             <div class="modal-body">
-              <form name="" id="formTipoSolicitudes" onpaste="return false">
+              <form name="" id="formTipoSolicitudes" onpaste="return false" autocomplete="off">
                 <div class=" form-group">
                   <div class="campos form-group" type="hidden">
                     <label for=""> </label>
@@ -298,7 +196,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                     <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="cerrarTs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Tipo Solicitud</button>
                   </div>
               </form>

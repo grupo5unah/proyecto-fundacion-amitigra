@@ -15,6 +15,5 @@ if(!empty($usuarioBuscar)){
             'nombre_completo' => $consulta['nombre_completo']
         );
     }
-
 }
 echo json_encode($json);

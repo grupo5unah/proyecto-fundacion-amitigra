@@ -1,12 +1,12 @@
 $(document).ready(function () {
 
   $('#notificacion').hide();
-  $('#notificacion2').hide();  
+  //$('#notificacion2').hide();  
 
   //Verifica la existencia del nombre de usuario
   $('#usuario').keyup(function(e){
     if($('#usuario').val()){
-      let usuarioBuscar = $('#usuario').val();
+      let usuarioBuscar = document.querySelector('#usuario').value;
       //let correo = $('#correo').val();
   
       $.ajax({

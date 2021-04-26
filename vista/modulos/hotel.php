@@ -279,7 +279,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="col-md-6">
 																	<div class="campos form-group">
-																		<label for="">Telefeno: </label>
+																		<label for="">Telefono: </label>
 																		<input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeypress="return soloNumero(event)" disabled required>
 																	</div>
 																</div>
@@ -333,7 +333,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															<div class="col-md-6 salida">
 																<div class="form-group">
 																	<label>Fecha Salida:</label>
-																	<input type="text" class="form-control" name="salida" id="salida" required>
+																	<input type="text" class="form-control" name="salida" id="salida" required disabled>
 																</div>
 															</div>	
 														</div><!-- row -->
@@ -341,7 +341,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
 													<button class="btn btn-default" href="#activity" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" href="#settings sigue2" data-toggle="tab" disabled>Siguiente</button>
+													<button class="btn btn-primary" href="#settings" data-toggle="tab">Siguiente</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->
@@ -416,7 +416,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<input type="hidden" name="totalNJ" id="totalNJ" value="">
-																<button id="btnAgregarN" class="btn btn-success btnAgregarN addnacional glyphicon glyphicon-plus-sign" > Agregar</button>
+																<button id="btnAgregarN" class="btn btn-success btnAgregarN addnacional glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row nacionales -->
 															<div class="row extranjero">
 																<div class="col-md-4">
@@ -486,13 +486,13 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															<table id="tableJutiapa" data-page-length='10' class=" table table-hover table-condensed table-bordered">
 																<thead>
 																	<tr>
-																		<td class="text-center tablaJutiapa">Habitaciones</td>
-																		<td class="text-center tablaJutiapa">Adultos</td>
-																		<td class="text-center tablaJutiapa">P.Adultos</td>
-																		<td class="text-center tablaJutiapa">Niños</td>
-																		<td class="text-center tablaJutiapa">P.Niños</td>
-																		<td class="text-center tablaJutiapa">Total</td>
-																		<td class="text-center tablaJutiapa">Acciones</td>
+																		<th class="text-center tablaJutiapa">Habitaciones</th>
+																		<th class="text-center tablaJutiapa">Adultos</th>
+																		<th class="text-center tablaJutiapa">Precio</th>
+																		<th class="text-center tablaJutiapa">Niños</th>
+																		<th class="text-center tablaJutiapa">Precio</th>
+																		<th class="text-center tablaJutiapa">Total</th>
+																		<th class="text-center tablaJutiapa">Acciones</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -632,13 +632,13 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 														<table id="tableRosario" data-page-length='10' class=" table table-hover table-condensed table-bordered">
 															<thead>
 																<tr>
-																	<td class="tablaRosario">Habitaciones</td>
-																	<td class="tablaRosario">Adultos</td>
-																	<td class="tablaRosario">P.Adultos</td>
-																	<td class="tablaRosario">Niños</td>
-																	<td class="tablaRosario">P.Niños</td>
-																	<td class="tablaRosario">Total</td>
-																	<td class="tablaRosario">Acciones</td>
+																	<th class="tablaRosario">Habitaciones</th>
+																	<th class="tablaRosario">Adultos</th>
+																	<th class="tablaRosario">Precio</th>
+																	<th class="tablaRosario">Niños</th>
+																	<th class="tablaRosario">Precio</th>
+																	<th class="tablaRosario">Total</th>
+																	<th class="tablaRosario">Acciones</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -902,7 +902,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																		<?php
 																			include_once ('./modelo/conexionbd.php');
 																		$stmt = "SELECT id_producto, nombre_producto FROM tbl_producto
-																		WHERE nombre_producto LIKE '%Ti%' OR nombre_producto LIKE '%ninguno%' 
+																		WHERE nombre_producto LIKE '%Tienda%' OR nombre_producto LIKE '%ninguno%' 
 																		OR nombre_producto LIKE '%sleeping%'";
 																		$resultado = mysqli_query($conn,$stmt);
 																		?>
@@ -1003,19 +1003,20 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<input type="hidden" name="totalEC" id="totalEC" value="">
 																<button id="btnAgregarEC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row extranjeros-->
-															<!-- <div id="listaC"></div> -->
-															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+															 <div id="listaC"></div>
+															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered" >
 																<thead>
 																	<tr>
+																		<!-- <td class="tablaCamping">#</td> -->
 																		<td class="tablaCamping">Área</td>
 																		<td class="tablaCamping">Adultos</td>
-																		<td class="tablaCamping">P.Adultos</td>
+																		<td class="tablaCamping">Precio</td>
 																		<td class="tablaCamping">Niños</td>
-																		<td class="tablaCamping">P.Niños</td>
+																		<td class="tablaCamping">Precio</td>
 																		<td class="tablaCamping">Articulo</td>
-																		<td class="tablaCamping">cant Articulo</td>
-																		<td class="tablaCamping">P.Articulo</td>
-																		<td class="tablaCamping"> Sub-Total</td>
+																		<td class="tablaCamping">cantidad</td>
+																		<td class="tablaCamping">Precio</td>
+																		<td class="tablaCamping"> Total</td>
 																		<td class="tablaCamping">Acciones</td>
 																	</tr>
 																</thead>
@@ -1063,7 +1064,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formDetalle">
+						 	<form method="POST" id="formDetalle" class="fact">
 							 	<div class="box-body">
 								 	
 									 
@@ -1076,9 +1077,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 											<th>N°</th>
 											<th>Descripción</th>
 											<th>Adultos</th>
-											<th>P.Adulto</th>
+											<th>Precio</th>
 											<th>Niños</th>
-											<th>P.Niños</th>
+											<th>Precio</th>
 											<th>Articulos</th>
 											
 										</tr>
@@ -1094,7 +1095,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</form> <!-- /.cierre de formulario -->
 							<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-									<!-- <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a> -->
+									<button target="_blank" class="btn btn-default" id="btnimprimir" ><i class="fa fa-print"></i> Imprimir</button>
+									
 							</div>
 						</div> <!-- /.modal-body -->
 						<?php 

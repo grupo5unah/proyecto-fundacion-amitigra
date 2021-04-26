@@ -128,8 +128,8 @@ $(document).ready(function () {
               <td>${index + 1}</td>
               <td>${nombrep.nombre}</td>
               <td>${movimiento}</td>
-              <td>${descripcion}</td>
               <td>${cantidad}</td>
+              <td>${descripcion}</td>
               <td>${localidad.nombreL}</td>
               
               <td>

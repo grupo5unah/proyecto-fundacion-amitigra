@@ -1,8 +1,22 @@
+<?php
+  include "../../modelo/conexionbd.php";
+
+  $objeto = 49;
+
+  $permiso = ("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+                            FROM tbl_permisos
+                            WHERE objeto_id = '$objeto'");
+
+  $resultado = mysqli_query($conn, $permiso);
+
+  while($mipermiso = mysqli_fetch_assoc($resultado)):
+?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="../../fotoPerfil/favicon.ico">
   <title>SAAT | Recuperacion</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -30,7 +44,7 @@
 
     <form method="post">
       <div class="form-group has-feedback">
-        <input type="text" maxlength="50" id="correo" class="form-control" name="email" placeholder="Correo electrónico" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeyup="SinEspacio(this)">
+        <input autocomplete="off" type="text" maxlength="50" id="correo" class="form-control" name="email" placeholder="Correo electrónico" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeyup="SinEspacio(this)">
         <span class="glyphicon glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <br>
@@ -48,36 +62,12 @@
 		  	</div>
         </div>
 		<div class="form-group text-center">
+      <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
 		  		<i class="fa fa-arrow-left"><a href="login.php" type="submit" class="btn btn-success btn-flat">Regresar</a></i>
 		  	</div>
 	  </div>
 	</form>
   </div>
-  <?php
-	/*if(isset($_POST['submit_correo'])){
-	include_once('../../controlador/ctr.olvideContrasena.php');
-
-	$olvideContrasena = new OlvideContrasena();
-	$olvideContrasena->ctrOlvideContrasena();
-
-	//REGISTRA EN LA BITACORA LA ACCION DE CORREO
-	/*include_once('../../controlador/ctr.AccionesBitacora.php');
-
-	$AccionesBitacoraCorreo = new AccionesBitacora();
-	$AccionesBitacoraCorreo->ctrPassCorreo();*/
-	/*}elseif(isset($_POST['submit_pregunta'])) {
-	include_once('../../controlador/ctr.recPassPregunta.php');
-
-	$olvideContrasenaPregunta = new RecuPregunta();
-	$olvideContrasenaPregunta->ctrRecuPregunta();
-
-	//REGISTRA EN LA BITACORA LA ACCION DE PREGUNTA
-	/*include_once('../../controlador/ctr.AccionesBitacora.php');
-
-	$AccionesBitacoraPregunta = new AccionesBitacora();
-	$AccionesBitacoraPregunta->ctrPassPregunta();*/
-	//}
-	?>
 
 </div>
 
@@ -98,6 +88,7 @@ window.onload = function(){
 
 }
 
+  <?php endwhile;?>
 </script>
 
 <!-- jQuery 3 -->

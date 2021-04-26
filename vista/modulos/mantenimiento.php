@@ -99,6 +99,8 @@ WHERE rol_id = '$rol_id' AND objeto_id = '$id_objeto';");
 $columna = $stmt->fetch_assoc();
 
 
+$_SESSION['usuario'] = $usuario;
+
 if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") {
 	if ($columna["permiso_consulta"] == 1) {
 ?>
@@ -141,7 +143,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 										<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablaMantenimientoUsuarios">
 											<thead>
-												<tr>
+												<tr style="background-color: #222d32; color: white;">
 													<th>Nombre</th>
 													<th>Usuario</th>
 													<th>Genero</th>
@@ -213,7 +215,11 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 																if ($columna['permiso_eliminacion'] == 1) :
 																?>
+
+
+
 																	<button class="btn btn-danger btnEliminarUsuario glyphicon glyphicon-remove" data-idusuario="<?php echo $evento['id_usuario'] ?>"></button>
+
 																	<button class="btn btn-resetear btnResetearClaves fa fa-key" style="width:40px" style="height:50px;" data-idusuario="<?= $evento['id_usuario'] ?>" data-contrasena="<?= $evento['contrasena'] ?>"></button>
 																<?php
 																else :
@@ -235,13 +241,14 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 						</div> <!-- /row -->
 					</div>
 
+
 					<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<i aria-hidden="true" id="cerrar_act" >&times;</i>
+											<i aria-hidden="true" id="cerrar_act">&times;</i>
 										</button>
 										<h3 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h3>
 									</div>
@@ -336,7 +343,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<i aria-hidden="true">&times;</i>
+											<i aria-hidden="true" id="cerrar_reseteox">&times;</i>
 										</button>
 										<h3 class="modal-title" id="exampleModalLabel">Resetear Contraseña</h3>
 									</div>
@@ -349,16 +356,17 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												<input autocomplete="off" class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
 											</div>
 
-											<div class="input-group col-sm-11 has-feedback">
+											<div class="input-group has-feedback">
 												<label for="">Nueva Contraseña</label>
-												<input id="Contraseña_reset" style="width: 364px;" class="form-control" type="password" placeholder="Contraseña" required />
+												<input id="Contraseña_reset" style="width: 364px;" class="form-control" type="password" placeholder="Nueva Contraseña" required />
 
 											</div><br>
 
 											<div class="input-group has-feedback">
+											
 												<input id="ConfirmarContraseña_reset" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
 												<span class="input-group-btn" onclick="VerPasswordRC()">
-													<button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
+													<button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons "></i></button>
 
 											</div><br>
 
@@ -369,7 +377,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+									<button id="cerrar_reseteo" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 									<button id="btnResetClave" type="button" class="btnResetClave btn btn-primary">Resetear Contraseña</button>
 								</div>
 							</div>
@@ -409,7 +417,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class="campos form-group">
 												<input id="telefono" autocomplete="off" style="width: 363px;" maxlength="8" minlength="8" class="form-control modal-roles 
-										secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)" onblur="limpia()" required /></center>
+										secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)"  required /></center>
 											</div>
 											<div class="campos form-group">
 

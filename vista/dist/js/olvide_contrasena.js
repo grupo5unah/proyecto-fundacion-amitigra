@@ -3,6 +3,7 @@ $(document).ready(function(){
     //FUNCION PARA OLVIDE CONTRASENA
     $("#btnCorreo").on("click", async function(){
         let correo = document.querySelector("#correo").value;
+        let idObjeto = document.querySelector("#idObjeto").value;
 
         if(correo === ""){
             Notificacion("warning", "Algo anda mal", "Debes de ingresar tu correo electronico");
@@ -12,7 +13,7 @@ $(document).ready(function(){
                 url:"../../controlador/olvideContrasena.php",
                 type:"POST",
                 datatype:"json",
-                data: { correo:correo },
+                data: { correo:correo, idObjeto:idObjeto },
                 success: function(response){
 
                     let recuCorreo = JSON.parse(response);
