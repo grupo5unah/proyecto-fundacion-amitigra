@@ -102,7 +102,7 @@ $(document).ready(function () {
 
           var cols = [];
           cols[0] = {
-            text: "AMITIGRA",
+            text: "",
             alignment: "left",
             margin: [0, 0, 0, 0, 0],
           };

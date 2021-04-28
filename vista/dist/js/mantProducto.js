@@ -245,6 +245,22 @@ $('.btnEliminarmovimiento ').on('click', function (){
     });
 });
 
+//cerrar el modal
+$("#cerrarM").on("click", function () {
+    swal({
+      icon: "warning",
+      title: "Saliendo...",
+      text: "Desea salir?",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        $("#modalEditarProductos").modal("hide");
+      } else {
+        $("#modalEditarProductos").modal("show");
+      }
+    });
+  });
 
 
 
