@@ -155,7 +155,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 					<div class="modal-content">
 						<div class="modal-header">
 							<div class="d-flex justify-content-between">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close cierra1" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
 								<h3 class="modal-title" id="exampleModalLabel">Actualizar Cliente</h3>
@@ -166,22 +166,22 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 								<div class="ingreso-producto form-group">
 									
 									<div class="campos">
-										<label for="">Nombre Cliente: </label>
+										<label for="nombre_cliente">Nombre Cliente: </label>
 										<input id="nombre_cliente" class="form-control  modal-roles secundary text-uppercase" type="text" name="cliente" placeholde="Escriba el nombre del cliente" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 									</div>
 									<div class="campos form-group">
-										<label for="">Identidad: </label>
-										<input id="identidad" class="form-control  modal-roles secundary text-uppercase" type="text" name="identidad"placeholde="Escriba la identidad"  onkeydown="return soloNumeros(event)" required/>
+										<label for="identidad">Identidad: </label>
+										<input id="identidad" minlength="13" maxlength="13" class="form-control  modal-roles secundary text-uppercase" type="text" name="identidad"placeholde="Escriba la identidad"  onkeypress="return soloNumeros(event)" required/>
 
 									</div>
 									<div class="campos form-group">
-										<label for="">Telefono: </label>
-										<input id="telefono" class="form-control  modal-roles secundary text-uppercase" type="tel" name="telefono" placeholde="Escriba el telefono" onkeydown="return soloNumeros(event)" required/>
+										<label for="telefono">Telefono: </label>
+										<input id="telefono" minlength="8" maxlength="8" class="form-control  modal-roles secundary text-uppercase" type="tel" name="telefono" placeholde="Escriba el telefono" onkeypress="return soloNumeros(event)" required/>
 
 									</div>
 									<div class="campos form-group">
-										<label for="">Nacionalidad: </label>
+										<label for="nacionalidad">Nacionalidad: </label>
 										<select class="form-control" name="nacionalidad" id="nacionalidad">
 											<option value="" disabled selected>Selecione...</option>
 											<?php 
@@ -203,7 +203,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-secondary cierra" data-dismiss="modal">Cerrar</button>
 							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Cliente</button>
 						</div>
 					</div>
@@ -217,33 +217,33 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 							<div class="modal-content">
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
-						                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						                <button type="button" class="close cerrar2" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 										</button>
 										<h3 class="modal-title" id="exampleModalLabel">Registrar Nuevo Cliente</h3>
 									</div>
 								</div>
 								<div class="modal-body">
-									<form name="" id="formCliente" onpaste="return false">
+									<form name="" id="formCliente" onpaste="return false" autocomplete="off">
 										<div class="ingreso-producto form-group">
 											
 											<div class="campos">
-												<label for="">Nombre Cliente: </label>
+												<label for="nombreCliente">Nombre Cliente: </label>
 												<input id="nombreCliente" class="form-control modal-roles secundary text-uppercase" type="text" name="nombrecliente" placeholder="Nombre cliente" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
-												<label for="">Identidad: </label>
-												<input id="ident" name="ident"  class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="Identidad" onkeydown="return soloNumeros(event)" required/>
+												<label for="ident">Identidad: </label>
+												<input id="ident" name="ident" minlength="13" maxlength="13" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="Identidad" onkeypress="return soloNumeros(event)" required/>
 
 											</div>
 											<div class="campos form-group">
-												<label for="">Telefono: </label>
-												<input id="tel" name="tel" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Telefono" onkeydown="return soloNumeros(event)" required/>
+												<label for="tel">Telefono: </label>
+												<input id="tel" name="tel" minlength="8" maxlength="8" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Telefono" onkeypress="return soloNumeros(event)" required/>
 
 											</div>
                                             <div class="campos form-group">
-                                                <label for="">Nacionalidad: </label>
+                                                <label for="nacion">Nacionalidad: </label>
                                                 <select class="form-control" name="nacion" id="nacion">
                                                     <option value="" disabled selected>Selecione...</option>
                                                     <?php 
@@ -262,8 +262,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
 										<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"     data-dismiss="modal">Close</button>
-										<button id=""type="submit" class=" btn btn-primary">Registrar  Cliente</button>
+										<button type="button" class="btn btn-secondary cerrar"     data-dismiss="modal">Cerrar</button>
+										<button id=""type="submit" class=" btn btn-primary" id="registrarcliente">Registrar  Cliente</button>
 										</div>
 										
 									</form>

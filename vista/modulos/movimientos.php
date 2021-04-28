@@ -60,7 +60,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                         ?>
 
                       </div>
-                      <table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="movimientos">
+                      <table data-page-length='10' class=" display table table-hover table-condensed table-bordered wrapper" id="movimientos">
                         <thead style=" background-color: #222d32; color: white;">
                           <tr>
                             <th>Nombre Producto</th>
@@ -265,7 +265,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                             </div>
                             
                               <input disabled id="btnMO"  type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas " value="+" >
-                              <input type="hidden" id="btnProductMovimiento" class=" glyphicon glyphicon-saved btn btn-primary agregar-table  bmas" value="■">
+                              <input type="hidden" id="btnProductMovimiento" class=" glyphicon glyphicon-saved btn btn-primary agregar-table  bmas" value="Finalizar">
                            
                           </div>
 
@@ -314,11 +314,10 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                       ?>
 
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-Danger" id="cerrarM">Close</button>
-                        <button type="button" id="registrarMovimiento" class=" btn btn-primary" disabled >Registrar </button>
+                        <button type="button" class="btn btn-danger" id="cerrarM">Cerrar</button>
+                        <button type="button" id="registrarMovimiento" class=" btn btn-success" disabled >Registrar </button>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

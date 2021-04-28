@@ -77,7 +77,7 @@ switch ($action) {
             $preNN = $_POST['preNN'];
             $preNE = $_POST['preNE'];
             $preAE = $_POST['preAE'];
-            $usuario = $_POST['usuario_actual'];
+            $usuario = 'sujely'; /*$_POST['usuario_actual'];*/
             date_default_timezone_set("America/Tegucigalpa");
             $fech=date('Y-m-d H:i:s',time());
            
@@ -106,7 +106,7 @@ switch ($action) {
            $sql = "UPDATE tbl_habitacion_servicio SET estado_eliminado = 0 WHERE id_habitacion_servicio = " . $idhabitaserv;
            $resultado = $conn->query($sql);
            if ($resultado == 1) {
-               $res['msj'] = "Habitacio/area Eliminado  Correctamente";
+               $res['msj'] = "Habitación/área Eliminada  Correctamente";
            } else {
                $res['msj'] = "Se produjo un error al momento de eliminar el habitacion/area";
                $res['error'] = true;
