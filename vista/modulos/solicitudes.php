@@ -184,7 +184,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       ON tiponac.id_tipo_nacionalidad=cli.tipo_nacionalidad INNER JOIN tbl_solicitudes sol
                       ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
                       ON sol.tipo_solicitud=tips.id_tipo_solicitud INNER JOIN tbl_estatus_solicitud est
-                      ON sol.estatus_solicitud=est.id_estatus_solicitud  where sol.estado_eliminado=1 order BY fecha_creacion desc
+                      ON sol.estatus_solicitud=est.id_estatus_solicitud  where sol.estado_eliminado=1 
                       
                       ";
                           $resultado = $conn->query($consult_solicitud);
@@ -261,13 +261,13 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       </div>
 
                       <div class="campos ">
-                        <label for="">Deposito</label>
+                        <label for="recibo">Deposito</label>
                         <input id="recibo" autocomplete="off" style="width:365px"  minlength="1" class="form-control modal-roles 
                       	secundary" type="text" onpaste="return false" placeholder="Recibo" onkeypress="return soloNumeros(event)" required/>
                       </div><br>
 
 
-                      <label for="">Tipo de solicitud</label>
+                      <label for="tipo">Tipo de solicitud</label>
                       <?php
                       include("modelo/conexionbd.php");
                       $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud` 
@@ -275,6 +275,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       $result = mysqli_num_rows($query_tip);
                       ?>
                       <select class="form-control secundary" id="tipo" name="tipo" class="notItemOne">
+                      <option value="" disabled selected>Seleccione un tipo de solicitud</option>
                         <?php
 
                         if ($result > 0) {
@@ -298,6 +299,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       $result_est = mysqli_num_rows($query_estad);
                       ?>
                       <select class="form-control secundary" id="estatus_solicitud" name="estatus_solicitud" class="notItemOne">
+                      <option value="" disabled selected>Seleccione un Estado</option>
                         <?php
                         echo $option;
                         if ($result_est > 0) {
@@ -313,13 +315,13 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div><br>
 
                     <div class="campos ">
-                      <label for="">Fecha De Registro</label>
+                      <label for="fecha_registro">Fecha De Registro</label>
                       <input id="fecha_registro" autocomplete="off" style="width:365px" class="form-control modal-roles 
    	                  secundary" type="text" onpaste="return false" placeholder="Fecha de registro" disabled/>
                     </div><br>
 
                     <div class="campos ">
-                      <label for="">Fecha Actual</label>
+                      <label for="fecha_actual">Fecha Actual</label>
                       <input id="fecha_actual" autocomplete="off" style="width:365px" class="form-control modal-roles 
                       secundary" type="text" onpaste="return false" placeholder="Fecha actual" disabled/>
                     </div>
@@ -382,7 +384,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 
                     <div class="campos form-group">
-                      <input id="n_recibo" style="width:335px" maxlength="30" class="form-control modal-roles secundary" type="text" name="n_recibo" onkeypress="return soloNumeros(event)" placeholder="Numero de recibo o deposito" />
+                      <input id="n_recibo" style="width:335px" maxlength="30" class="form-control modal-roles secundary" type="text" name="n_recibo" onkeypress="return soloNumeros(event)" placeholder="Numero de recibo o depósito" />
 
                     </div>
                     <?php
