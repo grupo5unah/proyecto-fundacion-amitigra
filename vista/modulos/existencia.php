@@ -61,6 +61,10 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<div  class="col-sm-3 m-3px" style=" width:30%; margin-left:25px;">
 												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerInventarios">
 													<thead>
+														<tr style="background-color:#222d32; color:white">
+															<th colspan="2" style=" text-align:center;">Inventario General
+															</th>
+														</tr>
 
 														<tr style="background-color:#222d32; color:white">
 															<th>Nombre del producto</th>
@@ -102,6 +106,10 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<div style="width:30%;" class="col-sm-3 m-3px">
 												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerEntrada">
 													<thead>
+														<tr style="background-color:#222d32; color:white">
+															<th colspan="3" style=" text-align:center;">Entradas
+															</th>
+														</tr>
 
 														<tr style="background-color:#222d32; color:white">
 															<th>Producto</th>
@@ -149,6 +157,10 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<div style="width:30%;" class="col-sm-3 m-3px">
 												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerSalida">
 													<thead>
+													    <tr style="background-color:#222d32; color:white; text-align:center;" >
+															<th colspan="3"style=" text-align:center;">Salidas
+															</th>
+														</tr>
 
 														<tr style="background-color:#222d32; color:white">
 														    <th>Producto</th>
