@@ -46,7 +46,7 @@
         <div class="input-group has-feedback">
           <input id="P_Password" type="password" class="form-control" name="password" placeholder="Ingrese su contraseña">
           <span class="input-group-btn" onclick="PasswordMostrar()">
-            <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon"></i></button>
+            <button id="mostrarContrasena" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon"></i></button>
           </span>
         </div>
         <br>
@@ -87,8 +87,8 @@
 
       </form>
       <div class="text-center">
-        <a class="color-enlaces" href="olvide_contrasena.php">Olvide mi contraseña</a><br>
-      <a href="registro.php" class="color-enlaces">Registrarse</a>
+        <a class="color-enlaces" id="olvideContrasena" href="olvide_contrasena.php">Olvide mi contraseña</a><br>
+      <a href="registro.php" id="registrarse" class="color-enlaces">Registrarse</a>
     </div>
 
   </div>

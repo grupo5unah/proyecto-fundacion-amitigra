@@ -68,7 +68,7 @@ $usuario = $_SESSION['usuario'];
 
                     <div class="form-group">
                       <div class="input-group">
-                        <label class="color-enlaces label-form">Selecciona su pregunta</label>
+                        <label id="etiquetaSeleccionar" class="color-enlaces label-form">Selecciona su pregunta</label>
                       </div>
                     </div>
 
@@ -93,7 +93,7 @@ $usuario = $_SESSION['usuario'];
                       </div>
                       <br>
                       <div class="columna">
-                      <a class="btn btn-primary" href="cerrar.php">Regresar</a>
+                      <a class="btn btn-primary" id="regresar" href="cerrar.php">Regresar</a>
                       <button class="btn btn-success" href="#timeline" id="nexttab" data-toggle="tab">Siguiente</button>
                     
                     </div>
@@ -110,12 +110,12 @@ $usuario = $_SESSION['usuario'];
                       <div class="input-group has-feedback">
                         <input id="ConfPassPregunta" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
                         <span class="input-group-btn" onclick="mostrarPassPregunta()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
+                          <button id="mostContrasena_P" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
                         </span>
                       </div>
                       <br>
                       <div class="columna">
-                        <button class="btn btn-primary" href="#activity" data-toggle="tab">Anterior</button>
+                        <button class="btn btn-primary" id="anterior" href="#activity" data-toggle="tab">Anterior</button>
                         <input type="hidden" id="usuario" value="<?php echo $usuario;?>">
                         <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
                         <button type="button" id="confirmarCambio" name="submit" class="btn btn-success">Actualizar</button>

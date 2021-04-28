@@ -66,7 +66,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 
 											$sql = "SELECT id_habitacion_servicio,tbl_habitacion_servicio.descripcion,habitacion_area,tbl_localidad.nombre_localidad,tbl_habitacion_servicio.estado_id,tbl_estado.nombre_estado,precio_adulto_nacional 
-													,precio_nino_nacional,precio_adulto_extranjero,precio_nino_extranjero,tbl_habitacion_servicio.modificado_por,tbl_habitacion_servicio.fecha_modificacion  
+													,localidad_id,precio_nino_nacional,precio_adulto_extranjero,precio_nino_extranjero,tbl_habitacion_servicio.modificado_por,tbl_habitacion_servicio.fecha_modificacion  
 													FROM tbl_habitacion_servicio
 													inner join tbl_localidad
 													ON tbl_habitacion_servicio.localidad_id = tbl_localidad.id_localidad

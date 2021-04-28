@@ -5,7 +5,7 @@
 
   $permiso = ("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
                             FROM tbl_permisos
-                            WHERE objeto_id = '$objeto'");
+                            WHERE objeto_id = $objeto;");
 
   $resultado = mysqli_query($conn, $permiso);
 
@@ -63,7 +63,7 @@
         </div>
 		<div class="form-group text-center">
       <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
-		  		<i class="fa fa-arrow-left"><a href="login.php" type="submit" class="btn btn-success btn-flat">Regresar</a></i>
+		  		<i class="fa fa-arrow-left"><a id="regresar" href="login.php" type="submit" class="btn btn-success btn-flat">Regresar</a></i>
 		  	</div>
 	  </div>
 	</form>
