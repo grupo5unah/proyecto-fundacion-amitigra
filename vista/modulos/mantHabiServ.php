@@ -222,9 +222,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										
 									</div> <!-- /.modal form-group -->
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+										<button type="button" class="btn btn-secondary" id="cerrar3" data-dismiss="modal">Cerrar </button>
 										
-										<button class="btn btn-primary" href="#timeline" data-toggle="tab">Siguiente</button>
+										<button class="btn btn-primary" id="btnsiguient" href="#timeline" data-toggle="tab">Siguiente</button>
 									</div>
 									
 									
@@ -261,7 +261,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<label>Precio Adulto (E):</label>
 											<div class="input-group col-xs-3">
 												<span class="input-group-addon">$.</span>
-												<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Ingrese el precio" onkeydown="return soloNumeros(event)"
+												<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Ingrese el precio" onkeypress="return soloNumeros(event)"
 												maxlength="3">
 											</div>
 										</div>
@@ -269,7 +269,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<label>Precio Niño (E):</label>
 											<div class="input-group col-xs-3">
 												<span class="input-group-addon">$.</span>
-												<input type="text" class="form-control" name="precNiE" id="precNiE" onkeydown="return soloNumeros(event)" placeholder="Ingrese el precio"
+												<input type="text" class="form-control" name="precNiE" id="precNiE" onkeypress="return soloNumeros(event)" placeholder="Ingrese el precio"
 												maxlength="3" requiered>
 											</div>
 										</div>
@@ -277,9 +277,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div> <!-- /.modal form-group -->
 									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 									<div class="modal-footer">
-										<button class="btn btn-default" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
+										<button class="btn btn-default anteri" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
 										<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-										<button id="btnEditarBD"type="submit" class="btn btn-primary ">Registrar</button>
+										<button id="btnEditarBD"type="submit" id="guardar" class="btn btn-primary ">Guardar</button>
 									</div>
 									
 									</div> <!-- /.post -->	
@@ -304,7 +304,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<i aria-hidden="true">&times;</i>
 						</button>
-						<h3 class="modal-title" id="exampleModalLabel">Editar Habitacion-Área </h3>
+						<h3 class="modal-title" id="exampleModalLabel">Agregar Habitacion-Área </h3>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -325,7 +325,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div>
 									
 									<div class="campos">
-										<label for="">Habitación-Área: </label>
+										<label for="ha">Habitación-Área: </label>
 										<input id="ha" class="form-control modal-roles secundary" type="text" name="ha" placeholder="Ingrese una habitación o Área" required>
 									</div>
 									<div class="campos">
@@ -366,9 +366,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									
 									</div> <!-- /.modal form-group -->
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+										<button type="button" class="btn btn-secondary cerra2" data-dismiss="modal">Cerrar </button>
 									
-										<button class="btn btn-primary" href="#timeline1" data-toggle="tab">Siguiente</button>
+										<button class="btn btn-primary btnsigue" href="#timeline1" data-toggle="tab">Siguiente</button>
 									</div>
 								
 								
@@ -388,7 +388,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<label>Precio Adulto (N):</label>
 											<div class="input-group col-xs-6">
 												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control" name="preAdultN" id="preAdultN" placeholder="" onkeydown="return soloNumeros(event)"
+												<input type="text" class="form-control" name="preAdultN" id="preAdultN" placeholder="" onkeypress="return soloNumeros(event)"
 												maxlength="4">
 											</div>
 										</div>
@@ -396,7 +396,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<label>Precio Niño (N):</label>
 											<div class="input-group col-xs-6">
 												<span class="input-group-addon">L.</span>
-												<input type="text" class="form-control " name="precioNiN" id="precioNiN" onkeydown="return soloNumeros(event)" placeholder=""
+												<input type="text" class="form-control " name="precioNiN" id="precioNiN" onkeypress="return soloNumeros(event)" placeholder=""
 												maxlength="4" requiered>
 											</div>
 										</div>
@@ -405,7 +405,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<label>Precio Adulto (E):</label>
 										<div class="input-group col-xs-3">
 											<span class="input-group-addon">$.</span>
-											<input type="text" class="form-control" name="preAdultE" id="preAdultE" placeholder="" onkeydown="return soloNumeros(event)"
+											<input type="text" class="form-control" name="preAdultE" id="preAdultE" placeholder="" onkeypress="return soloNumeros(event)"
 											maxlength="3">
 										</div>
 									</div>
@@ -413,7 +413,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<label>Precio Niño (E):</label>
 										<div class="input-group col-xs-3">
 											<span class="input-group-addon">$.</span>
-											<input type="text" class="form-control" name="precioNiE" id="precioNiE" onkeydown="return soloNumeros(event)" placeholder=""
+											<input type="text" class="form-control" name="precioNiE" id="precioNiE" onkeypress="return soloNumeros(event)" placeholder=""
 											maxlength="3" requiered>
 										</div>
 									</div>
@@ -422,9 +422,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 								</div> <!-- /.modal form-group -->
 								<div class="modal-footer">
-									<button class="btn btn-default" href="#activity3" id="prevtab" data-toggle="tab">Anterior</button>
+									<button class="btn btn-default anterior" href="#activity3" id="prevtab" data-toggle="tab">Anterior</button>
 									<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-									<button id=""type="submit" class="btn btn-primary">Registrar Habitacion-Área</button>
+									<button id="registro"type="submit" class="btn btn-primary">Registrar Habitacion-Área</button>
 								</div>
 								
 								</div> <!-- /.post -->	

@@ -15,14 +15,15 @@ $(document).ready(function () {
        "order": [[4 , "desc" ]],
   
     "createdRow":function(row,data,index){
-      if(data[5] == "PROCESO"){
+      if(data[5] == "PROCESO" || data[5] == "PENDIENTE"){
         $('td', row).eq(5).css({
           'background-color': '#F39C12',
           'color': 'white',
           'text-align': 'center'
         });
       }
-      if(data[5] == "RECHAZADA"){
+
+      if(data[5] == "RECHAZADA" || data[5] == "CANCELADA"){
         $('td', row).eq(5).css({
           'background-color': ' #DD4B39',
           'color': 'white',

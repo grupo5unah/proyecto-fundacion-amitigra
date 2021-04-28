@@ -230,7 +230,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 									</form>
 								
 								<div class="modal-footer">
-									<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-danger"  id="cerrarM" data-dismiss="modal">Cerrar</button>
 									<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-success text-uppercase">Actualizar Producto</button>
 								</div>
 							</div>
@@ -326,7 +326,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 										<div>
 											<input disabled id="btnAddList" type="button" class=" input-group btn  btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas" value="+">
-											<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table bmas">
+											<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table bmas" value="Finalizar">
 										</div>
 										<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -401,8 +401,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 								?>
 
 								<div class="modal-footer">
-									<button type="button" class="btn btn-Danger" id="cerrar">Close</button>
-									<button type="button" id="registrarInventario" class=" btn btn-primary" disabled>Registrar </button>
+									<button type="button" class="btn btn-danger" id="cerrar">Cerrar</button>
+									<button type="button" id="registrarInventario" class=" btn btn-success" disabled>Registrar </button>
 								</div>
 							</div>
 

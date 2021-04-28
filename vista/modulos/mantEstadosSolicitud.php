@@ -156,8 +156,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   <div class="campos" type="hidden">
                     <input autocomplete="off" class="form-control secundary" type="hidden" name="idSolcitud" value="0" disabled>
                   </div>
-                  <label for="">Estado de solicitud</label>
-                  <input id="estadoSolAct"  class="form-control modal-roles secundary" type="text" name="estadoSolAct" placeholder="Estado de la solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+                  <label for="estadoSolAct">Estado De Solicitud</label>
+                  <input id="estadoSolAct"  class="form-control modal-roles secundary" type="text" name="estadoSolAct" placeholder="Estado De La Solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
         espacio_Letras(this);" />
                 
                 
@@ -199,7 +199,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                     <input class="form-control modal-roles secundary" type="hidden" name="idInventario" value="0" disabled>
                   </div>
                   <div class="campos form-group">
-                  <label for="">Estado de solicitud</label>
+                  <label for="estadoSolicitud">Estado De Solicitud</label>
                     <input id="estadoSolicitud" name="estadoSolicitud" maxlength="15" class="form-control modal-roles secundary" type="text" placeholder="Estado De Solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                   </div>
 
@@ -208,7 +208,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   </div>
                   <div class="modal-footer">
                     <button id="CerrarCrearES" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Estado</button>
+                    <button id="registrar_estado" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Estado</button>
                   </div>
               </form>
             </div>

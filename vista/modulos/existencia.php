@@ -61,6 +61,10 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<div  class="col-sm-3 m-3px" style=" width:30%; margin-left:25px;">
 												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerInventarios">
 													<thead>
+														<tr style="background-color:#222d32; color:white">
+															<th colspan="2" style=" text-align:center;">Inventario General
+															</th>
+														</tr>
 
 														<tr style="background-color:#222d32; color:white">
 															<th>Nombre del producto</th>
@@ -102,6 +106,10 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<div style="width:30%;" class="col-sm-3 m-3px">
 												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerEntrada">
 													<thead>
+														<tr style="background-color:#222d32; color:white">
+															<th colspan="3" style=" text-align:center;">Entradas
+															</th>
+														</tr>
 
 														<tr style="background-color:#222d32; color:white">
 															<th>Producto</th>
@@ -149,6 +157,10 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 											<div style="width:30%;" class="col-sm-3 m-3px">
 												<table data-page-length='10' class=" display data-results table table-striped table-hover table-bordered ui celled table" style="width:100%;" id="managerSalida">
 													<thead>
+													    <tr style="background-color:#222d32; color:white; text-align:center;" >
+															<th colspan="3"style=" text-align:center;">Salidas
+															</th>
+														</tr>
 
 														<tr style="background-color:#222d32; color:white">
 														    <th>Producto</th>
@@ -331,7 +343,7 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 
 										<div>
 											<input disabled id="btnAddList" type="button" class=" input-group btn  btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas" value="+">
-											<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table bmas">
+											<input type="hidden" id="btnProductUpdate" class="glyphicon glyphicon-saved btn btn-primary agregar-table bmas" value="Finalizar">
 										</div>
 										<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -406,8 +418,8 @@ if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" |
 								?>
 
 								<div class="modal-footer">
-									<button type="button" class="btn btn-Danger" id="cerrar">Close</button>
-									<button type="button" id="registrarInventario" class=" btn btn-primary" disabled>Registrar </button>
+									<button type="button" class="btn btn-danger" id="cerrar">Cerrar</button>
+									<button type="button" id="registrarInventario" class=" btn btn-success" disabled>Registrar </button>
 								</div>
 							</div>
 
