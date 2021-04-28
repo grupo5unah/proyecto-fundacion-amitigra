@@ -138,6 +138,7 @@ $(document).ready(function () {
       {className: "text-center ", targets: [5]},
       
   ],
+  "order": [[2,"desc"]],
   // //cambiar el color de los estados
   // "createdRow":function(row,data,index){
   //   if(data[4] == "JUTIAPA"){
@@ -530,13 +531,13 @@ $(document).ready(function () {
   });
 
   
-  $('#salida').change(function(e){
+  $('#sale').change(function(e){
     e.preventDefault();
     //console.log('funciona');
     salida= $(this).val();
     console.log(salida);
     if(salida){
-      $('.sigue2').removeAttr('disabled');
+      $('#.btnSigue').attr("disabled", false);
     }
   })
   //MOSTAR ALERTA SI DESEA CANCELAR 
@@ -550,9 +551,9 @@ $(document).ready(function () {
     })
     .then((willDelete) =>{
       if(willDelete){
-        identidad = document.querySelector('#identidad').value = "";
+        location.reload();
       }else{
-        $('#modalNuevaReserva').modal('show');
+        $('#modalReservaHotel').modal('show');
       }
     })
   });
@@ -584,33 +585,6 @@ $(document).ready(function () {
     })
     .then((willDelete) =>{
       if(willDelete){
-        /*identidad = document.querySelector('#identidad').value = "";
-        nacio = document.querySelector('#nacionalidad').value = "";
-        locali = document.querySelector('#localidad').value = "";
-        clien = document.querySelector('#cliente').value = "";
-        tel = document.querySelector('#telefono').value = "";
-        entra = document.querySelector('#entrada').value = "";
-        sali = document.querySelector('#salida').value = "";
-        hab = document.querySelector('#habitacionN').value = "";
-        cadul = document.querySelector('#cantAN').value = "";
-        preA = document.querySelector('#precioAdultoN').value = "";
-        cani = document.querySelector('#cantNN').value = "";
-        preN = document.querySelector('#precioNinoN').value = "";
-        habe = document.querySelector('#habitacionE').value = "";
-        cadule = document.querySelector('#cantAE').value = "";
-        preAe = document.querySelector('#precioAdultoE').value = "";
-        canie = document.querySelector('#cantNE').value = "";
-        preNe = document.querySelector('#precioNinoE').value = "";
-        habr = document.querySelector('#hnr').value = "";
-        cadulr = document.querySelector('#anr').value = "";
-        preAr = document.querySelector('#pnar').value = "";
-        canir = document.querySelector('#nnr').value = "";
-        preNr = document.querySelector('#pnnr').value = "";
-        habre = document.querySelector('#her').value = "";
-        cadulre = document.querySelector('#aer').value = "";
-        preAre = document.querySelector('#paer').value = "";
-        canire = document.querySelector('#ner').value = "";
-        preNre = document.querySelector('#pner').value = "";*/
         location.reload();
       }else{
         $('#modalReservaHotel').modal('show');

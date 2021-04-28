@@ -78,7 +78,7 @@ switch ($action) {
           
             if ($resultado == 1) {
                 //print_r($resultado);
-                $res['msj'] = "El cliente se  Edito  Correctamente";
+                $res['msj'] = "El Cliente se  Edito  Correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Cliente ";
                 $res['error'] = true;

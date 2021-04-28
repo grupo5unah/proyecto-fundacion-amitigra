@@ -150,6 +150,7 @@ $(document).ready(function(){
           },
        
     });
+    
     //REGISTRAR NUEVO CLIENTE
     $("#formEstado").submit(async function(e){
         e.preventDefault();

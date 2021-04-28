@@ -48,6 +48,8 @@ $(document).ready(function(){
     
     /*esta funciona permite que el input de la fecha salida este desabilitado mientras no se haya eleguido
     la fecha de entrada*/
+    
+    $('#sale').attr("disabled", false);
     $('#sale').attr("readonly", false);
 
     //validando que mientras la fecha de entrada no se elija no muestre el calendario
@@ -213,6 +215,47 @@ $(document).ready(function(){
     }
   });
 
+  $('#cancelarc1').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "cancelar",
+      text: "¿Esta seguro que quiere ejecutar esta accion?",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        location.reload();
+      }else{
+        $('#modalReservaCamping').modal('show');
+      }
+    })
+  });
+  $('#cancelarc2').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "cancelar",
+      text: "¿Esta seguro que quiere ejecutar esta accion?",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        location.reload();
+      }else{
+        $('#modalReservaCamping').modal('show');
+      }
+    })
+  });
+
+  //BOTON camping
+  $('#Camping').on('click', function(e) {
+    e.preventDefault();
+    //mostrar el modal
+    $('#modalReservaCamping').modal('show');
+    $('#tipoReserva').modal('hide');
+  });
+
   //CARGAR PRECIOS DE ARTICULOS nacionales
   $('#miprecio').val(0);
 
@@ -261,6 +304,7 @@ $.ajax({
   //AGREGANDO NACIONALES A CAMPING
   $('#btnAgregarNC').click(function(e) {
     e.preventDefault();
+    $('#registrar').removeAttr('disabled');
   var areaN = $('#area option:selected').text();
   var adulNC = document.getElementById("anc").value;
   var padultoNC = document.getElementById("pac").value;
@@ -291,10 +335,12 @@ $.ajax({
 $(document).on('click', '.btn_eliminarCampingN', function(e) {
       e.preventDefault();
       $(this).closest('tr').remove();
+      $('#registrar').attr('disabled','disabled');
   });
 //AGREGANDO A EXTRANJEROS EN CAMPING
 $('#btnAgregarEC').click(function(e) {
   e.preventDefault();
+  $('#registrar').removeAttr('disabled');
   var areaEC =  $('#areae option:selected').text();
   var adultoEC = document.getElementById("aec").value;
   var preadultoEC = document.getElementById("paec").value;
@@ -316,10 +362,12 @@ $('#btnAgregarEC').click(function(e) {
     $("#listaC").append(nFilasEC - 1);
 
     //le resto 1 para no contar la fila del header
-    document.getElementById("areae").val("");
-    document.getElementById("aec").val("");
-    document.getElementById("nec").val("");
-    document.getElementById("totalEC").val("");
+    document.getElementById("areae").value ="";
+    document.getElementById("aec").value="";
+    document.getElementById("nec").value="";
+    document.getElementById("canTie").value = "";
+    document.getElementById("lista1e").value = "";
+    document.getElementById("totalEC").value="";
     // document.getElementById("nombre").focus();
 
   });
