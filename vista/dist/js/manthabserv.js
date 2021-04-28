@@ -323,7 +323,7 @@ $(document).ready(function(){
     //ELIMINAR HABITACION AREA
     $('.btnEliminarHabServ').on('click', function (){
         const idhabservi = $(this).data('idha');
-        swal("Eliminar Estado", "¿Esta seguro de eliminar esta Habitacion-Área?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+        swal("Eliminar Habitación/Área", "¿Esta seguro de eliminar esta Habitacion-Área?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
             if (value){
                 //console.log('Estoy dentro del if');
                 const formData = new FormData();

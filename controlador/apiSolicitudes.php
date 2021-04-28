@@ -152,7 +152,7 @@ switch ($action) {
                                     $res['msj'] = "Se produjo un error al momento de registrar la solicitud";
                                     $res['error'] = true;
                                 } else {
-                                    $res['msj'] = "Solicitud Registrada Correctamente";
+                                    $res['msj'] = "Solicitud creada con éxito";
                                 }
                             }
                         }
@@ -327,7 +327,7 @@ switch ($action) {
                 WHERE id_solicitud=" . $id_solicitud;
                 $resultado = $conn->query($sql);
                 if ($resultado > 0) {
-                    $res['msj'] = "La solicitud se ha editado correctamente";
+                    $res['msj'] = "Solicitud editada con éxito";
                 } else {
                     $res['msj'] = "Se produjo un error al momento de editar la solicitud ";
                     $res['error'] = true;
@@ -356,7 +356,7 @@ switch ($action) {
             WHERE id_solicitud = " . $id_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-                $res['msj'] = "La solicitud se ha eliminado correctamente";
+                $res['msj'] = "solicitud eliminada correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar la solicitud";
                 $res['error'] = true;

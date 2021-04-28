@@ -95,7 +95,7 @@ switch ($action) {
 
             if ($resultado == 1) {
 
-                $res['msj'] = "Tipo de solicitud editado exitosamente";
+                $res['msj'] = "Tipo de solicitud actualizada con éxito";
             } else {
                 $res['msj'] = "Se produjo un error al momento de editar el tipo de solicitud ";
                 $res['error'] = true;
@@ -120,7 +120,7 @@ switch ($action) {
              WHERE id_tipo_solicitud = " . $id_tipo_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-                $res['msj'] = "Tipo solicitud eliminado correctamente";
+                $res['msj'] = "Tipo solicitud eliminada con éxito";
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el tipo de solicitud";
                 $res['error'] = true;

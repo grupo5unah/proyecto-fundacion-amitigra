@@ -100,7 +100,7 @@ switch ($action) {
                             $res['msj'] = "Se produjo un error al momento de registrar el Usuario";
                             $res['error'] = true;
                         } else {
-                            $res['msj'] = "Usuario Registrado Correctamente";
+                            $res['msj'] = "Usuario Creado con éxito";
                         }
                         // $sql->close();
                         // $sql = null;
@@ -141,7 +141,7 @@ switch ($action) {
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
-                $res['msj'] = "El usuario se edito correctamente";
+                $res['msj'] = "Usuario actualizado con éxito";
             } else {
                 $res['msj'] = "Se produjo un error al momento de editar el Isuario ";
                 $res['error'] = true;
@@ -175,7 +175,7 @@ switch ($action) {
 
 
                 if ($resultado > 0) {
-                    $res['msj'] = "La contraseña se ha cambiado correctamente";
+                    $res['msj'] = "contraseña reseteada con éxito";
 
                     $accion_realizada = 'reseteo de contraseña';
                     $descripcion = 'se realizo reseteo de contraseña por parte del administrador';
@@ -238,7 +238,7 @@ switch ($action) {
                     $sql = "DELETE FROM tbl_usuarios WHERE id_usuario = " . $id_usuario;
                     $resultado = $conn->query($sql);
                     if ($resultado > 0) {
-                        $res['msj'] = "Usuario Eliminado Correctamente";
+                        $res['msj'] = "Usuario Eliminado con éxito";
                     } else {
                         $res['msj'] = "No se pudo eliminar el Usuario";
                         $res['error'] = true;

@@ -12,6 +12,8 @@ $(document).ready(function () {
         {className: "text-center ", targets: [4]},
         {className: "text-center ", targets: [6]}
     ],
+
+    "order": [[4 , "desc" ]],
     
     //para usar los botones 
     responsive:"true",
@@ -395,11 +397,13 @@ $(".btnResetearClaves").on("click", function () {
   var usuario_actual = $("#usuario_actual").val();
   var confirma_contra = $("#ConfirmarContraseña_reset").val();
   
-  
+
   //llena los campos
   $("#idusuario").val(idusuario), 
   $("Contraseña_reset").val(contrasena),
   $("ConfirmarContraseña_reset").val(confirma_contra),
+
+    
 
   //mostrar el modal
   $("#modalResetearClave").modal("show");
