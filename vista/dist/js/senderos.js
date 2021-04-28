@@ -299,7 +299,7 @@ $(document).ready(function(){
     const usuario = $(this).data('usuario'); 
     const localidad = $(this).data('localidad');
     const fecha = $(this).data('fecha');
-    const desc = $(this).data('desc'); 
+    //const desc = $(this).data('desc'); 
     const total = $(this).data('total');   
      const info =$('#cont');
      const tot =$('#total');
@@ -307,15 +307,14 @@ $(document).ready(function(){
      info.append(
         `
        
-         <div class="user col-3 form-group">
-         <h4 class="alineo-texto">FACTURA No ${idbolvendido}</h4>         
-         <label for="" id="fecha">FECHA: <span>${fecha}</span></label>
-         <br>
-         <P class="userO"> VENDIDO POR: <span>${usuario}</span></P>
-         <P class="local col-6"> En la Localidad de: <span>${localidad}</span></P>
-         <br>         
-         <P class="desc col-6"> Tipo de Moneda: <span>${desc}</span></P>
-         </div>
+        <div class="user col-6">
+        <p class="modal-title">ORDEN DE VENTA No ${idbolvendido}</p>  
+            
+            <label for="" id="fecha">FECHA: <span>${fecha}</span></label>
+            <img style=" width: 70px; height: 70px; transform: translate(250%, -50%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
+             
+            <span style="font-size:16px;" class="userO"> VENDIDO POR: ${usuario}</span>
+        </div>
      
         `
         );
@@ -332,7 +331,8 @@ $(document).ready(function(){
                 <td>${b.cantidad}</td>
                 <td>${b.NombreBoleto}</td>
                 <td>${b.precio}</td>
-                <td>${b.subtotal}</td>               
+                <td>${b.subtotal}</td> 
+                <td>${b.moneda}</td>              
             </tr>
             
 
@@ -405,75 +405,94 @@ let precio = document.querySelector("#lista1").value;
   });
 })
 
+//CARGAR LA TABLA EN BOLETOS
+const registro = $('#registroBoletos');
+const contenido = $('#tableBoletos .bole');
+const formulario = $('#formBoleteria');
+const agregarNuevo = $('#btnAgregarS');
+let conteBoletos = [];
 
-$('#btnAgregarS').click(function(e) {
+
+function agregarBoletos(e){
   e.preventDefault();
-  //var tabla =document.querySelector('#tableBoletos');
-  var localidad = document.getElementById("localidad").value;
-  var lista1 = document.getElementById("lista1").value;
-  var CantBoleto = document.getElementById("CantBoleto").value;
-  var miprecio = document.getElementById("miprecio").value;  
-  var totalPB = document.getElementById("totalPB").value;
 
-  if(localidad==''|| lista1==''|| CantBoleto==''|| miprecio==''|| totalPB==''){
-    swal({
-      icon:"error",
-      title:"Error",
-      text:"Todos los Campos son requeridos"
-    })
-  }else{
-    var fila1 = '<tr class="tabletotal"><td>' + CantBoleto + '</td><td>' + lista1 + '</td><td>' + miprecio + '</td><td>'
-    + totalPB + '</td><td>' + localidad +'</td></tr>'; //esto seria lo que contendria la fila  
-    
+  const infoboleteria = {
+    /*creacion del objeto donde llevara
+    la informacion del formulario completo
+    */
 
-    $('#tableBoletos tr:first').after(fila1);
-      $("#listaBoletos").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-      var nFilas = $("#tableBoletos tr").length;
-      $("#listaBoletos").append(nFilas - 1);
-    
+    localidad:{
+      idlocal: $('#localidad').val(),
+      nomlocal: $('#localidad option:selected').text(),
+    },
+
+    TipoBoleto:{
+      idTBoleto: $('#lista1').val(),
+      nomTBol: $('#lista1 option:selected').text(),
+    },
+    CantBoleto: $('#CantBoleto').val(),
+    precioBol: $('#miprecio').val(),
+    totalPB: $('#totalPB').val(),
+
+  };
+
+  //agregando los datos al arreglo
+  conteBoletos = [...conteBoletos, infoboleteria];
+  $(".bole tr").remove();
+  llenarTable();
+  //funcion reseter formulario 
+  //agregarNuevo.prop('disabled', true);
+  //registro.prop('disabled', false);
+
+  function llenarTable() {
+    $(".bole tr").remove();
+    conteBoletos.forEach((boletos, index ) => agregarfila(boletos, index));
+  }
+} 
+//mostrar el contenido en la tabla html
+function agregarfila(boletos = {}, index = -1){
+  const {CantBoleto, TipoBoleto, precioBol, totalPB, localidad} = boletos;
+  contenido.append(`
+      <tr class="tabletotal">
+          <td>${index + 1}</td>
+          <td>${CantBoleto}</td>
+          <td>${TipoBoleto.nomTBol}</td>
+          <td>${precioBol}</td>
+          <td>${totalPB}</td>
+          <td>${localidad.nomlocal}</td>
+          
+      </tr>
       
-      //le resto 1 para no contar la fila del header
-      document.getElementById("localidad").value ="";
-      document.getElementById("lista1").value ="";
-      document.getElementById("CantBoleto").value = "";
-      document.getElementById("miprecio").value = "";
-      document.getElementById("totalPB").value = "";
-      // document.getElementById("nombre").focus();
-      //var tot = tabla.column(0).data().sum();
-      //$("#total").text(tot); 
+  `);
+
+  document.getElementById("localidad").value ="";
+  document.getElementById("lista1").value ="";
+  document.getElementById("CantBoleto").value = "";
+  document.getElementById("miprecio").value = "";
+  document.getElementById("totalPB").value = "";
 
       var sum=0;
       $('.tabletotal').each(function() {  
-      sum += parseFloat($(this).find('td').eq(0).text());  
+      sum += parseFloat($(this).find('td').eq(1).text());  
       }); 
       $('#resultado_total').val(sum.toFixed(0));
 
       var sum2=0;
       $('.tabletotal').each(function() {  
-      sum2 += parseFloat($(this).find('td').eq(3).text());  
+      sum2 += parseFloat($(this).find('td').eq(4).text());  
       }); 
       $('#totalPagar').val(sum2.toFixed(0));
-  } 
-
-});
-
-$(document).on('click', '.btn_eliminarBoleto', function(e) {
-  e.preventDefault();
-  $(this).closest('tr').remove();
-});
+}
+agregarNuevo.on("click", agregarBoletos);
 
 //MANDAR LOS DATOS AL ARCHIVO PHP
 $('#registroBoletos').on('click', function(){
-  $('#tableBoletos tr').each(function () {
       var action = 'registrartickets';
-      const cantidadB = $(this).find('td').eq(0).html();
-      const tipoBoleto = $(this).find('td').eq(1).html();
-      const SubTotal = $(this).find('td').eq(3).html();
-      const localidad = $(this).find('td').eq(4).html();  
       const TotalBoletos = document.querySelector('#resultado_total').value;
       const TotalPagar = document.querySelector('#totalPagar').value;
       const idusuario = document.querySelector('#id_usuario').value;
       const usuario_actual = document.querySelector('#usuario_actual').value;
+     
      if(TotalPagar==0){
       swal({
         icon:"error",
@@ -481,14 +500,21 @@ $('#registroBoletos').on('click', function(){
         text:"Todos los Campos son requeridos"
       })
      }else{
+       
       $.ajax({
           type: "POST",
           datatype: 'json',
           url: './controlador/ctr.boleteria.php',
-          data: {action:action,cantidadB:cantidadB, tipoBoleto:tipoBoleto,SubTotal:SubTotal,localidad:localidad, TotalBoletos:TotalBoletos, TotalPagar:TotalPagar, idusuario:idusuario,
-                usuario_actual:usuario_actual},
+          data: {action:action,TotalBoletos:TotalBoletos, TotalPagar:TotalPagar,
+            "conteBoletos":JSON.stringify(conteBoletos.map((b) => ({
+              Localidad: b.localidad.idlocal,
+              TipoBoletoS: b.TipoBoleto.idTBoleto,
+              CantBoleto: b.CantBoleto,
+              totalPB: b.totalPB,
+            }))),
+            idusuario:idusuario,usuario_actual:usuario_actual},
           success: function(response){
-              var data = JSON.parse(response);
+              var data = JSON.stringify(response);
               if(data.respuesta == 'exito'){
                   swal({
                       icon:"success",
@@ -497,13 +523,13 @@ $('#registroBoletos').on('click', function(){
                       timer: 2500,
                       buttons: false
                   }).then(()=>{
-                      location.reload();
+                     location.reload();
                   })
               }else if (data.respuesta == 'fallo'){
                 swal({
                     icon:"error",
                     title:"Error",
-                    text:"No se pudo Registrar el Boleto"
+                    text:"No se pudo Registrar el(los) Boleto(s)"
                 })
             }else if (data.respuesta == 'error'){
                   swal({
@@ -518,6 +544,7 @@ $('#registroBoletos').on('click', function(){
   });
 });
 
+
 $("#cerrarboletos").on("click", function(){
 
   swal({
@@ -528,11 +555,23 @@ $("#cerrarboletos").on("click", function(){
   })
   .then((willDelete) => {
       if (willDelete) {
-          window.reload();
+          location.reload();
       } else {
       $("#modalNuevaBoleteria").modal("show");
       }
   });
   
 });
-});
+
+  $('#btnimprimirB').click(function(e){
+      e.preventDefault();
+      var ver = document.querySelector('#formDetalleB');
+      var imprimir = window.open(' ', '');
+          //imprimir.document.write('<link rel="stylesheet" href="vista/dist/css/estiloReserva.css">');
+          imprimir.document.write( ver.innerHTML );
+          
+          //imprimir.focus();
+      
+        imprimir.print();
+      
+  });
