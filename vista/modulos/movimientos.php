@@ -60,7 +60,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                         ?>
 
                       </div>
-                      <table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="movimientos">
+                      <table data-page-length='10' class=" display table table-hover table-condensed table-bordered wrapper" id="movimientos">
                         <thead style=" background-color: #222d32; color: white;">
                           <tr>
                             <th>Nombre Producto</th>
@@ -161,18 +161,18 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                 <!-- /.box-body -->
                 <!-- /.box-footer-->
                 <!-- modal movimientos -->
-                <div class="modal fade" id="modalCrearMovimiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                  <div class="modal-dialog">
-                    <div class="modal-content" style="width: 1000px;">
+                <div class="modal fade con" id="modalCrearMovimiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                  <div class="modal-dialog mo" >
+                    <div class="modal-content " style="width: 1000px;">
                       <div class="modal-header">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between ">
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i aria-hidden="true">&times;</i>
                           </button>
                           <h3 class="modal-title" id="exampleModalLabel">Registrar Movimiento</h3>
                         </div>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body ">
                           
                         <form method="POST" id="formM" role="form" class="validarFORM" style="text-align:center;">
                           <div class="row d-flex">
@@ -263,10 +263,10 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                               </select>
 
                             </div>
-                            <div class="col-sm-1 form-group justify-content-between ">
-                              <input disabled id="btnMO" style=" width:25px; height:22px; margin-left:15px;  padding:0;" type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign  " value="+" >
-                              <input type="hidden" id="btnProductMovimiento" class=" glyphicon glyphicon-saved btn btn-primary agregar-table" value="■">
-                            </div>
+                            
+                              <input disabled id="btnMO"  type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas " value="+" >
+                              <input type="hidden" id="btnProductMovimiento" class=" glyphicon glyphicon-saved btn btn-primary agregar-table  bmas" value="Finalizar">
+                           
                           </div>
 
                       </div>
@@ -283,8 +283,9 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                               <td>#</td>
                               <td>Nombre Producto</td>
                               <td>Movimiento</td>
-                              <td>cantidad</td>
+                              
                               <td>Descripcion</td>
+                              <td>cantidad</td>
                               <td>Localidad</td>
 
                               <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
@@ -313,11 +314,10 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                       ?>
 
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-Danger" id="cerrarM">Close</button>
-                        <button type="button" id="registrarMovimiento" class=" btn btn-primary" disabled >Registrar </button>
+                        <button type="button" class="btn btn-danger" id="cerrarM">Cerrar</button>
+                        <button type="button" id="registrarMovimiento" class=" btn btn-success" disabled >Registrar </button>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

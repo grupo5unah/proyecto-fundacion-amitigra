@@ -3,7 +3,8 @@ $(document).ready(function() {
     //AGREGANDO A NACIONALES JUTIAPA
   $('#btnAgregarN').click(function(e) {
       e.preventDefault();
-    var habitacionN = document.getElementById("habitacionN").value;
+      $('#registro').removeAttr('disabled');
+    var habitacionN = $('#habitacionN option:selected').text();
     var adultoN = document.getElementById("cantAN").value;
     var preadultoN = document.getElementById("precioAdultoN").value;
     var ninoN = document.getElementById("cantNN").value;
@@ -27,12 +28,14 @@ $(document).ready(function() {
   $(document).on('click', '.btn_eliminarNacional', function(e) {
         e.preventDefault();
         $(this).closest('tr').remove();
+        $('#registro').attr('disabled','disabled');
     });
 
     //AGREGANDO A EXTRANJEROS EN JUTIAPA
     $('#btnAgregarE').click(function(e) {
         e.preventDefault();
-      var habitacionE = document.getElementById("habitacionE").value;
+        $('#registro').removeAttr('disabled');
+      var habitacionE = $('#habitacionE option:selected').text();
       var adultoE = document.getElementById("cantAE").value;
       var preadultoE = document.getElementById("precioAdultoE").value;
       var ninoE = document.getElementById("cantNE").value;
@@ -75,8 +78,8 @@ $(document).ready(function() {
             const idCliente= document.querySelector('#idCliente').value;
             const idusuario = document.querySelector('#id_usuario').value;
             const usuario_actual = document.querySelector('#usuario_actual').value;
-            console.log(habitacion,cantidad_adultos,cantidad_ninos,total,fecha_reservacion,fecha_entrada
-                ,fecha_salida,idCliente,idusuario,usuario_actual);
+            /*console.log(habitacion,cantidad_adultos,cantidad_ninos,total,fecha_reservacion,fecha_entrada
+                ,fecha_salida,idCliente,idusuario,usuario_actual);*/
 
             $.ajax({
                 type: "POST",
@@ -113,7 +116,8 @@ $(document).ready(function() {
     //AGREGANDO A NACIONALES ROSARIO
   $('#btnAgregarNR').click(function(e) {
     e.preventDefault();
-  var habitaNR = document.getElementById("hnr").value;
+    $('#registro').removeAttr('disabled');
+  var habitaNR = $('#hnr option:selected').text();
   var adulNR = document.getElementById("anr").value;
   var padultoNR = document.getElementById("pnar").value;
   var ninNR = document.getElementById("nnr").value;
@@ -137,12 +141,14 @@ $(document).ready(function() {
 $(document).on('click', '.btn_eliminarRosarioN', function(e) {
       e.preventDefault();
       $(this).closest('tr').remove();
+      $('#registro').attr('disabled','disabled');
   });
 
   //AGREGANDO A EXTRANJEROS EN ROSARIO
   $('#btnAgregarER').click(function(e) {
     e.preventDefault();
-    var habitacionER = document.getElementById("her").value ;
+    $('#registro').removeAttr('disabled');
+    var habitacionER = $('#her option:selected').text();
     var adultoER = document.getElementById("aer").value;
     var preadultoER = document.getElementById("paer").value;
     var ninoER = document.getElementById("ner").value;
@@ -178,7 +184,6 @@ $(document).on('click', '.btn_eliminarRosarioN', function(e) {
           const cantidad_adultosR = $(this).find('td').eq(1).html();
           const cantidad_ninosR = $(this).find('td').eq(3).html();
           const totalR = $(this).find('td').eq(5).html();
-          const hotelr = document.querySelector("#tipo_hotel").value;
           const fecha_reservacion = document.querySelector("#reservacion").value;
           const fecha_entrada = document.querySelector("#entrada").value;
           const fecha_salida = document.querySelector("#salida").value;
@@ -189,12 +194,13 @@ $(document).on('click', '.btn_eliminarRosarioN', function(e) {
           const idCliente= document.querySelector('#idCliente').value;
           const idusuario = document.querySelector('#id_usuario').value;
           const usuario_actual = document.querySelector('#usuario_actual').value;
-
+          console.log(habitacionR,cantidad_adultosR,cantidad_ninosR,totalR,fecha_reservacion,fecha_entrada
+            ,fecha_salida,idCliente,idusuario,usuario_actual);
           $.ajax({
               type: "POST",
               datatype: 'json',
               url: './controlador/ctr.reservaciones.php',
-              data: {accion:accion,habitacionR:habitacionR, hotelr:hotelr, cantidad_adultosR:cantidad_adultosR,cantidad_ninosR:cantidad_ninosR,totalR:totalR,nombre_cliente:nombre_cliente,
+              data: {accion:accion,habitacionR:habitacionR, cantidad_adultosR:cantidad_adultosR,cantidad_ninosR:cantidad_ninosR,totalR:totalR,nombre_cliente:nombre_cliente,
               idCliente:idCliente,identidad:identidad,telefono:telefono,nacionalidad:nacionalidad,fecha_reservacion:fecha_reservacion,fecha_entrada:fecha_entrada,
               fecha_salida:fecha_salida, idusuario:idusuario,usuario_actual:usuario_actual} ,
               success: function(response){

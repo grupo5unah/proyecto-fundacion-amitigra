@@ -138,6 +138,7 @@ $(document).ready(function () {
       {className: "text-center ", targets: [5]},
       
   ],
+  "order": [[2,"desc"]],
   // //cambiar el color de los estados
   // "createdRow":function(row,data,index){
   //   if(data[4] == "JUTIAPA"){
@@ -306,6 +307,7 @@ $(document).ready(function () {
     
     /*esta funciona permite que el input de la fecha salida este desabilitado mientras no se haya eleguido
     la fecha de entrada*/
+    $('#salida').attr("disabled", false);
     $('#salida').attr("readonly", false);
 
     //validando que mientras la fecha de entrada no se elija no muestre el calendario
@@ -372,6 +374,9 @@ $(document).ready(function () {
       
     })
   })
+
+  
+  
   
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
   $(".btnGuardarCliente").click(async function(e){
@@ -526,13 +531,13 @@ $(document).ready(function () {
   });
 
   
-  $('#salida').change(function(e){
+  $('#sale').change(function(e){
     e.preventDefault();
     //console.log('funciona');
     salida= $(this).val();
     console.log(salida);
     if(salida){
-      $('.sigue2').removeAttr('disabled');
+      $('#.btnSigue').attr("disabled", false);
     }
   })
   //MOSTAR ALERTA SI DESEA CANCELAR 
@@ -546,9 +551,9 @@ $(document).ready(function () {
     })
     .then((willDelete) =>{
       if(willDelete){
-        identidad = document.querySelector('#identidad').value = "";
+        location.reload();
       }else{
-        $('#modalNuevaReserva').modal('show');
+        $('#modalReservaHotel').modal('show');
       }
     })
   });
@@ -563,7 +568,7 @@ $(document).ready(function () {
     })
     .then((willDelete) =>{
       if(willDelete){
-        identidad = document.querySelector('#identidad').value = "";
+        location.reload();
       }else{
         $('#tipoReserva').modal('show');
       }
@@ -580,33 +585,7 @@ $(document).ready(function () {
     })
     .then((willDelete) =>{
       if(willDelete){
-        identidad = document.querySelector('#identidad').value = "";
-        nacio = document.querySelector('#nacionalidad').value = "";
-        locali = document.querySelector('#localidad').value = "";
-        clien = document.querySelector('#cliente').value = "";
-        tel = document.querySelector('#telefono').value = "";
-        entra = document.querySelector('#entrada').value = "";
-        sali = document.querySelector('#salida').value = "";
-        hab = document.querySelector('#habitacionN').value = "";
-        cadul = document.querySelector('#cantAN').value = "";
-        preA = document.querySelector('#precioAdultoN').value = "";
-        cani = document.querySelector('#cantNN').value = "";
-        preN = document.querySelector('#precioNinoN').value = "";
-        habe = document.querySelector('#habitacionE').value = "";
-        cadule = document.querySelector('#cantAE').value = "";
-        preAe = document.querySelector('#precioAdultoE').value = "";
-        canie = document.querySelector('#cantNE').value = "";
-        preNe = document.querySelector('#precioNinoE').value = "";
-        habr = document.querySelector('#hnr').value = "";
-        cadulr = document.querySelector('#anr').value = "";
-        preAr = document.querySelector('#pnar').value = "";
-        canir = document.querySelector('#nnr').value = "";
-        preNr = document.querySelector('#pnnr').value = "";
-        habre = document.querySelector('#her').value = "";
-        cadulre = document.querySelector('#aer').value = "";
-        preAre = document.querySelector('#paer').value = "";
-        canire = document.querySelector('#ner').value = "";
-        preNre = document.querySelector('#pner').value = "";
+        location.reload();
       }else{
         $('#modalReservaHotel').modal('show');
       }
@@ -627,6 +606,20 @@ $(document).ready(function () {
     $('#tipoReserva').modal('hide');
   });
   
+  //IMPRIMIR
+
+  $('#btnimprimir').click(function(e){
+    e.preventDefault();
+    var ver = document.querySelector('#formDetalle');
+    var imprimir = window.open(' ', '');
+        //imprimir.document.write('<link rel="stylesheet" href="vista/dist/css/estiloReserva.css">');
+        imprimir.document.write( ver.innerHTML );
+        
+        //imprimir.focus();
+    
+      imprimir.print();
+    
+  })
   //MOSTRAR MODAL DETALLE (TABLA)
   // datos de la dela modal ver el detalle de los datos
   $('.btnDetalle').click(async function (e) {
@@ -650,10 +643,11 @@ $(document).ready(function () {
          <div class="user col-6">
          <p class="">Reservación N° ${numero}</p>
          <label for="" id="fecha">Fecha de Reservacion: <span>${fechaReserva}</span></label>
-         <img style=" width: 70px; height: 70px; transform: translate(250%, -50%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
-         <span style="font-size:16px;" class="user"> Vendedor: ${usuario}</span>
-         <div style=" font-size:16px; transform: translate(30%, -100%);"><span class="local col-6">Localidad: ${localidad}</span>
-         </div>
+         <img style=" width: 70px; height: 70px; transform: translate(150%, -55%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
+         <span style="font-size:16px;" class="user"> Vendedor: ${usuario}</span> 
+         <br>
+         <span style=" font-size:16px; transform: translate(20%, -100%);" class="local col-6">Localidad: ${localidad}</span>
+         
          
          <p class="">Datos del Cliente:</p>
          <div class="col-md-6" >
@@ -708,6 +702,8 @@ $(document).ready(function () {
         }
     }
 });
+
+
   
    //BOTON EDITAR MODAL (TABLA HOTEL)
    $('.btnEditarReservacion').on('click', function() {

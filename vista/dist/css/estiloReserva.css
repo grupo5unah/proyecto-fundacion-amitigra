@@ -17,9 +17,9 @@
 .hotel{
     display: none;
 }
-.btnsiguiente2{
+/*.btnsiguiente2{
     display: none;
-}
+}*/
 .salida{
     transform: translate(-1%, 53%);
 }
@@ -56,9 +56,16 @@
  #miprecio{
     transform: translate(0%, -150%);
 }
+
 #miprecioe{
     transform: translate(0%, -150%);
-} 
+}
+
+.estilo{
+    transform: translate(0%, 0%) !important;
+}
+
+
 #btnAgregarN,
 #btnAgregarE,
 #btnAgregarNR,
@@ -108,3 +115,8 @@
 .datos{
     transform: translate(0%, 100%);
 }
+/*.fact{
+    max-width: 500px;
+    width: 500px;
+    height: 400px;
+}*/

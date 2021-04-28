@@ -169,7 +169,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									</div>
 									<div class="campos form-group">
 										<label for="">Descripción: </label>
-										<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text" name="descripcion"placeholde="Escriba la descripcion"  onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required/>
+										<textarea name="descripcion" id="descripcion" cols="55" rows="3" placeholde="Escriba la descripcion"  onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required></textarea>
+										<!-- <input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text" name="descripcion"placeholde="Escriba la descripcion"  onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required/> -->
 
 									</div>
 									
@@ -180,7 +181,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-secondary cierra" data-dismiss="modal">Cerrar</button>
 							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Estado</button>
 						</div>
 					</div>
@@ -206,13 +207,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<div class="ingreso-producto form-group">
 											
 											<div class="campos">
-												<label for="">Nombre Estado: </label>
+												<label for="nombreE">Nombre Estado: </label>
 												<input id="nombreE" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreE" placeholder="Nombre Estado" required onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 											</div>
 											<div class="campos form-group">
-												<label for="">Descripción: </label>
-												<input id="descrip" name="descrip" class="form-control  modal-roles secundary text-uppercase" type="tex"  placeholder="Descripcion" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required/>
+												<label for="descrip">Descripción: </label>
+												<textarea name="descrip" id="descrip" cols="55" rows="3" placeholder="Ingrerse una Descripcion" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required></textarea>
+												<!-- <input id="descrip" name="descrip" class="form-control  modal-roles secundary text-uppercase" type="tex" /> -->
 
 											</div>
 											
@@ -220,8 +222,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
 										<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"     data-dismiss="modal">Close</button>
-										<button id=""type="submit" class=" btn btn-primary">Registrar Estado</button>
+										<button type="button" class="btn btn-secondary cerrar"     data-dismiss="modal">Cerrar</button>
+										<button id="registrarE"type="submit" class=" btn btn-primary">Registrar Estado</button>
 										</div>
 										
 									</form>

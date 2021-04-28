@@ -4,26 +4,24 @@ include "../modelo/conexionbd.php";
 
 //BUSCAR CLIENTE
 
-if(isset($_POST['accion']) == 'buscarCliente'){
-    if(!empty($_POST['identidad'])){
+if (isset($_POST['accion']) == 'buscarCliente') {
+    if (!empty($_POST['identidad'])) {
         $identidad = strval($_POST['identidad']);
         //echo $identidad;
 
         $resultado = 0;
-        $sql=mysqli_query($conn,"SELECT id_cliente,nombre_completo,identidad,telefono,tipo_nacionalidad
+        $sql = mysqli_query($conn, "SELECT id_cliente,nombre_completo,identidad,telefono,tipo_nacionalidad
         FROM tbl_clientes WHERE identidad = '$identidad'  AND estado_eliminado=1");
         mysqli_close($conn);
         $resultado = mysqli_num_rows($sql);
-            $data = '';
+        $data = '';
         if ($resultado) {
-            $data= mysqli_fetch_assoc($sql);
-            echo json_encode($data,JSON_UNESCAPED_UNICODE);
-        } 
-        
+            $data = mysqli_fetch_assoc($sql);
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        }
     }
     exit;
-    
- }
+}
 
 $res = array('error' => false);
 $action = '';
@@ -44,7 +42,7 @@ switch ($action) {
         $tipo = $_POST['tipo_sol'];
 
         $usuario_actual = $_POST['usuario_actual'];
-
+        $estado_eliminado=1;
         //Fecha ACTUAL del sistema
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
@@ -96,7 +94,7 @@ switch ($action) {
                     $resultado_deposito = mysqli_fetch_array($consulta_id);
                     if ($resultado_deposito > 0) {
                         //$deposito_capturado = $$resultado_deposito['recibo'];
-                        $res['msj'] = "Por favor verifique el número de depósito ingresado";
+                        $res['msj'] = "Este número de deposito ya se encuentra registrado ";
                         $res['error'] = true;
                     } else {
 
@@ -116,31 +114,46 @@ switch ($action) {
                             //capturamos el id del usuario
                             $id_usercap = $resultado['id_usuario'];
 
-                            //Insertamos en la tabla solicitudes
-                            $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,estatus_solicitud,
-                                tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
-                                VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                            $sql->bind_param(
-                                "ssiiiiissss",
-                                $fecha,
-                                $recibo,
-                                $tot_a_pagar,
-                                $id_clientecap,
-                                $id_usercap,
-                                $estado_capturado,
-                                $tipo,
-                                $usuario_actual,
-                                $fecha,
-                                $usuario_actual,
-                                $fecha
+                            //select para ver si ya exite esta solicitud con este cliente en la tabla solicitudes
 
-                            );
-                            $sql->execute();
-                            if ($sql->error) {
-                                $res['msj'] = "Se produjo un error al momento de registrar la solicitud";
+                            $consulta_solicitudes = mysqli_query($conn, "SELECT tipo_solicitud,cliente_id
+                            FROM tbl_solicitudes
+                            WHERE tipo_solicitud=$tiposolicitud AND cliente_id=$id_clientecap");
+                            $resultado = mysqli_fetch_array($consulta_solicitudes);
+
+                            if ($resultado > 0) {
+                                $res['msj'] = "Este cliente ya solicitó esta solicitud";
                                 $res['error'] = true;
                             } else {
-                                $res['msj'] = "Solicitud Registrada Correctamente";
+
+                             
+                                //Insertamos en la tabla solicitudes
+                                $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,estado_eliminado,recibo,total,cliente_id,usuario_id,estatus_solicitud,
+                                tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
+                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                                $sql->bind_param(
+                                    "sisiiiiissss",
+                                    $fecha,
+                                    $estado_eliminado,
+                                    $recibo,
+                                    $tot_a_pagar,
+                                    $id_clientecap,
+                                    $id_usercap,
+                                    $estado_capturado,
+                                    $tipo,
+                                    $usuario_actual,
+                                    $fecha,
+                                    $usuario_actual,
+                                    $fecha
+
+                                );
+                                $sql->execute();
+                                if ($sql->error) {
+                                    $res['msj'] = "Se produjo un error al momento de registrar la solicitud";
+                                    $res['error'] = true;
+                                } else {
+                                    $res['msj'] = "Solicitud creada con éxito";
+                                }
                             }
                         }
                     }
@@ -148,18 +161,18 @@ switch ($action) {
                     //si no existe el cliente
                 } else {
 
-
+                    
                     //ver si se repite el numero de deposito
                     $consulta_id = mysqli_query($conn, "SELECT id_solicitud,recibo FROM tbl_solicitudes   
                     WHERE recibo=$recibo");
                     $resultado_deposito = mysqli_fetch_array($consulta_id);
                     if ($resultado_deposito > 0) {
 
-                        $res['msj'] = "Por favor verifique el número de deposito ingresado";
+                        $res['msj'] = "Este número de deposito ya se encuentra registrado";
                         $res['error'] = true;
                     } else {
-                        $estado_elim = 1;
-
+                        
+                        $estado_elim=1;
                         $sql = $conn->prepare("INSERT INTO tbl_clientes(nombre_completo,identidad,telefono,tipo_nacionalidad,estado_eliminado,
                             creado_por,fecha_creacion,modificado_por,fecha_modificacion)
                         VALUES (?,?,?,?,?,?,?,?,?)");
@@ -209,30 +222,43 @@ switch ($action) {
                                 }
                                 //insertamos en tbl_solicitudes
 
-                                $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,recibo,total,cliente_id,usuario_id,
-                                                   estatus_solicitud,
-                                                   tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
-                                                   VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                                $sql->bind_param(
-                                    "ssiiiiissss",
-                                    $fecha,
-                                    $recibo,
-                                    $tot_a_pagar,
-                                    $cliente_capturado,
-                                    $id_usercap,
-                                    $estado_capturado,
-                                    $tipo,
-                                    $usuario_actual,
-                                    $fecha,
-                                    $usuario_actual,
-                                    $fecha
-                                );
-                                $sql->execute();
-                                if ($sql->error) {
-                                    $res['msj'] = "Se produjo un error al momento de registrar la solicitud";
+                                //select para ver si ya exite esta solicitud con este cliente en la tabla solicitudes
+                                $consulta_solicitudes = mysqli_query($conn, "SELECT tipo_solicitud,cliente_id
+                                FROM tbl_solicitudes
+                                WHERE tipo_solicitud=$tiposolicitud AND cliente_id= $cliente_capturado");
+                                $resultado = mysqli_fetch_array($consulta_solicitudes);
+                                if ($resultado > 0) {
+                                    $res['msj'] = "Este cliente ya solicitó esta solicitud";
                                     $res['error'] = true;
                                 } else {
-                                    $res['msj'] = "Solicitud Registrada Correctamente";
+                                    $estado_eliminado=1;
+
+                                    $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,estado_eliminado,recibo,total,cliente_id,usuario_id,
+                                                   estatus_solicitud,
+                                                   tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
+                                                   VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    $sql->bind_param(
+                                        "sisiiiiissss",
+                                        $fecha,
+                                        $estado_eliminado,
+                                        $recibo,
+                                        $tot_a_pagar,
+                                        $cliente_capturado,
+                                        $id_usercap,
+                                        $estado_capturado,
+                                        $tipo,
+                                        $usuario_actual,
+                                        $fecha,
+                                        $usuario_actual,
+                                        $fecha
+                                    );
+                                    $sql->execute();
+                                    if ($sql->error) {
+                                        $res['msj'] = "Se produjo un error al momento de registrar la solicitud";
+                                        $res['error'] = true;
+                                    } else {
+                                        $res['msj'] = "Solicitud Registrada Correctamente";
+                                    }
                                 }
                             }
                         }
@@ -253,44 +279,60 @@ switch ($action) {
 
         if (
             isset(($_POST['id_solicitud'])) && isset($_POST['recibo']) && isset($_POST['estatus_solicitud']) && isset($_POST['tipo_solicitud'])
-            && isset($_POST['fecha_creacion'])
+            && isset($_POST['fecha_creacion']) && isset($_POST['usuario_actual'])
         ) {
             $id_solicitud = (int)$_POST['id_solicitud'];
             $nuevo_recibo = $_POST['recibo'];
             $estatus_solicitud = $_POST['estatus_solicitud'];
             $tipo_solicitud = $_POST['tipo_solicitud'];
-
             $usuario_actual = $_POST['usuario_actual'];
+            $fecha_creada = $_POST['fecha_creacion'];
             $fecha = date('Y-m-d H:i:s', time());
 
 
-                //consulta para traer el precio de la solicitud
-                if (isset($_POST['tipo_solicitud'])) {
-                    $tiposolicitud = $_POST['tipo_solicitud'];
-
-                    $preciosolicitud = mysqli_query($conn, "  SELECT id_tipo_solicitud,tipo,precio_solicitud FROM tbl_tipo_solicitud 
-        WHERE id_tipo_solicitud= $tiposolicitud");
-                    $resultado = mysqli_fetch_array($preciosolicitud);
-                    if ($resultado > 0) {
-                        $tot_a_pagar = $resultado['precio_solicitud'];
-                    }
+            //consulta para traer el precio de la solicitud
+            if (isset($_POST['tipo_solicitud'])) {
+                $tiposolicitud = $_POST['tipo_solicitud'];
+                $preciosolicitud = mysqli_query($conn, "  SELECT id_tipo_solicitud,tipo,precio_solicitud FROM tbl_tipo_solicitud 
+            WHERE id_tipo_solicitud= $tiposolicitud");
+                $resultado = mysqli_fetch_array($preciosolicitud);
+                if ($resultado > 0) {
+                    $tot_a_pagar = $resultado['precio_solicitud'];
                 }
+            }
 
-                $sql = "UPDATE tbl_solicitudes SET recibo='$nuevo_recibo', total= $tot_a_pagar, estatus_solicitud=$estatus_solicitud , tipo_solicitud =  $tipo_solicitud,
-            modificado_por='$usuario_actual', fecha_modificacion='$fecha'
-           
-            WHERE id_solicitud=" . $id_solicitud;
+
+            //comparar las fechas para sacar el tiempo para renovar la solicitud
+            $diferencia = abs(strtotime($fecha) - strtotime($fecha_creada));
+            $years = floor(($diferencia / (365 * 60 * 60 * 24)));
+
+
+            if ($years >= 2) {
+
+                $sql = "UPDATE tbl_solicitudes SET recibo='$nuevo_recibo', total= ($tot_a_pagar * 0.50) , estatus_solicitud= $estatus_solicitud ,tipo_solicitud =  $tipo_solicitud,
+                modificado_por='$usuario_actual', fecha_modificacion='$fecha'
+                WHERE id_solicitud=" . $id_solicitud;
 
                 $resultado = $conn->query($sql);
-
                 if ($resultado > 0) {
-
                     $res['msj'] = "La solicitud se ha editado correctamente";
                 } else {
                     $res['msj'] = "Se produjo un error al momento de editar la solicitud ";
                     $res['error'] = true;
                 }
-            
+            } else {
+
+                $sql = "UPDATE tbl_solicitudes SET recibo='$nuevo_recibo', total= $tot_a_pagar , estatus_solicitud=$estatus_solicitud,
+                tipo_solicitud =  $tipo_solicitud,modificado_por='$usuario_actual', fecha_modificacion='$fecha'
+                WHERE id_solicitud=" . $id_solicitud;
+                $resultado = $conn->query($sql);
+                if ($resultado > 0) {
+                    $res['msj'] = "Solicitud editada con éxito";
+                } else {
+                    $res['msj'] = "Se produjo un error al momento de editar la solicitud ";
+                    $res['error'] = true;
+                }
+            }
         } else {
 
             $res['msj'] = "Las variables no estan definidas";
@@ -299,14 +341,22 @@ switch ($action) {
 
         break;
 
+
+
     case 'eliminarSolicitud':
         if (isset($_POST['id_solicitud'])) {
             $id_solicitud = $_POST['id_solicitud'];
+            $usuario_actual = $_POST['usuario_actual'];
+            $estado_eliminar=0;
+            $fecha = date('Y-m-d H:i:s', time());
 
-            $sql = " DELETE FROM tbl_solicitudes WHERE id_solicitud = " . $id_solicitud;
+            
+
+            $sql = " UPDATE tbl_solicitudes SET estado_eliminado= $estado_eliminar, modificado_por='$usuario_actual', fecha_modificacion='$fecha'
+            WHERE id_solicitud = " . $id_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
-                $res['msj'] = "La solicitud se ha eliminado correctamente";
+                $res['msj'] = "solicitud eliminada correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar la solicitud";
                 $res['error'] = true;

@@ -1,4 +1,19 @@
+
 $(document).ready(function () {
+  $('#managerEntrada').DataTable({
+    language: {
+      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
+      "order": [[ 3, "desc" ]]
+    },
+  });
+  $('#managerSalida').DataTable({
+    language: {
+      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
+      "order": [[ 3, "desc" ]]
+    },
+  });
+ // let  prueba = $('evaluar.',this).attr('td');
+
   $("#typeP").select2();
   $("#tipoProducto").select2();
   
@@ -345,6 +360,11 @@ $(document).ready(function () {
         }
     }
   });
+
+  // cambiar color
+  
+ 
+  
 
 
 

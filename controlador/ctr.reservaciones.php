@@ -21,7 +21,7 @@ if(isset($_POST['action']) == 'registrarJutiapa'){
         try{
             //require "../modelo/conexionbd.php";
             $estado_eliminado = 1;
-            $hotel = 'Hotel';
+            $hotel = 'hotel';
             date_default_timezone_set("America/Tegucigalpa");
             $fecha=date('Y-m-d H:i:s',time());
             $entra = $fecha_entrada ." ".date('H:i:s',time());
@@ -47,57 +47,73 @@ if(isset($_POST['action']) == 'registrarJutiapa'){
                     $id_reserva = $idr;
                 }
                 if($existe_reservacion){
-                    $articulo = 1;
-                    //inserta en la tabla detalle de reservacion
-                    $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
-                    inventario_id,total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-                    $insert->bind_param('iiiiiiissss', $idr,$habitacion,$cantidad_adultos, $cantidad_ninos,$articulo,$total,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
-                    $insert->execute();
+                    
+                    // capturar el id de la habitacion
+                    $caphabi = $conn -> prepare("SELECT id_habitacion_servicio FROM tbl_habitacion_servicio
+                    WHERE habitacion_area = ?;");
+                    $caphabi->bind_Param("s", $habitacion);
+                    $caphabi->execute();
+                    $caphabi->bind_result($habit_id);
 
-                    //se captura el id de la tabla de habitacion servicio para cambiarle el estado
-                    $captura_ha = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
-                    WHERE habitacion_id = ?;");
-                    $captura_ha->bind_Param("s", $habitacion);
-                    $captura_ha->execute();
-                    $captura_ha->bind_result($idH);
+                    if($caphabi->affected_rows){
+                        $existeidha = $caphabi->fetch();
 
-                    if($captura_ha->affected_rows){
-                        $existe_ha = $captura_ha->fetch();
-
-                        while ($captura_ha->fetch()) {
-                            $id_hab = $idH;
-                        }
-                        if($existe_ha){
-                            $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 5
-                            WHERE id_habitacion_servicio = ?;");
-
-                            $actulizar_estado -> bind_param('i', $idH);
-                            $actulizar_estado -> execute();
-
-                            if(!$actulizar_estado -> error){
-                                $respuesta = array (
-                                    "respuesta"=>"exito"
-                                );
-                            }else{
-                                $respuesta = array (
-                                    "respuesta"=>"error"
-                                );
-                            }
-                            // actualizar la el estado de la habitacion segun las fechas
-                            date_default_timezone_set("America/Tegucigalpa");
-                            $fech = date('Y-m-d H:i:s', time());
-                            //generar fecha para realizar cambio de estado de habitacion
-                            $fecha_actual = new DateTime($fech); 
-                            if($fecha_actual == $salida){
-                                $actulizar = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
-                                WHERE id_habitacion_servicio = ?;");
-                            }
+                        while ($caphabi->fetch()){
+                            $idhabita = $habit_id;
                         }
 
+                        if($existeidha){
+                            $articulo = 1;
+                            //inserta en la tabla detalle de reservacion
+                            $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
+                            inventario_id,total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
+                            VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                            $insert->bind_param('iiiiiiissss', $idr,$habit_id,$cantidad_adultos, $cantidad_ninos,$articulo,$total,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                            $insert->execute();
+
+                            //se captura el id de la tabla de habitacion servicio para cambiarle el estado
+                            $captura_ha = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
+                            WHERE habitacion_id = ?;");
+                            $captura_ha->bind_Param("s", $habit_id);
+                            $captura_ha->execute();
+                            $captura_ha->bind_result($idH);
+
+                            if($captura_ha->affected_rows){
+                                $existe_ha = $captura_ha->fetch();
+
+                                while ($captura_ha->fetch()) {
+                                    $id_hab = $idH;
+                                }
+                                if($existe_ha){
+                                    $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 5
+                                    WHERE id_habitacion_servicio = ?;");
+
+                                    $actulizar_estado -> bind_param('i', $idH);
+                                    $actulizar_estado -> execute();
+
+                                    if(!$actulizar_estado -> error){
+                                        $respuesta = array (
+                                            "respuesta"=>"exito"
+                                        );
+                                    }else{
+                                        $respuesta = array (
+                                            "respuesta"=>"error"
+                                        );
+                                    }
+                                    // actualizar la el estado de la habitacion segun las fechas
+                                    date_default_timezone_set("America/Tegucigalpa");
+                                    $fech = date('Y-m-d H:i:s', time());
+                                    //generar fecha para realizar cambio de estado de habitacion
+                                    $fecha_actual = new DateTime($fech); 
+                                    if($fecha_actual == $salida){
+                                        $actulizar = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
+                                        WHERE id_habitacion_servicio = ?;");
+                                    }
+                                }
+
+                            }
+                        }
                     }
-                    
-                    
                 }
             }                          
         }catch(Exception $e){
@@ -160,57 +176,73 @@ else if(isset($_POST['accion']) == 'registrarRosario'){
                     $id_reserva = $idr;
                 }
                 if($existe_reservacion){
-                    $articulor=1;
-                    //inserta en la tabla detalle de reservacion
-                    $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
-                    inventario_id,total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-                    $insert->bind_param('iiiiiiissss', $idr,$habitacionR,$cantidad_adultosR, $cantidad_ninosR,$articulor,
-                    $totalR,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
-                    $insert->execute();
+                    // capturar el id de la habitacion
+                    $capha = $conn -> prepare("SELECT id_habitacion_servicio FROM tbl_habitacion_servicio
+                    WHERE habitacion_area = ?;");
+                    $capha->bind_Param("s", $habitacionR);
+                    $capha->execute();
+                    $capha->bind_result($habi_id);
 
-                    //se captura el id de la tabla de habitacion servicio para cambiarle el estado
-                    $captura_ha = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
-                    WHERE habitacion_id = ?;");
-                    $captura_ha->bind_Param("s", $habitacionR);
-                    $captura_ha->execute();
-                    $captura_ha->bind_result($idH);
+                    if($capha->affected_rows){
+                        $existeidh = $capha->fetch();
 
-                    if($captura_ha->affected_rows){
-                        $existe_ha = $captura_ha->fetch();
-
-                        while ($captura_ha->fetch()) {
-                            $id_hab = $idH;
+                        while ($capha->fetch()){
+                            $idhabit = $habi_id;
                         }
-                        if($existe_ha){
-                            $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 5
-                            WHERE id_habitacion_servicio = ?;");
+                        
+                        if($existeidh){
+                            $articulor=1;
+                            //inserta en la tabla detalle de reservacion
+                            $insert=$conn->prepare("INSERT INTO tbl_detalle_reservacion (reservacion_id, habitacion_id, cantidad_persona, cantidad_ninos,
+                            inventario_id,total_pago,estado_eliminado,creado_por, fecha_creacion, modificado_por, fecha_modificacion) 
+                            VALUES (?,?,?,?,?,?,?,?,?,?,?);");
+                            $insert->bind_param('iiiiiiissss', $idr,$habi_id,$cantidad_adultosR, $cantidad_ninosR,$articulor,
+                            $totalR,$estado_eliminado,$usuario_actual,$fecha,$usuario_actual,$fecha);
+                            $insert->execute();
 
-                            $actulizar_estado -> bind_param('i', $idH);
-                            $actulizar_estado -> execute();
+                            //se captura el id de la tabla de habitacion servicio para cambiarle el estado
+                            $captura_ha = $conn->prepare("SELECT habitacion_id FROM tbl_detalle_reservacion
+                            WHERE habitacion_id = ?;");
+                            $captura_ha->bind_Param("s", $habi_id);
+                            $captura_ha->execute();
+                            $captura_ha->bind_result($idH);
 
-                            if(!$actulizar_estado -> error){
-                                $respuesta2 = array (
-                                    "respuesta"=>"exito"
-                                );
-                            }else{
-                                $respuesta2 = array (
-                                    "respuesta"=>"error"
-                                );
+                            if($captura_ha->affected_rows){
+                                $existe_ha = $captura_ha->fetch();
+
+                                while ($captura_ha->fetch()) {
+                                    $id_hab = $idH;
+                                }
+                                if($existe_ha){
+                                    $actulizar_estado = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 5
+                                    WHERE id_habitacion_servicio = ?;");
+
+                                    $actulizar_estado -> bind_param('i', $idH);
+                                    $actulizar_estado -> execute();
+
+                                    if(!$actulizar_estado -> error){
+                                        $respuesta2 = array (
+                                            "respuesta"=>"exito"
+                                        );
+                                    }else{
+                                        $respuesta2 = array (
+                                            "respuesta"=>"error"
+                                        );
+                                    }
+                                    // actualizar la el estado de la habitacion segun las fechas
+                                    date_default_timezone_set("America/Tegucigalpa");
+                                    $fech = date('Y-m-d H:i:s', time());
+                                    //generar fecha para realizar cambio de estado de habitacion
+                                    $fecha_actual = new DateTime($fech); 
+                                    if($fecha_actual == $salida){
+                                        $actulizar = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
+                                        WHERE id_habitacion_servicio = ?;");
+                                    } 
+                                }
+
                             }
-                            // actualizar la el estado de la habitacion segun las fechas
-                            date_default_timezone_set("America/Tegucigalpa");
-                            $fech = date('Y-m-d H:i:s', time());
-                            //generar fecha para realizar cambio de estado de habitacion
-                            $fecha_actual = new DateTime($fech); 
-                            if($fecha_actual == $salida){
-                                $actulizar = $conn -> prepare( "UPDATE tbl_habitacion_servicio SET estado_id = 4
-                                WHERE id_habitacion_servicio = ?;");
-                            } 
                         }
-
                     }
-                    
                     
                 }
             }                          

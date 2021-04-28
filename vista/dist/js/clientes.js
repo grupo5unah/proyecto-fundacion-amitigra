@@ -149,6 +149,70 @@ $(document).ready(function(){
     });
   
 
+    $('.cerrar').on('click', function(e){
+        swal({
+          icon: "warning",
+          title: "cancelar",
+          text: "¿Esta seguro que quiere ejecutar esta accion?",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) =>{
+          if(willDelete){
+            location.reload();
+          }else{
+            $('#modalCrearCliente').modal('show');
+          }
+        })
+      });
+      $('.cerrar2').on('click', function(e){
+        swal({
+          icon: "warning",
+          title: "cancelar",
+          text: "¿Esta seguro que quiere ejecutar esta accion?",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) =>{
+          if(willDelete){
+            location.reload();
+          }else{
+            $('#modalCrearCliente').modal('show');
+          }
+        })
+      });
+      $('.cierra').on('click', function(e){
+        swal({
+          icon: "warning",
+          title: "cancelar",
+          text: "¿Esta seguro que quiere ejecutar esta accion?",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) =>{
+          if(willDelete){
+            location.reload();
+          }else{
+            $('#modalCrearCliente').modal('show');
+          }
+        })
+      });
+      $('.cierra1').on('click', function(e){
+        swal({
+          icon: "warning",
+          title: "cancelar",
+          text: "¿Esta seguro que quiere ejecutar esta accion?",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) =>{
+          if(willDelete){
+            location.reload();
+          }else{
+            $('#modalCrearCliente').modal('show');
+          }
+        })
+      });
 
     //REGISTRAR NUEVO CLIENTE
     $("#formCliente").submit(async function(e){
@@ -221,6 +285,7 @@ $(document).ready(function(){
         const nombre = $(this).data('nombrecliente');
         const identidadC = $(this).data('identidad');
         const telefono = $(this).data('telefono');
+        const tipo_nacionalidad = $(this).data('tipo_nacionalidad');
         const nacionalidad = $(this).data('nacionalidad');
         var usuario_actual = $("#usuario_actual").val();
         //llena los campos
@@ -228,7 +293,7 @@ $(document).ready(function(){
         $("#nombre_cliente").val(nombre),
         $("#identidad").val(identidadC),
         $("#telefono").val(telefono),
-        $("#nacionalidad").val(nacionalidad),
+        $("#nacionalidad").val(tipo_nacionalidad),
         $("#usuario_actual").val(usuario_actual)
         
         //console.log(idrol,nombrerol,descripcion);

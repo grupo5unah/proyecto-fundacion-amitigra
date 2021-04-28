@@ -23,7 +23,7 @@
                     $nombre_usuariobd = 'root';
                     $contrasena_usuariobd = '';
                     $nombre_bd = 'copia_base_datos';
-                    $ubicacion_path = "copiaSeguridad/".$path;
+                    $ubicacion_path = "../copiaSeguridad/".$path;
         
                     // Conexion y seleccion de la base de datos
                     $db = new mysqli($host, $nombre_usuariobd, $contrasena_usuariobd, $nombre_bd);
@@ -51,6 +51,10 @@
                             // Realiza la consulta
                             if(!$db->query($consulta_actual)){
                                 $error .= 'Se produjo un error al momento de realizar el respaldo "<b>' . $consulta_actual . '</b>": ' . $db->error . '<br /><br />';
+                            } else{
+                                $respuesta = array(
+                                    "respuesta" => "exito"
+                                );
                             }
                             
                             // Resetea la variable temporal
@@ -58,9 +62,9 @@
                         }
                     }
 
-                    $respuesta = array(
+                    /*$respuesta = array(
                         "respuesta" => "exito"
-                    );
+                    );*/
 
                 }else{
                     $respuesta = array(

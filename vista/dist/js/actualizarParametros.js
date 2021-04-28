@@ -308,6 +308,72 @@ $(document).ready(function(){
         
     });
 
+    //FUNCION PARA ACTUALIZAR PARAMETROS DE SOLICITUDES
+    $("#InformacionSolicitudes").on("click", function(){
+
+        let mostrarSolicitudes = document.querySelector("#mostrarSolicitudes").value;
+        let usuario = document.querySelector("#usuario").value;
+        let contrasena5 = document.querySelector("#contrasenaSolicitudes").value;
+        
+        if(mostrarSolicitudes === ""){
+            Notification("error","Requisito","Los campos son requeridos");
+        }else if(contrasena5 === ""){
+            Notification("error","Requisito","La contrasena es requerida");
+        } else {
+            $.ajax({
+                type:"POST",
+                url:"./controlador/ctr.actualizarOtrosParametros.php",
+                datatype:"json",
+                data: { mostrarSolicitudes:mostrarSolicitudes, usuario:usuario, contrasena5:contrasena5 },
+                success: function(response){
+
+                    let infoSolicitudes = JSON.parse(response);
+                    
+                    if(infoSolicitudes.respuesta == "exito"){
+                        swal({
+                            icon:"success",
+                            title:"Exito",
+                            text:"Se actualizo correctamente"
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else if(infoSolicitudes.respuesta == "error"){
+                        swal({
+                            icon:"error",
+                            title:"Error",
+                            text:"Surgio un error al momento de actualizar"
+                        })
+                    } else if(infoSolicitudes.respuesta == "error_contrasena"){
+                        swal({
+                            icon:"error",
+                            title:"Error",
+                            text:"La contrasena es incorrecta"
+                        })
+                    }
+                }
+            });
+        }
+    });
+
+    $("#borrarSolicitudes").on("click", function(){
+
+        swal({
+            icon:"warning",
+            title: "Saliendo?",
+            text: "Seguro que quieres salir?",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                contrasena4 = document.querySelector("#contrasenaSolicitudes").value = "";
+            } else {
+            $("#modal-solicitudes").modal("show");
+            }
+        });
+        
+    });
+
     function Notification(icon, title, text){
         swal({
             icon,

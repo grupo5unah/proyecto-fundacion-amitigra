@@ -6,12 +6,6 @@
 
   }
 
-  function soloNumeros(e) {
-    var key = window.event ? e.which : e.keyCode;
-    if (key < 48 || key > 57) {
-      e.preventDefault();
-    }
-  }
 
 
   function soloLetras(e) {
@@ -160,12 +154,12 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div> <!-- /div-action -->
                     <table id="tablaSolicitudes" class="display responsive nowrap">
                       <thead>
-                        <tr>
+                        <tr style="background-color: #222d32; color: white;">
+                          
                           <th>Nombre</th>
                           <th>Identidad</th>
                           <th>Telefono</th>
                           <th>Tipo de Solicitud</th>
-                          <th>Precio</th>
                           <th>Total</th>
                           <th>Estado</th>
                           <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
@@ -190,7 +184,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       ON tiponac.id_tipo_nacionalidad=cli.tipo_nacionalidad INNER JOIN tbl_solicitudes sol
                       ON sol.cliente_id=cli.id_cliente INNER JOIN tbl_tipo_solicitud tips
                       ON sol.tipo_solicitud=tips.id_tipo_solicitud INNER JOIN tbl_estatus_solicitud est
-                      ON sol.estatus_solicitud=est.id_estatus_solicitud ORDER BY id_solicitud 
+                      ON sol.estatus_solicitud=est.id_estatus_solicitud  where sol.estado_eliminado=1 
                       
                       ";
                           $resultado = $conn->query($consult_solicitud);
@@ -208,7 +202,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                             'identidad' => $eventos['identidad'],
                             'id_tipo_nacionalidad' => $eventos['id_tipo_nacionalidad'],                           
                             'telefono' => $eventos['telefono'],
-                            'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],
+                            'id_tipo_solicitud' => $eventos['id_tipo_solicitud'],                       
                             'fecha_creacion' => $eventos['fecha_creacion'],
                             'tipo' => $eventos['tipo'],
                             'precio_solicitud' => $eventos['precio_solicitud'],
@@ -221,15 +215,15 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                         foreach ($vertbl as $dia => $lista_sol) { ?>
                           <?php foreach ($lista_sol as $evento) { ?>
                             <tr>
+                              
                               <td> <?php echo $evento["nombre_completo"]; ?></td>
                               <td> <?php echo $evento["identidad"]; ?></td>
                               <td> <?php echo $evento["telefono"]; ?></td>
                               <td> <?php echo $evento["tipo"]; ?></td>
-                              <td> <?php echo $evento["precio_solicitud"]; ?></td>
                               <td> <?php echo $evento["total"]; ?></td>
                               <td> <?php echo $evento["estatus"]; ?></td>
                               <td>
-                                <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-recibo="<?= $evento["recibo"] ?>" data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" data-fechacreacion="<?= $evento["fecha_creacion"] ?>" data-precio_solicitud="<?= $evento["precio_solicitud"] ?>" data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-estatus_solicitud="<?= $evento["estatus"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
+                                <button class="btn btn-warning btnEditarSolicitud glyphicon glyphicon-pencil" data-idsolicitud="<?= $evento["id_solicitud"] ?>" data-recibo="<?= $evento["recibo"] ?>" data-idcliente="<?= $evento["id_cliente"] ?>" data-nombre_completo="<?= $evento["nombre_completo"] ?>" data-telefono="<?= $evento["telefono"] ?>" data-id_tipo_solicitud="<?= $evento["id_tipo_solicitud"] ?>" data-fechacreacion="<?= $evento["fecha_creacion"] ?>" data-precio_solicitud="<?= $evento["precio_solicitud"] ?>" data-id_estatus_solicitud="<?= $evento["id_estatus_solicitud"] ?>" data-tipo="<?= $evento["tipo"] ?>"></button>
                                 <button class="btn btn-danger btnEliminarSolicitud glyphicon glyphicon-remove" data-idsolicitud="<?php echo $evento['id_solicitud'] ?>">
                               </td>
                             <?php } ?>
@@ -267,13 +261,13 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       </div>
 
                       <div class="campos ">
-                        <label for="">Deposito</label>
-                        <input id="recibo" autocomplete="off" style="width:365px" maxlength="30" minlength="8" class="form-control modal-roles 
+                        <label for="recibo">Deposito</label>
+                        <input id="recibo" autocomplete="off" style="width:365px"  minlength="1" class="form-control modal-roles 
                       	secundary" type="text" onpaste="return false" placeholder="Recibo" onkeypress="return soloNumeros(event)" required/>
                       </div><br>
 
 
-                      <label for="">Tipo de solicitud</label>
+                      <label for="tipo">Tipo de solicitud</label>
                       <?php
                       include("modelo/conexionbd.php");
                       $query_tip = mysqli_query($conn, "SELECT id_tipo_solicitud,tipo FROM `tbl_tipo_solicitud` 
@@ -281,6 +275,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       $result = mysqli_num_rows($query_tip);
                       ?>
                       <select class="form-control secundary" id="tipo" name="tipo" class="notItemOne">
+                      <option value="" disabled selected>Seleccione un tipo de solicitud</option>
                         <?php
 
                         if ($result > 0) {
@@ -304,6 +299,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       $result_est = mysqli_num_rows($query_estad);
                       ?>
                       <select class="form-control secundary" id="estatus_solicitud" name="estatus_solicitud" class="notItemOne">
+                      <option value="" disabled selected>Seleccione un Estado</option>
                         <?php
                         echo $option;
                         if ($result_est > 0) {
@@ -319,13 +315,13 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div><br>
 
                     <div class="campos ">
-                      <label for="">Fecha De Registro</label>
+                      <label for="fecha_registro">Fecha De Registro</label>
                       <input id="fecha_registro" autocomplete="off" style="width:365px" class="form-control modal-roles 
    	                  secundary" type="text" onpaste="return false" placeholder="Fecha de registro" disabled/>
                     </div><br>
 
                     <div class="campos ">
-                      <label for="">Fecha Actual</label>
+                      <label for="fecha_actual">Fecha Actual</label>
                       <input id="fecha_actual" autocomplete="off" style="width:365px" class="form-control modal-roles 
                       secundary" type="text" onpaste="return false" placeholder="Fecha actual" disabled/>
                     </div>
@@ -334,9 +330,12 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 
                     <div class="modal-footer">
-                      <button id="cerrar_actualizar" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud">
+                   
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarFormact">Cerrar</button>
+                      <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" type="text" value="Actualizar Solicitud"><br>
+                     
                     </div>
+                   
                   </form>
                 </div>
               </div>
@@ -385,7 +384,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 
                     <div class="campos form-group">
-                      <input id="n_recibo" style="width:335px" maxlength="30" class="form-control modal-roles secundary" type="text" name="n_recibo" onkeypress="return soloNumeros(event)" placeholder="Numero de recibo o deposito" />
+                      <input id="n_recibo" style="width:335px" maxlength="30" class="form-control modal-roles secundary" type="text" name="n_recibo" onkeypress="return soloNumeros(event)" placeholder="Numero de recibo o depósito" />
 
                     </div>
                     <?php
@@ -436,7 +435,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div>
                     <div class="modal-footer">
                       <button id="cerrar_rs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
+                      <button id="r_solicitud" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
                     </div>
                 </form>
               </div>

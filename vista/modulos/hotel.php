@@ -78,7 +78,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													INNER JOIN tbl_localidad
 													ON tbl_habitacion_servicio.localidad_id = tbl_localidad.id_localidad
 													WHERE tbl_detalle_reservacion.estado_eliminado = 1
-											 		ORDER BY tbl_reservaciones.fecha_reservacion ASC ";
+											 		ORDER BY tbl_reservaciones.fecha_reservacion desc ";
 											$resultado = $conn->query($sql);
 										}catch (Exception $e){
 											echo  $e->getMessage();
@@ -202,7 +202,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								<button type="button" id="cancelarh" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Registrar reservación Hotel</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Reservación Hotel</h3>
 							</div>
 						</div>
 						<div class="modal-body">
@@ -233,12 +233,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															
 																<div class="col-md-6">
 																	<div class="form-group">
-																		<label>Identidad:</label>
+																		<label for="identidad">Identidad:</label>
 																		<input type="text" class="form-control" name="identidad" id="identidad" placeholder="Identidad"  required
 																		maxlength="13" onkeypress="return soloNumero(event)"> 
 																	</div>
 																	<div class="form-group">
-																		<label for="">Nacionalidad: </label>
+																		<label for="nacionalidad">Nacionalidad: </label>
 																		<select class="form-control" name="nacionalidad" id="nacionalidad" disabled required>
 																			<option value="" disabled selected>Selecione...</option>
 																			<?php 
@@ -254,7 +254,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																	<br><br>
 																	<div class="form-group">
-																		<label for="">localidad</label><br>
+																		<label for="localidad">localidad</label><br>
 																		<select class="form-control selectLocalidad" name="localidad" id="localidad" disabled>
 																		<option value="" disabled selected>Selecione...</option>
 																		<?php
@@ -272,15 +272,15 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="col-md-6">
 																	<div class="form-group">
-																		<label>Cliente:</label>
+																		<label for="cliente">Cliente:</label>
 																		<input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this);"
 																		disabled required maxlength="60">
 																	</div>
 																</div>
 																<div class="col-md-6">
 																	<div class="campos form-group">
-																		<label for="">Telefeno: </label>
-																		<input id="telefono" maxlength="15"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeypress="return soloNumero(event)" disabled required>
+																		<label for="telefono">Telefono: </label>
+																		<input id="telefono" maxlength="8"  name="telefono" class="form-control" type="tex"  placeholder="Telefono" onkeypress="return soloNumero(event)" disabled required>
 																	</div>
 																</div>
 																<div class="col-md-6">
@@ -311,7 +311,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label>Fecha de reservación:</label>
+																	<label for="reservacion">Fecha de reservación:</label>
 																	<input type="text" class="form-control" name="reservacion" id="reservacion" required
 																	maxlength="13" 
 																	<?php
@@ -320,7 +320,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	?> value="<?php echo $fecha;?>" disabled="true"> 
 																</div>
 																<div class="form-group">
-																	<label>Fecha Entrada:</label>
+																	<label for="entrada">Fecha Entrada:</label>
 																	<input type="text" class="form-control" name="entrada" id="entrada" required>
 																</div>
 															</div>
@@ -332,16 +332,16 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="col-md-6 salida">
 																<div class="form-group">
-																	<label>Fecha Salida:</label>
-																	<input type="text" class="form-control" name="salida" id="salida" required>
+																	<label for="salida">Fecha Salida:</label>
+																	<input type="text" class="form-control" name="salida" id="salida" required disabled>
 																</div>
 															</div>	
 														</div><!-- row -->
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-													<button class="btn btn-default" href="#activity" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" href="#settings sigue2" data-toggle="tab" disabled>Siguiente</button>
+													<button class="btn btn-default btnanterior1" href="#activity" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary btnsiguiente2" href="#settings" data-toggle="tab">Siguiente</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->
@@ -358,7 +358,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															<div class="row nacional" id="nacionales">
 																<div class="col-md-4">
 																	<div class="form-group">
-																		<label>Habitación:</label>
+																		<label for="habitacionN">Habitación:</label>
 																		<select class="form-control col-md-2" name="habitacionN" id="habitacionN">
 																			<option value="" disabled selected>Selecione...</option>
 																			<?php 
@@ -376,12 +376,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	
 																</div>
 																<div class="form-group col-md-2" >
-																		<label>Adulto:</label>
+																		<label for="cantAN">Adulto:</label>
 																		<input name="cantAN" id="cantAN" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calculo();">
 																</div>
 																<div class="form-group col-xs-4">
-																	<label>Precio (A):</label>
+																	<label for="precioAdultoN">Precio (A):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">L.</span>
 																		<input type="text" class="form-control" name="precioAdultoN" id="precioAdultoN" placeholder=""  onkeydown="return soloNumeros(event)"
@@ -396,12 +396,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<div class="form-group col-md-2 reserva" >
-																		<label>Niños:</label>
+																		<label for="cantNN">Niños:</label>
 																		<input name="cantNN" id="cantNN" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calculo();">
 																</div>
 																<div class="form-group col-xs-4 precioh">
-																	<label>Precio (N):</label>
+																	<label for="preciopNinoN">Precio (N):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">L.</span>
 																		<input type="text" class="form-control" name="precioNinoN" id="precioNinoN" placeholder=""  onkeydown="return soloNumeros(event)"
@@ -416,12 +416,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<input type="hidden" name="totalNJ" id="totalNJ" value="">
-																<button id="btnAgregarN" class="btn btn-success btnAgregarN addnacional glyphicon glyphicon-plus-sign" > Agregar</button>
+																<button id="btnAgregarN" class="btn btn-success btnAgregarN addnacional glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row nacionales -->
 															<div class="row extranjero">
 																<div class="col-md-4">
 																	<div class="form-group">
-																		<label>Habitación:</label>
+																		<label for="habitacionE">Habitación:</label>
 																		<select class="form-control col-md-2" name="habitacionE" id="habitacionE">
 																			<option value="" disabled selected>Selecione...</option>
 																			<?php 
@@ -439,12 +439,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	
 																</div>
 																<div class="form-group col-md-2" >
-																		<label>Adulto:</label>
+																		<label for="cantAE">Adulto:</label>
 																		<input name="cantAE" id="cantAE" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calcular2();">
 																</div>
 																<div class="form-group col-xs-4">
-																	<label>Precio (A):</label>
+																	<label for="precioAdultoE">Precio (A):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">$.</span>
 																		<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -459,12 +459,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<div class="form-group col-md-2 reserva" >
-																		<label>Niños:</label>
+																		<label for="cantNE">Niños:</label>
 																		<input name="cantNE" id="cantNE" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calcular2();">
 																</div>
 																<div class="form-group col-xs-4 precioh">
-																	<label>Precio (N):</label>
+																	<label for="precioNinoE">Precio (N):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">$.</span>
 																		<input type="text" class="form-control" name="precioNinoE" id="precioNinoE" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -486,13 +486,13 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															<table id="tableJutiapa" data-page-length='10' class=" table table-hover table-condensed table-bordered">
 																<thead>
 																	<tr>
-																		<td class="text-center tablaJutiapa">Habitaciones</td>
-																		<td class="text-center tablaJutiapa">Adultos</td>
-																		<td class="text-center tablaJutiapa">P.Adultos</td>
-																		<td class="text-center tablaJutiapa">Niños</td>
-																		<td class="text-center tablaJutiapa">P.Niños</td>
-																		<td class="text-center tablaJutiapa">Total</td>
-																		<td class="text-center tablaJutiapa">Acciones</td>
+																		<th class="text-center tablaJutiapa">Habitaciones</th>
+																		<th class="text-center tablaJutiapa">Adultos</th>
+																		<th class="text-center tablaJutiapa">Precio</th>
+																		<th class="text-center tablaJutiapa">Niños</th>
+																		<th class="text-center tablaJutiapa">Precio</th>
+																		<th class="text-center tablaJutiapa">Total</th>
+																		<th class="text-center tablaJutiapa">Acciones</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -506,7 +506,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													<div class="row nacional">
 															<div class="col-md-4">
 																<div class="form-group">
-																	<label>Habitación:</label>
+																	<label for="hnr">Habitación:</label>
 																	<select class="form-control col-md-2" name="hnr" id="hnr">
 																		<option value="" disabled selected>Selecione...</option>
 																		<?php 
@@ -524,12 +524,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																
 															</div>
 															<div class="form-group col-md-2" >
-																	<label>Adulto:</label>
+																	<label for="anr">Adulto:</label>
 																	<input name="anr" id="anr" class="form-control col-md-2" type="number" min="0" placeholder="0" require 
 																	oninput="calculaRosario();">
 															</div>
 															<div class="form-group col-xs-4">
-																<label>Precio (A):</label>
+																<label for="pnar">Precio (A):</label>
 																<div class="input-group col-xs-4">
 																	<span class="input-group-addon">L.</span>
 																	<input type="text" class="form-control" name="pnar" id="pnar"  onkeydown="return soloNumeros(event)"
@@ -544,11 +544,11 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 															</div>
 															<div class="form-group col-md-2 reserva" >
-																	<label>Niños:</label>
+																	<label for="nnr">Niños:</label>
 																	<input name="nnr" id="nnr" class="form-control col-md-2" type="number" min="0" placeholder="0" require oninput="calculaRosario();">
 															</div>
 															<div class="form-group col-xs-4 precioh">
-																<label>Precio (N):</label>
+																<label for="pnnr">Precio (N):</label>
 																<div class="input-group col-xs-4">
 																	<span class="input-group-addon">L.</span>
 																	<input type="text" class="form-control" name="pnnr" id="pnnr" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -568,7 +568,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 														<div class="row extranjero">
 															<div class="col-md-4">
 																<div class="form-group">
-																	<label>Habitación:</label>
+																	<label for="her">Habitación:</label>
 																	<select class="form-control col-md-2" name="her" id="her">
 																		<option value="" disabled selected>Selecione...</option>
 																		<?php 
@@ -586,12 +586,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																
 															</div>
 															<div class="form-group col-md-2" >
-																	<label>Adulto:</label>
+																	<label for="aer">Adulto:</label>
 																	<input name="aer" id="aer" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																	oninput="calculaRosarioE();">
 															</div>
 															<div class="form-group col-xs-4">
-																<label>Precio (A):</label>
+																<label for="paer">Precio (A):</label>
 																<div class="input-group col-xs-4">
 																	<span class="input-group-addon">$.</span>
 																	<input type="text" class="form-control" name="paer" id="paer" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -606,12 +606,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 															</div>
 															<div class="form-group col-md-2 reserva" >
-																	<label>Niños:</label>
+																	<label for="ner">Niños:</label>
 																	<input name="ner" id="ner" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																	oninput="calculaRosarioE();">
 															</div>
 															<div class="form-group col-xs-4 precioh">
-																<label>Precio (N):</label>
+																<label for="pner">Precio (N):</label>
 																<div class="input-group col-xs-4">
 																	<span class="input-group-addon">$.</span>
 																	<input type="text" class="form-control" name="pner" id="pner" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -634,9 +634,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<tr>
 																	<td class="tablaRosario">Habitaciones</td>
 																	<td class="tablaRosario">Adultos</td>
-																	<td class="tablaRosario">P.Adultos</td>
+																	<td class="tablaRosario">Precio</td>
 																	<td class="tablaRosario">Niños</td>
-																	<td class="tablaRosario">P.Niños</td>
+																	<td class="tablaRosario">Precio</td>
 																	<td class="tablaRosario">Total</td>
 																	<td class="tablaRosario">Acciones</td>
 																</tr>
@@ -647,11 +647,10 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-													<input type="hidden" name="tipo_hotel" id="tipo_hotel" value="Hotel">
 													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
-													<button class="btn btn-default" href="#timeline" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" id="registro" data-toggle="tab">Registrar Reservación</button>
+													<button class="btn btn-default btnanterior2" href="#timeline" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary" id="registro" data-toggle="tab" disabled>Registrar Reservación</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
@@ -677,10 +676,10 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 					<div class="modal-content modal-reserva">
 						<div class="modal-header">
 							<div class="d-flex justify-content-between">
-								<button type="button" id="cancelar2" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" id="cancelarc1" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Registrar reservación Camping</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Reservación Camping</h3>
 							</div>
 						</div>
 						<div class="modal-body">
@@ -711,12 +710,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															
 																<div class="col-md-6">
 																	<div class="form-group">
-																		<label>Identidad:</label>
+																		<label for="identi">Identidad:</label>
 																		<input type="text" class="form-control" name="identi" id="identi" placeholder="Identidad"  required
 																		maxlength="13" onkeypress="return soloNumero(event)"> 
 																	</div>
 																	<div class="form-group">
-																		<label for="">Nacionalidad: </label>
+																		<label for="nacion">Nacionalidad: </label>
 																		<select class="form-control" name="nacion" id="nacion" disabled required>
 																			<option value="" disabled selected>Selecione...</option>
 																			<?php 
@@ -732,7 +731,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																	<br><br>
 																	<div class="form-group">
-																		<label for="">localidad</label><br>
+																		<label for="localidad">localidad</label><br>
 																		<select class="form-control selectLocal" name="localidad" id="localidad" disabled>
 																		<option value="" disabled selected>Selecione...</option>
 																		<?php
@@ -750,14 +749,14 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																</div>
 																<div class="col-md-6">
 																	<div class="form-group">
-																		<label>Cliente:</label>
+																		<label for="client">Cliente:</label>
 																		<input type="text" class="form-control" name="client" id="client" placeholder="Cliente" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); espacio_Letras(this);"
 																		disabled required maxlength="60">
 																	</div>
 																</div>
 																<div class="col-md-6">
 																	<div class="campos form-group">
-																		<label for="">Telefeno: </label>
+																		<label for="tele">Telefeno: </label>
 																		<input id="tele" maxlength="15"  name="tele" class="form-control" type="tex"  placeholder="Telefono" onkeypress="return soloNumero(event)" disabled required>
 																	</div>
 																</div>
@@ -772,7 +771,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" id="cancelar3" data-dismiss="modal">Cerrar </button>
+													<button type="button" class="btn btn-secondary" id="cancelarc2" data-dismiss="modal">Cerrar </button>
 													<!-- <button id=""type="submit" class="btn btn-primary btnEditarBD">Registrar reservación</button> -->
 													<button id=""type="button" href="#timeline3" class="btn btn-primary siguiente1" data-toggle="tab" disabled>Siguiente</button>
 												</div>
@@ -789,7 +788,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label>Fecha de reservación:</label>
+																	<label for="reserva">Fecha de reservación:</label>
 																	<input type="text" class="form-control" name="reserva" id="reserva" required
 																	maxlength="13" 
 																	<?php
@@ -798,7 +797,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	?> value="<?php echo $fecha;?>" disabled="true"> 
 																</div>
 																<div class="form-group">
-																	<label>Fecha Entrada:</label>
+																	<label for="entra">Fecha Entrada:</label>
 																	<input type="text" class="form-control" name="entra" id="entra" required>
 																</div>
 															</div>
@@ -810,16 +809,16 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															</div>
 															<div class="col-md-6 salida">
 																<div class="form-group">
-																	<label>Fecha Salida:</label>
-																	<input type="text" class="form-control" name="sale" id="sale" required>
+																	<label for="sale">Fecha Salida:</label>
+																	<input type="text" class="form-control" name="sale" id="sale" required disabled>
 																</div>
 															</div>	
 														</div><!-- row -->
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-													<button class="btn btn-default" href="#activity3" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" href="#settings4" data-toggle="tab">Siguiente</button>
+													<button class="btn btn-default btnAnterior" href="#activity3" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary btnSigue" href="#settings4" data-toggle="tab" >Siguiente</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->
@@ -835,7 +834,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 														<div class="row nacional">
 																<div class="col-md-4">
 																	<div class="form-group">
-																		<label>Area:</label>
+																		<label for="area">Area:</label>
 																		<select class="form-control col-md-2" name="area" id="area">
 																			<option value="" disabled selected>Selecione...</option>
 																			<?php 
@@ -852,12 +851,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div><br><br>
 																</div>
 																<div class="form-group col-md-2" >
-																		<label>Adulto:</label>
+																		<label for="anc">Adulto:</label>
 																		<input name="anc" id="anc" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calcularCampingNacional();">
 																</div>
 																<div class="form-group col-xs-4">
-																	<label>Precio (A):</label>
+																	<label for="pac">Precio (A):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">L.</span>
 																		<input type="text" class="form-control" name="pac" id="pac" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -872,12 +871,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<div class="form-group col-md-2 reserva" >
-																		<label>Niños:</label>
+																		<label for="nnc">Niños:</label>
 																		<input name="nnc" id="nnc" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calcularCampingNacional();">
 																</div>
 																<div class="form-group col-xs-4 precio">
-																	<label>Precio (N):</label>
+																	<label for="pnnc">Precio (N):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">L.</span>
 																		<input type="text" class="form-control" name="pnnc" id="pnnc" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -897,12 +896,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	oninput="calcularCampingNacional();">
 																</div>
 																<div class="form-group col-md-4 canT">
-																	<label>Tipo Tienda:</label><br>
+																	<label for="lista1">Articulo:</label><br>
 																	<select id="lista1" class="form-control col-md-2" name="lista1">
 																		<?php
 																			include_once ('./modelo/conexionbd.php');
 																		$stmt = "SELECT id_producto, nombre_producto FROM tbl_producto
-																		WHERE nombre_producto LIKE '%Ti%' OR nombre_producto LIKE '%ninguno%' 
+																		WHERE nombre_producto LIKE '%Tienda%' OR nombre_producto LIKE '%ninguno%' 
 																		OR nombre_producto LIKE '%sleeping%'";
 																		$resultado = mysqli_query($conn,$stmt);
 																		?>
@@ -921,7 +920,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 															<div class="row extranjero">
 																<div class="col-md-4">
 																	<div class="form-group">
-																		<label>Area:</label>
+																		<label for="areae">Area:</label>
 																		<select class="form-control col-md-2" name="areae" id="areae">
 																			<option value="" disabled selected>Selecione...</option>
 																			<?php 
@@ -938,12 +937,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div><br><br>
 																</div>
 																<div class="form-group col-md-2" >
-																		<label>Adulto:</label>
+																		<label for="aec">Adulto:</label>
 																		<input name="aec" id="aec" class="form-control col-md-2" type="number" min="0" placeholder="0" require 
 																		oninput="calcularCampingExtranjero();">
 																</div>
 																<div class="form-group col-xs-4">
-																	<label>Precio (A):</label>
+																	<label for="paec">Precio (A):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">$.</span>
 																		<input type="text" class="form-control" name="paec" id="paec" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -958,12 +957,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<div class="form-group col-md-2 reserva" >
-																		<label>Niños:</label>
+																		<label for="nec">Niños:</label>
 																		<input name="nec" id="nec" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																		oninput="calcularCampingExtranjero();">
 																</div>
 																<div class="form-group col-xs-4 precio">
-																	<label>Precio (N):</label>
+																	<label for="pnec">Precio (N):</label>
 																	<div class="input-group col-xs-4">
 																		<span class="input-group-addon">$.</span>
 																		<input type="text" class="form-control" name="pnec" id="pnec" placeholder="Precio habitacion"  onkeydown="return soloNumeros(event)"
@@ -978,12 +977,12 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																	</div>
 																</div>
 																<div class="form-group col-md-2 canA " >
-																	<label>Cantidad:</label>
+																	<label for="canTie">Cantidad:</label>
 																	<input name="canTie" id="canTie" class="form-control col-md-2" type="number" min="0" placeholder="0" require
 																	oninput="calcularCampingExtranjero();">
 																</div>
 																<div class="form-group col-md-4 canT">
-																	<label>Tipo Tienda:</label><br>
+																	<label for="lista1e">Articulo:</label><br>
 																	<select id="lista1e" class="form-control col-md-2" name="lista1e">
 																		<?php
 																			include_once ('./modelo/conexionbd.php');
@@ -1003,19 +1002,20 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 																<input type="hidden" name="totalEC" id="totalEC" value="">
 																<button id="btnAgregarEC" class="btn btn-success  glyphicon glyphicon-plus-sign"> Agregar</button>
 															</div><!-- row extranjeros-->
-															<!-- <div id="listaC"></div> -->
-															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered">
+															 <!-- <div id="listaC"></div> -->
+															<table id="tableCamping" data-page-length='10' class=" table table-hover table-condensed table-bordered" >
 																<thead>
 																	<tr>
+																		<!-- <td class="tablaCamping">#</td> -->
 																		<td class="tablaCamping">Área</td>
 																		<td class="tablaCamping">Adultos</td>
-																		<td class="tablaCamping">P.Adultos</td>
+																		<td class="tablaCamping">Precio</td>
 																		<td class="tablaCamping">Niños</td>
-																		<td class="tablaCamping">P.Niños</td>
+																		<td class="tablaCamping">Precio</td>
 																		<td class="tablaCamping">Articulo</td>
-																		<td class="tablaCamping">cant Articulo</td>
-																		<td class="tablaCamping">P.Articulo</td>
-																		<td class="tablaCamping"> Sub-Total</td>
+																		<td class="tablaCamping">cantidad</td>
+																		<td class="tablaCamping">Precio</td>
+																		<td class="tablaCamping"> Total</td>
 																		<td class="tablaCamping">Acciones</td>
 																	</tr>
 																</thead>
@@ -1029,8 +1029,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 													
 													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
-													<button class="btn btn-default" href="#timeline3" data-toggle="tab">Anterior</button>
-													<button class="btn btn-primary" id="registrar" data-toggle="tab">Registrar Reservación</button>
+													<button class="btn btn-default btnanteriorc" href="#timeline3" data-toggle="tab">Anterior</button>
+													<button class="btn btn-primary" id="registrar" data-toggle="tab" disabled>Registrar Reservación</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
@@ -1063,7 +1063,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</div>
 						</div>
 						<div class="modal-body">
-						 	<form method="POST" id="formDetalle">
+						 	<form method="POST" id="formDetalle" class="fact">
 							 	<div class="box-body">
 								 	
 									 
@@ -1076,9 +1076,9 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 											<th>N°</th>
 											<th>Descripción</th>
 											<th>Adultos</th>
-											<th>P.Adulto</th>
+											<th>Precio</th>
 											<th>Niños</th>
-											<th>P.Niños</th>
+											<th>Precio</th>
 											<th>Articulos</th>
 											
 										</tr>
@@ -1094,7 +1094,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 							</form> <!-- /.cierre de formulario -->
 							<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-									<!-- <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Imprimir</a> -->
+									<button target="_blank" class="btn btn-default" id="btnimprimir" ><i class="fa fa-print"></i> Imprimir</button>
+									
 							</div>
 						</div> <!-- /.modal-body -->
 						<?php 
@@ -1118,7 +1119,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Registrar reservaión</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Editar Reservaión</h3>
 							</div>
 						</div>
 						<div class="modal-body">
