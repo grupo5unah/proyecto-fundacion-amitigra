@@ -42,7 +42,7 @@ switch ($action) {
         $tipo = $_POST['tipo_sol'];
 
         $usuario_actual = $_POST['usuario_actual'];
-        $estado_eliminado=1;
+        
         //Fecha ACTUAL del sistema
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
@@ -100,7 +100,7 @@ switch ($action) {
 
                         //consulta para traer el id del estado de la solicitud
                         $consulta_id = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud
-                            WHERE estatus = 'PROCESO'");
+                            WHERE estatus = 'PROCESO' or estatus = 'PENDIENTE'");
                         $resultado_estado = mysqli_fetch_array($consulta_id);
                         if ($resultado_estado > 0) {
                             $estado_capturado = $resultado_estado['id_estatus_solicitud'];
@@ -126,7 +126,7 @@ switch ($action) {
                                 $res['error'] = true;
                             } else {
 
-                             
+                                $estado_eliminado=1;
                                 //Insertamos en la tabla solicitudes
                                 $sql = $conn->prepare("INSERT INTO tbl_solicitudes(fecha_solicitud,estado_eliminado,recibo,total,cliente_id,usuario_id,estatus_solicitud,
                                 tipo_solicitud,creado_por,fecha_creacion,modificado_por,fecha_modificacion) 
@@ -149,6 +149,7 @@ switch ($action) {
                                 );
                                 $sql->execute();
                                 if ($sql->error) {
+                                    echo "$fecha";
                                     $res['msj'] = "Se produjo un error al momento de registrar la solicitud";
                                     $res['error'] = true;
                                 } else {
@@ -215,7 +216,7 @@ switch ($action) {
 
                                 //consulta para traer el id del estado de la solicitud
                                 $consulta_id = mysqli_query($conn, "SELECT id_estatus_solicitud,estatus FROM tbl_estatus_solicitud
-                                WHERE estatus = 'PROCESO'");
+                                WHERE estatus = 'PROCESO' or estatus = 'PENDIENTE'");
                                 $resultado_estado = mysqli_fetch_array($consulta_id);
                                 if ($resultado_estado > 0) {
                                     $estado_capturado = $resultado_estado['id_estatus_solicitud'];
