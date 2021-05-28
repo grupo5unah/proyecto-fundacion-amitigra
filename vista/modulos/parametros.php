@@ -165,7 +165,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a href="#"><strong>Correo:</strong>
+                <li id="liCorreo"><a href="#"><strong>Correo:</strong>
                   <div class="form-group">
                     <div class="input-group col-sm-12">
                       <input type="text" autocomplete="off" name="nombre" class="form-control" id="correo" value="<?php echo $PCorreo['valor'];?>" placeholder="Nombre">

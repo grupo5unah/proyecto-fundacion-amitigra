@@ -60,7 +60,7 @@ $(document).ready(function(){
 
                     } else if(usuario_existe.respuesta == "cambio_estado"){
 
-                        Notificacion("error", "Bloqeuo", "Su usuario a sido bloqueado.");
+                        Notificacion("error", "Bloqueo", "Su usuario a sido bloqueado.");
 
                     } else if(usuario_existe.respuesta == "bloqueado_intentos"){
 
