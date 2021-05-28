@@ -72,8 +72,8 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
 
                 <!-- INICIO TEXTO O INSTRUCCIONES -->
                 <div class="form-group">
-                  <div class="text-center alert alert-light" role="alert">
-                    <h4><i class="text-center fa fa-database"></i><strong> Copia de seguridad</strong></h4>
+                  <div id="informacionCopiaSeguridad" class="text-center alert alert-light" role="alert">
+                    <h4 id="informacion"><i class="text-center fa fa-database"></i><strong> Copia de seguridad</strong></h4>
                     Hola <strong><?php echo $_SESSION['usuario'];?></strong>
                     aquí puedes crear una copia de seguridad de la base de datos de la organización.
                     <br>
@@ -116,7 +116,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                       </div>
                       
                       <div class="form-group">
-                          <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+                          <label id="infoContrasena" for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
 
                           <div class="input-group col-sm-8">
                             <input type="hidden" id="usuario" value="<?php echo $_SESSION['usuario'];?>">
@@ -171,7 +171,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                 <!-- INICIO SELEC DE LAS COPIAS -->
                 <div class="form-group">
                   <div class="text-center col-sm-offset-2 col-sm-8">
-                    <label class="color-enlaces-cr">Seleccione una copia disponible para restaurar</label>
+                    <label id="etiquetaInfoBD" class="color-enlaces-cr">Seleccione una copia disponible para restaurar</label>
                     <select id="path" name="path" class="form-control">
                       <option value=""></option>
                       <option disabled>Seleccione la copia a restaurar...</option>
@@ -222,7 +222,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                     </div>
                       
                     <div class="form-group">
-                      <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+                      <label for="inputSkills" id="lblRestContrasena" class="col-sm-3 control-label">Contraseña:</label>
 
                       <div class="input-group col-sm-8">
                         <input type="hidden" id="usuario" value="<?php echo $_SESSION['usuario'];?>">
@@ -230,12 +230,6 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
                         <span class="input-group-btn" onclick="contraRestauracion()">
                           <button id="editarInfo" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_contraRest"></i></button>
                         </span>
-                      </div>
-                    </div>
-                  
-                    <div class="form-group text-center">
-                      <div class="input-group">
-                        <label class="control-label" for="">Restaurando...</label>
                       </div>
                     </div>
                     <!-- FIN CONTENIDO -->

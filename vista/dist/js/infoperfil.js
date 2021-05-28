@@ -204,7 +204,31 @@ $(document).ready(function(){
                 
               } else if(respuestas.respuesta == "igual"){
 
-                Notificacion("warning", "Lo sentimos", "No se puede configurar la misma contrasena");
+                swal({
+                  icon:"error",
+                  title: "Contraseña",
+                  text:"No se puede registrar una contraseña antigua."
+                }).then(() => {
+
+                  //LIMPIA LOS INPUTS DE CONTRASENA Y CONFIRMAR CONTRASENA
+                  $("#passActual").val("");
+                  $("#passNueva").val("");
+                  $("#passConfirmar").val("");
+
+                  //CAMBIO EL TIPO DE INPUT DE TEXTO A CONTRASENA (PASSWORD)
+                  let cambio1 = document.querySelector("#passActual");
+                  cambio1.type = "password";
+                  $(".icon__p_actual").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+
+                  let cambio2 = document.querySelector("#passNueva");
+                  cambio2.type = "password";
+                  $(".icon_p_actual").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+
+                  let cambio3 = document.querySelector("#passConfirmar");
+                  cambio3.type = "password";
+                  $(".icon_p_actual").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+                });
+              
               } else if(respuestas.respuesta == "no_existe"){
                 
                 Notificacion("error","Error en contraseña","La contraseña ingresada es incorrecta");

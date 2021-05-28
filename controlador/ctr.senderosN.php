@@ -131,7 +131,7 @@ switch ($action){
         $factura = $_GET['idbolvendido'];
         try {
 
-            $sql =  "SELECT cantidad_boletos, sub_total, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.precio_venta
+            $sql =  "SELECT cantidad_boletos, sub_total, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.precio_venta, tbl_tipo_boletos.descripcion
             FROM tbl_boletos_detalle            
             INNER JOIN tbl_tipo_boletos
             ON tbl_boletos_detalle.tipo_boleto_id=tbl_tipo_boletos.id_tipo_boleto
@@ -151,6 +151,7 @@ switch ($action){
                 'NombreBoleto' => $eventos['nombre_tipo_boleto'],
                 'precio' => $eventos['precio_venta'],
                 'subtotal' => $eventos['sub_total'],
+                'moneda' => $eventos['descripcion'],
                
                 
             );

@@ -198,9 +198,7 @@ include_once("./modelo/conexionbd.php");
                           Guardar cambios</button>
                         </div>
                       </div>
-                      <!-- /.modal-content -->
                     </div>
-                    <!-- /.modal-dialog -->
                   </div>
                   <!-- FIN MODAL CONTRASENA -->
 
@@ -309,21 +307,21 @@ include_once("./modelo/conexionbd.php");
                         <div class="modal-body">
                           <!-- INICIO CONTENIDO -->
                           <div class="form-floating mb-3">
-                            <label for="floatingInput">Contraseña actual</label>  
+                            <label id="etiquetaPassActual" for="floatingInput">Contraseña actual</label>  
                             <input id="passActual" type="password" class="form-control" name="passConf" placeholder="Contrasena actual"/>
                           </div>
                             
                           <div class="form-floating mb-6">
-                            <label for="floatingInput">Nueva contraseña</label>
+                            <label id="etiquetaNuevaPass" for="floatingInput">Nueva contraseña</label>
                               <input id="passNueva" type="password" class="form-control" name="passConf" placeholder="Nueva contraseña"/>
                           </div>
 
                           <div class="form-floating mb-3">
-                            <label for="floatingInput">Confirmar contraseña</label>  
+                            <label id="etiquetaConfirmar" for="floatingInput">Confirmar contraseña</label>  
                             <div class="input-group">
                               <input id="passConfirmar" type="password" class="form-control" name="passConf" placeholder="Confirmar su contraseña">
                               <span class="input-group-btn" onclick="mostrarPasswordNueva()">
-                                <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                                <button id="mostContrasena_Perfil" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
                               </span>
                             </div>
                           </div>
@@ -338,39 +336,6 @@ include_once("./modelo/conexionbd.php");
                     </div>
                   </div>
                   <!-- FIN SEGUNDO MODAL -->
-
-                  <!--FUNCION PARA MOSTRAR CONTRASENA-->
-                  <script type="text/javascript">
-                    function mostrarPasswordNueva(){
-                      
-                      var actual = document.getElementById("passActual");
-                      if(actual.type == "password"){
-                        actual.type = "text";
-                        $('.icon_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                        actual.type = "password";
-                        $('.icon_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-
-                      var nueva = document.getElementById("passNueva");
-                      if(nueva.type == "password"){
-                        nueva.type = "text";
-                        $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                        nueva.type = "password";
-                        $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-
-                      var conf = document.getElementById("passConfirmar");
-                      if(conf.type == "password"){
-                        conf.type = "text";
-                        $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                        conf.type = "password";
-                        $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-                    } 
-                  </script>
 
                 </form>
               </div>

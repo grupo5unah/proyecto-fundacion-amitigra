@@ -30,6 +30,19 @@ $(document).ready(function () {
     
       },
       {
+        extend: "print",
+        text: '<i class="fas fa-print">',
+        titleAttr: "Imprimir",
+        title: "FUNDACION AMIGOS DE LA TIGRA",
+        messageTop: " REPORTE DE Movimientos de inventario",
+        className: "btn btn-dark",
+        exportOptions: {
+          modifier: {
+            page: "current",
+          },
+        },
+      },
+      {
         extend: 'excelHtml5',
         title: 'FUNDACION AMIGOS DE LA TIGRA',
         text:'<i class="fas fa-file-excel">',
@@ -73,7 +86,7 @@ $(document).ready(function () {
             
             column: {
               alignment: "center",
-              width: '40%',s
+              width: '40%',
             },
 
             title: {
@@ -583,16 +596,16 @@ $(document).ready(function () {
      
        "pageLength",
             
-      {
-        sextend: "excelHtml5",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
-        text: '<i class="fas fa-file-excel">',
-        className: "btn btn-success",
-        messageTop: "REPORTE DE PRODUCTO.",
+       {
+        extend: 'excelHtml5',
+        title: 'FUNDACION AMIGOS DE LA TIGRA',
+        text:'<i class="fas fa-file-excel">',
+        className:'btn btn-success',
+        messageTop: 'REPORTE  DE INVENTARIO',
         exportOptions: {
-          columns: [0, ":visible"],
-        },
+          columns: [ 0, ':visible' ]
       },
+     },
       {
         extend: "pdfHtml5",
         text: '<i class="fas fa-file-pdf">',

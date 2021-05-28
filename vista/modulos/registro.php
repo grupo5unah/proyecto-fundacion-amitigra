@@ -249,7 +249,7 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                 
                   <div class="form-group has-feedback">
                     <div class="input-group">
-                      <label for="inputSkills" class="control-label color-enlaces">Ingresa tu contraseña:</label>
+                      <label for="inputSkills" id="lblContrasena" class="control-label color-enlaces">Ingresa tu contraseña:</label>
                     </div>
                     <input autocomplete="off" id="PassRegistro" type="password" class="form-control" name="password" placeholder="Contraseña">
                       
@@ -257,18 +257,18 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                     
                     <div class="form-group has-feedback">
                       <div class="input-group">
-                        <label for="inputSkills" class="control-label color-enlaces">Confirme su contraseña:</label>
+                        <label for="inputSkills" id="lblConfContrasena" class="control-label color-enlaces">Confirme su contraseña:</label>
                       </div>
                       <div class="input-group">
                         <input autocomplete="off" id="ConfPassR" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
                         <span class="input-group-btn" onclick="VerPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
+                          <button id="MostrarPass_Registro" class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
                         </span>
                       </div>
                     </div>
                     <br>
                     <div class="columna">
-                      <button class="btn btn-primary" href="#settings1" data-toggle="tab">Anterior</button>
+                      <button id="pant_Anterior" class="btn btn-primary" href="#settings1" data-toggle="tab">Anterior</button>
                       <input type="hidden" name="tipo" value="registro">
                       <button type="button" id="btnRegistro" name="btnRegistros" class="btn btn-success">Registrarse</button>
                     </div>     

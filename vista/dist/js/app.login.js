@@ -11,6 +11,38 @@ function mostrarPassSeguridad(){
 	}
 }
 
+//SCRIPT MOSTRAR CONTRASENA EN CAMBIO DE CONTRASENA EN PERFIL
+function mostrarPasswordNueva(){
+                      
+	var actual = document.getElementById("passActual");
+	if(actual.type == "password"){
+	  actual.type = "text";
+	  $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+	}else{
+	  actual.type = "password";
+	  $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+	}
+
+	var nueva = document.getElementById("passNueva");
+	if(nueva.type == "password"){
+	  nueva.type = "text";
+	  $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+	}else{
+	  nueva.type = "password";
+	  $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+	}
+
+	var conf = document.getElementById("passConfirmar");
+	if(conf.type == "password"){
+	  conf.type = "text";
+	  $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+	}else{
+	  conf.type = "password";
+	  $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+	}
+  }
+
+
 //SCRIPT MOSTRAR CONTRASENA RECUPERACION POR PREGUNTA
 function mostrarPassPregunta(){
 	

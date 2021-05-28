@@ -46,7 +46,6 @@
         $resultado = mysqli_query($conn, $query);
 
         while($imagen = mysqli_fetch_assoc($resultado)):?>
-          <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="fotoPerfil/<?php echo $imagen['foto'];?>" class="user-image" alt="User Image">

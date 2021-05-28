@@ -259,7 +259,7 @@ $contrasena = $_POST['contrasena'];
                             case "NO_ACTIVO":
                                 /*Redirige a una nueva pantalla cuando el usuario se auto-registro y
                                 esta pendiente de recibir alta*/
-
+                                
                                 require "../modelo/conexionbd.php";
                                 $verificarContrasena = $conn->prepare("SELECT contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
                                 $verificarContrasena->bind_Param("s", $usuario);

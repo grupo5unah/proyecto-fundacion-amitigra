@@ -83,7 +83,7 @@ require_once "../modelo/conexionbd.php";
                                         //Valor por Defecto
                                         $rol = 5;
                                         $token = "";
-                                        $estado = 1;
+                                        $estado = 10;
                                         $preguntas = 3;
                                         $intentos = 0;
 
