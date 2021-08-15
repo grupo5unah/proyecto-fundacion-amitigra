@@ -467,10 +467,10 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											</div>
 
 											<div class="modal-footer">
-												<button type="button" id="cerrar_r" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+												<button type="button" id="cerrar_r" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 
 
-												<button id="registrarUser" type="submit" name="registrarUser" class="btn btn-success" onclick="validaemail(correo.value);">Registrar Usuario</button>
+												<button id="registrarUser" type="submit" name="registrarUser" class="btn btn-success" onclick="validaemail(correo.value);">Registrar</button>
 											</div>
 
 									</form>
