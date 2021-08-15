@@ -25,7 +25,9 @@ $(document).ready(function(){
                 return swal("Error", data.msj, "error");
             }
 
-            return swal("Exito!", data.msj, "success").then((value) => {
+            return swal("Exito!", data.msj, "success",{
+                buttons : 'Aceptar'
+            }).then((value) => {
                     if (value){
                         // Se limpia el formulario
                         $("#nombreRol").val('');
