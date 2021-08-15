@@ -24,7 +24,8 @@ $(document).ready(function(){
                         swal({
                             icon:"success",
                             title:"Exito",
-                            text:"Te hemos enviado un correo electronico."
+                            text:"Te hemos enviado un correo electronico.",
+                            button: "Aceptar"
                         }).then(() => {
                             location.reload();
                         });
