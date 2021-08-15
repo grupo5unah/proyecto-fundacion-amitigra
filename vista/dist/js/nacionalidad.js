@@ -45,8 +45,7 @@ $(document).ready(function(){
                 titleAttr: 'Exportara a PDF',
                 orientation: 'portrait',
                 pageSize: 'A4',
-                title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                messageTop: 'REPORTE DE NACIONALIDADES.',
+                title:  'REPORTE DE NACIONALIDADES',               
                 Image:'fotoPerfil/foto1.png',
                 download: 'open',
                 exportOptions: {
@@ -77,42 +76,69 @@ $(document).ready(function(){
                         }
                     };
     
-                    var cols = [];
-                    cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
-                    cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
-                    var objHeader = {};
-                    objHeader['columns'] = cols;
-                    doc['header'] = objHeader;
-    
-                     doc['content']['1'].layout = 'lightHorizontalLines';
-                     //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
-                     doc['content']['1'].style = 'Amitigra';
-    
-                    var objFooter = {};
-                    objFooter['alignment'] = 'center';
-                    doc["footer"] = function(currentPage, pageCount) {
-                        var footer = [
-                            {
-                                text: 'AmiTigra',
-                                alignment: 'left',
-                                color: 'black',
-                                margin:[15, 15, 0, 15]
-                            },{
-                                text: 'Pagina ' + currentPage + ' de ' + pageCount,
-                                alignment: 'center',
-                                color: 'black',
-                                margin:[0, 15, 0, 15]
-                            },{
-                                text: '',
-                                alignment: 'center',
-                                color: 'blsck',
-                                margin:[0, 15, 15, 15]
-                            },
-                            
-                        ];
-                        objFooter['columns'] = footer;
-                        return objFooter;
-                    };
+                    moment.locale("es");
+                var datetime = null,
+                  date = null;
+                var update = function () {
+                  moment.locale("es");
+                  date = moment(new Date());
+                  datetime.html(date.format("HH:mm:ss"));
+                  datetime2.html(date.format("dddd, MMMM DD YYYY"));
+                };
+                datetime = $('.time h1');
+                datetime2 = $('.time p');
+                update();
+                setInterval(update, 1000);
+                        
+
+                var cols = [];
+                cols[0] = {text: '', alignment: 'left', margin:[0, 0, 0, 0, 0] };
+
+                cols[1] = {
+                  width: '35%',
+                  text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+                  alignment: "left",
+                  margin: [25, 25, 5, 0],
+                  with:[30,30],
+                };
+
+                cols[2] = {
+                  text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+                  alignment: "right",
+                  margin: [10, 10, 15, 15],
+                };
+
+                var objHeader = {};
+                objHeader['columns'] = cols;
+                doc['header'] = objHeader;
+                 doc['content']['1'].layout = 'lightHorizontalLines';
+                 //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
+                 doc['content']['1'].style = 'FUNDACION AMITIGRA';
+                var objFooter = {};
+                objFooter['alignment'] = 'center';
+                doc["footer"] = function(currentPage, pageCount) {
+                    var footer = [
+                        {
+                            text:"",
+                            alignment: 'left',
+                            color: 'black',
+                            margin:[15, 15, 0, 15]
+                        },{
+                            text: 'Pagina ' + currentPage + ' de ' + pageCount,
+                            alignment: 'center',
+                            color: 'black',
+                            margin:[0, 15, 0, 15]
+                        },{
+                            text: '',
+                            alignment: 'center',
+                            color: 'blsck',
+                            margin:[0, 15, 15, 15]
+                        },
+                        
+                    ];
+                    objFooter['columns'] = footer;
+                    return objFooter;
+                };
                     doc.content.splice( 1, 0, {
                         margin: [ 0, 0, 0, 12 ],
                         width: 50,
@@ -132,11 +158,10 @@ $(document).ready(function(){
               buttons: {
                   colvis: 'Cambiar Colunnas',
                   pageLength:'Mostrar Registros'
-              }
+              },
+              url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
              },
-             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-          },
+            
        
     });
     
@@ -156,6 +181,8 @@ $(document).ready(function(){
       const nacionalidad = $(this).data('nacionalidad');
       const fmodificacion = $(this).data('fmodificacion');
       const modificadoPor = $(this).data('modificadorPor');
+      const idusua = document.querySelector('#id_usuario').value;
+   
       console.log(idnacionalidad, nacionalidad, fmodificacion, modificadoPor);
   
       //$("#idreservacion").val(idreservacion),
@@ -174,6 +201,8 @@ $(document).ready(function(){
           formData.append('nacionalidad',$("#Nacionalidad").val());
           formData.append('fecha_modificacion',$("#Femodificacion").val());
           formData.append('modificado_por',$("#ModificadoPoru").val());
+          formData.append('id_usuario', idusua);
+          
          
           console.log(formData);
           
@@ -182,13 +211,13 @@ $(document).ready(function(){
           console.log(data);
           if(data.error){
               return swal("Error", data.msj, "error", {
-                  timer:3000,
+                  timer: 4000,
                   buttons:false
               });
           } else{
               $('#modalEditarNacionalidad').modal('hide');
               return swal("Exito!", data.msj, "success", {
-                  timer:3000,
+                  timer: 4000,
                   buttons:false
               }).then(() => {
                   // Se limpia el formulario
@@ -207,11 +236,15 @@ $(document).ready(function(){
      //BOTON PARA ELIMINAR NACIONALIDAD (TABLA NACIONALIDAD)
   $('.btnEliminarNacionalidad').on('click', function (){
     const idNacionalidad = $(this).data('idnacionalidad');
-    swal("Eliminar la Nacionalidad", "¿Esta seguro de eliminar la Nacionalidad?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+    const idusua = document.querySelector('#id_usuario').value;
+    const usuaactual = document.querySelector('#usuario_actual').value;
+    swal("Eliminar la Nacionalidad", "¿Esta seguro de eliminar la Nacionalidad?", "warning",{buttons: ["Cancelar", "Aceptar"]}).then(async (value) => {
         if (value){
             //console.log(idReservacion);
             const formData = new FormData();
             formData.append('id_tipo_nacionalidad', idNacionalidad);
+            formData.append('id_usuario', idusua);
+            formData.append('usuario_actual', usuaactual);
             const resp = await axios.post('./controlador/ctr.nacionalidad.php?action=eliminarNacionalidad', formData);
             const data = resp.data;
             //console.log(data);
@@ -240,14 +273,14 @@ $(document).ready(function(){
     e.preventDefault();
 
     var NombreNacionalidad = $("#NacionalidadN").val(), usuario_actual = $("#usuario_actual").val();
-
+    const idusua = document.querySelector('#id_usuario').value;
     console.log(NombreNacionalidad, usuario_actual);
     if(NombreNacionalidad != undefined && usuario_actual != undefined){
         // formdata sirve para enviar los datos al servidor        
         const registro= new FormData();        
         registro.append('NacionalidadN', NombreNacionalidad);        
         registro.append('usuario_actual', usuario_actual);
-                
+        registro.append('id_usuario', idusua);        
         const resp = await axios.post(`./controlador/ctr.nacionalidad.php?action=registrarNacionalidad`, registro);
 
         const data = resp.data;
@@ -256,7 +289,10 @@ $(document).ready(function(){
             return swal("Error", data.msj, "error");
         }
 
-        return swal("Correcto", data.msj, "success").then((value) => {
+        return swal("Correcto", data.msj, "success",{
+          buttons: false,
+            timer: 3000
+          }).then((value) => {
           if (value){
             // Se limpia el formulario            
             $("#NacionalidadN").val('');                      
@@ -268,4 +304,42 @@ $(document).ready(function(){
     } 
   });
   
+
+  $("#cerrarNacionalidad").on("click", function(){
+
+    swal({
+        icon:"warning",
+        title: "¿Desea Salir?",
+        text: "Si acepta se perderá la información",
+        buttons:["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            location.reload();
+        } else {
+        $("#modalCrearNacionalidad").modal("show");
+        }
+    });
+    
+  });
+
+  $("#cerrarEditarNacionalidad").on("click", function(){
+
+    swal({
+        icon:"warning",
+        title: "¿Desea Salir?",
+        text: "Si acepta se perderá la información",
+        buttons:["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            location.reload();
+        } else {
+        $("#modalEditarNacionalidad").modal("show");
+        }
+    });
+    
+  });
 });

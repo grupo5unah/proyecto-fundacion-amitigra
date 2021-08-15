@@ -18,7 +18,6 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
       <h1>Mantenimiento<small> estados</small></h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
 		<li><a><i class="fa fa-users"></i> mantenimiento estados</a></li>
       </ol>
       <br>
@@ -43,7 +42,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-								<button class="btn btn-default btnCrearEstado glyphicon glyphicon-plus-sign" >Agregar Nuevo Estado</button>
+								<button class="btn btn-success btnCrearEstado glyphicon glyphicon-plus-sign" > AGREGAR NUEVO ESTADO</button>
 
 								</div> <!-- /div-action -->
 								<div class="table-resposive">
@@ -145,17 +144,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 			</div>
 			<!-- /.box-body -->
-	
+			<!-- EDITAR ESTADO -->
 			<div class="modal fade" id="modalEditarEstado" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<div class="d-flex justify-content-between">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close cancelacioneditarestado" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Actualizar Estado</h3>
+								<h3 class="modal-title" id="exampleModalLabel">Actualizar estado</h3>
 							</div>
 						</div>
 						<div class="modal-body">
@@ -173,7 +172,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<!-- <input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text" name="descripcion"placeholde="Escriba la descripcion"  onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required/> -->
 
 									</div>
-									
+									<?php include_once ('./modelo/conexionbd.php');?>
 									<input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 								</div>
@@ -181,8 +180,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary cierra" data-dismiss="modal">Cerrar</button>
-							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Estado</button>
+							<button type="button" class="btn btn-danger cancelacioneditarestado" data-dismiss="modal">Cancelar</button>
+							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 						</div>
 					</div>
 				</div>
@@ -196,10 +195,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="modal-content">
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
-						                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						                <button type="button" class="close cancelacioncrearestado" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 										</button>
-										<h3 class="modal-title" id="exampleModalLabel">Registrar Nuevo Estado</h3>
+										<h3 class="modal-title" id="exampleModalLabel">Registrar nuevo estado</h3>
 									</div>
 								</div>
 								<div class="modal-body">
@@ -213,7 +212,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											</div>
 											<div class="campos form-group">
 												<label for="descrip">Descripción: </label>
-												<textarea name="descrip" id="descrip" cols="55" rows="3" placeholder="Ingrerse una Descripcion" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required></textarea>
+												<textarea name="descrip" id="descrip" cols="55" rows="3" placeholder="Ingrerse una Descripción" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" required></textarea>
 												<!-- <input id="descrip" name="descrip" class="form-control  modal-roles secundary text-uppercase" type="tex" /> -->
 
 											</div>
@@ -222,8 +221,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
 										<div class="modal-footer">
-										<button type="button" class="btn btn-secondary cerrar"     data-dismiss="modal">Cerrar</button>
-										<button id="registrarE"type="submit" class=" btn btn-primary">Registrar Estado</button>
+										<button type="button" class="btn btn-danger cancelacioncrearestado"     data-dismiss="modal">Cancelar</button>
+										<button id="registrarE"type="submit" class=" btn btn-success">Registrar</button>
 										</div>
 										
 									</form>

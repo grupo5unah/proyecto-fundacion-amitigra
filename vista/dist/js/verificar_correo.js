@@ -9,7 +9,7 @@ $(document).ready(function() {
             swal({
                 icon:"error",
                 title:"Correo",
-                text:"El correo es oblogatorio"
+                text:"El correo es obligatorio"
             });
         }else{
 

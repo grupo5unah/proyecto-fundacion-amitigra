@@ -2,14 +2,22 @@ Options All -Indexes
 
 RewriteEngine On
 
+#Enmascarado la extensión .php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+
 #Estableciendo el idioma por defecto
 DefaultLanguage es-ES
 
 #Aqui evitamos el listado de carpetas
 IndexIgnore *
 
+
 ErrorDocument 404 /vista/modulos/error404.php
-#ErrorDocument 404 /saat-proyecto-amitigra/vista/modulos/error404.php
+
 
 RewriteRule ^([a-zA-Z0-9]+)$ index.php?ruta=$1
 

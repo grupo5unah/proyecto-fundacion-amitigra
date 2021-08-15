@@ -39,12 +39,11 @@
                     if($existeRespuesta){
                         //ACTUALIZAR CONTRASENA
                         
-                        if($respuestaUsuario === $respuestaCorrecta){
+                        if(md5($respuestaUsuario) === $respuestaCorrecta){
 
                             $hashed_password = password_hash($PassPregunta, PASSWORD_BCRYPT);
 
                             if($PassPregunta === $ConfPassPregunta){
-
 
                                 require "../modelo/conexionbd.php";
 

@@ -16,6 +16,7 @@ $(document).ready(function(){
                 data: { correo:correo, idObjeto:idObjeto },
                 success: function(response){
 
+                    console.log(response);
                     let recuCorreo = JSON.parse(response);
 
                     if(recuCorreo.respuesta == "exito"){
@@ -23,7 +24,8 @@ $(document).ready(function(){
                         swal({
                             icon:"success",
                             title:"Exito",
-                            text:"Te hemos enviado un correo electronico."
+                            text:"Te hemos enviado un correo electronico.",
+                            button: "Aceptar"
                         }).then(() => {
                             location.reload();
                         });
@@ -34,6 +36,8 @@ $(document).ready(function(){
                         Notificacion("error", "Tiempo", "Debes de esperar 24 hrs para otro cambio");
                     } else if(recuCorreo.respuesta == "usuario_no"){
                         Notificacion("error", "Tiempo", "El usuario no se encontro");
+                    } else if (recuCorreo.respuesta == "NoEnvio"){
+                        Notificacion("error","Fallo",`No se pudo enviar el correo a ${correo}`);
                     }
                 }
             })

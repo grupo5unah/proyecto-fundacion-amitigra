@@ -67,7 +67,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                             <th>Tipo de Boleto:</th> 
                             <th>Cantidad Boletos<br>Vendidos:</th>
                             <th>Subtotal</th>
-                            <th>Observacion:</th> 
+                            <th>Observación:</th> 
                             <th>Vendido Por:</th>                                                       
                             <th>Fecha Vendido:</th>
                             <th>Vendido en la<br>Localidad de:</th>
@@ -295,7 +295,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																
 																<input type="hidden" name="totalPB" id="totalPB" value="">
 																<div>
-																<button id="btnAgregarS" class="btn btn-success btnAgregarS addnacional glyphicon glyphicon-plus-sign">Agregar</button>
+																<button id="btnAgregarS" class="btn btn-success btnAgregarS addnacional glyphicon glyphicon-plus-sign">AGREGAR</button>
 																</div><br>
 														</div><!-- row -->
 														<!-- <div id="listaBoletos"></div> -->
@@ -328,10 +328,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 													</div><!-- box-body -->
 												</div><!-- box-body principal -->
 												<div class="modal-footer">
-												<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
+													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?php echo $_SESSION['usuario']; ?>">
-													<button type="button"  id="cerrarboletos"class="btn btn-secondary" data-dismiss="modal">Cerrar </button>	
-													<button type="button" id="registroBoletos" class="btn btn-primary" data-toggle="tab">REGISTRAR BOLETOS</button>
+													<button type="button"  id="cerrarboletos"class="btn btn-secondary" data-dismiss="modal">CERRAR </button>	
+													<button type="button" id="registroBoletos" class="btn btn-success" data-toggle="tab">REGISTRAR BOLETOS</button>
 												</div>
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	

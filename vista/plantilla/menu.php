@@ -4,6 +4,8 @@
   $id_objeto = 5;
   $id_objeto2 = 48;
 
+  $roles = ["administrador", "asistente", "colaborador"];
+
   global $mi_rol;
   global $columna;
   global $mi_rol;
@@ -51,7 +53,7 @@
       <div class="pull-left info">
         <p><?php echo ucwords($usuario);?></p>
         <!--Aqui agregar variable de sesion para que muestre el cargo-->
-        <a href="perfil"><i class="text-success"></i>Cargo: <?php echo $rol_id;?></a>
+        <a href="perfil"><i class="text-success"></i>Cargo: <?php echo ucwords($rol_id);?></a>
         <!--Aqui ira el cargo del usuario-->
       </div>
     </div>
@@ -60,7 +62,7 @@
       <li class="header">Menú de Navegación</li>
         
         <!--ROL DE ADMINISTRACION-->
-        <?php if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador"){?>
+        <?php if( in_array($_SESSION["rol"], $roles, true)){?>
           
           <!-- BOTON PANTALLA INICIO -->
           <li class="">
@@ -73,7 +75,7 @@
 
           <!--Inicio SOLICITUDES-->
           <!-- MUESTRA SOLICITUDES SOLO A ADMINISTRACION -->
-          <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente") {?>
+          <?php if (in_array($_SESSION["rol"], $roles, true)) {?>
           <?php if($columna["permiso_consulta"] == 1){?>
             <li class="">
               <a href="solicitudes">
@@ -87,7 +89,7 @@
           <!--Inicio RESERVACIONES-->
           <li class="treeview" name="admin">
           <!-- MUESTRA RESERVACIONES SOLO PARA ADMINISTRADOR Y COLABORADOR -->
-            <?php if ($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "asistente") {?>
+            <?php if (in_array($_SESSION["rol"], $roles, true)) {?>
             <?php if($columna["permiso_consulta"] == 1){?>
               <a id="reservaciones" href="#">
                 <i class="fa fa-calendar-check-o"></i>
@@ -138,8 +140,6 @@
             </span>
           </a>
           <ul class="treeview-menu">
-          <li><a href="mantenimiento"><i class=""></i>Gestión de Usuarios</a></li>
-            
             <li class="treeview">
               <a href="#"><i class=""></i> Mantenimiento
                 <span class="pull-right-container">
@@ -147,23 +147,21 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="mantenimiento"><i class=""></i> Usuario</a></li>
-                <li><a href="mantroles"><i class=""></i> Roles</a></li>
-                <li><a href="mantpermisos"><i class=""></i> Permisos</a></li>
-                <li><a href="mantpreguntas"><i class=""></i> Preguntas</a></li>
-                <li><a href="mantparametros"><i class=""></i> Parámetros</a></li>
-                <li><a href="mantObjetos"><i class=""></i> Objetos</a></li>
+                <li><a href="mantenimiento"><i class=""></i>Gestión de Usuario</a></li>
+                <li><a href="mantpreguntas"><i class=""></i>Preguntas</a></li>
+                <li><a href="mantparametros"><i class=""></i>Parámetros</a></li>
+                <li><a href="mantObjetos"><i class=""></i>Objetos</a></li>
                 <li><a href="mantNacionalidad"><i class=""></i>Tipos de <br> Nacionalidad</a></li>
-                <li><a href="mantHabiServ"><i class=""></i> Habitación Servicio</a></li>
-                <li><a href="mantEstados"><i class=""></i> Estados</a></li>
-                <li ><a href="mantReservaciones"><i class=""></i> Mantenimiento <br> Reservaciones</a></li>
-                <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i> localidad y <br> Tipo Producto</a></li>
-                <li ><a href="mantProducto"><i class=""></i> Producto</a></li>
+                <li><a href="mantHabiServ"><i class=""></i>Habitación Servicio</a></li>
+                <li><a href="mantEstados"><i class=""></i>Estados</a></li>
+                <li ><a href="mantReservaciones"><i class=""></i>Mantenimiento <br> Reservaciones</a></li>
+                <li ><a href="mantLocalidadesyTipoProducto"><i class=""></i>Localidad y <br> Tipo Producto</a></li>
+                <li ><a href="mantProducto"><i class=""></i>Producto</a></li>
                 <li><a href="mantTipoMovimiento"><i class=""></i>Tipo Movimiento</a></li>
-                <li><a href="mantTipoBoletos"><i class=""></i> Tipo de Boletos</a></li>
+                <li><a href="mantTipoBoletos"><i class=""></i>Tipo de Boletos</a></li>
                 <li><a href="mantTipoSolicitudes"><i class=""></i>Tipo de Solicitudes</a></li>
-                <li><a href="mantClientes"><i class=""></i> Clientes</a></li>
-                <li><a href="mantEstadosSolicitud"><i class=""></i> Estados de Solicitud</a></li>
+                <li><a href="mantClientes"><i class=""></i>Clientes</a></li>
+                <li><a href="mantEstadosSolicitud"><i class=""></i>Estados de Solicitud</a></li>
               </ul>          
             </li>
 
@@ -174,11 +172,11 @@
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="bitacora"><i class=""></i> bitácora </a></li>
-                <li><a href="mantpermisos"><i class=""></i> Permiso del Sistema</a></li>
-                <li><a href="mantroles"><i class=""></i> Roles del sistema</a></li>
-                <li><a href="parametros"><i class=""></i> Parámetros del<br>Sistema/Seguridad</a></li>
-                <li><a href="otrosParametros"><i class=""></i> Otros Parámetros</a></li>
+                <li><a href="bitacora"><i class=""></i>Bitácora </a></li>
+                <li><a href="mantpermisos"><i class=""></i>Permiso del Sistema</a></li>
+                <li><a href="mantroles"><i class=""></i>Roles del sistema</a></li>
+                <li><a href="parametros"><i class=""></i>Parámetros del<br>Sistema/Seguridad</a></li>
+                <li><a href="otrosParametros"><i class=""></i>Otros Parámetros</a></li>
                 <li><a href="backup"><i class=""></i>Copia y Restauración<br> Base de datos </a></li>
               </ul>
             </li>

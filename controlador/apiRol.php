@@ -28,7 +28,10 @@ switch ($action) {
         $descripcion = $_POST['descripcion'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
+        $id_usuario = $_POST['id_usuario'];
+
 
         if (empty($_POST['rol']) || empty($_POST['descripcion'])  || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
@@ -44,9 +47,14 @@ switch ($action) {
                     $res['error'] = true;
                 } else {
                     $res['msj'] = "Rol Registrado Correctamente";
+                        $objeto = 34;
+                        $acciones = "REGISTRO DE ROL";
+                        $descp = "SE INGRESADO UN NUEVO ROL";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 }
-                // $sql->close();
-                // $sql = null;
+                
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
@@ -61,7 +69,9 @@ switch ($action) {
             $nombreR = $_POST['rol'];
             $descripcion = $_POST['descripcion'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
            
             $sql = "UPDATE tbl_roles SET rol = '$nombreR', descripcion= '$descripcion',modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_rol=" .$id_rol;          
             $resultado = $conn->query($sql);
@@ -69,6 +79,14 @@ switch ($action) {
             if ($resultado == 1) {
                 //print_r($resultado);
                 $res['msj'] = "Rol se  Edito  Correctamente";
+                $objeto = 29;
+                        $acciones = "ACTUALIZACION DE ROL";
+                        $descp = "SE A ACTUALIZADO UN ROL";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Rol ";
                 $res['error'] = true;
@@ -83,10 +101,21 @@ switch ($action) {
     case 'eliminarRol':
         if (isset($_POST['id_rol'])) {
             $id_rol = $_POST['id_rol'];
+            date_default_timezone_set("America/Tegucigalpa");
+            $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
             $sql = "UPDATE tbl_roles SET estado_eliminado = 0 WHERE id_rol = " . $id_rol;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Rol Eliminado  Correctamente";
+                $objeto = 29;
+                        $acciones = "ELIMINACION DE ROL";
+                        $descp = "SE A ELIMINADO UN ROL";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Rol";
                 $res['error'] = true;
@@ -117,8 +146,9 @@ switch ($action) {
         $nombreTP = $_POST['tipo_Producto'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
-
+        $id_usuario = $_POST['id_usuario'];
         if (empty($_POST['tipo_Producto'])  || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
@@ -133,6 +163,14 @@ switch ($action) {
                     $res['error'] = true;
                 } else {
                     $res['msj'] = "Tipo producto Registrado Correctamente";
+                    $objeto = 26;
+                        $acciones = "REGISTRO DE NUEVO TIPO DE PRODUCTO";
+                        $descp = "SE INGRESO UN NUEVO TIPO PRODUCTO";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 }
 
             } catch (Exception $e) {
@@ -149,7 +187,9 @@ switch ($action) {
             $id_tipoP = (int)$_POST['id_tipoProducto'];
             $nombreTP = $_POST['tProducto'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
 
             $sql = "UPDATE tbl_tipo_producto SET nombre_tipo_producto = '$nombreTP', modificado_por= '$usuario_actual', fecha_modificacion='$fecha' WHERE id_tipo_producto=" .$id_tipoP;          
             $resultado = $conn->query($sql);
@@ -157,6 +197,14 @@ switch ($action) {
             if ($resultado == 1) {
 
                 $res['msj'] = "Tipo producto se  Edito  Correctamente";
+                $objeto = 26;
+                        $acciones = "ACTUALIZACIÓN DE TIPO PRODUCTO";
+                        $descp = "SE HA ACTUALIZADO UN TIPO DE PRODUCTO";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Tipo producto ";
                 $res['error'] = true;
@@ -172,10 +220,21 @@ switch ($action) {
     case 'eliminarTipoP':
         if (isset($_POST['id_tipo_producto'])) {
             $id_tipoP = $_POST['id_tipo_producto'];
+            date_default_timezone_set("America/Tegucigalpa");
+            $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
             $sql = "UPDATE tbl_tipo_producto SET estado_eliminado = 0 WHERE id_tipo_producto = " . $id_tipoP;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Tipo Producto Eliminado  Correctamente";
+                $objeto = 26;
+                        $acciones = "ELIMINACION DE TIPO PRODUCTO";
+                        $descp = "SE ELIMINO UN TIPO PRODUCTO";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Tipo producto";
                 $res['error'] = true;
@@ -202,7 +261,9 @@ switch ($action) {
             $nombreLocalidad = $_POST['localidad'];
             $estado = 1;
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
     
             if (empty($_POST['localidad'])  || empty($_POST['usuario_actual'])) {
                 $res['msj'] = 'Es necesario rellenar todos los campos';
@@ -218,6 +279,14 @@ switch ($action) {
                         $res['error'] = true;
                     } else {
                         $res['msj'] = "Localidad Registrada Correctamente";
+                        $objeto = 26;
+                        $acciones = "REGISTRO DE LOCALIDAD";
+                        $descp = "SE INGRESADO UNA LOCALIDAD";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                     }
                 } catch (Exception $e) {
                     echo $e->getMessage();
@@ -233,13 +302,22 @@ switch ($action) {
                 $id_localidad = (int)$_POST['id_localidad'];
                 $nombreLocalidad = $_POST['localidad'];
                 $usuario_actual = $_POST['usuario_actual'];
+                date_default_timezone_set("America/Tegucigalpa");
                 $fecha = date('Y-m-d H:i:s', time());
+                $id_usuario = $_POST['id_usuario'];
 
                 $sql = "UPDATE tbl_localidad SET nombre_localidad = '$nombreLocalidad', modificado_por= '$usuario_actual', fecha_modificacion=' $fecha' WHERE id_localidad =" .$id_localidad;          
                 $resultado = $conn->query($sql);
               
                 if ($resultado == 1) {
                     $res['msj'] = "La localidad se  Edito  Correctamente";
+                    $objeto = 26;
+                        $acciones = "ACTUALIZACIÓN DE LOCALIDAD";
+                        $descp = "SE ACTUALIZADO UNA LOCALIDAD";
+                                                
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 } else {
                     $res['msj'] = "Se produjo un error al momento de Editar el nombre de la Localidad ";
                     $res['error'] = true;
@@ -254,10 +332,19 @@ switch ($action) {
     case 'eliminarLocalidad':
             if (isset($_POST['id_localidad'])) {
                 $id_Localidad = $_POST['id_localidad'];
+                date_default_timezone_set("America/Tegucigalpa");
+               $fecha = date('Y-m-d H:i:s', time());
+               $id_usuario = $_POST['id_usuario'];
                 $sql = "UPDATE tbl_localidad SET estado_eliminado = 0 WHERE id_localidad = " . $id_Localidad;
                 $resultado = $conn->query($sql);
                 if ($resultado == 1) {
                     $res['msj'] = "Localidad Eliminada  Correctamente";
+                    $objeto = 5;
+                        $acciones = "ELIMINACION DE LOCALIDAD";
+                        $descp = "SE ELIMINO LOCALIDAD";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 } else {
                     $res['msj'] = "Se produjo un error al momento de eliminar el registro Localidad";
                     $res['error'] = true;

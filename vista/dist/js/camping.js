@@ -48,8 +48,6 @@ $(document).ready(function(){
     
     /*esta funciona permite que el input de la fecha salida este desabilitado mientras no se haya eleguido
     la fecha de entrada*/
-    
-    $('#sale').attr("disabled", false);
     $('#sale').attr("readonly", false);
 
     //validando que mientras la fecha de entrada no se elija no muestre el calendario
@@ -62,6 +60,24 @@ $(document).ready(function(){
       
     })
   })
+
+  //ALERTA DE CANCELACION
+  $('.cancelacioncamping').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar","Aceptar"],
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        location.reload();
+      }else{
+        $('#modalReservaCamping').modal('show');
+      }
+    })
+  });
 
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
   $(".btnGuardarCliente").click(async function(e){
@@ -169,26 +185,86 @@ $(document).ready(function(){
     e.preventDefault();
     //mostrar el modal
     $('#modalReservaCamping').modal('show');
+    $('#tipoReserva').modal('hide');
   });
+
 
   //VALIDAR BOTON DE EXTRANJEROS Y NACIONALES
   $('#extra' ).on( 'click', function(e) {
     e.preventDefault();
-      $('.extranjero').slideDown();
-      $('.nacional').slideUp();
-      $('.nacionales').slideDown();
-      $('.extranjeros').slideUp();
+      
   });
   $('#naci' ).on( 'click', function(e) {
     e.preventDefault();
-    $('.extranjero').slideUp();
-    $('.nacional').slideDown();
-    $('.nacionales').slideUp();
-    $('.extranjeros').slideDown();
+    
   });
-  $('.btnArticulos').on('click', function (e){
-    e.preventDefault();
-        $('#modalArticulos').modal('show');
+
+  //elige la ncaionalidad para que le aparezcan los precios
+  $('#nacionali').change(function() {
+    const areacamp = $('#area');
+      const cantiadulto = $('#anc');
+      const preadulto= $('#pac');
+      const cantinino = $('#nnc');
+      const prenino= $('#pnnc');
+
+     
+    var tiponacionalidad = $(this).val();
+    //console.log(local);
+    if(tiponacionalidad ==1){
+      const lempira = $('.moneda');
+      lempira.empty();
+      lempira.append(
+        '<span>L.</span>',
+      );
+      $('#area').change(function() {
+        let preciocamping = document.querySelector("#area").value;
+        
+        //console.log(precio);
+        $.ajax({
+          type:"POST",
+          url:'./controlador/preciocamping.php',
+          datatype:"json",
+          data:{ preciocamping:preciocamping},
+          success:function(json){
+            console.log(json);
+            let convertir = JSON.parse(json)
+
+            $('#pac').val(convertir.alquiler);
+            $('#pnnc').val(convertir.alquilernino);
+          }
+        });
+      });
+    }else{
+      const dolar = $('.moneda');
+      dolar.empty();
+      dolar.append(
+        '<span>$.</span>'
+      );
+
+      areacamp.val("");
+      cantiadulto.val("");
+      preadulto.val("");
+      cantinino.val("");
+      prenino.val("");
+      $('#area').change(function() {
+        let preciocampinge = document.querySelector("#area").value;
+
+        //console.log(precio);
+        $.ajax({
+          type:"POST",
+          url:'./controlador/preciocampinge.php',
+          datatype:"json",
+          data:{ preciocampinge:preciocampinge},
+          success:function(json){
+            console.log(json);
+            let convertire = JSON.parse(json)
+
+            $('#pac').val(convertire.alquilere);
+            $('#pnnc').val(convertire.alquilerninoe);
+          }
+        });
+      });
+    }
   });
 
   //VALIDAR BOTONES CUANDO LOS CAMPOS ESTEN LLENOS
@@ -214,54 +290,84 @@ $(document).ready(function(){
       $('#sigue').attr('disabled','disabled');
     }
   });
+  
+  //VALIDACIONES
 
-  $('#cancelarc1').on('click', function(e){
-    swal({
-      icon: "warning",
-      title: "cancelar",
-      text: "¿Esta seguro que quiere ejecutar esta accion?",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) =>{
-      if(willDelete){
-        location.reload();
-      }else{
-        $('#modalReservaCamping').modal('show');
-      }
-    })
-  });
-  $('#cancelarc2').on('click', function(e){
-    swal({
-      icon: "warning",
-      title: "cancelar",
-      text: "¿Esta seguro que quiere ejecutar esta accion?",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) =>{
-      if(willDelete){
-        location.reload();
-      }else{
-        $('#modalReservaCamping').modal('show');
-      }
-    })
+  $('#nacionali').change(function() {
+    var nacionali = $(this).val();
+    //console.log(local);
+    if(nacionali){
+      $('#area').removeAttr('disabled');
+      $('#area').change(function(){
+        var are = $(this).val();
+        if(are){
+          $('#anc').removeAttr('disabled');
+          $('#nnc').removeAttr('disabled');
+          $('#canTi').removeAttr('disabled');
+          $('#lista1').removeAttr('disabled');
+          
+        }else{
+          $('#anc').attr('disabled','disabled');
+          $('#nnc').attr('disabled','disabled');
+          $('#canTi').attr('disabled','disabled');
+          $('#lista1').attr('disabled','disabled');
+        }
+        
+      });
+    }else{
+      $('#area').attr('disabled','disabled');
+    }
   });
 
-  //BOTON camping
-  $('#Camping').on('click', function(e) {
-    e.preventDefault();
-    //mostrar el modal
-    $('#modalReservaCamping').modal('show');
-    $('#tipoReserva').modal('hide');
-  });
+  var cantidad = $('#anc');
+  if(cantidad){
+    let nacionality = $('#nacionali');
+    let areacamping = $('#area');
+    let adult = $('#anc');
+
+    if(nacionality === "" && areacamping === "" && adult === ""){
+      $('#btnAgregarNC').attr('disabled','disabled');
+      
+    }else{
+      $('#btnAgregarNC').removeAttr('disabled');
+    }
+  }
+
+  
+
+  
+
 
   //CARGAR PRECIOS DE ARTICULOS nacionales
   $('#miprecio').val(0);
 
   $('#lista1').on("change",function(){
   
-  let precio = document.querySelector("#lista1").value;
+    let precio = document.querySelector("#lista1").value;
+
+
+    console.log(precio);
+    $.ajax({
+      type:"POST",
+      url:'./controlador/precioA.php',
+      datatype:"json",
+      data:{ precio:precio},
+      success:function(json){
+        console.log(json);
+        let convertir = JSON.parse(json)
+
+        $('#miprecio').val(convertir.compra);
+      }
+    });
+  })
+
+  //quitar
+  //CARGAR PRECIOS DE ARTICULOS extranjeros
+  $('#miprecioe').val(0);
+
+  $('#lista1e').on("change",function(){
+
+  let precio = document.querySelector("#lista1e").value;
 
 
   console.log(precio);
@@ -274,163 +380,181 @@ $(document).ready(function(){
       console.log(json);
       let convertir = JSON.parse(json)
 
-      $('#miprecio').val(convertir.compra);
+      $('#miprecioe').val(convertir.compra);
     }
   });
-})
-//CARGAR PRECIOS DE ARTICULOS extranjeros
-$('#miprecioe').val(0);
+  });
+ 
 
-$('#lista1e').on("change",function(){
+  //CARGAR LA TABLA EN CAMPING
+  const registro = $('#registrar');
+  const contenido = $('#tableCamping .camp');
+  //const contenidoe = $('.campinge .campe');
+  //const formulario = $('#formCamping');
+  const agregarN = $('#btnAgregarNC');
+  let conteCamping = [];
 
-let precio = document.querySelector("#lista1e").value;
-
-
-console.log(precio);
-$.ajax({
-  type:"POST",
-  url:'./controlador/precioA.php',
-  datatype:"json",
-  data:{ precio:precio},
-  success:function(json){
-    console.log(json);
-    let convertir = JSON.parse(json)
-
-    $('#miprecioe').val(convertir.compra);
-  }
-});
-})
- //ESTO ES PARA QUE REALICE LA RESERVACION EN CAMPING
-  //AGREGANDO NACIONALES A CAMPING
-  $('#btnAgregarNC').click(function(e) {
+  //para nacionales
+  function agregarCampingN(e){
     e.preventDefault();
-    $('#registrar').removeAttr('disabled');
-  var areaN = $('#area option:selected').text();
-  var adulNC = document.getElementById("anc").value;
-  var padultoNC = document.getElementById("pac").value;
-  var ninNC = document.getElementById("nnc").value;
-  var pninoNC = document.getElementById("pnnc").value;
-  var tipoT = $('#lista1 option:selected').text();
-  var canT = document.getElementById("canTi").value;
-  var precioT = document.getElementById("miprecio").value;
-  var totNC = document.getElementById("totalNC").value;
-  var filaNC = '<tr><td>' + areaN  + '</td><td>' + adulNC + '</td><td>' + padultoNC + '</td><td>'
-  + ninNC + '</td><td>' + pninoNC + '</td><td>'+tipoT+ '</td><td>'+canT+'</td><td>'+precioT+'</td><td>'+ totNC +
-  '</td><td><button type="button" name="removeN"  class="btn btn-danger btn_eliminarCampingN glyphicon glyphicon-remove"></button></td></tr>'; //esto seria lo que contendria la fila
+
+    const infonacional = {
+      /*creacion del objeto donde llevara
+      la informacion de la tabla
+      */
+
+      arean:{
+        idare: $('#area').val(),
+        nombrearea: $('#area option:selected').text(),
+      },
+
+      adulto: $('#anc').val(),
+      precioa: $('#pac').val(),
+      nino: $('#pnnc').val(),
+      precionino: $('#pnnc').val(),
+
+      articulo:{
+        idart: $('#lista1').val(),
+        nomarti: $('#lista1 option:selected').text(),
+      },
+      cantarticulo: $('#canTi').val(),
+      precioart: $('#miprecio').val(),
+      totalnc: $('#totalNC').val(),
+
+    };
+
+    //agregando los datos al arreglo
+    conteCamping = [...conteCamping, infonacional];
+    $(".camp tr").remove();
+    llenarTable();
+    //funcion reseter formulario 
+    //agregarN.prop('disabled', true);
+    registro.prop('disabled', false);
+
+    function llenarTable() {
+      $(".camp tr").remove();
+      conteCamping.forEach((nacionalc, index ) => agregarfila(nacionalc, index));
+    }
+  } 
 
 
-  $('#tableCamping tr:first').after(filaNC);
-    $("#listaC").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-    var nFilasNC = $("#tableCamping tr").length;
-    $("#listaC").append(nFilasNC - 1);
-    //le resto 1 para no contar la fila del header
-    document.getElementById("area").value = "";
-    document.getElementById("anc").value = "";
-    document.getElementById("nnc").value = "";
-    document.getElementById("canTi").value = "";
-    document.getElementById("lista1").value = "";
-    document.getElementById("totalNC").value = "";
-    //document.getElementById("area").focus();
-});
-$(document).on('click', '.btn_eliminarCampingN', function(e) {
-      e.preventDefault();
-      $(this).closest('tr').remove();
-      $('#registrar').attr('disabled','disabled');
-  });
-//AGREGANDO A EXTRANJEROS EN CAMPING
-$('#btnAgregarEC').click(function(e) {
-  e.preventDefault();
-  $('#registrar').removeAttr('disabled');
-  var areaEC =  $('#areae option:selected').text();
-  var adultoEC = document.getElementById("aec").value;
-  var preadultoEC = document.getElementById("paec").value;
-  var ninoEC = document.getElementById("nec").value;
-  var preninoEC = document.getElementById("pnec").value;
-  var tipoTe = $('#lista1e option:selected').text();
-  var canTe = document.getElementById("canTie").value;
-  var precioTe = document.getElementById("miprecioe").value;
-  var totalEC = document.getElementById("totalEC").value;
-  //var j = 1; //contador para asignar id al boton que borrara la fila
-  var filaEC = '<tr><td>' + areaEC + '</td><td>' + adultoEC + '</td><td>' + preadultoEC + '</td><td>'
-  + ninoEC + '</td><td>' + preninoEC +'</td><td>' +tipoTe+'</td><td>'+ canTe+'</td><td>'+precioTe+'</td><td>'+ totalEC + 
-  '</td><td><button type="button" name="remove" class="btn btn-danger btn_eliminarCampingE glyphicon glyphicon-remove"></button></td></tr>' //esto seria lo que contendria la fila
-  //j++;
-
-  $('#tableCamping tr:first').after(filaEC);
-    $("#listaC").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
-    var nFilasEC = $("#tableCamping tr").length;
-    $("#listaC").append(nFilasEC - 1);
-
-    //le resto 1 para no contar la fila del header
-    document.getElementById("areae").value ="";
-    document.getElementById("aec").value="";
-    document.getElementById("nec").value="";
-    document.getElementById("canTie").value = "";
-    document.getElementById("lista1e").value = "";
-    document.getElementById("totalEC").value="";
-    // document.getElementById("nombre").focus();
-
-  });
-
-
-  $(document).on('click', '.btn_eliminarCampingE ', function(e) {
-    e.preventDefault();
-    $(this).closest('tr').remove();
-  });
-
+  console.log(conteCamping);
+  // funcion para registrar
   //MANDAR LOS DATOS AL ARCHIVO PHP
   $('#registrar').on('click', function(){
-      //falta que registre y agregar el elssleping bag
-      $('#tableCamping tr').each(function (e) {
+    console.log(conteCamping);
+        var action = 'registroCamping';
+        const idusuario = document.querySelector('#id_usuario').value;
+        const usuario_actual = document.querySelector('#usuario_actual').value;
+        const idcliente = document.querySelector('#idClient').value;
+        const fecha_reservacion = document.querySelector("#reserva").value;
+        const fecha_entrada = document.querySelector("#entra").value;
+        const fecha_salida = document.querySelector("#sale").value;
+          /*console.log(descripcion,cantidad_adultosC,cantidad_ninosC,totalC,
+          reservacion,entrada,salida,idCliente,idusuario,usuario_actual);*/
+    if(action === "", usuario_actual === "", idcliente === "", fecha_reservacion === "",
+      fecha_entrada === "", fecha_salida === ""){
+        swal({
+          icon: "warning",
+          title: "¡Advertencia!",
+          text: "Es necesario llenar todos los campos.",
+          timer:3000,
+          buttons: false
+        });
+    
       
-          // var action = 'registroCamping';
-          const descripcion = $(this).find('td').eq(0).html();
-          const cantidad_adultosC = $(this).find('td').eq(1).html();
-          const cantidad_ninosC = $(this).find('td').eq(3).html();
-          const articulo =$(this).find('td').eq(5).html();
-          const cantarti = $(this).find('td').eq(6).html();
-          const totalC = $(this).find('td').eq(8).html();
-          // const camping = document.querySelector("#tipo_camping").value;
-          const reservacion = document.querySelector("#reserva").value;
-          const entrada = document.querySelector("#entra").value;
-          const salida = document.querySelector("#sale").value;
-          const idCliente= document.querySelector('#idClient').value;
-          const idusuario = document.querySelector('#id_usuario').value;
-          const usuario_actual = document.querySelector('#usuario_actual').value;
-           console.log(descripcion,cantidad_adultosC,cantidad_ninosC,totalC,
-          reservacion,entrada,salida,idCliente,idusuario,usuario_actual);
-
-          $.ajax({
-              type: "POST",
-              datatype: 'json',
-              url: './controlador/ctrcamping.php',
-              data: { descripcion:descripcion,cantidad_adultosC:cantidad_adultosC,articulo:articulo,cantarti:cantarti,
-                cantidad_ninosC:cantidad_ninosC,totalC:totalC,idCliente:idCliente,reservacion:reservacion,entrada:entrada,
-              salida:salida, idusuario:idusuario,usuario_actual:usuario_actual},
-              success: function(response){
-                console.log(response);
-                  var data = JSON.parse(response);
-                  
-                  if(data.respuesta == 'exito'){
-                      swal({
-                          icon:"success",
-                          title:"Exito",
-                          text:"La reservación se realizo correctamente en Camping",
-                          timer: 2500,
-                          buttons: false
-                      }).then(()=>{
-                          location.reload();
-                      })
-                  }else if (data.respuesta == 'error'){
-                      swal({
-                          icon:"error",
-                          title:"Error",
-                          text:"se produjo un error"
-                      })
-                  }
+    }else{
+      $.ajax({
+        type: "POST",
+        datatype: 'json',
+        url: './controlador/ctrcamping.php',
+        data: {action:action,idcliente:idcliente,fecha_reservacion:fecha_reservacion,fecha_entrada:fecha_entrada,
+          fecha_salida:fecha_salida,
+          "conteCamping":JSON.stringify(conteCamping.map((r) => ({
+            areaN: r.arean.idare,
+            adulto: r.adulto,
+            nino: r.nino,
+            articulo: r.articulo.idart,
+            cantarticulo: r.cantarticulo,
+            totalnc: r.totalnc,
+          }))),
+          idusuario:idusuario,usuario_actual:usuario_actual},
+          success: function(response){
+            //console.log(response);
+              var data = JSON.parse(response);
+              
+              if(data.respuesta == 'exito'){
+                  swal({
+                      icon:"success",
+                      title:"Exito",
+                      text:"La reservación se realizo correctamente en Camping",
+                      timer: 2500,
+                      buttons: false
+                  }).then(()=>{
+                      location.reload();
+                  })
+              }else if (data.respuesta == 'error'){
+                  swal({
+                      icon:"error",
+                      title:"Error",
+                      text:"se produjo un error"
+                  })
               }
-          });
+          }
+          
           
       });
+    }
   });
+
+  //mostrar el contenido en la tabla html
+  function agregarfila(nacionalc = {}, index = -1){
+    const {arean, adulto, precioa, nino, precionino, articulo, cantarticulo,precioart,totalnc} = nacionalc;
+    contenido.append(`
+        <tr >
+            <td>${index + 1}</td>
+            <td>${arean.nombrearea}</td>
+            <td>${adulto}</td>
+            <td>${precioa}</td>
+            <td>${nino}</td>
+            <td>${precionino}</td>
+            <td>${articulo.nomarti}</td>
+            <td>${cantarticulo}</td>
+            <td>${precioart}</td>
+            <td>${totalnc}</td>
+
+            <td>
+              <button class="btn btn-danger btnEliminarN glyphicon glyphicon-remove" data-idar="${index}"></button>
+            </td>
+        </tr>
+    `);
+
+    $(".btnEliminarN").on("click", (e) => {
+      e.preventDefault();
+      let ida = e.target.dataset.idar;
+      swal({
+
+        icon: "warning",
+        title: "Eliminar Reservación",
+        text: "¿Esta seguro que desea eliminar esta reservación?",
+        buttons: ["Cancelar", "Aceptar"],
+      }).then((resp) => {
+        if (resp) {
+          conteCamping.splice(ida, 1);
+          llenarTable();
+        }
+      });
+    });
+  }
+
+
+  if(areaN === ""){
+    agregarN.prop('disabled', true);
+  }else{
+    agregarN.prop('disabled', false);
+    agregarN.on("click", agregarCampingN);
+  }
+
+
+
 });

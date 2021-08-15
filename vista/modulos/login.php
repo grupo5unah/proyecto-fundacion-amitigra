@@ -40,7 +40,7 @@
 
       <form id="login" method="post" autocomplete="off">
         <div class="form-group has-feedback">
-          <input type="text" id="usuario" maxlength="15" class="form-control" name="usuario" placeholder="Nombre de usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+          <input type="text" id="usuario" class="form-control" name="usuario" placeholder="Nombre de usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
           <span class="glyphicon glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="input-group has-feedback">
@@ -87,8 +87,8 @@
 
       </form>
       <div class="text-center">
-        <a class="color-enlaces" id="olvideContrasena" href="olvide_contrasena.php">Olvide mi contraseña</a><br>
-      <a href="registro.php" id="registrarse" class="color-enlaces">Registrarse</a>
+        <a class="color-enlaces" id="olvideContrasena" href="olvide_contrasena.php">¿Olvidaste tu contraseña?</a><br>
+      <a href="registro.php" id="registrarse" class="color-enlaces">¿No tienes cuenta?. Registrate aquí</a>
     </div>
 
   </div>

@@ -21,7 +21,7 @@ switch ($action){
             date_default_timezone_set("America/Tegucigalpa");
             $Fmodificacion=date('Y-m-d H:i:s',time());
             $modificadoPor = $_POST['modificado_por'];
-            
+            $user_id = $_POST['id_usuario'];  
 
             $actualizarTipoBoleto = "UPDATE tbl_tipo_boletos                                 
                                 set   precio_venta='$precio_venta',
@@ -30,6 +30,17 @@ switch ($action){
             
             $resultado=$conn->query($actualizarTipoBoleto);
             if ($resultado == 1) {
+                 //INSERTAR LA ACCION EN BITACORA
+                 date_default_timezone_set("America/Tegucigalpa");
+                 $fecha2=date('Y-m-d H:i:s',time());
+                 $objeto = 35;
+                $acciones = "Actualizacion de Precio de Boleto";
+                $descp = "Se ha Actualizado el Precio de un Boleto";
+                require_once("../modelo/conexionbd.php");
+                $llamar1 = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                $llamar1->bind_Param("sssii", $acciones, $descp, $fecha2, $user_id, $objeto);
+                $llamar1->execute();
+                $llamar1->close(); 
                 $res['msj'] = "Tipo de Boleto se Edito Correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Tipo de Boleto";
@@ -44,9 +55,26 @@ switch ($action){
     case 'eliminarTipoBoleto': //Eliminar un Tipo de Boleto
         if (isset($_POST['id_tipo_boleto'])) {
             $id_tipo_boleto = $_POST['id_tipo_boleto'];
-            $sql = "UPDATE tbl_tipo_boletos SET estado_eliminado = 0 WHERE id_tipo_boleto = " . $id_tipo_boleto;
+            $user_id = $_POST['id_usuario'];
+            $estado_eliminar = 0;
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+
+            $sql = "UPDATE tbl_tipo_boletos SET estado_eliminado = $estado_eliminar, modificado_por='$usuario_actual', fecha_modificacion='$fecha' WHERE id_tipo_boleto = " . $id_tipo_boleto;
             $resultado = $conn->query($sql);
+
             if ($resultado == 1) {
+                 //INSERTAR LA ACCION EN BITACORA
+                 date_default_timezone_set("America/Tegucigalpa");
+                 $fecha2=date('Y-m-d H:i:s',time());
+                 $objeto = 35;
+                $acciones = "Eliminación de Tipo y Precio de Boletos";
+                $descp = "Se ha eliminado un Tipo de boleto";
+                require_once("../modelo/conexionbd.php");
+                $llamar1 = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                $llamar1->bind_Param("sssii", $acciones, $descp, $fecha2, $user_id, $objeto);
+                $llamar1->execute();
+                $llamar1->close();   
                 $res['msj'] = "Tipo de Boleto Eliminado  Correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Tipo de Boleto";
@@ -65,12 +93,13 @@ switch ($action){
         $precioVenta= $_POST['PrecioVN'];        
         $usuario_actual = $_POST['usuario_actual'];
         $estado=1;
+        $user_id = $_POST['id_usuario'];
         date_default_timezone_set("America/Tegucigalpa");
         $fecha=date('Y-m-d H:i:s',time());
 
         if(empty($_POST['NombreBoletoN']) ||empty($_POST['DescripcionN']) ||empty($_POST['PrecioVN']) ||empty($_POST['usuario_actual'])){
             
-            $res['msj'] = 'Es necesario Nombre de la Nacionalidad';
+            $res['msj'] = 'Es necesario Nombre, Descripcion y Precio';
             $res['error'] = true;
 
         }else{
@@ -84,6 +113,17 @@ switch ($action){
                     $res['msj'] = "Se produjo un error al momento de registrar el Tipo de Boleto";
                     $res['error'] = true;
                 } else {
+                        //INSERTAR LA ACCION EN BITACORA
+                    date_default_timezone_set("America/Tegucigalpa");
+                    $fecha2=date('Y-m-d H:i:s',time());
+                    $objeto = 35;
+                    $acciones = "Creacion de Tipo y Precio de Boletos";
+                    $descp = "Se ha Creado un Nuevo Tipo de boleto" . $nombreTipoBoleto;
+                    require_once("../modelo/conexionbd.php");
+                    $llamar1 = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $llamar1->bind_Param("sssii", $acciones, $descp, $fecha2, $user_id, $objeto);
+                    $llamar1->execute();
+                    $llamar1->close();   
                     $res['msj'] = "Tipo de Boleto Registrada Correctamente";
                 }
             }catch(exception $e){

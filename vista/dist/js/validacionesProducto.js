@@ -2,7 +2,7 @@ const nomp = document.querySelector("#nombreP");
 const pre = document.querySelector("#precioProducto");
 const desc = document.querySelector('#descripcion');
 const tp = document.querySelector('#tipoProducto');
-const inicial = document.querySelector('#inicial');
+//const inicial = document.querySelector('#inicial');
 const minimo = document.querySelector('#minimo');
 const maximo = document.querySelector('#maximo');
 const add = document.querySelector('#btnAddList');
@@ -14,17 +14,14 @@ function eventListener(){
     nomp.addEventListener('blur',validarProducto);
     pre.addEventListener('blur',validarProducto);
     desc.addEventListener('blur',validarProducto);
-    inicial.addEventListener('blur',validarProducto);
     minimo.addEventListener('blur',validarProducto);
     maximo.addEventListener('blur',validarProducto);
     tp.addEventListener('change',validarProducto);
 
 }
 
-console.log("que rayos pasa");
 function validarProducto(e){
     
-    console.log('esta es una prueba');
     if(e.target.value.length > 0){
         //elimina los errores
         const error = document.querySelector('p.error');
@@ -37,10 +34,8 @@ function validarProducto(e){
       e.target.classList.add('border','border-danger');
       mostrarError('Todos los campos son obligatorios');
     }
-    console.log('esta es una prueba0');
-    if(nomp.value !=='' && pre.value !== '' && desc.value !=='' && tp !==''&& inicial !=='' && minimo !==''&& maximo !==''){
+    if(nomp.value !=='' && pre.value !== '' && desc.value !=='' && tp !=='' && minimo !==''&& maximo !==''){
         add.disabled = false;
-        console.log('esta es una prueba');
     };
 };
 function mostrarError(mensaje){

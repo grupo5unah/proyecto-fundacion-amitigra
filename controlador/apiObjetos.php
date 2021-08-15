@@ -29,7 +29,10 @@ switch ($action) {
         $descripcion = $_POST['descripcion'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
+        $id_usuario = $_POST['id_usuario'];
+        $objeto = $_POST['id_objeto'];
 
         if (empty($_POST['objeto']) || empty($_POST['descripcion'])  || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
@@ -45,6 +48,12 @@ switch ($action) {
                     $res['error'] = true;
                 } else {
                     $res['msj'] = "Objeto Registrado Correctamente";
+                   
+                        $acciones = "REGISTRO ";
+                        $descp = "SE INGRESÓ UN NUEVO OBJETO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 }
                 // $sql->close();
                 // $sql = null;
@@ -63,20 +72,29 @@ switch ($action) {
             $tipoObjeto = $_POST['tipo_objeto'];
             $descripcion = $_POST['descripcion'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objetos'];
            
             $sql = "UPDATE tbl_objeto SET objeto = '$nombreO', tipo_objeto  = '$tipoObjeto', descripcion= '$descripcion', modificado_por= '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_objeto=" .$id_objetos;          
             $resultado = $conn->query($sql);
           
             if ($resultado == 1) {
-                //print_r($resultado);
+               
                 $res['msj'] = "Objetos se  Edito  Correctamente";
+                
+                        $acciones = "ACTUALIZACIÓN";
+                        $descp = "SE ACTUALIZO UN OBJETO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Objetos ";
                 $res['error'] = true;
             }
         } else {
-            //print_r($id_inventario);
+            
             $res['msj'] = "Las variables no estan definidas";
             $res['error'] = true;
         }
@@ -85,10 +103,20 @@ switch ($action) {
     case 'eliminarObjetos':
         if (isset($_POST['id_objeto'])) {
             $id_objetos = $_POST['id_objeto'];
+            date_default_timezone_set("America/Tegucigalpa");
+            $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objetoS'];
             $sql = "UPDATE tbl_objeto SET estado_eliminado = 0 WHERE id_objeto = " . $id_objetos;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Objeto Eliminado  Correctamente";
+               
+                        $acciones = "ELIMINAR";
+                        $descp = "SE ELIMINO UN OBJETO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Objeto";
                 $res['error'] = true;
@@ -109,7 +137,10 @@ switch ($action) {
                 $PActualizacion = $_POST['permiso_actualizacion'];
                 $PConsulta = $_POST['permiso_consulta'];
                 $usuario_actual = $_POST['usuario_actual'];
+                date_default_timezone_set("America/Tegucigalpa");
                 $fecha = date('Y-m-d H:i:s', time());
+                $id_usuario = $_POST['id_usuario'];
+                $objeto = $_POST['id_objeto'];
                
                 $sql = "UPDATE tbl_permisos SET permiso_insercion  = '$PInsertar', permiso_eliminacion= '$PEliminar', permiso_actualizacion= '$PActualizacion', permiso_consulta = '$PConsulta' , modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_permiso=" .$id_permiso;          
                 $resultado = $conn->query($sql);
@@ -117,6 +148,12 @@ switch ($action) {
                 if ($resultado == 1) {
                     
                     $res['msj'] = "Permisos se  Edito  Correctamente";
+                        
+                        $acciones = "ACTUALIZACIÓN";
+                        $descp = "SE ACTUALIZO UN PERMISO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 } else {
                     $res['msj'] = "Se produjo un error al momento de Editar el Permiso ";
                     $res['error'] = true;

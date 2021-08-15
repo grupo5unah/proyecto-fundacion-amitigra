@@ -21,7 +21,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ||
   <div class="content-wrapper">
 
     <section class="content-header">
-      <h1>Copia y restauración base de datos <small> ajustes</small></h1>      
+      <h1>Copia y restauración <small> base de datos</small></h1>      
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
         <li class="active"><i class="fa fa-database"></i> Copia y restauración</li>

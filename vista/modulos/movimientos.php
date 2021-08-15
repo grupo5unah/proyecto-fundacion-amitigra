@@ -13,16 +13,38 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 ?>
 
     <div class="content-wrapper" oncopy="return false" onpaste="return false">
+      <input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
+      <?php
 
+      $sql = "SELECT id_objeto FROM `tbl_objeto` WHERE objeto LIKE '%movimiento%'; ";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+          $id = ($row['id_objeto']);
+         
+      ?>
+
+       <input type="hidden" name="" id="id_objeto" value="<?= $id ?>">    
+
+
+      <?php  }
+      } else {
+        echo "0 results";
+      }
+
+
+      ?>
 
 
       <section class="content-header">
-        <h1> PRODUCTOS</h1>
+        <h1> Movimientos de inventario</h1>
         <ol class="breadcrumb ">
-          <li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-          <li class="btn btn-success uppercase fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-          <li class="btn btn-success uppercase fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
-          <li class="btn btn-success active uppercase fw-bold "><a href="#"></a><i class="fab fa-product-hunt"></i> Movimientos</a></li>
+          <li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+         
+          <li class="  fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
+          <li class=" active  fw-bold "><a href="#"></a><i class="fab fa-product-hunt"></i> Movimientos</a></li>
         </ol>
       </section>
       <!-- Main content -->
@@ -40,7 +62,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <div class="page-heading"> <i class="glyphicon glyphicon-edit"></i>Movimientos</div>
+                    <div class="page-heading"> <i class="glyphicon glyphicon-edit"></i>Listado de Movimientos</div>
                   </div> <!-- /panel-heading -->
 
 
@@ -53,7 +75,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                         else : ?>
 
-                          <button class="btn btn-success button1 text-uppercase" id="btncrearMovimiento"> <i class="glyphicon glyphicon-plus-sign"></i> movimientos </button>
+                          <button class="btn btn-success button1 text-uppercase" id="btncrearMovimiento"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar movimiento </button>
 
                         <?php
                         endif;
@@ -63,9 +85,9 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                       <table data-page-length='10' class=" display table table-hover table-condensed table-bordered wrapper" id="movimientos">
                         <thead style=" background-color: #222d32; color: white;">
                           <tr>
-                            <th>Nombre Producto</th>
-                            <th>movimiento</th>
-                            <th>Descripcion</th>
+                            <th>Producto</th>
+                            <th>Movimiento</th>
+                            <th>Descripción</th>
                             <th>Cantidad</th>
                             <th>Fecha movimiento</th>
                             <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
@@ -116,19 +138,19 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                                 <td> <?php echo $evento['fecha_movimiento']; ?></td>
                                 <!-- <td> -->
 
-                                  <?php if ($columna["permiso_actualizacion"] == 1) : ?>
-                                    <!-- <button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento[''] ?>" data-nomProducto="<?= $evento[''] ?>" data-precioP="<?= $evento[''] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento[''] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento[''] ?>"></button> -->
-                                  <?php
-                                  else :
-                                  endif;
+                                <?php if ($columna["permiso_actualizacion"] == 1) : ?>
+                                  <!-- <button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-idProduct="<?= $evento[''] ?>" data-nomProducto="<?= $evento[''] ?>" data-precioP="<?= $evento[''] ?>" data-cantProducto="<?= $evento['cantidadP'] ?>" data-desc="<?= $evento[''] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-precioAl="<?= $evento[''] ?>"></button> -->
+                                <?php
+                                else :
+                                endif;
 
-                                  if ($columna["permiso_eliminacion"] == 1) :
-                                  ?>
-                                    <!-- <button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento[''] ?>"></button> -->
-                                  <?php
-                                  else :
-                                  endif;
-                                  ?>
+                                if ($columna["permiso_eliminacion"] == 1) :
+                                ?>
+                                  <!-- <button class="btn btn-danger btnDeleteP glyphicon glyphicon-remove" data-idP="<?php echo $evento[''] ?>"></button> -->
+                                <?php
+                                else :
+                                endif;
+                                ?>
                                 <!-- </td> -->
                               <?php  } ?>
                             <?php  } ?>
@@ -162,8 +184,8 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                 <!-- /.box-footer-->
                 <!-- modal movimientos -->
                 <div class="modal fade con" id="modalCrearMovimiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                  <div class="modal-dialog mo" >
-                    <div class="modal-content " style="width: 1000px;">
+                  <div class="modal-dialog mo">
+                    <div class="modal-content ">
                       <div class="modal-header">
                         <div class="d-flex justify-content-between ">
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -173,55 +195,53 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                         </div>
                       </div>
                       <div class="modal-body ">
-                          
+
                         <form method="POST" id="formM" role="form" class="validarFORM" style="text-align:center;">
-                          <div class="row d-flex">
-                            <?php
 
-                            $sql = "SELECT id_tipo_movimiento, movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA' OR movimiento= 'SALIDA'";
-                            $result = $conn->query($sql);
+                          <?php
 
-                            if ($result->num_rows > 0) {
-                              // output data of each row
-                              while ($row = $result->fetch_assoc()) {
-                                $id = ($row['id_tipo_movimiento']);
-                                $movimiento = ($row['movimiento']);
-                            ?>
-                                
-                                <div class="form-check form-check-inline col-sm-2 form-group movimiento">
-                                  <input data-movi="<?php echo ($movimiento); ?>" data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>" >
-                                  <label class="form-check-label" for="exampleRadios1">
+                          $sql = "SELECT id_tipo_movimiento, movimiento FROM tbl_tipo_movimiento where movimiento = 'ENTRADA' OR movimiento= 'SALIDA'";
+                          $result = $conn->query($sql);
+
+                          if ($result->num_rows > 0) {
+                            // output data of each row
+                            while ($row = $result->fetch_assoc()) {
+                              $id = ($row['id_tipo_movimiento']);
+                              $movimiento = ($row['movimiento']);
+                          ?>
+
+                              <div class="form-check form-check-inline col-sm-6 form-group movimiento">
+                                <input data-movi="<?php echo ($movimiento); ?>" data-mo="<?php echo ($movimiento); ?>" class="form-check " type="radio" name="entrada" id="exampleRadios1" value="<?php echo ($id); ?>">
+                                <label class="form-check-label" for="exampleRadios1">
                                   <?php echo ($movimiento); ?>
-                                  </label>
-                                </div>
-                                
-
-                            <?php  }
-                            } else {
-                              echo "0 results";
-                            }
+                                </label>
+                              </div>
 
 
-                            ?>
+                          <?php  }
+                          } else {
+                            echo "0 results";
+                          }
 
-                          </div>
-                          <div class="row d-flex  justify-content-around">
 
-                            <div class="col-sm-3  justify-content-between">
-                              <label for=""> PRODUCTO</label>
-                              <select name="tipoProducto" id="p" class="js-example-basic-multiple js-states  movimientoProducto " style="width: 150px; margin-left:.5rem;">
-                              <option value="0">Selecciona una opción...</option>
+                          ?>
+
+                          <div class="form-group">
+                            <label for=""> PRODUCTO</label>
+                            <div class="input-group">
+                              <select name="tipoProducto" id="p" class="js-example-basic-multiple js-states input-group movimientoProducto " style="width: 364pxs;">
+                                <option value="">Selecciona una opción...</option>
 
                                 <?php
 
-                                $sql = "SELECT p.id_producto, p.nombre_producto, i.id_inventario, i.stock from tbl_producto p LEFT JOIN tbl_inventario i on p.id_producto = i.producto_id where i.stock >=0 ";
+                                $sql = "SELECT p.id_producto, p.nombre_producto, i.id_inventario, i.stock, i.localidad_id from tbl_producto p LEFT JOIN tbl_inventario i on p.id_producto = i.producto_id";
                                 $result = $conn->query($sql);
-                                
+
 
                                 if ($result->num_rows > 0) {
                                   // output data of each row
                                   while ($row = $result->fetch_assoc()) {
-                                    echo "<option  data-id_inventario=" . $row['id_inventario'] . " data-stock=" . $row['stock'] . " value=" . $row['id_producto'] . ">" . $row['nombre_producto'] . "</option>";
+                                    echo "<option  data-id_inventario=" . $row['id_inventario'] . " data-localidad=" . $row['localidad_id'] . " data-stock=" . $row['stock'] . " value=" . $row['id_producto'] . ">" . $row['nombre_producto'] . "</option>";
                                   }
                                 } else {
                                   echo "0 results";
@@ -231,20 +251,12 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
                               </select>
                             </div>
-                            <div class="col-sm-3 form-group ">
-                              <label>DESCRIPCION </label>
-                              <input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder=" descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
-                            </div>
-                            <div class="col-sm-2 m-auto form-group ">
-                              <label for="">Cantidad</label>
-                              <div class="input-group">
-                                <input id="cantidad" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
-                              </div>
-                            </div>
-                            <div class="col-sm-2 form-group justify-content-between">
-                              <label for="">Localidad</label>
-                              <select name="tipoProducto" id="movimientoLocalidad" class=" input-group">
-                                <option value="0">Seleciona...</option>
+                          </div>
+                          <div class=" form-group ">
+                            <label for="">Localidad</label>
+                            <div class=" input-group ">
+                              <select name="tipoProducto" id="movimientoLocalidad" style="width: 364pxs;">
+                                <option value="0">Seleciona una opcion</option>
                                 <?php
 
                                 $sql = "SELECT id_localidad, nombre_localidad FROM tbl_localidad";
@@ -261,69 +273,49 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                                 $conn->close();
                                 ?>
                               </select>
-
                             </div>
-                            
-                              <input disabled id="btnMO"  type="button" class=" input-group btn btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas " value="+" >
-                              <input type="hidden" id="btnProductMovimiento" class=" glyphicon glyphicon-saved btn btn-primary agregar-table  bmas" value="Finalizar">
-                           
+
+
+                          </div>
+                          <div class=" form-group ">
+                            <label>DESCRIPCION </label>
+                            <input id="descripcion" class="form-control   secundary text-uppercase text-center" type="text" name="descripcion" placeholder=" descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+                          </div>
+                          <div class="form-group ">
+                            <label for="">Cantidad</label>
+                            <div class="">
+                              <input id="cantidad" class="form-control  secundary text-center" type="number" name="precioProducto" placeholder="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
+                            </div>
                           </div>
 
-                      </div>
 
-                      <!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
-                      <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                          <!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
+                          <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="cerrarM">Cancelar</button>
+                            <button type="submit" id="registrar" class=" btn btn-success">Registrar </button>
+                          </div>
 
-
-                      </form>
-                      <div id="producto">
-                        <table id="moviemintoTable" data-page-length='10' class=" table table-hover table-condensed table-bordered">
-                          <thead>
-                            <tr>
-                              <td>#</td>
-                              <td>Nombre Producto</td>
-                              <td>Movimiento</td>
-                              
-                              <td>Descripcion</td>
-                              <td>cantidad</td>
-                              <td>Localidad</td>
-
-                              <?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
-
-                              else : ?>
-                                <td>Acciones</td>
-                              <?php
-                              endif;
-                              ?>
-                            </tr>
-                          </thead>
-                          <tbody id="row1" class="tbody">
-                          </tbody>
-                        </table>
+                        </form>
 
 
-                      </div>
+                        <?php
+                        if (isset($_GET['msg'])) {
+                          $mensaje = $_GET['msg'];
+                          print_r($mensaje);
+                          //echo "<script>alert(".$mensaje.");</script>";  
+                        }
 
-                      <?php
-                      if (isset($_GET['msg'])) {
-                        $mensaje = $_GET['msg'];
-                        print_r($mensaje);
-                        //echo "<script>alert(".$mensaje.");</script>";  
-                      }
+                        ?>
 
-                      ?>
 
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" id="cerrarM">Cerrar</button>
-                        <button type="button" id="registrarMovimiento" class=" btn btn-success" disabled >Registrar </button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-            </div>
-            <!-- /.box -->
+              </div>
+              <!-- /.box -->
       </section>
 
       <!-- /.content -->

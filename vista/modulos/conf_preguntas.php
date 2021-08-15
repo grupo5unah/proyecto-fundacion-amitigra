@@ -84,8 +84,8 @@ $id_objeto = 17;
                       <label class="color-enlaces" for="">Pregunta número 1</label>
                       <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="id_pregunta_1" name = "pregunta1" class="form-control selectDisable">
-                        <option>Seleccione una pregunta...</option>
+                      <select id="id_pregIni_1" name = "pregunta1" class="form-control selectDisable">
+                        <option value="select_ini1">Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
       
@@ -98,14 +98,14 @@ $id_objeto = 17;
                       </select>
                     </div>
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg_1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input type="text" maxlength="15" id="respuestaIni1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
-                        <p id="resp" class='msj_error'></p>
+                        <p id="resp_Ini1" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
                       <button class="btn btn-primary" href="#activity" id="prevtab" data-toggle="tab">Anterior</button>
-                      <button class="btn btn-success" href="#settings" id="nexttab" data-toggle="tab">Siguiente</button>
+                      <button class="btn btn-success" href="#settings" id="nexttab1" data-toggle="tab">Siguiente</button>
                     </div>
                   </div>
                 </div>
@@ -117,8 +117,8 @@ $id_objeto = 17;
                     <label class="color-enlaces" for="">Pregunta número 2</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="id_pregunta_2" name = "pregunta2" class="form-control selectDisable">
-                      <option>Seleccione una pregunta...</option>
+                      <select id="id_pregIni_2" name = "pregunta2" class="form-control selectDisable">
+                      <option value="select_ini2">Seleccione una pregunta...</option>
                         <?php
                              include ('../../modelo/conexionbd.php');
       
@@ -132,9 +132,9 @@ $id_objeto = 17;
                     </div>
                     
                       <div class="form-group has-feedback">
-                        <input type="text" maxlength="15" id="preg_2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                        <input type="text" maxlength="15" id="respuestaIni2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
-                        <p id="resp2" class="msj_error"></p>
+                        <p id="resp_Ini2" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
@@ -151,8 +151,8 @@ $id_objeto = 17;
                     <label class="color-enlaces" for="">Pregunta número 3</label>
                     <br>
                       <label class="color-enlaces">Selecciona una pregunta</label>
-                      <select id="id_pregunta_3" name = "pregunta3" class="form-control selectDisable">
-                      <option>Seleccione una pregunta...</option>
+                      <select id="id_pregIni_3" name = "pregunta3" class="form-control selectDisable">
+                      <option value="select_ini3">Seleccione una pregunta...</option>
                         <?php
                              include_once ('../../modelo/conexionbd.php');
       
@@ -165,11 +165,11 @@ $id_objeto = 17;
                       </select>
                     </div>
                       <div class="form-group has-feedback">
-					  <input type="hidden" id="usuario_id" value="<?php echo $id_usuario;?>">
-					  <input type="hidden" id="nombre_usuario" value="<?php echo $usuario;?>">
-                        <input type="text" maxlength="15" id="preg_3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+					              <input type="hidden" id="usuario_id" value="<?php echo $id_usuario;?>">
+					              <input type="hidden" id="nombre_usuario" value="<?php echo $usuario;?>">
+                        <input type="text" maxlength="15" id="respuestaIni3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
-                        <p id="resp3" class="msj_error"></p>
+                        <p id="resp_Ini3" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
@@ -183,13 +183,11 @@ $id_objeto = 17;
                 <div class="tab-pane" id="settings2">
                   <div class="post text-center">
                     <div class="input-group col-sm-11 has-feedback">
-                        <label for="inputSkills" class="col-sm-6 control-label">Ingresa tu contraseña</label>
                         <input id="PassRegistroPreguntas1" type="password" class="form-control" name="password" placeholder="Contraseña Actual">
                         
                     </div>
-					 
-					 <div class="input-group col-sm-11 has-feedback">
-                        <label for="inputSkills" class="col-sm-6 control-label">Ingresa tu contraseña</label>
+					            <br>
+					            <div class="input-group col-sm-11 has-feedback">
                         <input id="PassRegistroPreguntas2" type="password" class="form-control" name="password" placeholder="Nueva contraseña">
                         
                     </div>
@@ -200,6 +198,7 @@ $id_objeto = 17;
                           <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
                         </span>
                       </div>
+                      <p id="resp_Ini4" class="msj_error"></p>
                       <br>
                       <div class="columna">
                         <button class="btn btn-primary" href="#settings1" data-toggle="tab">Anterior</button>
@@ -216,12 +215,7 @@ $id_objeto = 17;
           <!--FIN FORM-->
         </div>     
       </div>  
-      <?php
-                      //include("../../controlador/ctr.registro.php");
-
-                      //$registrarse = new Registro();
-                      //$registrarse->ctrRegistro();
-                      ?>
+    
     </form>
     
   </div>
@@ -349,7 +343,8 @@ setInterval(tiemporeal, 1000);
 <script src="../dist/js/app.login.js"></script>
 <!-- <script src="../dist/js/recargar.js"></script> -->
 <script src="../dist/js/registro.js"></script>
-<script src="../dist//js/confPreguntas.js"></script>
+<script src="../dist/js/confPreguntas.js"></script>
+<script src="../dist/js/conf.app.js"></script>
 <!-- Bootstrap 3.3.7 -->
 
 <!-- iCheck -->

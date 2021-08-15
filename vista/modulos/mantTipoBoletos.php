@@ -12,6 +12,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
   if($columna["permiso_consulta"] == 1){
 ?>
 <div class="content-wrapper">
+	<section class="content-header">
+      <h1>Mantenimiento<small> Tipo de Boleto</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+		<li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
+		<li><a><i class="fa fa-users"></i> Mantenimiento Tipo de Boleto</a></li>
+      </ol>
+      <br>
+    </section>
+
+
 	<!-- Main content -->
 	<section class="content">
  
@@ -39,14 +50,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<tr>
 											<th>Nombre Tipo de Boleto</th>
 											<th>Precio de Venta</th>
-											<th>Descripcion</th>
-											<th>Fecha de Creacion</th>
+											<th>Descripción</th>
+											<th>Fecha de Creación</th>
 											<th>Modificado por</th>
-											<th>Fecha de Modificacion</th>	
+											<th>Fecha de Modificación</th>	
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
 											
 											else:?>										
-											<th>accion</th>
+											<th>Acciones</th>
 											<?php
 											endif;
 											?>
@@ -176,13 +187,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
 														<input id="ModificacionPuser" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
-														
+													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">	
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 												</div> <!-- /.modal form-group -->
 												<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+												<button type="button" id="cerrareditartipoboletos" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-													<button id=""type="submit" class="btn btn-primary btnEditarBD">Guardar Tipo Boleto</button>
+													<button id=""type="submit" class="btn btn-success btnEditarBD">Guardar Tipo Boleto</button>
 												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
@@ -248,13 +259,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
 														<input id="CreadoPor" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
-														
+
+													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">	
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 												</div> <!-- /.modal form-group -->
 												<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+												<button type="button" id="cerrartipoboletos" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-													<button id=""type="submit" class="btn btn-primary btnEditarBD">Crear Tipo de Boleto</button>
+													<button id=""type="submit" class="btn btn-success btnEditarBD">Crear Tipo de Boleto</button>
 												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	

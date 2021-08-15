@@ -13,11 +13,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 ?>
 <div class="content-wrapper">
 <section class="content-header">
-		<h1>MANTENIMIENTO PARAMETROS</h1>
+		<h1>Mantenimiento<small> Parámetros</small></h1>
 		<ol class="breadcrumb ">
-			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-			<li class="btn btn-success  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Parametros</a></li>
+			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			
+			<li class="  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Parámetros</a></li>
 			
 		</ol>
 	</section>
@@ -145,19 +145,19 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Actualizar parametro</h3>
+									<h3 class="modal-title" id="exampleModalLabel">Actualizar parámetro</h3>
 								</div>
 							</div>
 							<div class="modal-body">
 								<form name="formEditarParametro">
 									<div class="ingreso-producto form-group">
 										<div class="campos">
-											<label for="">Parametro: </label>
+											<label for="">Parámetro: </label>
 											<input id="Param" class="form-control modal-roles secundary text-uppercase" type="text" name=""  required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 										</div>
 										<div class="campos form-group">
-											<label for="">valor parametro: </label>
+											<label for="">valor parámetro: </label>
 											<input id="valor" class="form-control  modal-roles  secundary text-uppercase" type="tel" name="" placeholde="Escriba el producto" required autocomplete="off" />
 
 										</div>
@@ -168,8 +168,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar parametro</button>
+								<button type="button" class="btn btn-danger" id="cerrareditarParametro" data-dismiss="modal">Cancelar
+								</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar parámetro</button>
 							</div>
 						</div>
 					</div>
@@ -184,7 +185,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 									</button>
-									<h3 class="modal-title" id="exampleModalLabel">Registrar Parametros</h3>
+									<h3 class="modal-title" id="exampleModalLabel">Registrar Parámetros</h3>
 								</div>
 							</div>
 							<div class="modal-body">
@@ -198,7 +199,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                               </div>
    
                               <div class="campos">
-                                <label for="">Nombre del Parametro </label>
+                                <label for="">Nombre del Parámetro </label>
                                   <input id="nombrePara" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreParametro" placeholder="Escriba el parametro" required  onkeypress="return soloLetrasNumeros(event)"onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 
                                   </div>
@@ -213,8 +214,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<!-- <input type="submit" name="ingresarProducto" class="btn" value="Ingresar Parametro" />
 								</div> -->
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-								<button id="btnEditarBD"type="submit" class=" btn btn-primary">Registrar Parametro</button>
+								<button type="button" class="btn btn-danger" id="cerrarModalcrearPara"  data-dismiss="modal">Cancelar</button>
+								<button id="btnEditarBD"type="submit" class=" btn btn-success">Registrar Parámetro</button>
 							</div>
                            </form>
                        <?php 

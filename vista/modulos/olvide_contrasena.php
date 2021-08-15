@@ -1,15 +1,15 @@
 <?php
-  include "../../modelo/conexionbd.php";
+  //include "../../modelo/conexionbd.php";
 
   $objeto = 49;
 
-  $permiso = ("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
+  /*$permiso = ("SELECT permiso_insercion, permiso_eliminacion, permiso_actualizacion, permiso_consulta
                             FROM tbl_permisos
                             WHERE objeto_id = $objeto;");
 
   $resultado = mysqli_query($conn, $permiso);
 
-  while($mipermiso = mysqli_fetch_assoc($resultado)):
+  while($mipermiso = mysqli_fetch_assoc($resultado)):*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,7 +44,7 @@
 
     <form method="post">
       <div class="form-group has-feedback">
-        <input autocomplete="off" type="text" maxlength="50" id="correo" class="form-control" name="email" placeholder="Correo electrónico" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeyup="SinEspacio(this)">
+        <input autocomplete="off" type="text" maxlength="50" id="correo" class="form-control" name="email" placeholder="Ingrese su correo electrónico" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" onkeyup="SinEspacio(this)">
         <span class="glyphicon glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <br>
@@ -63,13 +63,15 @@
         </div>
 		<div class="form-group text-center">
       <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
-		  		<i class="fa fa-arrow-left"><a id="regresar" href="login.php" type="submit" class="btn btn-success btn-flat">Regresar</a></i>
+		  		<i class=""><a id="regresar" href="login.php" type="submit" class="btn btn-success btn-flat">Regresar</a></i>
 		  	</div>
 	  </div>
 	</form>
   </div>
 
 </div>
+
+<?php //endwhile;?>
 
 <script type="text/javascript">
 
@@ -87,13 +89,11 @@ window.onload = function(){
   }
 
 }
-
-  <?php endwhile;?>
 </script>
 
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="vista/dist/js/jquery-3.5.1.js"></script>
+<script src="../dist/js/jquery-3.5.1.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
