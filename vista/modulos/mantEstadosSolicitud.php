@@ -22,16 +22,6 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
       <br>
     </section>
 
-      <section class="content-header">
-        <h1>Mantenimiento<small> estado solicitud</small></h1>
-        <ol class="breadcrumb">
-          <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-          <li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
-          <li><a><i class="fa fa-users"></i> mantenimiento estado solicitud</a></li>
-        </ol>
-        <br>
-      </section>
-
       <section class="content">
 
         <div class="box">
@@ -172,8 +162,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarAct">Cerrar</button>
-            <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-success" type="text" value="Actualizar Estado Solicitud">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerrarAct">Cancelar</button>
+            <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-success" type="text" value="Actualizar">
           </div>
         </div>
       </div>
@@ -211,8 +201,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                   <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                 </div>
                 <div class="modal-footer">
-                  <button id="CerrarCrearES" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button id="registrar_estado" type="submit" name="ingresarProducto" class="btn btn-success">Registrar Estado</button>
+                  <button id="CerrarCrearES" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                  <button id="registrar_estado" type="submit" name="ingresarProducto" class="btn btn-success">Registrar</button>
                 </div>
             </form>
           </div>

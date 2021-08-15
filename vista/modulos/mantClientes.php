@@ -18,7 +18,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
       <h1>Mantenimiento<small> clientes</small></h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a><i class="fa fa-users"></i> Mantenimiento clientes</a></li>
+		<li><a href="mantClientes"><i  class="fa fa-users"></i> Mantenimiento clientes</a></li>
       </ol>
       <br>
     </section>
