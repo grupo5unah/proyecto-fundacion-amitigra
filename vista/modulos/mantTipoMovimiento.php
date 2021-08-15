@@ -159,7 +159,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<i aria-hidden="true">&times;</i>
 										</button>
-										<h3 class="modal-title" id="exampleModalLabel">Editar Movimiento</h3>
+										<h3 class="modal-title" id="exampleModalLabel">Actualizar Movimiento</h3>
 									</div>
 								</div>
 								<div class="modal-body">
@@ -179,7 +179,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 									<div class="modal-footer">
 										<button type="button" class="btn btn-danger" id="cerrarATM" data-dismiss="modal">Cancelar </button>
 
-										<button id="" type="submit" class="btn btn-success btnEditarBD">Editar Movimiento</button>
+										<button id="" type="submit" class="btn btn-success btnEditarBD">Actualizar</button>
 									</div>
 								</div> <!-- /.modal-body -->
 								<?php
@@ -217,7 +217,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<div class="modal-footer">
 											<button type="button" class="btn btn-danger" id="cerrarCTM" data-dismiss="modal">Cancelar</button>
 										
-											<button id="" type="submit" class="btn btn-success btnEditarBD">Crear Movimiento</button>
+											<button id="" type="submit" class="btn btn-success btnEditarBD">Registrar</button>
 									    </div>
 									</form>
 									<!-- /.cierre de formulario -->

@@ -106,8 +106,9 @@ $(document).ready( function(){
 
         swal({
             icon:"warning",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Desea salir?",
+            text: "Si acepta se perderá la información.",
+            buttons: ['Cancelar'," Aceptar"],
             dangerMode: true,
         })
         .then((willDelete) => {
@@ -115,7 +116,7 @@ $(document).ready( function(){
                 // contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
                 // $("#contraRestauracion").val("");
                 $("#modalPermisos").modal("close");
-            $("#modalRegistrarRol").modal("close");
+                $("#modalRegistrarRol").modal("close");
             } else {
 
                 $("#modalPermisos").modal("show");
@@ -131,7 +132,7 @@ $(document).ready( function(){
 
         swal({
             icon:"warning",
-            title: "¿Seguro que quieres salir?",
+            title: "¿Desea salir?",
             text:" Si acepta se perderá la información.",
             
             buttons:[ "Cancelar","Aceptar",], 

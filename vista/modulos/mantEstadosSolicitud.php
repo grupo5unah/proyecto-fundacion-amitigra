@@ -22,16 +22,6 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
       <br>
     </section>
 
-      <section class="content-header">
-        <h1>Mantenimiento<small> estado solicitud</small></h1>
-        <ol class="breadcrumb">
-          <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-          <li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
-          <li><a><i class="fa fa-users"></i> mantenimiento estado solicitud</a></li>
-        </ol>
-        <br>
-      </section>
-
       <section class="content">
 
         <div class="box">
