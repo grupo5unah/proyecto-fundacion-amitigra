@@ -217,7 +217,7 @@ if ($result->num_rows > 0) {
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarPermisos" data-dismiss="modal">Cancelar</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Permiso</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 							</div>
 						</div>
 					</div>

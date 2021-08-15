@@ -34,12 +34,16 @@ body {
   
 }
 .co{
-  position: relative;
+  /* position: relative; */
+  top: 20%;
+  left: 20%;
+  right: 20%;
 }
 .mo{
   position: absolute;
-  top: 5%;
-  left: 38%;
+  top: 20%;
+  left: 20%;
+  right: 24%;
   width: 100%;
   text-align: center;
   
