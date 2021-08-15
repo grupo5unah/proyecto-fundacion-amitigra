@@ -14,7 +14,15 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 ?>
 <div class="content-wrapper">
 	<!-- Main content -->
-	<section class="content">
+	<section class="content-header">
+        <h1> Reservaciones</h1>
+        <ol class="breadcrumb ">
+          <li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+         
+          <li class="  fw-bold"><a href="hotel"><i class="glyphicon glyphicon-bed"></i> Reservaciones</a></li>
+        </ol>
+      </section>
+		<section class="content">
  
 		<!-- Default box -->
 		<div class="box">
@@ -22,7 +30,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 				<!--LLamar al formulario aqui-->
 				<div class="row">
 					<div class="col-md-12">
-
+ 
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Reservaciones Hotel y Camping</div>
