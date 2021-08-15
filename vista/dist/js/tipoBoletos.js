@@ -244,7 +244,8 @@ $(document).ready(function () {
       const idTipoboleto = $(this).data('idtipoboleto');
       const idusua = document.querySelector('#id_usuario').value;
       const usuaactual = document.querySelector('#usuario_actual').value;
-      swal("Eliminar el Tipo de Boleto", "¿Esta seguro de eliminar el Tipo de Boleto?", "warning",{buttons: ["Cancelar", "Aceptar"]}).then(async (value) => {
+      swal("Eliminar el Tipo de Boleto", "¿Esta seguro de eliminar el Tipo de Boleto?", "warning",{buttons: ["Cancelar", "Aceptar"], 
+      dangerMode: true,}).then(async (value) => {
           if (value){
               //console.log(idReservacion);
               const formData = new FormData();

@@ -548,12 +548,10 @@ $(document).ready(function(){
   }
 
 
-  if(areaN === ""){
-    agregarN.prop('disabled', true);
-  }else{
-    agregarN.prop('disabled', false);
+  
+    
     agregarN.on("click", agregarCampingN);
-  }
+  
 
 
 

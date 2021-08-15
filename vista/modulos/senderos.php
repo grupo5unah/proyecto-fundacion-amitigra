@@ -60,8 +60,53 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</div> <!-- /div-action -->
                 <!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
                  porque tambien se aplica a todos los mantenimientos --> 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantSenderos">
-									<thead>
+				 <!--div class="remove-messages"></div>
+								 <div class="div-action pull pull-right" style="padding-bottom:20px;">
+								</div>
+
+								<div class="row">
+									<div class="col-lg-4">
+										<div class="input-group">
+											<p class="msj_error">Puedes realizar una búsqueda por rango de fecha:</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
+
+									<div id="datos_buscar" class="input-daterange">
+									
+										<div class="col-lg-2">
+										<label id="etiquetaConfirmar" for="floatingInput">Desde:</label>		
+										<div class="input-group">
+									    		<input autocomplete="off" type="text" name="start_date" id="start_date" class="form-control date-range-filter"/>
+									   		</div>
+									    </div>
+
+									    <div class="col-lg-2">
+											
+										    <div class="input-group">
+												<label id="etiquetaConfirmar" for="floatingInput">Hasta:</label>
+									    		<input autocomplete="off" type="text" name="end_date" id="end_date" class="form-control date-range-filter" />
+									   		</div>
+									    </div>
+									
+									</div>
+
+									<div class="col-lg-2">
+									<br>	
+									<div class="campos form-group">
+										<input type="button" name="search" id="search" value="filtrar" class="btn btn-info" />
+										
+										<input type="button" name="search" id="eliminar_bit" value="Eliminar" class="btn btn-danger" />
+									</div>
+								</div>
+
+								</div-->
+								<br>
+								<br>
+					<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantSenderos">
+					<thead style="background-color: #222d32; color: white;">
                     <tr>
                             <th>Numero<br>de Orden:</th>
                             <th>Tipo de Boleto:</th> 
@@ -84,7 +129,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   
 										<?php //Mando a llamar los datos que se ocupan para llenar la tabla obteniendo los datos de la  base de datos
 										try{
-                          $sql = "SELECT id_boletos_detalle, cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, tbl_tipo_boletos.descripcion, tbl_tipo_boletos.precio_venta, tbl_boletos.id_boletos_vendidos,  tbl_boletos.total_cobrado, tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad 
+                          $sql = "SELECT id_boletos_detalle, cantidad_boletos, sub_total, tbl_usuarios.nombre_usuario, tbl_tipo_boletos.nombre_tipo_boleto, 
+						  			tbl_tipo_boletos.descripcion, tbl_tipo_boletos.precio_venta, tbl_boletos.id_boletos_vendidos,  tbl_boletos.total_cobrado,
+									   tbl_boletos.fecha_creacion, tbl_localidad.nombre_localidad 
                                   FROM tbl_boletos_detalle
                                   INNER JOIN tbl_usuarios
                                   ON tbl_boletos_detalle.usuario_id=tbl_usuarios.id_usuario
@@ -286,8 +333,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																	</div>
 																</div>
 																<div class="col-md-6">																
-																	<div class="form-group">
-																		<label for="precioN">Precio de Boleto:</label><br><br><br><br>																
+																	<div class="campos form-group">
+																		<label for="precioN">Precio de Boleto:</label><br>																
 																		<input type="text" class="form-control" id="miprecio" disabled="true" placeholder="Precio del Boleto" value=""> 
 																	</div>
 																</div>
