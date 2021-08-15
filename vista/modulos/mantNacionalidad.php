@@ -16,11 +16,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 <div class="content-wrapper">
 
 	<section class="content-header">
-      <h1>Mantenimiento<small> nacionalidad</small></h1>
+      <h1>Mantenimiento<small> Nacionalidad</small></h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 		<li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
-		<li><a><i class="fa fa-users"></i> mantenimiento nacionalidad</a></li>
+		<li><a><i class="fa fa-users"></i> Mantenimiento Nacionalidad</a></li>
       </ol>
       <br>
     </section>
@@ -51,13 +51,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<tr>
 											<th>Nacionalidad</th>
 											<th>Creado Por</th>
-											<th>Fecha de Creacion</th>
+											<th>Fecha de Creación</th>
 											<th>Modificado por</th>
-											<th>Fecha de Modificacion</th>											
+											<th>Fecha de Modificación</th>											
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
 											
 											else:?>
-											<th>accion</th>
+											<th>Acciones</th>
 											<?php
 											endif;
 											?>
@@ -177,13 +177,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
 														<input id="ModificadoPoru" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
-														
+													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">	
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 												</div> <!-- /.modal form-group -->
 												<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+												<button type="button" id="cerrarEditarNacionalidad" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-													<button id=""type="submit" class="btn btn-primary btnEditarBD">Actualizar Nacionalidad</button>
+													<button id=""type="submit" class="btn btn-success btnEditarBD">Actualizar Nacionalidad</button>
 												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	
@@ -241,13 +241,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 														<input type="hidden"  name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>"> 											
 														<input id="CreadoPor" style="text-transform: uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" class="form-control modal-roles secundary" type="text" name="usuario_actual" value="<?= $usuario ?>" disabled="true"/>
 													</div>
-														
+													<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $_SESSION['id']; ?>">	
 													<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 												</div> <!-- /.modal form-group -->
 												<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+												<button type="button" id="cerrarNacionalidad" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
 													<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-													<button id=""type="submit" class="btn btn-primary btnEditarBD">Crear Nacionalidad</button>
+													<button id=""type="submit" class="btn btn-success btnEditarBD">Crear Nacionalidad</button>
 												</div>				
 											</div> <!-- /.post -->	
 										</div> <!-- /.tab-pane -->	

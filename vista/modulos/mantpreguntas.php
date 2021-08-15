@@ -169,7 +169,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarEditarp" data-dismiss="modal">Cancelar </button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar pregunta</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 							</div>
 						</div>
 					</div>
@@ -208,7 +208,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 						  </div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarModarCrearPre" data-dismiss="modal">Cancelar </button>
-								<button id=""type="submit" class="btn btn-success">Registrar Pregunta</button>
+								<button id=""type="submit" class="btn btn-success">Registrar</button>
 							</div>
                         </form>
                         <?php 

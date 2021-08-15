@@ -30,9 +30,7 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
 
 
       <?php  }
-      } else {
-        echo "0 results";
-      }
+      } 
 
 
       ?>
@@ -183,9 +181,9 @@ if ($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador") 
                 <!-- /.box-body -->
                 <!-- /.box-footer-->
                 <!-- modal movimientos -->
-                <div class="modal fade con" id="modalCrearMovimiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                  <div class="modal-dialog mo">
-                    <div class="modal-content ">
+                <div class="modal fade " id="modalCrearMovimiento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                  <div class="modal-dialog">
+                    <div class="modal-content mo">
                       <div class="modal-header">
                         <div class="d-flex justify-content-between ">
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">

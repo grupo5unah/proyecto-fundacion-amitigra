@@ -24,7 +24,7 @@ $(document).ready(function () {
         extend: "print",
         text: '<i class="fas fa-print">',
         titleAttr: "Imprimir",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
+        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
         messageTop: " REPORTE DE TIPOS DE SOLICITUDES",
         className: "btn btn-dark",
         exportOptions: {
@@ -35,7 +35,7 @@ $(document).ready(function () {
       },
       {
         extend: "excelHtml5",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
+        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
         text: '<i class="fas fa-file-excel">',
         className: "btn btn-success",
         messageTop: "REPORTE DE TIPOS DE SOLICITUDES",
@@ -85,7 +85,7 @@ $(document).ready(function () {
               alignment: "center",
             },
           };
-          
+
           moment.locale("es");
           var datetime = null,
             date = null;
@@ -108,7 +108,7 @@ $(document).ready(function () {
           };
           cols[1] = {
             width: "35%",
-            text: "FUNDACION AMIGOS DE LA TIGRA ",
+            text: "FUNDACIÓN AMIGOS DE LA TIGRA ",
             fontSize: 10,
             bold: true,
             alignment: "left",
@@ -139,7 +139,7 @@ $(document).ready(function () {
                 margin: [15, 15, 0, 15],
               },
               {
-                text: "Pagina " + currentPage + " de " + pageCount,
+                text: "Página " + currentPage + " de " + pageCount,
                 alignment: "center",
                 color: "black",
                 margin: [0, 15, 0, 15],
@@ -172,10 +172,8 @@ $(document).ready(function () {
         colvis: "Cambiar Colunnas",
         pageLength: "Mostrar Registros",
       },
-    },
-    language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
-    },
+      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+    }
   });
 
   $("#formTipoSolicitudes").submit(async function (e) {
@@ -226,11 +224,15 @@ $(document).ready(function () {
   });
 
   $("#cerrarTs").on("click", function () {
+    //limpiar cajas de texto al cerrar
+    $("#tipoSolicitud").val("");
+    $("#preciosolicitud").val("");
+
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -241,11 +243,15 @@ $(document).ready(function () {
     });
   });
   $("#cerrarTso").on("click", function () {
+    //limpiar cajas de texto al cerrar
+    $("#tipoSolicitud").val("");
+    $("#preciosolicitud").val("");
+
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -257,15 +263,18 @@ $(document).ready(function () {
   });
 
   //mantenimiento Solicitudes
-  //eliminar una solicitud
+  //eliminar un tipo de solicitud
   $(".btnEliminarTipoSolicitud").on("click", function () {
     const idtiposolicitud = $(this).data("idtiposolicitud");
     var usuario_actual = $("#usuario_actual").val();
     swal(
-      "Eliminar Tipo de Solicitud",
-      "Esta seguro de eliminar este tipo de solicitud",
+      "Eliminar tipo de solicitud",
+      "¿Esta seguro de eliminar este tipo de solicitud?",
       "warning",
-      { buttons: [true, "OK"] }
+      {
+        buttons: ["Cancelar", "Aceptar"],
+        dangerMode: true,
+      }
     ).then(async (value) => {
       if (value) {
         const formData = new FormData();
@@ -341,13 +350,13 @@ $(document).ready(function () {
     });
   });
 
-  //cerrar formulario crear tipo de solicitud
+  //cerrar formulario editar tipo de solicitud
   $("#cerrar_tipo").on("click", function () {
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -360,9 +369,9 @@ $(document).ready(function () {
   $("#cerrartiposol").on("click", function () {
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {

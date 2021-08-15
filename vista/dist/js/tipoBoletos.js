@@ -19,7 +19,7 @@ $(document).ready(function () {
               text:'<i class="fas fa-print">',
               titleAttr:'Imprimir',
               title:'FUNDACION AMIGOS DE LA TIGRA',
-              messageTop:' REPORTE DE TIPOS DE BOLETOS',
+              messageTop:' REPORTE TIPOS Y PRECIOS DE BOLETOS',
               className:'btn btn-dark',
               exportOptions: {
                 modifier: {
@@ -32,7 +32,7 @@ $(document).ready(function () {
                   title: 'FUNDACION AMIGOS DE LA TIGRA',
                   text:'<i class="fas fa-file-excel">',
                   className:'btn btn-success',
-                  messageTop: 'REPORTE DE TIPOS DE BOLETOS',
+                  messageTop: 'REPORTE TIPOS Y PRECIOS DE BOLETOS',
                   exportOptions: {
                     columns: [ 0, ':visible' ]
                 },
@@ -45,12 +45,11 @@ $(document).ready(function () {
                 titleAttr: 'Exportara a PDF',
                 orientation: 'portrait',
                 pageSize: 'A4',
-                title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                messageTop: ' REPORTE DE TIPOS DE BOLETOS.',
+                title:  'REPORTE TIPOS Y PRECIOS DE BOLETOS',               
                 Image:'fotoPerfil/foto1.png',
                 download: 'open',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5],
+                    columns: [0, 1, 2, 3, 4],
                     orthogonal: 'export'
                  },
                 customize: function(doc){
@@ -77,42 +76,69 @@ $(document).ready(function () {
                         }
                     };
     
-                    var cols = [];
-                    cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
-                    cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
-                    var objHeader = {};
-                    objHeader['columns'] = cols;
-                    doc['header'] = objHeader;
-    
-                     doc['content']['1'].layout = 'lightHorizontalLines';
-                     //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
-                     doc['content']['1'].style = 'Amitigra';
-    
-                    var objFooter = {};
-                    objFooter['alignment'] = 'center';
-                    doc["footer"] = function(currentPage, pageCount) {
-                        var footer = [
-                            {
-                                text: 'AmiTigra',
-                                alignment: 'left',
-                                color: 'black',
-                                margin:[15, 15, 0, 15]
-                            },{
-                                text: 'Pagina ' + currentPage + ' de ' + pageCount,
-                                alignment: 'center',
-                                color: 'black',
-                                margin:[0, 15, 0, 15]
-                            },{
-                                text: '',
-                                alignment: 'center',
-                                color: 'blsck',
-                                margin:[0, 15, 15, 15]
-                            },
-                            
-                        ];
-                        objFooter['columns'] = footer;
-                        return objFooter;
-                    };
+                    moment.locale("es");
+                var datetime = null,
+                  date = null;
+                var update = function () {
+                  moment.locale("es");
+                  date = moment(new Date());
+                  datetime.html(date.format("HH:mm:ss"));
+                  datetime2.html(date.format("dddd, MMMM DD YYYY"));
+                };
+                datetime = $('.time h1');
+                datetime2 = $('.time p');
+                update();
+                setInterval(update, 1000);
+                        
+
+                var cols = [];
+                cols[0] = {text: '', alignment: 'left', margin:[0, 0, 0, 0, 0] };
+
+                cols[1] = {
+                  width: '35%',
+                  text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+                  alignment: "left",
+                  margin: [25, 25, 5, 0],
+                  with:[30,30],
+                };
+
+                cols[2] = {
+                  text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+                  alignment: "right",
+                  margin: [10, 10, 15, 15],
+                };
+
+                var objHeader = {};
+                objHeader['columns'] = cols;
+                doc['header'] = objHeader;
+                 doc['content']['1'].layout = 'lightHorizontalLines';
+                 //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
+                 doc['content']['1'].style = 'FUNDACION AMITIGRA';
+                var objFooter = {};
+                objFooter['alignment'] = 'center';
+                doc["footer"] = function(currentPage, pageCount) {
+                    var footer = [
+                        {
+                            text:"",
+                            alignment: 'left',
+                            color: 'black',
+                            margin:[15, 15, 0, 15]
+                        },{
+                            text: 'Pagina ' + currentPage + ' de ' + pageCount,
+                            alignment: 'center',
+                            color: 'black',
+                            margin:[0, 15, 0, 15]
+                        },{
+                            text: '',
+                            alignment: 'center',
+                            color: 'blsck',
+                            margin:[0, 15, 15, 15]
+                        },
+                        
+                    ];
+                    objFooter['columns'] = footer;
+                    return objFooter;
+                };
                     doc.content.splice( 1, 0, {
                         margin: [ 0, 0, 0, 12 ],
                         width: 50,
@@ -132,11 +158,10 @@ $(document).ready(function () {
               buttons: {
                   colvis: 'Cambiar Colunnas',
                   pageLength:'Mostrar Registros'
-              }
+              },
+              url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
              },
-             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-          },
+            
        
     });
 
@@ -152,11 +177,12 @@ $(document).ready(function () {
         // info previa
         // con el data se imprime en la modal los datos que hay en la tabla
         const id_tipoboleto = $(this).data('idtipoboleto'); 
-        //const nombre_Boleto = $(this).data('nombreBoleto');
+        //const nombre_Boleto = $(this).data('nombre_Boleto');
         const descripcion_TB = $(this).data('descripcion');
         const precioVenta = $(this).data('precioV');
         const modificacionPor = $(this).data('modificacionP');
         const f_modificacion = $(this).data('fmodificacion');
+        const idusua = document.querySelector('#id_usuario').value;
         
         console.log(id_tipoboleto, descripcion_TB, precioVenta, modificacionPor, f_modificacion);
     
@@ -175,11 +201,12 @@ $(document).ready(function () {
             console.log(IdTipoBoleto);
             const formData = new FormData();
             formData.append('id_tipo_boleto', IdTipoBoleto);
-            //formData.append('nombre_tipo_boleto',$("#NombreBoleto").val());
+            //formData.append('nombre_tipo_boleto',nombre_Boleto);
             formData.append('descripcion',$("#Descripcion").val());
             formData.append('precio_venta',$("#PrecioV").val());            
             formData.append('modificado_por',$("#ModificacionPuser").val());
             formData.append('fecha_modificacion',$("#Fmodificacion").val());
+            formData.append('id_usuario', idusua);
            
             console.log(formData);
             
@@ -215,11 +242,15 @@ $(document).ready(function () {
        //BOTON PARA ELIMINAR tipo de Boleto (TABLA TIPO BOLETOS)
     $('.btnEliminarTipoBoleto').on('click', function (){
       const idTipoboleto = $(this).data('idtipoboleto');
-      swal("Eliminar el Tipo de Boleto", "¿Esta seguro de eliminar el Tipo de Boleto?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+      const idusua = document.querySelector('#id_usuario').value;
+      const usuaactual = document.querySelector('#usuario_actual').value;
+      swal("Eliminar el Tipo de Boleto", "¿Esta seguro de eliminar el Tipo de Boleto?", "warning",{buttons: ["Cancelar", "Aceptar"]}).then(async (value) => {
           if (value){
               //console.log(idReservacion);
               const formData = new FormData();
               formData.append('id_tipo_boleto', idTipoboleto);
+              formData.append('id_usuario', idusua);
+              formData.append('usuario_actual', usuaactual);
               const resp = await axios.post('./controlador/ctr.TipoBoleto.php?action=eliminarTipoBoleto', formData);
               const data = resp.data;
               //console.log(data);
@@ -243,13 +274,13 @@ $(document).ready(function () {
       $('#modalCrearTipoBoleto').modal('show');
      });
   
-     //PARA CREAR UNA NACIONALIDAD
+     //PARA CREAR UN TIPO DE BOLETO
      $("#formCrearTipoBoleto").submit(async function(e){
       e.preventDefault();
   
       var NombreTipoBoleto = $("#NombreBoletoN").val(), usuario_actual = $("#usuario_actual").val()
         Descripcion= $("#DescripcionN").val(), PrecioVenta= $("#PrecioVN").val();
-  
+        const idusua = document.querySelector('#id_usuario').value;
       console.log(NombreTipoBoleto, usuario_actual, Descripcion, PrecioVenta);
       if(NombreTipoBoleto != undefined && Descripcion != undefined && PrecioVenta != undefined && usuario_actual != undefined){
           // formdata sirve para enviar los datos al servidor        
@@ -258,7 +289,7 @@ $(document).ready(function () {
           registro.append('DescripcionN', Descripcion); 
           registro.append('PrecioVN', PrecioVenta);        
           registro.append('usuario_actual', usuario_actual);
-                  
+          registro.append('id_usuario', idusua);   
           const resp = await axios.post(`./controlador/ctr.TipoBoleto.php?action=registrarTipoBoleto`, registro);
   
           const data = resp.data;
@@ -267,7 +298,10 @@ $(document).ready(function () {
               return swal("Error", data.msj, "error");
           }
   
-          return swal("Correcto", data.msj, "success").then((value) => {
+          return swal("Correcto", data.msj, "success",{
+          buttons: false,
+            timer: 3000
+          }).then((value) => {
             if (value){
               // Se limpia el formulario            
               $("#NombreBoletoN").val('');
@@ -281,5 +315,42 @@ $(document).ready(function () {
       } 
     });
    
+   
   });
   
+  $("#cerrartipoboletos").on("click", function(){
+
+    swal({
+        icon:"warning",
+        title: "¿Desea Salir?",
+        text: "Si acepta se perderá la información",
+        buttons:["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            location.reload();
+        } else {
+        $("#modalCrearTipoBoleto").modal("show");
+        }
+    });
+    
+  });
+  $("#cerrareditartipoboletos").on("click", function(){
+
+    swal({
+        icon:"warning",
+        title: "¿Desea Salir?",
+        text: "Si acepta se perderá la información",
+        buttons:["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            location.reload();
+        } else {
+        $("#modalEditarTB").modal("show");
+        }
+    });
+    
+  });
