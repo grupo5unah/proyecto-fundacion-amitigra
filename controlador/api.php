@@ -41,105 +41,61 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
+        $id_usuario = $_POST['id_usuario'];
+        $objeto = $_POST['id_objeto'];
 
         if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_producto (nombre_producto,  precio_compra, descripcion,  tipo_producto_id,  estado_eliminado, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
+                $sql = $conn->prepare("INSERT INTO tbl_producto(nombre_producto,   descripcion, precio_compra, minimo, maximo, tipo_producto_id,  estado_eliminado, creado_por , fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
                 foreach ($cont as $valor) {
                     $nombre = $valor->nombre;
-                    $precio = $valor->precio;
+                    $precio = intval($valor->precio);
                     $descripcion = $valor->descripcion;
-                    $tipoP = $valor->id;
-
-                    $sql->bind_param("sisiissss", $nombre, $precio,  $descripcion,  $tipoP, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                    $minimo = intval($valor->minimo);
+                    $maximo =intval( $valor->maximo);
+                    $tipoP = intval($valor->id);
+                  
+                    $sql->bind_param("ssiiiiissss", $nombre, $descripcion, $precio, $minimo, $maximo,   $tipoP, $estado, $usuario_actual, $fecha, $usuario_actual, $fecha);
                     $sql->execute();
+                   
+                    if ($sql->error) {
+                        $res['msj'] = "Se produjo un error al momento de registrar el producto";
+                        $res['error'] = true;
+                    } else {
+                        $res['msj'] = "Producto Registrado Correctamente";
+                        $acciones = "REGISTRO";
+                        $descp = "SE REGISTRO UN NUEVO PRODUCTO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
+                    }
                 }
+                
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
         }
         break;
-    case 'registrarInventarioInicial': // REGISTRA UN PRODUCTO
-
-        $cont = json_decode($_POST['contProducto']);
-        $estado = 1;
-        $usuario_actual = $_POST['usuario_actual'];
-        $local = $_POST['local'];
-        $idorden = 0;
-        date_default_timezone_set("America/Tegucigalpa");
-        $fecha = date('Y-m-d H:i:s', time());
-
-        if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
-            $res['msj'] = 'Es necesario rellenar todos los campos';
-            $res['error'] = true;
-        } else {
-             try {
-                 $sql = $conn->prepare("INSERT INTO tbl_inventario (existencias, minimo, maximo, stock , estado_eliminar , producto_id, movimiento_id,  creado_por, fecha_creacion, modificado_por , fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-                 foreach ($cont as $valor) {
-                    $cantInicial =$valor->inicial;
-                    $minimo =$valor->minimo;
-                    $maximo =$valor->maximo;
-
-                 
-                 
-                 $sql->bind_param("iiiiiiissss", $cantInicial, $minimo,  $maximo, $cantInicial,  $estado, $lastid, $id,  $usuario_actual, $fecha, $usuario_actual, $fecha);
-                 $sql->execute();
-               }
-                if ($sql->error) {
-                    $res['msj'] = "Se produjo un error al momento de registrar el producto";
-                    $res['error'] = true;
-                } else {
-                    $res['msj'] = "Producto Registrado Correctamente";
-                }
-                //$sql->close();
-                // $sql = null;
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        }
-        break;
-    case 'registrarEntradaInicial': // REGISTRA UN PRODUCTO
-
-        $cont = json_decode($_POST['contProducto']);
-        $estado = 1;
-        $usuario_actual = $_POST['usuario_actual'];
-        $entrada = $_POST['entrada'];
-        $descripcion = 'ENTRADA INICIAL';
-        date_default_timezone_set("America/Tegucigalpa");
-        $fecha = date('Y-m-d H:i:s', time());
-        echo $lastid;
-        if (empty($_POST['contProducto']) || empty($_POST['usuario_actual'])) {
-            $res['msj'] = 'Es necesario rellenar todos los campos';
-            $res['error'] = true;
-        } else {
-            try {
-                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad, fecha_movimiento, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
-                foreach ($cont as $valor) {
-                    $cantInicial = $valor->inicial;
-                    
-
-
-                    $sql->bind_param("iisisssss", $lastid, $entrada, $descripcion, $cantInicial, $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
-                    $sql->execute();
-                }
-
-                //$sql->close();
-                // $sql = null;
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-        }
-        break;
+    
     case 'eliminarProducto':
         if (isset($_POST['id_producto'])) {
             $id_producto = $_POST['id_producto'];
+            date_default_timezone_set("America/Tegucigalpa");
+            $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objeto'];
             $sql = "UPDATE tbl_producto SET estado_eliminado = 0 WHERE id_producto = " . $id_producto;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Producto Eliminado  Correctamente";
+                $acciones = "ELIMINAR";
+                $descp = "SE ELIMINI UN  PRODUCTO";
+                $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el producto";
                 $res['error'] = true;
@@ -153,20 +109,34 @@ switch ($action) {
         if (
             isset($_POST['id_product'])
             && isset($_POST['nameP']) && isset($_POST['priceP'])   && isset($_POST['desc'])
-            && isset($_POST['typeP'])
+            && isset($_POST['typeP']) && isset($_POST['minimo']) && isset($_POST['maximo'])
         ) {
             $id_product = $_POST['id_product'];
             $nombreP = $_POST['nameP'];
             $costoP = $_POST['priceP'];
             $desc = $_POST['desc'];
+            $minimo = $_POST['minimo'];
+            $maximo = $_POST['maximo'];
             $tipoP = $_POST['typeP'];
             $usuario_actual = $_POST['usuario_actual'];
             date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
-
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objeto'];
             $sql = "UPDATE tbl_producto 
-                        SET nombre_producto = '$nombreP', precio_compra = '$costoP', descripcion = '$desc', tipo_producto_id =' $tipoP',  modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'     WHERE id_producto=  $id_product";
+                        SET nombre_producto = '$nombreP', precio_compra = '$costoP', descripcion = '$desc', tipo_producto_id =' $tipoP',minimo =' $minimo', maximo =' $maximo', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'     WHERE id_producto=  $id_product";
             $resultado = $conn->query($sql);
+            if ($resultado == 1) {
+                $res['msj'] = "Producto Edito  Correctamente";
+                $acciones = "ACTUALIZACIÓN";
+                        $descp = "SE ACTUALIZÓ UN  PRODUCTO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
+            } else {
+                $res['msj'] = "Se produjo un error al momento de Editar el producto ";
+                $res['error'] = true;
+            }
 
           
         } else {
@@ -176,69 +146,57 @@ switch ($action) {
         }
 
     break;
-    case 'actualizarMinimoMaximo':
-        if (
-            isset($_POST['id_inventario'])
-            && isset($_POST['minimo']) && isset($_POST['maximo'])  
-        ) {
-            
-            $id_inventario = $_POST['id_inventario'];
-            $minimo = $_POST['minimo'];
-            $maximo = $_POST['maximo'];
-            $usuario_actual = $_POST['usuario_actual'];
-            date_default_timezone_set("America/Tegucigalpa");
-            $fecha = date('Y-m-d H:i:s', time());
-            
-            $sql = "UPDATE tbl_inventario 
-                        SET minimo = $minimo, maximo = $maximo,   modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'     WHERE id_inventario=  $id_inventario";
-            $resultado = $conn->query($sql);
-
-            if ($resultado == 1) {
-                $res['msj'] = "Producto Edito  Correctamente";
-            } else {
-                $res['msj'] = "Se produjo un error al momento de Editar el producto ";
-                $res['error'] = true;
-            }
-        } else {
-
-            $res['msj'] = "Las variables no estan definidas";
-            $res['error'] = true;
-        }
-
-    break;
+  
 
     case 'registrarEntrada': // REGISTRA UN movimiento de entrada
 
-        $cont = json_decode($_POST['contMovi']);
+        $id_producto = $_POST['id_producto'];
+        $cantInicial = $_POST['cantidad'];
+        $descripcion = $_POST['descripcion'];
+        $id_movimiento = $_POST['id_movimiento'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
-        //$entrada = $_POST['entrada'];
-        //$descripcion= 'ENTRADA INICIAL';
+        $inventario_id = $_POST['id_inventario'];
+        $movimiento = $_POST['nombre_movimiento'];
+        $rev = 'ENTRADA';
+        $pos = strripos($movimiento, $rev);
+      
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
-        echo $lastid;
-        if (empty($_POST['contMovi']) || empty($_POST['usuario_actual'])) {
+        $id_usuario = $_POST['id_usuario'];
+        $objeto = $_POST['id_objeto'];
+        
+        if (empty('id_producto') || empty($_POST['usuario_actual']) || empty($_POST['cantidad']) || empty($_POST['descripcion'])|| empty($_POST['id_movimiento'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento,  creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?)");
-                foreach ($cont as $valor) {
-                    $id_producto = $valor->nombreID;
-                    $cantInicial = $valor->cantidad;
-                    $descripcion = $valor->descripcion;
-                    $entrada=$valor->id_movimiento;
-
-                    $sql->bind_param("iisisssss", intval($id_producto), intval($entrada), $descripcion, intval($cantInicial), $fecha, $usuario_actual, $fecha, $usuario_actual, $fecha);
+                
+                $sql = $conn->prepare("INSERT INTO tbl_movimientos (producto_id, tipo_movimiento_id, descripcion, cantidad,fecha_movimiento, inventario_id, creado_por, fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?,?,?,?,?)");
+                    $sql->bind_param("iisisissss", intval($id_producto), intval($id_movimiento), $descripcion, intval($cantInicial), $fecha, intval($inventario_id), $usuario_actual, $fecha, $usuario_actual, $fecha);       
                     $sql->execute();
-                   
-                }
 
-                //$sql->close();
-                // $sql = null;
-            } catch (Exception $e) {
+                    if ($sql->error) {
+                        $res['msj'] = "Se produjo un error al momento de adicion el producto ";
+                        $res['error'] = true;
+     
+                    } else {
+                        $res['msj'] = "Producto adicionado  Correctamente";
+                        $acciones = "REGISTRO";
+                        $descp = "SE REGISTRO UN NUEVO MOVIMIENTO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
+                    }
+                    
+                    
+    
+
+             } catch (Exception $e) {
                 echo $e->getMessage();
             }
+
+            
         }
     break;
         //actualiza el inventario
@@ -246,47 +204,55 @@ switch ($action) {
         if (
              isset($_POST['usuario_actual'])
         ) {
-            $cont = json_decode($_POST['contMovi']);
-            //$id_inventario = $_POST['id_inventario'];
-           // $stock = $_POST['stock'];
+            
+            $id_inventario = $_POST['id_inventario'];
+            $cantInicial = $_POST['cantidad'];
+            $stock = $_POST['stock'];
             $usuario_actual = $_POST['usuario_actual'];
             date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
-            //$movimiento = $_POST['nombre_movimiento'];
-            
-            //echo $stock;
-            foreach ($cont as $valor) {
-                $movimiento=$valor->movimiento;
-                $cantInicial = $valor->cantidad;
-                $local = $valor->id;
-                $id_inventario=$valor->id_inventario;
-                $stock = $valor->stock;
-                $rev = 'ENTRADA';
-                $pos = strripos($movimiento, $rev);
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objeto'];
+            $movimiento = $_POST['nombre_movimiento'];
+            $local  = $_POST['id_localidad'];  
+            $rev = 'ENTRADA';
+            $pos = strripos($movimiento, $rev);
+                
                 if ($pos === false) {
-                   if($stock > $cantInicial) {
+                   if($stock >= $cantInicial) {
                    $nuevoStock=intval($stock) - intval($cantInicial);    
                   
-                    $sql = "UPDATE tbl_inventario SET existencias = '$nuevoStock', stock = '$nuevoStock', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario=". $id_inventario;
+                    $sql = "UPDATE tbl_inventario SET  stock = '$nuevoStock', localidad_id='$local', creado_por = '$usuario_actual', fecha_creacion = '$fecha', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'   WHERE id_inventario=". $id_inventario;
                     $resultado = $conn->query($sql);
                     
                   }
+                    if ($resultado == 1) {
+                    $res['msj'] = "Producto adicionado  Correctamente";
+                    } else {
+                    $res['msj'] = "Se produjo un error al momento de adicion el producto ";
+                    $res['error'] = true;
+                    }
                 } else{
-                    $stockTotal=$stock+$cantInicial;
+                    
+                    $stockTotal=intval($stock)+intval($cantInicial);
                    
-                    $sql = "UPDATE tbl_inventario SET existencias = '$stockTotal', stock = '$stockTotal', localidad_id='$local', movimiento_id = '$id' WHERE id_inventario= ". $id_inventario;
+                    $sql = "UPDATE tbl_inventario SET  stock = '$stockTotal', localidad_id='$local', creado_por = '$usuario_actual', fecha_creacion = '$fecha', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha'  WHERE id_inventario= ". $id_inventario;
                     $resultado = $conn->query($sql);
+                    
+                    if ($resultado == 1) {
+                        $res['msj'] = "Producto adicionado  Correctamente";
+                        $acciones = "ACTUALIZACIÓN";
+                        $descp = "SE ACTUALIZÓ PRODUCTO DE INVENTARIO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
+                    } else {
+                        $res['msj'] = "Se produjo un error al momento de adicion el producto ";
+                        $res['error'] = true;
+                    }
                     
                    
                 }
-   
-            }
-            if ($resultado == 1) {
-                $res['msj'] = "Producto adicionado  Correctamente";
-            } else {
-                $res['msj'] = "Se produjo un error al momento de adicion el producto ";
-                $res['error'] = true;
-            }
 
         } else {
 
@@ -325,6 +291,7 @@ switch ($action) {
     // traer tipo Movimientos
     case 'obtenerTipoMovimiento': // OBTIENE  POR NOMBRE
         $movimiento = $_GET['movimiento'];
+        
         $sql = "SELECT 
         movimiento, id_tipo_movimiento
         FROM tbl_tipo_movimiento WHERE movimiento = '" . $movimiento . "'";
@@ -342,14 +309,16 @@ switch ($action) {
         $usuario_actual = $_POST['usuario_actual'];
         date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
+        $id_usuario = $_POST['id_usuario'];
+        $objeto = $_POST['id_objeto'];
 
         if (empty($_POST['movimiento'])   || empty($_POST['usuario_actual'])) {
             $res['msj'] = 'Es necesario rellenar todos los campos';
             $res['error'] = true;
         } else {
             try {
-                $sql = $conn->prepare("INSERT INTO tbl_tipo_movimiento(movimiento, creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?)");
-                $sql->bind_param("sssss", $movimiento,  $usuario_actual, $fecha, $usuario_actual, $fecha);
+                $sql = $conn->prepare("INSERT INTO tbl_tipo_movimiento(movimiento, estado_eliminado,creado_por,fecha_creacion, modificado_por, fecha_modificacion) VALUES (?,?,?,?,?,?)");
+                $sql->bind_param("sissss", $movimiento,$estado,  $usuario_actual, $fecha, $usuario_actual, $fecha);
                 $sql->execute();
 
                 if ($sql->error) {
@@ -357,6 +326,11 @@ switch ($action) {
                     $res['error'] = true;
                 } else {
                     $res['msj'] = "Tipo Movimiento Registrado Correctamente";
+                    $acciones = "REGISTRO";
+                        $descp = "SE REGISTRO UN NUEVO TIPO MOVIMIENTO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 }
                 // $sql->close();
                 // $sql = null;
@@ -375,6 +349,8 @@ switch ($action) {
             $usuario_actual = $_POST['usuario_actual'];
             date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objeto'];
            
             $sql = "UPDATE tbl_tipo_movimiento SET movimiento = '$nombre', modificado_por = '$usuario_actual', fecha_modificacion = '$fecha' WHERE id_tipo_movimiento=" .$id_mo;          
             $resultado = $conn->query($sql);
@@ -382,6 +358,11 @@ switch ($action) {
             if ($resultado == 1) {
                 //print_r($resultado);
                 $res['msj'] = "Tipo Movimiento se  Edito  Correctamente";
+                $acciones = "ACTUALIZACIÓN";
+                $descp = "SE ACTUALIZÓ UN TIPO DE MOVIMIENTO";
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Tipo Movimiento ";
                 $res['error'] = true;
@@ -396,10 +377,19 @@ switch ($action) {
     case 'eliminarTipoMovimiento':
         if (isset($_POST['id_movimiento'])) {
             $id_mo = $_POST['id_movimiento'];
+            date_default_timezone_set("America/Tegucigalpa");
+            $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = $_POST['id_usuario'];
+            $objeto = $_POST['id_objeto'];
             $sql = "DELETE from tbl_tipo_movimiento WHERE id_tipo_movimiento=  " . $id_mo;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Tipo Movimiento Eliminado  Correctamente";
+                $acciones = "ELIMINAR";
+                $descp = "SE ELIMINO UN TIPO MOVIMIENTO";
+                $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Tipo de Movimiento";
                 $res['error'] = true;
@@ -411,7 +401,7 @@ switch ($action) {
     break;
     default:
 
-        break;
+    break;
 }
 
 $conn->close();

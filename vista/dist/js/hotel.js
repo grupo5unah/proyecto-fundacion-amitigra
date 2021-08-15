@@ -124,6 +124,9 @@ function soloNumero(e){
 espacio_Letras = function(input) {
   input.value = input.value.replace('  ', ' ');
 }
+
+
+
 $(document).ready(function () {
 
   //TABLA DE RESERVACIONES PARA HOTEL
@@ -183,6 +186,7 @@ $(document).ready(function () {
           {
               extend: 'excelHtml5',
               title: 'FUNDACION AMIGOS DE LA TIGRA',
+              titleAttr:'Excel',
               text:'<i class="fas fa-file-excel">',
               className:'btn btn-success',
               messageTop: 'REPORTE DETALLE DE RESERVACIONES.',
@@ -198,8 +202,7 @@ $(document).ready(function () {
             titleAttr: 'Exportara a PDF',
             orientation: 'portrait',
             pageSize: 'A4',
-            title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-            messageTop: ' REPORTE DETALLE DE RESERVACIONES.',
+            title:  'REPORTE DETALLE DE RESERVACIONES.',
             Image:'fotoPerfil/foto1.png',
             download: 'open',
             exportOptions: {
@@ -230,42 +233,69 @@ $(document).ready(function () {
                     }
                 };
 
-                var cols = [];
-                cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
-                cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
-                var objHeader = {};
-                objHeader['columns'] = cols;
-                doc['header'] = objHeader;
+                 moment.locale("es");
+                    var datetime = null,
+                        date = null;
 
-                 doc['content']['1'].layout = 'lightHorizontalLines';
-                 //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
-                 doc['content']['1'].style = 'Amitigra';
+                    var update = function () {
+                        moment.locale("es");
+                        date = moment(new Date());
+                        datetime.html(date.format("HH:mm:ss"));
+                        datetime2.html(date.format("dddd, MMMM DD YYYY"));
+                    };
+                    datetime = $('.time h1');
+                    datetime2 = $('.time p');
+                    update();
+                    setInterval(update, 1000);
+    
+                    var cols = [];
+                    cols[0] = {text: '', alignment: 'left', margin:[0, 0, 0, 0, 0] };
 
-                var objFooter = {};
-                objFooter['alignment'] = 'center';
-                doc["footer"] = function(currentPage, pageCount) {
-                    var footer = [
-                        {
-                            text: 'AmiTigra',
-                            alignment: 'left',
-                            color: 'black',
-                            margin:[15, 15, 0, 15]
-                        },{
-                            text: 'Pagina ' + currentPage + ' de ' + pageCount,
-                            alignment: 'center',
-                            color: 'black',
-                            margin:[0, 15, 0, 15]
-                        },{
-                            text: '',
-                            alignment: 'center',
-                            color: 'blsck',
-                            margin:[0, 15, 15, 15]
-                        },
-                        
-                    ];
-                    objFooter['columns'] = footer;
-                    return objFooter;
-                };
+                    cols[1] = {
+                    width: '35%',
+                    text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+                    alignment: "left",
+                    margin: [25, 25, 5, 0],
+                    with:[30,30],
+                    };
+
+                    cols[2] = {
+                    text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+                    alignment: "right",
+                    margin: [10, 10, 15, 15],
+                    };
+                    
+                    var objHeader = {};
+                    objHeader['columns'] = cols;
+                    doc['header'] = objHeader;
+                    doc['content']['1'].layout = 'lightHorizontalLines';
+                    //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
+                    doc['content']['1'].style = 'FUNDACION AMITIGRA';
+                    var objFooter = {};
+                    objFooter['alignment'] = 'center';
+                    doc["footer"] = function(currentPage, pageCount) {
+                        var footer = [
+                            {
+                                text:"",
+                                alignment: 'left',
+                                color: 'black',
+                                margin:[15, 15, 0, 15]
+                            },{
+                                text: 'Pagina ' + currentPage + ' de ' + pageCount,
+                                alignment: 'center',
+                                color: 'black',
+                                margin:[0, 15, 0, 15]
+                            },{
+                                text: '',
+                                alignment: 'center',
+                                color: 'blsck',
+                                margin:[0, 15, 15, 15]
+                            },
+                            
+                        ];
+                        objFooter['columns'] = footer;
+                        return objFooter;
+                    };
                 doc.content.splice( 1, 0, {
                     margin: [ 0, 0, 0, 12 ],
                     width: 50,
@@ -283,14 +313,13 @@ $(document).ready(function () {
         language: {
           buttons: {
               colvis: 'Cambiar Colunnas',
-              pageLength:'Mostrar Registros'
-          }
-         },
-         "language": {
-          "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-      },
+              pageLength:'Mostrar Registros',
+          },
+          url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+        }
    
 });
+
 
    //Date picker para fecha reservacion Jutiapa
    $('#reservacion').datepicker({
@@ -307,7 +336,6 @@ $(document).ready(function () {
     
     /*esta funciona permite que el input de la fecha salida este desabilitado mientras no se haya eleguido
     la fecha de entrada*/
-    $('#salida').attr("disabled", false);
     $('#salida').attr("readonly", false);
 
     //validando que mientras la fecha de entrada no se elija no muestre el calendario
@@ -374,9 +402,6 @@ $(document).ready(function () {
       
     })
   })
-
-  
-  
   
   //FUNCION PARA REGISTRAR UN CLIENTE EN HOTEL Y CAMPING
   $(".btnGuardarCliente").click(async function(e){
@@ -486,27 +511,194 @@ $(document).ready(function () {
     if(local==1){
       $('.jutiapa').slideDown();
       $('.rosario').slideUp();
+      $('#registre').slideDown();
+      $('#registre').slideUp();
+      //ELEGIR NACIONALIDAD PARA REALIZAR RESERVACION
+      $('#nacionalid').change(function() {
+
+        //VALIDACIONES
+          var nacionalid = $(this).val();
+          //console.log(local);
+          if(nacionalid){
+            $('#habitacionN').removeAttr('disabled');
+            $('#habitacionN').change(function(){
+              var habita = $(this).val();
+              if(habita){
+                $('#cantAN').removeAttr('disabled');
+                $('#cantNN').removeAttr('disabled');
+                
+              }else{
+                $('#cantAN').attr('disabled','disabled');
+                $('#cantNN').attr('disabled','disabled');
+              }
+              
+            });
+          }else{
+            $('#habitacionN').attr('disabled','disabled');
+          }
+
+      const habit = $('#habitacionN');
+      const cantiadulto = $('#cantAN');
+      const preadulto= $('#precioAdultoN');
+      const cantinino = $('#cantNN');
+      const prenino= $('#precioNinoN');
+
+     
+    var tiponacionalid = $(this).val();
+    //console.log(local);
+      if(tiponacionalid ==1){
+        const lempir = $('.moned');
+        lempir.empty();
+        lempir.append(
+          '<span>L.</span>',
+        );
+        $('#habitacionN').change(function() {
+          let preciohotel = document.querySelector("#habitacionN").value;
+          
+          //console.log(precio);
+          $.ajax({
+            type:"POST",
+            url:'./controlador/preciohoteln.php',
+            datatype:"json",
+            data:{ preciohotel:preciohotel},
+            success:function(json){
+              console.log(json);
+              let convertir = JSON.parse(json)
+
+              $('#precioAdultoN').val(convertir.reserv);
+              $('#precioNinoN').val(convertir.reservnino);
+            }
+          });
+        });
+      }else{
+        const dolar = $('.moned');
+        dolar.empty();
+        dolar.append(
+          '<span>$.</span>'
+        );
+
+        habit.val("");
+        cantiadulto.val("");
+        preadulto.val("");
+        cantinino.val("");
+        prenino.val("");
+        $('#habitacionN').change(function() {
+          let preciohotele = document.querySelector("#habitacionN").value;
+
+          //console.log(precio);
+          $.ajax({
+            type:"POST",
+            url:'./controlador/preciohotele.php',
+            datatype:"json",
+            data:{ preciohotele:preciohotele},
+            success:function(json){
+              console.log(json);
+              let convertire = JSON.parse(json)
+
+              $('#precioAdultoN').val(convertire.reserve);
+              $('#precioNinoN').val(convertire.reservninoe);
+            }
+          });
+        });
+      }
+    });
     }else{
       $('.rosario').slideDown();
       $('.jutiapa').slideUp();
+      $('#registro').slideDown();
+      $('#registro').slideUp();
+      
+      $('#nacionalid').change(function() {
+
+        //VALIDACIONES
+        var nacionalida = $(this).val();
+        //console.log(local);
+        if(nacionalida){
+          $('#hnr').removeAttr('disabled');
+          $('#hnr').change(function(){
+            var habitar = $(this).val();
+            if(habitar){
+              $('#anr').removeAttr('disabled');
+              $('#nnr').removeAttr('disabled');
+              
+            }else{
+              $('#anr').attr('disabled','disabled');
+              $('#nnr').attr('disabled','disabled');
+            }
+            
+          });
+        }else{
+          $('#hnr').attr('disabled','disabled');
+        }
+
+
+         const habi = $('#hnr');
+          const cantiadultor = $('#anr');
+          const preadultor= $('#pnar');
+          const cantininor = $('#nnr');
+          const preninor= $('#pnnr');
+    
+         
+        var tiponacionalid = $(this).val();
+        //console.log(local);
+        if(tiponacionalid ==1){
+          const lempi = $('.mone');
+          lempi.empty();
+          lempi.append(
+            '<span>L.</span>',
+          );
+          $('#hnr').change(function() {
+            let preciohotelr = document.querySelector("#hnr").value;
+            
+            //console.log(precio);
+            $.ajax({
+              type:"POST",
+              url:'./controlador/preciohotelrn.php',
+              datatype:"json",
+              data:{ preciohotelr:preciohotelr},
+              success:function(json){
+                console.log(json);
+                let convertir = JSON.parse(json)
+    
+                $('#pnar').val(convertir.reservrn);
+                $('#pnnr').val(convertir.reservninorn);
+              }
+            });
+          });
+        }else{
+          const dolar = $('.moned');
+          dolar.empty();
+          dolar.append(
+            '<span>$.</span>'
+          );
+    
+          habi.val("");
+          cantiadultor.val("");
+          preadultor.val("");
+          cantininor.val("");
+          preninor.val("");
+          $('#hnr').change(function() {
+            let preciohoteler = document.querySelector("#hnr").value;
+    
+            //console.log(precio);
+            $.ajax({
+              type:"POST",
+              url:'./controlador/preciohotelre.php',
+              datatype:"json",
+              data:{ preciohoteler:preciohoteler},
+              success:function(json){
+                console.log(json);
+                let convertire = JSON.parse(json)
+    
+                $('#pnar').val(convertire.reserver);
+                $('#pnnr').val(convertire.reservninoer);
+              }
+            });
+          });
+        }
+      });
     }
   });
-  //VALIDAR BOTON DE EXTRANJEROS Y NACIONALES
-  $('#extranjeros' ).on( 'click', function(e) {
-    e.preventDefault();
-      $('.extranjero').slideDown();
-      $('.nacional').slideUp();
-      $('.nacionales').slideDown();
-      $('.extranjeros').slideUp();
-  });
-  $('#nacionales' ).on( 'click', function(e) {
-    e.preventDefault();
-    $('.extranjero').slideUp();
-    $('.nacional').slideDown();
-    $('.nacionales').slideUp();
-    $('.extranjeros').slideDown();
-  });
-
 
   //VALIDAR BOTONES CUANDO LOS CAMPOS ESTEN LLENOS
   $('#identidad').keyup( function(e){
@@ -530,23 +722,14 @@ $(document).ready(function () {
     }
   });
 
-  
-  $('#sale').change(function(e){
-    e.preventDefault();
-    //console.log('funciona');
-    salida= $(this).val();
-    console.log(salida);
-    if(salida){
-      $('#.btnSigue').attr("disabled", false);
-    }
-  })
+
   //MOSTAR ALERTA SI DESEA CANCELAR 
-  $('#cancelar').on('click', function(e){
+  $('.cancelacionhotel').on('click', function(e){
     swal({
       icon: "warning",
-      title: "cancelar",
-      text: "¿Esta seguro que quiere ejecutar esta accion?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar","Aceptar"],
       dangerMode: true,
     })
     .then((willDelete) =>{
@@ -554,43 +737,45 @@ $(document).ready(function () {
         location.reload();
       }else{
         $('#modalReservaHotel').modal('show');
-      }
-    })
-  });
-  //MOSTAR ALERTA SI DESEA CANCELAR desde la x de la ventana modal
-  $('#cancelar2').on('click', function(e){
-    swal({
-      icon: "warning",
-      title: "cancelar",
-      text: "¿Esta seguro que quiere ejecutar esta accion?",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) =>{
-      if(willDelete){
-        location.reload();
-      }else{
-        $('#tipoReserva').modal('show');
       }
     })
   });
 
-  $('#cancelarh').on('click', function(e){
+  $('.cancelacioneditarreserva').on('click', function(e){
     swal({
       icon: "warning",
-      title: "cancelar",
-      text: "¿Esta seguro que quiere ejecutar esta accion?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar","Aceptar"],
       dangerMode: true,
     })
     .then((willDelete) =>{
       if(willDelete){
         location.reload();
       }else{
-        $('#modalReservaHotel').modal('show');
+        $('#modalEditarReservacion').modal('show');
       }
     })
   });
+
+  $('.cancelacionsalidareserva').on('click', function(e){
+    swal({
+      icon: "warning",
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar","Aceptar"],
+      dangerMode: true,
+    })
+    .then((willDelete) =>{
+      if(willDelete){
+        location.reload();
+      }else{
+        $('#modalsalidaReservacion').modal('show');
+      }
+    })
+  });
+  
+ 
 
   //NUEVA RESERVACION
   $('.btnCrearReservacion ').on('click', function() {
@@ -611,8 +796,7 @@ $(document).ready(function () {
   $('#btnimprimir').click(function(e){
     e.preventDefault();
     var ver = document.querySelector('#formDetalle');
-    var imprimir = window.open(' ', '');
-        //imprimir.document.write('<link rel="stylesheet" href="vista/dist/css/estiloReserva.css">');
+    var imprimir = window.open(' ', '')
         imprimir.document.write( ver.innerHTML );
         
         //imprimir.focus();
@@ -643,11 +827,10 @@ $(document).ready(function () {
          <div class="user col-6">
          <p class="">Reservación N° ${numero}</p>
          <label for="" id="fecha">Fecha de Reservacion: <span>${fechaReserva}</span></label>
-         <img style=" width: 70px; height: 70px; transform: translate(150%, -55%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
-         <span style="font-size:16px;" class="user"> Vendedor: ${usuario}</span> 
-         <br>
-         <span style=" font-size:16px; transform: translate(20%, -100%);" class="local col-6">Localidad: ${localidad}</span>
-         
+         <img style=" width: 70px; height: 70px; transform: translate(250%, -50%);" src="vista/dist/img/logo.png" alt="imagen"> <br>
+         <span style="font-size:16px;" class="user"> Vendedor: ${usuario}</span>
+         <div style=" font-size:16px; transform: translate(30%, -100%);"><span class="local col-6">Localidad: ${localidad}</span>
+         </div>
          
          <p class="">Datos del Cliente:</p>
          <div class="col-md-6" >
@@ -703,6 +886,59 @@ $(document).ready(function () {
     }
 });
 
+//MARCAR SALIDA
+$('.btnSalida').click(async function (e) {
+  e.preventDefault();
+  
+  const idreservacionsalida = $(this).data('idsalidareserva'); 
+  const habiarea = $(this).data('habiarea');
+  const arti = $(this).data('arti');
+  const clie = $(this).data('salidacliente');
+  const idusuario = document.querySelector('#id_usuario').value;
+
+  //$("#idreservacion").val(idreservacion),
+  $("#clie").val(clie),
+  $("#habiarea").val(habiarea),
+  $("#artihab").val(arti),
+  $("#id_usuario").val(idusuario);
+  //mostrar el modal
+  $('#modalsalidaReservacion').modal('show');
+  //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
+  $('.btnsalida').on('click', async function() {
+      var idresersalida = Number(idreservacionsalida); 
+      console.log(idresersalida);
+      const formData = new FormData();
+      formData.append('id_reserva', idresersalida);
+      formData.append('clien',$("#clie").val());
+      formData.append('habiarea',$("#habiarea").val());
+      formData.append('arti',$("#artihab").val());
+      formData.append('iduh',$("#id_usuario").val());
+     
+      console.log(formData);
+      
+     const resp = await axios.post('./controlador/ctrhotel.php?action=salidaReservacion', formData);
+     const data = resp.data;
+      console.log(data);
+      if(data.error){
+          return swal("Error", data.msj, "error", {
+              timer:3000,
+              buttons:false
+          });
+      } else{
+          $('#modalsalidaReservacion').modal('hide');
+          return swal("Exito!", data.msj, "success", {
+              timer:3000,
+              buttons:false
+          }).then(() => {
+              location.reload(); 
+          })
+      }
+          
+  });
+          
+      
+  
+});
 
   
    //BOTON EDITAR MODAL (TABLA HOTEL)
@@ -715,6 +951,7 @@ $(document).ready(function () {
     const salida = $(this).data('salida');
     const cliente = $(this).data('cliente');
     const localidad = $(this).data('localidad');
+    const idusuario = document.querySelector('#id_usuario').value;
 
     //$("#idreservacion").val(idreservacion),
     $("#cli").val(cliente),
@@ -722,6 +959,7 @@ $(document).ready(function () {
     $("#fEntrada").val(entrada),
     $("#fSalida").val(salida),
     $("#local").val(localidad)
+    $("#id_usuario").val(idusuario);
     //mostrar el modal
     $('#modalEditarReservacion').modal('show');
     //BOTON PARA QUE ACTUALICE LA BASE DE DATOS
@@ -733,6 +971,7 @@ $(document).ready(function () {
         formData.append('reservacion',$("#fReservacion").val());
         formData.append('entrada',$("#fEntrada").val());
         formData.append('salida',$("#fSalida").val());
+        formData.append('idu',$("#id_usuario").val());
        
         console.log(formData);
         
@@ -764,11 +1003,14 @@ $(document).ready(function () {
   //BOTON PARA ELIMINAR RESERVACION (TABLA HOTEL)
   $('.btnEliminarReservacion').on('click', function (){
     const idReservacion = $(this).data('idreser');
-    swal("Eliminar Reservación", "¿Esta seguro de eliminar esta Reservación?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+    const idusua = document.querySelector('#id_usuario').value;
+    swal("Eliminar Reservación", "¿Esta seguro de eliminar esta Reservación?", "warning",{buttons: ["Cancelar", "Aceptar"],
+    dangerMode: true,}).then(async (value) => {
         if (value){
             console.log(idReservacion);
             const formData = new FormData();
             formData.append('id_reservacion', idReservacion);
+            formData.append('id_user', idusua);
             const resp = await axios.post('./controlador/ctrhotel.php?action=eliminarReservacion', formData);
             const data = resp.data;
             //console.log(data);

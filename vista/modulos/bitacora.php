@@ -18,7 +18,6 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
       <h1>Bitácora <small> Acciones realizadas</small></h1>      
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="panel"><i class="fa fa-cogs"></i> Panel de control</a></li>
         <li class="active"><i class="fa fa-user"></i> Bitácora</li>
       </ol>
     </section>
@@ -38,29 +37,70 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 							<div class="panel-heading">
 								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Lista de acciones realizadas</div>
 							</div>
+
+
 							<div class="panel-body">
 								<div class="remove-messages"></div>
-								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-
+								  <div class="div-action pull pull-right" style="padding-bottom:20px;">
 								</div>
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerBitacora">
-									<thead>
-										<tr>
+								<div class="row">
+									<div class="col-lg-4">
+										<div class="input-group">
+											<p class="msj_error">Puedes realizar una búsqueda por rango de fecha:</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
 
+									<div id="datos_buscar" class="input-daterange">
+									
+										<div class="col-lg-2">
+										<label id="etiquetaConfirmar" for="floatingInput">Desde:</label>		
+										<div class="input-group">
+									    		<input autocomplete="off" type="text" name="start_date" id="start_date" class="form-control date-range-filter"/>
+									   		</div>
+									    </div>
+
+									    <div class="col-lg-2">
+											
+										    <div class="input-group">
+												<label id="etiquetaConfirmar" for="floatingInput">Hasta:</label>
+									    		<input autocomplete="off" type="text" name="end_date" id="end_date" class="form-control date-range-filter" />
+									   		</div>
+									    </div>
+									
+									</div>
+
+									<div class="col-lg-2">
+									<br>	
+									<div class="input-group">
+										<input type="button" name="search" id="search" value="filtrar" class="btn btn-info" />
+										
+										<input type="button" name="search" id="eliminar_bit" value="Eliminar" class="btn btn-danger" />
+									</div>
+								</div>
+
+								</div>
+								<br>
+								<br>
+
+								<table id="managerBitacora" data-page-length='10' class=" display table table-hover table-condensed table-bordered">
+								
+								<thead>
+										<tr>
 											<th>Acción</th>
 											<th>Descripción</th>
                       						<th>Fecha acción</th>
                       						<th>Usuario</th>
 											<th>Objeto</th>
 											<th>Acciones</th>
-
 										</tr>
 									</thead>
 									<tbody>
 										<?php
 										try {
-
 
 											$sql = "SELECT id_bitacora, accion, descripcion_bitacora, fecha_accion, tbl_usuarios.nombre_usuario AS usuario, tbl_objeto.objeto AS objeto
 													FROM tbl_bitacora
@@ -120,6 +160,7 @@ if($_SESSION["rol"] === "colaborador" || $_SESSION["rol"] === "administrador" ){
 
 			</div>
 	</section>
+
 
 </div>
 <?php

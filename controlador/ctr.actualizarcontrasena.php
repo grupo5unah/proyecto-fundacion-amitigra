@@ -7,19 +7,19 @@ $contrasenaNueva = $_POST['contrasenaNueva'];
 $confirmarContrasena = $_POST['confirmarContrasena'];
 $usuario = $_POST['usuario2'];
 
-    if(!empty($usuario) || !empty($contrasenaActual) || !empty($contrasenaNueva) || !empty($confirmarContrasena)){
+    if(!empty($usuario) || !empty($contrasenaActual) || !empty($contrasenaNueva) ||
+        !empty($confirmarContrasena)){
 
         try{
-            $usuarios = $conn->prepare("SELECT id_usuario, contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
+            $usuarios = $conn->prepare("SELECT id_usuario, contrasena
+                                        FROM tbl_usuarios
+                                        WHERE nombre_usuario = ?;");
             $usuarios->bind_Param("s", $usuario);
             $usuarios->execute();
             $usuarios->bind_Result($id, $contrasena);
 
             if($usuarios->affected_rows){
                 $siExiste = $usuarios->fetch();
-                /*$respuesta = array(
-                    'respuesta' => 'exito'
-                );*/
                 
                 if($siExiste){
 
@@ -35,91 +35,75 @@ $usuario = $_POST['usuario2'];
 
                             } else {
 
-                                //SI LAS CONTRASENAS COINCIDEN
-                                $respuesta = array(
-                                    "respuesta" => "confirmar"
-                                );
+                                //Pediente MODIFICACION
+                                include '../modelo/conexionbd.php';
+                                $contrasenaUsuario = $conn->prepare("SELECT contrasena
+                                                                    FROM tbl_hist_contrasena
+                                                                    WHERE usuario_id = ?;");
+                                $contrasenaUsuario->bind_Param("i", $id);
+                                $contrasenaUsuario->execute();
+                                $contrasenaUsuario->bind_Result($hist_contrasena);
 
-                                if($contrasenaNueva == $contrasenaActual){
-                                    
-                                    //SI LA CONTRASENA ACTUAL Y LA NUEVA COINCIDEN NO PERMITE EL CAMBIO DE CONTRASENA
-                                    $respuesta = array(
-                                        "respuesta" => "igual"
-                                    );
-                                } else {
+                                if ($contrasenaUsuario->affected_rows){
 
-                                    //FECHA
+                                    while($contrasenaUsuario->fetch()){
+
+                                        if (password_verify($contrasenaNueva, $hist_contrasena)) {
+                                            //LA CONTRASENA YA ESTUVO EN USO
+                                            $respuesta = array(
+                                                "respuesta" => "igual"
+                                            );
+
+                                            echo json_encode($respuesta);
+
+                                            exit;                                                                                                    
+                                        }
+
+                                    }
+
                                     require ("../modelo/conexionbd.php");
-                                    /*$comp_contrasena = $conn->prepare("SELECT contrasena FROM tbl_hist_contrasena WHERE usuario_id = ? LIMIT 1;");
-                                    $comp_contrasena->bind_Param("i",$id);
-                                    $comp_contrasena->execute();
-                                    $comp_contrasena->bind_Result($hist_contrasena);*/
-                                    
-                                    /*if($comp_contrasena->affected_rows){
-                                        $comp_existe = $comp_contrasena->fetch();
-                                        if($comp_existe){*/
 
-                                            /*$consulta = "SELECT count(contrasena) FROM tbl_hist_contrasena WHERE usuario_id = '$id'";
-                                            $resultado = mysqli_query($conn, $consulta);
-                                            $passw = mysqli_fetch_assoc($resultado);
+                                    date_default_timezone_set("America/Tegucigalpa");
+                                    $fecha_hoy = date("Y-m-d H:i:s", time());
 
-                                            if(password_verify($contrasenaNueva, $passw['contrasena'])){
+                                    $fechaActualizacion= new DateTime($fecha_hoy);
+                                    $fechaActualizacion->modify("next month");
+                                    $vecimiento = $fechaActualizacion->format("Y-m-d H:i:s");
 
-                                                $respuesta = array(
-                                                    "respuesta" => "existe_registro"
-                                                );
+                                    $hash_password = password_hash($contrasenaNueva, PASSWORD_BCRYPT);
 
-                                            }else{*/
+                                    //QUERY ACTUALIZAR LA INFORMACION DEL USUARIO (tbl_usuarios)
+                                    include ("../modelo/conexionbd.php");
+                                    $actualizar = $conn->prepare("UPDATE tbl_usuarios
+                                                                SET contrasena = ?, fecha_mod_contrasena = ?, fecha_vencimiento = ?
+                                                                WHERE nombre_usuario = ?");
+                                    $actualizar->bind_Param("ssss", $hash_password, $fecha_hoy, $vecimiento ,$usuario);
+                                    $actualizar->execute();
 
-                                                date_default_timezone_set("America/Tegucigalpa");
-                                                $fecha_hoy = date("Y-m-d H:i:s", time());
+                                    if(!$actualizar->error){
 
-                                                $fechaActualizacion= new DateTime($fecha_hoy);
-                                                $fechaActualizacion->modify("next month");
-                                                $vecimiento = $fechaActualizacion->format("Y-m-d H:i:s");
+                                        $respuesta = array (
+                                            "respuesta" => "actualizacion"
+                                        );
 
+                                        sleep(2);
+                                        session_unset();
+                                        ob_flush();
 
-                                                $hash_password = password_hash($contrasenaNueva, PASSWORD_BCRYPT);
+                                    }else{
+                                        $respuesta = array (
+                                            "respuesta" => "noActualizacion"
+                                        );
+                                    }
 
-                                                //QUERY ACTUALIZAR LA INFORMACION DEL USUARIO (tbl_usuarios)
-                                                include ("../modelo/conexionbd.php");
-                                                $actualizar = $conn->prepare("UPDATE tbl_usuarios
-                                                                            SET contrasena = ?, fecha_mod_contrasena = ?, fecha_vencimiento = ?
-                                                                            WHERE nombre_usuario = ?");
-                                                $actualizar->bind_Param("ssss", $hash_password, $fecha_hoy, $vecimiento ,$usuario);
-                                                $actualizar->execute();
+                                    //QUERY ACTUALIZACION EN LA tbl_hist_contrasena
+                                    include "../modelo/conexionbd.php";
+                                    $insHistorialContrasena = $conn->prepare("CALL control_hist_contrasena (?,?,?,?,?,?);");
+                                    $insHistorialContrasena->bind_Param("isssss", $id,$hash_password, $usuario, $fecha_hoy, $usuario, $fecha_hoy);
+                                    $insHistorialContrasena->execute();
 
-                                                if(!$actualizar->error){
-
-                                                    $respuesta = array (
-                                                        "respuesta" => "actualizacion"
-                                                    );
-
-                                                    sleep(2);
-                                                    session_unset();
-                                                    ob_flush();
-                                                    //session_abort();
-
-                                                }else{
-                                                    $respuesta = array (
-                                                        "respuesta" => "noActualizacion"
-                                                    );
-                                                }
-
-                                                //QUERY ACTUALIZACION EN LA tbl_hist_contrasena
-                                                include "../modelo/conexionbd.php";
-                                                $insHistorialContrasena = $conn->prepare("CALL control_hist_contrasena (?,?,?,?,?,?);");
-                                                $insHistorialContrasena->bind_Param("isssss", $id,$hash_password, $usuario, $fecha_hoy, $usuario, $fecha_hoy);
-                                                $insHistorialContrasena->execute();
-
-                                            //}
-                                        //}
-
-                                    /*}else{
-
-                                    }*/
-                                    
                                 }
+
                             }
                         
                         }else{
@@ -136,7 +120,7 @@ $usuario = $_POST['usuario2'];
                     }
 
                 }
-                //echo json_encode($respuesta);
+
             }
         } catch(Exception $e){
             

@@ -30,6 +30,7 @@ switch ($action) {
         $nacion = $_POST['nacion'];
         $estado = 1;
         $usuario_actual = $_POST['usuario_actual'];
+        $usuarioid = $_POST['idusuario'];
         $fecha = date('Y-m-d H:i:s', time());
 
         if (empty($_POST['nombreCliente']) || empty($_POST['ident']) || empty($_POST['tel']) 
@@ -48,6 +49,15 @@ switch ($action) {
                     $res['msj'] = "Se produjo un error al momento de registrar el Cliente";
                     $res['error'] = true;
                 } else {
+                    //Registra en la BITACORA la accion realizada
+                    $objeto = 19;
+                    $acciones = "Creación de un cliente";
+                    $descp = "Cliente creado correctamente";
+                    require_once("../modelo/conexionbd.php");
+                    $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $usuarioid, $objeto);
+                    $llamar->execute();
+                    $llamar->close();
                     $res['msj'] = "Cliente Registrado Correctamente";
                 }
                 // $sql->close();
@@ -68,6 +78,7 @@ switch ($action) {
             $tel = $_POST['telefono'];
             $nacionalidad = $_POST['nacionalidad'];
             $usuario = $_POST['usuario_actual'];
+            $usuario_id = $_POST['usuario_id'];
             date_default_timezone_set("America/Tegucigalpa");
             $fech=date('Y-m-d H:i:s',time());
            
@@ -78,6 +89,15 @@ switch ($action) {
           
             if ($resultado == 1) {
                 //print_r($resultado);
+                //Registra en la BITACORA la accion realizada
+                $objeto = 19;
+                $acciones = "Actualización de un cliente";
+                $descp = "Cliente actualizado correctamente";
+                require_once("../modelo/conexionbd.php");
+                $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                $llamar->bind_Param("sssii", $acciones, $descp, $fech, $usuario_id, $objeto);
+                $llamar->execute();
+                $llamar->close();
                 $res['msj'] = "El Cliente se  Edito  Correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el Cliente ";
@@ -92,9 +112,21 @@ switch ($action) {
     case 'eliminarCliente':
         if (isset($_POST['id_cliente'])) {
             $id_client = $_POST['id_cliente'];
+            $id_usu = $_POST['id_usuario'];
             $sql = "UPDATE tbl_clientes SET estado_eliminado = 0 WHERE id_cliente = " . $id_client;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
+                //Registra en la BITACORA la accion realizada
+                date_default_timezone_set("America/Tegucigalpa");
+                $fecha_bitacor=date('Y-m-d H:i:s',time());
+                $objeto = 19; 
+                $acciones = "Eliminación de un cliente";
+                $descp = "Cliente eliminado correctamente";
+                require_once("../modelo/conexionbd.php");
+                $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                $llamar->bind_Param("sssii", $acciones, $descp, $fecha_bitacor, $id_usu, $objeto);
+                $llamar->execute();
+                $llamar->close();
                 $res['msj'] = "Cliente Eliminado  Correctamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Cliente";

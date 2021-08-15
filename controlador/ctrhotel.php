@@ -74,6 +74,7 @@ switch ($action){
                 $reservacion=$_POST['reservacion'];
                 $entrada=$_POST['entrada'];
                 $salida = $_POST['salida'];
+                $user = $_POST['idu'];
                 date_default_timezone_set("America/Tegucigalpa");
                 $entrar = $entrada ." ".date('H:i:s',time());
                 $salir = $salida ." ".date('H:i:s',time());
@@ -88,7 +89,17 @@ switch ($action){
                 
                 $resultado=$conn->query($actualizarcamping);
                 if ($resultado == 1) {
-                    $res['msj'] = "Reservación se Edito Correctamente";
+                    //Registra en la BITACORA la accion realizada
+                    date_default_timezone_set("America/Tegucigalpa");
+                    $fecha_bitacora=date('Y-m-d H:i:s',time());
+                    $objeto = 11;
+                    $acciones = "Actualización de una reservación";
+                    $descp = "Actualización de reservación N° ".$id_reservacion;
+                    //include("../modelo/conexionbd.php");
+                    $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $llamar->bind_Param("sssii", $acciones, $descp, $fecha_bitacora, $user, $objeto);
+                    $llamar->execute();
+                    $res['msj'] = "Reservación se edito correctamente";
                 } else {
                     $res['msj'] = "Se produjo un error al momento de Editar la reservación ";
                     $res['error'] = true;
@@ -135,9 +146,66 @@ switch ($action){
         $res['reserva'] = $vertbl;
 
     break;
+    case 'salidaReservacion':
+        if(isset($_POST['id_reserva']) && isset($_POST['habiarea']) && isset($_POST['arti'])){
+
+                $id_reservasale=$_POST['id_reserva'];
+                $habiarea=$_POST['habiarea'];
+                $arti=$_POST['arti'];
+                $usua = $_POST['iduh'];
+                date_default_timezone_set("America/Tegucigalpa");
+                $fechahabiarea=date('Y-m-d H:i:s',time());
+                
+
+                $captura_ha = $conn->prepare("SELECT id_detalle_reservacion, habitacion_id FROM tbl_detalle_reservacion
+                                            WHERE id_detalle_reservacion = ?;");
+                $captura_ha->bind_Param("i", $id_reservasale);
+                $captura_ha->execute();
+                $captura_ha->bind_result($idH, $r);
+
+                if($captura_ha->affected_rows){
+                    $existe_ha = $captura_ha->fetch();
+
+                    while ($captura_ha->fetch()) {
+                        $id_hab = $idH;
+                    }
+                    if($existe_ha){
+
+                        $actualizarestado = "UPDATE tbl_habitacion_servicio 
+                        set  estado_id = 4
+                        WHERE id_habitacion_servicio = 5";
+
+                        $resultado=$conn->query($actualizarestado);
+                        if ($resultado == 1) {
+                            //Registra en la BITACORA la accion realizada
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fecha_bitacora=date('Y-m-d H:i:s',time());
+                            $objeto = 11;
+                            $acciones = "Marcar salida";
+                            $descp = "Reservación actualizada correctamente";
+                            //include("../modelo/conexionbd.php");
+                            $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                            $llamar->bind_Param("sssii", $acciones, $descp, $fecha_bitacora, $usua, $objeto);
+                            $llamar->execute();
+                            $res['msj'] = "Salida realizada Correctamente";
+                        } else {
+                            $res['msj'] = "Se produjo un error al momento de marcar salida ";
+                            $res['error'] = true;
+                        }
+
+                        
+                    }
+                }
+            }else{
+                $res['msj'] = "Las variables no estan definidas";
+                $res['error'] = true;
+            }
+
+    break;
     case 'eliminarReservacion':
         if (isset($_POST['id_reservacion'])) {
             $id_reserva = $_POST['id_reservacion'];
+            $user_id = $_POST['id_user'];
             $sql = "UPDATE tbl_detalle_reservacion SET estado_eliminado = 0 WHERE reservacion_id = " .$id_reserva;
             $resultado = $conn->query($sql);
                 
@@ -163,7 +231,18 @@ switch ($action){
 
                         if(!$actulizar_estado -> error){
             
-                            $res['msj'] = "Reservacion Eliminada Correctamente";
+                            //Registra en la BITACORA la accion realizada
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fecha_bitacor=date('Y-m-d H:i:s',time());
+                            $objeto = 11;
+                            $accione = "Eliminación de una reservación";
+                            $descpc = "Eliminación de reservcaion N°" .$id_reserva;
+                            //include("../modelo/conexionbd.php");
+                            $llamar_bi = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                            $llamar_bi->bind_Param("sssii", $accione, $descpc, $fecha_bitacor, $user_id, $objeto);
+                            $llamar_bi->execute();
+                            
+                            $res['msj'] = "Reservacion eliminada correctamente";
                         } else {
                             $res['msj'] = "Se produjo un error al momento de eliminar la reservación";
                             $res['error'] = true;

@@ -33,7 +33,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-								<button class="btn btn-default btnCrearHabServ glyphicon glyphicon-plus-sign" >Agregar Habitación/Área</button>
+								<button class="btn btn-success btnCrearHabServ glyphicon glyphicon-plus-sign" >AGREGAR HABITACIÓN-ÁREA</button>
 
 								</div> <!-- /div-action -->
 
@@ -41,14 +41,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									<thead style="background-color: #222d32; color: white;">
 										<tr>
 
-											<th class="text-center">Descripcion</th>
-											<th class="text-center">Habitacion Área</th>
+											<th class="text-center">Descripción</th>
+											<th class="text-center">Habitación Área</th>
 											<th class="text-center">Localidad</th>
 											<th class="text-center">Estado</th>
-                                            <th class="text-center">Precio Adulto(N)</th>
-                                            <th class="text-center">Precio Niño(N)</th>
-                                            <th class="text-center">Precio Adulto(E)</th>
-                                            <th class="text-center">Precio Niño(E)</th>
+                                            <th class="text-center">Precio adulto(N)</th>
+                                            <th class="text-center">Precio niño(N)</th>
+                                            <th class="text-center">Precio adulto(E)</th>
+                                            <th class="text-center">Precio niño(E)</th>
 											<th class="text-center">Modificacdo por</th>
 											<th class="text-center">Fecha modificación</th>
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
@@ -167,10 +167,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 					<div class="modal-content">
 					<div class="modal-header">
 						<div class="d-flex justify-content-between">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close cancelacioneditarhabser" data-dismiss="modal" aria-label="Close">
 							<i aria-hidden="true">&times;</i>
 						</button>
-						<h3 class="modal-title" id="exampleModalLabel">Editar Habitacion-Área </h3>
+						<h3 class="modal-title" id="exampleModalLabel">Actualizar habitación-área </h3>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -222,7 +222,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										
 									</div> <!-- /.modal form-group -->
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" id="cerrar3" data-dismiss="modal">Cerrar </button>
+										<button type="button" class="btn btn-danger cancelacioneditarhabser" id="cerrar3" data-dismiss="modal">Cancelar </button>
 										
 										<button class="btn btn-primary" id="btnsiguient" href="#timeline" data-toggle="tab">Siguiente</button>
 									</div>
@@ -241,7 +241,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<!-- <input type="hide"> -->
 										<div class="col-md-7">
 											<div class="campos form-group">
-												<label>Precio Adulto (N):</label>
+												<label>Precio Adulto:</label>
 												<div class="input-group col-xs-6">
 													<span class="input-group-addon">L.</span>
 													<input type="text" class="form-control" name="precioAdulotN" id="precioAdultoN" placeholder="Ingrese el precio" onkeypress="return soloNumeros(event)"
@@ -249,7 +249,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 												</div>
 											</div>
 											<div class="campos form-group">
-												<label>Precio Niño (N):</label>
+												<label>Precio Niño:</label>
 												<div class="input-group col-xs-6">
 													<span class="input-group-addon">L.</span>
 													<input type="text" class="form-control " name="precioNiN" id="precioNinoN" onkeypress="return soloNumeros(event)" placeholder="Ingrese el precio"
@@ -258,7 +258,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											</div>
 										</div>
 										<div class="campos form-group">
-											<label>Precio Adulto (E):</label>
+											<label>Precio Adulto:</label>
 											<div class="input-group col-xs-3">
 												<span class="input-group-addon">$.</span>
 												<input type="text" class="form-control" name="precioAdultoE" id="precioAdultoE" placeholder="Ingrese el precio" onkeypress="return soloNumeros(event)"
@@ -266,7 +266,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											</div>
 										</div>
 										<div class="campos form-group ">
-											<label>Precio Niño (E):</label>
+											<label>Precio Niño:</label>
 											<div class="input-group col-xs-3">
 												<span class="input-group-addon">$.</span>
 												<input type="text" class="form-control" name="precNiE" id="precNiE" onkeypress="return soloNumeros(event)" placeholder="Ingrese el precio"
@@ -275,11 +275,12 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										</div>
 										
 									</div> <!-- /.modal form-group -->
+									<input type="hidden" name="id_usuario" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 									<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 									<div class="modal-footer">
 										<button class="btn btn-default anteri" href="#activity2" id="prevtab" data-toggle="tab">Anterior</button>
 										<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-										<button id="btnEditarBD"type="submit" id="guardar" class="btn btn-primary ">Guardar</button>
+										<button id="btnEditarBD"type="submit" id="guardar" class="btn btn-success ">Actulizar</button>
 									</div>
 									
 									</div> <!-- /.post -->	
@@ -301,10 +302,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 					<div class="modal-content">
 					<div class="modal-header">
 						<div class="d-flex justify-content-between">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close cancelacionnuevahabiser" data-dismiss="modal" aria-label="Close">
 							<i aria-hidden="true">&times;</i>
 						</button>
-						<h3 class="modal-title" id="exampleModalLabel">Agregar Habitacion-Área </h3>
+						<h3 class="modal-title" id="exampleModalLabel">Registrar habitación-área </h3>
 						</div>
 					</div>
 					<div class="modal-body">
@@ -366,7 +367,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 									
 									</div> <!-- /.modal form-group -->
 									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary cerra2" data-dismiss="modal">Cerrar </button>
+										<button type="button" class="btn btn-danger cancelacionnuevahabiser" data-dismiss="modal">Cancelar </button>
 									
 										<button class="btn btn-primary btnsigue" href="#timeline1" data-toggle="tab">Siguiente</button>
 									</div>
@@ -424,7 +425,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="modal-footer">
 									<button class="btn btn-default anterior" href="#activity3" id="prevtab" data-toggle="tab">Anterior</button>
 									<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button> -->
-									<button id="registro"type="submit" class="btn btn-primary">Registrar Habitacion-Área</button>
+									<button id="registro"type="submit" class="btn btn-success">Registrar</button>
 								</div>
 								
 								</div> <!-- /.post -->	

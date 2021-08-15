@@ -32,6 +32,7 @@ switch ($action) {
         $preae = $_POST['precioAE'];
         $prene = $_POST['precioNE'];
         $usuario_actual = $_POST['usuario_actual'];
+        $idusuario= $_POST['usuarioid'];
        
         if (empty($_POST['habitacion_area']) || empty($_POST['descripcion']) || empty($_POST['localidad']) 
             || empty($_POST['estado'])|| empty($_POST['precioAN'])|| empty($_POST['precioNN'])||
@@ -55,7 +56,15 @@ switch ($action) {
                     $res['msj'] = "Se produjo un error al momento de registrar la habitación o área";
                     $res['error'] = true;
                 } else {
-                    $res['msj'] = "Habitación-Áarea Registrada Correctamente";
+                    $objeto = 24;
+                    $accione = "Creación de una habitación/área";
+                    $descpt = "habitación/área creado correctamente";
+                    require_once("../modelo/conexionbd.php");
+                    $llamarha = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $llamarha->bind_Param("sssii", $accione, $descpt, $fecha, $idusuario, $objeto);
+                    $llamarha->execute();
+                    $llamarha->close();
+                    $res['msj'] = "Habitación-Áarea registrada correctamente";
                 }
                 // $sql->close();
                 // $sql = null;
@@ -72,12 +81,12 @@ switch ($action) {
             $id_hab_are = (int)$_POST['id_habserv'];
             $hab_are = $_POST['hab_are'];
             $estad = $_POST['estad'];
-            $descrip = $_POST['descrip'];
+            $descrip = $_POST['descrip']; 
             $preAN = $_POST['preAN'];
             $preNN = $_POST['preNN'];
             $preNE = $_POST['preNE'];
             $preAE = $_POST['preAE'];
-            $usuario = 'sujely'; /*$_POST['usuario_actual'];*/
+            $usuario = $_POST['usuario_actual'];
             date_default_timezone_set("America/Tegucigalpa");
             $fech=date('Y-m-d H:i:s',time());
            
@@ -89,6 +98,14 @@ switch ($action) {
           
              if ($resultado == 1) {
                  //print_r($resultado);
+                $objeto = 24;
+                $accionese = "Actualización de una habitación/área";
+                $descp = "habitación/área editada correctamente";
+                require_once("../modelo/conexionbd.php");
+                $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                $llamar->bind_Param("sssii", $accionese, $descp, $fech, $idusuario, $objeto);
+                $llamar->execute();
+                $llamar->close();
                $res['msj'] = "La habitación/Área se  Edito  Correctamente";
            } else {
                $res['msj'] = "Se produjo un error al momento de Editar la habitación/área ";
@@ -106,6 +123,15 @@ switch ($action) {
            $sql = "UPDATE tbl_habitacion_servicio SET estado_eliminado = 0 WHERE id_habitacion_servicio = " . $idhabitaserv;
            $resultado = $conn->query($sql);
            if ($resultado == 1) {
+
+                $objeto = 24;
+                $accionese = "Ekiminación de una habitación/área";
+                $descp = "habitación/área eliminada correctamente";
+                require_once("../modelo/conexionbd.php");
+                $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                $llamar->bind_Param("sssii", $accionese, $descp, $fech, $idusuario, $objeto);
+                $llamar->execute();
+                $llamar->close();
                $res['msj'] = "Habitación/área Eliminada  Correctamente";
            } else {
                $res['msj'] = "Se produjo un error al momento de eliminar el habitacion/area";

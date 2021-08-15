@@ -435,7 +435,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                     </div>
                     <div class="modal-footer">
                       <button id="cerrar_rs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <button id="r_solicitud" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
+                      <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Solicitud</button>
                     </div>
                 </form>
               </div>

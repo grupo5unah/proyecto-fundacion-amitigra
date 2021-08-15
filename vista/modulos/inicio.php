@@ -32,7 +32,7 @@
   <div class="content-wrapper">
     
     <section class="content-header">
-      <h1>Inicio<small> Fundacion Amitigra</small></h1>
+      <h1>Inicio<small> Fundación Amitigra</small></h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
       </ol>

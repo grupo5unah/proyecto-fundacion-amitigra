@@ -64,7 +64,25 @@ $(document).ready(function (){
 
                     } else if(nuevaContrasena.respuesta == "ya_EnUso"){
 
-                        Notificacion("error", "Contrasena en uso", "Contrasena ya en uso");
+                        swal({
+                            icon:"error",
+                            title: "Contraseña",
+                            text:"No se puede registrar una contraseña antigua."
+                        }).then(() => {
+
+                            //LIMPIA LOS INPUTS DE CONTRASENA Y CONFIRMAR CONTRASENA
+                            $("#InputNuevaContrasena").val("");
+                            $("#InputConfirmarNuevaContrasena").val("");
+
+                            //CAMBIO EL TIPO DE INPUT DE TEXTO A CONTRASENA (PASSWORD)
+                            let cambio1 = document.querySelector("#InputNuevaContrasena");
+                            cambio1.type = "password";
+                            $(".icon_conf").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+
+                            let cambio2 = document.querySelector("#InputConfirmarNuevaContrasena");
+                            cambio2.type = "password";
+                            $(".icon_conf").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+                        });
 
                     } else if(nuevaContrasena.respuesta == "no_registro"){
 

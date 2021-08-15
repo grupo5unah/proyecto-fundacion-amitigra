@@ -8,6 +8,8 @@ $(document).ready(function(){
         var tipo_objeto = $("#tObjeto").val();
         var descripcion = $("#descripcion").val();
         var usuario_actual = $("#usuario_actual").val();
+        var idUsuario = $("#id_usuario").val();
+        var id_objeto = $("#id_objeto").val();
 
         if(nombre != undefined && tipo_objeto != undefined && descripcion != undefined && usuario_actual != undefined){
             const formData = new FormData();
@@ -15,6 +17,8 @@ $(document).ready(function(){
             formData.append('tipo_objeto',tipo_objeto);
             formData.append('descripcion',descripcion);
             formData.append('usuario_actual', usuario_actual);
+            formData.append('id_usuario', idUsuario);
+            formData.append('id_objeto', id_objeto);
 
             const resp = await axios.post(`./controlador/apiObjetos.php?action=registrarObjeto`, formData);
 
@@ -24,14 +28,17 @@ $(document).ready(function(){
                 return swal("Error", data.msj, "error");
             }
 
-            return swal("Exito!", data.msj, "success").then((value) => {
-                    if (value){
+            return swal("Exito!", data.msj, "success",{
+                buttons: false,
+                timer: 3000,
+            }).then(() => {
+                 
                         // Se limpia el formulario
                         $("#nombreObjeto").val('');
                         $("#tObjeto").val('');
                         $("#descripcion").val('');
                         location.reload()
-                    }
+                    
                    
                 })
         }else{
@@ -63,6 +70,33 @@ $(document).ready(function(){
             }
         }
     });   
+
+    //cerrar modal crear objeto
+    $("#cerrarModalRe").on("click", function(){
+
+        swal({
+            icon:"warning",
+            title: "¿Seguro que quieres salir?",
+            text:" Si acepta se perderá la información.",
+            
+            buttons:[ "Cancelar","Aceptar",], 
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                              
+                $("#modalCrearObjeto").modal("hide");
+                location.reload();
+                                
+            } else {
+    
+                $("#modalCrearObjeto").modal("show");
+            
+            }
+        });
+
+    });
+    
     
     //FUNCION EDITAR objeto
     $('.btnEditarObjeto').on('click', function() {
@@ -72,6 +106,8 @@ $(document).ready(function(){
         const tipo_Objeto = $(this).data('tipo_objeto');
         const descripcion = $(this).data('descripcion'); 
         var usuario_actual = $("#usuario_actual").val();
+        var idUsuario = $("#id_usuario").val();
+        var id_objeto = $("#id_objeto").val();
         //llena los campos
         //$("#id").val(idObjeto),
         $("#nombre_Objeto").val(nombre),
@@ -91,6 +127,8 @@ $(document).ready(function(){
             formData.append('tipo_objeto',$("#tipo_Objeto").val());
             formData.append('descripcion',$("#descripcionObjeto").val());
             formData.append('usuario_actual', usuario_actual);
+            formData.append('id_usuario', idUsuario);
+            formData.append('id_objetos', id_objeto);
           
             
            const resp = await axios.post('./controlador/apiObjetos.php?action=actualizarObjeto', formData);
@@ -120,15 +158,44 @@ $(document).ready(function(){
         
     });
 
+    ////cerrar modal editar objeto
+    $("#cerrarModalAO").on("click", function(){
+
+        swal({
+            icon:"warning",
+            title: "¿Seguro que quieres salir?",
+            text:" Si acepta se perderá la información.",
+            
+            buttons:[ "Cancelar","Aceptar",], 
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                              
+                $("#modalEditarObjeto").modal("hide");
+                location.reload();
+                                
+            } else {
+    
+                $("#modalEditarObjeto").modal("show");
+            
+            }
+        });
+
+    });
+
 
     //eliminar objetos
     $('.btnEliminarObjeto').on('click', function (){
         const idObjeto = $(this).data('idobjeto');
-        swal("Eliminar Objeto", "Esta seguro de eliminar este Objeto?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+        var idUsuario = $("#id_usuario").val();
+        var id_objeto = $("#id_objeto").val();
+        swal("Eliminar Objeto", "Esta seguro de eliminar este Objeto?", "warning",{buttons:["Cancelar","Aceptar"] ,dangerMode:true}).then(async (value) => {
             if (value){
-                console.log('Estoy dentro del if');
                 const formData = new FormData();
                 formData.append('id_objeto', idObjeto);
+                formData.append('id_usuario', idUsuario);
+                formData.append('id_objeto', id_objeto);
                 const resp = await axios.post('./controlador/apiObjetos.php?action=eliminarObjetos', formData);
                 const data = resp.data;
                 //console.log(data);
@@ -161,9 +228,9 @@ $(document).ready(function(){
         const Actualizacion = $(this).data('actualizacion');
         const Consulta = $(this).data('consulta'); 
         var usuario_actual = $("#usuario_actual").val();
+        var idUsuario = $("#id_usuario").val();
+        var id_objeto = $("#id_objeto").val();
         //llena los campos
-        console.log(idpermiso);
-        //$("#id").val(idObjeto),
         $("#Rol").val(rol);
         $("#Objeto").val(mi_objeto);
         $("#Insertar").val(Insercion);
@@ -185,6 +252,8 @@ $(document).ready(function(){
             formData.append('permiso_actualizacion',$("#Actualizar").val());
             formData.append('permiso_consulta',$("#Consulta").val());
             formData.append('usuario_actual', usuario_actual);
+            formData.append('id_usuario', idUsuario);
+            formData.append('id_objetoS', id_objeto);
             
            const resp = await axios.post('./controlador/apiObjetos.php?action=actualizarPermiso', formData);
            const data = resp.data;

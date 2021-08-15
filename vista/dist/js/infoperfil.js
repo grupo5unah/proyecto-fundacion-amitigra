@@ -51,8 +51,8 @@ $(document).ready(function(){
                   
                   swal({
                     icon: "success",
-                    title: "Exito",
-                    text: "Su informacion se actualizo correctamente"
+                    title: "Éxito",
+                    text: "Su información se actualizó correctamente"
                   }).then (() => {
                       $('#modal-default').modal('hide');
                       window.location.reload();                      
@@ -76,14 +76,14 @@ $(document).ready(function(){
                   swal({
                     icon:"success",
                     title:"Exito",
-                    text:"Informacion actualizada correctamente"
+                    text:"Información actualizada correctamente"
                   })
                   .then( () =>{
                     window.location.reload();
                   })
 
                 } else if(verificar.respuesta == "info_noActualizada"){
-                  Notificacion("error", "Lo sentimos", "Su informacion o se pudo actualizar");
+                  Notificacion("error", "Lo sentimos", "Su información no se pudo actualizar");
                 }
                 
               }
@@ -107,8 +107,9 @@ $(document).ready(function(){
 
       swal({
           icon:"warning",
-          text: "Seguro que quieres salir?",
-          buttons: true,
+          title: "¿Desea salir?",
+          text: "Si acepta se perderá la información",
+          buttons: ["Cancelar" , "Aceptar"],
           dangerMode: true,
       })
       .then((willDelete) => {
@@ -116,7 +117,7 @@ $(document).ready(function(){
               // contrasena4 = document.querySelector("#contraRestauracion").val("");
               $("#passConf").val("");
           } else {
-          $("#modal-restauracion").modal("show");
+          $("#modal-default").modal("show");
           }
       });
       
@@ -127,8 +128,9 @@ $(document).ready(function(){
 
       swal({
           icon:"warning",
-          text: "Seguro que quieres salir?",
-          buttons: true,
+          title: "¿Desea salir?",
+          text: "Si acepta se perderá la información",
+          buttons: ["Cancelar" , "Aceptar"],
           dangerMode: true,
       })
       .then((willDelete) => {
@@ -136,7 +138,7 @@ $(document).ready(function(){
               // contrasena4 = document.querySelector("#contraRestauracion").val("");
               $("#passConf").val("");
           } else {
-          $("#modal-restauracion").modal("show");
+          $("#modal-default").modal("show");
           }
       });
       
@@ -204,7 +206,31 @@ $(document).ready(function(){
                 
               } else if(respuestas.respuesta == "igual"){
 
-                Notificacion("warning", "Lo sentimos", "No se puede configurar la misma contrasena");
+                swal({
+                  icon:"error",
+                  title: "Contraseña",
+                  text:"No se puede registrar una contraseña antigua."
+                }).then(() => {
+
+                  //LIMPIA LOS INPUTS DE CONTRASENA Y CONFIRMAR CONTRASENA
+                  $("#passActual").val("");
+                  $("#passNueva").val("");
+                  $("#passConfirmar").val("");
+
+                  //CAMBIO EL TIPO DE INPUT DE TEXTO A CONTRASENA (PASSWORD)
+                  let cambio1 = document.querySelector("#passActual");
+                  cambio1.type = "password";
+                  $(".icon__p_actual").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+
+                  let cambio2 = document.querySelector("#passNueva");
+                  cambio2.type = "password";
+                  $(".icon_p_actual").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+
+                  let cambio3 = document.querySelector("#passConfirmar");
+                  cambio3.type = "password";
+                  $(".icon_p_actual").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
+                });
+              
               } else if(respuestas.respuesta == "no_existe"){
                 
                 Notificacion("error","Error en contraseña","La contraseña ingresada es incorrecta");
@@ -247,6 +273,49 @@ $(document).ready(function(){
         confirmarContrasena = $('#passConfirmar').val('');
 
       })
+
+
+
+      $("#cancelarCambios").on("click", function(){
+
+        swal({
+            icon:"warning",
+            title: "¿Desea salir?",
+            text: "Si acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                // contrasena4 = document.querySelector("#contraRestauracion").val("");
+                $("#passConf").val("");
+            } else {
+            $("#modal-default2").modal("show");
+            }
+        });
+        
+      });
+  
+  
+      $("#CerrarCambio").on("click", function(){
+  
+        swal({
+            icon:"warning",
+            title: "¿Desea salir?",
+            text: "Si acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                // contrasena4 = document.querySelector("#contraRestauracion").val("");
+                $("#passConf").val("");
+            } else {
+            $("#modal-default2").modal("show");
+            }
+        });
+        
+      });
 
     })
     

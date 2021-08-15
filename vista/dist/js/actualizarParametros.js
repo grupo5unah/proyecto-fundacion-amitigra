@@ -62,9 +62,9 @@ $(document).ready(function(){
         } else if(contrasena != ""){*/
         swal({
             icon:"warning",
-            title: "Salir?",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Desea Salir?",
+            text: "Sí acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
             dangerMode: true,
         })
         .then((willDelete) => {
@@ -139,9 +139,9 @@ $(document).ready(function(){
 
         swal({
             icon:"warning",
-            title: "Saliendo?",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Desea Salir?",
+            text: "Sí acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
             dangerMode: true,
         })
         .then((willDelete) => {
@@ -217,9 +217,9 @@ $(document).ready(function(){
 
         swal({
             icon:"warning",
-            title: "Saliendo?",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Desea Salir?",
+            text: "Sí acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
             dangerMode: true,
         })
         .then((willDelete) => {
@@ -293,9 +293,9 @@ $(document).ready(function(){
 
         swal({
             icon:"warning",
-            title: "Saliendo?",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Desea Salir?",
+            text: "Sí acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
             dangerMode: true,
         })
         .then((willDelete) => {
@@ -359,9 +359,9 @@ $(document).ready(function(){
 
         swal({
             icon:"warning",
-            title: "Saliendo?",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Desea Salir?",
+            text: "Sí acepta se perderá la información",
+            buttons: ["Cancelar" , "Aceptar"],
             dangerMode: true,
         })
         .then((willDelete) => {

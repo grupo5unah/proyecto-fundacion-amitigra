@@ -13,13 +13,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 ?>
 
 <div class="content-wrapper">
-
+<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 <section class="content-header">
-		<h1>MANTENIMIENTO PREGUNTAS</h1>
+		<h1>Mantenimiento<small> Preguntas</small></h1>
 		<ol class="breadcrumb ">
-			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-			<li class="btn btn-success  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Preguntas</a></li>
+			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			
+			<li class="  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Preguntas</a></li>
 			
 		</ol>
 	</section>
@@ -58,9 +58,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<tr>
 											<th>Pregunta</th>
 											<th>creado por</th>
-                                            <th>Fecha creacion</th>
+                                            <th>Fecha creación</th>
                                             <th>Modificado por</th>
-											<th>Fecha modificacion</th>
+											<th>Fecha modificación</th>
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
 											
 											else:?>
@@ -168,8 +168,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar pregunta</button>
+								<button type="button" class="btn btn-danger" id="cerrarEditarp" data-dismiss="modal">Cancelar </button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar pregunta</button>
 							</div>
 						</div>
 					</div>
@@ -207,8 +207,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                           </div>
 						  </div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
-								<button id=""type="submit" class="btn btn-primary">Registrar Pregunta</button>
+								<button type="button" class="btn btn-danger" id="cerrarModarCrearPre" data-dismiss="modal">Cancelar </button>
+								<button id=""type="submit" class="btn btn-success">Registrar Pregunta</button>
 							</div>
                         </form>
                         <?php 

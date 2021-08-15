@@ -65,7 +65,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a><strong>Mostrar cantidad de solicitudes:</strong>
+                <li id="etiquetaCantidad"><a><strong>Mostrar cantidad de solicitudes:</strong>
                 <div class="form-group">
                     <div class="input-group col-sm-12">
                       <input type="text" name="" class="form-control" id="mostrarSolicitudes" value="<?php echo $PMostrar['valor'];?>" placeholder="Ingrese cantidad de elementos a mostrar" onkeypress="return soloNumeros(event)">
@@ -106,7 +106,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "asistente" || $
                   </div>
                   <div class="row">
                   <div class="form-group">
-                      <label for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
+                      <label id="etiquetaContraSoli" for="inputSkills" class="col-sm-3 control-label">Contraseña:</label>
 
                       <div class="input-group col-sm-8">
                         <input id="contrasenaSolicitudes" type="password" class="form-control" name="passConf" placeholder="Ingrese su contraseña">

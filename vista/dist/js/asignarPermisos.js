@@ -127,25 +127,52 @@ $(document).ready( function(){
     });
 
     //FUNCION PARA CERRAR LA VENTANA CREACION DE ROLES
-    $("#cerrarModalPermisos").on("click", function(){
+    $("#cerrarModalCrear").on("click", function(){
 
         swal({
             icon:"warning",
-            text: "Seguro que quieres salir?",
-            buttons: true,
+            title: "¿Seguro que quieres salir?",
+            text:" Si acepta se perderá la información.",
+            
+            buttons:[ "Cancelar","Aceptar",], 
             dangerMode: true,
         })
         .then((willDelete) => {
             if (willDelete) {
-                // contrasena4 = document.querySelector("#contrasenaSeguridad").value = "";
-                // $("#contraRestauracion").val("");
-                $("#modalPermisos").modal("hide");
+                              
                 $("#modalRegistrarRol").modal("hide");
                 $("#nombre").val("");
                 $("#descripcion").val("");
             } else {
 
-                $("#modalPermisos").modal("show");
+                $("#modalRegistrarRol").modal("show");
+            // $("#modalRegistrarRol").modal("show");
+
+            }
+        });
+
+    });
+    //
+    //FUNCION PARA CERRAR LA VENTANA editar DE ROLES
+    $("#cerrarModalActualizar").on("click", function(){
+
+        swal({
+            icon:"warning",
+            title: "¿Seguro que quieres salir?",
+            text:" Si acepta se perderá la información.",
+            
+            buttons:[ "Cancelar","Aceptar",], 
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                              
+                $("#modalEditarRol").modal("hide");
+                $("#nombre").val("");
+                $("#descripcion").val("");
+            } else {
+
+                $("#modalEditarRol").modal("show");
             // $("#modalRegistrarRol").modal("show");
 
             }
