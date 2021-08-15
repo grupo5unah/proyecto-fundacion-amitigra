@@ -39,7 +39,7 @@
                     if($existeRespuesta){
                         //ACTUALIZAR CONTRASENA
                         
-                        if($respuestaUsuario === $respuestaCorrecta){
+                        if(md5($respuestaUsuario) === $respuestaCorrecta){
 
                             $hashed_password = password_hash($PassPregunta, PASSWORD_BCRYPT);
 
@@ -47,35 +47,72 @@
 
                                 require "../modelo/conexionbd.php";
 
-                                $actualizacion = $conn->prepare("UPDATE tbl_usuarios
-                                                                SET contrasena = ?
-                                                                WHERE id_usuario = ?;");
-                                $actualizacion->bind_Param("si", $hashed_password, $id_usuario);
-                                $actualizacion->execute();
+                                $contrasenaHistorial = $conn->prepare("SELECT contrasena FROM tbl_hist_contrasena WHERE usuario_id = ?;");
+                                $contrasenaHistorial->bind_Param("i", $usuario_id);
+                                $contrasenaHistorial->execute();
+                                $contrasenaHistorial->bind_Result($historalContrasena);
 
-                                if(!$actualizacion->error){
+                                if($contrasenaHistorial->affected_rows){
 
-                                    $respuesta = array(
-                                        "respuesta" => "exito"
-                                    );
+                                    while ($contrasenaHistorial->fetch()){
 
-                                    include "../modelo/conexionbd.php";
+                                        /*SI LA CONTRASENA ES IGUAL NO PUEDA ACTUALIZARSE YA QUE NO SE PERMITE REGISTRAR UNA CONTRASENA
+                                        QUE YA SE UTILIZO CON ATERIORIDAD*/
+                                        if(password_verify($PassPregunta, $historalContrasena)){
 
-                                    date_default_timezone_set("America/Tegucigalpa");
-                                    $fechaAccion = date("Y-m-d H:i:s", time());
-                                    $accion = "recuperacion contrasena";
-                                    $descripcion = "Recuperacion de contrasena mediante pregunta";
+                                            $respuesta = array(
+                                                "respuesta" => "repetida"
+                                            );
 
-                                    //REGISTRA LA ACCION EN LA BASE DE DATOS
-                                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
-                                    $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_usuario, $idObjeto);
-                                    $bitacora->execute();
+                                            echo json_encode($respuesta);
 
-                                }else{
-                                    $respuesta = array(
-                                        "respuesta" => "error_actualizacion"
-                                    );
+                                            exit;
+
+                                        }
+                                    }
+
+                                    require "../modelo/conexionbd.php";
+
+                                            $actualizacion = $conn->prepare("UPDATE tbl_usuarios
+                                                                            SET contrasena = ?
+                                                                            WHERE id_usuario = ?;");
+                                            $actualizacion->bind_Param("si", $hashed_password, $id_usuario);
+                                            $actualizacion->execute();
+
+                                            if(!$actualizacion->error){
+
+                                                $respuesta = array(
+                                                    "respuesta" => "exito"
+                                                );
+
+                                                include "../modelo/conexionbd.php";
+
+                                                date_default_timezone_set("America/Tegucigalpa");
+                                                $fechaAccion = date("Y-m-d H:i:s", time());
+                                                $accion = "recuperacion contrasena";
+                                                $descripcion = "Recuperacion de contrasena mediante pregunta";
+
+                                                //REGISTRA LA ACCION EN LA BASE DE DATOS
+                                                $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                                                $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_usuario, $idObjeto);
+                                                $bitacora->execute();
+                                                $bitacora->close();
+
+                                                include_once "../modelo/conexionbd.php";
+                                                $histContrasena = $conn->prepare("CALL control_hist_contrasena (?,?,?,?,?,?);");
+                                                $histContrasena->bind_Param("isssss", $id_usuario, $hashed_password, $usuario, $fechaAccion, $usuario, $fechaAccion);
+                                                $histContrasena->execute();
+                                                $histContrasena->close();
+
+                                            }else{
+                                                $respuesta = array(
+                                                    "respuesta" => "error_actualizacion"
+                                                );
+                                            }
+
                                 }
+
+                                
                             }else{
 
                                 $respuesta = array(

@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
 
 ?>
 <section class="content-header">
-		<h1>Mantenimiento permisos</h1>
+		<h1>Mantenimiento <small> Permisos</small></h1>
 		<ol class="breadcrumb ">
 			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 			

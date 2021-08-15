@@ -36,7 +36,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 
 			<section class="content-header">
-				<h1>Mantenimiento de Producto</h1>
+				<h1>Mantenimiento<small> Producto</small></h1>
 				<ol class="breadcrumb ">
 					<li class="fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 					

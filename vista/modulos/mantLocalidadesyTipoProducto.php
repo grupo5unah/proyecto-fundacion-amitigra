@@ -17,8 +17,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
    <input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 	<section class="content-header">
 	<h1>
-	Mantenimiento de localidades y Tipo producto
-	</h1>      
+	Mantenimiento<small>Localidades y Tipo Producto</small></h1>      
 	<ol class="breadcrumb ">
         <li class=" fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
        

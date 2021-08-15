@@ -1824,7 +1824,7 @@ $(document).ready(function () {
   });
 
   //manager Bitacora
-  $("#managerBitacora").DataTable({
+  /*$("#managerBitacora").DataTable({
     columnDefs: [
       { className: "text-center ", targets: [0] },
       { className: "text-center ", targets: [1] },
@@ -1993,8 +1993,7 @@ $(document).ready(function () {
       },
       url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
     },
-    
-  });
+  });*/
 
   //manager tipo Movimiento
   $("#mantMovimiento").DataTable({

@@ -29,7 +29,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							<div class="panel-body">
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
-									<a class=" btn btn-default btnNuevoTipoBoleto glyphicon glyphicon-plus-sign"> Nuevo Tipo de Boleto </i></a>
+									<!--a class=" btn btn-default btnNuevoTipoBoleto glyphicon glyphicon-plus-sign"> Nuevo Tipo de Boleto </i></a-->
+									<button type="button" class=" btn btn-success btnNuevoTipoBoleto text-uppercase"><i class="glyphicon glyphicon-plus-sign"> Nuevo Tipo de Boleto</i></button>
 								</div> <!-- /div-action -->
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->

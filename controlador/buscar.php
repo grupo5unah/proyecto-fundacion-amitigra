@@ -2,7 +2,6 @@
 include ('../modelo/conexionbd.php');
 
 $usuarioBuscar = $_POST['usuarioBuscar'];
-//$correoBuscar = $_POST['correoBuscar'];
 
 if(!empty($usuarioBuscar)){
 
@@ -16,4 +15,5 @@ if(!empty($usuarioBuscar)){
         );
     }
 }
+
 echo json_encode($json);

@@ -36,7 +36,7 @@ $id_objeto = 17;
   //$usuario = $_SESSION['usuario'];
   ?>
     <div class="register-box-body">
-        <p class="register-box-msg">Cuenta aun no activa</p>
+        <p class="register-box-msg">Cuenta aún no activa</p>
         <form id="registroPreguntas" method="post">
       
             <div class="row">
@@ -57,7 +57,7 @@ $id_objeto = 17;
 								            del sistema el administrador debe de darte de alta. ¡¡Se paciente!!.</strong>
 								            <br>
                                             <br>
-								            HAZ CLIC EN EL BOTÓN <strong>LISTO</strong> PARA REGRESAR AL INICIO DE SESION
+								            HAZ CLIC EN EL BOTÓN <strong>LISTO</strong> PARA REGRESAR AL INICIO DE SESIÓN
                     		            </div>
                   		            </div>
 					            </div>

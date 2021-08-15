@@ -96,6 +96,46 @@ require_once "../modelo/conexionbd.php";
                                             "respuesta" => "registro_exitoso"
                                         );
 
+                                            sleep(2);
+
+                                            $r1_protegida = md5($id_preg1);
+                                            $r2_protegida = md5($id_preg2);
+                                            $r3_protegida = md5($id_preg3);
+
+                                            if(!empty($pregunta1) || !empty($pregunta2) || !empty($pregunta3) || !empty($id_preg1) || !empty($id_preg2) || !empty($id_preg3)){
+                                         
+                                                
+                                                $ultimo_insert = mysqli_insert_id($conn);
+
+                                                date_default_timezone_set("America/Tegucigalpa");
+                                                $fecha_hoy = date("Y-m-d H:i:s",time());
+
+                                                $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
+                                                                                    VALUES (?,?,?,?,?,?,?)");
+                                                $insertarRespuesta->bind_Param("iisssss",$pregunta1,$ultimo_insert,$r1_protegida,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
+                                                $insertarRespuesta->execute();
+                                                $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
+                                                                                    VALUES (?,?,?,?,?,?,?)");
+                                                $insertarRespuesta->bind_Param("iisssss",$pregunta2,$ultimo_insert,$r2_protegida,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
+                                                $insertarRespuesta->execute();
+                                                $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
+                                                                                    VALUES (?,?,?,?,?,?,?)");
+                                                $insertarRespuesta->bind_Param("iisssss",$pregunta3,$ultimo_insert,$r3_protegida,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
+                                                $insertarRespuesta->execute();
+
+                                                if(!$insertarRespuesta->error){
+
+                                                }else {
+                                                    $respuesta = array(
+                                                        "respuesta" => "mal"
+                                                    );
+                                                }
+
+                                            }else{
+                                                        
+
+                                            }
+
                                     }else{
 
                                         $respuesta = array(
@@ -106,60 +146,7 @@ require_once "../modelo/conexionbd.php";
 
                                     //$insertar->close();
                                     //$insertar = null;
-                                    sleep(3);
-
-                                    if(!empty($usuario)){
-                                        //$usuario1 = $_POST['usuario']; 
-
-                                        include("../modelo/conexionbd.php");
-
-                                        $verificarUsuario = $conn->prepare ("SELECT id_usuario, nombre_usuario FROM tbl_usuarios
-                                                                            WHERE nombre_usuario = ?");
-                                        $verificarUsuario->bind_Param("s",$usuario);
-                                        $verificarUsuario->execute();
-                                        $verificarUsuario->bind_Result($user_registro, $id_nuevo);
-
-                                        if($verificarUsuario->affected_rows){
-                                            $existe_registro = $verificarUsuario->fetch();
-
-                                            while ($verificarUsuario->fetch()){
-                                                $id_usuario_nuevo = $id_nuevo;
-
-                                            }
-
-                                            if($existe_registro){
-                                                date_default_timezone_set("America/Tegucigalpa");
-                                                $fecha_hoy = date("Y-m-d H:s:i",time());
-
-                                                include("../modelo/conexionbd.php");
-                                                $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
-                                                                                    VALUES (?,?,?,?,?,?,?)");
-                                                $insertarRespuesta->bind_Param("iisssss",$id_preg1,$user_registro,$pregunta1,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
-                                                $insertarRespuesta->execute();
-                                                $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
-                                                                                    VALUES (?,?,?,?,?,?,?)");
-                                                $insertarRespuesta->bind_Param("iisssss",$id_preg2,$user_registro,$pregunta2,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
-                                                $insertarRespuesta->execute();
-                                                $insertarRespuesta = $conn->prepare("INSERT INTO tbl_preguntas_usuario (pregunta_id,usuario_id,respuesta,creado_por,fecha_creacion,modificado_por,fecha_modificacion)
-                                                                                    VALUES (?,?,?,?,?,?,?)");
-                                                $insertarRespuesta->bind_Param("iisssss",$id_preg3,$user_registro,$pregunta3,$usuario,$fecha_hoy,$usuario,$fecha_hoy);
-                                                $insertarRespuesta->execute();
-
-                                                if(!$insertarRespuesta->error){
-
-                                                    /*$respuesta = array(
-                                                        "respuesta" => "error_preguntas"
-                                                    );*/
-
-                                                }else {
-
-                                                }
-                                            }else{
-
-                                            }
-                                        }
-                                    }
-                                                    
+                                            
                                 } catch(Exception $e){
                                     echo "Error:" . $e->getMessage();
                                 }//Cierre segundo TRY CATCH

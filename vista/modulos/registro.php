@@ -61,13 +61,13 @@ $verparam = mysqli_fetch_assoc($resultParametro);
               <br>
                 <div class="columna">
                   <div class="form-group has-feedback">
-                    <input autocomplete="off" type="text" maxlength="50" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); verificar(this.value)">
+                    <input autocomplete="off" type="text" id="nombre" name="nombre" value="<?php if(isset($_POST['nombre'])){echo $_POST['nombre'];}?>" class="form-control" placeholder="Nombre completo" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                     <span class="fa fa-user form-control-feedback"></span>
                   </div>
 
                   <div class="form-group has-feedback">
                   <!-- <div class="input-group"> -->
-                    <input autocomplete="off" type="text" maxlength="15" id="usuario" class="form-control" name="usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                    <input autocomplete="off" type="text" id="usuario" class="form-control" name="usuario" value="<?php if(isset($_POST['usuario'])){echo $_POST['usuario'];}?>" placeholder="Nombre de usuario" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                     <span class="fa fa-user form-control-feedback"></span>
                     <p id="notificacion" class="msj_error"></p>
                     <!-- <input type="text" id="notificacion" value=""> -->
@@ -76,7 +76,7 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                     
                   <div class="form-group has-feedback">
                   <!-- <div class="input-group"> -->
-                    <input autocomplete="off" type="text" maxlength="50" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this); verificar(this.value)">
+                    <input autocomplete="off" type="text" id="correo" class="form-control" name="correo" value="<?php if(isset($_POST['correo'])){echo $_POST['correo'];}?>" placeholder="Correo electrónico" onkeyup="SinEspacio(this);">
                     <span class="fa fa-envelope form-control-feedback"></span>
                     <p id="notificacion2" class="msj_error"></p>
                     <!-- </div> -->
@@ -94,7 +94,7 @@ $verparam = mysqli_fetch_assoc($resultParametro);
 
                   <div class="form-group has-feedback">
                     <!-- <div class="input-group"> -->
-                      <input autocomplete="off" type="text" id="telefono" maxlength="8" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeyup="verificar2(this.value)" onkeypress="return soloNumeros(event)">
+                      <input autocomplete="off" type="text" id="telefono" class="form-control" name="telefono" value="<?php if(isset($_POST['telefono'])){echo $_POST['telefono'];}?>" placeholder="Número de teléfono" onkeyup="verificar2(this.value)">
                       <span class="fa fa-phone-square form-control-feedback"></span>
                     <!-- </div> -->
                   </div>
@@ -104,7 +104,7 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                     <button type="button" id="btnCancelar" class="btn btn-danger">Cancelar</button>
                   </div>
                   <div class="text-center form-group has-feedback">
-                    <button href="#timeline" class="btn btn-success desactivado" id="enviar" data-toggle="tab" disabled>Siguiente</button>
+                    <button href="#timeline" class="btn btn-primary desactivado" id="enviar" data-toggle="tab" disabled>Siguiente</button>
                   </div>
                 </div>
               </div>
@@ -114,11 +114,11 @@ $verparam = mysqli_fetch_assoc($resultParametro);
               <p class="register-box-msg">Registro de usuario</p>
                 <div class="post text-center">
                   <!-- <div class="form-group"> -->
-                    <label class="color-enlaces" for="">Pregunta número 1</label>
+                    <label class="color-enlaces" for="">Configuración: Pregunta número 1</label>
                     <br>
-                    <label class="color-enlaces">Selecciona una pregunta</label>
-                    <select id="id_pregunta1" name = "pregunta1" class="sel form-control">
-                      <option>Seleccione una pregunta...</option>
+                    <br>
+                    <select id="id_pregunta1" name = "pregunta1" class="sel uno form-control">
+                      <option value="preg_select">Seleccione una pregunta...</option>
                       <?php
                             include_once ('../../modelo/conexionbd.php');
     
@@ -129,26 +129,18 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                               <option <?php echo $preguntaid === $opciones['id_pregunta'] ? 'selected' : ''; ?> value="<?php echo $opciones['id_pregunta']?>"><?php echo $opciones['pregunta']?></option>
                           <?php endwhile;?>
                     </select>
-                    <script type="text/javascript">
-                          window.onload = function(){
-                          $(document).on('change','.sel',function(){
-                            $(this).siblings().find('option[value="'+$(this).val()+'"]').remove();
-                          });
-                          }
-                          </script>
-                    
                   <!-- </div> -->
                   <br>
                     <div class="form-group has-feedback">
-                      <input autocomplete="off" type="text" maxlength="15" id="preg1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                      <input autocomplete="off" type="text" id="preg1" class="form-control" name="pregunta1" value="<?php if(isset($_POST['pregunta1'])){echo $_POST['pregunta1'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                       <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                       <p id="resp" class='msj_error'></p>
                     </div>
                     <br>
                     
                     <div class="columna">
-                    <button class="btn btn-primary" href="#activity" id="prevtab" data-toggle="tab">Anterior</button>
-                    <button class="btn btn-success" href="#settings" id="nexttab" data-toggle="tab">Siguiente</button>
+                    <button class="btn btn-default" href="#activity" id="prevtab" data-toggle="tab">Anterior</button>
+                    <button class="btn btn-primary" href="#settings" id="nexttab" data-toggle="tab">Siguiente</button>
                     
                   </div>
                 </div>
@@ -159,11 +151,11 @@ $verparam = mysqli_fetch_assoc($resultParametro);
               <p class="register-box-msg">Registro de usuario</p>
                 <div class="post text-center">
                   <div class="form-group">
-                  <label class="color-enlaces" for="">Pregunta número 2</label>
+                  <label class="color-enlaces" for="">Configuración: Pregunta número 2</label>
                   <br>
-                    <label class="color-enlaces">Selecciona una pregunta</label>
-                    <select id="id_pregunta2" name = "pregunta2" class="sel form-control">
-                    <option>Seleccione una pregunta...</option>
+                  <br>
+                    <select id="id_pregunta2" name = "pregunta2" class="sel dos form-control">
+                    <option value="preg_select2">Seleccione una pregunta...</option>
                       <?php
                             include ('../../modelo/conexionbd.php');
     
@@ -174,26 +166,19 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                               <option <?php if(isset($_POST[$opciones['id_pregunta']])){ echo $_POST[$opciones['id_pregunta']];}?> value="<?php echo $opciones['id_pregunta'];?>"><?php echo $opciones['pregunta'];?></option>
                           <?php endwhile;?>
                     </select>
-                    <script type="text/javascript">
-                          window.onload = function(){
-                          $(document).on('change','.sel',function(){
-                            $(this).siblings().find('option[value="'+$(this).val()+'"]').remove();
-                          });
-                          }
-                          </script>
                   </div>
                   
                     <div class="form-group has-feedback">
-                      <input autocomplete="off" type="text" maxlength="15" id="preg2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                      <input autocomplete="off" type="text" id="preg2" class="form-control" name="pregunta2" value="<?php if(isset($_POST['pregunta2'])){echo $_POST['pregunta2'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                       <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                       <p id="resp2" class="msj_error"></p>
                     </div>
                     <br>
                     
                     <div class="columna">
-                    <button class="btn btn-primary" href="#timeline" id="prevtab" data-toggle="tab">Anterior</button>
-                    <button class="btn btn-success" href="#settings1" id="nexttab2" data-toggle="tab">Siguiente</button>
-                    
+                    <button class="btn btn-default" href="#timeline" id="prevtab" data-toggle="tab">Anterior</button>
+                    <button class="btn btn-primary" href="#settings1" id="nexttab2" data-toggle="tab">Siguiente</button>
+                  
                   </div>
                 </div>
               </div>
@@ -203,11 +188,11 @@ $verparam = mysqli_fetch_assoc($resultParametro);
               <p class="register-box-msg">Registro de usuario</p>
                 <div class="post text-center">
                   <div class="form-group">
-                  <label class="color-enlaces" for="">Pregunta número 3</label>
+                  <label class="color-enlaces" for="">Configuración: Pregunta número 3</label>
                   <br>
-                    <label class="color-enlaces">Selecciona una pregunta</label>
-                    <select id="id_pregunta3" name = "pregunta3" class="sel form-control">
-                    <option>Seleccione una pregunta...</option>
+                  <br>
+                    <select id="id_pregunta3" name = "pregunta3" class="sel tres form-control">
+                    <option value="preg_select3">Seleccione una pregunta...</option>
                       <?php
                             include_once ('../../modelo/conexionbd.php');
     
@@ -218,25 +203,19 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                               <option <?php //echo $pregid === $opciones['id_pregunta'] ? 'selected' : '';?> value="<?php echo $opciones['id_pregunta'];?>"><?php echo $opciones['pregunta'];?></option>
                           <?php endwhile;?>
                           </select>
-                          <script type="text/javascript">
-                          window.onload = function(){
-                          $(document).on('change','.sel',function(){
-                            $(this).siblings().find('option[value="'+$(this).val()+'"]').remove();
-                          });
-                          }
-                          </script>
+                          
 
                   </div>
                     <div class="form-group has-feedback">
-                      <input autocomplete="off" type="text" maxlength="15" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
+                      <input autocomplete="off" type="text" id="preg3" class="form-control" name="pregunta3" value="<?php if(isset($_POST['pregunta3'])){echo $_POST['pregunta3'];}?>" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                       <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
                       <p id="resp3" class="msj_error"></p>
                     </div>
                     <br>
                     
                     <div class="columna">
-                    <button class="btn btn-primary" href="#settings" id="prevtab" data-toggle="tab">Anterior</button>
-                    <button class="btn btn-success" href="#settings2" id="nexttab3" data-toggle="tab">Siguiente</button>
+                    <button class="btn btn-default" href="#settings" id="prevtab" data-toggle="tab">Anterior</button>
+                    <button class="btn btn-primary" href="#settings2" id="nexttab3" data-toggle="tab">Siguiente</button>
                     
                   </div>
                 </div>
@@ -249,7 +228,7 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                 
                   <div class="form-group has-feedback">
                     <div class="input-group">
-                      <label for="inputSkills" class="control-label color-enlaces">Ingresa tu contraseña:</label>
+                      <label for="inputSkills" id="lblContrasena" class="control-label color-enlaces">Ingresa tu contraseña:</label>
                     </div>
                     <input autocomplete="off" id="PassRegistro" type="password" class="form-control" name="password" placeholder="Contraseña">
                       
@@ -257,18 +236,19 @@ $verparam = mysqli_fetch_assoc($resultParametro);
                     
                     <div class="form-group has-feedback">
                       <div class="input-group">
-                        <label for="inputSkills" class="control-label color-enlaces">Confirme su contraseña:</label>
+                        <label for="inputSkills" id="lblConfContrasena" class="control-label color-enlaces">Confirme su contraseña:</label>
                       </div>
                       <div class="input-group">
                         <input autocomplete="off" id="ConfPassR" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
                         <span class="input-group-btn" onclick="VerPassword()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
+                          <button id="MostrarPass_Registro" class="btn btn-default" type="button"><i class="fa fa-eye-slash icons"></i></button>
                         </span>
                       </div>
+                      <p id="resp4" class="msj_error"></p>
                     </div>
                     <br>
                     <div class="columna">
-                      <button class="btn btn-primary" href="#settings1" data-toggle="tab">Anterior</button>
+                      <button id="pant_Anterior" class="btn btn-default" href="#settings1" data-toggle="tab">Anterior</button>
                       <input type="hidden" name="tipo" value="registro">
                       <button type="button" id="btnRegistro" name="btnRegistros" class="btn btn-success">Registrarse</button>
                     </div>     
@@ -395,6 +375,7 @@ $verparam = mysqli_fetch_assoc($resultParametro);
 <script src="../dist/js/app.login.js"></script>
 <script src="../dist/js/recargar.js"></script>
 <script src="../dist/js/registro.js"></script>
+<script src="../dist/js/pruebas.js"></script>
 <!-- <script src="../dist/js/funcionPreguntas.js"></script> -->
 
 <script src="../plugins/iCheck/icheck.min.js"></script>

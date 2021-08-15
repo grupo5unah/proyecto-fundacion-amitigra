@@ -41,7 +41,7 @@ if ($result->num_rows > 0) {
 ?>
  <input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 <section class="content-header">
-		<h1>Mantenimiento objetos</h1>
+		<h1>Mantenimiento<small> Objetos</small></h1>
 		<ol class="breadcrumb ">
 			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 			

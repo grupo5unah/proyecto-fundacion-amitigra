@@ -13,7 +13,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 ?>
 <div class="content-wrapper">
 <section class="content-header">
-		<h1>Mantenimiento parámetros</h1>
+		<h1>Mantenimiento<small> Parámetros</small></h1>
 		<ol class="breadcrumb ">
 			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 			

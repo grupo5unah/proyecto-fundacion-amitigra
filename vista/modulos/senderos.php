@@ -63,7 +63,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantSenderos">
 									<thead>
                     <tr>
-                            <th>Numero<br>Factura:</th>
+                            <th>Numero<br>de Orden:</th>
                             <th>Tipo de Boleto:</th> 
                             <th>Cantidad Boletos<br>Vendidos:</th>
                             <th>Subtotal</th>
@@ -169,41 +169,46 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 			<!-- /.box-footer-->
 			<!-- MODAL DETALLE BOLETO -->
       <div class="modal fade" id="modalDetalleB" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true"  data-backdrop="static">
-						<div class="modal-dialog modal-dialog-scrollable" role="document">
-							<div class="modal-content">
+						<div class="modal-dialog">
+							<div class="modal-content" style="width: 500px;">
 								<div class="modal-header">
-									<h4 class="modal-title" id="exampleModalScrollableTitle">FUNDACION AMITIGRA</h4>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
+									<div class="d-flex justify-content-between">
+										<h4 class="modal-title" id="exampleModalScrollableTitle">FUNDACION AMITIGRA</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
 								</div>
 								<div class="modal-body">
+								<form method="POST" id="formDetalleB">
+									<div class="box-body">
+										<div class="cont row" id="cont">
+										</div>
+										<table class="table">
+											<thead>
+												<tr>												
+													<th scope="col">Cantidad</th>
+													<th scope="col">Descripcion</th>
+													<th scope="col">Precio</th>
+													<th scope="col">Subtotal</th>
+													<th scope="col">Tipo de Moneda</th>
+												</tr>
+												
+											</thead>
+											<tbody id="listaDeBoletosTabla">										
 
-									<div class="cont row" id="cont">
-									</div>
-									<table class="table">
-										<thead>
-											<tr>												
-												<th scope="col">Cantidad</th>
-												<th scope="col">Descripcion</th>
-												<th scope="col">Precio</th>
-												<th scope="col">Subtotal</th>
-											</tr>
+											</tbody>
 											
-										</thead>
-										<tbody id="listaDeBoletosTabla">										
-
-										</tbody>
-										
-									</table>								
-									
-								</div>
-								<div id="total">
-											
+										</table>								
+									</div><br>	
 									</div>
+									<div id="total">
+												
+										</div>
+								</form> <!-- /.cierre de formulario -->
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-									<!-- <button type="button" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button> -->
+									<button type="button" id="btnimprimirB" class="btn btn-default"><i class="fas fa-print"></i>Imprimir</button>
 								</div>
 							</div>
 						</div>
@@ -255,22 +260,21 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																			<option value="<?php echo $opciones['id_localidad']?>"><?php echo $opciones['nombre_localidad']?></option>
 																			<?php endforeach;?>
 																		</select>      																		      
-																	</div>																	
-																	<!-- radio -->
+																	</div>			
 																</div>
 																<div class="col-md-6">
 																	<div class="form-group">
 																		<label>Tipo Boleto:</label><br>
 																		<select type="text" class="form-control" id="lista1" name="lista1">
-																		<option value="" disabled selected>Seleccione...</option>
-																		<?php
-																			require ('./modelo/conexionbd.php');
-																		$stmt = "SELECT id_tipo_boleto, nombre_tipo_boleto FROM tbl_tipo_boletos WHERE estado_eliminado = 1";
-																		$resultado = mysqli_query($conn,$stmt);
-																		?>
-																		<?php foreach($resultado as $opciones):?>
-																		<option value="<?php echo $opciones['id_tipo_boleto']?>"><?php echo $opciones['nombre_tipo_boleto']?></option>
-																		<?php endforeach;?>
+																			<option value="" disabled selected>Seleccione...</option>
+																			<?php
+																				require ('./modelo/conexionbd.php');
+																			$stmt = "SELECT id_tipo_boleto, nombre_tipo_boleto FROM tbl_tipo_boletos WHERE estado_eliminado = 1";
+																			$resultado = mysqli_query($conn,$stmt);
+																			?>
+																			<?php foreach($resultado as $opciones):?>
+																			<option value="<?php echo $opciones['id_tipo_boleto']?>"><?php echo $opciones['nombre_tipo_boleto']?></option>
+																			<?php endforeach;?>
 																		</select>																																				
 																	</div>
 																</div>
@@ -280,32 +284,25 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																		<input type="number" min="1" class="form-control" name="CantBoleto" id="CantBoleto" oninput="sumarBoletosN();" placeholder="Cantidad Personas Adultas" 
 																		value="">
 																	</div>
-																</div>	
+																</div>
 																<div class="col-md-6">																
-																	<div class="campos form-group">
-																		<label for="precioN">Precio de Boleto:</label>
-																		<div class="input-group col-sm-8">																																		
-																			<input type="text" class="form-control estilo" id="miprecio" disabled="true" placeholder="Precio del boleto" value=""> 
-																		</div>
+																	<div class="form-group">
+																		<label for="precioN">Precio de Boleto:</label><br><br><br><br>																
+																		<input type="text" class="form-control" id="miprecio" disabled="true" placeholder="Precio del Boleto" value=""> 
 																	</div>
 																</div>
-																
-																<div class="col-md-6">
-																<div id="guardarCliente">
-																
-																</div>
-																
-															</div>
+															
 																
 																<input type="hidden" name="totalPB" id="totalPB" value="">
 																<div>
 																<button id="btnAgregarS" class="btn btn-success btnAgregarS addnacional glyphicon glyphicon-plus-sign">Agregar</button>
-																</div><br><br>
+																</div><br>
 														</div><!-- row -->
 														<!-- <div id="listaBoletos"></div> -->
 															<table id="tableBoletos" data-page-length='10' class=" table table-hover table-condensed table-bordered">
 																<thead>
 																	<tr>
+																		<td class="text-center tableBoletos">#</td>
 																		<td class="text-center tableBoletos">Cantidad</td>
 																		<td class="text-center tableBoletos">Descripcion</td>
 																		<td class="text-center tableBoletos">Precio</td>
@@ -314,19 +311,18 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 																		<!-- <td class="text-center tableBoletos">Acciones</td> -->
 																	</tr>
 																</thead>																
-																<tbody>
+																<tbody class="bole">
 																</tbody>
 																<tfoot>
 																	<tr class="total">
-																		<th>Total Vendidos:</th>
-																		<th></th>
-																		<th></th>
-																		<th>Total a Pagar:</th>
+																		
 																	</tr>
 																</tfoot>
-															</table>
+															</table><br>
+															<label for="">Total a Pagar:</label>
 															<input type="text" id="totalPagar" disabled="true"></input>
-															<div class="col-md-6">
+															<div class="col-md-7">
+															<label for="">Total Vendidos:</label>
 															<input type="text" id="resultado_total" disabled="true"></input>
 															</div>
 													</div><!-- box-body -->
