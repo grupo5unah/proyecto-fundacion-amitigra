@@ -34,14 +34,6 @@
 	}
 
 
-	function validaemail(valor) {
-		re = /^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-		if (!re.exec(valor)) {
-			$res['msj'] = "Email no valido";
-		}
-
-	}
-
 
 	function mostrarPassword() {
 		var cambio = document.getElementById("Contraseña");
@@ -85,6 +77,12 @@
 			cambio.type = "password";
 			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
 		}
+	}
+
+	function validarEmail(correo) {
+		if (/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(valor)) {
+
+		} 
 	}
 </script>
 
@@ -138,7 +136,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol
 									</button> -->
 
-											<button class="btn btn-default btnCrearUsuario glyphicon glyphicon-plus-sign">Agregar Usuario</button>
+											<button class="btn btn-success btnCrearUsuario glyphicon glyphicon-plus-sign"> AGREGAR NUEVO USUARIO</button>
 										</div> <!-- /div-action -->
 
 										<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="tablaMantenimientoUsuarios">
@@ -146,8 +144,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												<tr style="background-color: #222d32; color: white;">
 													<th>Nombre</th>
 													<th>Usuario</th>
-													<th>Genero</th>
-													<th>Telefono</th>
+													<th>Género</th>
+													<th>Teléfono</th>
 													<th>Correo</th>
 													<th>Rol</th>
 													<th>Estado</th>
@@ -329,7 +327,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 								</div>
 								<div class="modal-footer">
 									<button id="cerrar_actualizarU" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-									<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-primary" onclick="validaemail(correoact.value);">Actualizar Usuario</button>
+									<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-success" onclick="validaemail(correoact.value);">Actualizar Usuario</button>
 								</div>
 							</div>
 						</div>
@@ -363,7 +361,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											</div><br>
 
 											<div class="input-group has-feedback">
-											
+
 												<input id="ConfirmarContraseña_reset" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña" required>
 												<span class="input-group-btn" onclick="VerPasswordRC()">
 													<button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons "></i></button>
@@ -417,11 +415,11 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class="campos form-group">
 												<input id="telefono" autocomplete="off" style="width: 363px;" maxlength="8" minlength="8" class="form-control modal-roles 
-										secundary" type="tel" onpaste="return false" placeholder="Teléfono" onkeypress="return soloNumeros(event)"  required /></center>
+										secundary" type="tel" onpaste="return false" placeholder="Teléfono" onkeypress="return soloNumeros(event)" required /></center>
 											</div>
 											<div class="campos form-group">
 
-												<input id="correo" style="width:363px;" class="form-control modal-roles secundary" type="email" name="cantidad" placeholder="Correo" onkeyup="validarEmail(this)" required />
+												<input id="correo" maxlength="50" style="width:363px;" class="form-control modal-roles secundary" type="email" name="cantidad" placeholder="Correo" onkeyup="validarEmail" required />
 											</div>
 
 											<div class="input-group col-sm-11 has-feedback">
@@ -439,8 +437,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											<div class="campos form-group">
 												<select class="form-control" id="genero" name="genero" required>
 													<option value="">Seleccione un Género</option>
-													<option value="masculino">Masculino</option>
-													<option value="femenino">Femenino</option>
+													<option value="masculino">masculino</option>
+													<option value="femenino">femenino</option>
 
 												</select>
 											</div>
@@ -472,7 +470,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												<button type="button" id="cerrar_r" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
 
-												<button id="registrarUser" type="submit" name="registrarUser" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Usuario</button>
+												<button id="registrarUser" type="submit" name="registrarUser" class="btn btn-success" onclick="validaemail(correo.value);">Registrar Usuario</button>
 											</div>
 
 									</form>

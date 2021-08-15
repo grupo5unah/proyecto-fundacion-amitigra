@@ -24,7 +24,7 @@ $(document).ready(function () {
         extend: "print",
         text: '<i class="fas fa-print">',
         titleAttr: "Imprimir",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
+        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
         messageTop: "REPORTE DE ESTADOS DE SOLICITUDES",
         className: "btn btn-dark",
         exportOptions: {
@@ -35,7 +35,7 @@ $(document).ready(function () {
       },
       {
         extend: "excelHtml5",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
+        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
         text: '<i class="fas fa-file-excel">',
         className: "btn btn-success",
         messageTop: "REPORTE DE ESTADOS DE SOLICITUDES",
@@ -111,7 +111,7 @@ $(document).ready(function () {
           };
           cols[1] = {
             width: '35%',
-            text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+            text: "FUNDACIÓN AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
             alignment: "left",
             margin: [25, 25, 5, 0],
             with:[30,30],
@@ -140,7 +140,7 @@ $(document).ready(function () {
                 margin: [15, 15, 0, 15],
               },
               {
-                text: "Pagina " + currentPage + " de " + pageCount,
+                text: "Página " + currentPage + " de " + pageCount,
                 alignment: "center",
                 color: "black",
                 margin: [0, 15, 0, 15],
@@ -173,10 +173,8 @@ $(document).ready(function () {
         colvis: "Cambiar Colunnas",
         pageLength: "Mostrar Registros",
       },
-    },
-    language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
-    },
+      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+    }
   });
 
   //mantenimiento de Estado de Solicitudes
@@ -204,8 +202,8 @@ $(document).ready(function () {
       if (data.error) {
         return swal("Error", data.msj, "error");
       }
-
-      return swal("Exito!", data.msj, "success").then((value) => {
+      
+      return swal("Éxito!", data.msj, "success").then((value) => {
         if (value) {
           // Se limpia el formulario de mantenimiento de tipo de solicitudes
           $("#estadoSolicitud").val("");
@@ -222,11 +220,13 @@ $(document).ready(function () {
   });
 
   $("#cerrarES").on("click", function () {
+    //limpiar estado al cerrar modal
+    $("#estadoSolicitud").val("");
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perdera la información",
+      buttons: ["Cancelar" , "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -237,11 +237,13 @@ $(document).ready(function () {
     });
   });
   $("#CerrarCrearES").on("click", function () {
+    //limpiar estado al cerrar modal
+    $("#estadoSolicitud").val("");
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perdera la información",
+      buttons: ["Cancelar" , "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -257,10 +259,11 @@ $(document).ready(function () {
     const idestadosolicitud = $(this).data("idestadosolicitud");
     var usuario_actual = $("#usuario_actual").val();
     swal(
-      "Eliminar Estado de Solicitud",
-      "Esta seguro de eliminar este estado de solicitud",
+      "Eliminar estado de solicitud",
+      "¿Esta seguro de eliminar este estado de solicitud?",
       "warning",
-      { buttons: [true, "OK"] }
+      { buttons: ["Cancelar", "Aceptar"],
+    dangerMode: true, }
     ).then(async (value) => {
       if (value) {
         const formData = new FormData();
@@ -335,9 +338,9 @@ $(document).ready(function () {
     $("#cerrarACTES").on("click", function () {
       swal({
         icon: "warning",
-        title: "Saliendo...",
-        text: "Desea Salir?",
-        buttons: true,
+        title: "¿Desea salir?",
+        text: "Si acepta se perderá la información",
+        buttons: ["Cancelar" , "Aceptar"],
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
@@ -350,9 +353,9 @@ $(document).ready(function () {
     $("#cerrarAct").on("click", function () {
       swal({
         icon: "warning",
-        title: "Saliendo...",
-        text: "Desea Salir?",
-        buttons: true,
+        title: "¿Desea salir?",
+        text: "Si acepta se perderá la información",
+        buttons: ["Cancelar" , "Aceptar"],
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {

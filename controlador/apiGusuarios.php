@@ -6,11 +6,6 @@ $res = array('error' => false);
 $action = '';
 
 
-
-
-
-
-
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
@@ -97,13 +92,80 @@ switch ($action) {
                         $sql->execute();
 
                         if ($sql->error) {
+
+                            //select para traer el id del usuario
+                            $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                            WHERE nombre_usuario='$usuario_actual'");
+                            $resulta = mysqli_fetch_array($consulid);
+                            if ($resulta > 0) {
+                                $id_user = $resulta['id_usuario'];
+                            }
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Error al crear usuario";
+                            $descripcion = "Se intentó registrar un nuevo usuario";
+                            $objeto = 20;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+
                             $res['msj'] = "Se produjo un error al momento de registrar el Usuario";
                             $res['error'] = true;
                         } else {
-                            $res['msj'] = "Usuario Creado con éxito";
+
+                            require '../funciones/config_serverMail.php';
+                                   
+                            $mail->addAddress($_POST['correo']);
+                            $mail->Subject = "Confirmacion creación de cuenta";
+                            $mail->Body = "<h3>Hola: {$nombreusuario} </h3><h4>Te damos la bienvenida a nuestro sistema.</h4>
+                                        <p>A continuación te brindamos tus credenciales:</p>
+                                        <p>Nombre de usuario: {$nombreusuario}</p>
+                                        <p>Contraseña: {$Contraseña}</p>></br>
+                                        <a href='http://fundacionamitigra.com/vista/modulos/login.php' Haga clic aquí para su primer inicio de sesión</a>
+                                       
+                                        <p> <spam><strong>Nota:<strong></spam> no compartas tus credenciales con nadie.</p>";
+
+                            if ($mail->send()) {
+                            }
+                           
+                            
+
+                            //select para traer el id del usuario
+                            $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                            WHERE nombre_usuario='$usuario_actual'");
+                            $resulta = mysqli_fetch_array($consulid);
+                            if ($resulta > 0) {
+                                $id_user = $resulta['id_usuario'];
+
+                                date_default_timezone_set("America/Tegucigalpa");
+                                $fechaAccion = date("Y-m-d H:i:s", time());
+
+                                $accion = "Autoregistro de usuario";
+                                $descripcion = "Se registró un nuevo usuario por el administrador";
+                                $objeto = 20;
+                                include "../modelo/conexionbd.php";
+
+                                //INSERTAR LA ACCION EN BITACORA
+                                $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                                $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                                $bitacora->execute();
+
+                               
+                                
+                                $res['msj'] = "Usuario creado con éxito";
+
+
+                               
+                            }
+    
+
+         
                         }
-                        // $sql->close();
-                        // $sql = null;
                     } catch (Exception $e) {
                         echo $e->getMessage();
                     }
@@ -141,6 +203,26 @@ switch ($action) {
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
+                //select para traer el id del usuario
+                $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                WHERE nombre_usuario='$usuario_actual'");
+                $resulta = mysqli_fetch_array($consulid);
+                if ($resulta > 0) {
+                    $id_user = $resulta['id_usuario'];
+
+                    date_default_timezone_set("America/Tegucigalpa");
+                    $fechaAccion = date("Y-m-d H:i:s", time());
+
+                    $accion = "Actualización de datos de usuario";
+                    $descripcion = "Se actualizaron datos de un usuario por el administrador";
+                    $objeto = 20;
+                    include "../modelo/conexionbd.php";
+
+                    //INSERTAR LA ACCION EN BITACORA
+                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                    $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                    $bitacora->execute();
+                }
                 $res['msj'] = "Usuario actualizado con éxito";
             } else {
                 $res['msj'] = "Se produjo un error al momento de editar el Isuario ";
@@ -167,7 +249,7 @@ switch ($action) {
 
             if ($contrasena == $confirmacontra) {
                 $contrasena_hash = password_hash($contrasena, PASSWORD_BCRYPT);
-                
+
                 $sql = "UPDATE tbl_usuarios SET contrasena='$contrasena_hash',fecha_mod_contrasena='$fecha', 
                 modificado_por='$usuario_actual',fecha_modificacion=' $fecha'
                 WHERE id_usuario=" . $id_usuario;
@@ -175,28 +257,34 @@ switch ($action) {
 
 
                 if ($resultado > 0) {
-                    $res['msj'] = "contraseña reseteada con éxito";
-
-                    $accion_realizada = 'reseteo de contraseña';
-                    $descripcion = 'se realizo reseteo de contraseña por parte del administrador';
-                    $objeto = 7;
 
                     //select para traer el id del usuario
                     $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
-                    WHERE nombre_usuario='$usuario_actual'");
+        WHERE nombre_usuario='$usuario_actual'");
                     $resulta = mysqli_fetch_array($consulid);
                     if ($resulta > 0) {
                         $id_user = $resulta['id_usuario'];
 
-                        //insertar en bitacora el reseteo de contraseña
-                        $sql_insert = mysqli_query($conn, "INSERT INTO tbl_bitacora(accion,descripcion,fecha_accion,usuario_id,objeto_id)
-                        VALUES('$accion_realizada','$descripcion',now(),$id_user,$objeto)");
+                        date_default_timezone_set("America/Tegucigalpa");
+                        $fechaAccion = date("Y-m-d H:i:s", time());
+
+                        $accion = "Reseteo de contraseña";
+                        $descripcion = "Se realizó reseteo de contraseña por parte del administrador";
+                        $objeto = 20;
+                        include "../modelo/conexionbd.php";
+
+                        //INSERTAR LA ACCION EN BITACORA
+                        $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                        $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                        $bitacora->execute();
                     }
+
+                    $res['msj'] = "contraseña reseteada con éxito";
                 } else {
                     $res['msj'] = "Se produjo un error al momento de resetear la contraseña";
                     $res['error'] = true;
                 }
-            }else{
+            } else {
                 $res['msj'] = "Las contraseñas no coinciden";
                 $res['error'] = true;
             }
@@ -208,7 +296,7 @@ switch ($action) {
 
 
 
-        
+
 
     case 'eliminarUsuario':
         if (isset($_POST['id_usuario'])) {
@@ -231,6 +319,27 @@ switch ($action) {
 
                 if ($usuario_traido == $usuario_actual) {
 
+                    //select para traer el id del usuario
+                    $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                WHERE nombre_usuario='$usuario_actual'");
+                    $resulta = mysqli_fetch_array($consulid);
+                    if ($resulta > 0) {
+                        $id_user = $resulta['id_usuario'];
+
+                        date_default_timezone_set("America/Tegucigalpa");
+                        $fechaAccion = date("Y-m-d H:i:s", time());
+
+                        $accion = "Eliminación del usuario logueado";
+                        $descripcion = "Se intentó eliminar el usuario logueado actualmente";
+                        $objeto = 20;
+                        include "../modelo/conexionbd.php";
+
+                        //INSERTAR LA ACCION EN BITACORA
+                        $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                        $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                        $bitacora->execute();
+                    }
+
                     $res['msj'] = "El usuario actual no se puede eliminar";
                     $res['error'] = true;
                 } else {
@@ -238,9 +347,49 @@ switch ($action) {
                     $sql = "DELETE FROM tbl_usuarios WHERE id_usuario = " . $id_usuario;
                     $resultado = $conn->query($sql);
                     if ($resultado > 0) {
-                        $res['msj'] = "Usuario Eliminado con éxito";
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Eliminación de un usuario";
+                            $descripcion = "Se eliminó un usuario por el administrador";
+                            $objeto = 20;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
+                        $res['msj'] = "Usuario eliminado con éxito";
                     } else {
-                        $res['msj'] = "No se pudo eliminar el Usuario";
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                        WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Eliminación de un usuario";
+                            $descripcion = "Se intentó eliminar un usuario";
+                            $objeto = 20;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
+                        $res['msj'] = "No se pudo eliminar el usuario";
                         $res['error'] = true;
                     }
                 }

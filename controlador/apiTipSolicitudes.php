@@ -65,7 +65,28 @@ switch ($action) {
                         $res['msj'] = "Se produjo un error al momento de registrar el tipo de solicitud";
                         $res['error'] = true;
                     } else {
-                        $res['msj'] = "El tipo de Solicitud se ha registrado Correctamente";
+                        //Insertar en bitacora
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                                         WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Creación de tipo de solicitud";
+                            $descripcion = "Se ha registrado un nuevo tipo de solicitud";
+                            $objeto = 36;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
+                        $res['msj'] = "El tipo de Solicitud se ha registrado correctamente";
                     }
                 }
             } catch (Exception $e) {
@@ -94,6 +115,27 @@ switch ($action) {
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
+                             //Insertar en bitacora
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                                         WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Actualización de tipo de solicitud";
+                            $descripcion = "Se ha actualizado un tipo de solicitud";
+                            $objeto = 36;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
 
                 $res['msj'] = "Tipo de solicitud actualizada con éxito";
             } else {
@@ -120,8 +162,50 @@ switch ($action) {
              WHERE id_tipo_solicitud = " . $id_tipo_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
+                             //Insertar en bitacora
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                                         WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Eliminación de tipo de solicitud";
+                            $descripcion = "Se ha eliminado un tipo de solicitud";
+                            $objeto = 36;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
                 $res['msj'] = "Tipo solicitud eliminada con éxito";
             } else {
+                                //Insertar en bitacora
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                                         WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Eliminación de tipo de solicitud";
+                            $descripcion = "Se ha intentado eliminar un tipo de solicitud";
+                            $objeto = 36;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
                 $res['msj'] = "Se produjo un error al momento de eliminar el tipo de solicitud";
                 $res['error'] = true;
             }

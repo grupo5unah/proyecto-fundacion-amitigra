@@ -44,12 +44,12 @@ global $mail;
                     $mail->isSMTP();
                     $mail->Host       = "smtp.gmail.com";
                     $mail->SMTPAuth   = true;
-                    $mail->Username   = $valor;
-                    $mail->Password   = $PContrasena["valor"];
-                    $mail->SMTPSecure = "tls";
-                    $mail->Port       = $PPuerto["valor"];
+                    $mail->Username   = "soporte.fundacionamitigra@gmail.com";
+                    $mail->Password   = "root_amitigra";
+                    $mail->SMTPSecure = "ssl";
+                    $mail->Port       = 465;
 
-                    $mail->setFrom($valor, "Soporte tecnico");
+                    $mail->setFrom("soporte.fundacionamitigra@gmail.com", "Soporte tecnico");
                     $mail->isHTML(true);
                     //$mail->addReplyTo("no-reply@dfaguilarr.com");
 
