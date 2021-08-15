@@ -16,7 +16,7 @@ if ($row = mysqli_fetch_row($rs)) {
 switch ($action) {
     case 'obtenerCantidad': // OBTIENE 
         $idPro = $_GET['idProducto'];
-        $sql = "SELECT i.existencias from tbl_inventario i INNER JOIN tbl_producto p on p.id_producto= i.producto_id where p.id_producto= $idPro ";
+        $sql = "SELECT i.stock from tbl_inventario i INNER JOIN tbl_producto p on p.id_producto= i.producto_id where p.id_producto= $idPro ";
         $result = $conn->query($sql);
         $producto = array();
         while ($row = $result->fetch_assoc()) {

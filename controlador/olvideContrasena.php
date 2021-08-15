@@ -48,7 +48,8 @@
                     if($stmt1->error) {
                         die("error en la conexion" . mysqli_error($conn));
                     } else {
-                        $mail->Subject = "Confirmacion cambio de contrasena AMITIGRA";
+
+                        $mail->Subject = "Confirmación cambio de contraseña AMITIGRA";
                         $mail->Body = "<h3>Hola: {$usuario}.</h3><h4>Se solicitó recientemente cambio de su contraseña.</h4>
                                     <p>Si usted ha solicitado el cambio de contraseña, pulse el siguiente enlace para establecer una nueva contraseña:</p>
                                     <a href='http://fundacionamitigra.com/vista/modulos/nueva_contrasena.php?eid={$correo}&tkn={$encode_token}&exd={$expire_date}'>Haga clic aquí para cambiar su contraseña</a>
@@ -56,14 +57,9 @@
                                     <p> <spam><strong>Nota:<strong></spam> este enlace es válido por 24 horas, puedes solicitar otro cambio de contraseña una vez a pasado el tiempo establecido.</p>";
 
                         if($mail->send()) {
-                            /*echo '<script>
-                            localhost/proyectos/proyecto-fundacion-amitigra
-                                        if (window.history.replaceState){
-                                        window.history.replaceState(null, null, window.location.href);
-                                        }
-                                    </script>';*/
+
                             setcookie('_unp_', getToken(16), time() + 60 * 2, '', '', '', true);
-                            
+
                             //ENVIO DEL CORREO PARA CAMBIO DE CONTRASENA
                             $respuesta = array(
                                 "respuesta" => "exito"
@@ -73,7 +69,7 @@
                             $fechaAccion = date("Y-m-d H:i:s", time());
 
                             $accion = "Envio de correo";
-                            $descripcion = "Envio de correo para recuperacion de contrasena";
+                            $descripcion = "Envio de correo para recuperación de contraseña";
 
                             include "../modelo/conexionbd.php";
 
@@ -81,7 +77,15 @@
                             $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
                             $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_usuario, $idObjeto);
                             $bitacora->execute();
+
+                        } else {
+
+                            $respuesta = array(
+                                "respuesta" => "NoEnvio"
+                            );
+
                         }
+
                     }
                 } else {
 
@@ -110,5 +114,6 @@
         $VerificarUsuario->close();
         $VerificarUsuario = null;
     }
-        echo json_encode($respuesta);
+        
     //FIN SI ES MEDIANTE CORREO
+    echo json_encode($respuesta);

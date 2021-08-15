@@ -30,6 +30,7 @@ case 'registrarParametro': // REGISTRA UN parametro
         $estado= 1;
         $id_usuario= $_POST['id_usuario'];
         $usuario_actual = $_POST['usuario_actual'];
+        date_default_timezone_set("America/Tegucigalpa");
         $fecha = date('Y-m-d H:i:s', time());
         //echo $usuario_db;
 
@@ -57,9 +58,15 @@ case 'registrarParametro': // REGISTRA UN parametro
                     $res['error'] = true;
                 } else {
                     $res['msj'] = "Parametro Registrado Correctamente";
+                        $objeto = 29;
+                        $acciones = "REGISTRO DE PARAMETROS";
+                        $descp = "SE INGRESADO UN NUEVO PARAMETRO";
+                                                
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
                 }
-                // $sql->close();
-                // $sql = null;
+               
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
@@ -74,7 +81,9 @@ case 'actualizarParametro':
             $parametro = $_POST['parametro'];
             $valor = $_POST['valor'];
             $usuario_actual = $_POST['usuario_actual'];
+            date_default_timezone_set("America/Tegucigalpa");
             $fecha = date('Y-m-d H:i:s', time());
+            $id_usuario = (int)$_POST['IDusuario_actual'];
             
            
             $sql = "UPDATE tbl_parametros SET parametro = '$parametro', valor= '$valor', modificado_por= '$usuario_actual', fecha_modificacion= '$fecha' WHERE id_parametro=" . $id_param;          
@@ -83,6 +92,14 @@ case 'actualizarParametro':
             if ($resultado == 1) {
                 //print_r($resultado);
                 $res['msj'] = "parametro se  Edito  Correctamente";
+                        $objeto = 29;
+                        $acciones = "ACTUALIZACION DE PARAMETROS";
+                        $descp = "SE HA ACTUALIZADO UN  PARAMETRO";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de Editar el parametro ";
                 $res['error'] = true;
@@ -97,10 +114,22 @@ case 'actualizarParametro':
 case 'eliminarParametro':
         if (isset($_POST['id_parametro'])) {
             $id_param = (int)$_POST['id_parametro'];
+            $id_usuario = (int)$_POST['ID_usuario'];
+            date_default_timezone_set("America/Tegucigalpa");
+            $fecha = date('Y-m-d H:i:s', time());
+
             $sql = "UPDATE tbl_parametros SET estado_eliminado = 0 WHERE id_parametro = " . $id_param;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
                 $res['msj'] = "Parametro Eliminado  Correctamente";
+                       $objeto = 29;
+                        $acciones = "ELIMINACION DE PARAMETROS";
+                        $descp = "SE HA ELIMINADO UN  PARAMETRO";
+                        
+                        
+                        $llamar = $conn->prepare("INSERT INTO tbl_bitacora(accion, descripcion_bitacora,fecha_accion, usuario_id, objeto_id) values (?, ?, ?, ?, ?);");
+                        $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario, $objeto);
+                        $llamar->execute();
             } else {
                 $res['msj'] = "Se produjo un error al momento de eliminar el Parametro";
                 $res['error'] = true;

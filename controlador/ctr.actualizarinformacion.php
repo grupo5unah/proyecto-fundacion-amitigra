@@ -9,13 +9,13 @@ $telefono = $_POST['telefono'];
 $contrasenas = $_POST['verificarContrasena'];
 //$imagen = $_FILES['imagen'];
 
-    if(!empty($usuario) || !empty($nombre) || !empty($correo) || !empty($telefono) || !empty($contrasenas) || !empty($imagen)){
-
-        //include '../modelo/conexionbd.php';
-        //$json = array();
+    if(!empty($usuario) || !empty($nombre) || !empty($correo) || !empty($telefono)
+    || !empty($contrasenas) || !empty($imagen)){
 
         try{
-            $informacion = $conn->prepare("SELECT id_usuario, foto, contrasena FROM tbl_usuarios WHERE nombre_usuario = ?;");
+            $informacion = $conn->prepare("SELECT id_usuario, foto, contrasena
+                                            FROM tbl_usuarios
+                                            WHERE nombre_usuario = ?;");
             $informacion->bind_Param("s", $usuario);
             $informacion->execute();
             $informacion->bind_Result($id, $mi_foto, $password);
@@ -24,11 +24,7 @@ $contrasenas = $_POST['verificarContrasena'];
                 $existe = $informacion->fetch();
         
                 if($existe){
-
-                    /*$respuesta = array(
-                        "respuesta" => "correcto"
-                    );*/
-            
+       
                     if(password_verify($contrasenas, $password)){
 
                         include "../modelo/conexionbd.php";

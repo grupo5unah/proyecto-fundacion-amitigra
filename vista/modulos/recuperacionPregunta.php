@@ -22,7 +22,7 @@ $usuario = $_SESSION['usuario'];
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="shortcut icon" href="../../fotoPerfil/favicon.ico">
-  <title>AdminLTE 2 | Registration Page</title>
+  <title>SAAT | Recuperacion Contrasena</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -52,9 +52,6 @@ $usuario = $_SESSION['usuario'];
             <div class="nav-tabs-custom">
               <ul class="nav nav-tabs">
                 <li><a></a></li>               
-                <li><a></a></li> 
-                <li><a></a></li>
-                <li><a></a></li>
                 <li><a></a></li>
               </ul>
               <div class="tab-content">
@@ -71,14 +68,14 @@ $usuario = $_SESSION['usuario'];
 
                     <div class="form-group">
                       <div class="input-group">
-                        <label class="color-enlaces label-form">Selecciona su pregunta</label>
+                        <label id="etiquetaSeleccionar" class="color-enlaces label-form">Selecciona su pregunta</label>
                       </div>
                     </div>
 
                     <div class="form-group">
                                          
-                      <select id="id_pregunta" name = "pregunta_id" class="form-control">
-                        <option>Seleccione una pregunta...</option>
+                      <select id="id_pregunta_re" name = "pregunta_id" class="form-control">
+                        <option value="preg_seleccion">Seleccione una pregunta...</option>
                           <?php
                             include_once '../../modelo/conexionbd.php';
       
@@ -93,11 +90,12 @@ $usuario = $_SESSION['usuario'];
                       <div class="form-group has-feedback">
                         <input type="text" maxlength="15" id="respuestaUsuario" class="form-control" name="RespuestaValidar" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
+                        <p id="resp_re" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
-                      <button class="btn btn-primary" href="olvide_contrasena" id="prevtab" data-toggle="tab">Anterior</button>
-                      <button class="btn btn-success" href="#timeline" id="nexttab" data-toggle="tab">Siguiente</button>
+                      <a class="btn btn-primary" id="regresar" href="cerrar.php">Regresar</a>
+                      <button class="btn btn-success" href="#timeline" id="nexttab_re" data-toggle="tab">Siguiente</button>
                     
                     </div>
                   </div>
@@ -113,12 +111,13 @@ $usuario = $_SESSION['usuario'];
                       <div class="input-group has-feedback">
                         <input id="ConfPassPregunta" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
                         <span class="input-group-btn" onclick="mostrarPassPregunta()">
-                          <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
+                          <button id="mostContrasena_P" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
                         </span>
                       </div>
+                      <p id="resp1_re" class="msj_error"></p>
                       <br>
                       <div class="columna">
-                        <button class="btn btn-primary" href="#activity" data-toggle="tab">Anterior</button>
+                        <button class="btn btn-primary" id="anterior" href="#activity" data-toggle="tab">Anterior</button>
                         <input type="hidden" id="usuario" value="<?php echo $usuario;?>">
                         <input type="hidden" id="idObjeto" value="<?php echo $objeto;?>">
                         <button type="button" id="confirmarCambio" name="submit" class="btn btn-success">Actualizar</button>
@@ -128,7 +127,6 @@ $usuario = $_SESSION['usuario'];
                 </div>
                 </div>
               </div>
-              <!-- /.tab-content -->
             </div>
         
           <!--FIN FORM-->
@@ -136,40 +134,39 @@ $usuario = $_SESSION['usuario'];
       </div>
     </form>
   </div>
-  <!-- /.form-box -->
 </div>
 
 <script type="text/javascript">
 
 window.onload = function(){
 
-  let respuesta = document.getElementById('preg3');
-  let contrasena = document.getElementById('PassNuevo3');
-  let confContrasena = document.getElementById('ConfPass3');
+  let respuestas = document.getElementById('preg3');
+  let contrasenas = document.getElementById('PassNuevo3');
+  let confContrasenas = document.getElementById('ConfPass3');
 
   //NO PERMITE EL COPIADO Y PEGADO EN EL INPUT RESPUESTA
 
-  respuesta.onpaste = function(e){
+  respuestas.onpaste = function(e){
     e.preventDefault();
   }
 
-  respuesta.oncopy = function(e){
+  respuestas.oncopy = function(e){
     e.preventDefault();
   }
 
-  contrasena.onpaste = function(e){
+  contrasenas.onpaste = function(e){
     e.preventDefault();
   }
 
-  contrasena.oncopy = function(e){
+  contrasenas.oncopy = function(e){
     e.preventDefault();
   }
 
-  confContrasena.onpaste = function(e){
+  confContrasenas.onpaste = function(e){
     e.preventDefault();
   }
 
-  confContrasena.oncopy = function(e){
+  confContrasenas.oncopy = function(e){
     e.preventDefault();
   }
 
@@ -177,12 +174,13 @@ window.onload = function(){
 
 </script>
 
-<script src="vista/dist/js/jquery-3.5.1.js"></script>
+<script src="../dist/js/jquery-3.5.1.js"></script>
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../dist/js/app.login.js"></script>
+<script src="../dist/js/conf.app.js"></script>
 <script src="../dist/js/recuPregunta.js"></script>
 <!-- iCheck -->
 <script src="../plugins/iCheck/icheck.min.js"></script>

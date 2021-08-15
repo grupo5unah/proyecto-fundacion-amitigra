@@ -11,7 +11,40 @@ function mostrarPassSeguridad(){
 	}
 }
 
-//SCRIPT MOSTRAR CONTRASENA RECUPERACION POR PREGUNTA
+//SCRIPT MOSTRAR CONTRASENA EN CAMBIO DE CONTRASENA EN PERFIL
+function mostrarPasswordNueva(){
+                      
+	var actual = document.getElementById("passActual");
+	if(actual.type == "password"){
+	  actual.type = "text";
+	  $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+	}else{
+	  actual.type = "password";
+	  $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+	}
+
+	var nueva = document.getElementById("passNueva");
+	if(nueva.type == "password"){
+	  nueva.type = "text";
+	  $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+	}else{
+	  nueva.type = "password";
+	  $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+	}
+
+	var conf = document.getElementById("passConfirmar");
+	if(conf.type == "password"){
+	  conf.type = "text";
+	  $('.icon_p_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+	}else{
+	  conf.type = "password";
+	  $('.icon_p_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+	}
+  }
+
+
+  //SCRIPT DE RECUPERACIÓN POR PREGUNTA:
+ //SCRIPT MOSTRAR CONTRASENA RECUPERACION POR PREGUNTA
 function mostrarPassPregunta(){
 	
 	let cambioPregunta = document.querySelector("#PassPregunta");
@@ -35,6 +68,12 @@ function mostrarPassPregunta(){
 	}
 
 }
+
+
+//FIN SCRIPT DE RECUPERACIÓN DE CONTRASEÑA POR PREGUNTA
+
+
+
 
 //SCRIPT MOSTRAR CONTRASENA PARAMETROS CORREO
 function mostrarPassCorreo(){
@@ -174,6 +213,13 @@ function mostrarPassCorreoParam(){
         }
     }
 
+	let usuario_login = document.querySelector("#usuario");
+
+	usuario_login.addEventListener('input',function(){
+		if (this.value.length > 15)
+			this.value = this.value.slice(0,15); 
+	});
+
 
     SinEspacio=function(input){
     input.value=input.value.replace(' ','');}
@@ -234,6 +280,160 @@ function mostrarPassCorreoParam(){
 		}
 	}
 	//FIN MOSTRAR CONTRASENA CONFIGURACION PREGUNTAS
+
+	//CONFIGURACION CAMPOS CONTRASEÑA Y PREGUNTAS
+	/*let btnRegistroPreguntas = document.querySelector("#");
+	let contraPrguntas = document.querySelector("#");
+	let contraConfPreguntas = document.querySelector("#");
+
+	//CONTRASEÑA
+	btnRegistroPreguntas.disabled = true
+  	contraConfPreguntas.disabled = true
+
+  	contraPrguntas.addEventListener('keyup', function (){
+	  	if(this.value.length < 0 || this.value.length > 7){
+		  contraConfPreguntas.disabled = false;
+		  $("#resp4").hide();
+
+		  	if(contraConfPreguntas.length == 0){
+				btnRegistroPreguntas.disabled = false;
+		  	} else {
+				  btnRegistroPreguntas.disabled = true;
+			  }
+
+		  	contraConfPreguntas.addEventListener('keyup', function(){
+			  	if(this.value.length < 2 || this.value.length > 7){
+				  	//btnRegistro.disabled = false
+				  	$("#resp4").hide();
+
+				  	if(contraPrguntas.value == contraConfPreguntas.value){
+						btnRegistroPreguntas.disabled = false
+
+						const contrasena_valida_preg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+						  if(contrasena_valida_preg.test(contraConfPreguntas.value)){
+							  btnRegistroPreguntas.disabled = false;
+						  } else {
+							  btnRegistroPreguntas.disabled = true;
+							$("#resp4").html("No cumple");
+							$("#resp4").show();
+
+						  }
+
+				  	} else {
+						btnRegistroPreguntas.disabled = true;
+						$("#resp4").html('Las contraseñas no coinciden');
+				  		$("#resp4").show();
+					}
+				}else {
+				  btnRegistroPreguntas.disabled = true
+
+				  $("#resp4").html('La contraseña es débil, debe estar formada entre 8-16 carácteres.');
+				  $("#resp4").show();
+
+
+			  	}
+		  	})
+
+	  	} else {
+		  btnRegistroPreguntas.disabled = true
+		  contraConfPreguntas.disabled = true
+		  $("#resp4").html('La contrasena es débil, debe estar formada entre 8-16 carácteres');
+		  $("#resp4").show();
+
+	  	}
+  	});*/
+
+	  //PREGUNTAS
+	  //PREGUNTA 1
+	  /*let btnSiguienteP1 = document.querySelector('#nexttab');
+	  let respuesta_1 = document.querySelector('#preg_1');
+	  let preg_1 = document.querySelector('#id_pregunta_1')
+	  
+	  btnSiguienteP1.disabled = true;
+	  respuesta_1.disabled = true;
+
+		preg_1.addEventListener('change',function (e) {
+			if($(this).val() != 'preg_select'){
+				respuesta_1.disabled = false
+
+				respuesta_1.addEventListener('keyup', function(){
+					if(this.value.length > 2){
+						btnSiguienteP1.disabled = false;
+						$('#resp').hide();
+					} else {
+						btnSiguienteP1.disabled = true;
+						$('#resp').html('Se requiere una respuesta mayor a 2 caracteres');
+						$('#resp').show();
+					}
+				});
+
+			} else {
+				btnSiguienteP1.disabled = true;
+				respuesta_1.disabled = true;
+			}
+		});*/
+
+
+		//PREGUNTA 2
+		/*let btnSiguienteP2 = document.querySelector('#nexttab');
+		let respuesta_2 = document.querySelector('#preg_1');
+		let preg_2 = document.querySelector('#id_pregunta_1')
+		
+		btnSiguienteP2.disabled = true;
+		respuesta_2.disabled = true;
+  
+		preg_2.addEventListener('change',function (e) {
+			if($(this).val() != 'preg_select'){
+				respuesta_2.disabled = false
+  
+				respuesta_2.addEventListener('keyup', function(){
+					if(this.value.length > 2){
+						btnSiguienteP2.disabled = false;
+						$('#resp').hide();
+					} else {
+						btnSiguienteP2.disabled = true;
+						$('#resp').html('Se requiere una respuesta mayor a 2 caracteres');
+						$('#resp').show();
+					}
+				});
+  
+			} else {
+				btnSiguienteP2.disabled = true;
+				respuesta_2.disabled = true;
+			}
+		});*/
+
+
+		//PREGUNTA 3
+	  	/*let btnSiguienteP3 = document.querySelector('#nexttab');
+	  	let respuesta_3 = document.querySelector('#preg_1');
+	  	let preg_3 = document.querySelector('#id_pregunta_1')
+	  
+	  	btnSiguienteP3.disabled = true;
+	  	respuesta_3.disabled = true;
+
+		preg_3.addEventListener('change',function (e) {
+			if($(this).val() != 'preg_select'){
+				respuesta_3.disabled = false
+
+				respuesta_3.addEventListener('keyup', function(){
+					if(this.value.length > 2){
+						btnSiguienteP3.disabled = false;
+						$('#resp').hide();
+					} else {
+						btnSiguienteP3.disabled = true;
+						$('#resp').html('Se requiere una respuesta mayor a 2 caracteres');
+						$('#resp').show();
+					}
+				});
+
+			} else {
+				btnSiguienteP3.disabled = true;
+				respuesta_3.disabled = true;
+			}
+		});*/
+
+	//FIN CONFIGURACIÓN
 
 
 	//Script mostrar contrasena COPIA DE SEGURIDAD
@@ -308,88 +508,310 @@ function mostrarPassCorreoParam(){
   }
 
 
+  /*$(".sel").each(function(){
+	  $(this).data('original', $(this).html());
+  });
+  $(document).on('change','.sel', function(){
+	  $('.sel').each(function(){
+		  var valor = $(this).val();
+		  $(this).html($(this).data('original'));
+		  $(this).val(valor);
+	  });
+
+	  $('.sel').each(function(){
+		  $(this).siblings().find('option[value="'+$(this).val()+'"]').remove();
+	  })
+  })*/
+
+
+  $(document).on('change','.sel',function(){
+	$(this).siblings().find('option[value="'+$(this).val()+'"]').remove();
+  });
+
+
+  /*$(document).on('change','.sel',function(){
+
+	if($(this).hasClass('uno')){
+		$(this).siblings().find('option[value]').removeAttr('disabled')
+			$(this).siblings().find('option[value="'+$(this).val()+'"]').attr('disabled', true);
+	}
+	if($(this).hasClass('dos')){
+			
+		$('.tres option[value]').removeAttr('disabled');
+		$('.tres option[value="'+$('.uno').val()+'"]').attr('disabled', true);
+		$('.tres option[value="'+$('.dos').val()+'"]').attr('disabled', true);
+	   
+	}
+	
+  });*/
+
+
+
   //BLOQUEAR BOTON SI LOS CAMPOS ESTAN VACIOS (datos generales)
-  let btnSiguiente1 = document.getElementById('enviar');
-  let correo = document.getElementById('correo');
-  let telefono = document.getElementById('telefono');
+  let btnSiguiente1 = document.querySelector('#enviar');
+  let usuario = document.querySelector("#usuario");
+  let nombre = document.querySelector("#nombre");
+  let correo = document.querySelector('#correo');
+  let telefono = document.querySelector('#telefono');
 
   btnSiguiente1.disabled = true;
+  $("#notificacion").hide();
+  
+  	nombre.addEventListener('keyup',function(){
+		if(this.value.length === 7){
+			usuario.disabled = false;
 
-  	telefono.addEventListener('keyup',function(){
-		if(this.value.length > 7){
-			console.log('esta funcionando');
-			btnSiguiente1.disabled = false;
+			usuario.addEventListener('keyup', function(){
+				if(this.value.length === 5){
+					$("#notificacion").hide();
+					
+					correo.disabled = false;
 
-		}else{
+					correo.addEventListener('keyup', function(){
+						if(this.value.length >= 7){
+							telefono.disabled = false;
+
+							//EXPRESIONES REGULARES
+							const correo_valido = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{1,4}$/im;
+							
+								if(correo_valido.test(correo.value)){
+									//$("#notificacion2").html("Correo valido");
+									$("#notificacion2").hide();
+								} else {
+									$("#notificacion2").html("Correo invalido");
+									$("#notificacion2").show();
+								}
+
+							telefono.addEventListener('keyup', function(){
+								if(this.value.length > 7){
+									btnSiguiente1.disabled = false;
+									
+								} else {
+									btnSiguiente1.disabled = true;
+								}
+							});
+							
+						} else {
+
+							btnSiguiente1.disabled = true;
+							
+						}
+					});
+					
+				} else {
+					if(this.value.length >= 2 && this.value.length < 5){
+						$("#notificacion").html("Solo se admiten nombres de usuario de cinco caracteres");
+					$("#notificacion").show();
+					
+					}
+					
+					btnSiguiente1.disabled = true;
+				}
+			});
+
+		} else {
 			btnSiguiente1.disabled = true;
+			telefono.value = '';
 		}
 	});
 
+
   //PREGUNTA 1
-  let btnSiguiente2 = document.getElementById('nexttab');
-  let pregunta1 = document.getElementById('preg1');
+  let btnSiguiente2 = document.querySelector('#nexttab');
+  let pregunta1 = document.querySelector('#preg1');
+  let preg = document.querySelector('#id_pregunta1')
 
   btnSiguiente2.disabled = true;
+  pregunta1.disabled = true;
 
+	preg.addEventListener('change',function (e) {
+		if($(this).val() != 'preg_select'){
+			pregunta1.disabled = false
 
-  	pregunta1.addEventListener('keyup', function(){
+			pregunta1.addEventListener('keyup', function(){
+				if(this.value.length > 2){
+					btnSiguiente2.disabled = false;
+					$('#resp').hide();
+				} else {
+					btnSiguiente2.disabled = true;
+					$('#resp').html('Se requiere una respuesta mayor a 2 caracteres');
+					$('#resp').show();
+				}
+			});
 
-	  	if(this.value.length > 2){  
-		console.log('correcto');
-		btnSiguiente2.disabled = false;
-		$('#resp').hide();
-	  	}else{
-		btnSiguiente2.disabled = true;
-		$('#resp').html('Se requiere una respuesta mayor a 2 caracteres');
-		$('#resp').show();
-	  	}
-  	});
-  
+		} else {
+			btnSiguiente2.disabled = true;
+			pregunta1.disabled = true;
+		}
+	})
+
 
   //PREGUNTA 2
-  let btnSiguiente3 = document.getElementById('nexttab2');
-  let pregunta2 = document.getElementById('preg2');
+  let btnSiguiente3 = document.querySelector('#nexttab2');
+  let pregunta2 = document.querySelector('#preg2');
+  let preg2 = document.querySelector("#id_pregunta2");
 
   btnSiguiente3.disabled = true;
+  pregunta2.disabled = true;
 
+	preg2.addEventListener('change',function (e) {
+		if($(this).val() != 'preg_select2'){
+			pregunta2.disabled = false
 
-  	pregunta2.addEventListener('keyup', function(){
+			pregunta2.addEventListener('keyup', function(){
+				if(this.value.length > 2){
+					btnSiguiente3.disabled = false;
+					$('#resp2').hide();
+				} else {
+					btnSiguiente3.disabled = true;
+					$('#resp2').html('Se requiere una respuesta mayor a 2 caracteres');
+					$('#resp2').show();
+				}
+			});
 
-	  	if(this.value.length > 2){
-		  
-		  console.log('correcto');
-		  btnSiguiente3.disabled = false;
-		  $('#resp2').hide();
-	  	}else{
-		  btnSiguiente3.disabled = true;
-		  $('#resp2').html('Se requiere una respuesta mayor a 2 caracteres');
-		  $('#resp2').show();
-	  	}
-  	});
+		} else {
+			btnSiguiente3.disabled = true;
+			pregunta2.disabled = true;
+		}
+	})
 
 
   //PREGUNTA 3
-  let btnSiguiente4 = document.getElementById('nexttab3');
-  let pregunta3 = document.getElementById('preg3');
+  let btnSiguiente4 = document.querySelector('#nexttab3');
+  let pregunta3 = document.querySelector('#preg3');
+  let preg3 = document.querySelector("#id_pregunta3");
 
   btnSiguiente4.disabled = true;
+  pregunta3.disabled = true;
+
+	preg3.addEventListener('change',function (e) {
+		if($(this).val() != 'preg_select3'){
+			pregunta3.disabled = false
+
+			pregunta3.addEventListener('keyup', function(){
+				if(this.value.length > 2){
+					btnSiguiente4.disabled = false;
+					$('#resp3').hide();
+				} else {
+					btnSiguiente4.disabled = true;
+					$('#resp3').html('Se requiere una respuesta mayor a 2 caracteres');
+					$('#resp3').show();
+				}
+			});
+
+		} else {
+			btnSiguiente4.disabled = true;
+			pregunta3.disabled = true;
+		}
+	})
+
+  //FIN BLOQUO DE BOTONES
 
 
-  	pregunta3.addEventListener('keyup', function(){
+  ///////////////////////////////////////////////////////////////
+  /////    QUITAR PREGUNTA SELECCIONADA EN SIGUIENTE TAB   /////
+  /////////////////////////////////////////////////////////////
 
-	  	if(this.value.length > 2){
-		  
-		  console.log('correcto');
-		  btnSiguiente4.disabled = false;
-		  $('#resp3').hide();
-	  	}else{
-		  btnSiguiente4.disabled = true;
-		  $('#resp3').html('Se requiere una respuesta mayor a 2 caracteres');
-		  $('#resp3').show();
+	
+
+
+  //CONTRASENA REGISTRO DE USUARIO
+
+  let btnRegistro = document.querySelector("#btnRegistro")
+  let nuevaRegistro_reg = document.querySelector("#PassRegistro");
+  let conf_reg = document.querySelector("#ConfPassR");
+
+  btnRegistro.disabled = true
+  conf_reg.disabled = true
+
+  	nuevaRegistro_reg.addEventListener('keyup', function (){
+	  	if(this.value.length < 0 || this.value.length > 7){
+		  conf_reg.disabled = false;
+		  $("#resp4").hide();
+
+		  	if(conf_reg.length == 0){
+				btnRegistro.disabled = false;
+		  	} else {
+				  btnRegistro.disabled = true;
+			  }
+
+		  	conf_reg.addEventListener('keyup', function(){
+			  	if(this.value.length < 2 || this.value.length > 7){
+				  	//btnRegistro.disabled = false
+				  	$("#resp4").hide();
+
+				  	if(nuevaRegistro_reg.value == conf_reg.value){
+						btnRegistro.disabled = false
+
+						const contrasena_valida = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+						  if(contrasena_valida.test(conf_reg.value)){
+							  btnRegistro.disabled = false;
+						  } else {
+							  btnRegistro.disabled = true;
+							$("#resp4").html("No cumple");
+							$("#resp4").show();
+
+						  }
+
+				  	} else {
+						btnRegistro.disabled = true;
+						$("#resp4").html('Las contraseñas no coinciden');
+				  		$("#resp4").show();
+					}
+				}else {
+				  btnRegistro.disabled = true
+
+				  $("#resp4").html('La contraseña es débil, debe estar formada entre 8-16 carácteres.');
+				  $("#resp4").show();
+
+
+			  	}
+		  	})
+
+	  	} else {
+		  btnRegistro.disabled = true
+		  conf_reg.disabled = true
+		  $("#resp4").html('La contrasena es débil, debe estar formada entre 8-16 carácteres');
+		  $("#resp4").show();
+
 	  	}
   	});
 
-  //FIN BLOQUO DE BOTONES
+  //FIN CONTRASENA
+
+  //LOGITUD DE LOS CAMPOS DE TEXTO
+  
+  	nombre.addEventListener('input',function(){
+	if (this.value.length > 40) 
+   		this.value = this.value.slice(0,40); 
+	});
+ 
+  	usuario.addEventListener('input',function(){
+	if (this.value.length > 15) 
+   		this.value = this.value.slice(0,15); 
+	});
+
+	correo.addEventListener('input',function(){
+		if (this.value.length > 30)
+			this.value = this.value.slice(0,30); 
+	});
+
+	pregunta1.addEventListener('input',function(){
+		if (this.value.length > 15)
+			this.value = this.value.slice(0,15); 
+	});
+
+	pregunta2.addEventListener('input',function(){
+		if (this.value.length > 15)
+			this.value = this.value.slice(0,15); 
+	});
+
+	pregunta3.addEventListener('input',function(){
+		if (this.value.length > 15)
+			this.value = this.value.slice(0,15); 
+	});
+
+	//FIN LONGITUD CAMPOS DE TEXTO
 
   
   	var $tabs = $('.nav-tabs li');
@@ -402,6 +824,35 @@ function mostrarPassCorreoParam(){
 		$tabs.filter('.active').next('li').find('a[data-toggle="tab"]').tab('show');
 	});
 
+	//PARA TELEFONO
+
+	let num_telefono = document.querySelector("#telefono");
+
+	num_telefono.addEventListener("keypress", (e) => {
+		
+		var key = window.event ? e.which : e.keyCode;
+		if (key < 48 || key > 57) {
+			e.preventDefault();
+		}
+		
+		/*e.preventDefault();
+		let assi = e.keyCode;
+		let valor = String.fromCharCode(assi);
+		let tel = parseInt(valor);
+
+		if(tel){
+			num_telefono.value += tel;
+		}*/
+	})
+
+
+		num_telefono.addEventListener('input',function(){
+  			if (this.value.length > 8) 
+     		this.value = this.value.slice(0,8); 
+		})
+
+
+	//FIN PARA TELEFONO
 
     // Solo numero para TELEFONO
 
@@ -527,6 +978,72 @@ function mostrarPassCorreoParam(){
 				$('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
 			}
 		}
+
+		//NUEVA CONTRASEÑA (POR CORREO)
+
+		/*let btnNuevaContra = document.querySelector("#");
+		let nuevaContrasena = document.querySelector("#");
+		let confNuevaContrasena = document.querySelector("#");
+
+		btnNuevaContra.disabled = true
+  		confNuevaContrasena.disabled = true
+
+			nuevaContrasena.addEventListener('keyup', function (){
+				if(this.value.length < 0 || this.value.length > 7){
+					confNuevaContrasena.disabled = false;
+					$("#resp4").hide();
+
+						if(confNuevaContrasena.length == 0){
+							btnNuevaContra.disabled = false;
+						} else {
+							btnNuevaContra.disabled = true;
+						}
+
+						confNuevaContrasena.addEventListener('keyup', function(){
+							if(this.value.length < 2 || this.value.length > 7){
+								//btnRegistro.disabled = false
+								$("#resp4").hide();
+
+								if(nuevaContrasena.value == confNuevaContrasena.value){
+									btnNuevaContra.disabled = false
+
+									const contrasenaValida = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+									if(contrasenaValida.test(confNuevaContrasena.value)){
+									btnNuevaContra.disabled = false;
+								} else {
+									btnNuevaContra.disabled = true;
+									$("#resp4").html("No cumple");
+									$("#resp4").show();
+
+								}
+
+							} else {
+								btnNuevaContra.disabled = true;
+								$("#resp4").html('Las contraseñas no coinciden');
+								$("#resp4").show();
+							}
+						} else {
+						btnNuevaContra.disabled = true
+
+						$("#resp4").html('La contraseña es débil, debe estar formada entre 8-16 carácteres.');
+						$("#resp4").show();
+
+						}
+					})
+
+				} else {
+				btnNuevaContra.disabled = true
+				confNuevaContrasena.disabled = true
+				$("#resp4").html('La contrasena es débil, debe estar formada entre 8-16 carácteres');
+				$("#resp4").show();
+
+				}
+			});*/
+
+
+
+	//FIN SCRIPT DE NUEVA CONTRASEÑA
+
 
 		SinEspacio=function(input){
 		input.value=input.value.replace(' ','');}

@@ -14,15 +14,14 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 <div class="content-wrapper" oncopy="return false" onpaste="return false">
 
-
+   <input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 	<section class="content-header">
 	<h1>
-	Mantenimiento de Localidades y Tipo Producto
-	</h1>      
+	Mantenimiento<small>Localidades y Tipo Producto</small></h1>      
 	<ol class="breadcrumb ">
-        <li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-        <li class="btn btn-success uppercase fw-bold" ><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-		<li class="btn btn-success active uppercase fw-bold "><a href="#"></a><i class="fa fa-users"></i> Localidades y Tipo Producto</a></li>
+        <li class=" fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+       
+		<li class=" active fw-bold "><a href="#"></a><i class="fa fa-users"></i> Localidades y Tipo Producto</a></li>
       </ol>
     </section>
 	<!-- Main content -->
@@ -52,9 +51,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<tr>
 											<th>Nombre_Tipo_Producto</th>
 											<th>creado por</th>
-                      						<th>Fecha creacion</th>
+                      						<th>Fecha creación</th>
                       						<th>Modificado por</th>
-											<th>Fecha modificacion</th>
+											<th>Fecha modificación</th>
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
 											
 											else:?>
@@ -167,8 +166,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Tipo Producto</button>
+								<button type="button" class="btn btn-danger" id="cerrarATP"  data-dismiss="modal">Cancelar</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Tipo Producto</button>
 							</div>
 						</div>
 					</div>
@@ -203,8 +202,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-primary">Registrar Tipo Producto</button>
+								<button type="button" class="btn btn-danger" id="cerrarModalTP" data-dismiss="modal">Cancelar</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Tipo Producto</button>
 							</div>
 							</form>
 						</div>
@@ -236,7 +235,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									<!-- <button  class="btn btn-default button1 btnCrearRol" id="addProductModalBtn"> <i class="glyphicon glyphicon-plus-sign"></i> Agregar rol  
 									</button> -->
-									<button class="btn btn-default btnCrearLocalidad glyphicon glyphicon-plus-sign" >AGREGAR LOCALIDAD  </button>
+									<button class="btn btn-success btnCrearLocalidad glyphicon glyphicon-plus-sign" >AGREGAR LOCALIDAD  </button>
 								</div> <!-- /div-action -->
 
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerLocalidades">
@@ -244,9 +243,9 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 										<tr>
 											<th>Localidad</th>
 											<th>creado por</th>
-                      						<th>Fecha creacion</th>
+                      						<th>Fecha creación</th>
                       						<th>Modificado por</th>
-											<th>Fecha modificacion</th>
+											<th>Fecha modificación</th>
 											<th>Acciones</th>
 										</tr>
 									</thead>
@@ -338,8 +337,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Localidad</button>
+								<button type="button" class="btn btn-danger" id="cerrarLocal" data-dismiss="modal">Cancelar</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Localidad</button>
 							</div>
 						</div>
 					</div>
@@ -373,8 +372,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-primary">Registrar Localidad</button>
+								<button type="button" class="btn btn-danger" id="cerrarModalLocal" data-dismiss="modal">Cancelar</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Localidad</button>
 							</div>
 							</form>
 						</div>

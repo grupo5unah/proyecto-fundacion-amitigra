@@ -17,7 +17,17 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 ?>
 
 <div class="content-wrapper">
-  <!-- Main content -->
+
+  <section class="content-header">
+    <h1>Mantenimiento<small> Tipo solicitud</small></h1>
+    <ol class="breadcrumb">
+      <li class="btn btn-success  text-uppercase fw-bold"><a href="inicio"><i class="fa fa-home  "></i> Inicio</a></li>
+      <li class="btn btn-success active text-uppercase fw-bold"><a><i class="fa fa-users btn  "></i> Mantenimiento Tipo Movimientos</a></li>
+    </ol>
+    <br>
+  </section>
+
+
   <section class="content">
 
     <div class="">
@@ -138,13 +148,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   <div class="campos" type="hidden">
                     <input autocomplete="off" class="form-control secundary" type="hidden" name="idSolcitud" value="0" disabled>
                   </div>
-                  <label for="">Tipo de solicitud</label>
-                  <input id="tiposol" style="width:365px" class="form-control modal-roles secundary" type="text" name="tiposol" placeholder="Precio de la solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
+                  <label for="tiposol">Tipo de solicitud</label>
+                  <input id="tiposol" style="width:365px" class="form-control modal-roles secundary" type="text" name="tiposol" placeholder="Tipo de solicitud" onkeypress="return soloLetras(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); 
         espacio_Letras(this);" />
                   
 
                 <div class="campos form-group">
-                  <label for="">Precio</label>
+                  <label for="precio">Precio</label>
                   <input id="precio" style="width:365px" class="form-control modal-roles secundary" type="text" name="precio" placeholder="Precio de la solicitud" onkeypress="return soloNumeros(event)"/>
                 </div>
                 <div class="campos form-group">
@@ -197,7 +207,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                   </div>
                   <div class="modal-footer">
                     <button id="cerrarTs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button id="" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Tipo Solicitud</button>
+                    <button id="registratipo" type="submit" name="ingresarProducto" class="btn btn-primary">Registrar Tipo Solicitud</button>
                   </div>
               </form>
             </div>

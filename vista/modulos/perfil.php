@@ -192,15 +192,11 @@ include_once("./modelo/conexionbd.php");
                           <!-- FIN CONTENIDO -->
                         </div>
                         <div class="modal-footer">
-                          <button id="cancelarActualizacion" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
-                          Cancelar</button>
-                          <button id="aceptCambios" type="button" class="btn btn-primary"><i class="fa fa-user"></i>
-                          Guardar cambios</button>
+                          <button id="cancelarActualizacion" type="button" class="btn btn-danger" data-dismiss="modal"> Cancelar</button>
+                          <button id="aceptCambios" type="button" class="btn btn-primary"> Guardar cambios</button>
                         </div>
                       </div>
-                      <!-- /.modal-content -->
                     </div>
-                    <!-- /.modal-dialog -->
                   </div>
                   <!-- FIN MODAL CONTRASENA -->
 
@@ -282,7 +278,7 @@ include_once("./modelo/conexionbd.php");
                     <div class="alert alert-light" role="alert">
                       <h4><i class="fa fa-unlock-alt"> Cambio de contraseña</i></h4>
                       <strong><?php echo $_SESSION['usuario'];?></strong>
-                      en este espacio puedes hacer cambio de tu contraseña haciendo click en el siguiente botón.
+                      en este espacio puedes hacer cambio de tu contraseña haciendo clic en el siguiente botón.
                     </div>
                   </div>
                   
@@ -291,7 +287,7 @@ include_once("./modelo/conexionbd.php");
                       <input type="hidden" name="cambios" value="act">
                       <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
                       <button type="button" id="cambioContrasena" class="btn btn-success actualizar" data-toggle="modal2" data-target="#modal-default2">
-                        Click aqui para cambiar la contraseña
+                        Clic aquí para cambiar la contraseña
                       </button><?php }?>
                     </div>
                   </div>
@@ -301,7 +297,7 @@ include_once("./modelo/conexionbd.php");
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <button type="button" id="CerrarCambio" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
                           <h4 class="modal-title">Cambio de contraseña</h4>
                         </div>
@@ -309,21 +305,21 @@ include_once("./modelo/conexionbd.php");
                         <div class="modal-body">
                           <!-- INICIO CONTENIDO -->
                           <div class="form-floating mb-3">
-                            <label for="floatingInput">Contraseña actual</label>  
+                            <label id="etiquetaPassActual" for="floatingInput">Contraseña actual</label>  
                             <input id="passActual" type="password" class="form-control" name="passConf" placeholder="Contrasena actual"/>
                           </div>
                             
                           <div class="form-floating mb-6">
-                            <label for="floatingInput">Nueva contraseña</label>
+                            <label id="etiquetaNuevaPass" for="floatingInput">Nueva contraseña</label>
                               <input id="passNueva" type="password" class="form-control" name="passConf" placeholder="Nueva contraseña"/>
                           </div>
 
                           <div class="form-floating mb-3">
-                            <label for="floatingInput">Confirmar contraseña</label>  
+                            <label id="etiquetaConfirmar" for="floatingInput">Confirmar contraseña</label>  
                             <div class="input-group">
                               <input id="passConfirmar" type="password" class="form-control" name="passConf" placeholder="Confirmar su contraseña">
                               <span class="input-group-btn" onclick="mostrarPasswordNueva()">
-                                <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
+                                <button id="mostContrasena_Perfil" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_p_actual"></i></button>
                               </span>
                             </div>
                           </div>
@@ -331,46 +327,13 @@ include_once("./modelo/conexionbd.php");
                         </div>
 
                         <div class="modal-footer">
-                          <button type="button" id="cancelarCambios" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
-                          <button type="button" id="gcambios" class="btn btn-primary"><i class="fa fa-user"></i> Guardar cambios</button>
+                          <button type="button" id="cancelarCambios" class="btn btn-danger" data-dismiss="modal"> Cancelar</button>
+                          <button type="button" id="gcambios" class="btn btn-primary"> Guardar cambios</button>
                         </div>
                       </div>
                     </div>
                   </div>
                   <!-- FIN SEGUNDO MODAL -->
-
-                  <!--FUNCION PARA MOSTRAR CONTRASENA-->
-                  <script type="text/javascript">
-                    function mostrarPasswordNueva(){
-                      
-                      var actual = document.getElementById("passActual");
-                      if(actual.type == "password"){
-                        actual.type = "text";
-                        $('.icon_actual').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                        actual.type = "password";
-                        $('.icon_actual').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-
-                      var nueva = document.getElementById("passNueva");
-                      if(nueva.type == "password"){
-                        nueva.type = "text";
-                        $('.icon_nuevo').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                        nueva.type = "password";
-                        $('.icon_nuevo').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-
-                      var conf = document.getElementById("passConfirmar");
-                      if(conf.type == "password"){
-                        conf.type = "text";
-                        $('.icon_conf').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                        conf.type = "password";
-                        $('.icon_conf').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-                    } 
-                  </script>
 
                 </form>
               </div>

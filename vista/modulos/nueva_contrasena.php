@@ -67,6 +67,7 @@ $exd = $_GET["exd"];
             <button class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_conf"></i></button>
           </span>
         </div>
+        <p id="resp_correo" class="msj_error"></p>
       </div>
       <br>
 
@@ -111,11 +112,12 @@ $exd = $_GET["exd"];
 </div>
 
 
-<script src="vista/dist/js/jquery-3.5.1.js"></script>
+<script src="../dist/js/jquery-3.5.1.js"></script>
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="../dist/js/app.login.js"></script>
 <script src="../dist/js/nuevaContrasena.js"></script>
+<script src="../dist/js/conf.app.js"></script>
 
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

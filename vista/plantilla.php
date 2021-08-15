@@ -8,16 +8,16 @@ $ingreso = $_SESSION['primer_ingreso'];
 
 /*Aqui establecemos el tiempo de la sesión en segundos
   para pasar a la pantalla de inactividad*/
-$TiempoActividad = 40;
+$TiempoActividad = 600;
 $tiempo = $TiempoActividad - 20;
 // Comprobar si $_SESSION["timeout"] está establecida
 if (isset($_SESSION["timeout"])) {
   // Calcular el tiempo de vida de la sesión (TTL = Time To Live)
   $sessionTTL = time() - $_SESSION["timeout"];
   if ($sessionTTL > $tiempo) {
-    //session_destroy();
-    //session_unset();
-    //header('location:vista/modulos/bloqueoInactividad.php');
+    session_destroy();
+    session_unset();
+    header('location:vista/modulos/login.php');
     //die();
   }
 }
@@ -80,7 +80,10 @@ if ($nombre->affected_rows) {
   <!-- <link rel="stylesheet" href="vista/css/sweetalert2.min.css"> -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 <!--sidebar-collapse, hace que la barra lateral izquierda aparezca no expandida-->
 <body body class="hold-transition skin-green sidebar-collapse sidebar-mini" onload="startTime()">
@@ -238,12 +241,14 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/copiaSeguridad.js"></script>
 <script src="vista/dist/js/restaurarCSeguridad.js"></script>
 <script src="vista/dist/js/app.login.js"></script>
+<script src="vista/dist/js/buscarBitacora.js"></script>
 <script src="vista/dist/js/reloj.js"></script>
 <script src="vista/dist/js/actualizarParametros.js"></script>
 <script src="vista/dist/js/asignarPermisos.js"></script>
 <script src="vista/dist/js/consultaTiempoReal.js"></script>
 <!-- <script src="vista/dist/js/actualizarinfoPerfil.js"></script> -->
 <script src="vista/dist/js/recargar.js"></script>
+<script src="vista/dist/js/pruebas.js"></script>
 <script src="vista/dist/js/senderos.js"></script>
 <script src="vista/dist/js/nacionalidad.js"></script>
 <script src="vista/dist/js/solicitudes.js"></script>
@@ -253,6 +258,7 @@ integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw
 <script src="vista/dist/js/movimientos.js"></script>
 <script src="vista/dist/js/validaciones.js"></script>
 <script src="vista/dist/js/validacionesProducto.js"></script>
+<script src="vista/dist/js/eliminarBitacora.js"></script>
 <!-- <script src="vista/dist/js/sweetalert.min.js"></script> -->
 
 <script src="vista/dist/js/pages/dashboard.js"></script>

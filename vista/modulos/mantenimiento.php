@@ -364,7 +364,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class="input-group has-feedback">
 											
-												<input id="ConfirmarContraseña_reset" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña">
+												<input id="ConfirmarContraseña_reset" type="password" class="form-control" name="password2" placeholder="Confirmar contraseña" required>
 												<span class="input-group-btn" onclick="VerPasswordRC()">
 													<button class="btn btn-default" type="button"><i class="fa fa-eye-slash icons "></i></button>
 
@@ -417,7 +417,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class="campos form-group">
 												<input id="telefono" autocomplete="off" style="width: 363px;" maxlength="8" minlength="8" class="form-control modal-roles 
-										secundary" type="tel" onpaste="return false" placeholder="Telefono" onkeypress="return soloNumeros(event)"  required /></center>
+										secundary" type="tel" onpaste="return false" placeholder="Teléfono" onkeypress="return soloNumeros(event)"  required /></center>
 											</div>
 											<div class="campos form-group">
 
@@ -438,7 +438,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class="campos form-group">
 												<select class="form-control" id="genero" name="genero" required>
-													<option value="">Seleccione un Genero</option>
+													<option value="">Seleccione un Género</option>
 													<option value="masculino">Masculino</option>
 													<option value="femenino">Femenino</option>
 
@@ -472,7 +472,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												<button type="button" id="cerrar_r" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
 
-												<button id="" type="submit" name="ingresarProducto" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Usuario</button>
+												<button id="registrarUser" type="submit" name="registrarUser" class="btn btn-primary" onclick="validaemail(correo.value);">Registrar Usuario</button>
 											</div>
 
 									</form>
