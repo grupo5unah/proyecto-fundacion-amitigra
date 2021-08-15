@@ -31,8 +31,7 @@ $(document).ready(function(){
                         swal({
                             icon:"warning",
                             text: "Desea asignar permisos al nuevo rol",
-                            buttons: true,
-                            dangerMode: true,
+                            buttons: ["No" , "Sí"]
                         })
                         .then((willDelete) => {
                             if (willDelete) {

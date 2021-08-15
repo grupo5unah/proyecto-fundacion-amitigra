@@ -15,7 +15,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 <div class="content-wrapper">
 
 <section class="content-header">
-		<h1>MANTENIMIENTO Permisos</h1>
+		<h1>Mantenimiento <small> Permisos</small></h1>
 		<ol class="breadcrumb ">
 			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
 			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>

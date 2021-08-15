@@ -55,8 +55,8 @@ function validarRegistro(e){
                     if(respuesta.tipo === 'info'){
                         swal({
                             icon:'success',
-                            title:'Exito',
-                            text:'Se actualizo correctamente'
+                            title:'Éxito',
+                            text:'Se actualizó correctamente'
                         });
 
                     }else{

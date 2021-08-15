@@ -87,8 +87,8 @@ $contrasena = $_POST['contrasena'];
 
                                         //Registra en la BITACORA la accion realizada
                                         $objeto = 1;
-                                        $acciones = "Inicio de sesion";
-                                        $descp = "Inicio de sesion correctamente";
+                                        $acciones = "Inicio de sesión";
+                                        $descp = "Inicio de sesión correctamente.";
                                         require_once("../modelo/conexionbd.php");
                                         $llamar = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
                                         $llamar->bind_Param("sssii", $acciones, $descp, $fecha, $id_usuario_bitacora, $objeto);
@@ -159,7 +159,21 @@ $contrasena = $_POST['contrasena'];
                                                 $IntentosBitacora->bind_Param("sssii", $acciones, $descp, $fecha_bloqueo, $id_usuario_bitacora, $objeto);
                                                 $IntentosBitacora->execute();        
             
-                                            } else {
+                                                //Si es el usuario super admin no se bloquea
+                                            } elseif($intentos_usuario <= intval($valor) && $id_usuario_bitacora == 1){
+
+                                                $respuesta = array(
+                                                    "respuesta" => "error_contrasena"
+                                                );
+
+                                                require "../modelo/conexionbd.php";
+
+                                                $ints = $intentos_usuario + 0;
+                                                
+                                                $bloqueo_no_admin = $conn->prepare("UPDATE tbl_usuarios SET intentos = ? WHERE nombre_usuario = ?;");
+                                                $bloqueo_no_admin->bind_Param("is", $ints ,$usuario);
+                                                $bloqueo_no_admin->execute();
+                                            }else {
             
                                                 //Muesta un mensaje cuando el usuario ingresa mal su contrasena
                                                 $respuesta = array(

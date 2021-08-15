@@ -10,19 +10,22 @@ $(document).ready(function(){
             swal({
                 icon:"error",
                 title:"Credenciales",
-                text:"No haz ingresado tus credenciales."
+                text:"No haz ingresado tus credenciales.",
+                button: "Aceptar"
             });
         }else if(usuario === ""){
             swal({
                 icon:"error",
                 title:"Credenciales",
-                text:"No haz ingresado tu nombre de usuario."
+                text:"No haz ingresado tu nombre de usuario.",
+                button: "Aceptar"
             });
         }else if(contrasena === ""){
             swal({
                 icon:"error",
                 title:"Credenciales",
-                text:"No haz ingresado tu contraseña."
+                text:"No haz ingresado tu contraseña.",
+                button: "Aceptar"
             });
         }else{
             $.ajax({
@@ -37,7 +40,7 @@ $(document).ready(function(){
 
                         swal({
                             icon:"success",
-                            title:"Iniciando sesion",
+                            title:"Iniciando sesión",
                             text:"Espera un momento.",
                             timer: 2500,
                             buttons:false
@@ -53,21 +56,22 @@ $(document).ready(function(){
                         swal({
                             icon:"error",
                             title:"Lo sentimos",
-                            text:"El nombre de usuario o contraseña son incorrectos."
+                            text:"El nombre de usuario o contraseña son incorrectos.",
+                            button: "Aceptar"
                         }).then(() => {
                             $("#P_Password").val("");
                         });
 
                     } else if(usuario_existe.respuesta == "cambio_estado"){
 
-                        Notificacion("error", "Bloqueo", "Su usuario a sido bloqueado.");
+                        Notificacion("error", "Bloqueo", "Su usuario ha sido bloqueado.");
 
                     } else if(usuario_existe.respuesta == "bloqueado_intentos"){
 
                         swal({
                             icon:"warning",
                             title:"Bloqueo usuario",
-                            text:"El usuario a sido bloqueado, realizó los intentos permitidos."
+                            text:"El usuario ha sido bloqueado, realizó los intentos permitidos."
                         }).then(() => {
                             location.reload();
                         });
@@ -117,13 +121,14 @@ $(document).ready(function(){
                         swal({
                             icon:"error",
                             title: "Contraseña incorrecta",
-                            text:"Su contraseña es incorrecta."
+                            text:"Su contraseña es incorrecta.",
+                            button: "Aceptar"
                         });
                     } else if(usuario_existe.respuesta == "no_activo"){
                         swal({
                             icon: "success",
                             title: "Redirigiendo",
-                            text: "Espera un momento, te estamos redirigiendo",
+                            text: "Espera un momento, te estamos redirigiendo.",
                             timer: 3000,
                             buttons: false
                         }).then(() =>{
@@ -133,7 +138,8 @@ $(document).ready(function(){
                         swal({
                             icon:"error",
                             title: "Contraseña",
-                            text: "La contraseña es incorrecta"
+                            text: "La contraseña es incorrecta.",
+                            button: "Aceptar"
                         });
                     }
                 }

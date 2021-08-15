@@ -16,7 +16,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 		<div class="content-wrapper"  oncopy="return false" onpaste="return false">
 
 			<section class="content-header">
-				<h1>Mantenimiento Tipo Movimiento</h1>
+				<h1>Mantenimiento<small>Tipo Movimiento</small></h1>
 				<ol class="breadcrumb">
 					<li class="btn btn-success  text-uppercase fw-bold"><a href="inicio"><i class="fa fa-home  "></i> Inicio</a></li>
 					<li class="btn btn-success  text-uppercase fw-bold"><a href="panel"><i class="fa fa-cogs btn  "></i> panel de control</a></li>

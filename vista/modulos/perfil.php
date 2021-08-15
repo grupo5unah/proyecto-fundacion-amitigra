@@ -192,10 +192,8 @@ include_once("./modelo/conexionbd.php");
                           <!-- FIN CONTENIDO -->
                         </div>
                         <div class="modal-footer">
-                          <button id="cancelarActualizacion" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
-                          Cancelar</button>
-                          <button id="aceptCambios" type="button" class="btn btn-primary"><i class="fa fa-user"></i>
-                          Guardar cambios</button>
+                          <button id="cancelarActualizacion" type="button" class="btn btn-danger" data-dismiss="modal"> Cancelar</button>
+                          <button id="aceptCambios" type="button" class="btn btn-primary"> Guardar cambios</button>
                         </div>
                       </div>
                     </div>
@@ -280,7 +278,7 @@ include_once("./modelo/conexionbd.php");
                     <div class="alert alert-light" role="alert">
                       <h4><i class="fa fa-unlock-alt"> Cambio de contraseña</i></h4>
                       <strong><?php echo $_SESSION['usuario'];?></strong>
-                      en este espacio puedes hacer cambio de tu contraseña haciendo click en el siguiente botón.
+                      en este espacio puedes hacer cambio de tu contraseña haciendo clic en el siguiente botón.
                     </div>
                   </div>
                   
@@ -289,7 +287,7 @@ include_once("./modelo/conexionbd.php");
                       <input type="hidden" name="cambios" value="act">
                       <?php if ($columna['permiso_actualizacion'] == 1 OR $columna['permiso_actualizacion'] == 0) {?>
                       <button type="button" id="cambioContrasena" class="btn btn-success actualizar" data-toggle="modal2" data-target="#modal-default2">
-                        Click aqui para cambiar la contraseña
+                        Clic aquí para cambiar la contraseña
                       </button><?php }?>
                     </div>
                   </div>
@@ -299,7 +297,7 @@ include_once("./modelo/conexionbd.php");
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <button type="button" id="CerrarCambio" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
                           <h4 class="modal-title">Cambio de contraseña</h4>
                         </div>
@@ -329,8 +327,8 @@ include_once("./modelo/conexionbd.php");
                         </div>
 
                         <div class="modal-footer">
-                          <button type="button" id="cancelarCambios" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancelar</button>
-                          <button type="button" id="gcambios" class="btn btn-primary"><i class="fa fa-user"></i> Guardar cambios</button>
+                          <button type="button" id="cancelarCambios" class="btn btn-danger" data-dismiss="modal"> Cancelar</button>
+                          <button type="button" id="gcambios" class="btn btn-primary"> Guardar cambios</button>
                         </div>
                       </div>
                     </div>

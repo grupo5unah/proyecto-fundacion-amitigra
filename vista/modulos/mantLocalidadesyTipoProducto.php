@@ -17,8 +17,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 	<section class="content-header">
 	<h1>
-	Mantenimiento de Localidades y Tipo Producto
-	</h1>      
+	Mantenimiento<small>Localidades y Tipo Producto</small></h1>      
 	<ol class="breadcrumb ">
         <li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
         <li class="btn btn-success uppercase fw-bold" ><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>

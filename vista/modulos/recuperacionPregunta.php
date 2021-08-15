@@ -74,8 +74,8 @@ $usuario = $_SESSION['usuario'];
 
                     <div class="form-group">
                                          
-                      <select id="id_pregunta" name = "pregunta_id" class="form-control">
-                        <option>Seleccione una pregunta...</option>
+                      <select id="id_pregunta_re" name = "pregunta_id" class="form-control">
+                        <option value="preg_seleccion">Seleccione una pregunta...</option>
                           <?php
                             include_once '../../modelo/conexionbd.php';
       
@@ -90,11 +90,12 @@ $usuario = $_SESSION['usuario'];
                       <div class="form-group has-feedback">
                         <input type="text" maxlength="15" id="respuestaUsuario" class="form-control" name="RespuestaValidar" placeholder="Respuesta" onkeypress="return soloLetras(event); return soloNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase(); SinEspacio(this)">
                         <span class="glyphicon glyphicon glyphicon-pencil form-control-feedback"></span>
+                        <p id="resp_re" class="msj_error"></p>
                       </div>
                       <br>
                       <div class="columna">
                       <a class="btn btn-primary" id="regresar" href="cerrar.php">Regresar</a>
-                      <button class="btn btn-success" href="#timeline" id="nexttab" data-toggle="tab">Siguiente</button>
+                      <button class="btn btn-success" href="#timeline" id="nexttab_re" data-toggle="tab">Siguiente</button>
                     
                     </div>
                   </div>
@@ -113,6 +114,7 @@ $usuario = $_SESSION['usuario'];
                           <button id="mostContrasena_P" class="btn btn-default" type="button"><i class="fa fa-eye-slash icon_pregunta"></i></button>
                         </span>
                       </div>
+                      <p id="resp1_re" class="msj_error"></p>
                       <br>
                       <div class="columna">
                         <button class="btn btn-primary" id="anterior" href="#activity" data-toggle="tab">Anterior</button>
@@ -178,6 +180,7 @@ window.onload = function(){
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../dist/js/app.login.js"></script>
+<script src="../dist/js/conf.app.js"></script>
 <script src="../dist/js/recuPregunta.js"></script>
 <!-- iCheck -->
 <script src="../plugins/iCheck/icheck.min.js"></script>

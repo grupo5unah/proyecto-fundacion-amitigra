@@ -81,6 +81,12 @@ $(document).ready(function () {
             Notificacion("error", "Error contraseña", "Las contraseñas no coinciden");
           } else if (registro.respuesta == "usuario_existe"){
             Notificacion("warning", "Error", "El nombre de usuario o correo ya existen");
+          } else if (registro.respuesta == "mal"){
+            Notificacion("warning","no se puede","vamos campeon");
+          }else if (registro.respuesta == "insert"){
+            Notificacion("success","Biem","vamos campeon");
+          }else if (registro.respuesta == "pesimo"){
+            Notificacion("warning","Biem","Algo anda mal");
           }
         }
       });
