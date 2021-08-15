@@ -167,7 +167,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarATP"  data-dismiss="modal">Cancelar</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Tipo Producto</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 							</div>
 						</div>
 					</div>
@@ -203,7 +203,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarModalTP" data-dismiss="modal">Cancelar</button>
-								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Tipo Producto</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar</button>
 							</div>
 							</form>
 						</div>
@@ -338,7 +338,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarLocal" data-dismiss="modal">Cancelar</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Localidad</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 							</div>
 						</div>
 					</div>
@@ -373,7 +373,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarModalLocal" data-dismiss="modal">Cancelar</button>
-								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Localidad</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar</button>
 							</div>
 							</form>
 						</div>

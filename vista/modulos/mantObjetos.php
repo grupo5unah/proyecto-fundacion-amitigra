@@ -214,7 +214,7 @@ if ($result->num_rows > 0) {
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-danger" id="cerrarModalAO" data-dismiss="modal">Cancelar</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Objeto</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 							</div>
 						</div>
 					</div>
@@ -259,7 +259,7 @@ if ($result->num_rows > 0) {
 										</div>
 										<div class="modal-footer">
 								       <button type="button" class="btn btn-danger" id="cerrarModalRe" data-dismiss="modal">Cancelar</button>
-								       <button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Objeto</button>
+								       <button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar</button>
 							           </div>
 										
 										

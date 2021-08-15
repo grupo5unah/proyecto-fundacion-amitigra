@@ -182,7 +182,7 @@ $(document).ready(function(){
 
     swal({
         icon:"warning",
-        title: "¿Seguro que quieres salir?",
+        title: "¿Desea salir?",
         text:" Si acepta se perderá la información.",
         
         buttons:[ "Cancelar","Aceptar",], 
@@ -257,7 +257,7 @@ $(document).ready(function(){
 
     swal({
         icon:"warning",
-        title: "¿Seguro que quieres salir?",
+        title: "¿Desea salir?",
         text:" Si acepta se perderá la información.",
         
         buttons:[ "Cancelar","Aceptar",], 
@@ -314,7 +314,7 @@ $("#cerrarModalcrearP").on("click", function(){
 
     swal({
         icon:"warning",
-        title: "¿Seguro que quieres salir?",
+        title: "¿Desea salir?",
         text:" Si acepta se perderá la información.",
         
         buttons:[ "Cancelar","Aceptar",], 
@@ -346,7 +346,7 @@ $("#cerrarModalcrearP").on("click", function(){
 
         swal({
             icon:"warning",
-            title: "¿Seguro que quieres salir?",
+            title: "¿Desea salir?",
             text:" Si acepta se perderá la información.",
             
             buttons:[ "Cancelar","Aceptar",], 
