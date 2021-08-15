@@ -61,7 +61,27 @@ switch ($action) {
                         $res['msj'] = "Se produjo un error al momento de registrar el estado";
                         $res['error'] = true;
                     } else {
-                        $res['msj'] = "El estado de Solicitud se ha registrado Correctamente";
+                        //select para traer el id del usuario
+                        $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                                         WHERE nombre_usuario='$usuario_actual'");
+                        $resulta = mysqli_fetch_array($consulid);
+                        if ($resulta > 0) {
+                            $id_user = $resulta['id_usuario'];
+
+                            date_default_timezone_set("America/Tegucigalpa");
+                            $fechaAccion = date("Y-m-d H:i:s", time());
+
+                            $accion = "Creación de estado de solicitud";
+                            $descripcion = "Se ha registrado una nuevo estado de solicitud";
+                            $objeto = 23;
+                            include "../modelo/conexionbd.php";
+
+                            //INSERTAR LA ACCION EN BITACORA
+                            $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                            $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                            $bitacora->execute();
+                        }
+                        $res['msj'] = "El estado de solicitud se ha registrado correctamente";
                     }
                 }
             } catch (Exception $e) {
@@ -72,7 +92,7 @@ switch ($action) {
     case 'actualizarEstSolicitud':
 
         if (
-            isset(($_POST['id_estatus_solicitud'])) && isset($_POST['estatus']) 
+            isset(($_POST['id_estatus_solicitud'])) && isset($_POST['estatus'])
 
         ) {
             $id_estatus_solicitud = (int)$_POST['id_estatus_solicitud'];
@@ -89,7 +109,26 @@ switch ($action) {
             $resultado = $conn->query($sql);
 
             if ($resultado == 1) {
+                //select para traer el id del usuario
+                $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+     WHERE nombre_usuario='$usuario_actual'");
+                $resulta = mysqli_fetch_array($consulid);
+                if ($resulta > 0) {
+                    $id_user = $resulta['id_usuario'];
 
+                    date_default_timezone_set("America/Tegucigalpa");
+                    $fechaAccion = date("Y-m-d H:i:s", time());
+
+                    $accion = "Actualización de estado de solicitud";
+                    $descripcion = "Se ha actualizado un estado de solicitud";
+                    $objeto = 23;
+                    include "../modelo/conexionbd.php";
+
+                    //INSERTAR LA ACCION EN BITACORA
+                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                    $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                    $bitacora->execute();
+                }
                 $res['msj'] = "Estado de solicitud editado exitosamente";
             } else {
                 $res['msj'] = "Se produjo un error al momento de editar el estado de solicitud ";
@@ -115,8 +154,48 @@ switch ($action) {
              WHERE id_estatus_solicitud = " . $id_estatus_solicitud;
             $resultado = $conn->query($sql);
             if ($resultado == 1) {
+                //select para traer el id del usuario
+                $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                           WHERE nombre_usuario='$usuario_actual'");
+                $resulta = mysqli_fetch_array($consulid);
+                if ($resulta > 0) {
+                    $id_user = $resulta['id_usuario'];
+
+                    date_default_timezone_set("America/Tegucigalpa");
+                    $fechaAccion = date("Y-m-d H:i:s", time());
+
+                    $accion = "Eliminación de estado de solicitud";
+                    $descripcion = "Se ha eliminado un estado de solicitud";
+                    $objeto = 23;
+                    include "../modelo/conexionbd.php";
+
+                    //INSERTAR LA ACCION EN BITACORA
+                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                    $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                    $bitacora->execute();
+                }
                 $res['msj'] = "Estado de solicitud eliminado exitosamente";
             } else {
+                //select para traer el id del usuario
+                $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                   WHERE nombre_usuario='$usuario_actual'");
+                $resulta = mysqli_fetch_array($consulid);
+                if ($resulta > 0) {
+                    $id_user = $resulta['id_usuario'];
+
+                    date_default_timezone_set("America/Tegucigalpa");
+                    $fechaAccion = date("Y-m-d H:i:s", time());
+
+                    $accion = "Eliminación de estado de solicitud";
+                    $descripcion = "Se ha intentado eliminar un estado de solicitud";
+                    $objeto = 23;
+                    include "../modelo/conexionbd.php";
+
+                    //INSERTAR LA ACCION EN BITACORA
+                    $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                    $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                    $bitacora->execute();
+                }
                 $res['msj'] = "Se produjo un error al momento de eliminar el estado de solicitud";
                 $res['error'] = true;
             }

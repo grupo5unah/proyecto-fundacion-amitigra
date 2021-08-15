@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $("#tablaSolicitudes").DataTable({
-    
-    
+
+
     colmnDefs: [
       { className: "text-center ", targets: [0] },
       { className: "text-center ", targets: [1] },
@@ -11,11 +11,11 @@ $(document).ready(function () {
       { className: "text-center ", targets: [5] },
       { className: "text-center ", targets: [6] },
     ],
-    
-       "order": [[4 , "desc" ]],
-  
-    "createdRow":function(row,data,index){
-      if(data[5] == "PROCESO" || data[5] == "PENDIENTE"){
+
+    "order": [[4, "desc"]],
+
+    "createdRow": function (row, data, index) {
+      if (data[5] == "PROCESO" || data[5] == "PENDIENTE") {
         $('td', row).eq(5).css({
           'background-color': '#F39C12',
           'color': 'white',
@@ -23,14 +23,14 @@ $(document).ready(function () {
         });
       }
 
-      if(data[5] == "RECHAZADA" || data[5] == "CANCELADA"){
+      if (data[5] == "RECHAZADA" || data[5] == "CANCELADA") {
         $('td', row).eq(5).css({
           'background-color': ' #DD4B39',
           'color': 'white',
           'text-align': 'center'
         });
       }
-      if(data[5] == "APROBADA"){
+      if (data[5] == "APROBADA") {
         $('td', row).eq(5).css({
           'background-color': '#00a65a',
           'color': 'white',
@@ -53,7 +53,7 @@ $(document).ready(function () {
         extend: "print",
         text: '<i class="fas fa-print">',
         titleAttr: "Imprimir",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
+        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
         messageTop: " REPORTE DE SOLICITUDES",
         className: "btn btn-dark",
         exportOptions: {
@@ -64,7 +64,7 @@ $(document).ready(function () {
       },
       {
         extend: "excelHtml5",
-        title: "FUNDACION AMIGOS DE LA TIGRA",
+        title: "FUNDACIÓN AMIGOS DE LA TIGRA",
         text: '<i class="fas fa-file-excel">',
         className: "btn btn-success",
         messageTop: "REPORTE DE SOLICITUDES.",
@@ -132,13 +132,13 @@ $(document).ready(function () {
           };
           cols[1] = {
             width: '35%',
-            text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+            text: "FUNDACIÓN AMIGOS DE LA TIGRA ", fontSize: 10, bold: true,
             alignment: "left",
             margin: [25, 25, 5, 0],
-            with:[30,30], 
+            with: [30, 30],
           };
           cols[2] = {
-            text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+            text: date.format("dddd  D MMMM   YYYY, h:mm:ss"),
             alignment: "right",
             margin: [10, 10, 15, 15],
           };
@@ -159,7 +159,7 @@ $(document).ready(function () {
                 margin: [15, 15, 0, 15],
               },
               {
-                text: "Pagina " + currentPage + " de " + pageCount,
+                text: "Página " + currentPage + " de " + pageCount,
                 alignment: "center",
                 color: "black",
                 margin: [0, 15, 0, 15],
@@ -191,18 +191,16 @@ $(document).ready(function () {
         colvis: "Cambiar Colunnas",
         pageLength: "Mostrar Registros",
       },
-    },
-    language: {
-      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
-    },
+      url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+    }
   });
 
-  
-//mantenimiento Solicitudes
+
+  //mantenimiento Solicitudes
   $("#formSolicitudes").submit(async function (e) {
     e.preventDefault();
 
-    
+
     var nombreCompleto = $("#nombreCompleto").val();
     var identidad = $("#identidad").val();
     var telefono = $("#telefono").val();
@@ -221,7 +219,7 @@ $(document).ready(function () {
       usuario_actual != undefined
     ) {
       const formData = new FormData();
-    
+
       formData.append("nombreCompleto", nombreCompleto);
       formData.append("identidad", identidad);
       formData.append("telefono", telefono);
@@ -241,10 +239,10 @@ $(document).ready(function () {
         return swal("Error", data.msj, "error");
       }
 
-      return swal("Exito!", data.msj, "success").then((value) => {
+      return swal("Éxito!", data.msj, "success").then((value) => {
         if (value) {
           // Se limpia el formulario de mantenimiento
-          
+
           $("#nombreCompleto").val("");
           $("#identidad").val("");
           $("#telefono").val("");
@@ -255,8 +253,15 @@ $(document).ready(function () {
         }
       });
     } else {
-      swal("Advertencia!", "Es necesario rellenar todos los campos", "warning");
-      
+
+      swal({
+        title: "Advertencia",
+        text: "Es necesario rellenar todos los campos",
+        icon: "warning",
+        button: "Aceptar",
+      });
+
+
     }
   });
 
@@ -264,28 +269,46 @@ $(document).ready(function () {
     $("#modalCrearS").modal("show");
   });
 
-
+  //cerrar modal crear solicitud
   $("#cerrar_s").on("click", function () {
+    //limpiar los campos al cerrar
+    $("#nombreCompleto").val("");
+    $("#identidad").val("");
+    $("#telefono").val("");
+    $("#n_recibo").val("");
+    $("#tipo_nac").val("");
+    $("#tipo_sol").val("");
+
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
+
         $("#modalCrearS").modal("hide");
+
+
+
       } else {
         $("#modalCrearS").modal("show");
       }
     });
   });
   $("#cerrar_rs").on("click", function () {
-    swal({
+    $("#nombreCompleto").val("");
+    $("#identidad").val("");
+    $("#telefono").val("");
+    $("#n_recibo").val("");
+    $("#tipo_nac").val("");
+    $("#tipo_sol").val("");
+    swal({  
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -295,63 +318,60 @@ $(document).ready(function () {
       }
     });
   });
-  
+
   //BUSCAR EL CLIENTE
   $('#identidad').keyup(function (e) {
     e.preventDefault();
-    
+
     var ident = $(this).val();
     var action = 'buscarCliente';
     $.ajax({
       url: './controlador/apiSolicitudes.php',
-      type:'POST',
+      type: 'POST',
       async: true,
-    
-      data:{accion:action,identidad:ident},
-      success: function(response){
-       //console.log(response);
-       if(response == 0){
-         //si el cliente no existe no se llenaran los campos y permitira llenarlos
-         
-         $('#nombreCompleto').val('');
-         $('#telefono').val('');
-         $('#tipo_nac').val('');
 
-         
-        nombreCompleto.disabled = false;
-        telefono.disabled = false;
-        tipo_nac.disabled = false; 
-        
+      data: { accion: action, identidad: ident },
+      success: function (response) {
+        //console.log(response);
+        if (response == 0) {
+          //si el cliente no existe no se llenaran los campos y permitira llenarlos
 
-        //si el cliente existe se llenan los campos
-       }else{
-         var data = JSON.parse(response);
-        
-        
-         $('#nombreCompleto').val(data.nombre_completo);
-         $('#tipo_nac').val(data.tipo_nacionalidad);
-         $('#telefono').val(data.telefono);
+          $('#nombreCompleto').val('');
+          $('#telefono').val('');
+          $('#tipo_nac').val('');
 
-         
-         
-         //Bloquear campos
-         $('#nombreCompleto').attr('disabled','disabled');
-         $('#telefono').attr('disabled','disabled');
-         $('#tipo_nac').attr('disabled','disabled');
-         
-         
-        
-        
-        
-       }
-     },
-      error: function(error){
+
+          nombreCompleto.disabled = false;
+          telefono.disabled = false;
+          tipo_nac.disabled = false;
+
+
+          //si el cliente existe se llenan los campos
+        } else {
+          var data = JSON.parse(response);
+
+
+          $('#nombreCompleto').val(data.nombre_completo);
+          $('#tipo_nac').val(data.tipo_nacionalidad);
+          $('#telefono').val(data.telefono);
+
+
+
+          //Bloquear campos
+          $('#nombreCompleto').attr('disabled', 'disabled');
+          $('#telefono').attr('disabled', 'disabled');
+          $('#tipo_nac').attr('disabled', 'disabled');
+
+
+        }
+      },
+      error: function (error) {
         console.log(error);
       }
     });
-     
- });
-  
+
+  });
+
 
 
   //eliminar una solicitud
@@ -361,15 +381,18 @@ $(document).ready(function () {
 
     swal(
       "Eliminar Solicitud",
-      "Esta seguro de eliminar esta solicitud",
+      "¿Esta seguro de eliminar esta solicitud?",
       "warning",
-      { buttons: [true, "OK"] }
+      {
+        buttons: ["Cancelar", "Aceptar"],
+        dangerMode: true,
+      }
     ).then(async (value) => {
       if (value) {
         const formData = new FormData();
         formData.append("id_solicitud", idsolicitud);
         formData.append("usuario_actual", usuario_actual);
-        
+
         const resp = await axios.post(
           "controlador/apiSolicitudes.php?action=eliminarSolicitud",
           formData
@@ -405,7 +428,7 @@ $(document).ready(function () {
     const id_estatus_solicitud = $(this).data("id_estatus_solicitud");
     const estatus_solicitud = $(this).data("estatus_solicitud");
     var usuario_actual = $("#usuario_actual").val();
-    var fecha_actual =  moment().format("Y-MM-DD  h:mm:ss");
+    var fecha_actual = moment().format("Y-MM-DD  h:mm:ss");
 
     //llena los campos
     $("#idsolicitud").val(idsolicitud),
@@ -453,13 +476,13 @@ $(document).ready(function () {
       }
     });
   });
-
+  //cerrar formulario editar solicitud
   $("#cerrar_act").on("click", function () {
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -472,9 +495,9 @@ $(document).ready(function () {
   $("#cerrarFormact").on("click", function () {
     swal({
       icon: "warning",
-      title: "Saliendo...",
-      text: "Desea Salir?",
-      buttons: true,
+      title: "¿Desea salir?",
+      text: "Si acepta se perderá la información",
+      buttons: ["Cancelar", "Aceptar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -484,5 +507,5 @@ $(document).ready(function () {
       }
     });
   });
-  
+
 });

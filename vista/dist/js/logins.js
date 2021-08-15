@@ -71,7 +71,8 @@ $(document).ready(function(){
                         swal({
                             icon:"warning",
                             title:"Bloqueo usuario",
-                            text:"El usuario ha sido bloqueado, realizó los intentos permitidos."
+                            text:"El usuario ha sido bloqueado, realizó los intentos permitidos.",
+                            button: "Aceptar"
                         }).then(() => {
                             location.reload();
                         });
