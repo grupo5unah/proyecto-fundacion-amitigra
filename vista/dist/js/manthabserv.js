@@ -73,8 +73,8 @@ $(document).ready(function(){
                   titleAttr: 'Exportara a PDF',
                   orientation: 'portrait',
                   pageSize: 'A4',
-                  title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                  messageTop: 'REPORTE DE HABITACIONES Y ÁREAS PARA ACAMPAR.',
+                  title:  'REPORTE DE HABITACIONES Y ÁREAS.',
+                  messageTop: '',
                   Image:'fotoPerfil/foto1.png',
                   download: 'open',
                   exportOptions: {
@@ -100,47 +100,74 @@ $(document).ready(function(){
                           title: {
                               fontSize: 10,
                               bold: true,
-                              margin: [0, 0, 0, 10],
+                              margin: [0, 0, 0, 0],
                               alignment: 'center'
                           }
                       };
-      
-                      var cols = [];
-                      cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10] };
-                      cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
-                      var objHeader = {};
-                      objHeader['columns'] = cols;
-                      doc['header'] = objHeader;
-   
-                       doc['content']['1'].layout = 'lightHorizontalLines';
-                      // doc['content']['1'].table.widths = ['2%', 140, 10, 15, 25, 20, 140, 20];
-                       doc['content']['1'].style = 'Amitigra';
-   
-                      var objFooter = {};
-                      objFooter['alignment'] = 'center';
-                      doc["footer"] = function(currentPage, pageCount) {
-                          var footer = [
-                              {
-                                  text: 'AmiTigra',
-                                  alignment: 'left',
-                                  color: 'black',
-                                  margin:[15, 15, 0, 15]
-                              },{
-                                  text: 'Pagina ' + currentPage + ' de ' + pageCount,
-                                  alignment: 'center',
-                                  color: 'black',
-                                  margin:[0, 15, 0, 15]
-                              },{
-                                  text: '',
-                                  alignment: 'center',
-                                  color: 'blsck',
-                                  margin:[0, 15, 15, 15]
-                              },
-                              
-                          ];
-                          objFooter['columns'] = footer;
-                          return objFooter;
-                      };
+
+                      moment.locale("es");
+                    var datetime = null,
+                        date = null;
+
+                    var update = function () {
+                        moment.locale("es");
+                        date = moment(new Date());
+                        datetime.html(date.format("HH:mm:ss"));
+                        datetime2.html(date.format("dddd, MMMM DD YYYY"));
+                    };
+                    datetime = $('.time h1');
+                    datetime2 = $('.time p');
+                    update();
+                    setInterval(update, 1000);
+    
+                    var cols = [];
+                    cols[0] = {text: '', alignment: 'left', margin:[0, 0, 0, 0, 0] };
+
+                    cols[1] = {
+                    width: '35%',
+                    text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+                    alignment: "left",
+                    margin: [25, 25, 5, 0],
+                    with:[30,30],
+                    };
+
+                    cols[2] = {
+                    text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+                    alignment: "right",
+                    margin: [10, 10, 15, 15],
+                    };
+                    
+                    var objHeader = {};
+                    objHeader['columns'] = cols;
+                    doc['header'] = objHeader;
+                    doc['content']['1'].layout = 'lightHorizontalLines';
+                    //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
+                    doc['content']['1'].style = 'FUNDACION AMITIGRA';
+                    var objFooter = {};
+                    objFooter['alignment'] = 'center';
+                    doc["footer"] = function(currentPage, pageCount) {
+                        var footer = [
+                            {
+                                text:"",
+                                alignment: 'left',
+                                color: 'black',
+                                margin:[15, 15, 0, 15]
+                            },{
+                                text: 'Pagina ' + currentPage + ' de ' + pageCount,
+                                alignment: 'center',
+                                color: 'black',
+                                margin:[0, 15, 0, 15]
+                            },{
+                                text: '',
+                                alignment: 'center',
+                                color: 'blsck',
+                                margin:[0, 15, 15, 15]
+                            },
+                            
+                        ];
+                        objFooter['columns'] = footer;
+                        return objFooter;
+                    };
                       doc.content.splice( 1, 0, {
                           margin: [ 0, 0, 0, 12 ],
                           width: 50,
@@ -161,13 +188,50 @@ $(document).ready(function(){
               buttons: {
                   colvis: 'Cambiar Colunnas',
                   pageLength:'Mostrar Registros'
-              }
+              },
+              url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
              },
-             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-          },
+            
+              
+          
        
     });
+
+     //ALERTAS PARA CANCELAR (EVENTO CERRAR)
+     $('.cancelacionnuevahabiser').on('click', function(e){
+        swal({
+          icon: "warning",
+          title: "¿Desea salir?",
+          text: "Si acepta se perderá la información",
+          buttons: ["Cancelar","Aceptar"],
+          dangerMode: true,
+        })
+        .then((willDelete) =>{
+          if(willDelete){
+            location.reload();
+          }else{
+            $('#modalCrearHabServ').modal('show');
+          }
+        })
+      });
+
+      $('.cancelacioneditarhabser').on('click', function(e){
+        swal({
+          icon: "warning",
+          title: "¿Desea salir?",
+          text: "Si acepta se perderá la información",
+          buttons: ["Cancelar","Aceptar"],
+          dangerMode: true,
+        })
+        .then((willDelete) =>{
+          if(willDelete){
+            location.reload();
+          }else{
+            $('#modalEditarHabServ').modal('show');
+          }
+        })
+      });
+
     //REGISTRAR NUEVA HABITACION O AREA
     $("#formHabServi").submit(async function(e){
         e.preventDefault();
@@ -180,6 +244,7 @@ $(document).ready(function(){
         var precio_adultoE = $("#preAdultE").val();
         var precio_ninoE = $("#precioNiE").val();
         var usuario_actual = $("#usuario_actual").val();
+        var usuario_id = $("#id_usuario").val();
         console.log(habitacion_area,descripcion,localidad,estado,precio_adultoN,precio_ninoN,
             precio_adultoE, precio_ninoE,usuario_actual);
         if(habitacion_area != undefined && localidad != undefined && estado != undefined && descripcion != undefined && precio_adultoN != undefined && precio_ninoN != undefined && precio_adultoE != undefined && precio_ninoE != undefined && usuario_actual != undefined){
@@ -193,6 +258,7 @@ $(document).ready(function(){
             formData.append('precioAE',precio_adultoE);
             formData.append('precioNE',precio_ninoE);
             formData.append('usuario_actual', usuario_actual);
+            formData.append('usuarioid', usuario_id);
 
             const resp = await axios.post(`./controlador/ctr.matHabServ.php?action=registrarhabserv`, formData);
 
@@ -202,7 +268,11 @@ $(document).ready(function(){
                 return swal("Error", data.msj, "error");
             }
 
-            return swal("Exito!", data.msj, "success").then((value) => {
+            return swal("Exito!", data.msj, "success",{
+                timer:3000,
+                buttons:false
+            }).then((value) => {
+                location.reload();
                     if (value){
                         // Se limpia el formulario
                         $("#ha").val('');

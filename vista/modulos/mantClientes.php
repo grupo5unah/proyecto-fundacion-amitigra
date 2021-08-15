@@ -18,8 +18,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
       <h1>Mantenimiento<small> clientes</small></h1>
       <ol class="breadcrumb">
         <li><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="panel"><i class="fa fa-cogs"></i> panel de control</a></li>
-		<li><a><i class="fa fa-users"></i> mantenimiento clientes</a></li>
+		<li><a><i class="fa fa-users"></i> Mantenimiento clientes</a></li>
       </ol>
       <br>
     </section>
@@ -47,7 +46,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 								if($columna["permiso_insercion"] == 0):
 								
 								else:?>
-								<button class="btn btn-default btnCrearCliente glyphicon glyphicon-plus-sign" >Agregar Nuevo Cliente</button>
+								<button class="btn btn-success btnCrearCliente glyphicon glyphicon-plus-sign" >AGREGAR NUEVO CLIENTE</button>
 								<?php
 								endif;
 								?>
@@ -60,7 +59,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 
 											<th class="text-center">Nombre completo</th>
 											<th class="text-center">Identidad</th>
-											<th class="text-center">Telefono</th>
+											<th class="text-center">Teléfono</th>
 											<th class="text-center">Tipo nacionalidad</th>
 											<th class="text-center">Modificado por</th>
 											<th class="text-center">Fecha Modificación</th>
@@ -148,14 +147,15 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 
 
 			</div>
-	
+			
+			<!-- EDITAR CLIENTE!-->
 			<div class="modal fade" id="modalEditarCliente" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<div class="d-flex justify-content-between">
-								<button type="button" class="close cierra1" data-dismiss="modal" aria-label="Close">
+								<button type="button" class="close cancelacioneditarcliente" data-dismiss="modal" aria-label="Close">
 									<i aria-hidden="true">&times;</i>
 								</button>
 								<h3 class="modal-title" id="exampleModalLabel">Actualizar Cliente</h3>
@@ -176,7 +176,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 
 									</div>
 									<div class="campos form-group">
-										<label for="telefono">Telefono: </label>
+										<label for="telefono">Teléfono: </label>
 										<input id="telefono" minlength="8" maxlength="8" class="form-control  modal-roles secundary text-uppercase" type="tel" name="telefono" placeholde="Escriba el telefono" onkeypress="return soloNumeros(event)" required/>
 
 									</div>
@@ -203,8 +203,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary cierra" data-dismiss="modal">Cerrar</button>
-							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Cliente</button>
+							<button type="button" class="btn btn-danger cancelacioneditarcliente" data-dismiss="modal">Cancelar</button>
+							<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar</button>
 						</div>
 					</div>
 				</div>
@@ -217,10 +217,10 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 							<div class="modal-content">
 								<div class="modal-header">
 									<div class="d-flex justify-content-between">
-						                <button type="button" class="close cerrar2" data-dismiss="modal" aria-label="Close">
+						                <button type="button" class="close cancelacioncrearcliente" data-dismiss="modal" aria-label="Close">
 										<i aria-hidden="true">&times;</i>
 										</button>
-										<h3 class="modal-title" id="exampleModalLabel">Registrar Nuevo Cliente</h3>
+										<h3 class="modal-title" id="exampleModalLabel">Registrar Cliente</h3>
 									</div>
 								</div>
 								<div class="modal-body">
@@ -238,7 +238,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 
 											</div>
 											<div class="campos form-group">
-												<label for="tel">Telefono: </label>
+												<label for="tel">Teléfono: </label>
 												<input id="tel" name="tel" minlength="8" maxlength="8" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Telefono" onkeypress="return soloNumeros(event)" required/>
 
 											</div>
@@ -262,8 +262,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "administrador" || $
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
 										<div class="modal-footer">
-										<button type="button" class="btn btn-secondary cerrar"     data-dismiss="modal">Cerrar</button>
-										<button id=""type="submit" class=" btn btn-primary" id="registrarcliente">Registrar  Cliente</button>
+										<button type="button" class="btn btn-danger cancelacioncrearcliente"     data-dismiss="modal">Cancelar</button>
+										<button id=""type="submit" class=" btn btn-success" id="registrarcliente">Registrar</button>
 										</div>
 										
 									</form>

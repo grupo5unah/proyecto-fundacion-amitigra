@@ -53,8 +53,7 @@ $(document).ready(function(){
                 titleAttr: 'Exportara a PDF',
                 orientation: 'portrait',
                 pageSize: 'A4',
-                title:  'FUNDACIÓN AMIGOS DE LA TIGRA',
-                messageTop: ' REPORTE DE CLIENTES.',
+                title:  'REPORTE DE CLIENTES.',
                 Image:'fotoPerfil/foto1.png',
                 download: 'open',
                 exportOptions: {
@@ -85,23 +84,50 @@ $(document).ready(function(){
                         }
                     };
     
+                    moment.locale("es");
+                    var datetime = null,
+                        date = null;
+
+                    var update = function () {
+                        moment.locale("es");
+                        date = moment(new Date());
+                        datetime.html(date.format("HH:mm:ss"));
+                        datetime2.html(date.format("dddd, MMMM DD YYYY"));
+                    };
+                    datetime = $('.time h1');
+                    datetime2 = $('.time p');
+                    update();
+                    setInterval(update, 1000);
+    
                     var cols = [];
-                    cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
-                    cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
+                    cols[0] = {text: '', alignment: 'left', margin:[0, 0, 0, 0, 0] };
+
+                    cols[1] = {
+                    width: '35%',
+                    text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+                    alignment: "left",
+                    margin: [25, 25, 5, 0],
+                    with:[30,30],
+                    };
+
+                    cols[2] = {
+                    text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+                    alignment: "right",
+                    margin: [10, 10, 15, 15],
+                    };
+                    
                     var objHeader = {};
                     objHeader['columns'] = cols;
                     doc['header'] = objHeader;
-    
-                     doc['content']['1'].layout = 'lightHorizontalLines';
-                     //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
-                     doc['content']['1'].style = 'Amitigra';
-    
+                    doc['content']['1'].layout = 'lightHorizontalLines';
+                    //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
+                    doc['content']['1'].style = 'FUNDACION AMITIGRA';
                     var objFooter = {};
                     objFooter['alignment'] = 'center';
                     doc["footer"] = function(currentPage, pageCount) {
                         var footer = [
                             {
-                                text: 'AmiTigra',
+                                text:"",
                                 alignment: 'left',
                                 color: 'black',
                                 margin:[15, 15, 0, 15]
@@ -140,69 +166,37 @@ $(document).ready(function(){
               buttons: {
                   colvis: 'Cambiar Colunnas',
                   pageLength:'Mostrar Registros'
-              }
-             },
-             "language": {
-              "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-          },
+              },
+              url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+             }
        
     });
   
 
-    $('.cerrar').on('click', function(e){
+      //ALERTAS PARA CANCELAR (EVENTO CERRAR)
+      $('.cancelacioneditarcliente').on('click', function(e){
         swal({
           icon: "warning",
-          title: "cancelar",
-          text: "¿Esta seguro que quiere ejecutar esta accion?",
-          buttons: true,
+          title: "¿Desea salir?",
+          text: "Si acepta se perderá la información",
+          buttons: ["Cancelar","Aceptar"],
           dangerMode: true,
         })
         .then((willDelete) =>{
           if(willDelete){
             location.reload();
           }else{
-            $('#modalCrearCliente').modal('show');
+            $('#modalEditarCliente').modal('show');
           }
         })
       });
-      $('.cerrar2').on('click', function(e){
+
+      $('.cancelacioncrearcliente').on('click', function(e){
         swal({
           icon: "warning",
-          title: "cancelar",
-          text: "¿Esta seguro que quiere ejecutar esta accion?",
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) =>{
-          if(willDelete){
-            location.reload();
-          }else{
-            $('#modalCrearCliente').modal('show');
-          }
-        })
-      });
-      $('.cierra').on('click', function(e){
-        swal({
-          icon: "warning",
-          title: "cancelar",
-          text: "¿Esta seguro que quiere ejecutar esta accion?",
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) =>{
-          if(willDelete){
-            location.reload();
-          }else{
-            $('#modalCrearCliente').modal('show');
-          }
-        })
-      });
-      $('.cierra1').on('click', function(e){
-        swal({
-          icon: "warning",
-          title: "cancelar",
-          text: "¿Esta seguro que quiere ejecutar esta accion?",
-          buttons: true,
+          title: "¿Desea salir?",
+          text: "Si acepta se perderá la información",
+          buttons: ["Cancelar","Aceptar"],
           dangerMode: true,
         })
         .then((willDelete) =>{
@@ -223,6 +217,7 @@ $(document).ready(function(){
         var identi = $("#ident").val();
         var nacion = $("#nacion").val();
         var usuario_actual = $("#usuario_actual").val();
+        var usuarioid = $("#id_usuario").val();
 
         if(nombreCliente != undefined && telef != undefined && identi != undefined && 
             nacion !=undefined &&usuario_actual != undefined){
@@ -231,6 +226,7 @@ $(document).ready(function(){
             formData.append('tel',telef);
             formData.append('ident',identi);
             formData.append('nacion',nacion);
+            formData.append('idusuario',usuarioid);
             formData.append('usuario_actual', usuario_actual);
 
             const resp = await axios.post(`./controlador/ctr.mantClientes.php?action=registrarCliente`, formData);
@@ -288,13 +284,15 @@ $(document).ready(function(){
         const tipo_nacionalidad = $(this).data('tipo_nacionalidad');
         const nacionalidad = $(this).data('nacionalidad');
         var usuario_actual = $("#usuario_actual").val();
+        var usuario_id = $("#id_usuario").val();
         //llena los campos
         //$("#id").val(idObjeto),
         $("#nombre_cliente").val(nombre),
         $("#identidad").val(identidadC),
         $("#telefono").val(telefono),
         $("#nacionalidad").val(tipo_nacionalidad),
-        $("#usuario_actual").val(usuario_actual)
+        $("#usuario_actual").val(usuario_actual),
+        $("#id_usuario").val(usuario_id),
         
         //console.log(idrol,nombrerol,descripcion);
         //mostrar el modal
@@ -310,6 +308,7 @@ $(document).ready(function(){
             formData.append('telefono',$("#telefono").val());
             formData.append('nacionalidad',$("#nacionalidad").val());
             formData.append('usuario_actual', usuario_actual);
+            formData.append('usuario_id', usuario_id);
             console.log(formData);
             
            const resp = await axios.post('./controlador/ctr.mantClientes.php?action=actualizarCliente', formData);
@@ -342,11 +341,14 @@ $(document).ready(function(){
     //ELIMINAR CLIENTE
     $('.btnEliminarCliente').on('click', function (){
         const idCliente = $(this).data('idclient');
-        swal("Eliminar Cliente", "Esta seguro de eliminar este Cliente?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+        const idusua = document.querySelector('#id_usuario').value;
+        swal("Eliminar Cliente", "¿Esta seguro de eliminar este Cliente?", "warning",{buttons: ["Cancelar", "Aceptar"],
+        dangerMode: true,}).then(async (value) => {
             if (value){
                 //console.log('Estoy dentro del if');
                 const formData = new FormData();
                 formData.append('id_cliente', idCliente);
+                formData.append('id_usuario', idusua);
                 const resp = await axios.post('./controlador/ctr.mantClientes.php?action=eliminarCliente', formData);
                 const data = resp.data;
                 //console.log(data);

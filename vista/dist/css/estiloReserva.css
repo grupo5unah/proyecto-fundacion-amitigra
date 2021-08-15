@@ -1,10 +1,10 @@
 #guardarCliente{
     display: none;
-    transform: translate(-109%, -10%);
+    transform: translate(-108%, -10%);
 }
 #guardarClient{
     display: none;
-    transform: translate(-109%, -10%);
+    transform: translate(-108%, -10%);
 }
 .btnSiguiente{
     display: none;
@@ -17,9 +17,9 @@
 .hotel{
     display: none;
 }
-/*.btnsiguiente2{
+.btnsiguiente2{
     display: none;
-}*/
+}
 .salida{
     transform: translate(-1%, 53%);
 }
@@ -29,46 +29,43 @@
 .rosario{
     display: none;
 }
-.reserva{
-    transform: translate(-120%, 0%);
-}
-.precio{
-    transform: translate(140%, -125%);
-}
-.canT{
-    transform: translate(0%, -130%);
-}
- .canA{
-    transform: translate(-100%, 0%);
-} 
-.precioT{
-    transform: translate(150%, -112%);
-}
+
 .precioh{
-    transform: translate(240%, -125%);
+    transform: translate(88%, -32%);
 }
-#btnAgregarEC,
-#btnAgregarNC{
-    transform: translate(-100%, 70%);
-   
+.habitacion{
+    transform: translate(-111%, 215%);
 }
- 
- #miprecio{
-    transform: translate(0%, -150%);
+.adultojutiapa{
+    transform: translate(-200%, 90%);
+}
+.preadult{
+    transform: translate(150%, -35%); 
+}
+.reserva{
+    transform: translate(180%, -32%);
 }
 
+.habitac{
+    transform: translate(-111%, 215%);
+}
+.adultorosario{
+    transform: translate(-200%, 92%);
+}
+.precioadultr{
+    transform: translate(150%, -32%);
+}
 #miprecioe{
     transform: translate(0%, -150%);
+} 
+#btnAgregarN{
+    transform: translate(215%, 225%);
 }
 
-.estilo{
-    transform: translate(0%, 0%) !important;
+#btnAgregarNR{
+    transform: translate(220%, 230%);
 }
-
-
-#btnAgregarN,
 #btnAgregarE,
-#btnAgregarNR,
 #btnAgregarER {
     transform: translate(400%, -10%);
 }
@@ -84,11 +81,7 @@
 .nacional{
     display: none;
 }
-.tablaCamping{
-    text-align: center; 
-    background-color: #E1E5E6; 
-    color: black;
-}
+
 .tablaJutiapa{
     background-color: #E1E5E6;
     color: black;
@@ -115,8 +108,47 @@
 .datos{
     transform: translate(0%, 100%);
 }
-/*.fact{
-    max-width: 500px;
-    width: 500px;
-    height: 400px;
-}*/
+
+/**********************************
+            CAMPING
+***********************************/
+.tablaCamping{
+    text-align: center; 
+    background-color: #E1E5E6; 
+    color: black;
+}
+
+#btnAgregarNC{
+    transform: translate(-100%, 420%);
+   
+} 
+.precioT/*quitar*/{
+    transform: translate(150%, -112%);
+}
+.niños /*cantidad de niños*/{ 
+    transform: translate(180%, -40%);
+}
+.area{
+    transform: translate(-100%, 70%);
+}
+.adulto{
+    transform: translate(-200%, 95%);
+}
+.precioadulto{
+    transform: translate(150%, -40%);
+}
+.precioniño{
+    transform: translate(90%, -40%);
+}
+.canT{
+    transform: translate(1%, -50%);
+}
+#miprecio{
+    transform: translate(1%, -19%);
+}
+.canA{
+    transform: translate(-200%, 73%);
+}
+.dolar{
+    display: none;
+}
