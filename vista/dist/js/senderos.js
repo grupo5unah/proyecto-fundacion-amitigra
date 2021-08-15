@@ -14,7 +14,19 @@ function sumarBoletosN()
 $(document).ready(function(){
   $('#mantSenderos').DataTable({
       
-     
+    colmnDefs:[
+      {className: "text-center ", targets: [0]},
+      {className: "text-center ", targets: [1]},
+      {className: "text-center ", targets: [2]},
+      {className: "text-center ", targets: [3]},
+      {className: "text-center ", targets: [4]},
+      {className: "text-center ", targets: [5]},
+      {className: "text-center ", targets: [6]},
+      {className: "text-center ", targets: [7]},
+      {className: "text-center ", targets: [8]},
+      
+  ],
+  "order": [[0,"desc"]],
         
     //para usar los botones 
     responsive:"true",
@@ -32,7 +44,7 @@ $(document).ready(function(){
           text:'<i class="fas fa-print">',
           titleAttr:'Imprimir',
           title:'FUNDACION AMIGOS DE LA TIGRA',
-          messageTop:' REPORTE DE BOLETOS VENDIDOS',
+          messageTop:'REPORTE DE VENTA DE BOLETOS',
           className:'btn btn-dark',
           exportOptions: {
             modifier: {
@@ -45,7 +57,7 @@ $(document).ready(function(){
               title: 'FUNDACION AMIGOS DE LA TIGRA',
               text:'<i class="fas fa-file-excel">',
               className:'btn btn-success',
-              messageTop: 'REPORTE DE BOLETOS VENDIDOS',
+              messageTop: 'REPORTE DE VENTA DE BOLETOS',
               exportOptions: {
                 columns: [ 0, ':visible' ]
             },
@@ -58,12 +70,11 @@ $(document).ready(function(){
             titleAttr: 'Exportara a PDF',
             orientation: 'portrait',
             pageSize: 'A4',
-            title:  'FUNDACION AMIGOS DE LA TIGRA',
-            messageTop: 'REPORTE DE BOLETOS VENDIDOS',
+            title:  'REPORTE DE VENTA DE BOLETOS',               
             Image:'fotoPerfil/foto1.png',
             download: 'open',
             exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5,6,7],
+                columns: [0, 1, 2, 3, 4],
                 orthogonal: 'export'
              },
             customize: function(doc){
@@ -90,42 +101,69 @@ $(document).ready(function(){
                     }
                 };
 
-                var cols = [];
-                cols[0] = {text: 'AMITIGRA', alignment: 'left', margin:[15, 10, 10, 10,10] };
-                cols[1] = {text: moment().format(' MMMM D ddd YYYY, h:mm:ss'), alignment: 'right', margin:[10, 10, 15, 15] };
-                var objHeader = {};
-                objHeader['columns'] = cols;
-                doc['header'] = objHeader;
+                moment.locale("es");
+            var datetime = null,
+              date = null;
+            var update = function () {
+              moment.locale("es");
+              date = moment(new Date());
+              datetime.html(date.format("HH:mm:ss"));
+              datetime2.html(date.format("dddd, MMMM DD YYYY"));
+            };
+            datetime = $('.time h1');
+            datetime2 = $('.time p');
+            update();
+            setInterval(update, 1000);
+                    
 
-                 doc['content']['1'].layout = 'lightHorizontalLines';
-                 //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
-                 doc['content']['1'].style = 'Amitigra';
+            var cols = [];
+            cols[0] = {text: '', alignment: 'left', margin:[0, 0, 0, 0, 0] };
 
-                var objFooter = {};
-                objFooter['alignment'] = 'center';
-                doc["footer"] = function(currentPage, pageCount) {
-                    var footer = [
-                        {
-                            text: 'AmiTigra',
-                            alignment: 'left',
-                            color: 'black',
-                            margin:[15, 15, 0, 15]
-                        },{
-                            text: 'Pagina ' + currentPage + ' de ' + pageCount,
-                            alignment: 'center',
-                            color: 'black',
-                            margin:[0, 15, 0, 15]
-                        },{
-                            text: '',
-                            alignment: 'center',
-                            color: 'blsck',
-                            margin:[0, 15, 15, 15]
-                        },
-                        
-                    ];
-                    objFooter['columns'] = footer;
-                    return objFooter;
-                };
+            cols[1] = {
+              width: '35%',
+              text: "FUNDACION AMIGOS DE LA TIGRA ",fontSize: 10, bold:true,
+              alignment: "left",
+              margin: [25, 25, 5, 0],
+              with:[30,30],
+            };
+
+            cols[2] = {
+              text:  date.format("dddd  D MMMM   YYYY, h:mm:ss"),
+              alignment: "right",
+              margin: [10, 10, 15, 15],
+            };
+
+            var objHeader = {};
+            objHeader['columns'] = cols;
+            doc['header'] = objHeader;
+             doc['content']['1'].layout = 'lightHorizontalLines';
+             //doc['content']['1'].table.widths = ['2%', 140, 10, 15];
+             doc['content']['1'].style = 'FUNDACION AMITIGRA';
+            var objFooter = {};
+            objFooter['alignment'] = 'center';
+            doc["footer"] = function(currentPage, pageCount) {
+                var footer = [
+                    {
+                        text:"",
+                        alignment: 'left',
+                        color: 'black',
+                        margin:[15, 15, 0, 15]
+                    },{
+                        text: 'Pagina ' + currentPage + ' de ' + pageCount,
+                        alignment: 'center',
+                        color: 'black',
+                        margin:[0, 15, 0, 15]
+                    },{
+                        text: '',
+                        alignment: 'center',
+                        color: 'blsck',
+                        margin:[0, 15, 15, 15]
+                    },
+                    
+                ];
+                objFooter['columns'] = footer;
+                return objFooter;
+            };
                 doc.content.splice( 1, 0, {
                     margin: [ 0, 0, 0, 12 ],
                     width: 50,
@@ -145,11 +183,10 @@ $(document).ready(function(){
           buttons: {
               colvis: 'Cambiar Colunnas',
               pageLength:'Mostrar Registros'
-          }
+          },
+          url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
          },
-         "language": {
-          "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-      },
+        
    
 });
 
@@ -268,12 +305,16 @@ $(document).ready(function(){
   //BOTON PARA ELIMINAR UNA VENTA BOLETO (TABLA)
   $('.btnEliminarBoleto').on('click', function (){    
     const idboleto = $(this).data('idboletovendido');
-    swal("Eliminar Boleto(s)", "¿Esta seguro de eliminar esta Facturacion?", "warning",{buttons: [true, "OK"]}).then(async (value) => {
+    const idusua = document.querySelector('#id_usuario').value;
+    const usuaactual = document.querySelector('#usuario_actual').value;
+    swal("Eliminar Boleto(s)", "¿Esta seguro de eliminar esta Facturacion?", "warning",{buttons: ["Cancelar", "Aceptar"]}).then(async (value) => {
         if (value){
             //console.log(idReservacion);
             const formData = new FormData();           
             formData.append('id_boletos_vendidos', idboleto);
-            const resp = await axios.post('./controlador/ctr.senderosN.php?action=eliminarBoleto', formData);
+            formData.append('id_usuario', idusua);
+            formData.append('usuario_actual', usuaactual);
+            const resp = await axios.post('./controlador/ctr.boleteria.php?action=eliminarBoleto', formData);
             const data = resp.data;
             //console.log(data);
             if(data.error){
@@ -321,7 +362,7 @@ $(document).ready(function(){
   
     if(idbolvendido){
         try{
-            const data = (await axios.get(`./controlador/ctr.senderosN.php?action=traerDetallesB&idbolvendido=${Number(idbolvendido)}`)).data;
+            const data = (await axios.get(`./controlador/ctr.boleteria.php?action=traerDetallesB&idbolvendido=${Number(idbolvendido)}`)).data;
             const listaDeBoletosTabla = $('#listaDeBoletosTabla');
             $('#listaDeBoletosTabla tr').remove();
             data.boletos.forEach((b) => listaDeBoletosTabla.append(`
@@ -368,7 +409,7 @@ $("#cancelarS").on("click", function(){
     type: "warning",
     showCancelButton: true,
     confirmButtonClass: "btn-danger",
-    confirmButtonText: "SI",
+    confirmButtonText: "SI, Cerrar",
     closeOnConfirm: false
   },
   function(){    
@@ -450,7 +491,7 @@ function agregarBoletos(e){
   }
 } 
 //mostrar el contenido en la tabla html
-function agregarfila(boletos = {}, index = -1){
+function agregarfila(boletos = {}, index = 0){
   const {CantBoleto, TipoBoleto, precioBol, totalPB, localidad} = boletos;
   contenido.append(`
       <tr class="tabletotal">
@@ -464,7 +505,7 @@ function agregarfila(boletos = {}, index = -1){
       </tr>
       
   `);
-
+  
   document.getElementById("localidad").value ="";
   document.getElementById("lista1").value ="";
   document.getElementById("CantBoleto").value = "";
@@ -481,7 +522,8 @@ function agregarfila(boletos = {}, index = -1){
       $('.tabletotal').each(function() {  
       sum2 += parseFloat($(this).find('td').eq(4).text());  
       }); 
-      $('#totalPagar').val(sum2.toFixed(0));
+      $('#totalPagar').val(sum2.toFixed(0));   
+   
 }
 agregarNuevo.on("click", agregarBoletos);
 
@@ -497,7 +539,9 @@ $('#registroBoletos').on('click', function(){
       swal({
         icon:"error",
         title:"Error",
-        text:"Todos los Campos son requeridos"
+        text:"Todos los Campos son requeridos",
+        timer: 3000,
+        buttons: false
       })
      }else{
        
@@ -514,7 +558,7 @@ $('#registroBoletos').on('click', function(){
             }))),
             idusuario:idusuario,usuario_actual:usuario_actual},
           success: function(response){
-              var data = JSON.stringify(response);
+              var data = JSON.parse(response);
               if(data.respuesta == 'exito'){
                   swal({
                       icon:"success",
@@ -549,8 +593,9 @@ $("#cerrarboletos").on("click", function(){
 
   swal({
       icon:"warning",
-      text: "Seguro que quieres salir?",
-      buttons: true,
+      title: "¿Desea Salir?",
+      text: "Si acepta se perderá la información",
+      buttons:["Cancelar", "Aceptar"],
       dangerMode: true,
   })
   .then((willDelete) => {

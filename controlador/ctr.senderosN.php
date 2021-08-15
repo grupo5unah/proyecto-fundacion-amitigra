@@ -120,6 +120,7 @@ switch ($action){
                 $res['msj'] = "Se produjo un error al momento de eliminar la factura";
                 $res['error'] = true;
             }
+                       
         } else {
             $res['msj'] = "No se envió el id de la Factura a eliminar";
             $res['error'] = true;
