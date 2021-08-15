@@ -20,12 +20,32 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 // echo '</pre>';
 ?>
 <div class="content-wrapper">
+<?php
+
+$sql = "SELECT id_objeto FROM `tbl_objeto` WHERE objeto LIKE '%MANTOBJETOS%'; ";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  // output data of each row
+  while ($row = $result->fetch_assoc()) {
+	$id = ($row['id_objeto']);
+?>
+
+ <input type="hidden" name="" id="id_objeto" value="<?= $id ?>">    
+
+
+<?php  }
+}
+
+
+?>
+ <input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 <section class="content-header">
-		<h1>MANTENIMIENTO OBJETOS</h1>
+		<h1>Mantenimiento objetos</h1>
 		<ol class="breadcrumb ">
-			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-			<li class="btn btn-success  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Objetos</a></li>
+			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			
+			<li class="  active fw-bold"><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Objetos</a></li>
 			
 		</ol>
 	</section>
@@ -59,11 +79,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 											<th>Objeto</th>
 											<th>Tipo Objeto</th>
-											<th>descripcion</th>
+											<th>Descripción</th>
 											<th>creado por</th>
-                                            <th>Fecha creacion</th>
+                                            <th>Fecha creación</th>
                                             <th>Modificado por</th>
-											<th>Fecha modificacion</th>
+											<th>Fecha modificación</th>
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
 											
 											else:?>
@@ -193,8 +213,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Objeto</button>
+								<button type="button" class="btn btn-danger" id="cerrarModalAO" data-dismiss="modal">Cancelar</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Objeto</button>
 							</div>
 						</div>
 					</div>
@@ -229,7 +249,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 											</div>
 											<div class="campos form-group">
-												<label for="">Descripcion objeto: </label>
+												<label for="">Descripción objeto: </label>
 												<input id="descripcion" class="form-control  modal-roles secundary text-uppercase" type="text"  placeholder="Describa el objeto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/>
 
 											</div>
@@ -238,7 +258,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 										</div>
 										<div class="modal-footer">
-								       <button type="button" class="btn btn-danger" id="close" data-dismiss="modal">Cerrar</button>
+								       <button type="button" class="btn btn-danger" id="cerrarModalRe" data-dismiss="modal">Cancelar</button>
 								       <button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar Objeto</button>
 							           </div>
 										

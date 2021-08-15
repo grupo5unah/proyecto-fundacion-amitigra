@@ -13,13 +13,32 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 ?>
 
 <div class="content-wrapper">
+<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
+<?php
 
+$sql = "SELECT id_objeto FROM `tbl_objeto` WHERE objeto LIKE '%MANTPERMISOS%'; ";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  // output data of each row
+  while ($row = $result->fetch_assoc()) {
+	$id = ($row['id_objeto']);
+?>
+
+ <input type="hidden" name="" id="id_objeto" value="<?= $id ?>">    
+
+
+<?php  }
+}
+
+
+?>
 <section class="content-header">
-		<h1>MANTENIMIENTO Permisos</h1>
+		<h1>Mantenimiento permisos</h1>
 		<ol class="breadcrumb ">
-			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-			<li class="btn btn-success  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Permisos</a></li>
+			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			
+			<li class="  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Permisos</a></li>
 			
 		</ol>
 	</section>
@@ -197,8 +216,8 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar Permiso</button>
+								<button type="button" class="btn btn-danger" id="cerrarPermisos" data-dismiss="modal">Cancelar</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar Permiso</button>
 							</div>
 						</div>
 					</div>

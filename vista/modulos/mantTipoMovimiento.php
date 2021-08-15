@@ -14,17 +14,40 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 	if ($columna["permiso_consulta"] == 1) {
 ?>
 		<div class="content-wrapper"  oncopy="return false" onpaste="return false">
+      <?php
+
+      $sql = "SELECT id_objeto FROM `tbl_objeto` WHERE objeto LIKE '%MANTTIPOMOVIMIENTO%'; ";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+          $id = ($row['id_objeto']);
+         
+      ?>
+
+       <input type="hidden" name="" id="id_objeto" value="<?= $id ?>">    
+
+
+      <?php  }
+      } else {
+        echo "0 results";
+      }
+
+
+      ?>
+
 
 			<section class="content-header">
 				<h1>Mantenimiento Tipo Movimiento</h1>
 				<ol class="breadcrumb">
-					<li class="btn btn-success  text-uppercase fw-bold"><a href="inicio"><i class="fa fa-home  "></i> Inicio</a></li>
-					<li class="btn btn-success  text-uppercase fw-bold"><a href="panel"><i class="fa fa-cogs btn  "></i> panel de control</a></li>
-					<li class="btn btn-success active text-uppercase fw-bold"><a><i class="fa fa-users btn  "></i> mantenimiento Tipo Movimientos</a></li>
+					<li class="   fw-bold"><a href="inicio"><i class="fa fa-home  "></i> Inicio</a></li>
+					
+					<li class=" active  fw-bold"><a><i class="fa fa-users btn  "></i> Mantenimiento Tipo Movimientos</a></li>
 				</ol>
 				<br>
 			</section>
-
+			<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 			<section class="content">
 
 				<!-- Default box -->
@@ -36,12 +59,12 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Mantenimiento de Tipo Movimiento</div>
+										<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de Tipos Movimientos</div>
 									</div> <!-- /panel-heading -->
 									<div class="panel-body">
 										<div class="remove-messages"></div>
 										<div class="div-action pull pull-right" style="padding-bottom:20px;">
-											<a class="btn btn-success btnMovimiento glyphicon glyphicon-plus-sign text-uppercase"> Nuevo Movimiento </i></a>
+											<a class="btn btn-success btnMovimiento glyphicon glyphicon-plus-sign text-uppercase"> AGREGAR TIPO MOVIMIENTO </i></a>
 										</div>
 										<!-- <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>"> -->
 										
@@ -50,9 +73,9 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												<tr>
 													<th>Movimiento</th>
 													<th>Creado Por</th>
-													<th>Fecha de Creacion</th>
+													<th>Fecha de Creación</th>
 													<th>Modificado por</th>
-													<th>Fecha de Modificacion</th>
+													<th>Fecha de Modificación</th>
 													<?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
 
 													else : ?>
@@ -154,7 +177,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 									</form> <!-- /.cierre de formulario -->
 									<div class="modal-footer">
-										<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar </button>
+										<button type="button" class="btn btn-danger" id="cerrarATM" data-dismiss="modal">Cancelar </button>
 
 										<button id="" type="submit" class="btn btn-success btnEditarBD">Editar Movimiento</button>
 									</div>
@@ -192,7 +215,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 
 										<div class="modal-footer">
-											<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar </button>
+											<button type="button" class="btn btn-danger" id="cerrarCTM" data-dismiss="modal">Cancelar</button>
 										
 											<button id="" type="submit" class="btn btn-success btnEditarBD">Crear Movimiento</button>
 									    </div>

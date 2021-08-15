@@ -15,11 +15,11 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 <div class="content-wrapper">
 
 <section class="content-header">
-		<h1>MANTENIMIENTO ROLES</h1>
+		<h1>Mantenimiento de roles</h1>
 		<ol class="breadcrumb ">
-			<li class="btn btn-success  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-			<li class="btn btn-success  fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-			<li class="btn btn-success  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Roles</a></li>
+			<li class="  fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+			
+			<li class="  active fw-bold "><a href="#"><i class="fas fa-cogs"></i> Mantenimiento Roles</a></li>
 			
 		</ol>
 	</section>
@@ -35,7 +35,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 				<!--LLamar al formulario aqui-->
 				<div class="row">
 					<div class="col-md-12">
-
+					<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Listado de roles</div>
@@ -44,18 +44,18 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								<div class="remove-messages"></div>
 								<div class="div-action pull pull-right" style="padding-bottom:20px;">
 									
-									<button class="btn btn-default btnCrearRol"> <i class="fa fa-plus-circle"> </i> Crear rol</button>
+									<button class="btn btn-success text-uppercase btnCrearRol"> <i class="fa fa-plus-circle"> </i> Agregar rol</button>
 								</div> <!-- /div-action -->
 
-								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="managerRoles">
+								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered tablass" id="managerRoles">
 									<thead style=" background-color: #222d32; color: white;">
 										<tr>
 											<th>Rol</th>
-											<th>descripcion</th>
+											<th>Descripción</th>
 											<th>creado por</th>
-                      						<th>Fecha creacion</th>
+                      						<th>Fecha creación</th>
                       						<th>Modificado por</th>
-											<th>Fecha modificacion</th>
+											<th>Fecha modificación</th>
 											<?php if($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0):
 											
 											else:?>
@@ -168,8 +168,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 										</div>
 										<div class="campos form-group">
-											<label for="">Descripcion </label>
-											<textarea autocomplete="off" id="descripcionRol" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"></textarea>
+											<label for="">Descripción </label>
+											<textarea autocomplete="off" id="descripcionRol" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripción del rol" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"></textarea>
 										</div>										
 										
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -178,8 +178,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-primary">Actualizar rol</button>
+								<button type="button" id="cerrarModalActualizar" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+								<button id="btnEditarBD"type="button" class="btnEditarBD btn btn-success">Actualizar rol</button>
 							</div>
 						</div>
 					</div>
@@ -206,13 +206,13 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 
 										<div class="campos">
 											<label for="">Nombre rol </label>
-											<input autocomplete="off" id="nombre" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholde="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
+											<input autocomplete="off" id="nombre" class="form-control modal-roles secundary text-uppercase" type="text" name="nombreProducto" placeholder="Escriba el rol" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"/>
 
 										</div>
 
 										<div class="campos form-group">
-											<label for="">Descripcion </label>
-											<textarea autocomplete="off" id="descripcion" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripcion"  required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"></textarea>
+											<label for="">Descripción </label>
+											<textarea autocomplete="off" id="descripcion" class="form-control modal-roles secundary text-uppercase" rows="3" placeholder="Descripción del rol"  required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()"></textarea>
 											<!-- <input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholder="Escriba el producto" required onkeypress="return soloLetra(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off"/> -->
 											<!-- <input id="descripcion" class="form-control modal-roles secundary text-uppercase" type="tel" name="cantidad" placeholde="Escriba el producto" autocomplete="off"/> -->
 
@@ -245,8 +245,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-primary">Guardar rol</button>
+								<button type="button" id="cerrarModalCrear" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+								<button id="" type="submit"  name="ingresarProducto" class=" btn btn-success">Registrar rol</button>
 							</div>
 							</form>
 						</div>
@@ -356,8 +356,8 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button id="cerrarModalPermisos" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-								<button id="btnAsignarPermisos" type="button" class="btnEditarBD btn btn-primary">Asignar rol</button>
+								<button id="cerrarModalPermisos" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+								<button id="btnAsignarPermisos" type="button" class="btnEditarBD btn btn-success">Asignar rol</button>
 							</div>
 						</div>
 					</div>

@@ -13,16 +13,35 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 ?>
 
 		<div class="content-wrapper" oncopy="return false" onpaste="return false">
+		<input type="hidden" name="" id="id_usuario" value="<?= $_SESSION['id'] ?>">
+		<?php
 
+        $sql = "SELECT id_objeto FROM `tbl_objeto` WHERE objeto LIKE '%MANTPRODUCTO%'; ";
+        $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+  // output data of each row
+      while ($row = $result->fetch_assoc()) {
+	$id = ($row['id_objeto']);
+  ?>
+
+   <input type="hidden" name="" id="id_objeto" value="<?= $id ?>">    
+
+
+<?php  }
+}
+
+
+?>
 
 
 			<section class="content-header">
 				<h1>Mantenimiento de Producto</h1>
 				<ol class="breadcrumb ">
-					<li class="btn btn-success uppercase fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
-					<li class="btn btn-success uppercase fw-bold"><a href="panel"><i class="  fa fa-user-plus"></i> Panel de control</a></li>
-					<li class="btn btn-success uppercase fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
-					<li class="btn btn-success active uppercase fw-bold "><a href="#"></a><i class="fab fa-product-hunt"></i> Mantenimento Producto</a></li>
+					<li class="fw-bold"><a href="inicio"><i class="fa fa-home"></i> Inicio</a></li>
+					
+					<li class=" fw-bold"><a href="existencia"><i class="fas fa-inventory"></i> Inventario General</a></li>
+					<li class=" active  fw-bold "><a href="#"></a><i class="fab fa-product-hunt"></i> Mantenimento Producto</a></li>
 				</ol>
 			</section>
 			<!-- Main content -->
@@ -51,16 +70,16 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantenimientoProducto">
 											<thead style=" background-color: #222d32; color: white;">
 												<tr>
-													<th>Nombre Producto</th>
-													<th>Precio de compra</th>
-													<th>Descripcion</th>
+													<th>Producto</th>
+													<th>Precio</th>
+													<th>Descripción</th>
 													<th>Tipo Producto</th>
-													<th>Minimo</th>
-													<th>Maximo</th>
+													<th>Mínimo</th>
+													<th>Máximo</th>
 													<th>creado por</th>
-													<th>Fecha creacion</th>
+													<th>Fecha creación</th>
 													<th>Modificado por</th>
-													<th>Fecha modificacion</th>
+													<th>Fecha modificación</th>
 													<?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
 
 													else : ?>
@@ -74,7 +93,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												<?php
 												try {
 
-													$sql = "SELECT tbl_inventario.id_inventario,tbl_inventario.minimo,tbl_inventario.maximo,tbl_producto.id_producto, tbl_producto.nombre_producto, tbl_producto.precio_compra , tbl_producto.descripcion, tbl_tipo_producto.nombre_tipo_producto, tbl_producto.creado_por, tbl_producto.fecha_creacion, tbl_producto.modificado_por, tbl_producto.fecha_modificacion FROM tbl_producto RIGHT JOIN tbl_tipo_producto ON tbl_producto.tipo_producto_id = tbl_tipo_producto.id_tipo_producto RIGHT JOIN tbl_inventario on tbl_inventario.producto_id=tbl_producto.id_producto where tbl_producto.estado_eliminado=1 and tbl_tipo_producto.estado_eliminado = 1 ";
+													$sql = "SELECT  id_producto, nombre_producto, descripcion, precio_compra, minimo, maximo, tbl_tipo_producto.id_tipo_producto, tbl_producto.creado_por, tbl_producto.modificado_por, tbl_producto.fecha_creacion, tbl_producto.fecha_modificacion, tbl_tipo_producto.nombre_tipo_producto FROM tbl_producto INNER JOIN tbl_tipo_producto on tbl_tipo_producto.id_tipo_producto= tbl_producto.tipo_producto_id  where tbl_producto.estado_eliminado=1 and tbl_tipo_producto.estado_eliminado = 1 ";
 
 													$resultado = $conn->query($sql);
 												} catch (\Exception $e) {
@@ -83,7 +102,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 												$vertbl = array();
 												while ($eventos = $resultado->fetch_assoc()) {
-
+													
 													$traer = $eventos['nombre_producto'];
 													$evento = array(
 														'nombreP' => $eventos['nombre_producto'],
@@ -97,7 +116,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 														'id_P' => $eventos['id_producto'],
 														'minimos' => $eventos['minimo'],
 														'maximos' => $eventos['maximo'],
-														'inventario' => $eventos['id_inventario'],
+														'id_tipo_p' => $eventos['id_tipo_producto'],
+														
 													);
 													$vertbl[$traer][] =  $evento;
 												}
@@ -121,7 +141,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 															<td>
 
 																<?php if ($columna["permiso_actualizacion"] == 1) : ?>
-																	<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-id_producto="<?= $evento['id_P'] ?>" data-id_inventario="<?= $evento['inventario'] ?>" data-nomProducto="<?= $evento['nombreP'] ?>" data-precioP="<?= $evento['precioP'] ?>" data-desc="<?= $evento['descripcion'] ?>" data-TP="<?= $evento['tipo_producto'] ?>" data-minimo="<?= $evento['minimos'] ?>" data-maximo="<?= $evento['maximos'] ?>" ></button>
+																	<button class="btn btn-warning btnEditarProducto glyphicon glyphicon-pencil" data-id_tipo_producto="<?= $evento['id_tipo_p'] ?>"data-id_producto="<?= $evento['id_P'] ?>"  data-nomProducto="<?= $evento['nombreP'] ?>" data-precioP="<?= $evento['precioP'] ?>" data-desc="<?= $evento['descripcion'] ?>" data-TP="<?= $evento['tipo_producto'] ?>"data-minimo="<?= $evento['minimos'] ?>" data-maximo="<?= $evento['maximos'] ?>" ></button>
 																<?php
 																else :
 																endif;
@@ -187,8 +207,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 											<div class=" form-group " style="width: 400px;">
 												<label for=""> Tipo de Producto</label>
-												<select name="tipo_producto" id="typeP" style="width: 243px;" class="js-example-basic-multiple js-states typep">
-													<option value="0" selected ></option>
+												<select name="typeP" id="typeP" style="width: 243px;" class="js-example-basic-multiple js-states typep">
+													<option value="" selected >Selecciona un tipo</option>
 													<?php
 
 													$sql = "SELECT id_tipo_producto, nombre_tipo_producto FROM tbl_tipo_producto";
@@ -211,14 +231,14 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
 
 												<div class="" >
-													<label for="">MINIMO</label>
+													<label for="">MÍNIMO</label>
 													
 														<input id="minimo" class="form-control  secundary modal-roles " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
 
 													
 												</div>
 												<div class="" >
-													<label for="">MAXIMO </label>
+													<label for="">MÁXIMO </label>
 													
 
 														<input id="maximo" class="form-control  secundary modal-roles " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
@@ -230,8 +250,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 									</form>
 								
 								<div class="modal-footer">
-									<button type="button" class="btn btn-danger"  id="cerrarM" data-dismiss="modal">Cerrar</button>
-									<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-success text-uppercase">Actualizar Producto</button>
+									<button type="button" id="cerrarModalActualizarP" class="btn btn-danger"   data-dismiss="modal">Cancelar</button>
+									<button id="btnEditarBD" type="button" class="btnEditarBD btn btn-success ">Actualizar Producto</button>
 								</div>
 							</div>
 						</div>
@@ -260,7 +280,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 										<div class="col-sm-3 form-group " id="groupP">
 											<label for=""> PRODUCTO </label>
-											<input id="nombreP" class="form-control   secundary text-uppercase" type="text" name="nombreP" min="0" maxlength="10" minlength="3" placeholder="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+											<input id="nombreP" class="form-control   secundary text-uppercase" type="text" name="nombreP" min="1" maxlength="30" minlength="3" placeholder="Escriba el producto" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 										</div>
 
 										<div class="col-sm-3 m-auto form-group ">
@@ -272,8 +292,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 											</div>
 										</div>
 										<div class="col-sm-2 form-group ">
-											<label>DESCRIPCION </label>
-											<input id="descripcion" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder="Descripcion" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
+											<label>DESCRIPCIÓN </label>
+											<input id="descripcion" maxlength="50" class="form-control   secundary text-uppercase" type="text" name="descripcion" placeholder="Descripción" required onkeypress="return soloLetrasNumeros(event)" onkeyup="javascript:this.value=this.value.toUpperCase()" autocomplete="off" />
 										</div>
 										<div class="col-sm-2 form-group justify-content-between">
 											<label for=""> TIPO PRODUCTO</label>
@@ -300,33 +320,26 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 
 									</div>
 									<div>
+										
 										<div class="col-sm-3 m-auto form-group ">
-											<label for="">CANTIDAD INICIAL </label>
+											<label for="">MÍNIMO</label>
 											<div class="input-group">
-
-												<input id="inicial" class="form-control  secundary " type="number" name="precioProducto" placeholder="0" onkeypress="return soloNumero(event)" autocomplete="off" min="1" minlength="1" required />
+												<input id="minimos" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
 
 											</div>
 										</div>
 										<div class="col-sm-3 m-auto form-group ">
-											<label for="">MINIMO</label>
-											<div class="input-group">
-												<input id="minimo" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
-
-											</div>
-										</div>
-										<div class="col-sm-3 m-auto form-group ">
-											<label for="">MAXIMO </label>
+											<label for="">MÁXIMO </label>
 											<div class="input-group">
 
-												<input id="maximo" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
+												<input id="maximos" class="form-control  secundary " type="number" name="precioProducto" placeholder="1" minlength="1" onkeypress="return soloNumero(event)" autocomplete="off" min="1" required />
 
 											</div>
 										</div>
 
 										<div>
 											<input disabled id="btnAddList" type="button" class=" input-group btn  btn-success agregar-table aling-item glyphicon glyphicon-plus-sign bmas" value="+">
-											<input type="hidden" id="btnProductUpdate" class=" glyphicon glyphicon-saved btn btn-primary agregar-table bmas" value="Finalizar">
+											<input type="hidden" id="btnProductU" class=" glyphicon glyphicon-saved btn btn-primary agregar-table bmas" value="Finalizar">
 										</div>
 										<!-- select id_tipo_movimiento FROM tbl_tipo_movimiento where movimiento = "ENTRADA"; -->
 										<input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
@@ -341,9 +354,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												$id = ($row['id_tipo_movimiento']); ?>
 												<input type="hidden" name="" id="entrada" value="<?php echo ($id); ?>">
 											<?php	}
-										} else {
-											echo "0 results";
-										}
+										} 
 
 
 										$sql = "SELECT id_localidad FROM tbl_localidad where nombre_localidad = 'TEGUCIGALPA'";
@@ -355,9 +366,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 												$id = ($row['id_localidad']); ?>
 												<input type="hidden" name="" id="id_local" value="<?php echo ($id); ?>">
 										<?php	}
-										} else {
-											echo "0 results";
-										}
+										} 
 										$conn->close();
 										?>
 										<!-- <input type="hidden" name="" id="tipo_movimiento" value="<?= $usuario ?>"> -->
@@ -367,13 +376,12 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<thead>
 											<tr>
 												<td>#</td>
-												<td>Nombre Producto</td>
+												<td>Producto</td>
 												<td>Precio</td>
-												<td>Descripcion</td>
+												<td>Descripción</td>
 												<td>Tipo Producto</td>
-												<td>Cantidad Inicial</td>
-												<td>Minimo</td>
-												<td>Maximo</td>
+												<td>Mínimo</td>
+												<td>Máximo</td>
 
 												<?php if ($columna["permiso_actualizacion"] == 0 && $columna["permiso_eliminacion"] == 0) :
 
@@ -401,7 +409,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 								?>
 
 								<div class="modal-footer">
-									<button type="button" class="btn btn-danger" id="cerrar">Cerrar</button>
+									<button type="button" id="cerrarModalcrearP" class="btn btn-danger" >Cancelar</button>
 									<button type="button" id="registrarInventario" class=" btn btn-success" disabled>Registrar </button>
 								</div>
 							</div>

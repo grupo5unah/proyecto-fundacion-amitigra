@@ -38,8 +38,8 @@ body {
 }
 .mo{
   position: absolute;
-  top: 18%;
-  left: 17%;
+  top: 5%;
+  left: 38%;
   width: 100%;
   text-align: center;
   
@@ -297,9 +297,11 @@ a:focus {
  * Component: Main Header
  * ----------------------
  */
+  
+
 .main-header {
   position: relative;
-  max-height: 100px;
+  max-height: 100%;
   z-index: 1030;
 }
 .main-header .navbar {
