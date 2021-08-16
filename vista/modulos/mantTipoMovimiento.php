@@ -69,7 +69,7 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
 										<!-- <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>"> -->
 										
 										<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantMovimiento">
-											<thead>
+											<thead style="background-color: #222d32; color: white;">
 												<tr>
 													<th>Movimiento</th>
 													<th>Creado Por</th>

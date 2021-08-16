@@ -197,7 +197,7 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 										<button id="Hotel" class="btn btn-primary  glyphicon glyphicon-bed"> HOTEL</button>
 										<button id="Camping" class="btn btn-success  glyphicon glyphicon-tent"> CAMPING</button>
 										<br><br>
-										<button id="" class="btn btn-danger">CANCELAR</button>
+										<button id="cancelarcancelar" class="btn btn-danger">CANCELAR</button>
 									</div>
 								</div>
 							</form> <!-- /.cierre de formulario -->
@@ -1064,61 +1064,6 @@ if($_SESSION["rol"] === "administrador" || $_SESSION["rol"] === "colaborador" ||
 									</div> <!-- /.tab-content -->	
 								</div> <!-- /.tabs-custom -->	
 							</form> <!-- /.cierre de formulario -->
-						</div> <!-- /.modal-body -->
-						<?php 
-						if(isset($_GET['msg'])){
-						$mensaje = $_GET['msg'];
-						print_r($mensaje);
-						//echo "<script>alert(".$mensaje.");</script>";  
-						}
-						?>
-					</div> <!-- /.modal content -->
-				</div> <!-- /.modal-dialog -->
-			</div> <!-- /.modal fade -->
-			<!-- MODAL SALIDA 
-			<div class="modal fade" id="modalsalida" tabindex="-1"
-				role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-				<div class="modal-dialog">
-					<div class="modal-content" style="width: 600px;">
-						<div class="modal-header">
-							<div class="d-flex justify-content-between">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<i aria-hidden="true">&times;</i>
-								</button>
-								<h3 class="modal-title" id="exampleModalLabel">Fundación AMITIGRA</h3>
-							</div>
-						</div>
-						<div class="modal-body">
-						 	<form method="POST" id="formSalida">
-							 	<div class="box-body">
-								 	
-									 
-									 <div id="conte">
-
-									 </div>
-									<table class="table table-striped">
-										<thead>
-										<tr>
-											<th>N°</th>
-											<th>Habitacion</th>
-											<th>Estado</th>
-											<th>Articulos</th>
-											<th>Estado</th>
-											
-										</tr>
-										</thead>
-										<tbody id="salida">
-										</tbody>
-										
-									</table>
-								</div>
-								<div>
-
-								</div>
-							</form> <!-- /.cierre de formulario -->
-							<div class="modal-footer">
-									
-							</div>
 						</div> <!-- /.modal-body -->
 						<?php 
 						if(isset($_GET['msg'])){

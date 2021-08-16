@@ -480,7 +480,7 @@ $(document).ready(function(){
           }))),
           idusuario:idusuario,usuario_actual:usuario_actual},
           success: function(response){
-            //console.log(response);
+            console.log(response);
               var data = JSON.parse(response);
               
               if(data.respuesta == 'exito'){
