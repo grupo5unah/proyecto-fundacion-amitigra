@@ -47,7 +47,7 @@ if($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_S
                 				<!-- esto es para que el usuario pueda elegir cuantos registros desea ver, se dejo ese id porque se tomaria como global
 								porque tambien se aplica a todos los mantenimientos -->
 								<table data-page-length='10' class=" display table table-hover table-condensed table-bordered" id="mantNacionalidad">
-									<thead>
+									<thead style="background-color: #222d32; color: white;">
 										<tr>
 											<th>Nacionalidad</th>
 											<th>Creado Por</th>

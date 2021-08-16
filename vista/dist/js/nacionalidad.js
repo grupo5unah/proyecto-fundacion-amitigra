@@ -238,7 +238,8 @@ $(document).ready(function(){
     const idNacionalidad = $(this).data('idnacionalidad');
     const idusua = document.querySelector('#id_usuario').value;
     const usuaactual = document.querySelector('#usuario_actual').value;
-    swal("Eliminar la Nacionalidad", "¿Esta seguro de eliminar la Nacionalidad?", "warning",{buttons: ["Cancelar", "Aceptar"]}).then(async (value) => {
+    swal("Eliminar la Nacionalidad", "¿Esta seguro de eliminar la Nacionalidad?", "warning",{buttons: ["Cancelar", "Aceptar"], 
+    dangerMode: true,}).then(async (value) => {
         if (value){
             //console.log(idReservacion);
             const formData = new FormData();

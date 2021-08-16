@@ -100,6 +100,47 @@
                             "respuesta" => "exito"
                         );
 
+                        // require_once("../modelo/conexionbd.php");
+
+                        // $bitacora = $conn->prepare("SELECT id_usuario FROM tbl_usuarios
+                        //                             WHERE nombre_usuario = ?");
+                        // $bitacora->bind_Param("s", $usuario);
+                        // $bitacora->execute();
+                        // $bitacora->bind_Result($id_usuario);
+
+                        // if($bitacora->affected_rows){
+                        //     $existe_bitacora = $bitacora->fetch();
+
+                        //     while($existe_bitacora->fetch()){
+                        //         $id = $id_usuario; 
+                        //     }
+
+                        //     if($existe_bitacora){
+
+                        //         date_default_timezone_set("America/Tegucigalpa");
+                        //         $fecha_bloqueo = date('Y-m-d H:i:s',time());
+                        //         $objeto =15;
+                        //         $acciones = "Copia base de datos.";
+                        //         $descp = "Se generó una copia de seguridad de la base de datos.";
+
+                        //         require_once("../modelo/conexionbd.php");
+                        //         $IntentosBitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                        //         $IntentosBitacora->bind_Param("sssii", $acciones, $descp, $fecha_bloqueo, $id, $objeto);
+                        //         $IntentosBitacora->execute();
+
+                        //         if($IntentosBitacora->error){
+
+                        //         } else {
+
+                        //         }
+
+                        //     } else {
+
+                        //     }
+                        // }else{
+
+                        // }
+
                         //echo "Se realizo correctamente la copia de seguridad";
                         
                     } else {

@@ -161,8 +161,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                   </form>
                 </div>
                 <div class="modal-footer">
-                  <button id="cerrartiposol" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-success" type="text" value="Actualizar Tipo Solicitud">
+                  <button id="cerrartiposol" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                  <input id="btnEditarBD" type="button" class="btnEditarBD btn btn-success" type="text" value="Actualizar">
                 </div>
               </div>
             </div>
@@ -203,8 +203,8 @@ if ($_SESSION["rol"] === "asistente" || $_SESSION["rol"] === "colaborador" || $_
                       <input type="hidden" name="usuario_actual" id="usuario_actual" value="<?= $usuario ?>">
                     </div>
                     <div class="modal-footer">
-                      <button id="cerrarTs" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <button id="registratipo" type="submit" name="ingresarProducto" class="btn btn-success">Registrar Tipo Solicitud</button>
+                      <button id="cerrarTs" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                      <button id="registratipo" type="submit" name="ingresarProducto" class="btn btn-success">Registrar</button>
                     </div>
                 </form>
               </div>

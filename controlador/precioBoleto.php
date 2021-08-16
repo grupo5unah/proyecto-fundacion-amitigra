@@ -1,5 +1,5 @@
 <?php 
-include_once ('../modelo/conexionbd.php');
+include ('../modelo/conexionbd.php');
 $precio=$_POST['precio'];
 
 $datos = array();

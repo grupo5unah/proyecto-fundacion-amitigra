@@ -118,6 +118,32 @@ switch ($action) {
                             $res['error'] = true;
                         } else {
 
+                               //select para traer el id del usuario
+                               $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
+                               WHERE nombre_usuario='$usuario_actual'");
+                               $resulta = mysqli_fetch_array($consulid);
+                               if ($resulta > 0) {
+                                   $id_user = $resulta['id_usuario'];
+   
+                                   date_default_timezone_set("America/Tegucigalpa");
+                                   $fechaAccion = date("Y-m-d H:i:s", time());
+   
+                                   $accion = "Autoregistro de usuario";
+                                   $descripcion = "Se registró un nuevo usuario por el administrador";
+                                   $objeto = 20;
+                                   include "../modelo/conexionbd.php";
+   
+                                   //INSERTAR LA ACCION EN BITACORA
+                                   $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
+                                   $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
+                                   $bitacora->execute();
+                           
+                                   $res['msj'] = "Usuario creado con éxito";
+   
+   
+                                  
+                               }
+
                             require '../funciones/config_serverMail.php';
                                    
                             $mail->addAddress($_POST['correo']);
@@ -132,39 +158,7 @@ switch ($action) {
 
                             if ($mail->send()) {
                             }
-                           
-                            
-
-                            //select para traer el id del usuario
-                            $consulid = mysqli_query($conn, "SELECT id_usuario FROM tbl_usuarios
-                            WHERE nombre_usuario='$usuario_actual'");
-                            $resulta = mysqli_fetch_array($consulid);
-                            if ($resulta > 0) {
-                                $id_user = $resulta['id_usuario'];
-
-                                date_default_timezone_set("America/Tegucigalpa");
-                                $fechaAccion = date("Y-m-d H:i:s", time());
-
-                                $accion = "Autoregistro de usuario";
-                                $descripcion = "Se registró un nuevo usuario por el administrador";
-                                $objeto = 20;
-                                include "../modelo/conexionbd.php";
-
-                                //INSERTAR LA ACCION EN BITACORA
-                                $bitacora = $conn->prepare("CALL control_bitacora (?,?,?,?,?);");
-                                $bitacora->bind_Param("sssii", $accion, $descripcion, $fechaAccion, $id_user, $objeto);
-                                $bitacora->execute();
-
-                               
-                                
-                                $res['msj'] = "Usuario creado con éxito";
-
-
-                               
-                            }
-    
-
-         
+  
                         }
                     } catch (Exception $e) {
                         echo $e->getMessage();

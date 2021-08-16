@@ -10,7 +10,7 @@ if (isset($_GET['action'])) {
 
 switch ($action){ 
     
-    case 'registrarBoletos': //realizar una venta de boletos        
+   /* case 'registrarBoletos': //realizar una venta de boletos        
             $localidad = $_POST['localidad'];
             $cant_Badultos = $_POST['boletosN'];
             $cant_Bninos = $_POST['boletosNN'];
@@ -107,20 +107,39 @@ switch ($action){
 
             }    
 
-    break;    
+    break;   */
 
     case 'eliminarBoleto':
         if (isset($_POST['id_boletos_vendidos'])) {            
-            $id_boletos_vendidos = $_POST['id_boletos_vendidos'];            
-            $sql = "UPDATE tbl_boletos SET estado_eliminado = 0 WHERE id_boletos_vendidos = " . $id_boletos_vendidos;
+            $id_boletos_vendidos = $_POST['id_boletos_vendidos'];     
+            $user_id = $_POST['id_usuario'];
+            $estado_eliminar = 0;
+            $usuario_actual = $_POST['usuario_actual'];
+            $fecha = date('Y-m-d H:i:s', time());
+
+            $sql = "UPDATE tbl_boletos SET estado_eliminado = $estado_eliminar, modificado_por='$usuario_actual', fecha_modificacion='$fecha' WHERE id_boletos_vendidos = " . $id_boletos_vendidos;
             $resultado = $conn->query($sql);
-            if ($resultado == 1) {
-                $res['msj'] = "Factura de Boleto(s) Eliminado(s)  Correctamente";
+            
+            if ($resultado == 1) {                 
+               
+                 //INSERTAR LA ACCION EN BITACORA
+                date_default_timezone_set("America/Tegucigalpa");
+                     $fecha2=date('Y-m-d H:i:s',time());
+                     $objeto = 7;
+                    $acciones = "Eliminación de Boletos";
+                    $descp = "Se ha eliminado la Orden de Venta No ". $id_boletos_vendidos;
+                    require_once("../modelo/conexionbd.php");
+                    $llamar1 = $conn->prepare("CALL control_bitacora (?, ?, ?, ?, ?);");
+                    $llamar1->bind_Param("sssii", $acciones, $descp, $fecha2, $user_id, $objeto);
+                    $llamar1->execute();
+                    $llamar1->close();    
+                    $res['msj'] = "Factura de Boleto(s) Eliminado(s)  Correctamente";  
             } else {
+               
                 $res['msj'] = "Se produjo un error al momento de eliminar la factura";
-                $res['error'] = true;
+                $res['error'] = true;                
             }
-                       
+                
         } else {
             $res['msj'] = "No se envió el id de la Factura a eliminar";
             $res['error'] = true;
@@ -154,11 +173,11 @@ switch ($action){
                 'subtotal' => $eventos['sub_total'],
                 'moneda' => $eventos['descripcion'],
                
-                
             );
             array_push($vertbl, $evento);
         }
         $res['boletos'] = $vertbl;
+
 
         break;
     
